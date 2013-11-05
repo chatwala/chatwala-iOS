@@ -9,7 +9,7 @@
 #import "PlaybackViewController.h"
 #import "VideoPlayerViewController.h"
 
-@interface PlaybackViewController () <MFMailComposeViewControllerDelegate>
+@interface PlaybackViewController () <MFMailComposeViewControllerDelegate,VideoPlayerViewDelegate>
 @property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @end
@@ -31,6 +31,7 @@
 	// Do any additional setup after loading the view.
     self.videoPlayerVC = [[VideoPlayerViewController alloc]init];
     [self.videoPlayerVC setLoops:YES];
+    [self.videoPlayerVC setDelegate:self];
     [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
     [self.playbackView addSubview:self.videoPlayerVC.view];
 }
@@ -80,6 +81,11 @@
     }
     
     [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)videoPlayerViewControllerDidFinishPlayback
+{
+    
 }
 
 @end

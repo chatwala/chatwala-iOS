@@ -8,7 +8,9 @@
 
 #import "OpenerViewController.h"
 #import "VideoPlayerViewController.h"
-@interface OpenerViewController ()
+#import "ViewController.h"
+
+@interface OpenerViewController () <VideoPlayerViewDelegate>
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
 @end
@@ -30,6 +32,7 @@
 	// Do any additional setup after loading the view.
     self.videoPlayerVC = [[VideoPlayerViewController alloc]init];
     [self.videoPlayerVC setLoops:NO];
+    [self.videoPlayerVC setDelegate:self];
     [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
     [self.playbackView addSubview:self.videoPlayerVC.view];
 }
@@ -57,6 +60,13 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)videoPlayerViewControllerDidFinishPlayback
+{
+    ViewController * recorderVC = [self.storyboard instantiateViewControllerWithIdentifier:@"recorderVC"];
+    
+    [self.navigationController pushViewController:recorderVC animated:YES];
 }
 
 @end

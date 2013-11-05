@@ -130,6 +130,10 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 {
     if (self.loops) {
         [self.playerItem seekToTime:kCMTimeZero];
+    }else{
+        if ([self.delegate respondsToSelector:@selector(videoPlayerViewControllerDidFinishPlayback)]) {
+            [self.delegate videoPlayerViewControllerDidFinishPlayback];
+        }
     }
 }
 
