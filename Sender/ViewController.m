@@ -9,8 +9,7 @@
 #import "ViewController.h"
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
-#import "VideoPlayerViewController.h"
-
+#import "PlaybackViewController.h"
 
 @interface ViewController ()<AVCamCaptureManagerDelegate>
 {
@@ -21,7 +20,7 @@
 @property (nonatomic,strong) AVPlayerItem * playerItem;
 @property (nonatomic,strong) AVPlayer * player;
 @property (nonatomic,strong) AVPlayerLayer *playerLayer;
-@property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
+
 @end
 
 @implementation ViewController
@@ -35,6 +34,8 @@
 	// Do any additional setup after loading the view, typically from a nib.
     [self.playbackView.layer setBorderColor:[[UIColor redColor] CGColor]];
     [self.playbackView.layer setBorderWidth:10];
+    [self.navigationController setNavigationBarHidden:YES];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -138,27 +139,10 @@
 
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager withVideoURL:(NSURL*)videoURL
 {
-    self.videoPlayerVC = [[VideoPlayerViewController alloc]init];
-    [self.videoPlayerVC setURL:videoURL];
-    [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
-    [self.playbackView addSubview:self.videoPlayerVC.view];
+    PlaybackViewController * playbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"playbackVC"];
     
-//    [self.videoPreviewView setHidden:YES];
-//
-//    self.playerItem = [[AVPlayerItem alloc]initWithURL:videoURL];
-//    [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
-//    
-//    
-//    self.player = [[AVPlayer alloc]initWithPlayerItem:self.playerItem];
-//    
-//    
-//    
-//    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-//    [self.playerLayer setFrame:self.playbackView.bounds];
-//    [self.playerLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-//    [self.playbackView.layer addSublayer:self.playerLayer];
-//    self.playerLayer.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
-    
+    [playbackVC setVideoURL:videoURL];
+    [self.navigationController pushViewController:playbackVC animated:YES];
     
 }
 

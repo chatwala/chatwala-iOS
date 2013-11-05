@@ -7,9 +7,11 @@
 //
 
 #import "PlaybackViewController.h"
+#import "VideoPlayerViewController.h"
 
 @interface PlaybackViewController ()
-
+@property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
+@property (weak, nonatomic) IBOutlet UIView *playbackView;
 @end
 
 @implementation PlaybackViewController
@@ -32,10 +34,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.moviePlayer = [[MPMoviePlayerViewController alloc]initWithContentURL:self.videoURL];
-    [self.view addSubview:self.moviePlayer.view];
-//    [self.moviePlayer ]
-    [self presentMoviePlayerViewControllerAnimated:self.moviePlayer];
+    self.videoPlayerVC = [[VideoPlayerViewController alloc]init];
+    [self.videoPlayerVC setURL:self.videoURL];
+    [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
+    [self.playbackView addSubview:self.videoPlayerVC.view];
 }
 
 - (void)didReceiveMemoryWarning
