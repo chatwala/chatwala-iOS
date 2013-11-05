@@ -35,6 +35,7 @@
 		E94439D71829511A0088A381 /* PlaybackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439D61829511A0088A381 /* PlaybackViewController.m */; };
 		E94439DA18295B0B0088A381 /* VideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439D918295B0B0088A381 /* VideoPlayerViewController.m */; };
 		E94439DD18295B9C0088A381 /* VideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439DC18295B9C0088A381 /* VideoPlayerView.m */; };
+		E94439E018297ED30088A381 /* OpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439DF18297ED30088A381 /* OpenerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,8 @@
 		E94439D918295B0B0088A381 /* VideoPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerViewController.m; sourceTree = "<group>"; };
 		E94439DB18295B9C0088A381 /* VideoPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoPlayerView.h; sourceTree = "<group>"; };
 		E94439DC18295B9C0088A381 /* VideoPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerView.m; sourceTree = "<group>"; };
+		E94439DE18297ED30088A381 /* OpenerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenerViewController.h; sourceTree = "<group>"; };
+		E94439DF18297ED30088A381 /* OpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenerViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,14 +175,13 @@
 				E944399C182940AF0088A381 /* ViewController.m */,
 				E94439D51829511A0088A381 /* PlaybackViewController.h */,
 				E94439D61829511A0088A381 /* PlaybackViewController.m */,
-				E94439DB18295B9C0088A381 /* VideoPlayerView.h */,
-				E94439DC18295B9C0088A381 /* VideoPlayerView.m */,
-				E94439D818295B0B0088A381 /* VideoPlayerViewController.h */,
-				E94439D918295B0B0088A381 /* VideoPlayerViewController.m */,
+				E94439DE18297ED30088A381 /* OpenerViewController.h */,
+				E94439DF18297ED30088A381 /* OpenerViewController.m */,
 				E94439CD182946460088A381 /* AVCamCaptureManager.h */,
 				E94439CE182946460088A381 /* AVCamCaptureManager.m */,
 				E94439CF182946460088A381 /* AVCamRecorder.h */,
 				E94439D0182946460088A381 /* AVCamRecorder.m */,
+				E94439E1182983B70088A381 /* New Group */,
 				E944399E182940AF0088A381 /* Images.xcassets */,
 				E944398D182940AF0088A381 /* Supporting Files */,
 			);
@@ -213,6 +215,17 @@
 				E94439AE182940AF0088A381 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		E94439E1182983B70088A381 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				E94439DB18295B9C0088A381 /* VideoPlayerView.h */,
+				E94439DC18295B9C0088A381 /* VideoPlayerView.m */,
+				E94439D818295B0B0088A381 /* VideoPlayerViewController.h */,
+				E94439D918295B0B0088A381 /* VideoPlayerViewController.m */,
+			);
+			name = "New Group";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,6 +329,7 @@
 				E944399D182940AF0088A381 /* ViewController.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
 				E94439DD18295B9C0088A381 /* VideoPlayerView.m in Sources */,
+				E94439E018297ED30088A381 /* OpenerViewController.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,

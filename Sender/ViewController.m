@@ -14,6 +14,7 @@
 @interface ViewController ()<AVCamCaptureManagerDelegate>
 {
     NSInteger tickCount;
+    BOOL autoPush;
 }
 @property (nonatomic,strong) NSTimer * recordTimer;
 @property (nonatomic,strong) MPMoviePlayerViewController * moviePlayer;
@@ -32,8 +33,6 @@
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [self.playbackView.layer setBorderColor:[[UIColor redColor] CGColor]];
-    [self.playbackView.layer setBorderWidth:10];
     [self.navigationController setNavigationBarHidden:YES];
     
 }
@@ -41,9 +40,12 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
-    [self startRecording];
+    if (!self.captureManager.recorder.isRecording) {
+        autoPush = YES;
+        [self startRecording];
+    }
 }
+
 
 - (void)startRecording
 {
@@ -57,7 +59,18 @@
 {
     [[self captureManager] stopRecording];
     [self.recordTimer invalidate];
-    [self.captureManager stopRecording];
+}
+
+- (void)interruptRecording
+{
+    autoPush = NO;
+    [self stopRecording];
+}
+
+- (void)resumeRecording
+{
+    autoPush = YES;
+    [self startRecording];
 }
 
 
@@ -156,11 +169,11 @@
 
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager withVideoURL:(NSURL*)videoURL
 {
-    PlaybackViewController * playbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"playbackVC"];
-    
-    [playbackVC setVideoURL:videoURL];
-    [self.navigationController pushViewController:playbackVC animated:YES];
-    
+    if (autoPush) {
+        PlaybackViewController * playbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"playbackVC"];
+        [playbackVC setVideoURL:videoURL];
+        [self.navigationController pushViewController:playbackVC animated:YES];
+    }
 }
 
 @end

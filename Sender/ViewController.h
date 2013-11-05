@@ -13,9 +13,10 @@
 
 @property (nonatomic,retain) IBOutlet UIView *videoPreviewView;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
-@property (weak, nonatomic) IBOutlet UIView *playbackView;
-
 
 @property (nonatomic,retain) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
 @property (nonatomic,retain) AVCamCaptureManager *captureManager;
+- (void)interruptRecording;
+- (void)resumeRecording;
+
 @end
