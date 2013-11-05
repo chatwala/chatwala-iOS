@@ -70,7 +70,6 @@ static void *AVCamRecorderConnectionsObserverContext = &AVCamRecorderConnections
         if ([aSession canAddOutput:aMovieFileOutput])
             [aSession addOutput:aMovieFileOutput];
         [self setMovieFileOutput:aMovieFileOutput];
-        [aMovieFileOutput release];
 		
 		[self setSession:aSession];
 		[self setOutputFileURL:anOutputFileURL];
@@ -82,11 +81,11 @@ static void *AVCamRecorderConnectionsObserverContext = &AVCamRecorderConnections
 - (void) dealloc
 {
     [[self session] removeOutput:[self movieFileOutput]];
-	[session release];
-	[outputFileURL release];
+    session = nil;
+	outputFileURL = nil;
 	[movieFileOutput removeObserver:self forKeyPath:@"connections"];
-	[movieFileOutput release];
-    [super dealloc];
+	movieFileOutput = nil;
+
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

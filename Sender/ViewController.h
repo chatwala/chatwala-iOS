@@ -7,7 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+@class AVCamCaptureManager;
 
 @interface ViewController : UIViewController
 
+@property (nonatomic,retain) IBOutlet UIView *videoPreviewView;
+
+
+@property (nonatomic,retain) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
+@property (nonatomic,retain) AVCamCaptureManager *captureManager;
 @end
