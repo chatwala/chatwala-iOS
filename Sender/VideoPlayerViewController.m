@@ -100,7 +100,15 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                           context:AVPlayerDemoPlaybackViewControllerStatusObservationContext];
 		
     if (![self player]) {
-        [self setPlayer:[AVPlayer playerWithPlayerItem:self.playerItem]];	
+        [self setPlayer:[AVPlayer playerWithPlayerItem:self.playerItem]];
+        self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(playerItemDidReachEnd:)
+                                                     name:AVPlayerItemDidPlayToEndTimeNotification
+                                                   object:[self.player currentItem]];
+        
+        
         [self.player addObserver:self 
                       forKeyPath:kCurrentItemKey 
                          options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew
@@ -112,6 +120,11 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     }
 }
 
+
+- (void)playerItemDidReachEnd:(NSNotification*)note
+{
+    [self.playerItem seekToTime:kCMTimeZero];
+}
 
 #pragma mark - Key Valye Observing
 

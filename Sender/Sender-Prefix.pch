@@ -19,4 +19,4 @@
 #endif
 
 
-#define MAX_RECORD_TIME 3
+#define MAX_RECORD_TIME 10
