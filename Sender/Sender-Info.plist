@@ -6,6 +6,26 @@
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
 	<string>${PRODUCT_NAME}</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeIconFiles</key>
+			<array>
+				<string>Document-molecules-320.png</string>
+				<string>Document-molecules-64.png</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Chatwalla File</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.chatwalla.msg</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
@@ -37,6 +57,26 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.mpeg</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Chatwalla File</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.chatwalla.msg</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>chatwalla</string>
+				<key>public.mime-type</key>
+				<string>chatwalla/video</string>
+			</dict>
+		</dict>
 	</array>
 </dict>
 </plist>

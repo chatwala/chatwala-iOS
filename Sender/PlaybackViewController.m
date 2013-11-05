@@ -57,7 +57,7 @@
     [mc setMessageBody:@"You've got video!" isHTML:NO];
     NSData * videoData = [NSData dataWithContentsOfURL:self.videoURL];
 //    [mc setToRecipients:toRecipents];
-    [mc addAttachmentData:videoData mimeType:@"video/mp4" fileName:@"video.mp4"];
+    [mc addAttachmentData:videoData mimeType:@"chatwalla/video" fileName:@"msg.chatwalla"];
     // Present mail view controller on screen
     
     [self.videoPlayerVC pause];
