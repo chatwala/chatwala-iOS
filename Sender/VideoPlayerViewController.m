@@ -76,12 +76,17 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     for (NSString *thisKey in requestedKeys) {
 		NSError *error = nil;
 		AVKeyValueStatus keyStatus = [asset statusOfValueForKey:thisKey error:&error];
+        if(error)
+        {
+            NSLog(@"error: %@",error.debugDescription);
+        }
 		if (keyStatus == AVKeyValueStatusFailed) {
 			return;
 		}
 	}
     
     if (!asset.playable) {
+        NSLog(@"not playable");
         return;
     }
 	

@@ -135,6 +135,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <outlet property="playbackView" destination="BoN-uD-2F3" id="xWE-wk-Uo7"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p4H-ir-RXL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -29,15 +29,15 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.videoPlayerVC = [[VideoPlayerViewController alloc]init];
+    [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
+    [self.playbackView addSubview:self.videoPlayerVC.view];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    self.videoPlayerVC = [[VideoPlayerViewController alloc]init];
     [self.videoPlayerVC setURL:self.videoURL];
-    [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
-    [self.playbackView addSubview:self.videoPlayerVC.view];
 }
 
 - (void)didReceiveMemoryWarning
@@ -57,7 +57,7 @@
     [mc setMessageBody:@"You've got video!" isHTML:NO];
     NSData * videoData = [NSData dataWithContentsOfURL:self.videoURL];
 //    [mc setToRecipients:toRecipents];
-    [mc addAttachmentData:videoData mimeType:@"chatwalla/video" fileName:@"msg.chatwalla"];
+    [mc addAttachmentData:videoData mimeType:@"video/chatwalla" fileName:@"msg.chatwalla"];
     // Present mail view controller on screen
     
     [self.videoPlayerVC pause];

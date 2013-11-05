@@ -7,9 +7,10 @@
 //
 
 #import "OpenerViewController.h"
-
+#import "VideoPlayerViewController.h"
 @interface OpenerViewController ()
-
+@property (weak, nonatomic) IBOutlet UIView *playbackView;
+@property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
 @end
 
 @implementation OpenerViewController
@@ -27,12 +28,28 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.videoPlayerVC = [[VideoPlayerViewController alloc]init];
+    [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
+    [self.playbackView addSubview:self.videoPlayerVC.view];
 }
+
+- (void)setVideoURL:(NSURL *)videoURL
+{
+
+    NSURL * newURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@%@", NSTemporaryDirectory(), [videoURL lastPathComponent],@".mov"]];
+    NSError * error = nil;
+    [[NSFileManager defaultManager] copyItemAtURL:videoURL toURL:newURL error:&error];
+    if (error) {
+        NSLog(@"%@",error.debugDescription);
+    }
+    _videoURL = newURL;
+}
+
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    NSLog(@"open url: %@", self.videoURL);
+    [self.videoPlayerVC setURL:self.videoURL];
 }
 
 - (void)didReceiveMemoryWarning

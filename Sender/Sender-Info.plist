@@ -63,7 +63,7 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.mpeg</string>
+				<string>public.movie</string>
 			</array>
 			<key>UTTypeDescription</key>
 			<string>Chatwalla File</string>
@@ -74,7 +74,7 @@
 				<key>public.filename-extension</key>
 				<string>chatwalla</string>
 				<key>public.mime-type</key>
-				<string>chatwalla/video</string>
+				<string>video/chatwalla</string>
 			</dict>
 		</dict>
 	</array>
