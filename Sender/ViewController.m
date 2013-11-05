@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
+#import "VideoPlayerViewController.h"
+
 
 @interface ViewController ()<AVCamCaptureManagerDelegate>
 {
@@ -16,6 +18,10 @@
 }
 @property (nonatomic,strong) NSTimer * recordTimer;
 @property (nonatomic,strong) MPMoviePlayerViewController * moviePlayer;
+@property (nonatomic,strong) AVPlayerItem * playerItem;
+@property (nonatomic,strong) AVPlayer * player;
+@property (nonatomic,strong) AVPlayerLayer *playerLayer;
+@property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
 @end
 
 @implementation ViewController
@@ -27,6 +33,8 @@
     
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    [self.playbackView.layer setBorderColor:[[UIColor redColor] CGColor]];
+    [self.playbackView.layer setBorderWidth:10];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -68,7 +76,7 @@
 				[[[self captureManager] session] startRunning];
 			});
             
-            tickCount = 10;
+            tickCount = MAX_RECORD_TIME;
             
             self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
 			/*
@@ -111,18 +119,47 @@
     if (tickCount <= 0) {
         [self.recordTimer invalidate];
         [self.captureManager stopRecording];
-        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Complete" message:@"video recorded" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
         tickCount = 0;
     }
     [self.timeLabel setText:[NSString stringWithFormat:@"%d",tickCount]];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+     AVPlayerStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+    NSLog(@"status: %d",status);
+    
+    if (status == AVPlayerStatusReadyToPlay) {
+        [self.player play];
+    }
+    
+}
+
 
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager withVideoURL:(NSURL*)videoURL
 {
-    self.moviePlayer = [[MPMoviePlayerViewController alloc]initWithContentURL:videoURL];
-    [self presentMoviePlayerViewControllerAnimated:self.moviePlayer];
+    self.videoPlayerVC = [[VideoPlayerViewController alloc]init];
+    [self.videoPlayerVC setURL:videoURL];
+    [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
+    [self.playbackView addSubview:self.videoPlayerVC.view];
+    
+//    [self.videoPreviewView setHidden:YES];
+//
+//    self.playerItem = [[AVPlayerItem alloc]initWithURL:videoURL];
+//    [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:nil];
+//    
+//    
+//    self.player = [[AVPlayer alloc]initWithPlayerItem:self.playerItem];
+//    
+//    
+//    
+//    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+//    [self.playerLayer setFrame:self.playbackView.bounds];
+//    [self.playerLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+//    [self.playbackView.layer addSublayer:self.playerLayer];
+//    self.playerLayer.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    
+    
 }
 
 @end

@@ -17,3 +17,6 @@
     #import <MediaPlayer/MediaPlayer.h>
 
 #endif
+
+
+#define MAX_RECORD_TIME 3
