@@ -10,4 +10,6 @@
 
 @interface PlaybackViewController : UIViewController
 @property (nonatomic,strong) NSURL * videoURL;
+- (IBAction)onRecordAgain:(id)sender;
+- (IBAction)onSend:(id)sender;
 @end

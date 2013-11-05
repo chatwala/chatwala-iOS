@@ -42,11 +42,24 @@
 {
     [super viewDidAppear:animated];
     
-    if (![[[self captureManager] recorder] isRecording])
-        [[self captureManager] startRecording];
-    else
-        [[self captureManager] stopRecording];
+    [self startRecording];
 }
+
+- (void)startRecording
+{
+    tickCount = MAX_RECORD_TIME;
+    
+    self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
+    [[self captureManager] startRecording];
+}
+
+- (void)stopRecording
+{
+    [[self captureManager] stopRecording];
+    [self.recordTimer invalidate];
+    [self.captureManager stopRecording];
+}
+
 
 - (void)setupCaptureManager
 {
@@ -77,9 +90,7 @@
 				[[[self captureManager] session] startRunning];
 			});
             
-            tickCount = MAX_RECORD_TIME;
             
-            self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
 			/*
 			
             // Create the focus mode UI overlay
@@ -118,8 +129,7 @@
 {
     tickCount--;
     if (tickCount <= 0) {
-        [self.recordTimer invalidate];
-        [self.captureManager stopRecording];
+        [self stopRecording];
         tickCount = 0;
     }
     [self.timeLabel setText:[NSString stringWithFormat:@"%d",tickCount]];
