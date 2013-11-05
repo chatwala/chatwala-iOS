@@ -125,6 +125,13 @@
     
 }
 
+
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self stopRecording];
+}
+
 - (void)onTick:(NSTimer*)timer
 {
     tickCount--;
