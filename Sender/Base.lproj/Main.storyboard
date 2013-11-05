@@ -127,13 +127,18 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BoN-uD-2F3">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BoN-uD-2F3">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="BoN-uD-2F3" secondAttribute="trailing" id="3Fo-ma-TOa"/>
+                            <constraint firstItem="BoN-uD-2F3" firstAttribute="top" secondItem="TVV-iP-Pez" secondAttribute="top" id="AZ9-X5-Agr"/>
+                            <constraint firstItem="TGO-aF-51W" firstAttribute="top" secondItem="BoN-uD-2F3" secondAttribute="bottom" id="AkA-ZZ-LiX"/>
+                            <constraint firstItem="BoN-uD-2F3" firstAttribute="leading" secondItem="TVV-iP-Pez" secondAttribute="leading" id="ngI-ta-nm0"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="playbackView" destination="BoN-uD-2F3" id="xWE-wk-Uo7"/>
