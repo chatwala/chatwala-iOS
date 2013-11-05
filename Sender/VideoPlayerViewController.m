@@ -128,7 +128,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 
 - (void)playerItemDidReachEnd:(NSNotification*)note
 {
-    [self.playerItem seekToTime:kCMTimeZero];
+    if (self.loops) {
+        [self.playerItem seekToTime:kCMTimeZero];
+    }
 }
 
 #pragma mark - Key Valye Observing

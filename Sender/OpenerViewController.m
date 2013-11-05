@@ -29,6 +29,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.videoPlayerVC = [[VideoPlayerViewController alloc]init];
+    [self.videoPlayerVC setLoops:NO];
     [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
     [self.playbackView addSubview:self.videoPlayerVC.view];
 }
