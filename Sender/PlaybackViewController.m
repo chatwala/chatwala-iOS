@@ -29,6 +29,15 @@
 	// Do any additional setup after loading the view.
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    self.moviePlayer = [[MPMoviePlayerViewController alloc]initWithContentURL:self.videoURL];
+    [self.view addSubview:self.moviePlayer.view];
+//    [self.moviePlayer ]
+    [self presentMoviePlayerViewControllerAnimated:self.moviePlayer];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

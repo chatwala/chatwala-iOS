@@ -15,6 +15,7 @@
     NSInteger tickCount;
 }
 @property (nonatomic,strong) NSTimer * recordTimer;
+@property (nonatomic,strong) MPMoviePlayerViewController * moviePlayer;
 @end
 
 @implementation ViewController
@@ -120,7 +121,8 @@
 
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager withVideoURL:(NSURL*)videoURL
 {
-    
+    self.moviePlayer = [[MPMoviePlayerViewController alloc]initWithContentURL:videoURL];
+    [self presentMoviePlayerViewControllerAnimated:self.moviePlayer];
 }
 
 @end

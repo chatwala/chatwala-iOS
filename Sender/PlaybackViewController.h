@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface PlaybackViewController : UIViewController
-
+@property (nonatomic,strong) MPMoviePlayerViewController * moviePlayer;
+@property (nonatomic,strong) NSURL * videoURL;
 @end
