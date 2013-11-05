@@ -32,6 +32,7 @@
 		E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439CE182946460088A381 /* AVCamCaptureManager.m */; };
 		E94439D2182946460088A381 /* AVCamRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439D0182946460088A381 /* AVCamRecorder.m */; };
 		E94439D418294E990088A381 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94439D318294E990088A381 /* MessageUI.framework */; };
+		E94439D71829511A0088A381 /* PlaybackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439D61829511A0088A381 /* PlaybackViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,8 @@
 		E94439CF182946460088A381 /* AVCamRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AVCamRecorder.h; sourceTree = "<group>"; };
 		E94439D0182946460088A381 /* AVCamRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamRecorder.m; sourceTree = "<group>"; };
 		E94439D318294E990088A381 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		E94439D51829511A0088A381 /* PlaybackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaybackViewController.h; sourceTree = "<group>"; };
+		E94439D61829511A0088A381 /* PlaybackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaybackViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +164,8 @@
 				E9443998182940AF0088A381 /* Main.storyboard */,
 				E944399B182940AF0088A381 /* ViewController.h */,
 				E944399C182940AF0088A381 /* ViewController.m */,
+				E94439D51829511A0088A381 /* PlaybackViewController.h */,
+				E94439D61829511A0088A381 /* PlaybackViewController.m */,
 				E94439CD182946460088A381 /* AVCamCaptureManager.h */,
 				E94439CE182946460088A381 /* AVCamCaptureManager.m */,
 				E94439CF182946460088A381 /* AVCamRecorder.h */,
@@ -302,6 +307,7 @@
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
+				E94439D71829511A0088A381 /* PlaybackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
