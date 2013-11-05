@@ -506,6 +506,20 @@ bail:
 
 -(void)recorder:(AVCamRecorder *)recorder recordingDidFinishToOutputFileURL:(NSURL *)outputFileURL error:(NSError *)error
 {
+        // If the file was created on a device that doesn't support video recording, it can't be saved to the assets
+		// library. Instead, save it in the app's Documents directory, whence it can be copied from the device via
+		// iTunes file sharing.
+		[self copyFileToDocuments:outputFileURL];
+        
+		if ([[UIDevice currentDevice] isMultitaskingSupported]) {
+			[[UIApplication sharedApplication] endBackgroundTask:[self backgroundRecordingID]];
+		}
+        
+		if ([[self delegate] respondsToSelector:@selector(captureManagerRecordingFinished:withVideoURL:)]) {
+			[[self delegate] captureManagerRecordingFinished:self withVideoURL:outputFileURL];
+		}
+
+    /*
 	if ([[self recorder] recordsAudio] && ![[self recorder] recordsVideo]) {
 		// If the file was created on a device that doesn't support video recording, it can't be saved to the assets 
 		// library. Instead, save it in the app's Documents directory, whence it can be copied from the device via
@@ -538,8 +552,9 @@ bail:
 											[[self delegate] captureManagerRecordingFinished:self];
 										}
 									}];
-		library = nil;
-	}
+		
+     library = nil;
+	}*/
 }
 
 @end
