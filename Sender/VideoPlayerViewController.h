@@ -18,5 +18,7 @@
 @interface VideoPlayerViewController : UIViewController 
 
 @property (nonatomic, copy) NSURL *URL;
+- (void)pause;
+- (void)resume;
 
 @end

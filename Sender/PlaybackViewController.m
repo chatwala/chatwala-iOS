@@ -9,7 +9,7 @@
 #import "PlaybackViewController.h"
 #import "VideoPlayerViewController.h"
 
-@interface PlaybackViewController ()
+@interface PlaybackViewController () <MFMailComposeViewControllerDelegate>
 @property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @end
@@ -51,5 +51,34 @@
 }
 
 - (IBAction)onSend:(id)sender {
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:@"pho msg"];
+    [mc setMessageBody:@"You've got video!" isHTML:NO];
+    NSData * videoData = [NSData dataWithContentsOfURL:self.videoURL];
+//    [mc setToRecipients:toRecipents];
+    [mc addAttachmentData:videoData mimeType:@"video/mp4" fileName:@"video.mp4"];
+    // Present mail view controller on screen
+    
+    [self.videoPlayerVC pause];
+    [self presentViewController:mc animated:YES completion:NULL];
+    
+    
 }
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    
+    
+    switch (result) {
+        case MFMailComposeResultSent:
+            [self.navigationController popViewControllerAnimated:YES];
+            break;
+        default:
+            [self.videoPlayerVC resume];
+            break;
+    }
+    
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end

@@ -174,4 +174,15 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 	return _URL;
 }
 
+
+- (void)pause
+{
+    [self.player pause];
+}
+
+- (void)resume
+{
+    [self.player play];
+}
+
 @end
