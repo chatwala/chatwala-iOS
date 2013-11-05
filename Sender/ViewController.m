@@ -8,9 +8,13 @@
 
 #import "ViewController.h"
 #import "AVCamCaptureManager.h"
+#import "AVCamRecorder.h"
 
 @interface ViewController ()<AVCamCaptureManagerDelegate>
-
+{
+    NSInteger tickCount;
+}
+@property (nonatomic,strong) NSTimer * recordTimer;
 @end
 
 @implementation ViewController
@@ -24,7 +28,15 @@
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
-
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if (![[[self captureManager] recorder] isRecording])
+        [[self captureManager] startRecording];
+    else
+        [[self captureManager] stopRecording];
+}
 
 - (void)setupCaptureManager
 {
@@ -54,6 +66,10 @@
 			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 				[[[self captureManager] session] startRunning];
 			});
+            
+            tickCount = 10;
+            
+            self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
 			/*
 			
             // Create the focus mode UI overlay
@@ -86,6 +102,19 @@
 		}
 	}
     
+}
+
+- (void)onTick:(NSTimer*)timer
+{
+    tickCount--;
+    if (tickCount <= 0) {
+        [self.recordTimer invalidate];
+        [self.captureManager stopRecording];
+        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Complete" message:@"video recorded" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [alert show];
+        tickCount = 0;
+    }
+    [self.timeLabel setText:[NSString stringWithFormat:@"%d",tickCount]];
 }
 
 
