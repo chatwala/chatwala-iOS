@@ -11,6 +11,7 @@
 #import "SenderViewController.h"
 #import "AVCamCaptureManager.h"
 #import "PlaybackViewController.h"
+#import "AssetItem.h"
 
 @interface OpenerViewController () <VideoPlayerViewDelegate,AVCamCaptureManagerDelegate>
 {
@@ -128,6 +129,30 @@
 - (void)setVideoURL:(NSURL *)videoURL
 {
     
+    
+    AssetItem * assetItem = [[AssetItem alloc]initWithURL:videoURL];
+    [assetItem loadMetadataWithCompletionHandler:^{
+        //
+        NSLog(@"metadata loaded: %@",assetItem.metadata);
+    }];
+    
+    [assetItem loadThumbnailWithCompletionHandler:^{
+        //
+        NSLog(@"thumbnail loaded: %@",assetItem.thumbnail);
+    }];
+    
+    [assetItem loadTracksWithCompletionHandler:^{
+        //
+        NSLog(@"tracks loaded: %@",assetItem.tracks);
+    }];
+    
+    
+    [assetItem loadTitleWithCompletionHandler:^{
+        //
+        NSLog(@"title loaded: %@",assetItem.title);
+    }];
+    
+    
     NSURL * newURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@%@", NSTemporaryDirectory(), [videoURL lastPathComponent],@".mov"]];
     NSError * error = nil;
     [[NSFileManager defaultManager] copyItemAtURL:videoURL toURL:newURL error:&error];
@@ -178,6 +203,9 @@
 
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager withVideoURL:(NSURL*)videoURL
 {
+    
+    
+    
     if (autoPush) {
         PlaybackViewController * playbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"playbackVC"];
         [playbackVC setVideoURL:videoURL];
