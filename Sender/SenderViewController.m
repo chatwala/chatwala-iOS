@@ -6,12 +6,12 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "SenderViewController.h"
 #import "AVCamCaptureManager.h"
 #import "AVCamRecorder.h"
 #import "PlaybackViewController.h"
 
-@interface ViewController ()<AVCamCaptureManagerDelegate>
+@interface SenderViewController ()<AVCamCaptureManagerDelegate>
 {
     NSInteger tickCount;
     BOOL autoPush;
@@ -24,7 +24,7 @@
 
 @end
 
-@implementation ViewController
+@implementation SenderViewController
 
 - (void)viewDidLoad
 {

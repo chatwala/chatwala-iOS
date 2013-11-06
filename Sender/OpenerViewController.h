@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class AVCamCaptureManager;
 @interface OpenerViewController : UIViewController
 @property (nonatomic,strong) NSURL * videoURL;
+@property (nonatomic,retain) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
+@property (nonatomic,retain) AVCamCaptureManager *captureManager;
+- (void)interruptRecording;
+- (void)resumeRecording;
 @end

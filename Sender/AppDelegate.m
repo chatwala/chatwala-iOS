@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "OpenerViewController.h"
-#import "ViewController.h"
+#import "SenderViewController.h"
 
 @implementation AppDelegate
 
@@ -26,8 +26,8 @@
     UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
     id currentVC = rootVC.topViewController;
     
-    if ([currentVC isKindOfClass:[ViewController class]]) {
-        ViewController * vc = (ViewController* )currentVC;
+    if ([currentVC isKindOfClass:[SenderViewController class]]) {
+        SenderViewController * vc = (SenderViewController* )currentVC;
         [vc interruptRecording];
     }
     
@@ -54,8 +54,8 @@
     UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
     id currentVC = rootVC.topViewController;
     
-    if ([currentVC isKindOfClass:[ViewController class]]) {
-        ViewController * vc = (ViewController* )currentVC;
+    if ([currentVC isKindOfClass:[SenderViewController class]]) {
+        SenderViewController * vc = (SenderViewController* )currentVC;
         [vc resumeRecording];
     }
 }

@@ -14,7 +14,7 @@
 		E9443993182940AF0088A381 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E9443992182940AF0088A381 /* main.m */; };
 		E9443997182940AF0088A381 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9443996182940AF0088A381 /* AppDelegate.m */; };
 		E944399A182940AF0088A381 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9443998182940AF0088A381 /* Main.storyboard */; };
-		E944399D182940AF0088A381 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E944399C182940AF0088A381 /* ViewController.m */; };
+		E944399D182940AF0088A381 /* SenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E944399C182940AF0088A381 /* SenderViewController.m */; };
 		E944399F182940AF0088A381 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E944399E182940AF0088A381 /* Images.xcassets */; };
 		E94439A6182940AF0088A381 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94439A5182940AF0088A381 /* XCTest.framework */; };
 		E94439A7182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
@@ -60,8 +60,8 @@
 		E9443995182940AF0088A381 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E9443996182940AF0088A381 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		E9443999182940AF0088A381 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		E944399B182940AF0088A381 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		E944399C182940AF0088A381 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		E944399B182940AF0088A381 /* SenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SenderViewController.h; sourceTree = "<group>"; };
+		E944399C182940AF0088A381 /* SenderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SenderViewController.m; sourceTree = "<group>"; };
 		E944399E182940AF0088A381 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E94439A4182940AF0088A381 /* SenderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SenderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E94439A5182940AF0088A381 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -125,6 +125,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E90F04D1182A9078004B8CCD /* AVCam */ = {
+			isa = PBXGroup;
+			children = (
+				E94439CD182946460088A381 /* AVCamCaptureManager.h */,
+				E94439CE182946460088A381 /* AVCamCaptureManager.m */,
+				E94439CF182946460088A381 /* AVCamRecorder.h */,
+				E94439D0182946460088A381 /* AVCamRecorder.m */,
+			);
+			name = AVCam;
+			sourceTree = "<group>";
+		};
 		E944397A182940AF0088A381 = {
 			isa = PBXGroup;
 			children = (
@@ -171,17 +182,14 @@
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
 				E9443998182940AF0088A381 /* Main.storyboard */,
-				E944399B182940AF0088A381 /* ViewController.h */,
-				E944399C182940AF0088A381 /* ViewController.m */,
+				E944399B182940AF0088A381 /* SenderViewController.h */,
+				E944399C182940AF0088A381 /* SenderViewController.m */,
 				E94439D51829511A0088A381 /* PlaybackViewController.h */,
 				E94439D61829511A0088A381 /* PlaybackViewController.m */,
 				E94439DE18297ED30088A381 /* OpenerViewController.h */,
 				E94439DF18297ED30088A381 /* OpenerViewController.m */,
-				E94439CD182946460088A381 /* AVCamCaptureManager.h */,
-				E94439CE182946460088A381 /* AVCamCaptureManager.m */,
-				E94439CF182946460088A381 /* AVCamRecorder.h */,
-				E94439D0182946460088A381 /* AVCamRecorder.m */,
-				E94439E1182983B70088A381 /* New Group */,
+				E90F04D1182A9078004B8CCD /* AVCam */,
+				E94439E1182983B70088A381 /* Video Player */,
 				E944399E182940AF0088A381 /* Images.xcassets */,
 				E944398D182940AF0088A381 /* Supporting Files */,
 			);
@@ -217,7 +225,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E94439E1182983B70088A381 /* New Group */ = {
+		E94439E1182983B70088A381 /* Video Player */ = {
 			isa = PBXGroup;
 			children = (
 				E94439DB18295B9C0088A381 /* VideoPlayerView.h */,
@@ -225,7 +233,7 @@
 				E94439D818295B0B0088A381 /* VideoPlayerViewController.h */,
 				E94439D918295B0B0088A381 /* VideoPlayerViewController.m */,
 			);
-			name = "New Group";
+			name = "Video Player";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -326,7 +334,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E94439DA18295B0B0088A381 /* VideoPlayerViewController.m in Sources */,
-				E944399D182940AF0088A381 /* ViewController.m in Sources */,
+				E944399D182940AF0088A381 /* SenderViewController.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
 				E94439DD18295B9C0088A381 /* VideoPlayerView.m in Sources */,
 				E94439E018297ED30088A381 /* OpenerViewController.m in Sources */,

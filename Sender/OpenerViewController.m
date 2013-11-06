@@ -8,11 +8,18 @@
 
 #import "OpenerViewController.h"
 #import "VideoPlayerViewController.h"
-#import "ViewController.h"
+#import "SenderViewController.h"
+#import "AVCamCaptureManager.h"
 
-@interface OpenerViewController () <VideoPlayerViewDelegate>
+@interface OpenerViewController () <VideoPlayerViewDelegate,AVCamCaptureManagerDelegate>
+{
+    CGRect smallFrame;
+}
+// player objects
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
+@property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
+
 @end
 
 @implementation OpenerViewController
@@ -28,7 +35,10 @@
 
 - (void)viewDidLoad
 {
+    [self setupCaptureManager];
     [super viewDidLoad];
+    
+    smallFrame = self.cameraView.frame;
 	// Do any additional setup after loading the view.
     self.videoPlayerVC = [[VideoPlayerViewController alloc]init];
     [self.videoPlayerVC setLoops:NO];
@@ -54,19 +64,46 @@
 {
     [super viewDidAppear:animated];
     [self.videoPlayerVC setURL:self.videoURL];
+    [self.captureManager startRecording];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)setupCaptureManager
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    if ([self captureManager] == nil) {
+		AVCamCaptureManager *manager = [[AVCamCaptureManager alloc] init];
+		[self setCaptureManager:manager];
+		
+		[[self captureManager] setDelegate:self];
+        
+		if ([[self captureManager] setupSession]) {
+            // Create video preview layer and add it to the UI
+			AVCaptureVideoPreviewLayer *newCaptureVideoPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[[self captureManager] session]];
+			UIView *view = [self cameraView];
+			CALayer *viewLayer = [view layer];
+			[viewLayer setMasksToBounds:YES];
+			
+			CGRect bounds = [view bounds];
+			[newCaptureVideoPreviewLayer setFrame:bounds];
+            
+			[newCaptureVideoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+			
+			[viewLayer insertSublayer:newCaptureVideoPreviewLayer below:[[viewLayer sublayers] objectAtIndex:0]];
+			
+			[self setCaptureVideoPreviewLayer:newCaptureVideoPreviewLayer];
+            
+            // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
+			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+				[[[self captureManager] session] startRunning];
+			});
+		}
+	}
+    
 }
 
 - (void)videoPlayerViewControllerDidFinishPlayback
 {
-    ViewController * recorderVC = [self.storyboard instantiateViewControllerWithIdentifier:@"recorderVC"];
+    // swap videos
     
-    [self.navigationController pushViewController:recorderVC animated:YES];
 }
 
 @end

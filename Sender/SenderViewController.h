@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class AVCamCaptureManager;
 
-@interface ViewController : UIViewController
+@interface SenderViewController : UIViewController
 
 @property (nonatomic,retain) IBOutlet UIView *videoPreviewView;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
