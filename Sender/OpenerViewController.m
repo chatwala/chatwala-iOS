@@ -51,23 +51,19 @@
     [self.playbackView addSubview:self.videoPlayerVC.view];
 }
 
-- (void)setVideoURL:(NSURL *)videoURL
+- (void)viewWillAppear:(BOOL)animated
 {
-
-    NSURL * newURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@%@", NSTemporaryDirectory(), [videoURL lastPathComponent],@".mov"]];
-    NSError * error = nil;
-    [[NSFileManager defaultManager] copyItemAtURL:videoURL toURL:newURL error:&error];
-    if (error) {
-        NSLog(@"%@",error.debugDescription);
-    }
-    _videoURL = newURL;
+    [super viewWillAppear:animated];
+    [self.cameraView setFrame:smallFrame];
+    [self.captureVideoPreviewLayer setFrame:self.cameraView.bounds];
+    
 }
-
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [self.videoPlayerVC setURL:self.videoURL];
+    [self.videoPlayerVC replay];
     autoPush = YES;
     [self startRecording];
 }
@@ -129,6 +125,18 @@
     autoPush = YES;
     [self startRecording];
 }
+- (void)setVideoURL:(NSURL *)videoURL
+{
+    
+    NSURL * newURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@%@", NSTemporaryDirectory(), [videoURL lastPathComponent],@".mov"]];
+    NSError * error = nil;
+    [[NSFileManager defaultManager] copyItemAtURL:videoURL toURL:newURL error:&error];
+    if (error) {
+        NSLog(@"%@",error.debugDescription);
+    }
+    _videoURL = newURL;
+}
+
 
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event

@@ -22,6 +22,7 @@
 @property (nonatomic, copy) NSURL *URL;
 - (void)pause;
 - (void)resume;
+- (void)replay;
 @property (nonatomic,assign) BOOL loops;
 @property (nonatomic,weak) id<VideoPlayerViewDelegate> delegate;
 @end

@@ -89,7 +89,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         NSLog(@"not playable");
         return;
     }
-	
+	/*
 	if (self.playerItem) {
         [self.playerItem removeObserver:self forKeyPath:kStatusKey];            
 		
@@ -97,6 +97,7 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
                                                         name:AVPlayerItemDidPlayToEndTimeNotification
                                                       object:self.playerItem];
     }
+    */
 	
     self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
     [self.playerItem addObserver:self 
@@ -108,10 +109,6 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
         [self setPlayer:[AVPlayer playerWithPlayerItem:self.playerItem]];
         self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
         
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(playerItemDidReachEnd:)
-                                                     name:AVPlayerItemDidPlayToEndTimeNotification
-                                                   object:[self.player currentItem]];
         
         
         [self.player addObserver:self 
@@ -122,7 +119,13 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     
     if (self.player.currentItem != self.playerItem) {
         [[self player] replaceCurrentItemWithPlayerItem:self.playerItem];
+
     }
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerItemDidReachEnd:)
+                                                 name:AVPlayerItemDidPlayToEndTimeNotification
+                                               object:[self.player currentItem]];
 }
 
 
@@ -193,6 +196,12 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
 
 - (void)resume
 {
+    [self.player play];
+}
+
+- (void)replay
+{
+    [self.playerItem seekToTime:kCMTimeZero];
     [self.player play];
 }
 
