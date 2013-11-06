@@ -10,16 +10,20 @@
 #import "VideoPlayerViewController.h"
 #import "SenderViewController.h"
 #import "AVCamCaptureManager.h"
+#import "PlaybackViewController.h"
 
 @interface OpenerViewController () <VideoPlayerViewDelegate,AVCamCaptureManagerDelegate>
 {
     CGRect smallFrame;
+    NSInteger tickCount;
+    BOOL autoPush;
 }
 // player objects
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
-
+@property (nonatomic,strong) NSTimer * recordTimer;
+@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @end
 
 @implementation OpenerViewController
@@ -64,7 +68,8 @@
 {
     [super viewDidAppear:animated];
     [self.videoPlayerVC setURL:self.videoURL];
-    [self.captureManager startRecording];
+    autoPush = YES;
+    [self startRecording];
 }
 
 - (void)setupCaptureManager
@@ -100,10 +105,91 @@
     
 }
 
+
+- (void)startRecording
+{
+    [self.timeLabel setHidden:YES];
+    [[self captureManager] startRecording];
+}
+
+- (void)stopRecording
+{
+    [[self captureManager] stopRecording];
+    [self.recordTimer invalidate];
+}
+
+- (void)interruptRecording
+{
+    autoPush = NO;
+    [self stopRecording];
+}
+
+- (void)resumeRecording
+{
+    autoPush = YES;
+    [self startRecording];
+}
+
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self stopRecording];
+}
+
+- (void)resetTimerAndStart:(BOOL)startTimer
+{
+    tickCount = MAX_RECORD_TIME;
+    [self.timeLabel setText:[NSString stringWithFormat:@"%d",tickCount]];
+    [self.timeLabel setHidden:NO];
+    if (startTimer) {
+        self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
+    }
+}
+
+- (void)onTick:(NSTimer*)timer
+{
+    tickCount--;
+    if (tickCount <= 0) {
+        [self stopRecording];
+        tickCount = 0;
+    }
+    [self.timeLabel setText:[NSString stringWithFormat:@"%d",tickCount]];
+}
+
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+//{
+//    AVPlayerStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+//    NSLog(@"status: %d",status);
+//    
+//    if (status == AVPlayerStatusReadyToPlay) {
+//        [self.player play];
+//    }
+//    
+//}
+
+
+- (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager withVideoURL:(NSURL*)videoURL
+{
+    if (autoPush) {
+        PlaybackViewController * playbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"playbackVC"];
+        [playbackVC setVideoURL:videoURL];
+        [self.navigationController pushViewController:playbackVC animated:YES];
+    }
+}
+
+
 - (void)videoPlayerViewControllerDidFinishPlayback
 {
     // swap videos
+    [UIView animateWithDuration:0.6 animations:^{
+        [self.cameraView setFrame:self.view.bounds];
+    }];
     
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:0.6];
+    [self.captureVideoPreviewLayer setFrame:self.view.bounds];
+    [CATransaction commit];
+    [self resetTimerAndStart:YES];
 }
 
 @end

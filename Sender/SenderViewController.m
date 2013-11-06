@@ -155,16 +155,6 @@
     [self.timeLabel setText:[NSString stringWithFormat:@"%d",tickCount]];
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-     AVPlayerStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
-    NSLog(@"status: %d",status);
-    
-    if (status == AVPlayerStatusReadyToPlay) {
-        [self.player play];
-    }
-    
-}
 
 
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager withVideoURL:(NSURL*)videoURL

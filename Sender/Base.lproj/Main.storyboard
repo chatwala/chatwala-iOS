@@ -144,18 +144,32 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             </view>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rbm-AZ-hqr">
+                                <rect key="frame" x="253" y="491" width="47" height="57"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="47" id="56o-5y-HRw"/>
+                                    <constraint firstAttribute="height" constant="57" id="aWE-95-pCx"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="37"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="BoN-uD-2F3" secondAttribute="trailing" id="3Fo-ma-TOa"/>
                             <constraint firstItem="BoN-uD-2F3" firstAttribute="top" secondItem="TVV-iP-Pez" secondAttribute="top" id="AZ9-X5-Agr"/>
                             <constraint firstItem="TGO-aF-51W" firstAttribute="top" secondItem="BoN-uD-2F3" secondAttribute="bottom" id="AkA-ZZ-LiX"/>
+                            <constraint firstItem="TGO-aF-51W" firstAttribute="top" secondItem="Rbm-AZ-hqr" secondAttribute="bottom" constant="20" id="gt7-rU-fHh"/>
                             <constraint firstItem="BoN-uD-2F3" firstAttribute="leading" secondItem="TVV-iP-Pez" secondAttribute="leading" id="ngI-ta-nm0"/>
+                            <constraint firstAttribute="trailing" secondItem="Rbm-AZ-hqr" secondAttribute="trailing" constant="20" id="pbB-ha-J4Q"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="cameraView" destination="gJf-zd-P8a" id="c95-HG-7EZ"/>
                         <outlet property="playbackView" destination="BoN-uD-2F3" id="xWE-wk-Uo7"/>
+                        <outlet property="timeLabel" destination="Rbm-AZ-hqr" id="60K-8c-5l8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="p4H-ir-RXL" userLabel="First Responder" sceneMemberID="firstResponder"/>
