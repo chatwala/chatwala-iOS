@@ -10,6 +10,7 @@
 
 @interface PlaybackViewController : UIViewController
 @property (nonatomic,strong) NSURL * videoURL;
+@property (nonatomic,assign) NSTimeInterval startRecordingTime;
 - (IBAction)onRecordAgain:(id)sender;
 - (IBAction)onSend:(id)sender;
 @end

@@ -205,4 +205,9 @@ static void *AVPlayerDemoPlaybackViewControllerStatusObservationContext = &AVPla
     [self.player play];
 }
 
+- (NSTimeInterval) videoLength
+{
+    return CMTimeGetSeconds(self.playerItem.asset.duration);
+}
+
 @end

@@ -25,6 +25,8 @@
 - (void)replay;
 @property (nonatomic,assign) BOOL loops;
 @property (nonatomic,weak) id<VideoPlayerViewDelegate> delegate;
+
+- (NSTimeInterval) videoLength;
 @end
 
 
