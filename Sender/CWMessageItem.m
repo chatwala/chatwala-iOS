@@ -7,23 +7,98 @@
 //
 
 #import "CWMessageItem.h"
+#import "CWMetadata.h"
+
 
 @implementation CWMessageItem
-- (id)initWithVideoURL:(NSURL *)videoURL
+
+
+
+
+
+- (id)init
 {
     self=[super init];
     if (self) {
         
+        self.metadata = [[CWMetadata alloc]init];
+        [self.metadata setTimestamp:[NSDate date]];
+        [self.metadata setSenderId:[[NSUserDefaults standardUserDefaults] valueForKey:@"chatwala_local_user"]];
+        [self.metadata setMessageId:[self createUUIDString]];
+        [self.metadata setThreadId:[self createUUIDString]];
+        [self.metadata setThreadIndex:0];
+        [self.metadata setVersionId:@"1.0"];
+        [self.metadata setStartRecording:0];
     }
     return self;
+}
+- (NSString*)cacheDirectoryPath
+{
+    return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
-- (id)initWithMessageURL:(NSURL *)messageURL
+- (void)exportZip
 {
-    self=[super init];
-    if (self) {
-        
-    }
-    return self;
+    // validate everything is set
+    
+    
+    [self createChatwalaFile];
 }
+
+- (void)createChatwalaFile
+{
+    
+    NSString * newDirectoryPath = [[self cacheDirectoryPath] stringByAppendingPathComponent:@"temp_message"];
+    
+    NSError * err = nil;
+    [[NSFileManager defaultManager]removeItemAtPath:newDirectoryPath error:&err];
+    if (err) {
+        NSLog(@"error removing new file directory: %@",err.debugDescription);
+        return;
+    }
+    
+    
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:newDirectoryPath withIntermediateDirectories:YES attributes:nil error:&err];
+    if (err) {
+        NSLog(@"error creating new file directory: %@",err.debugDescription);
+        return;
+    }
+    
+    
+    
+    // copy video to folder
+    [[NSFileManager defaultManager]moveItemAtPath:self.videoURL.path toPath:[newDirectoryPath stringByAppendingPathComponent:@"video.mov"] error:&err];
+    if (err) {
+        NSLog(@"faild to copy video to new directory: %@",err.debugDescription);
+        return;
+    }
+    
+    // create json file
+    
+    NSDictionary * jsonDict = [MTLJSONAdapter JSONDictionaryFromModel:self.metadata];
+    NSData * jsonData = [NSJSONSerialization dataWithJSONObject:jsonDict options:NSJSONWritingPrettyPrinted error:&err];
+    
+    if (err) {
+        NSLog(@"faild to create JSON metadata: %@",err.debugDescription);
+        return;
+    }
+    
+    [jsonData writeToFile:[newDirectoryPath stringByAppendingPathComponent:@"metadata.json"] atomically:YES];
+    
+    
+    NSLog(@"ready!");
+    // zip it up
+}
+
+- (NSString *)createUUIDString {
+    // Returns a UUID
+    
+    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
+    NSString *uuidStr = (__bridge_transfer NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuid);
+    CFRelease(uuid);
+    
+    return uuidStr;
+}
+
 @end

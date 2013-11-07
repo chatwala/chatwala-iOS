@@ -7,19 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class CWMetadata;
 @interface CWMessageItem : NSObject
-@property (nonatomic,strong) NSDate * timestamp;
-@property (nonatomic,strong) NSString * versionId;
-@property (nonatomic,strong) NSString * senderId;
-@property (nonatomic,strong) NSString * recipientId;
-@property (nonatomic,strong) NSString * messageId;
-@property (nonatomic,strong) NSString * threadId;
+@property (nonatomic,strong) CWMetadata * metadata;
+@property (nonatomic,strong) NSURL * zipURL;
 @property (nonatomic,strong) NSURL * videoURL;
-@property (nonatomic,assign) NSInteger threadIndex;
-@property (nonatomic,assign) CGFloat startRecording;
 
-- (id)initWithVideoURL:(NSURL*)videoURL; // for creating new message
-- (id)initWithMessageURL:(NSURL*)messageURL; // for opening message
 
+//- (id)initWithVideoURL:(NSURL*)videoURL; // for creating new message
+//- (id)initWithZipURL:(NSURL*)zipURL; // for opening message
+- (void)exportZip;
 @end

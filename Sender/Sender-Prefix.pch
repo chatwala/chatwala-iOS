@@ -16,7 +16,8 @@
     #import <AVFoundation/AVFoundation.h>
     #import <MediaPlayer/MediaPlayer.h>
     #import <MessageUI/MessageUI.h>
-
+    #import <zipzap/zipzap.h>
+    #import <Mantle/Mantle.h>
 #endif
 
 

@@ -8,6 +8,7 @@
 
 #import "PlaybackViewController.h"
 #import "VideoPlayerViewController.h"
+#import "CWMessageItem.h"
 
 @interface PlaybackViewController () <MFMailComposeViewControllerDelegate,VideoPlayerViewDelegate>
 @property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
@@ -57,9 +58,18 @@
     mc.mailComposeDelegate = self;
     [mc setSubject:@"pho msg"];
     [mc setMessageBody:@"You've got video!" isHTML:NO];
-    NSData * videoData = [NSData dataWithContentsOfURL:self.videoURL];
-//    [mc setToRecipients:toRecipents];
-    [mc addAttachmentData:videoData mimeType:@"video/chatwalla" fileName:@"msg.chatwalla"];
+    
+    // send
+    
+    CWMessageItem * message = [[CWMessageItem alloc]init];
+    [message setVideoURL:self.videoURL];
+    [message exportZip];
+    
+    
+    
+    
+    //    [mc setToRecipients:toRecipents];
+//    [mc addAttachmentData:videoData mimeType:@"video/chatwalla" fileName:@"msg.chatwalla"];
     // Present mail view controller on screen
     
     [self.videoPlayerVC pause];
