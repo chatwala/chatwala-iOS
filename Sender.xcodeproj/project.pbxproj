@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D3182AA41A004B8CCD /* AssetItem.m */; };
 		E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D6182AA430004B8CCD /* VideoLibrary.m */; };
+		E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D9182BEA71004B8CCD /* CWMessageItem.m */; };
 		E9443987182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
 		E9443989182940AF0088A381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443988182940AF0088A381 /* CoreGraphics.framework */; };
 		E944398B182940AF0088A381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E944398A182940AF0088A381 /* UIKit.framework */; };
@@ -55,6 +56,8 @@
 		E90F04D3182AA41A004B8CCD /* AssetItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetItem.m; sourceTree = "<group>"; };
 		E90F04D5182AA430004B8CCD /* VideoLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoLibrary.h; sourceTree = "<group>"; };
 		E90F04D6182AA430004B8CCD /* VideoLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoLibrary.m; sourceTree = "<group>"; };
+		E90F04D8182BEA71004B8CCD /* CWMessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageItem.h; sourceTree = "<group>"; };
+		E90F04D9182BEA71004B8CCD /* CWMessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageItem.m; sourceTree = "<group>"; };
 		E9443983182940AF0088A381 /* Sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9443986182940AF0088A381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E9443988182940AF0088A381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -198,6 +201,8 @@
 				E90F04D3182AA41A004B8CCD /* AssetItem.m */,
 				E90F04D5182AA430004B8CCD /* VideoLibrary.h */,
 				E90F04D6182AA430004B8CCD /* VideoLibrary.m */,
+				E90F04D8182BEA71004B8CCD /* CWMessageItem.h */,
+				E90F04D9182BEA71004B8CCD /* CWMessageItem.m */,
 				E90F04D1182A9078004B8CCD /* AVCam */,
 				E94439E1182983B70088A381 /* Video Player */,
 				E944399E182940AF0088A381 /* Images.xcassets */,
@@ -290,6 +295,7 @@
 		E944397B182940AF0088A381 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				CLASSPREFIX = CW;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = pho;
 				TargetAttributes = {
@@ -343,6 +349,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */,
 				E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */,
 				E94439DA18295B0B0088A381 /* VideoPlayerViewController.m in Sources */,
 				E944399D182940AF0088A381 /* SenderViewController.m in Sources */,
