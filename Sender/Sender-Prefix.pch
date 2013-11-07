@@ -22,3 +22,4 @@
 
 
 #define MAX_RECORD_TIME 10
+#define SCREEN_BOUNDS [[UIScreen mainScreen] bounds]

@@ -15,6 +15,23 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    UIStoryboard * storyboard;
+    UIViewController * vc;
+    if (SCREEN_BOUNDS.size.height > 480) {
+        // iphone5
+        storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    }else{
+        // pre-iphone5
+        storyboard = [UIStoryboard storyboardWithName:@"SmallScreen" bundle:[NSBundle mainBundle]];
+    }
+
+    self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
+    vc = [storyboard instantiateInitialViewController];
+    
+    [self.window addSubview:vc.view];
+    [self.window setRootViewController:vc];
+    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 							

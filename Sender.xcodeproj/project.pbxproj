@@ -13,6 +13,7 @@
 		E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D6182AA430004B8CCD /* VideoLibrary.m */; };
 		E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D9182BEA71004B8CCD /* CWMessageItem.m */; };
 		E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04DC182BF758004B8CCD /* CWMetadata.m */; };
+		E90F04E2182C458A004B8CCD /* SmallScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90F04E0182C458A004B8CCD /* SmallScreen.storyboard */; };
 		E9443987182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
 		E9443989182940AF0088A381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443988182940AF0088A381 /* CoreGraphics.framework */; };
 		E944398B182940AF0088A381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E944398A182940AF0088A381 /* UIKit.framework */; };
@@ -67,6 +68,7 @@
 		E90F04D9182BEA71004B8CCD /* CWMessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageItem.m; sourceTree = "<group>"; };
 		E90F04DB182BF758004B8CCD /* CWMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMetadata.h; sourceTree = "<group>"; };
 		E90F04DC182BF758004B8CCD /* CWMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMetadata.m; sourceTree = "<group>"; };
+		E90F04E1182C458A004B8CCD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SmallScreen.storyboard; sourceTree = "<group>"; };
 		E9443983182940AF0088A381 /* Sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9443986182940AF0088A381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E9443988182940AF0088A381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -206,6 +208,7 @@
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
 				E9443998182940AF0088A381 /* Main.storyboard */,
+				E90F04E0182C458A004B8CCD /* SmallScreen.storyboard */,
 				E944399B182940AF0088A381 /* SenderViewController.h */,
 				E944399C182940AF0088A381 /* SenderViewController.m */,
 				E94439D51829511A0088A381 /* PlaybackViewController.h */,
@@ -351,6 +354,7 @@
 			files = (
 				E944399F182940AF0088A381 /* Images.xcassets in Resources */,
 				E9443991182940AF0088A381 /* InfoPlist.strings in Resources */,
+				E90F04E2182C458A004B8CCD /* SmallScreen.storyboard in Resources */,
 				E944399A182940AF0088A381 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -468,6 +472,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		E90F04E0182C458A004B8CCD /* SmallScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E90F04E1182C458A004B8CCD /* Base */,
+			);
+			name = SmallScreen.storyboard;
+			sourceTree = "<group>";
+		};
 		E944398F182940AF0088A381 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
