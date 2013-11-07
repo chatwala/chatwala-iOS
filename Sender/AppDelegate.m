@@ -70,7 +70,7 @@
     UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
     
     OpenerViewController * openerVC = [[self.window.rootViewController storyboard] instantiateViewControllerWithIdentifier:@"openerVC"];
-    [openerVC setVideoURL:url];
+    [openerVC setZipURL:url];
     [rootVC pushViewController:openerVC animated:YES];
     
     

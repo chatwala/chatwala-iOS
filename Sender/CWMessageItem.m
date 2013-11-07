@@ -7,7 +7,7 @@
 //
 
 #import "CWMessageItem.h"
-#import "CWMetadata.h"
+
 
 
 @implementation CWMessageItem
@@ -44,6 +44,25 @@
     
     
     [self createChatwalaFile];
+}
+
+- (void)extractZip
+{
+    
+    NSFileManager* fm = [NSFileManager defaultManager];
+    
+    if (![fm fileExistsAtPath:self.zipURL.path]) {
+        NSLog(@"zip not found at path: %@",self.zipURL.path);
+        return;
+    }
+    NSString * destPath = [[self cacheDirectoryPath] stringByAppendingPathComponent:@"recieved_message"];
+    [SSZipArchive unzipFileAtPath:self.zipURL.path toDestination:destPath];
+    
+    if ([fm fileExistsAtPath:destPath]) {
+        [self setVideoURL:[NSURL fileURLWithPath:[destPath stringByAppendingPathComponent:@"video.mov"]]];
+    }
+    
+    
 }
 
 - (void)createChatwalaFile

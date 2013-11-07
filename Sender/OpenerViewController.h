@@ -10,6 +10,8 @@
 @class AVCamCaptureManager;
 @interface OpenerViewController : UIViewController
 @property (nonatomic,strong) NSURL * videoURL;
+@property (nonatomic,strong) NSURL * zipURL;
+
 @property (nonatomic,retain) AVCaptureVideoPreviewLayer *captureVideoPreviewLayer;
 @property (nonatomic,retain) AVCamCaptureManager *captureManager;
 - (void)interruptRecording;

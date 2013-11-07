@@ -12,6 +12,8 @@
 #import "AVCamCaptureManager.h"
 #import "PlaybackViewController.h"
 #import "AssetItem.h"
+#import "CWMessageItem.h"
+
 
 @interface OpenerViewController () <VideoPlayerViewDelegate,AVCamCaptureManagerDelegate>
 {
@@ -126,41 +128,18 @@
     autoPush = YES;
     [self startRecording];
 }
-- (void)setVideoURL:(NSURL *)videoURL
+
+- (void)setZipURL:(NSURL *)zipURL
 {
+    _zipURL = zipURL;
     
+    CWMessageItem * messageItem = [[CWMessageItem alloc]init];
+    [messageItem setZipURL:self.zipURL];
+    [messageItem extractZip];
+    [self setVideoURL:messageItem.videoURL];
     
-    AssetItem * assetItem = [[AssetItem alloc]initWithURL:videoURL];
-    [assetItem loadMetadataWithCompletionHandler:^{
-        //
-        NSLog(@"metadata loaded: %@",assetItem.metadata);
-    }];
-    
-    [assetItem loadThumbnailWithCompletionHandler:^{
-        //
-        NSLog(@"thumbnail loaded: %@",assetItem.thumbnail);
-    }];
-    
-    [assetItem loadTracksWithCompletionHandler:^{
-        //
-        NSLog(@"tracks loaded: %@",assetItem.tracks);
-    }];
-    
-    
-    [assetItem loadTitleWithCompletionHandler:^{
-        //
-        NSLog(@"title loaded: %@",assetItem.title);
-    }];
-    
-    
-    NSURL * newURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@%@", NSTemporaryDirectory(), [videoURL lastPathComponent],@".mov"]];
-    NSError * error = nil;
-    [[NSFileManager defaultManager] copyItemAtURL:videoURL toURL:newURL error:&error];
-    if (error) {
-        NSLog(@"%@",error.debugDescription);
-    }
-    _videoURL = newURL;
 }
+
 
 
 
