@@ -70,9 +70,9 @@
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
-				<string>chatwalla</string>
+				<string>wala</string>
 				<key>public.mime-type</key>
-				<string>video/chatwalla</string>
+				<string>application/wala</string>
 			</dict>
 		</dict>
 	</array>

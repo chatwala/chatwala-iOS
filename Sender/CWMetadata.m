@@ -23,6 +23,7 @@
              @"recipientId": @"recipient_id",
              @"threadId": @"thread_id",
              @"threadIndex":@"thread_index",
+             @"messageId":@"message_id",
              @"startRecording":@"start_recording"
              };
 }
