@@ -202,6 +202,7 @@
     // Create session (use default AVCaptureSessionPresetHigh)
     AVCaptureSession *newCaptureSession = [[AVCaptureSession alloc] init];
     
+    [newCaptureSession setSessionPreset:AVCaptureSessionPresetMedium];
     
     // Add inputs and output to the capture session
     if ([newCaptureSession canAddInput:newVideoInput]) {
