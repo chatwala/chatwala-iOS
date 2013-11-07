@@ -1,0 +1,24 @@
+PODS:
+  - Mantle (1.3.1):
+    - Mantle/extobjc
+  - Mantle/extobjc (1.3.1)
+  - OCMock (2.2.1)
+  - SSZipArchive (0.3.1)
+  - SVProgressHUD (1.0)
+  - TestFlightSDK (2.1.1-beta)
+
+DEPENDENCIES:
+  - Mantle
+  - OCMock
+  - SSZipArchive
+  - SVProgressHUD
+  - TestFlightSDK
+
+SPEC CHECKSUMS:
+  Mantle: abc3b0c81bc66eb624cf9cebb8640e377d5a44ae
+  OCMock: 80e4cfbc71a0e1bd28caf10a9fda27da7c4c8402
+  SSZipArchive: 47d0589a15452311749a4eeecb97e12800d127de
+  SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
+  TestFlightSDK: dea28c16f0bf65c49c4ed8939b2ae0b0ed9bf8b0
+
+COCOAPODS: 0.26.2
