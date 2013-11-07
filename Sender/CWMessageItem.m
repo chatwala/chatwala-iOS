@@ -71,7 +71,10 @@
     NSString * newDirectoryPath = [[self cacheDirectoryPath] stringByAppendingPathComponent:@"temp_message"];
     
     NSError * err = nil;
-    [[NSFileManager defaultManager]removeItemAtPath:newDirectoryPath error:&err];
+    if([[NSFileManager defaultManager] fileExistsAtPath:newDirectoryPath])
+    {
+        [[NSFileManager defaultManager]removeItemAtPath:newDirectoryPath error:&err];
+    }
     if (err) {
         NSLog(@"error removing new file directory: %@",err.debugDescription);
         return;
