@@ -66,10 +66,10 @@
     [message exportZip];
     
     
-    
+    NSData * messageData = [NSData dataWithContentsOfURL:message.zipURL];
     
     //    [mc setToRecipients:toRecipents];
-//    [mc addAttachmentData:videoData mimeType:@"video/chatwalla" fileName:@"msg.chatwalla"];
+    [mc addAttachmentData:messageData mimeType:@"application/zip" fileName:@"message.chatwala"];
     // Present mail view controller on screen
     
     [self.videoPlayerVC pause];

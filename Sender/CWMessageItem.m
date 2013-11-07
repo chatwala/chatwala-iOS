@@ -21,6 +21,7 @@
     self=[super init];
     if (self) {
         
+        self.zipURL = [NSURL fileURLWithPath:[[self cacheDirectoryPath]stringByAppendingPathComponent:@"message.chatwala"]];
         self.metadata = [[CWMetadata alloc]init];
         [self.metadata setTimestamp:[NSDate date]];
         [self.metadata setSenderId:[[NSUserDefaults standardUserDefaults] valueForKey:@"chatwala_local_user"]];
@@ -89,6 +90,9 @@
     
     NSLog(@"ready!");
     // zip it up
+    
+    [SSZipArchive createZipFileAtPath:self.zipURL.path withContentsOfDirectory:newDirectoryPath];
+    
 }
 
 - (NSString *)createUUIDString {

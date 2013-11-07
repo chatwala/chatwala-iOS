@@ -15,14 +15,14 @@
 				<string>Document-molecules-64.png</string>
 			</array>
 			<key>CFBundleTypeName</key>
-			<string>Chatwalla File</string>
+			<string>Chatwala File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>LSHandlerRank</key>
 			<string>Owner</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.chatwalla.msg</string>
+				<string>com.chatwala.msg</string>
 			</array>
 		</dict>
 	</array>
@@ -61,12 +61,12 @@
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
-				<string>public.movie</string>
+				<string>public.data</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>Chatwalla File</string>
+			<string>Chatwala File</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.chatwalla.msg</string>
+			<string>com.chatwala.msg</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

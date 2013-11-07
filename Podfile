@@ -1,7 +1,7 @@
 platform :ios, '7.0'
 pod 'TestFlightSDK'
 pod 'SVProgressHUD'
-pod 'zipzap'
+pod 'SSZipArchive'
 pod 'Mantle'
 
 
