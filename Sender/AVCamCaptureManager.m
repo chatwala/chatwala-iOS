@@ -456,10 +456,13 @@ bail:
     }
     return nil;
 }
-
+- (NSURL*)cacheDirectoryURL
+{
+    return [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
+}
 - (NSURL *) tempFileURL
 {
-    return [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@%@", NSTemporaryDirectory(), @"output.mov"]];
+    return [[self cacheDirectoryURL] URLByAppendingPathComponent:@"output.mov"];
 }
 
 - (void) removeFile:(NSURL *)fileURL
