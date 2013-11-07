@@ -35,6 +35,9 @@
     [self.videoPlayerVC setDelegate:self];
     [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
     [self.playbackView addSubview:self.videoPlayerVC.view];
+    
+//    [self.videoPlayerVC.view.layer setBorderColor:[UIColor redColor].CGColor];
+//    self.videoPlayerVC.view.layer.borderWidth = 2;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -56,7 +59,7 @@
 - (IBAction)onSend:(id)sender {
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
     mc.mailComposeDelegate = self;
-    [mc setSubject:@"pho msg"];
+    [mc setSubject:@"CW msg"];
     [mc setMessageBody:@"You've got video!" isHTML:NO];
     
     // send
