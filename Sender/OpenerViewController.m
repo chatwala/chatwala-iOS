@@ -19,6 +19,7 @@
 {
     CGRect smallFrame;
     NSInteger tickCount;
+    NSTimeInterval startRecordTime;
     BOOL autoPush;
 }
 // player objects
@@ -26,6 +27,7 @@
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
+@property (nonatomic,strong) NSTimer * startRecordTimer;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @end
 
@@ -68,8 +70,18 @@
     [self.videoPlayerVC setURL:self.videoURL];
     [self.videoPlayerVC replay];
     autoPush = YES;
+    self.startRecordTimer = [NSTimer scheduledTimerWithTimeInterval:startRecordTime target:self selector:@selector(startRecordingWithTimer:) userInfo:nil repeats:NO];
+ 
+}
+
+- (void)startRecordingWithTimer:(NSTimer*)timer
+{
+    NSAssert([timer isEqual:self.startRecordTimer], @"expecting timer to equal startRecordingTimer");
+    [self.startRecordTimer invalidate];
+    self.startRecordTimer = nil;
     [self startRecording];
 }
+
 
 - (void)setupCaptureManager
 {
@@ -136,6 +148,8 @@
     CWMessageItem * messageItem = [[CWMessageItem alloc]init];
     [messageItem setZipURL:self.zipURL];
     [messageItem extractZip];
+    startRecordTime = messageItem.metadata.startRecording;
+    
     [self setVideoURL:messageItem.videoURL];
     
 }
