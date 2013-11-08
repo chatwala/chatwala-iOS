@@ -27,7 +27,9 @@
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (nonatomic,strong) VideoPlayerViewController * videoPlayerVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
+@property (nonatomic,strong) NSTimer * reactionTimer;
 @property (nonatomic,strong) NSTimer * startRecordTimer;
+
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @end
 
@@ -70,16 +72,29 @@
     [self.videoPlayerVC setURL:self.videoURL];
     [self.videoPlayerVC replay];
     autoPush = YES;
-    self.startRecordTimer = [NSTimer scheduledTimerWithTimeInterval:startRecordTime target:self selector:@selector(startRecordingWithTimer:) userInfo:nil repeats:NO];
+    tickCount = startRecordTime;
+    [self.timeLabel setTextColor:[UIColor whiteColor]];
+    [self.timeLabel setText:[NSString stringWithFormat:@"Reply in 0:%02d",tickCount]];
+    self.startRecordTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(startRecordingWithTimer:) userInfo:nil repeats:YES];
  
 }
 
 - (void)startRecordingWithTimer:(NSTimer*)timer
 {
-    NSAssert([timer isEqual:self.startRecordTimer], @"expecting timer to equal startRecordingTimer");
-    [self.startRecordTimer invalidate];
-    self.startRecordTimer = nil;
-    [self startRecording];
+    [self.timeLabel setText:[NSString stringWithFormat:@"Reply in 0:%02d",tickCount]];
+    [self.timeLabel setTextColor:[UIColor whiteColor]];
+    tickCount--;
+    if(tickCount <= 0)
+    {
+        tickCount = self.videoPlayerVC.videoLength - startRecordTime;
+        [self.timeLabel setTextColor:[UIColor redColor]];
+        [self.timeLabel setText:[NSString stringWithFormat:@"Recording Reaction 0:%02d",tickCount]];
+        self.reactionTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReactionTick:) userInfo:nil repeats:YES];
+        NSAssert([timer isEqual:self.startRecordTimer], @"expecting timer to equal startRecordingTimer");
+        [self.startRecordTimer invalidate];
+        self.startRecordTimer = nil;
+        [self startRecording];
+    }
 }
 
 
@@ -120,7 +135,6 @@
 
 - (void)startRecording
 {
-    [self.timeLabel setHidden:YES];
     [[self captureManager] startRecording];
 }
 
@@ -166,11 +180,21 @@
 - (void)resetTimerAndStart:(BOOL)startTimer
 {
     tickCount = MAX_RECORD_TIME;
-    [self.timeLabel setText:[NSString stringWithFormat:@"%d",tickCount]];
-    [self.timeLabel setHidden:NO];
+    [self.timeLabel setTextColor:[UIColor redColor]];
+    [self.timeLabel setText:[NSString stringWithFormat:@"Recording 0:%02d",tickCount]];
+    
     if (startTimer) {
+        [self.reactionTimer invalidate];
+        self.reactionTimer = nil;
         self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
     }
+}
+
+- (void)onReactionTick:(NSTimer*)timer
+{
+    tickCount--;
+    [self.timeLabel setTextColor:[UIColor redColor]];
+    [self.timeLabel setText:[NSString stringWithFormat:@"Recording Reaction 0:%02d",tickCount]];
 }
 
 - (void)onTick:(NSTimer*)timer
@@ -180,31 +204,21 @@
         [self stopRecording];
         tickCount = 0;
     }
-    [self.timeLabel setText:[NSString stringWithFormat:@"%d",tickCount]];
+    [self.timeLabel setTextColor:[UIColor redColor]];
+    [self.timeLabel setText:[NSString stringWithFormat:@"Recording 0:%02d",tickCount]];
+    
 }
 
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-//{
-//    AVPlayerStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
-//    NSLog(@"status: %d",status);
-//    
-//    if (status == AVPlayerStatusReadyToPlay) {
-//        [self.player play];
-//    }
-//    
-//}
 
 
 - (void) captureManagerRecordingFinished:(AVCamCaptureManager *)captureManager withVideoURL:(NSURL*)videoURL
 {
-    
-    
-    
     if (autoPush) {
         PlaybackViewController * playbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"playbackVC"];
         [playbackVC setStartRecordingTime:startRecordTime];
         [playbackVC setVideoURL:videoURL];
         [self.navigationController pushViewController:playbackVC animated:YES];
+        
     }
 }
 
@@ -221,6 +235,7 @@
     [self.captureVideoPreviewLayer setFrame:self.view.bounds];
     [CATransaction commit];
     [self resetTimerAndStart:YES];
+
 }
 
 @end
