@@ -107,6 +107,7 @@
 			
 			[self setCaptureVideoPreviewLayer:newCaptureVideoPreviewLayer];
             
+            
             // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
 			dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 				[[[self captureManager] session] startRunning];
