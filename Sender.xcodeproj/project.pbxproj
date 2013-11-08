@@ -347,6 +347,9 @@
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = pho;
 				TargetAttributes = {
+					E9443982182940AF0088A381 = {
+						DevelopmentTeam = N24W28B485;
+					};
 					E94439A3182940AF0088A381 = {
 						TestTargetID = E9443982182940AF0088A381;
 					};
@@ -609,6 +612,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
@@ -623,6 +627,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
