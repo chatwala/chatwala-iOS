@@ -50,7 +50,7 @@
 - (void)startRecording
 {
     tickCount = MAX_RECORD_TIME;
-    [self.timeLabel setText:[NSString stringWithFormat:@"%d",tickCount]];
+    [self.timeLabel setText:[NSString stringWithFormat:@"Recording 0:%02d",tickCount]];
     self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
     [[self captureManager] startRecording];
 }
@@ -152,7 +152,7 @@
         [self stopRecording];
         tickCount = 0;
     }
-    [self.timeLabel setText:[NSString stringWithFormat:@"%d",tickCount]];
+    [self.timeLabel setText:[NSString stringWithFormat:@"Recording 0:%02d",tickCount]];
 }
 
 
