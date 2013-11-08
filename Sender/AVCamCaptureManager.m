@@ -463,7 +463,7 @@ bail:
 }
 - (NSURL *) tempFileURL
 {
-    return [[self cacheDirectoryURL] URLByAppendingPathComponent:@"output.mov"];
+    return [[self cacheDirectoryURL] URLByAppendingPathComponent:@"output.mp4"];
 }
 
 - (void) removeFile:(NSURL *)fileURL
@@ -485,7 +485,7 @@ bail:
 	NSString *documentsDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 	[dateFormatter setDateFormat:@"yyyy-MM-dd_HH-mm-ss"];
-	NSString *destinationPath = [documentsDirectory stringByAppendingFormat:@"/output_%@.mov", [dateFormatter stringFromDate:[NSDate date]]];
+	NSString *destinationPath = [documentsDirectory stringByAppendingFormat:@"/output_%@.mp4", [dateFormatter stringFromDate:[NSDate date]]];
 	dateFormatter = nil;
 	NSError	*error;
 	if (![[NSFileManager defaultManager] copyItemAtURL:fileURL toURL:[NSURL fileURLWithPath:destinationPath] error:&error]) {
