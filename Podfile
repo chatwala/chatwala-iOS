@@ -3,6 +3,7 @@ pod 'TestFlightSDK'
 pod 'SVProgressHUD'
 pod 'SSZipArchive'
 pod 'Mantle'
+pod 'TestFlightSDK'
 
 
 

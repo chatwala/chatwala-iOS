@@ -11,20 +11,32 @@
 #endif
 
 #ifdef __OBJC__
+
+// iOS SDK
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <AVFoundation/AVFoundation.h>
     #import <MediaPlayer/MediaPlayer.h>
     #import <MessageUI/MessageUI.h>
+
+// 3rd party
     #import <SSZipArchive.h>
     #import <Mantle/Mantle.h>
+    #import <TestFlightSDK/TestFlight.h>
+
 #endif
 
 
 
-#pragma mark Constants
+/*****
+ 
+ GLOBAL CONSTANTS
+ 
+ *****/
 
 
+// testflight app token
+#define TESTFLIGHT_APP_TOKEN        @""
 // max record time in seconds
 #define MAX_RECORD_TIME             10
 // version of the chatwala file
