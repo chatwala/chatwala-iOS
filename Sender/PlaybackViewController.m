@@ -87,7 +87,7 @@
     
     switch (result) {
         case MFMailComposeResultSent:
-            [self.navigationController popViewControllerAnimated:YES];
+            [self.navigationController popToRootViewControllerAnimated:YES];
             break;
         default:
             [self.videoPlayerVC resume];
