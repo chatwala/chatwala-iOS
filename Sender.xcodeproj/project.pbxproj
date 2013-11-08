@@ -154,8 +154,45 @@
 				E94439CE182946460088A381 /* AVCamCaptureManager.m */,
 				E94439CF182946460088A381 /* AVCamRecorder.h */,
 				E94439D0182946460088A381 /* AVCamRecorder.m */,
+				E90F04D2182AA41A004B8CCD /* AssetItem.h */,
+				E90F04D3182AA41A004B8CCD /* AssetItem.m */,
+				E90F04D5182AA430004B8CCD /* VideoLibrary.h */,
+				E90F04D6182AA430004B8CCD /* VideoLibrary.m */,
 			);
 			name = AVCam;
+			sourceTree = "<group>";
+		};
+		E90F04E3182D2A53004B8CCD /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				E944399B182940AF0088A381 /* SenderViewController.h */,
+				E944399C182940AF0088A381 /* SenderViewController.m */,
+				E94439D51829511A0088A381 /* PlaybackViewController.h */,
+				E94439D61829511A0088A381 /* PlaybackViewController.m */,
+				E94439DE18297ED30088A381 /* OpenerViewController.h */,
+				E94439DF18297ED30088A381 /* OpenerViewController.m */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		E90F04E4182D2A5D004B8CCD /* Chatwala */ = {
+			isa = PBXGroup;
+			children = (
+				E90F04D8182BEA71004B8CCD /* CWMessageItem.h */,
+				E90F04D9182BEA71004B8CCD /* CWMessageItem.m */,
+				E90F04DB182BF758004B8CCD /* CWMetadata.h */,
+				E90F04DC182BF758004B8CCD /* CWMetadata.m */,
+			);
+			name = Chatwala;
+			sourceTree = "<group>";
+		};
+		E90F04E5182D2A67004B8CCD /* User Interface */ = {
+			isa = PBXGroup;
+			children = (
+				E9443998182940AF0088A381 /* Main.storyboard */,
+				E90F04E0182C458A004B8CCD /* SmallScreen.storyboard */,
+			);
+			name = "User Interface";
 			sourceTree = "<group>";
 		};
 		E944397A182940AF0088A381 = {
@@ -207,22 +244,9 @@
 			children = (
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
-				E9443998182940AF0088A381 /* Main.storyboard */,
-				E90F04E0182C458A004B8CCD /* SmallScreen.storyboard */,
-				E944399B182940AF0088A381 /* SenderViewController.h */,
-				E944399C182940AF0088A381 /* SenderViewController.m */,
-				E94439D51829511A0088A381 /* PlaybackViewController.h */,
-				E94439D61829511A0088A381 /* PlaybackViewController.m */,
-				E94439DE18297ED30088A381 /* OpenerViewController.h */,
-				E94439DF18297ED30088A381 /* OpenerViewController.m */,
-				E90F04D2182AA41A004B8CCD /* AssetItem.h */,
-				E90F04D3182AA41A004B8CCD /* AssetItem.m */,
-				E90F04D5182AA430004B8CCD /* VideoLibrary.h */,
-				E90F04D6182AA430004B8CCD /* VideoLibrary.m */,
-				E90F04D8182BEA71004B8CCD /* CWMessageItem.h */,
-				E90F04D9182BEA71004B8CCD /* CWMessageItem.m */,
-				E90F04DB182BF758004B8CCD /* CWMetadata.h */,
-				E90F04DC182BF758004B8CCD /* CWMetadata.m */,
+				E90F04E5182D2A67004B8CCD /* User Interface */,
+				E90F04E3182D2A53004B8CCD /* View Controllers */,
+				E90F04E4182D2A5D004B8CCD /* Chatwala */,
 				E90F04D1182A9078004B8CCD /* AVCam */,
 				E94439E1182983B70088A381 /* Video Player */,
 				E944399E182940AF0088A381 /* Images.xcassets */,
