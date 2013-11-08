@@ -58,7 +58,27 @@
     NSString * destPath = [[self cacheDirectoryPath] stringByAppendingPathComponent:INCOMING_DIRECTORY_NAME];
     [SSZipArchive unzipFileAtPath:self.zipURL.path toDestination:destPath];
     
+    NSString * metadataFileName = [destPath stringByAppendingPathComponent:METADATA_FILE_NAME];
     if ([fm fileExistsAtPath:destPath]) {
+        if ([fm fileExistsAtPath:metadataFileName isDirectory:NO]) {
+            NSError * error = nil;
+            NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:metadataFileName] options:0 error:&error];
+            if (error) {
+                NSLog(@"failed to parse json metdata: %@",error.debugDescription);
+                return;
+            }
+            self.metadata = [MTLJSONAdapter modelOfClass:[CWMetadata class] fromJSONDictionary:jsonDict error:&error];
+            if (error) {
+                NSLog(@"failed to json object to metdata: %@",error.debugDescription);
+                return;
+            }
+        }else{
+            NSLog(@"could not find json file at %@",metadataFileName);
+            return;
+        }
+        
+        
+        // set video url
         [self setVideoURL:[NSURL fileURLWithPath:[destPath stringByAppendingPathComponent:VIDEO_FILE_NAME]]];
     }
     
