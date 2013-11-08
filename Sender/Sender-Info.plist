@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Chatwalla</string>
+	<string>chatwala</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -29,11 +29,11 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>pho.Chatwalla</string>
+	<string>com.chatwala.chatwala</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Chatwalla</string>
+	<string>chatwala</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
