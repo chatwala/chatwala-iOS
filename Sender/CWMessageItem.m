@@ -21,14 +21,14 @@
     self=[super init];
     if (self) {
         
-        self.zipURL = [NSURL fileURLWithPath:[[self cacheDirectoryPath]stringByAppendingPathComponent:@"message.chatwala"]];
+        self.zipURL = [NSURL fileURLWithPath:[[self cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
         self.metadata = [[CWMetadata alloc]init];
         [self.metadata setTimestamp:[NSDate date]];
-        [self.metadata setSenderId:[[NSUserDefaults standardUserDefaults] valueForKey:@"chatwala_local_user"]];
+        [self.metadata setSenderId:[[NSUserDefaults standardUserDefaults] valueForKey:CHATWALA_USER]];
         [self.metadata setMessageId:[self createUUIDString]];
         [self.metadata setThreadId:[self createUUIDString]];
         [self.metadata setThreadIndex:0];
-        [self.metadata setVersionId:@"1.0"];
+        [self.metadata setVersionId:FILE_VERSION];
         [self.metadata setStartRecording:0];
     }
     return self;
@@ -55,11 +55,11 @@
         NSLog(@"zip not found at path: %@",self.zipURL.path);
         return;
     }
-    NSString * destPath = [[self cacheDirectoryPath] stringByAppendingPathComponent:@"recieved_message"];
+    NSString * destPath = [[self cacheDirectoryPath] stringByAppendingPathComponent:INCOMING_DIRECTORY_NAME];
     [SSZipArchive unzipFileAtPath:self.zipURL.path toDestination:destPath];
     
     if ([fm fileExistsAtPath:destPath]) {
-        [self setVideoURL:[NSURL fileURLWithPath:[destPath stringByAppendingPathComponent:@"video.mov"]]];
+        [self setVideoURL:[NSURL fileURLWithPath:[destPath stringByAppendingPathComponent:VIDEO_FILE_NAME]]];
     }
     
     
@@ -68,7 +68,7 @@
 - (void)createChatwalaFile
 {
     
-    NSString * newDirectoryPath = [[self cacheDirectoryPath] stringByAppendingPathComponent:@"temp_message"];
+    NSString * newDirectoryPath = [[self cacheDirectoryPath] stringByAppendingPathComponent:OUTGOING_DIRECTORY_NAME];
     
     NSError * err = nil;
     if([[NSFileManager defaultManager] fileExistsAtPath:newDirectoryPath])
@@ -91,7 +91,7 @@
     
     
     // copy video to folder
-    [[NSFileManager defaultManager]moveItemAtPath:self.videoURL.path toPath:[newDirectoryPath stringByAppendingPathComponent:@"video.mov"] error:&err];
+    [[NSFileManager defaultManager]moveItemAtPath:self.videoURL.path toPath:[newDirectoryPath stringByAppendingPathComponent:VIDEO_FILE_NAME] error:&err];
     if (err) {
         NSLog(@"faild to copy video to new directory: %@",err.debugDescription);
         return;
@@ -107,7 +107,7 @@
         return;
     }
     
-    [jsonData writeToFile:[newDirectoryPath stringByAppendingPathComponent:@"metadata.json"] atomically:YES];
+    [jsonData writeToFile:[newDirectoryPath stringByAppendingPathComponent:METADATA_FILE_NAME] atomically:YES];
     
     
     NSLog(@"ready!");
