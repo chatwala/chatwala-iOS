@@ -16,11 +16,12 @@
 {
     // Override point for customization after application launch.
     
-    [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
+//    [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
     
     UIStoryboard * storyboard;
     UIViewController * vc;
-    if (SCREEN_BOUNDS.size.height > 480) {
+    CGFloat screenHeight = SCREEN_BOUNDS.size.height;
+    if (screenHeight> 480) {
         // iphone5
         storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
     }else{

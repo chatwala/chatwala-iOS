@@ -14,6 +14,7 @@
 		E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D9182BEA71004B8CCD /* CWMessageItem.m */; };
 		E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04DC182BF758004B8CCD /* CWMetadata.m */; };
 		E90F04E2182C458A004B8CCD /* SmallScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90F04E0182C458A004B8CCD /* SmallScreen.storyboard */; };
+		E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */; };
 		E9443987182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
 		E9443989182940AF0088A381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443988182940AF0088A381 /* CoreGraphics.framework */; };
 		E944398B182940AF0088A381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E944398A182940AF0088A381 /* UIKit.framework */; };
@@ -69,6 +70,8 @@
 		E90F04DB182BF758004B8CCD /* CWMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMetadata.h; sourceTree = "<group>"; };
 		E90F04DC182BF758004B8CCD /* CWMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMetadata.m; sourceTree = "<group>"; };
 		E90F04E1182C458A004B8CCD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SmallScreen.storyboard; sourceTree = "<group>"; };
+		E90F04E6182D7AD4004B8CCD /* CWStartScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWStartScreenViewController.h; sourceTree = "<group>"; };
+		E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWStartScreenViewController.m; sourceTree = "<group>"; };
 		E9443983182940AF0088A381 /* Sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9443986182940AF0088A381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E9443988182940AF0088A381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -171,6 +174,8 @@
 				E94439D61829511A0088A381 /* PlaybackViewController.m */,
 				E94439DE18297ED30088A381 /* OpenerViewController.h */,
 				E94439DF18297ED30088A381 /* OpenerViewController.m */,
+				E90F04E6182D7AD4004B8CCD /* CWStartScreenViewController.h */,
+				E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -467,6 +472,7 @@
 				E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */,
 				E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */,
 				E94439DA18295B0B0088A381 /* VideoPlayerViewController.m in Sources */,
+				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				E944399D182940AF0088A381 /* SenderViewController.m in Sources */,
 				E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,

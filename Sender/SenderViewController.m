@@ -21,6 +21,7 @@
 @property (nonatomic,strong) AVPlayerItem * playerItem;
 @property (nonatomic,strong) AVPlayer * player;
 @property (nonatomic,strong) AVPlayerLayer *playerLayer;
+- (IBAction)onCancel:(id)sender;
 
 @end
 
@@ -166,4 +167,7 @@
     }
 }
 
+- (IBAction)onCancel:(id)sender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
 @end
