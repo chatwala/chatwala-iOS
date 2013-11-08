@@ -35,6 +35,13 @@
 
 @implementation OpenerViewController
 
+- (void) dealloc
+{
+    [self.recordTimer invalidate];
+    [self.reactionTimer invalidate];
+    [self.startRecordTimer invalidate];
+}
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -76,6 +83,7 @@
     tickCount = startRecordTime;
     [self.timeLabel setTextColor:[UIColor whiteColor]];
     [self.timeLabel setText:[NSString stringWithFormat:@"Reply in 0:%02ld",(long)tickCount]];
+    [self.startRecordTimer invalidate];
     self.startRecordTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(startRecordingWithTimer:) userInfo:nil repeats:YES];
  
 }
@@ -90,6 +98,7 @@
         tickCount = self.videoPlayerVC.videoLength - startRecordTime;
         [self.timeLabel setTextColor:[UIColor redColor]];
         [self.timeLabel setText:[NSString stringWithFormat:@"Recording Reaction 0:%02ld",(long)tickCount]];
+        [self.reactionTimer invalidate];
         self.reactionTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReactionTick:) userInfo:nil repeats:YES];
         NSAssert([timer isEqual:self.startRecordTimer], @"expecting timer to equal startRecordingTimer");
         [self.startRecordTimer invalidate];
@@ -188,6 +197,7 @@
     if (startTimer) {
         [self.reactionTimer invalidate];
         self.reactionTimer = nil;
+        [self.recordTimer invalidate];
         self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
     }
 }
