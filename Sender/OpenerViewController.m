@@ -56,6 +56,7 @@
     [self.videoPlayerVC setDelegate:self];
     [self.videoPlayerVC.view setFrame:self.playbackView.bounds];
     [self.playbackView addSubview:self.videoPlayerVC.view];
+    [self.cameraView setHidden:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -93,6 +94,7 @@
         NSAssert([timer isEqual:self.startRecordTimer], @"expecting timer to equal startRecordingTimer");
         [self.startRecordTimer invalidate];
         self.startRecordTimer = nil;
+        [self.cameraView setHidden:NO];
         [self startRecording];
     }
 }
