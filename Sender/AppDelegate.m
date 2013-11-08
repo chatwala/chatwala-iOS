@@ -45,12 +45,15 @@
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     
     UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
-    id currentVC = rootVC.topViewController;
+    [rootVC popToRootViewControllerAnimated:NO];
+//    id currentVC = rootVC.topViewController;
     
-    if ([currentVC isKindOfClass:[SenderViewController class]]) {
-        SenderViewController * vc = (SenderViewController* )currentVC;
-        [vc interruptRecording];
-    }
+//    if ([currentVC isKindOfClass:[SenderViewController class]]) {
+//        SenderViewController * vc = (SenderViewController* )currentVC;
+//        [vc interruptRecording];
+//    }
+//    
+    
     
     
 }
