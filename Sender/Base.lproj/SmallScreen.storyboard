@@ -21,22 +21,33 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tn4-uk-i1J">
-                                <rect key="frame" x="20" y="415" width="280" height="45"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UUZ-aR-iAl" userLabel="feedback view">
+                                <rect key="frame" x="20" y="420" width="280" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="feedback text" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fUz-tl-Hh7">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="D1v-Go-vEb"/>
+                                    <constraint firstAttribute="height" constant="40" id="9ib-oR-ICT"/>
+                                    <constraint firstAttribute="bottom" secondItem="fUz-tl-Hh7" secondAttribute="bottom" id="PPe-f8-u1G"/>
+                                    <constraint firstAttribute="trailing" secondItem="fUz-tl-Hh7" secondAttribute="trailing" id="cCK-ZZ-t3m"/>
+                                    <constraint firstItem="fUz-tl-Hh7" firstAttribute="leading" secondItem="UUZ-aR-iAl" secondAttribute="leading" id="gzs-5h-gmw"/>
+                                    <constraint firstItem="fUz-tl-Hh7" firstAttribute="top" secondItem="UUZ-aR-iAl" secondAttribute="top" id="vVW-Xh-vyY"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="37"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="rdc-Wd-zHY" firstAttribute="top" secondItem="tn4-uk-i1J" secondAttribute="bottom" constant="20" id="0ar-2F-hzV"/>
-                            <constraint firstAttribute="trailing" secondItem="tn4-uk-i1J" secondAttribute="trailing" constant="20" id="dgg-hM-KT2"/>
-                            <constraint firstItem="tn4-uk-i1J" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="f05-xz-G8d"/>
+                            <constraint firstItem="rdc-Wd-zHY" firstAttribute="top" secondItem="UUZ-aR-iAl" secondAttribute="bottom" constant="20" id="O8k-lh-8PN"/>
+                            <constraint firstAttribute="trailing" secondItem="UUZ-aR-iAl" secondAttribute="trailing" constant="20" id="gUY-He-u3h"/>
+                            <constraint firstItem="UUZ-aR-iAl" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="uB2-6P-PaV"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
@@ -44,7 +55,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="timeLabel" destination="tn4-uk-i1J" id="kZX-e9-axd"/>
+                        <outlet property="timeLabel" destination="fUz-tl-Hh7" id="ffx-sV-jfR"/>
                         <outlet property="videoPreviewView" destination="0X8-Ub-sTj" id="iz8-PC-uh7"/>
                     </connections>
                 </viewController>

@@ -16,27 +16,38 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0X8-Ub-sTj">
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0X8-Ub-sTj" userLabel="video view">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="10" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tn4-uk-i1J">
-                                <rect key="frame" x="20" y="503" width="280" height="45"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ECL-vh-nmS" userLabel="feedback view">
+                                <rect key="frame" x="20" y="508" width="280" height="40"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="feedback text" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tn4-uk-i1J">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="40"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="45" id="D1v-Go-vEb"/>
+                                    <constraint firstItem="tn4-uk-i1J" firstAttribute="leading" secondItem="ECL-vh-nmS" secondAttribute="leading" id="Zm2-zU-G7J"/>
+                                    <constraint firstAttribute="bottom" secondItem="tn4-uk-i1J" secondAttribute="bottom" id="a8B-rw-kML"/>
+                                    <constraint firstAttribute="trailing" secondItem="tn4-uk-i1J" secondAttribute="trailing" id="aaU-6i-JXT"/>
+                                    <constraint firstAttribute="height" constant="40" id="nsP-Zm-c2q"/>
+                                    <constraint firstItem="tn4-uk-i1J" firstAttribute="top" secondItem="ECL-vh-nmS" secondAttribute="top" id="yll-U4-ReA"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="37"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="rdc-Wd-zHY" firstAttribute="top" secondItem="tn4-uk-i1J" secondAttribute="bottom" constant="20" id="0ar-2F-hzV"/>
-                            <constraint firstAttribute="trailing" secondItem="tn4-uk-i1J" secondAttribute="trailing" constant="20" id="dgg-hM-KT2"/>
-                            <constraint firstItem="tn4-uk-i1J" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="f05-xz-G8d"/>
+                            <constraint firstItem="ECL-vh-nmS" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="20" id="KD1-OZ-qLW"/>
+                            <constraint firstItem="rdc-Wd-zHY" firstAttribute="top" secondItem="ECL-vh-nmS" secondAttribute="bottom" constant="20" id="Mjp-b2-4Q3"/>
+                            <constraint firstAttribute="trailing" secondItem="ECL-vh-nmS" secondAttribute="trailing" constant="20" id="oSM-s2-lDm"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
