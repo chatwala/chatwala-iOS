@@ -217,7 +217,7 @@
 {
     if (autoPush) {
         PlaybackViewController * playbackVC = [self.storyboard instantiateViewControllerWithIdentifier:@"playbackVC"];
-        [playbackVC setStartRecordingTime:startRecordTime];
+        [playbackVC setStartRecordingTime: [self.videoPlayerVC videoLength] - startRecordTime];
         [playbackVC setVideoURL:videoURL];
         [self.navigationController pushViewController:playbackVC animated:YES];
         

@@ -66,7 +66,7 @@
     
     CWMessageItem * message = [[CWMessageItem alloc]init];
     [message setVideoURL:self.videoURL];
-    message.metadata.startRecording = [self.videoPlayerVC videoLength] - self.startRecordingTime;
+    message.metadata.startRecording = self.startRecordingTime;
     [message exportZip];
     
     
