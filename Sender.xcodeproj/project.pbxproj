@@ -28,7 +28,6 @@
 		E94439A7182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
 		E94439A8182940AF0088A381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E944398A182940AF0088A381 /* UIKit.framework */; };
 		E94439B0182940AF0088A381 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E94439AE182940AF0088A381 /* InfoPlist.strings */; };
-		E94439B2182940AF0088A381 /* SenderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439B1182940AF0088A381 /* SenderTests.m */; };
 		E94439BC1829436E0088A381 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94439BB1829436E0088A381 /* AVFoundation.framework */; };
 		E94439C0182944C30088A381 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94439BD182944C30088A381 /* CoreAudio.framework */; };
 		E94439C1182944C30088A381 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94439BE182944C30088A381 /* CoreMedia.framework */; };
@@ -44,6 +43,8 @@
 		E94439DA18295B0B0088A381 /* VideoPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439D918295B0B0088A381 /* VideoPlayerViewController.m */; };
 		E94439DD18295B9C0088A381 /* VideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439DC18295B9C0088A381 /* VideoPlayerView.m */; };
 		E94439E018297ED30088A381 /* OpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439DF18297ED30088A381 /* OpenerViewController.m */; };
+		E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25DB1831425800E3950B /* CWMessageItemTests.m */; };
+		E95E25DE1831452D00E3950B /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E95E25DD1831452D00E3950B /* video.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,7 +91,6 @@
 		E94439A5182940AF0088A381 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		E94439AD182940AF0088A381 /* SenderTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SenderTests-Info.plist"; sourceTree = "<group>"; };
 		E94439AF182940AF0088A381 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		E94439B1182940AF0088A381 /* SenderTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SenderTests.m; sourceTree = "<group>"; };
 		E94439BB1829436E0088A381 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E94439BD182944C30088A381 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		E94439BE182944C30088A381 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
@@ -113,6 +113,8 @@
 		E94439DC18295B9C0088A381 /* VideoPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoPlayerView.m; sourceTree = "<group>"; };
 		E94439DE18297ED30088A381 /* OpenerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenerViewController.h; sourceTree = "<group>"; };
 		E94439DF18297ED30088A381 /* OpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenerViewController.m; sourceTree = "<group>"; };
+		E95E25DB1831425800E3950B /* CWMessageItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageItemTests.m; sourceTree = "<group>"; };
+		E95E25DD1831452D00E3950B /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,8 +276,9 @@
 		E94439AB182940AF0088A381 /* SenderTests */ = {
 			isa = PBXGroup;
 			children = (
-				E94439B1182940AF0088A381 /* SenderTests.m */,
+				E95E25DD1831452D00E3950B /* video.mp4 */,
 				E94439AC182940AF0088A381 /* Supporting Files */,
+				E95E25DB1831425800E3950B /* CWMessageItemTests.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E94439B0182940AF0088A381 /* InfoPlist.strings in Resources */,
+				E95E25DE1831452D00E3950B /* video.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -490,7 +494,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E94439B2182940AF0088A381 /* SenderTests.m in Sources */,
+				E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

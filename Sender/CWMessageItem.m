@@ -25,8 +25,8 @@
         self.metadata = [[CWMetadata alloc]init];
         [self.metadata setTimestamp:[NSDate date]];
         [self.metadata setSenderId:[[NSUserDefaults standardUserDefaults] valueForKey:CHATWALA_USER]];
-        [self.metadata setMessageId:[self createUUIDString]];
-        [self.metadata setThreadId:[self createUUIDString]];
+        [self.metadata setMessageId:[[NSUUID UUID]UUIDString]];
+        [self.metadata setThreadId:[[NSUUID UUID]UUIDString]];
         [self.metadata setThreadIndex:0];
         [self.metadata setVersionId:FILE_VERSION];
         [self.metadata setStartRecording:0];
@@ -135,16 +135,6 @@
     
     [SSZipArchive createZipFileAtPath:self.zipURL.path withContentsOfDirectory:newDirectoryPath];
     
-}
-
-- (NSString *)createUUIDString {
-    // Returns a UUID
-    
-    CFUUIDRef uuid = CFUUIDCreate(kCFAllocatorDefault);
-    NSString *uuidStr = (__bridge_transfer NSString *)CFUUIDCreateString(kCFAllocatorDefault, uuid);
-    CFRelease(uuid);
-    
-    return uuidStr;
 }
 
 @end

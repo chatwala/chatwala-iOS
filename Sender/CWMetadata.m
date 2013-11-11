@@ -36,13 +36,6 @@
     return [NSValueTransformer valueTransformerForName:MTLURLValueTransformerName];
 }
 
-//+ (NSValueTransformer *)stateJSONTransformer {
-//    return [NSValueTransformer mtl_valueMappingTransformerWithDictionary:@{
-//                                                                           @"open": @(GHIssueStateOpen),
-//                                                                           @"closed": @(GHIssueStateClosed)
-//                                                                           }];
-//}
-
 
 + (NSValueTransformer *)timestampJSONTransformer {
     return [MTLValueTransformer reversibleTransformerWithForwardBlock:^(NSString *str) {
