@@ -9,6 +9,17 @@
 #import "CWMetadata.h"
 
 @implementation CWMetadata
+
+
+- (instancetype)init
+{
+    self= [super init];
+    if (self) {
+        NSLog(@"new metadata object");
+    }
+    return self;
+}
+
 + (NSDateFormatter *)dateFormatter {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];

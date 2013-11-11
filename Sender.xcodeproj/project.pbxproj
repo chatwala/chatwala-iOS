@@ -44,12 +44,12 @@
 		E94439DD18295B9C0088A381 /* VideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439DC18295B9C0088A381 /* VideoPlayerView.m */; };
 		E94439E018297ED30088A381 /* OpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439DF18297ED30088A381 /* OpenerViewController.m */; };
 		E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25DB1831425800E3950B /* CWMessageItemTests.m */; };
-		E95E25DE1831452D00E3950B /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E95E25DD1831452D00E3950B /* video.mp4 */; };
 		E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */; };
 		E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E218314B8300E3950B /* CWVideoManager.m */; };
 		E95E25E818314DC500E3950B /* CWVideoPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */; };
 		E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25EA18314DD200E3950B /* CWVideoPlayer.m */; };
 		E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73E518316AEC00056FA9 /* TestUtils.m */; };
+		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,7 +119,6 @@
 		E94439DE18297ED30088A381 /* OpenerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenerViewController.h; sourceTree = "<group>"; };
 		E94439DF18297ED30088A381 /* OpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenerViewController.m; sourceTree = "<group>"; };
 		E95E25DB1831425800E3950B /* CWMessageItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageItemTests.m; sourceTree = "<group>"; };
-		E95E25DD1831452D00E3950B /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
 		E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoManagerTests.m; sourceTree = "<group>"; };
 		E95E25E118314B8300E3950B /* CWVideoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoManager.h; sourceTree = "<group>"; };
 		E95E25E218314B8300E3950B /* CWVideoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoManager.m; sourceTree = "<group>"; };
@@ -128,6 +127,7 @@
 		E95E25EA18314DD200E3950B /* CWVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayer.m; sourceTree = "<group>"; };
 		E9CE73E418316AEC00056FA9 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		E9CE73E518316AEC00056FA9 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
+		E9CE73E91831810900056FA9 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,6 +268,7 @@
 			children = (
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
+				E9CE73E91831810900056FA9 /* video.mp4 */,
 				E90F04E5182D2A67004B8CCD /* User Interface */,
 				E90F04E3182D2A53004B8CCD /* View Controllers */,
 				E90F04E4182D2A5D004B8CCD /* Chatwala */,
@@ -293,7 +294,6 @@
 		E94439AB182940AF0088A381 /* SenderTests */ = {
 			isa = PBXGroup;
 			children = (
-				E95E25DD1831452D00E3950B /* video.mp4 */,
 				E94439AC182940AF0088A381 /* Supporting Files */,
 				E95E25DB1831425800E3950B /* CWMessageItemTests.m */,
 				E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */,
@@ -409,6 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E944399F182940AF0088A381 /* Images.xcassets in Resources */,
+				E9CE73EA1831810900056FA9 /* video.mp4 in Resources */,
 				E9443991182940AF0088A381 /* InfoPlist.strings in Resources */,
 				E90F04E2182C458A004B8CCD /* SmallScreen.storyboard in Resources */,
 				E944399A182940AF0088A381 /* Main.storyboard in Resources */,
@@ -420,7 +421,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E94439B0182940AF0088A381 /* InfoPlist.strings in Resources */,
-				E95E25DE1831452D00E3950B /* video.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

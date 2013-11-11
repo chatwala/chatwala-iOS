@@ -22,4 +22,5 @@
 @protocol CWVideoPlayerDelegate <NSObject>
 - (void)videoPlayerDidLoadVideo:(CWVideoPlayer*)videoPlayer;
 - (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError*)error;
+- (void)videoPlayerPlayToEnd:(CWVideoPlayer*)videoPlayer;
 @end
