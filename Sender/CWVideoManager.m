@@ -23,7 +23,7 @@
     self=[super init];
     if (self) {
         self.recorder = [[NSObject alloc]init];
-        self.player = [[NSObject alloc]init];
+        self.player = [[CWVideoPlayer alloc]init];
     }
     return self;
 }

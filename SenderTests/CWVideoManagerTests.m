@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "CWVideoManager.h"
+#import "CWVideoPlayer.h"
 
 @interface CWVideoManagerTests : XCTestCase
 @property (nonatomic,strong) CWVideoManager * sut;
@@ -43,6 +44,7 @@
 - (void)testShouldHaveVideoPlayer
 {
     XCTAssertNotNil(self.sut.player, @"should have player");
+    XCTAssertTrue([self.sut.player isKindOfClass:[CWVideoPlayer class]], @"should be CWVideoPlayer");
 }
 
 

@@ -47,6 +47,8 @@
 		E95E25DE1831452D00E3950B /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E95E25DD1831452D00E3950B /* video.mp4 */; };
 		E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */; };
 		E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E218314B8300E3950B /* CWVideoManager.m */; };
+		E95E25E818314DC500E3950B /* CWVideoPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */; };
+		E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25EA18314DD200E3950B /* CWVideoPlayer.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -120,6 +122,9 @@
 		E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoManagerTests.m; sourceTree = "<group>"; };
 		E95E25E118314B8300E3950B /* CWVideoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoManager.h; sourceTree = "<group>"; };
 		E95E25E218314B8300E3950B /* CWVideoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoManager.m; sourceTree = "<group>"; };
+		E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerTests.m; sourceTree = "<group>"; };
+		E95E25E918314DD200E3950B /* CWVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoPlayer.h; sourceTree = "<group>"; };
+		E95E25EA18314DD200E3950B /* CWVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayer.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +201,8 @@
 				E90F04DC182BF758004B8CCD /* CWMetadata.m */,
 				E95E25E118314B8300E3950B /* CWVideoManager.h */,
 				E95E25E218314B8300E3950B /* CWVideoManager.m */,
+				E95E25E918314DD200E3950B /* CWVideoPlayer.h */,
+				E95E25EA18314DD200E3950B /* CWVideoPlayer.m */,
 			);
 			name = Chatwala;
 			sourceTree = "<group>";
@@ -287,6 +294,7 @@
 				E94439AC182940AF0088A381 /* Supporting Files */,
 				E95E25DB1831425800E3950B /* CWMessageItemTests.m */,
 				E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */,
+				E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -489,6 +497,7 @@
 				E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
+				E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */,
 				E94439DD18295B9C0088A381 /* VideoPlayerView.m in Sources */,
 				E94439E018297ED30088A381 /* OpenerViewController.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
@@ -503,6 +512,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E95E25E818314DC500E3950B /* CWVideoPlayerTests.m in Sources */,
 				E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */,
 				E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */,
 			);
