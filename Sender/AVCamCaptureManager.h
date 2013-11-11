@@ -54,16 +54,16 @@
 @interface AVCamCaptureManager : NSObject {
 }
 
-@property (nonatomic,retain) AVCaptureSession *session;
-@property (nonatomic,assign) AVCaptureVideoOrientation orientation;
-@property (nonatomic,retain) AVCaptureDeviceInput *videoInput;
-@property (nonatomic,retain) AVCaptureDeviceInput *audioInput;
-@property (nonatomic,retain) AVCaptureStillImageOutput *stillImageOutput;
-@property (nonatomic,retain) AVCamRecorder *recorder;
-@property (nonatomic,assign) id deviceConnectedObserver;
-@property (nonatomic,assign) id deviceDisconnectedObserver;
-@property (nonatomic,assign) UIBackgroundTaskIdentifier backgroundRecordingID;
-@property (nonatomic,assign) id <AVCamCaptureManagerDelegate> delegate;
+@property (nonatomic,strong) AVCaptureSession *session;
+@property (nonatomic) AVCaptureVideoOrientation orientation;
+@property (nonatomic,strong) AVCaptureDeviceInput *videoInput;
+@property (nonatomic,strong) AVCaptureDeviceInput *audioInput;
+@property (nonatomic,strong) AVCaptureStillImageOutput *stillImageOutput;
+@property (nonatomic,strong) AVCamRecorder *recorder;
+@property (nonatomic,weak) id deviceConnectedObserver;
+@property (nonatomic,weak) id deviceDisconnectedObserver;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
+@property (nonatomic,weak) id <AVCamCaptureManagerDelegate> delegate;
 
 - (BOOL) setupSession;
 - (void) startRecording;
