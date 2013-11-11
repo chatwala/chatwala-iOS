@@ -7,6 +7,7 @@
 //
 
 #import "CWVideoPlayer.h"
+#import "CWVideoPlayerView.h"
 #import <AVFoundation/AVFoundation.h>
 
 /* Asset keys */
@@ -26,12 +27,20 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
 }
 @property (nonatomic, retain) AVPlayer *player;
 @property (nonatomic, retain) AVPlayerItem *playerItem;
+
 @end
 
 
 @implementation CWVideoPlayer
 
-
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.playbackView = [[CWVideoPlayerView alloc]init];
+    }
+    return self;
+}
 
 - (void)setVideoURL:(NSURL *)URL
 {
@@ -41,7 +50,7 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
     if (!videoFileExists) {
         NSError * videoURLError = [NSError errorWithDomain:@"CWVideoPlayer" code:0 userInfo:@{@"description": @"video file not found"}];
         if ([self.delegate respondsToSelector:@selector(videoPlayerFailedToLoadVideo:withError:)]) {
-//            [self.delegate videoPlayerFailedToLoadVideo:self withError:videoURLError];
+            [self.delegate videoPlayerFailedToLoadVideo:self withError:videoURLError];
         }
         return;
     }
@@ -63,7 +72,7 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
 
 - (void)play
 {
-    
+    [self.player play];
 }
 
 - (void)stop
@@ -124,7 +133,7 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
     
     // setup player item
     self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
-    [self.playerItem addObserver:self forKeyPath:kStatusKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerStatusObservationContext];
+    [self.playerItem addObserver:self forKeyPath:kStatusKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext];
     
     // setup player
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
@@ -141,13 +150,11 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
 }
 - (void)playerItemDidReachEnd:(NSNotification*)note
 {
-    /*
+    
     // inform the delegate (if registered)
     if ([self.delegate respondsToSelector:@selector(videoPlayerPlayToEnd:)]) {
         [self.delegate videoPlayerPlayToEnd:self];
     }
-    
-    */
 }
 
 
@@ -157,7 +164,7 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
                       ofObject:(id)object
                         change:(NSDictionary*)change
                        context:(void*)context {
-	if (context == CWVideoPlayerPlaybackViewControllerStatusObservationContext) {
+	if (context == CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext) {
         AVPlayerStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
         if (status == AVPlayerStatusReadyToPlay) {
             // inform the delegate (if registered)
@@ -169,8 +176,8 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
         AVPlayerItem *newPlayerItem = [change objectForKey:NSKeyValueChangeNewKey];
         
         if (newPlayerItem) {
-//            [self.playerView setPlayer:self.player];
-//            [self.playerView setVideoFillMode:AVLayerVideoGravityResizeAspect];
+            [self.playbackView setPlayer:self.player];
+            [self.playbackView setVideoFillMode:AVLayerVideoGravityResizeAspect];
         }
 	} else {
 		[super observeValueForKeyPath:path ofObject:object change:change context:context];

@@ -7,9 +7,10 @@
 //
 
 #import "CWStartScreenViewController.h"
+#import "CWVideoManager.h"
 
-@interface CWStartScreenViewController ()
 
+@interface CWStartScreenViewController ()<CWVideoPlayerDelegate>
 @end
 
 @implementation CWStartScreenViewController
@@ -28,7 +29,10 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
-
+     NSURL * videoURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"video" withExtension:@"mp4"];
+    [[CWVideoManager sharedManager]setPlayerDelegate:self];
+    [[[CWVideoManager sharedManager] player] setVideoURL:videoURL];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -36,5 +40,25 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+- (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer
+{
+    [self.view addSubview:videoPlayer.playbackView];
+    [videoPlayer.playbackView setFrame:self.view.bounds];
+    [videoPlayer play];
+}
+
+- (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError *)error
+{
+    
+}
+
+- (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
+{
+    
+}
+
+
 
 @end

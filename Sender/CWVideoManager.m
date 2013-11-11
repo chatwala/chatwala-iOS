@@ -8,6 +8,11 @@
 
 #import "CWVideoManager.h"
 
+@interface CWVideoManager ()
+
+@end
+
+
 @implementation CWVideoManager
 +(instancetype) sharedManager {
     static dispatch_once_t pred;
@@ -26,6 +31,13 @@
         self.player = [[CWVideoPlayer alloc]init];
     }
     return self;
+}
+
+- (void)setPlayerDelegate:(id<CWVideoPlayerDelegate>)playerDelegate
+{
+    _playerDelegate = playerDelegate;
+    
+    [self.player setDelegate:self.playerDelegate];
 }
 
 @end

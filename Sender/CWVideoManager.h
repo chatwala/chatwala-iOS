@@ -13,5 +13,6 @@
 +(instancetype) sharedManager;
 @property (nonatomic,strong) id recorder;
 @property (nonatomic,strong) CWVideoPlayer * player;
+@property (nonatomic,weak) id<CWVideoPlayerDelegate> playerDelegate;
 @end
  
