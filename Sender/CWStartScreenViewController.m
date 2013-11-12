@@ -45,7 +45,7 @@
 - (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer
 {
     [self.view addSubview:videoPlayer.playbackView];
-    [videoPlayer.playbackView setFrame:self.view.bounds];
+    [videoPlayer.playbackView setFrame:CGRectInset(self.view.bounds, 50, 50)];
     [videoPlayer play];
 }
 
