@@ -7,11 +7,13 @@
 //
 
 #import "CWVideoRecorder.h"
+#import "AVCamRecorder.h"
 
-@interface CWVideoRecorder ()
+@interface CWVideoRecorder () <AVCamRecorderDelegate>
 @property (nonatomic,strong) AVCaptureSession *session;
 @property (nonatomic,strong) AVCaptureDeviceInput *videoInput;
 @property (nonatomic,strong) AVCaptureDeviceInput *audioInput;
+@property (nonatomic,strong) AVCamRecorder *recorder;
 - (AVCaptureDevice *) frontFacingCamera;
 - (AVCaptureDevice *) audioDevice;
 - (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position;
@@ -54,11 +56,41 @@
     [self setVideoInput:videoInput];
     [self setSession:session];
     
+    NSURL *outputFileURL = [self tempFileURL];
+    AVCamRecorder * recorder = [[AVCamRecorder alloc]initWithSession:self.session outputFileURL:outputFileURL];
+    [recorder setDelegate:self];
     
+    // check if recorder can record
+    
+    if (![recorder recordsVideo] && [recorder recordsAudio]) {
+        NSString *localizedDescription = NSLocalizedString(@"Video recording unavailable", @"Video recording unavailable description");
+		NSString *localizedFailureReason = NSLocalizedString(@"Movies recorded on this device will only contain audio. They will be accessible through iTunes file sharing.", @"Video recording unavailable failure reason");
+		NSDictionary *errorDict = [NSDictionary dictionaryWithObjectsAndKeys:
+								   localizedDescription, NSLocalizedDescriptionKey,
+								   localizedFailureReason, NSLocalizedFailureReasonErrorKey,
+								   nil];
+		NSError *noVideoError = [NSError errorWithDomain:@"CWVideoRecorder" code:0 userInfo:errorDict];
+		if ([[self delegate] respondsToSelector:@selector(recorder:didFailWithError:)]) {
+			[[self delegate] recorder:self didFailWithError:noVideoError];
+		}
+    }
+    
+    [self setRecorder:recorder];
+    recorder = nil;
     
     
     
 }
+
+- (NSURL*)cacheDirectoryURL
+{
+    return [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
+}
+- (NSURL *) tempFileURL
+{
+    return [[self cacheDirectoryURL] URLByAppendingPathComponent:@"output.mp4"];
+}
+
 
 - (void) startRecording
 {
@@ -97,4 +129,18 @@
     }
     return nil;
 }
+
+
+#pragma mark AVCamRecorderDelegate
+
+- (void)recorder:(AVCamRecorder *)recorder recordingDidFinishToOutputFileURL:(NSURL *)outputFileURL error:(NSError *)error
+{
+    
+}
+
+- (void)recorderRecordingDidBegin:(AVCamRecorder *)recorder
+{
+    
+}
+
 @end
