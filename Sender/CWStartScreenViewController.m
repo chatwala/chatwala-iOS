@@ -30,7 +30,7 @@
 	// Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
      NSURL * videoURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"video" withExtension:@"mp4"];
-    [[CWVideoManager sharedManager]setPlayerDelegate:self];
+    [[[CWVideoManager sharedManager] player] setDelegate:self];
     [[[CWVideoManager sharedManager] player] setVideoURL:videoURL];
     
 }

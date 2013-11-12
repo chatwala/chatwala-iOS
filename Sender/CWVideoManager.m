@@ -33,10 +33,5 @@
     return self;
 }
 
-- (void)setPlayerDelegate:(id<CWVideoPlayerDelegate>)playerDelegate
-{
-    _playerDelegate = playerDelegate;
-    [self.player setDelegate:self.playerDelegate];
-}
 
 @end
