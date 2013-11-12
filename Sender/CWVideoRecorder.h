@@ -13,6 +13,7 @@
 @interface CWVideoRecorder : NSObject
 @property (nonatomic,weak) id<CWVideoRecorderDelegate> delegate;
 @property (nonatomic,strong) UIView * recorderView;
+- (NSURL *) tempFileURL;
 - (void) setupSession;
 - (void) startRecording;
 - (void) stopRecording;

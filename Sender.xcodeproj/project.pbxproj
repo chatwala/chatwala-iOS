@@ -57,6 +57,8 @@
 		E9C115601832B9AD00DB67D2 /* AVURLAsset+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1155F1832B9AD00DB67D2 /* AVURLAsset+Spec.m */; };
 		E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */; };
 		E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */; };
+		E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115681832D82700DB67D2 /* CWReviewViewController.m */; };
+		E9C1156B1832D82700DB67D2 /* CWReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C115691832D82700DB67D2 /* CWReviewViewController.xib */; };
 		E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73E518316AEC00056FA9 /* TestUtils.m */; };
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 		E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */; };
@@ -151,6 +153,9 @@
 		E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayer+Spec.m"; sourceTree = "<group>"; };
 		E9C115641832CA1900DB67D2 /* AVPlayerItem+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVPlayerItem+Spec.h"; sourceTree = "<group>"; };
 		E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayerItem+Spec.m"; sourceTree = "<group>"; };
+		E9C115671832D82700DB67D2 /* CWReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWReviewViewController.h; sourceTree = "<group>"; };
+		E9C115681832D82700DB67D2 /* CWReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWReviewViewController.m; sourceTree = "<group>"; };
+		E9C115691832D82700DB67D2 /* CWReviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWReviewViewController.xib; sourceTree = "<group>"; };
 		E9CE73E418316AEC00056FA9 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		E9CE73E518316AEC00056FA9 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
 		E9CE73E91831810900056FA9 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
@@ -222,6 +227,9 @@
 				E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */,
 				E9C115511832970E00DB67D2 /* CWComposerViewController.h */,
 				E9C115521832970E00DB67D2 /* CWComposerViewController.m */,
+				E9C115671832D82700DB67D2 /* CWReviewViewController.h */,
+				E9C115681832D82700DB67D2 /* CWReviewViewController.m */,
+				E9C115691832D82700DB67D2 /* CWReviewViewController.xib */,
 				E9C115571832987700DB67D2 /* CWFeedbackViewController.h */,
 				E9C115581832987700DB67D2 /* CWFeedbackViewController.m */,
 				E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */,
@@ -471,6 +479,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9C1156B1832D82700DB67D2 /* CWReviewViewController.xib in Resources */,
 				E944399F182940AF0088A381 /* Images.xcassets in Resources */,
 				E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */,
 				E9CE73EA1831810900056FA9 /* video.mp4 in Resources */,
@@ -560,6 +569,7 @@
 			files = (
 				E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */,
 				E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */,
+				E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */,
 				E94439DA18295B0B0088A381 /* VideoPlayerViewController.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				E944399D182940AF0088A381 /* SenderViewController.m in Sources */,

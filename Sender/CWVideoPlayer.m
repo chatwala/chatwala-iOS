@@ -83,6 +83,11 @@
     [self.player play];
 }
 
+- (void)replay{
+    [self.player seekToTime:kCMTimeZero];
+    [self.player play];
+}
+
 - (void)stop
 {
     

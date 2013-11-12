@@ -56,4 +56,6 @@
 // key for lookinh up local user
 #define CHATWALA_USER               @"chatwala_local_user"
 
+#define OUTPUT_VIDEO_FILE_NAME      @"output.mp4"
+
 #define NC [NSNotificationCenter defaultCenter]

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWReviewViewController">
+            <connections>
+                <outlet property="previewView" destination="vmn-e5-TTd" id="kR5-ve-WSW"/>
+                <outlet property="recordAgainButton" destination="EyP-yJ-Hxx" id="FbV-YA-qkf"/>
+                <outlet property="sendButton" destination="g29-lG-u7w" id="mMN-UX-s15"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmn-e5-TTd">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EyP-yJ-Hxx">
+                    <rect key="frame" x="20" y="498" width="140" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="LzV-B6-XGC"/>
+                        <constraint firstAttribute="width" constant="140" id="fVi-Jf-dQj"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="Record Again">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onRecordAgain:" destination="-1" eventType="touchUpInside" id="9qW-dx-iB2"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g29-lG-u7w">
+                    <rect key="frame" x="175" y="498" width="125" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="Ktl-Rn-Txb"/>
+                        <constraint firstAttribute="width" constant="125" id="j6g-Qa-c2L"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <state key="normal" title="Send">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onSend:" destination="-1" eventType="touchUpInside" id="Ibq-LN-JP3"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="vmn-e5-TTd" firstAttribute="top" secondItem="1" secondAttribute="top" id="J31-mw-oYs"/>
+                <constraint firstAttribute="trailing" secondItem="g29-lG-u7w" secondAttribute="trailing" constant="20" id="a7B-AD-2cr"/>
+                <constraint firstAttribute="bottom" secondItem="vmn-e5-TTd" secondAttribute="bottom" id="aj8-Sz-ldP"/>
+                <constraint firstAttribute="bottom" secondItem="g29-lG-u7w" secondAttribute="bottom" constant="20" id="do6-Bx-oHF"/>
+                <constraint firstItem="EyP-yJ-Hxx" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="gIY-Sd-DP0"/>
+                <constraint firstItem="vmn-e5-TTd" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="qZL-lR-gL8"/>
+                <constraint firstAttribute="trailing" secondItem="vmn-e5-TTd" secondAttribute="trailing" id="x06-kg-TNa"/>
+                <constraint firstAttribute="bottom" secondItem="EyP-yJ-Hxx" secondAttribute="bottom" constant="20" id="z5B-vh-aZi"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+</document>

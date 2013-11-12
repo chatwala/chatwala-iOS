@@ -8,6 +8,7 @@
 
 #import "CWComposerViewController.h"
 #import "CWFeedbackViewController.h"
+#import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 
 @interface CWComposerViewController () <CWVideoRecorderDelegate>
@@ -15,6 +16,7 @@
     NSInteger tickCount;
 }
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
+@property (nonatomic,strong) CWReviewViewController * reviewVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
 @property (nonatomic,assign) NSInteger tickCount;
 
@@ -55,6 +57,12 @@
 }
 
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    tickCount = 0;
+    [self stopRecording];
+}
+
 - (void)onTick:(NSTimer*)timer
 {
     
@@ -77,6 +85,15 @@
     [[[CWVideoManager sharedManager]recorder]stopRecording];
     [self.recordTimer invalidate];
     self.recordTimer = nil;
+}
+
+
+- (CWReviewViewController *)reviewVC
+{
+    if (_reviewVC == nil) {
+        _reviewVC = [[CWReviewViewController alloc]init];
+    }
+    return _reviewVC;
 }
 
 
@@ -105,7 +122,7 @@
 {
     if (self.tickCount == 0) {
         // push
-        
+        [self.navigationController pushViewController:self.reviewVC animated:NO];
     }
 }
 

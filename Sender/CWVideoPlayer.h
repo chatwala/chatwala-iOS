@@ -28,6 +28,7 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
 - (void)setVideoURL:(NSURL*)URL;
 - (void)play;
 - (void)stop;
+- (void)replay;
 @end
 
 
