@@ -10,7 +10,16 @@
 #import "CWVideoPlayerView.h"
 
 @protocol CWVideoPlayerDelegate;
+/* Asset keys */
+extern NSString * const kTracksKey;
+extern NSString * const kPlayableKey;
 
+/* PlayerItem keys */
+extern NSString * const kStatusKey;
+extern NSString * const kCurrentItemKey;
+
+static void *CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext = &CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext;
+static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVideoPlayerPlaybackViewControllerStatusObservationContext;
 
 @interface CWVideoPlayer : NSObject
 @property (nonatomic,weak) id<CWVideoPlayerDelegate> delegate;

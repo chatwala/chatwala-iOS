@@ -10,16 +10,9 @@
 #import "CWVideoPlayerView.h"
 #import <AVFoundation/AVFoundation.h>
 
-/* Asset keys */
-extern NSString * const kTracksKey;
-extern NSString * const kPlayableKey;
 
-/* PlayerItem keys */
-extern NSString * const kStatusKey;
-extern NSString * const kCurrentItemKey;
 
-static void *CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext = &CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext;
-static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVideoPlayerPlaybackViewControllerStatusObservationContext;
+
 
 @interface CWVideoPlayer ()
 {
@@ -132,28 +125,11 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
     }
     
     
+    [self setupPlayerItemWithAsset:asset];
+    [self setupPlayerWithAsset:asset];
     
     
     
-    
-    // remove old listeners
-    if (self.playerItem) {
-        [self.playerItem removeObserver:self forKeyPath:kStatusKey];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
-    }
-    if (self.player) {
-        [self.player removeObserver:self forKeyPath:kCurrentItemKey];
-    }
-    
-    
-    // setup player item
-    self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
-    [self.playerItem addObserver:self forKeyPath:kStatusKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext];
-    
-    // setup player
-    self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
-    [self.player setActionAtItemEnd:AVPlayerActionAtItemEndNone];
-    [self.player addObserver:self forKeyPath:kCurrentItemKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerStatusObservationContext];
 
     
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -163,6 +139,40 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
     
     
 }
+
+
+- (void)setupPlayerItemWithAsset:(AVAsset*)asset
+{
+    if (self.playerItem) {
+        [self.playerItem removeObserver:self forKeyPath:kStatusKey];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+    }
+    
+    // setup player item
+    self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
+    [self.playerItem addObserver:self forKeyPath:kStatusKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext];
+    
+    id obs = [self.playerItem observationInfo];
+    NSLog(@"observationInfo: %@",obs);
+}
+
+
+- (void)setupPlayerWithAsset:(AVAsset*)asset
+{
+    if (self.player) {
+        [self.player removeObserver:self forKeyPath:kCurrentItemKey];
+    }
+    
+    
+    
+    
+    // setup player
+    self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
+    [self.player setActionAtItemEnd:AVPlayerActionAtItemEndNone];
+    [self.player addObserver:self forKeyPath:kCurrentItemKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerStatusObservationContext];
+}
+
+
 - (void)playerItemDidReachEnd:(NSNotification*)note
 {
     

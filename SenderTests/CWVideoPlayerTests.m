@@ -20,6 +20,8 @@
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 - (void)playerItemDidReachEnd:(NSNotification*)note;
+- (void)setupPlayerItemWithAsset:(AVAsset*)asset;
+- (void)setupPlayerWithAsset:(AVAsset*)asset;
 @end
 
 
@@ -74,10 +76,58 @@
     [self.sut setVideoURL:videoURL];
     
     [self.sut.asset completeWithSuccessKeys:@[@"tracks",@"playable",@"duration",@"streaming"] failureKeys:@[]];
-    
-    
     [nc verify];
+    [nc stopMocking];
 }
+
+
+- (void)testShouldSetupPlayerItem
+{
+    id mock = [OCMockObject partialMockForObject:self.sut];
+    [[mock expect]setupPlayerItemWithAsset:OCMOCK_ANY];
+    
+    NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"video" withExtension:@"mp4"];
+    [self.sut setVideoURL:videoURL];
+    [self.sut.asset completeWithSuccessKeys:@[@"tracks",@"playable",@"duration",@"streaming"] failureKeys:@[]];
+    [mock verify];
+    [mock stopMocking];
+}
+
+
+- (void)testShouldAddObserverToPlayerItem
+{
+//    [self.sut setupPlayerItemWithAsset:OCMOCK_ANY];
+    NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"video" withExtension:@"mp4"];
+    [self.sut setVideoURL:videoURL];
+    [self.sut.asset completeWithSuccessKeys:@[@"tracks",@"playable",@"duration",@"streaming"] failureKeys:@[]];
+    XCTAssertNotNil([self.sut.playerItem observationInfo], @"should add observer to player item");
+}
+
+
+- (void)testShouldAddObserverToPlayer
+{
+    //    [self.sut setupPlayerItemWithAsset:OCMOCK_ANY];
+    NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"video" withExtension:@"mp4"];
+    [self.sut setVideoURL:videoURL];
+    [self.sut.asset completeWithSuccessKeys:@[@"tracks",@"playable",@"duration",@"streaming"] failureKeys:@[]];
+    XCTAssertNotNil([self.sut.player observationInfo], @"should add observer to player");
+}
+
+
+- (void)testShouldSetupPlayer
+{
+    id mock = [OCMockObject partialMockForObject:self.sut];
+    [[mock expect]setupPlayerWithAsset:OCMOCK_ANY];
+    
+    NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"video" withExtension:@"mp4"];
+    [self.sut setVideoURL:videoURL];
+    [self.sut.asset completeWithSuccessKeys:@[@"tracks",@"playable",@"duration",@"streaming"] failureKeys:@[]];
+    
+    [mock verify];
+    [mock stopMocking];
+}
+
+
 
 
 - (void)testShouldInvokeVideoPlayerDidLoadVideo
