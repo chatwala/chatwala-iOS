@@ -29,16 +29,16 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
-//     NSURL * videoURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"video" withExtension:@"mp4"];
-//    [[[CWVideoManager sharedManager] player] setDelegate:self];
-//    [[[CWVideoManager sharedManager] player] setVideoURL:videoURL];
+     NSURL * videoURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"video" withExtension:@"mp4"];
+    [[[CWVideoManager sharedManager] player] setDelegate:self];
+    [[[CWVideoManager sharedManager] player] setVideoURL:videoURL];
     
     [[[CWVideoManager sharedManager]recorder]setDelegate:self];
     [[[CWVideoManager sharedManager]recorder]setupSession];
     
     [self.view addSubview:[[[CWVideoManager sharedManager] recorder] recorderView]];
-    [[[[CWVideoManager sharedManager] recorder] recorderView]setFrame:self.view.bounds];
-    
+    [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:CGRectInset(self.view.bounds, 50, 50)];
+    [[CWVideoManager sharedManager].recorder.recorderView setFrame:CGRectMake(0, 20, 100, 130)];
     
 }
 
@@ -54,9 +54,9 @@
 
 - (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer
 {
-//    [self.view addSubview:videoPlayer.playbackView];
-//    [videoPlayer.playbackView setFrame:CGRectInset(self.view.bounds, 50, 50)];
-//    [videoPlayer play];
+    [self.view addSubview:videoPlayer.playbackView];
+    [videoPlayer.playbackView setFrame:CGRectInset(self.view.bounds, 50, 50)];
+    [videoPlayer play];
 }
 
 

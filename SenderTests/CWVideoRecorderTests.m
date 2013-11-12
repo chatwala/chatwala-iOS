@@ -8,12 +8,15 @@
 
 #import <XCTest/XCTest.h>
 #import "CWVideoRecorder.h"
+#import "AVCamRecorder.h"
 #import <TargetConditionals.h>
 
 @interface CWVideoRecorder ()
 @property (nonatomic,strong) AVCaptureSession *session;
 @property (nonatomic,strong) AVCaptureDeviceInput *videoInput;
 @property (nonatomic,strong) AVCaptureDeviceInput *audioInput;
+@property (nonatomic,strong) AVCamRecorder *recorder;
+@property (nonatomic,strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;
 @end
 
 @interface CWVideoRecorderTests : XCTestCase
@@ -53,7 +56,7 @@
 {
 #if (!TARGET_IPHONE_SIMULATOR)
     [self.sut setupSession];
-    XCTAssertNotNil(self.sut.videoInput, @"session should not be nil");
+    XCTAssertNotNil(self.sut.videoInput, @"videoInput should not be nil");
 #endif
 }
 
@@ -61,7 +64,25 @@
 {
 #if (!TARGET_IPHONE_SIMULATOR)
     [self.sut setupSession];
-    XCTAssertNotNil(self.sut.audioInput, @"session should not be nil");
+    XCTAssertNotNil(self.sut.audioInput, @"audioInput should not be nil");
+#endif
+}
+
+
+- (void)testSetupSessionCreatesRecorderView
+{
+#if (!TARGET_IPHONE_SIMULATOR)
+    [self.sut setupSession];
+    XCTAssertNotNil(self.sut.recorderView, @"recorderView should not be nil");
+#endif
+}
+
+
+- (void)testSetupSessionCreatesVideoPreviewLayer
+{
+#if (!TARGET_IPHONE_SIMULATOR)
+    [self.sut setupSession];
+    XCTAssertNotNil(self.sut.videoPreviewLayer, @"videoPreviewLayer should not be nil");
 #endif
 }
 

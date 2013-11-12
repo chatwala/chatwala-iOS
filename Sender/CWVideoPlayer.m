@@ -42,6 +42,24 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
     return self;
 }
 
+- (void)dealloc
+{
+    
+    // remove old listeners
+    if (self.playerItem) {
+        [self.playerItem removeObserver:self forKeyPath:kStatusKey];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+    }
+    if (self.player) {
+        [self.player removeObserver:self forKeyPath:kCurrentItemKey];
+    }
+    
+    self.delegate = nil;
+    self.playbackView = nil;
+    self.player = nil;
+    self.playerItem = nil;
+}
+
 - (void)setVideoURL:(NSURL *)URL
 {
     _videoURL = URL;

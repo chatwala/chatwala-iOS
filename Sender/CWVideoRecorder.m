@@ -38,6 +38,18 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [self.session stopRunning];
+    
+    [self.recorderView removeObserver:self forKeyPath:@"frame"];
+    self.recorderView = nil;
+    self.videoPreviewLayer = nil;
+    self.videoInput = nil;
+    self.audioInput = nil;
+    self.session = nil;
+}
+
 
 - (void) setupSession
 {
