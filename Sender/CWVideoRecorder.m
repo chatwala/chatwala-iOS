@@ -14,13 +14,29 @@
 @property (nonatomic,strong) AVCaptureDeviceInput *videoInput;
 @property (nonatomic,strong) AVCaptureDeviceInput *audioInput;
 @property (nonatomic,strong) AVCamRecorder *recorder;
+@property (nonatomic,strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;
+
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
+
 - (AVCaptureDevice *) frontFacingCamera;
 - (AVCaptureDevice *) audioDevice;
 - (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position;
+- (void) removeFile:(NSURL *)fileURL;
 @end
 
 
 @implementation CWVideoRecorder
+
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        self.recorderView = [[UIView alloc]init];
+        [self.recorderView addObserver:self forKeyPath:@"frame" options:kNilOptions context:nil];
+    }
+    return self;
+}
 
 
 - (void) setupSession
@@ -78,8 +94,15 @@
     [self setRecorder:recorder];
     recorder = nil;
     
-    
-    
+    self.videoPreviewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
+    [self.recorderView.layer addSublayer:self.videoPreviewLayer];
+    [self.videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+ 
+    // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self.session startRunning];
+    });
+
 }
 
 - (NSURL*)cacheDirectoryURL
@@ -90,17 +113,39 @@
 {
     return [[self cacheDirectoryURL] URLByAppendingPathComponent:@"output.mp4"];
 }
-
+- (void) removeFile:(NSURL *)fileURL
+{
+    NSString *filePath = [fileURL path];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:filePath]) {
+        NSError *error;
+        if ([fileManager removeItemAtPath:filePath error:&error] == NO) {
+            if ([[self delegate] respondsToSelector:@selector(recorder:didFailWithError:)]) {
+                [[self delegate] recorder:self didFailWithError:error];
+            }
+        }
+    }
+}
 
 - (void) startRecording
 {
+    if ([[UIDevice currentDevice] isMultitaskingSupported]) {
+        // Setup background task. This is needed because the captureOutput:didFinishRecordingToOutputFileAtURL: callback is not received until AVCam returns
+		// to the foreground unless you request background execution time. This also ensures that there will be time to write the file to the assets library
+		// when AVCam is backgrounded. To conclude this background execution, -endBackgroundTask is called in -recorder:recordingDidFinishToOutputFileURL:error:
+		// after the recorded file has been saved.
+        [self setBackgroundRecordingID:[[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{}]];
+    }
     
+    [self removeFile:[[self recorder] outputFileURL]];
+    [[self recorder] startRecordingWithOrientation:AVCaptureVideoOrientationPortrait];
 }
 
 - (void) stopRecording
 {
-    
+    [[self recorder] stopRecording];
 }
+
 
 
 
@@ -128,6 +173,15 @@
         }
     }
     return nil;
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"frame"]) {
+        
+        [self.videoPreviewLayer setFrame:self.recorderView.bounds];
+    }
 }
 
 

@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol CWVideoRecorder;
+@protocol CWVideoRecorderDelegate;
 
 @interface CWVideoRecorder : NSObject
-@property (nonatomic,weak) id<CWVideoRecorder> delegate;
+@property (nonatomic,weak) id<CWVideoRecorderDelegate> delegate;
+@property (nonatomic,strong) UIView * recorderView;
 - (void) setupSession;
 - (void) startRecording;
 - (void) stopRecording;
@@ -19,7 +20,7 @@
 
 
 
-@protocol CWVideoRecorder <NSObject>
+@protocol CWVideoRecorderDelegate <NSObject>
 
 - (void)recorder:(CWVideoRecorder*)recorder didFailWithError:(NSError *)error;
 - (void)recorderRecordingBegan:(CWVideoRecorder *)recorder;
