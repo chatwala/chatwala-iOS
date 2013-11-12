@@ -10,7 +10,8 @@
 #import "CWVideoManager.h"
 
 
-@interface CWStartScreenViewController ()<CWVideoPlayerDelegate,CWVideoRecorderDelegate>
+@interface CWStartScreenViewController ()<CWVideoRecorderDelegate>
+@property (weak, nonatomic) IBOutlet UIButton *startButton;
 @end
 
 @implementation CWStartScreenViewController
@@ -29,16 +30,14 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
-     NSURL * videoURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"video" withExtension:@"mp4"];
-    [[[CWVideoManager sharedManager] player] setDelegate:self];
-    [[[CWVideoManager sharedManager] player] setVideoURL:videoURL];
+
     
     [[[CWVideoManager sharedManager]recorder]setDelegate:self];
     [[[CWVideoManager sharedManager]recorder]setupSession];
     
-    [self.view addSubview:[[[CWVideoManager sharedManager] recorder] recorderView]];
-    [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:CGRectInset(self.view.bounds, 50, 50)];
-    [[CWVideoManager sharedManager].recorder.recorderView setFrame:CGRectMake(0, 20, 100, 130)];
+    [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.startButton];
+    
+    [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.view.bounds];
     
 }
 
@@ -49,27 +48,6 @@
 }
 
 
-#pragma mark CWVideoPlayerDelegate
-
-
-- (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer
-{
-    [self.view addSubview:videoPlayer.playbackView];
-    [videoPlayer.playbackView setFrame:CGRectInset(self.view.bounds, 50, 50)];
-    [videoPlayer play];
-}
-
-
-
-- (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError *)error
-{
-    
-}
-
-- (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
-{
-    
-}
 
 
 #pragma mark CWVideoRecorderDelegate
