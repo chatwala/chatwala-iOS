@@ -16,6 +16,8 @@
 }
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
+@property (nonatomic,assign) NSInteger tickCount;
+
 @end
 
 @implementation CWComposerViewController
@@ -101,7 +103,10 @@
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
-    
+    if (self.tickCount == 0) {
+        // push
+        
+    }
 }
 
 @end

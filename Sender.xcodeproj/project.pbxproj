@@ -53,6 +53,7 @@
 		E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115521832970E00DB67D2 /* CWComposerViewController.m */; };
 		E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115581832987700DB67D2 /* CWFeedbackViewController.m */; };
 		E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */; };
+		E9C1155D1832AFEE00DB67D2 /* CWComposerVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1155C1832AFEE00DB67D2 /* CWComposerVCTests.m */; };
 		E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73E518316AEC00056FA9 /* TestUtils.m */; };
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 		E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */; };
@@ -140,6 +141,7 @@
 		E9C115571832987700DB67D2 /* CWFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWFeedbackViewController.h; sourceTree = "<group>"; };
 		E9C115581832987700DB67D2 /* CWFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWFeedbackViewController.m; sourceTree = "<group>"; };
 		E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWFeedbackViewController.xib; sourceTree = "<group>"; };
+		E9C1155C1832AFEE00DB67D2 /* CWComposerVCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWComposerVCTests.m; sourceTree = "<group>"; };
 		E9CE73E418316AEC00056FA9 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		E9CE73E518316AEC00056FA9 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
 		E9CE73E91831810900056FA9 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */,
 				E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */,
 				E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */,
+				E9C1155C1832AFEE00DB67D2 /* CWComposerVCTests.m */,
 				E9CE73E418316AEC00056FA9 /* TestUtils.h */,
 				E9CE73E518316AEC00056FA9 /* TestUtils.m */,
 			);
@@ -568,6 +571,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E95E25E818314DC500E3950B /* CWVideoPlayerTests.m in Sources */,
+				E9C1155D1832AFEE00DB67D2 /* CWComposerVCTests.m in Sources */,
 				E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */,
 				E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */,
 				E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */,
