@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "CWVideoRecorder.h"
+#import <TargetConditionals.h>
 
 @interface CWVideoRecorder ()
 @property (nonatomic,strong) AVCaptureSession *session;
@@ -42,20 +43,26 @@
 
 - (void)testSetupSessionCreatesSession
 {
+#if (!TARGET_IPHONE_SIMULATOR)
     [self.sut setupSession];
     XCTAssertNotNil(self.sut.session, @"session should not be nil");
+#endif
 }
 
 - (void)testSetupSessionCreatesVideoInput
 {
+#if (!TARGET_IPHONE_SIMULATOR)
     [self.sut setupSession];
     XCTAssertNotNil(self.sut.videoInput, @"session should not be nil");
+#endif
 }
 
 - (void)testSetupSessionCreatesAudioInput
 {
+#if (!TARGET_IPHONE_SIMULATOR)
     [self.sut setupSession];
     XCTAssertNotNil(self.sut.audioInput, @"session should not be nil");
+#endif
 }
 
 
