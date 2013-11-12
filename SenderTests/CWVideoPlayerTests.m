@@ -11,9 +11,22 @@
 #import "TestUtils.h"
 #import "CWVideoPlayer.h"
 
+#import "AVURLAsset+Spec.h"
+#import "AVPlayer+Spec.h"
+#import "AVPlayerItem+Spec.h"
+
+@interface CWVideoPlayer ()
+@property (nonatomic, strong) AVURLAsset *asset;
+@property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, strong) AVPlayerItem *playerItem;
+- (void)playerItemDidReachEnd:(NSNotification*)note;
+@end
+
+
 @interface CWVideoPlayerTests : XCTestCase
 @property (nonatomic,strong) CWVideoPlayer * sut;
 @property (nonatomic,strong) id delegate;
+
 @end
 
 @implementation CWVideoPlayerTests
@@ -51,16 +64,34 @@
     XCTAssertTrue([self.sut respondsToSelector:@selector(stop)], @"should have stop");
 }
 
-/*
+
+- (void)testShouldAddObserverToNotificationCenter
+{
+    id nc = [OCMockObject partialMockForObject:[NSNotificationCenter defaultCenter]];
+    [[nc expect]addObserver:self.sut selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:OCMOCK_ANY];
+    
+    NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"video" withExtension:@"mp4"];
+    [self.sut setVideoURL:videoURL];
+    
+    [self.sut.asset completeWithSuccessKeys:@[@"tracks",@"playable",@"duration",@"streaming"] failureKeys:@[]];
+    
+    
+    [nc verify];
+}
+
+
 - (void)testShouldInvokeVideoPlayerDidLoadVideo
 {
     [[self.delegate expect]videoPlayerDidLoadVideo:self.sut];
     
-    NSURL * videoURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"video" withExtension:@"mp4"];
+    NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"video" withExtension:@"mp4"];
     [self.sut setVideoURL:videoURL];
+    [self.sut.asset completeWithSuccessKeys:@[@"tracks",@"playable",@"duration",@"streaming"] failureKeys:@[]];
+    
+    [self.sut.playerItem setStatus:AVPlayerStatusReadyToPlay];
+    [self.delegate verify];
+    
 
-//    [self.delegate wai];
-    [TestUtils waitForVerifiedMock:self.delegate delay:5];
 }
 
 - (void)testShouldInvokeVideoPlayerFailedToLoadVideo
@@ -68,10 +99,10 @@
     [[self.delegate expect]videoPlayerFailedToLoadVideo:self.sut withError:OCMOCK_ANY];
     NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"bad" withExtension:@"mp4"];
     [self.sut setVideoURL:videoURL];
-    
-    [TestUtils waitForVerifiedMock:self.delegate delay:3];
+    [self.sut.asset completeWithSuccessKeys:@[] failureKeys:@[]];
+    [self.delegate verify];
 }
 
-*/
+
 
 @end

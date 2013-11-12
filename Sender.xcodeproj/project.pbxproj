@@ -54,6 +54,9 @@
 		E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115581832987700DB67D2 /* CWFeedbackViewController.m */; };
 		E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */; };
 		E9C1155D1832AFEE00DB67D2 /* CWComposerVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1155C1832AFEE00DB67D2 /* CWComposerVCTests.m */; };
+		E9C115601832B9AD00DB67D2 /* AVURLAsset+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1155F1832B9AD00DB67D2 /* AVURLAsset+Spec.m */; };
+		E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */; };
+		E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */; };
 		E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73E518316AEC00056FA9 /* TestUtils.m */; };
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 		E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */; };
@@ -142,6 +145,12 @@
 		E9C115581832987700DB67D2 /* CWFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWFeedbackViewController.m; sourceTree = "<group>"; };
 		E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWFeedbackViewController.xib; sourceTree = "<group>"; };
 		E9C1155C1832AFEE00DB67D2 /* CWComposerVCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWComposerVCTests.m; sourceTree = "<group>"; };
+		E9C1155E1832B9AD00DB67D2 /* AVURLAsset+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVURLAsset+Spec.h"; sourceTree = "<group>"; };
+		E9C1155F1832B9AD00DB67D2 /* AVURLAsset+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVURLAsset+Spec.m"; sourceTree = "<group>"; };
+		E9C115611832CA0500DB67D2 /* AVPlayer+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVPlayer+Spec.h"; sourceTree = "<group>"; };
+		E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayer+Spec.m"; sourceTree = "<group>"; };
+		E9C115641832CA1900DB67D2 /* AVPlayerItem+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVPlayerItem+Spec.h"; sourceTree = "<group>"; };
+		E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayerItem+Spec.m"; sourceTree = "<group>"; };
 		E9CE73E418316AEC00056FA9 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		E9CE73E518316AEC00056FA9 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
 		E9CE73E91831810900056FA9 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
@@ -328,6 +337,12 @@
 				E9C1155C1832AFEE00DB67D2 /* CWComposerVCTests.m */,
 				E9CE73E418316AEC00056FA9 /* TestUtils.h */,
 				E9CE73E518316AEC00056FA9 /* TestUtils.m */,
+				E9C1155E1832B9AD00DB67D2 /* AVURLAsset+Spec.h */,
+				E9C1155F1832B9AD00DB67D2 /* AVURLAsset+Spec.m */,
+				E9C115611832CA0500DB67D2 /* AVPlayer+Spec.h */,
+				E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */,
+				E9C115641832CA1900DB67D2 /* AVPlayerItem+Spec.h */,
+				E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -573,9 +588,12 @@
 				E95E25E818314DC500E3950B /* CWVideoPlayerTests.m in Sources */,
 				E9C1155D1832AFEE00DB67D2 /* CWComposerVCTests.m in Sources */,
 				E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */,
+				E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */,
 				E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */,
+				E9C115601832B9AD00DB67D2 /* AVURLAsset+Spec.m in Sources */,
 				E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */,
 				E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */,
+				E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */,
 				E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

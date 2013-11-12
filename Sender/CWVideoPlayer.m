@@ -25,9 +25,9 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
 {
     NSURL * _videoURL;
 }
-@property (nonatomic, retain) AVPlayer *player;
-@property (nonatomic, retain) AVPlayerItem *playerItem;
-
+@property (nonatomic, strong) AVPlayer *player;
+@property (nonatomic, strong) AVPlayerItem *playerItem;
+@property (nonatomic, strong) AVURLAsset *asset;
 @end
 
 
@@ -75,16 +75,13 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
     
     
     // load the video asset
-    AVURLAsset *asset = [AVURLAsset URLAssetWithURL:_videoURL options:nil];
+    self.asset = [AVURLAsset URLAssetWithURL:_videoURL options:nil];
     
     NSArray *requestedKeys = [NSArray arrayWithObjects:kTracksKey, kPlayableKey, nil];
     
-    [asset loadValuesAsynchronouslyForKeys:requestedKeys completionHandler:
+    [self.asset loadValuesAsynchronouslyForKeys:requestedKeys completionHandler:
      ^{
-         dispatch_async( dispatch_get_main_queue(),
-                        ^{
-                            [self prepareToPlayAsset:asset withKeys:requestedKeys];
-                        });
+            [self prepareToPlayAsset:self.asset withKeys:requestedKeys];
      }];
 }
 

@@ -15,6 +15,7 @@
 @interface CWVideoPlayer : NSObject
 @property (nonatomic,weak) id<CWVideoPlayerDelegate> delegate;
 @property (nonatomic,strong) CWVideoPlayerView * playbackView;
+
 - (void)setVideoURL:(NSURL*)URL;
 - (void)play;
 - (void)stop;

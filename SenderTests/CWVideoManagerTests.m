@@ -13,25 +13,7 @@
 #import "CWVideoPlayer.h"
 #import "CWVideoRecorder.h"
 
-@interface AVURLAsset (Test)
-- (void)succeed;
-- (void)fail;
-@end
 
-static char COMPLETION_KEY;
-@implementation AVURLAsset (Test)
-
-- (void)loadValuesAsynchronouslyForKeys:(NSArray *)keys completionHandler:(void (^)(void))handler
-{
-    objc_setAssociatedObject(self, &COMPLETION_KEY, handler, OBJC_ASSOCIATION_COPY_NONATOMIC);
-}
-
-- (void)completeWithSuccessKeys:(NSArray *)successKeys failureKeys:(NSArray *)failureKeys {
-    void (^callback)(void) = objc_getAssociatedObject(self, &COMPLETION_KEY);
-    callback();
-}
-
-@end
 
 @interface CWVideoManagerTests : XCTestCase
 @property (nonatomic,strong) CWVideoManager * sut;
