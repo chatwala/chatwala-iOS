@@ -201,12 +201,16 @@
 
 - (void)recorder:(AVCamRecorder *)recorder recordingDidFinishToOutputFileURL:(NSURL *)outputFileURL error:(NSError *)error
 {
-    
+    if ([self.delegate respondsToSelector:@selector(recorderRecordingFinished:)]) {
+        [self.delegate recorderRecordingFinished:self];
+    }
 }
 
 - (void)recorderRecordingDidBegin:(AVCamRecorder *)recorder
 {
-    
+    if ([self.delegate respondsToSelector:@selector(recorderRecordingBegan:)]) {
+        [self.delegate recorderRecordingBegan:self];
+    }
 }
 
 @end

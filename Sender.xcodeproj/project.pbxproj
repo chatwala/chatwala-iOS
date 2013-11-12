@@ -51,6 +51,8 @@
 		E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */; };
 		E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */; };
 		E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115521832970E00DB67D2 /* CWComposerViewController.m */; };
+		E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115581832987700DB67D2 /* CWFeedbackViewController.m */; };
+		E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */; };
 		E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73E518316AEC00056FA9 /* TestUtils.m */; };
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 		E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */; };
@@ -135,6 +137,9 @@
 		E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoRecorder.m; sourceTree = "<group>"; };
 		E9C115511832970E00DB67D2 /* CWComposerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWComposerViewController.h; sourceTree = "<group>"; };
 		E9C115521832970E00DB67D2 /* CWComposerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWComposerViewController.m; sourceTree = "<group>"; };
+		E9C115571832987700DB67D2 /* CWFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWFeedbackViewController.h; sourceTree = "<group>"; };
+		E9C115581832987700DB67D2 /* CWFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWFeedbackViewController.m; sourceTree = "<group>"; };
+		E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWFeedbackViewController.xib; sourceTree = "<group>"; };
 		E9CE73E418316AEC00056FA9 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		E9CE73E518316AEC00056FA9 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
 		E9CE73E91831810900056FA9 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
@@ -206,6 +211,9 @@
 				E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */,
 				E9C115511832970E00DB67D2 /* CWComposerViewController.h */,
 				E9C115521832970E00DB67D2 /* CWComposerViewController.m */,
+				E9C115571832987700DB67D2 /* CWFeedbackViewController.h */,
+				E9C115581832987700DB67D2 /* CWFeedbackViewController.m */,
+				E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -446,6 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E944399F182940AF0088A381 /* Images.xcassets in Resources */,
+				E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */,
 				E9CE73EA1831810900056FA9 /* video.mp4 in Resources */,
 				E9443991182940AF0088A381 /* InfoPlist.strings in Resources */,
 				E90F04E2182C458A004B8CCD /* SmallScreen.storyboard in Resources */,
@@ -538,6 +547,7 @@
 				E944399D182940AF0088A381 /* SenderViewController.m in Sources */,
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
 				E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */,
+				E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,

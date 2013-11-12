@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWFeedbackViewController">
+            <connections>
+                <outlet property="feedbackBackgroundView" destination="tJi-Vd-yje" id="KGJ-Fc-m5A"/>
+                <outlet property="feedbackLabel" destination="QdG-VY-j5e" id="myS-qe-fW0"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tJi-Vd-yje">
+                    <rect key="frame" x="20" y="499" width="280" height="49"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recording in 00:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QdG-VY-j5e">
+                            <rect key="frame" x="0.0" y="14" width="280" height="21"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="280" id="UM0-mU-wr3"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.5" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="QdG-VY-j5e" firstAttribute="top" secondItem="tJi-Vd-yje" secondAttribute="top" constant="14" id="6Sp-22-nWP"/>
+                        <constraint firstItem="QdG-VY-j5e" firstAttribute="centerY" secondItem="tJi-Vd-yje" secondAttribute="centerY" id="FCe-l6-3Vo"/>
+                        <constraint firstAttribute="trailing" secondItem="QdG-VY-j5e" secondAttribute="trailing" id="hjX-Jr-dWu"/>
+                        <constraint firstItem="QdG-VY-j5e" firstAttribute="leading" secondItem="tJi-Vd-yje" secondAttribute="leading" id="whJ-oh-6ln"/>
+                        <constraint firstAttribute="height" constant="49" id="zln-gl-LMX"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="tJi-Vd-yje" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="Aae-id-xLh"/>
+                <constraint firstAttribute="trailing" secondItem="tJi-Vd-yje" secondAttribute="trailing" constant="20" id="SJD-gO-3NX"/>
+                <constraint firstAttribute="bottom" secondItem="tJi-Vd-yje" secondAttribute="bottom" constant="20" id="Uyb-Zs-xmt"/>
+            </constraints>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+</document>
