@@ -48,6 +48,8 @@
 		E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E218314B8300E3950B /* CWVideoManager.m */; };
 		E95E25E818314DC500E3950B /* CWVideoPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */; };
 		E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25EA18314DD200E3950B /* CWVideoPlayer.m */; };
+		E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */; };
+		E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */; };
 		E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73E518316AEC00056FA9 /* TestUtils.m */; };
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 		E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */; };
@@ -127,6 +129,9 @@
 		E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerTests.m; sourceTree = "<group>"; };
 		E95E25E918314DD200E3950B /* CWVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoPlayer.h; sourceTree = "<group>"; };
 		E95E25EA18314DD200E3950B /* CWVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayer.m; sourceTree = "<group>"; };
+		E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoRecorderTests.m; sourceTree = "<group>"; };
+		E9C1154E1832805300DB67D2 /* CWVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoRecorder.h; sourceTree = "<group>"; };
+		E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoRecorder.m; sourceTree = "<group>"; };
 		E9CE73E418316AEC00056FA9 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		E9CE73E518316AEC00056FA9 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
 		E9CE73E91831810900056FA9 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
@@ -209,10 +214,8 @@
 				E90F04DC182BF758004B8CCD /* CWMetadata.m */,
 				E95E25E118314B8300E3950B /* CWVideoManager.h */,
 				E95E25E218314B8300E3950B /* CWVideoManager.m */,
-				E95E25E918314DD200E3950B /* CWVideoPlayer.h */,
-				E95E25EA18314DD200E3950B /* CWVideoPlayer.m */,
-				E9CE73EB1831873A00056FA9 /* CWVideoPlayerView.h */,
-				E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */,
+				E9C1154D1832804000DB67D2 /* Recorder */,
+				E9C1154C1832803900DB67D2 /* Player */,
 			);
 			name = Chatwala;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 				E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */,
 				E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */,
 				E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */,
+				E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */,
 				E9CE73E418316AEC00056FA9 /* TestUtils.h */,
 				E9CE73E518316AEC00056FA9 /* TestUtils.m */,
 			);
@@ -330,6 +334,26 @@
 				E94439D918295B0B0088A381 /* VideoPlayerViewController.m */,
 			);
 			name = "Video Player";
+			sourceTree = "<group>";
+		};
+		E9C1154C1832803900DB67D2 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				E95E25E918314DD200E3950B /* CWVideoPlayer.h */,
+				E95E25EA18314DD200E3950B /* CWVideoPlayer.m */,
+				E9CE73EB1831873A00056FA9 /* CWVideoPlayerView.h */,
+				E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */,
+			);
+			name = Player;
+			sourceTree = "<group>";
+		};
+		E9C1154D1832804000DB67D2 /* Recorder */ = {
+			isa = PBXGroup;
+			children = (
+				E9C1154E1832805300DB67D2 /* CWVideoRecorder.h */,
+				E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */,
+			);
+			name = Recorder;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -507,6 +531,7 @@
 				E94439DA18295B0B0088A381 /* VideoPlayerViewController.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				E944399D182940AF0088A381 /* SenderViewController.m in Sources */,
+				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
 				E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
@@ -531,6 +556,7 @@
 				E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */,
 				E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */,
 				E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */,
+				E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

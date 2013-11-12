@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "CWVideoPlayer.h"
+#import "CWVideoRecorder.h"
 
 @interface CWVideoManager : NSObject
 +(instancetype) sharedManager;
-@property (nonatomic,strong) id recorder;
+@property (nonatomic,strong) CWVideoRecorder * recorder;
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,weak) id<CWVideoPlayerDelegate> playerDelegate;
 @end

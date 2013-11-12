@@ -27,7 +27,7 @@
 {
     self=[super init];
     if (self) {
-        self.recorder = [[NSObject alloc]init];
+        self.recorder = [[CWVideoRecorder alloc]init];
         self.player = [[CWVideoPlayer alloc]init];
     }
     return self;
@@ -36,7 +36,6 @@
 - (void)setPlayerDelegate:(id<CWVideoPlayerDelegate>)playerDelegate
 {
     _playerDelegate = playerDelegate;
-    
     [self.player setDelegate:self.playerDelegate];
 }
 

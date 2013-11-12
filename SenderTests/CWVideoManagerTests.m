@@ -9,6 +9,7 @@
 #import <XCTest/XCTest.h>
 #import "CWVideoManager.h"
 #import "CWVideoPlayer.h"
+#import "CWVideoRecorder.h"
 
 @interface CWVideoManagerTests : XCTestCase
 @property (nonatomic,strong) CWVideoManager * sut;
@@ -38,6 +39,7 @@
 - (void)testShouldHaveVideoRecorder
 {
     XCTAssertNotNil(self.sut.recorder, @"should have recorder");
+    XCTAssertTrue([self.sut.recorder isKindOfClass:[CWVideoRecorder class]], @"should be CWVideoRecorder");
 }
 
 
