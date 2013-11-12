@@ -8,10 +8,11 @@
 
 #import "CWStartScreenViewController.h"
 #import "CWVideoManager.h"
-
+#import "CWComposerViewController.h"
 
 @interface CWStartScreenViewController ()<CWVideoRecorderDelegate>
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
+- (IBAction)onStart:(id)sender;
 @end
 
 @implementation CWStartScreenViewController
@@ -47,6 +48,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+//
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//    if ([segue.destinationViewController isKindOfClass:[SenderViewController class]]) {
+//        SenderViewController * nextVC = (SenderViewController*)segue.destinationViewController;
+//        
+//    }
+//}
 
 
 
@@ -68,4 +77,8 @@
 }
 
 
+- (IBAction)onStart:(id)sender {
+    CWComposerViewController * composerVC = [[CWComposerViewController alloc]initWithNibName:nil bundle:nil];
+    [self.navigationController pushViewController:composerVC animated:NO];
+}
 @end

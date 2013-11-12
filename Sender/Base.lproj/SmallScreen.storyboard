@@ -227,7 +227,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="vXZ-lx-hvc" kind="push" id="HOj-L0-9qF"/>
+                                    <action selector="onStart:" destination="CHn-BD-Stq" eventType="touchUpInside" id="wLE-7G-Abq"/>
                                 </connections>
                             </button>
                         </subviews>
