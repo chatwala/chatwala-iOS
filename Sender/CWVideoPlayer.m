@@ -78,12 +78,12 @@
      }];
 }
 
-- (void)play
+- (void)playVideo
 {
     [self.player play];
 }
 
-- (void)replay{
+- (void)replayVideo{
     [self.player seekToTime:kCMTimeZero];
     [self.player play];
 }

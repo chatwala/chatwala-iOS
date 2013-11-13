@@ -14,9 +14,15 @@
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
 }
+@property (nonatomic,strong) CWVideoPlayer * player;
+@property (nonatomic,strong) CWVideoRecorder * recorder;
+
 @end
 
 @implementation CWReviewViewController
+
+@synthesize player;
+@synthesize recorder;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -70,12 +76,15 @@
 {
     [self.previewView addSubview:player.playbackView];
     [player.playbackView setFrame:self.previewView.bounds];
-    [player play];
+    [player playVideo];
 }
 
 - (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
 {
-    [player replay];
+    [player replayVideo];
 }
-
+- (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError *)error
+{
+    
+}
 @end
