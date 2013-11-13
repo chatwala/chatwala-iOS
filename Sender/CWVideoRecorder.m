@@ -207,7 +207,7 @@
     AVAssetExportSession *temp = [[AVAssetExportSession alloc] initWithAsset:videoAsset presetName:AVAssetExportPresetMediumQuality];
     [temp setOutputFileType:AVFileTypeMPEG4];
     
-    NSURL * outoutURL = [[[self cacheDirectoryURL] URLByAppendingPathComponent:OUTGOING_DIRECTORY_NAME]URLByAppendingPathComponent:VIDEO_FILE_NAME];
+    NSURL * outoutURL = [[self cacheDirectoryURL] URLByAppendingPathComponent:OUTPUT_VIDEO_FILE_NAME];
     [temp setOutputURL:outoutURL];
     
     __block CWVideoRecorder* weakSelf = self;
