@@ -10,7 +10,7 @@
 #import "CWVideoManager.h"
 #import "CWComposerViewController.h"
 
-@interface CWStartScreenViewController ()<CWVideoRecorderDelegate>
+@interface CWStartScreenViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
 - (IBAction)onStart:(id)sender;
 @end
@@ -33,7 +33,7 @@
     [self.navigationController setNavigationBarHidden:YES];
 
     
-    [[[CWVideoManager sharedManager]recorder]setDelegate:self];
+
     [[[CWVideoManager sharedManager]recorder]setupSession];
     
     [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.startButton];
@@ -59,22 +59,22 @@
 
 
 
-#pragma mark CWVideoRecorderDelegate
-
-- (void)recorder:(CWVideoRecorder *)recorder didFailWithError:(NSError *)error
-{
-    
-}
-
-- (void)recorderRecordingBegan:(CWVideoRecorder *)recorder
-{
-    
-}
-
-- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
-{
-    
-}
+//#pragma mark CWVideoRecorderDelegate
+//
+//- (void)recorder:(CWVideoRecorder *)recorder didFailWithError:(NSError *)error
+//{
+//    
+//}
+//
+//- (void)recorderRecordingBegan:(CWVideoRecorder *)recorder
+//{
+//    
+//}
+//
+//- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
+//{
+//    
+//}
 
 
 - (IBAction)onStart:(id)sender {

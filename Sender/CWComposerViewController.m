@@ -88,6 +88,7 @@
 {
     if (_reviewVC == nil) {
         _reviewVC = [[CWReviewViewController alloc]init];
+        [self addChildViewController:_reviewVC];
     }
     return _reviewVC;
 }
@@ -116,9 +117,9 @@
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
-    if (self.tickCount == 0) {
+    if (self.tickCount == 0 || !self.tickCount) {
         // push
-        [self.navigationController pushViewController:self.reviewVC animated:NO];
+        [self.navigationController pushViewController:self.reviewVC animated:YES];
     }
 }
 
