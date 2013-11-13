@@ -13,7 +13,7 @@
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 
-@interface CWComposerViewController ()
+@interface CWComposerViewController () <AVAudioPlayerDelegate>
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) CWReviewViewController * reviewVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
