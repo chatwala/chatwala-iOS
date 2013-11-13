@@ -31,27 +31,19 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    NSLog(@"%s",__FUNCTION__);
-    
     player =[[CWVideoManager sharedManager]player];
     recorder = [[CWVideoManager sharedManager]recorder];
-    
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSLog(@"%s",__FUNCTION__);
-    
     [player setDelegate:self];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    NSLog(@"%s",__FUNCTION__);
-    
     [player setVideoURL:recorder.tempFileURL];
 }
 
@@ -76,8 +68,6 @@
 
 - (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer
 {
-    NSLog(@"%s",__FUNCTION__);
-    
     [self.previewView addSubview:player.playbackView];
     [player.playbackView setFrame:self.previewView.bounds];
     [player play];

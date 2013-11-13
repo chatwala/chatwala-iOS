@@ -158,7 +158,7 @@
     [self.playerItem addObserver:self forKeyPath:kStatusKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext];
     
     id obs = [self.playerItem observationInfo];
-    NSLog(@"observationInfo: %@",obs);
+//    NSLog(@"observationInfo: %@",obs);
 }
 
 
