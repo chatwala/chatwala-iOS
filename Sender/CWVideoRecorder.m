@@ -201,9 +201,25 @@
 
 - (void)recorder:(AVCamRecorder *)recorder recordingDidFinishToOutputFileURL:(NSURL *)outputFileURL error:(NSError *)error
 {
-    if ([self.delegate respondsToSelector:@selector(recorderRecordingFinished:)]) {
-        [self.delegate recorderRecordingFinished:self];
-    }
+    
+    // setup export
+    AVAsset * videoAsset = [AVAsset assetWithURL:outputFileURL];
+    AVAssetExportSession *temp = [[AVAssetExportSession alloc] initWithAsset:videoAsset presetName:AVAssetExportPresetMediumQuality];
+    [temp setOutputFileType:AVFileTypeMPEG4];
+    
+    NSURL * outoutURL = [[[self cacheDirectoryURL] URLByAppendingPathComponent:OUTGOING_DIRECTORY_NAME]URLByAppendingPathComponent:VIDEO_FILE_NAME];
+    [temp setOutputURL:outoutURL];
+    
+    __block CWVideoRecorder* weakSelf = self;
+    
+    [temp exportAsynchronouslyWithCompletionHandler:^{
+        // video completed export
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.delegate recorderRecordingFinished:weakSelf];
+        });
+    }];
+    
+
 }
 
 - (void)recorderRecordingDidBegin:(AVCamRecorder *)recorder
