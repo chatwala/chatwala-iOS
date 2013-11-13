@@ -20,6 +20,7 @@
 @property (nonatomic,assign) NSInteger tickCount;
 - (void)startRecording;
 - (void)stopRecording;
+- (void)onTick:(NSTimer*)timer;
 @end
 
 @interface CWComposerVCTests : XCTestCase
@@ -89,7 +90,51 @@
     [mockSUT stopMocking];
 }
 
+- (void)testShouldStopRecordingWhenTimerReachesZero
+{
+    [[self.mockRecorder expect]stopRecording];
+    [self.sut setTickCount:1];
+    [self.sut onTick:self.sut.recordTimer];
+}
 
+- (void)testShouldStopRecordingOnTouchsEnded
+{
+    [[self.mockRecorder expect]stopRecording];
+    [self.sut touchesEnded:nil withEvent:nil];
+    
+}
 
+- (void)testShouldPushReviewViewControllerWhenRecordingFinishedAndTickCountIsZero
+{
+    UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:self.sut];
+    
+    CWVideoRecorder * recorder = [[CWVideoManager sharedManager]recorder];
+    id mockNavController = [OCMockObject partialMockForObject:navController];
+    [[mockNavController expect]pushViewController:self.sut.reviewVC animated:NO];
+    
+    [self.sut setTickCount:0];
+    [[recorder delegate]recorderRecordingFinished:recorder];
+    
+}
+
+- (void)testShouldRestartTimerWhenRecordingBegins
+{
+    id mockTimer = [OCMockObject mockForClass:[NSTimer class]];
+    id mockSUT = [OCMockObject partialMockForObject:self.sut];
+    [[mockSUT stub]andReturn:mockTimer];
+    [[mockTimer expect]invalidate];
+    [[mockSUT expect]setRecordTimer:OCMOCK_ANY];
+    [self.sut recorderRecordingFinished:self.mockRecorder];
+    [mockSUT stopMocking];
+}
+
+- (void)testShouldUpdateFeedbackWhenOnTickEnvoked
+{
+    [self.sut view];
+    id mockFeedbackLabel = [OCMockObject partialMockForObject:self.sut.feedbackVC.feedbackLabel];
+    [self.sut setTickCount:7];
+    [[mockFeedbackLabel expect]setText:[NSString stringWithFormat:@"Recording 0:%02d",7]];
+    [self.sut onTick:nil];
+}
 
 @end
