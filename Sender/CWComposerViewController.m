@@ -11,10 +11,7 @@
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 
-@interface CWComposerViewController () <CWVideoRecorderDelegate>
-{
-    NSInteger tickCount;
-}
+@interface CWComposerViewController ()
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) CWReviewViewController * reviewVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
@@ -59,19 +56,18 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    tickCount = 0;
+    self.tickCount = 0;
     [self stopRecording];
 }
 
 - (void)onTick:(NSTimer*)timer
 {
-    
-    tickCount--;
-    if (tickCount <= 0) {
+    self.tickCount--;
+    if (self.tickCount <= 0) {
         [self stopRecording];
-        tickCount = 0;
+        self.tickCount = 0;
     }
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:@"Recording 0:%02d",tickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:@"Recording 0:%02d",self.tickCount]];
 }
 
 - (void)startRecording
@@ -111,8 +107,8 @@
         [self.recordTimer invalidate];
         self.recordTimer = nil;
     }
-    tickCount = MAX_RECORD_TIME;
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:@"Recording 0:%02d",tickCount]];
+    self.tickCount = MAX_RECORD_TIME;
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:@"Recording 0:%02d",self.tickCount]];
     self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
 
 }

@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CWVideoManager.h"
 
-@interface CWComposerViewController : UIViewController
+
+@interface CWComposerViewController : UIViewController <CWVideoRecorderDelegate>
 
 @end
