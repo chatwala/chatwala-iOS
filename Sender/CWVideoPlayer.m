@@ -90,7 +90,8 @@
 
 - (void)stop
 {
-    
+    [self.player seekToTime:kCMTimeZero];
+    [self.player pause];
 }
 
 
