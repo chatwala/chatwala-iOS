@@ -113,7 +113,7 @@
 {
     self.responseCountdownTickCount--;
     
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:@"Recording Reaction 0:%02d",self.responseCountdownTickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
 }
 
 
@@ -138,7 +138,7 @@
     self.responseCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onResponseCountdownTick:) userInfo:nil repeats:YES];
     self.responseCountdownTickCount = MAX_RECORD_TIME;
     
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:@"Recording Response 0:%02d",self.responseCountdownTickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
     
 }
 

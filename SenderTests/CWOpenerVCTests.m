@@ -161,6 +161,15 @@
     
 }
 
+- (void) testShouldUpdateFeedbackLabelWhenResponseTimerTicks{
+    
+    [self.sut setResponseCountdownTickCount:21];
+    [self.sut onResponseCountdownTick:nil];
+    NSString * actual = self.sut.feedbackVC.feedbackLabel.text;
+    NSString * expected = [NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,20];
+    XCTAssertTrue([expected isEqualToString:actual], @"expecting feedback label should match");
+}
+
 
 
 
