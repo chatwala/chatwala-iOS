@@ -204,18 +204,18 @@
     
     // setup export
     AVAsset * videoAsset = [AVAsset assetWithURL:outputFileURL];
-    AVAssetExportSession *temp = [[AVAssetExportSession alloc] initWithAsset:videoAsset presetName:AVAssetExportPresetMediumQuality];
-    [temp setOutputFileType:AVFileTypeMPEG4];
+    AVAssetExportSession *sessionExporter = [[AVAssetExportSession alloc] initWithAsset:videoAsset presetName:AVAssetExportPresetMediumQuality];
+    [sessionExporter setOutputFileType:AVFileTypeMPEG4];
     
-    NSURL * outoutURL = [[self cacheDirectoryURL] URLByAppendingPathComponent:OUTPUT_VIDEO_FILE_NAME];
-    [temp setOutputURL:outoutURL];
+    NSURL * convertedFileOutputURL = [[self cacheDirectoryURL] URLByAppendingPathComponent:OUTPUT_VIDEO_FILE_NAME];
+    [sessionExporter setOutputURL:convertedFileOutputURL];
     
-    __block CWVideoRecorder* weakSelf = self;
+    __block CWVideoRecorder* blockSelf = self;
     
-    [temp exportAsynchronouslyWithCompletionHandler:^{
+    [sessionExporter exportAsynchronouslyWithCompletionHandler:^{
         // video completed export
         dispatch_async(dispatch_get_main_queue(), ^{
-            [weakSelf.delegate recorderRecordingFinished:weakSelf];
+            [blockSelf.delegate recorderRecordingFinished:blockSelf];
         });
     }];
     
