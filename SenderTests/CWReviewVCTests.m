@@ -29,6 +29,7 @@
 @property (nonatomic,strong) id mockSUT;
 @property (nonatomic,strong) id mockRecorder;
 @property (nonatomic,strong) id mockPlayer;
+@property (nonatomic,strong) CWMessageItem *messageItem;
 @end
 
 @implementation CWReviewVCTests
@@ -42,6 +43,9 @@
     self.mockSUT = [OCMockObject partialMockForObject:self.sut];
     self.mockPlayer = [OCMockObject partialMockForObject:self.sut.player];
     self.mockRecorder = [OCMockObject partialMockForObject:self.sut.recorder];
+    self.messageItem = [[CWMessageItem alloc] init];
+    NSURL * videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
+    [self.messageItem setVideoURL:videoURL];
 }
 
 - (void)tearDown
@@ -49,6 +53,7 @@
     [self.mockSUT stopMocking];
     [self.mockPlayer stopMocking];
     [self.mockRecorder stopMocking];
+    
     self.sut = nil;
     self.mockSUT = nil;
     self.mockPlayer = nil;
@@ -164,6 +169,7 @@
 
 - (void)testShouldInvokeComposeMessageWithDataWhenOnSendIsInvoked {
     
+    [[[self.mockSUT stub]andReturn:self.messageItem]createMessageItem];
     [[self.mockSUT expect]composeMessageWithData:OCMOCK_ANY];
     [self.sut onSend:nil];
     [self.mockSUT verify];
@@ -171,7 +177,7 @@
 
 
 - (void)testShouldInvokeCreateMessageDataWhenOnSendIsInvoked {
-    
+    [[[self.mockSUT stub]andReturn:self.messageItem]createMessageItem];
     [[self.mockSUT expect]createMessageData];
     [self.sut onSend:nil];
     [self.mockSUT verify];
@@ -185,6 +191,7 @@
 
 
 - (void) testShouldStopPlayerWhenOnSendIsInvoked {
+    [[[self.mockSUT stub]andReturn:self.messageItem]createMessageItem];
     [[self.mockPlayer expect]stop];
     [self.sut onSend:nil];
     [self.mockPlayer verify];
@@ -211,6 +218,7 @@
 
 - (void)testShouldPresentMainComposeVCWhenOnSendIsInvoked
 {
+    [[[self.mockSUT stub]andReturn:self.messageItem]createMessageItem];
     [[self.mockSUT expect]presentViewController:[OCMArg isNotNil] animated:YES completion:nil];
     [self.sut onSend:nil];
     [self.mockSUT verify];
