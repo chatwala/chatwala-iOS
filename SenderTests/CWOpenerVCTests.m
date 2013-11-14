@@ -171,7 +171,26 @@
 }
 
 
+- (void) testShouldInvalidateResponseTimerWhenItReachesZero {
 
+    [self.sut setResponseCountdownTickCount:1];
+    [self.sut onResponseCountdownTick:nil];
+    
+    XCTAssertNil(self.sut.responseCountdownTimer, @"response timer should be nil");
+}
+
+- (void) testShouldPushToReviewVCWhenTimerReachesZero {
+    
+    UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:self.sut];
+    id mockNavController = [OCMockObject partialMockForObject:navController];
+    [[mockNavController expect]pushViewController:OCMOCK_ANY animated:NO];
+    
+    [self.sut setResponseCountdownTickCount:1];
+    [self.sut onResponseCountdownTick:nil];
+    
+    [mockNavController verify];
+    
+}
 
 
 @end

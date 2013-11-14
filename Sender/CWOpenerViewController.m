@@ -8,6 +8,7 @@
 
 #import "CWOpenerViewController.h"
 #import "CWFeedbackViewController.h"
+#import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
 
@@ -112,7 +113,15 @@
 - (void)onResponseCountdownTick:(NSTimer*)timer
 {
     self.responseCountdownTickCount--;
-    
+    if (self.responseCountdownTickCount <=0 ) {
+        [self.responseCountdownTimer invalidate];
+        self.responseCountdownTimer = nil;
+        // push to review
+        CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+        [self.navigationController pushViewController:reviewVC animated:NO];
+        
+        
+    }
     [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
 }
 
