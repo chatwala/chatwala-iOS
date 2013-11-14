@@ -117,5 +117,41 @@
     [[self.mockPlayer expect]replayVideo];
 }
 
+- (void)testShouldStopVideoPlaybackWhenRecordAgainIsInvoked
+{
+    [[self.mockPlayer expect]stop];
+    [self.sut onRecordAgain:nil];
+    [self.mockPlayer verify];
+}
+
+- (void)testShouldRemoveVideoPlaybackViewWhenRecordAgainIsInvoked
+{
+    id playbackView = [OCMockObject partialMockForObject:self.sut.player.playbackView];
+    [[playbackView expect]removeFromSuperview];
+    [self.sut onRecordAgain:nil];
+    [playbackView verify];
+    [playbackView stopMocking];
+}
+
+- (void)testShouldSetVideoPlaybackViewDelegateToNilWhenRecordAgainIsInvoked
+{
+    [[self.mockPlayer expect]setDelegate:nil];
+    [self.sut onRecordAgain:nil];
+    [self.mockPlayer verify];
+}
+
+
+- (void)testShouldPopViewControllerWhenRecordAgainIsInvoked
+{
+    UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:self.sut];
+    id mockNavController = [OCMockObject partialMockForObject:navController];
+    [[mockNavController expect]popViewControllerAnimated:NO];
+    [self.sut onRecordAgain:nil];
+    [mockNavController verify];
+    [mockNavController stopMocking];
+}
+
+
+
 
 @end

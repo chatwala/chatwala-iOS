@@ -64,6 +64,10 @@
 }
 
 - (IBAction)onRecordAgain:(id)sender {
+    [player.playbackView removeFromSuperview];
+    [player setDelegate:nil];
+    [player stop];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 - (IBAction)onSend:(id)sender {
