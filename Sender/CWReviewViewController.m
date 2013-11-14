@@ -8,8 +8,9 @@
 
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
+#import "CWMessageItem.h"
 
-@interface CWReviewViewController () <CWVideoPlayerDelegate>
+@interface CWReviewViewController () <CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
 {
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
@@ -63,6 +64,32 @@
     return [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
 }
 
+- (void)composeMessageWithData:(NSData*)messageData
+{
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:@"CW msg"];
+    [mc setMessageBody:@"You've got video!" isHTML:NO];
+    [mc addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
+    [self presentViewController:mc animated:YES completion:nil];
+}
+
+- (CWMessageItem*)createMessageItem
+{
+    CWMessageItem * message = [[CWMessageItem alloc]init];
+    [message setVideoURL:recorder.tempFileURL];
+    message.metadata.startRecording = self.startRecordingTime;
+    return message;
+}
+
+
+- (NSData*)createMessageData
+{
+    CWMessageItem * message = [self createMessageItem];
+    [message exportZip];
+    return [NSData dataWithContentsOfURL:[message zipURL]];
+}
+
 - (IBAction)onRecordAgain:(id)sender {
     [player.playbackView removeFromSuperview];
     [player setDelegate:nil];
@@ -71,6 +98,9 @@
 }
 
 - (IBAction)onSend:(id)sender {
+    
+    [player stop];
+    [self composeMessageWithData:[self createMessageData]];
 }
 
 
@@ -91,4 +121,22 @@
 {
     
 }
+
+#pragma mark MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
+    
+    
+    switch (result) {
+        case MFMailComposeResultSent:
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            break;
+        default:
+            [self.player replayVideo];
+            break;
+    }
+    
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
 @end

@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 @property (weak, nonatomic) IBOutlet UIButton *recordAgainButton;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (nonatomic,assign) NSTimeInterval startRecordingTime;
 - (IBAction)onRecordAgain:(id)sender;
 - (IBAction)onSend:(id)sender;
 @end

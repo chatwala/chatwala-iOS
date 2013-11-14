@@ -119,6 +119,7 @@
 {
     if (self.tickCount == 0 || !self.tickCount) {
         // push
+        [self.reviewVC setStartRecordingTime:0];
         [self.navigationController pushViewController:self.reviewVC animated:YES];
     }
 }

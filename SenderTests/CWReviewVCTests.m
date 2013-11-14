@@ -8,14 +8,20 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
+#import <MessageUI/MessageUI.h>
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
+#import "CWMessageItem.h"
 
 
 
-@interface CWReviewViewController ()<CWVideoPlayerDelegate>
+
+@interface CWReviewViewController ()<CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
+- (void)composeMessageWithData:(NSData*)messageData;
+- (NSData*)createMessageData;
+- (CWMessageItem*)createMessageItem;
 @end
 
 @interface CWReviewVCTests : XCTestCase
@@ -151,7 +157,79 @@
     [mockNavController stopMocking];
 }
 
+- (void)testShouldConformToMFMailComposeViewControllerDelegateProtocol
+{
+    XCTAssertTrue([self.sut conformsToProtocol:@protocol(MFMailComposeViewControllerDelegate) ], @"should conform to main compose vc delegate");
+}
 
+- (void)testShouldInvokeComposeMessageWithDataWhenOnSendIsInvoked {
+    
+    [[self.mockSUT expect]composeMessageWithData:OCMOCK_ANY];
+    [self.sut onSend:nil];
+    [self.mockSUT verify];
+}
+
+
+- (void)testShouldInvokeCreateMessageDataWhenOnSendIsInvoked {
+    
+    [[self.mockSUT expect]createMessageData];
+    [self.sut onSend:nil];
+    [self.mockSUT verify];
+}
+
+- (void) testShouldPresentMailComposeVCWhenSendWithMessageDataIsInvoked {
+    [[self.mockSUT expect]presentViewController:OCMOCK_ANY animated:YES completion:nil];
+    [self.sut composeMessageWithData:OCMOCK_ANY];
+    [self.mockSUT verify];
+}
+
+
+- (void) testShouldStopPlayerWhenOnSendIsInvoked {
+    [[self.mockPlayer expect]stop];
+    [self.sut onSend:nil];
+    [self.mockPlayer verify];
+}
+
+- (void)testShouldPopToRootWhenMailSent
+{
+    UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:self.sut];
+    id mockNavController = [OCMockObject partialMockForObject:navController];
+    [[mockNavController expect]popToRootViewControllerAnimated:YES];
+    
+    [self.sut mailComposeController:[[MFMailComposeViewController alloc] init]didFinishWithResult:MFMailComposeResultSent error:nil];
+    [mockNavController verify];
+    [mockNavController stopMocking];
+}
+
+
+- (void)testShouldreplayVideoWhenMainNotSent
+{
+    [[self.mockPlayer expect]replayVideo];
+    [self.sut mailComposeController:[[MFMailComposeViewController alloc] init]didFinishWithResult:5 error:nil];
+    [self.mockPlayer verify];
+}
+
+- (void)testShouldPresentMainComposeVCWhenOnSendIsInvoked
+{
+    [[self.mockSUT expect]presentViewController:[OCMArg isNotNil] animated:YES completion:nil];
+    [self.sut onSend:nil];
+    [self.mockSUT verify];
+}
+
+- (void)testShouldProperlySetupMessageItemVideoURLWhenCreateMessageItemIsInvoked
+{
+    id mockVidUrl = [OCMockObject mockForClass:[NSURL class]];
+    [[[self.mockRecorder stub]andReturn:mockVidUrl]tempFileURL];
+    CWMessageItem * msgItem = [self.sut createMessageItem];
+    XCTAssertTrue( [msgItem.videoURL isEqual:mockVidUrl], @"video url should match");
+}
+- (void)testShouldProperlySetupMessageItemMetatDataWhenCreateMessageItemIsInvoked
+{
+    [self.sut setStartRecordingTime:5];
+  
+    CWMessageItem * msgItem = [self.sut createMessageItem];
+    XCTAssertTrue( msgItem.metadata.startRecording == 5, @"recording start time should match");
+}
 
 
 @end
