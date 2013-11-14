@@ -27,7 +27,7 @@
 
 @interface CWVideoPlayerTests : XCTestCase
 @property (nonatomic,strong) CWVideoPlayer * sut;
-@property (nonatomic,strong) id delegate;
+@property (nonatomic,strong) id mockDelegate;
 
 @end
 
@@ -38,13 +38,13 @@
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
     self.sut = [[CWVideoPlayer alloc]init];
-    self.delegate = [OCMockObject mockForProtocol:@protocol(CWVideoPlayerDelegate)];
-    [self.sut setDelegate:self.delegate];
+    self.mockDelegate = [OCMockObject mockForProtocol:@protocol(CWVideoPlayerDelegate)];
+    [self.sut setDelegate:self.mockDelegate];
 }
 
 - (void)tearDown
 {
-    self.delegate = nil;
+    self.mockDelegate = nil;
     self.sut = nil;
     // Put teardown code here; it will be run once, after the last test case.
     [super tearDown];
@@ -132,25 +132,25 @@
 
 - (void)testShouldInvokeVideoPlayerDidLoadVideo
 {
-    [[self.delegate expect]videoPlayerDidLoadVideo:self.sut];
+    [[self.mockDelegate expect]videoPlayerDidLoadVideo:self.sut];
     
     NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"video" withExtension:@"mp4"];
     [self.sut setVideoURL:videoURL];
     [self.sut.asset completeWithSuccessKeys:@[@"tracks",@"playable",@"duration",@"streaming"] failureKeys:@[]];
     
     [self.sut.playerItem setStatus:AVPlayerStatusReadyToPlay];
-    [self.delegate verify];
+    [self.mockDelegate verify];
     
 
 }
 
 - (void)testShouldInvokeVideoPlayerFailedToLoadVideo
 {
-    [[self.delegate expect]videoPlayerFailedToLoadVideo:self.sut withError:OCMOCK_ANY];
+    [[self.mockDelegate expect]videoPlayerFailedToLoadVideo:self.sut withError:OCMOCK_ANY];
     NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"bad" withExtension:@"mp4"];
     [self.sut setVideoURL:videoURL];
     [self.sut.asset completeWithSuccessKeys:@[] failureKeys:@[]];
-    [self.delegate verify];
+    [self.mockDelegate verify];
 }
 
 
