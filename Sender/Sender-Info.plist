@@ -70,7 +70,7 @@
 				<key>public.filename-extension</key>
 				<string>wala</string>
 				<key>public.mime-type</key>
-				<string>application/wala</string>
+				<string>application/octet-stream</string>
 			</dict>
 		</dict>
 	</array>
