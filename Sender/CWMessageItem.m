@@ -109,9 +109,9 @@
     }
     
     
-    
+    NSAssert(self.videoURL.path, @"video path must not be nil");
     // copy video to folder
-    [[NSFileManager defaultManager]moveItemAtPath:self.videoURL.path toPath:[newDirectoryPath stringByAppendingPathComponent:VIDEO_FILE_NAME] error:&err];
+    [[NSFileManager defaultManager]copyItemAtPath:self.videoURL.path toPath:[newDirectoryPath stringByAppendingPathComponent:VIDEO_FILE_NAME] error:&err];
     if (err) {
         NSLog(@"faild to copy video to new directory: %@",err.debugDescription);
         return;
