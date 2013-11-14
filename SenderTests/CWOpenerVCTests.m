@@ -67,8 +67,25 @@
 
 - (void)testShouldSetPlayerDelegateWhenViewWillAppear
 {
+    id mockUrl = [OCMockObject mockForClass:[NSURL class]];
+    [[self.mockPlayer expect]setVideoURL:mockUrl];
+    
+    [self.sut setMessageItem:[[CWMessageItem alloc] init]];
+    [self.sut.messageItem setVideoURL:mockUrl];
+    
     [[self.mockPlayer expect]setDelegate:self.sut];
     [self.sut viewWillAppear:NO];
+    [self.mockPlayer verify];
+}
+
+- (void)testShouldSetVideoUrlOnPlayerWhenViewWillAppear
+{
+    id mockUrl = [OCMockObject mockForClass:[NSURL class]];
+    [[self.mockPlayer expect]setVideoURL:mockUrl];
+    
+    [self.sut setMessageItem:[[CWMessageItem alloc] init]];
+    [self.sut.messageItem setVideoURL:mockUrl];
+    [self.sut viewWillAppear:YES];
     [self.mockPlayer verify];
 }
 
@@ -89,5 +106,8 @@
     [self.sut setZipURL:mockUrl];
     [self.mockSUT verify];
 }
+
+
+
 
 @end
