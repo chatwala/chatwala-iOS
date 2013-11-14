@@ -7,16 +7,18 @@
 //
 
 #import <XCTest/XCTest.h>
+#import <OCMock/OCMock.h>
 #import "CWVideoRecorder.h"
 #import "AVCamRecorder.h"
 #import <TargetConditionals.h>
 
-@interface CWVideoRecorder ()
+@interface CWVideoRecorder ()<AVCamRecorderDelegate>
 @property (nonatomic,strong) AVCaptureSession *session;
 @property (nonatomic,strong) AVCaptureDeviceInput *videoInput;
 @property (nonatomic,strong) AVCaptureDeviceInput *audioInput;
 @property (nonatomic,strong) AVCamRecorder *recorder;
 @property (nonatomic,strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;
+- (void)converVideoWithURL:(NSURL*)videoURL;
 @end
 
 @interface CWVideoRecorderTests : XCTestCase
@@ -86,5 +88,14 @@
 #endif
 }
 
+- (void)testConvertVideoIsInvokedWhenRecordingFinishes
+{
+#if (!TARGET_IPHONE_SIMULATOR)
+    id mockSUT = [OCMockObject partialMockForObject:self.sut];
+    [[mockSUT expect]converVideoWithURL:OCMOCK_ANY];
+    [self.sut recorder:self.sut.recorder recordingDidFinishToOutputFileURL:OCMOCK_ANY error:nil];
+    [mockSUT verify];
+#endif
+}
 
 @end

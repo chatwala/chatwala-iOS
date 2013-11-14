@@ -197,13 +197,10 @@
 }
 
 
-#pragma mark AVCamRecorderDelegate
-
-- (void)recorder:(AVCamRecorder *)recorder recordingDidFinishToOutputFileURL:(NSURL *)outputFileURL error:(NSError *)error
+- (void)converVideoWithURL:(NSURL*)videoURL
 {
-    
     // setup export
-    AVAsset * videoAsset = [AVAsset assetWithURL:outputFileURL];
+    AVAsset * videoAsset = [AVAsset assetWithURL:videoURL];
     AVAssetExportSession *sessionExporter = [[AVAssetExportSession alloc] initWithAsset:videoAsset presetName:AVAssetExportPresetMediumQuality];
     [sessionExporter setOutputFileType:AVFileTypeMPEG4];
     
@@ -218,7 +215,14 @@
             [blockSelf.delegate recorderRecordingFinished:blockSelf];
         });
     }];
-    
+}
+
+
+#pragma mark AVCamRecorderDelegate
+
+- (void)recorder:(AVCamRecorder *)recorder recordingDidFinishToOutputFileURL:(NSURL *)outputFileURL error:(NSError *)error
+{
+    [self converVideoWithURL:outputFileURL];
 
 }
 
