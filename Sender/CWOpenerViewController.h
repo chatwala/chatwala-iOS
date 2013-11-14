@@ -11,5 +11,5 @@
 @interface CWOpenerViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
-
+@property (nonatomic,strong) NSURL * zipURL;
 @end

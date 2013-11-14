@@ -9,15 +9,18 @@
 #import "CWOpenerViewController.h"
 #import "CWFeedbackViewController.h"
 #import "CWVideoManager.h"
+#import "CWMessageItem.h"
 
 @interface CWOpenerViewController () <CWVideoPlayerDelegate>
 {
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
+    NSTimeInterval startRecordTime;
 }
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
+@property (nonatomic,strong) CWMessageItem * messageItem;
 @end
 
 @implementation CWOpenerViewController
@@ -53,6 +56,22 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+
+
+- (void)setZipURL:(NSURL *)zipURL
+{
+    _zipURL = zipURL;
+    
+    self.messageItem = [[CWMessageItem alloc]init];
+    [self.messageItem setZipURL:self.zipURL];
+    [self.messageItem extractZip];
+    startRecordTime = self.messageItem.metadata.startRecording;
+    
+//    [self setVideoURL:messageItem.videoURL];
+    
 }
 
 

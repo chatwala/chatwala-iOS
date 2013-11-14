@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "OpenerViewController.h"
 #import "SenderViewController.h"
+#import "CWOpenerViewController.h"
 
 @implementation AppDelegate
 
@@ -93,7 +94,7 @@
 {
     UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
     
-    OpenerViewController * openerVC = [[self.window.rootViewController storyboard] instantiateViewControllerWithIdentifier:@"openerVC"];
+    CWOpenerViewController * openerVC = [[CWOpenerViewController alloc]init];
     [openerVC setZipURL:url];
     [rootVC pushViewController:openerVC animated:YES];
     
@@ -103,6 +104,7 @@
     
     return YES;
 }
+
 
 
 

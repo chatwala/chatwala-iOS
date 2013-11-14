@@ -11,12 +11,13 @@
 #import "CWOpenerViewController.h"
 #import "CWFeedbackViewController.h"
 #import "CWVideoManager.h"
-
+#import "CWMessageItem.h"
 
 @interface CWOpenerViewController () <AVAudioPlayerDelegate,CWVideoPlayerDelegate>
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
+@property (nonatomic,strong) CWMessageItem * messageItem;
 @end
 
 @interface CWOpenerVCTests : XCTestCase
@@ -81,5 +82,12 @@
     
 }
 
+- (void)testShouldCreateMessageItemWhenZipUrlIsSet
+{
+    id mockUrl = [OCMockObject mockForClass:[NSURL class]];
+    [[self.mockSUT expect]setMessageItem:OCMOCK_ANY];
+    [self.sut setZipURL:mockUrl];
+    [self.mockSUT verify];
+}
 
 @end
