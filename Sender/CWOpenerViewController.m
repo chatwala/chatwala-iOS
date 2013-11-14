@@ -40,14 +40,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.player = [[CWVideoManager sharedManager]player];
+    
 
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [[self player]setDelegate:self];
+    self.player = [[CWVideoManager sharedManager]player];
+    [self.player setDelegate:self];
+    [self.player setVideoURL:self.messageItem.videoURL];
     
 }
 
