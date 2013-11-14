@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+
+static NSString *const FEEDBACK_RESPONSE_STRING = @"Recording Response 0:%02d";
+
+
+
 @interface CWOpenerViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;

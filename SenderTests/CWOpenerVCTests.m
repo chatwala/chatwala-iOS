@@ -18,6 +18,10 @@
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
 @property (nonatomic,strong) CWMessageItem * messageItem;
+@property (nonatomic,strong) NSTimer * responseCountdownTimer;
+@property (nonatomic,assign) NSInteger responseCountdownTickCount;
+- (void)onResponseCountdownTick:(NSTimer*)timer;
+- (void)setupCameraView;
 @end
 
 @interface CWOpenerVCTests : XCTestCase
@@ -65,10 +69,15 @@
     XCTAssertTrue([self.sut conformsToProtocol:@protocol(CWVideoPlayerDelegate)], @"should conform to CWVideoPlayerDelegate protocol");
 }
 
+- (void)testShouldConformToCWVideoRecorderDelegateProtocol
+{
+    XCTAssertTrue([self.sut conformsToProtocol:@protocol(CWVideoRecorderDelegate)], @"should conform to CWVideoRecorderDelegate protocol");
+}
+
 - (void)testShouldSetPlayerDelegateWhenViewWillAppear
 {
     id mockUrl = [OCMockObject mockForClass:[NSURL class]];
-    [[self.mockPlayer expect]setVideoURL:mockUrl];
+    [[self.mockPlayer stub]setVideoURL:mockUrl];
     
     [self.sut setMessageItem:[[CWMessageItem alloc] init]];
     [self.sut.messageItem setVideoURL:mockUrl];
@@ -76,6 +85,32 @@
     [[self.mockPlayer expect]setDelegate:self.sut];
     [self.sut viewWillAppear:NO];
     [self.mockPlayer verify];
+}
+
+
+- (void) testshouldInvokeSetupCameraWhenViewLoads {
+    id mockUrl = [OCMockObject mockForClass:[NSURL class]];
+    [[self.mockPlayer stub]setVideoURL:mockUrl];
+    
+    [self.sut setMessageItem:[[CWMessageItem alloc] init]];
+    [self.sut.messageItem setVideoURL:mockUrl];
+    
+    [[self.mockSUT expect]setupCameraView];
+    [self.sut viewWillAppear:YES];
+    [self.mockSUT verify];
+}
+
+- (void)testShouldSetRecorderDelegateWhenViewWillAppear
+{
+    id mockUrl = [OCMockObject mockForClass:[NSURL class]];
+    [[self.mockPlayer stub]setVideoURL:mockUrl];
+    
+    [self.sut setMessageItem:[[CWMessageItem alloc] init]];
+    [self.sut.messageItem setVideoURL:mockUrl];
+    
+    [[self.mockRecorder expect]setDelegate:self.sut];
+    [self.sut viewWillAppear:NO];
+    [self.mockRecorder verify];
 }
 
 - (void)testShouldSetVideoUrlOnPlayerWhenViewWillAppear
@@ -106,6 +141,26 @@
     [self.sut setZipURL:mockUrl];
     [self.mockSUT verify];
 }
+
+
+- (void)testShouldCreateFeedbackVC
+{
+    XCTAssertNotNil(self.sut.feedbackVC, @"feedback should be created");
+}
+
+
+- (void)testShouldStartTheResponseCountDown
+{
+    [self.sut videoPlayerPlayToEnd:self.sut.player];
+    
+    XCTAssertEqual(self.sut.responseCountdownTickCount, MAX_RECORD_TIME, @"expecting the coutn down to be started at MAX_RECORD_TIME");
+    XCTAssertNotNil(self.sut.responseCountdownTimer, @"expecting the response timer to exist");
+    NSString * actual = self.sut.feedbackVC.feedbackLabel.text;
+    NSString * expected = [NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,MAX_RECORD_TIME];
+    XCTAssertTrue([expected isEqualToString:actual], @"expecting feedback label should match");
+    
+}
+
 
 
 
