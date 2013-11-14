@@ -44,6 +44,7 @@
 
 - (void)tearDown
 {
+    [self.sut setDelegate:nil];
     self.mockDelegate = nil;
     self.sut = nil;
     // Put teardown code here; it will be run once, after the last test case.
@@ -67,18 +68,6 @@
 }
 
 
-- (void)testShouldAddObserverToNotificationCenter
-{
-    id nc = [OCMockObject partialMockForObject:[NSNotificationCenter defaultCenter]];
-    [[nc expect]addObserver:self.sut selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:OCMOCK_ANY];
-    
-    NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"video" withExtension:@"mp4"];
-    [self.sut setVideoURL:videoURL];
-    
-    [self.sut.asset completeWithSuccessKeys:@[@"tracks",@"playable",@"duration",@"streaming"] failureKeys:@[]];
-    [nc verify];
-    [nc stopMocking];
-}
 
 
 - (void)testShouldSetupPlayerItem
@@ -153,6 +142,19 @@
     [self.mockDelegate verify];
 }
 
+
+- (void)testShouldAddObserverToNotificationCenter
+{
+    id nc = [OCMockObject partialMockForObject:[NSNotificationCenter defaultCenter]];
+    [[nc expect]addObserver:self.sut selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:OCMOCK_ANY];
+    
+    NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"video" withExtension:@"mp4"];
+    [self.sut setVideoURL:videoURL];
+    
+    [self.sut.asset completeWithSuccessKeys:@[@"tracks",@"playable",@"duration",@"streaming"] failureKeys:@[]];
+    [nc verify];
+    [nc stopMocking];
+}
 
 
 @end
