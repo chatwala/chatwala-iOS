@@ -25,7 +25,6 @@
 
 @interface CWComposerVCTests : XCTestCase
 @property (nonatomic,strong) CWComposerViewController * sut;
-@property (nonatomic,strong) id mockVideoManager;
 @property (nonatomic,strong) id mockRecorder;
 @end
 
@@ -36,7 +35,6 @@
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
     self.sut = [[CWComposerViewController alloc]init];
-    self.mockVideoManager = [OCMockObject partialMockForObject:[CWVideoManager sharedManager]];
     self.mockRecorder = [OCMockObject partialMockForObject:[[CWVideoManager sharedManager] recorder]];
 }
 
@@ -44,8 +42,6 @@
 {
     
     self.sut = nil;
-    [self.mockVideoManager stopMocking];
-    self.mockVideoManager = nil;
     [self.mockRecorder stopMocking];
     self.mockRecorder = nil;
     
