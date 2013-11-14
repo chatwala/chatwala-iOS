@@ -49,6 +49,9 @@
     [super viewWillAppear:animated];
     self.player = [[CWVideoManager sharedManager]player];
     [self.player setDelegate:self];
+    
+    NSAssert(self.messageItem, @"message item must be non-nil");
+    
     [self.player setVideoURL:self.messageItem.videoURL];
     
 }
@@ -66,13 +69,10 @@
 - (void)setZipURL:(NSURL *)zipURL
 {
     _zipURL = zipURL;
-    
     self.messageItem = [[CWMessageItem alloc]init];
     [self.messageItem setZipURL:self.zipURL];
     [self.messageItem extractZip];
     startRecordTime = self.messageItem.metadata.startRecording;
-    
-//    [self setVideoURL:messageItem.videoURL];
     
 }
 
