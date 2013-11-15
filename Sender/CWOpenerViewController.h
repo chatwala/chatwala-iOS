@@ -10,6 +10,9 @@
 
 
 static NSString *const FEEDBACK_RESPONSE_STRING = @"Recording Response 0:%02d";
+static NSString *const FEEDBACK_REACTION_STRING = @"Recording Reaction 0:%02d";
+static NSString *const FEEDBACK_REVIEW_STRING   = @"Recording Reaction in 0:%02d";
+
 
 
 

@@ -74,7 +74,7 @@
 
 - (void)testShouldStartRecordingWhenViewDidAppear
 {
-    [[self.mockRecorder expect]startRecording];
+    [[self.mockRecorder expect]startVideoRecording];
     [self.sut viewDidAppear:NO];
 }
 
@@ -88,14 +88,14 @@
 
 - (void)testShouldStopRecordingWhenTimerReachesZero
 {
-    [[self.mockRecorder expect]stopRecording];
+    [[self.mockRecorder expect]stopVideoRecording];
     [self.sut setTickCount:1];
     [self.sut onTick:self.sut.recordTimer];
 }
 
 - (void)testShouldStopRecordingOnTouchsEnded
 {
-    [[self.mockRecorder expect]stopRecording];
+    [[self.mockRecorder expect]stopVideoRecording];
     [self.sut touchesEnded:nil withEvent:nil];
     
 }

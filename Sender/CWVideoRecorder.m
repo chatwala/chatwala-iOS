@@ -139,7 +139,7 @@
     }
 }
 
-- (void) startRecording
+- (void) startVideoRecording
 {
     if ([[UIDevice currentDevice] isMultitaskingSupported]) {
         // Setup background task. This is needed because the captureOutput:didFinishRecordingToOutputFileAtURL: callback is not received until AVCam returns
@@ -153,7 +153,7 @@
     [[self recorder] startRecordingWithOrientation:AVCaptureVideoOrientationPortrait];
 }
 
-- (void) stopRecording
+- (void) stopVideoRecording
 {
     [[self recorder] stopRecording];
 }

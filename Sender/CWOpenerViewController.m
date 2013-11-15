@@ -18,6 +18,8 @@
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
     NSTimeInterval startRecordTime;
+    CGRect smallFrame;
+    CGRect largeFrame;
 }
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) CWVideoPlayer * player;
@@ -30,11 +32,17 @@
 
 
 
+@property (nonatomic,assign) NSInteger reviewCountdownTickCount;
+@property (nonatomic,assign) NSInteger reactionCountdownTickCount;
 @property (nonatomic,assign) NSInteger responseCountdownTickCount;
-- (void)onResponseCountdownTick:(NSTimer*)timer;
 
-//@property (nonatomic,strong) NSTimer * reactionTimer;
-//@property (nonatomic,strong) NSTimer * startRecordTimer;
+- (void)onResponseCountdownTick:(NSTimer*)timer;
+- (void)onReactionCountdownTick:(NSTimer*)timer;
+- (void)onReviewCountdownTick:(NSTimer*)timer;
+- (void)startResponseCountDown;
+- (void)startReviewCountDown;
+- (void)startReactionCountDown;
+- (void)setupCameraView;
 
 @end
 
@@ -51,10 +59,20 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [self.player setDelegate:nil];
+    [self.recorder setDelegate:nil];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    smallFrame = self.cameraView.frame;
+    largeFrame = self.playbackView.frame;
+    
     self.feedbackVC = [[CWFeedbackViewController alloc]init];
     [self addChildViewController:self.feedbackVC];
     [self.view addSubview:self.feedbackVC.view];
@@ -65,9 +83,11 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
     self.player = [[CWVideoManager sharedManager]player];
     self.recorder = [[CWVideoManager sharedManager]recorder];
     
+    [self.cameraView setHidden:YES];
     
     [self.player setDelegate:self];
     [self.recorder setDelegate:self];
@@ -116,15 +136,59 @@
     if (self.responseCountdownTickCount <=0 ) {
         [self.responseCountdownTimer invalidate];
         self.responseCountdownTimer = nil;
-        // push to review
-        CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
-        [self.navigationController pushViewController:reviewVC animated:NO];
+        [self.recorder stopVideoRecording];
         
         
     }
     [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
 }
+- (void)onReviewCountdownTick:(NSTimer*)timer
+{
+    self.reviewCountdownTickCount--;
+    if (self.reviewCountdownTickCount <=0 ) {
+        [self.reviewCountdownTimer invalidate];
+        self.reviewCountdownTimer = nil;
+        
+        [self.cameraView setHidden:NO];
+        // start reaction timer
+        [self startReactionCountDown];
+        
+    }
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REVIEW_STRING,self.reviewCountdownTickCount]];
+}
 
+- (void)onReactionCountdownTick:(NSTimer*)timer
+{
+    self.reactionCountdownTickCount++;
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REACTION_STRING,self.reactionCountdownTickCount]];
+}
+
+- (void)startResponseCountDown
+{
+    self.responseCountdownTickCount = MAX_RECORD_TIME;
+    self.responseCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onResponseCountdownTick:) userInfo:nil repeats:YES];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
+    NSLog(@"started response countdown from %d",self.responseCountdownTickCount);
+}
+
+
+- (void)startReviewCountDown
+{
+    self.reviewCountdownTickCount = self.messageItem.metadata.startRecording;
+    self.reviewCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReviewCountdownTick:) userInfo:nil repeats:YES];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REVIEW_STRING,self.reviewCountdownTickCount]];
+    NSLog(@"started review countdown from %d",self.reviewCountdownTickCount);
+    
+}
+
+- (void)startReactionCountDown
+{
+    [self.recorder startVideoRecording];
+    self.reactionCountdownTickCount = 0;
+    self.reactionCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReactionCountdownTick:) userInfo:nil repeats:YES];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REACTION_STRING,self.reactionCountdownTickCount]];
+    NSLog(@"started reaction countdown from %d",self.reactionCountdownTickCount);
+}
 
 
 
@@ -135,6 +199,8 @@
     [self.playbackView addSubview:player.playbackView];
     [player.playbackView setFrame:self.playbackView.bounds];
     [player playVideo];
+    // start review countdown
+    [self startReviewCountDown];
 }
 
 - (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError *)error
@@ -144,10 +210,14 @@
 
 - (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
 {
-    self.responseCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onResponseCountdownTick:) userInfo:nil repeats:YES];
-    self.responseCountdownTickCount = MAX_RECORD_TIME;
+    [UIView animateWithDuration:0.6 animations:^{
+        [self.cameraView setFrame:largeFrame];
+        [self.recorder.recorderView setFrame:self.cameraView.bounds];
+    }];
     
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
+    [self.reactionCountdownTimer invalidate];
+    self.reactionCountdownTimer = nil;
+    [self startResponseCountDown];
     
 }
 
@@ -161,12 +231,16 @@
 
 - (void)recorderRecordingBegan:(CWVideoRecorder *)recorder
 {
-    
+    [self.feedbackVC.feedbackLabel setTextColor:[UIColor redColor]];
 }
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
-    
+    [self.feedbackVC.feedbackLabel setTextColor:[UIColor whiteColor]];
+    // push to review
+    CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+    [self.navigationController pushViewController:reviewVC animated:NO];
+
 }
 
 

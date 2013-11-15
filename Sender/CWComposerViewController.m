@@ -73,12 +73,12 @@
 - (void)startRecording
 {
     [self.feedbackVC.feedbackLabel setText:@""];
-    [[[CWVideoManager sharedManager]recorder] startRecording];
+    [[[CWVideoManager sharedManager]recorder] startVideoRecording];
 }
 
 - (void)stopRecording
 {
-    [[[CWVideoManager sharedManager]recorder]stopRecording];
+    [[[CWVideoManager sharedManager]recorder]stopVideoRecording];
     [self.recordTimer invalidate];
     self.recordTimer = nil;
 }
