@@ -17,7 +17,7 @@
 {
     // Override point for customization after application launch.
     
-//    [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
+    [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
     
     UIStoryboard * storyboard;
     UIViewController * vc;
