@@ -77,7 +77,7 @@
 - (CWMessageItem*)createMessageItem
 {
     CWMessageItem * message = [[CWMessageItem alloc]init];
-    [message setVideoURL:recorder.tempFileURL];
+    [message setVideoURL:recorder.outputFileURL];
     message.metadata.startRecording = self.startRecordingTime;
     return message;
 }

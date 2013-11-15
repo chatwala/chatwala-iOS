@@ -196,20 +196,28 @@
     }
 }
 
+- (AVAssetExportSession*)createVideExporterWithSourceVideoURL:(NSURL*)videoURL_in andOutPutURL:(NSURL*)videoURL_out
+{
+    AVAsset * videoAsset = [AVAsset assetWithURL:videoURL_in];
+    AVAssetExportSession *exporter = [[AVAssetExportSession alloc] initWithAsset:videoAsset presetName:AVAssetExportPresetMediumQuality];
+    [exporter setOutputFileType:AVFileTypeMPEG4];
+    [exporter setOutputURL:videoURL_out];
+    
+    return exporter;
+
+}
+
 
 - (void)converVideoWithURL:(NSURL*)videoURL
 {
-    // setup export
-    AVAsset * videoAsset = [AVAsset assetWithURL:videoURL];
-    AVAssetExportSession *sessionExporter = [[AVAssetExportSession alloc] initWithAsset:videoAsset presetName:AVAssetExportPresetMediumQuality];
-    [sessionExporter setOutputFileType:AVFileTypeMPEG4];
+    self.outputFileURL = [[self cacheDirectoryURL] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@",[[NSUUID UUID] UUIDString],@".mp4"]];
     
-    NSURL * convertedFileOutputURL = [[self cacheDirectoryURL] URLByAppendingPathComponent:OUTPUT_VIDEO_FILE_NAME];
-    [sessionExporter setOutputURL:convertedFileOutputURL];
+    // setup exporter
+    AVAssetExportSession *exporter = [self createVideExporterWithSourceVideoURL:videoURL andOutPutURL:self.outputFileURL];
     
     __block CWVideoRecorder* blockSelf = self;
     
-    [sessionExporter exportAsynchronouslyWithCompletionHandler:^{
+    [exporter exportAsynchronouslyWithCompletionHandler:^{
         // video completed export
         dispatch_async(dispatch_get_main_queue(), ^{
             [blockSelf.delegate recorderRecordingFinished:blockSelf];

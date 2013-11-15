@@ -226,10 +226,11 @@
 
 - (void)testShouldProperlySetupMessageItemVideoURLWhenCreateMessageItemIsInvoked
 {
-    id mockVidUrl = [OCMockObject mockForClass:[NSURL class]];
-    [[[self.mockRecorder stub]andReturn:mockVidUrl]tempFileURL];
-    CWMessageItem * msgItem = [self.sut createMessageItem];
-    XCTAssertTrue( [msgItem.videoURL isEqual:mockVidUrl], @"video url should match");
+    NSURL  * expected = [NSURL URLWithString:@"blah"];
+    [self.sut.recorder setOutputFileURL:expected];
+    [self.sut createMessageItem];
+    NSURL * actual = [[self.sut createMessageItem]videoURL];
+    XCTAssertEqualObjects(expected, actual, @"urls should match");
 }
 - (void)testShouldProperlySetupMessageItemMetatDataWhenCreateMessageItemIsInvoked
 {
