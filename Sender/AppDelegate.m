@@ -10,6 +10,11 @@
 #import "OpenerViewController.h"
 #import "SenderViewController.h"
 #import "CWOpenerViewController.h"
+#import "CWStartScreenViewController.h"
+
+@interface AppDelegate ()
+@property (nonatomic,strong) UINavigationController * navController;
+@end
 
 @implementation AppDelegate
 
@@ -19,22 +24,27 @@
     
     [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
     
-    UIStoryboard * storyboard;
-    UIViewController * vc;
-    CGFloat screenHeight = SCREEN_BOUNDS.size.height;
-    if (screenHeight> 480) {
-        // iphone5
-        storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-    }else{
-        // pre-iphone5
-        storyboard = [UIStoryboard storyboardWithName:@"SmallScreen" bundle:[NSBundle mainBundle]];
-    }
+//    UIStoryboard * storyboard;
+//    UIViewController * vc;
+//    CGFloat screenHeight = SCREEN_BOUNDS.size.height;
+//    if (screenHeight> 480) {
+//        // iphone5
+//        storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+//    }else{
+//        // pre-iphone5
+//        storyboard = [UIStoryboard storyboardWithName:@"SmallScreen" bundle:[NSBundle mainBundle]];
+//    }
+    
+    CWStartScreenViewController * startVC = [[CWStartScreenViewController alloc]init];
+    
+    
+    self.navController = [[UINavigationController alloc]initWithRootViewController:startVC];
 
     self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
-    vc = [storyboard instantiateInitialViewController];
+//    vc = [storyboard instantiateInitialViewController];
     
-    [self.window addSubview:vc.view];
-    [self.window setRootViewController:vc];
+    [self.window addSubview:self.navController.view];
+    [self.window setRootViewController:self.navController];
     [self.window makeKeyAndVisible];
     
     return YES;

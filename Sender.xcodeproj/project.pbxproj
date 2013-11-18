@@ -18,6 +18,7 @@
 		E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD14183A9010009400DD /* CWSSOpenerViewController.xib */; };
 		E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD17183AA160009400DD /* CWPIPOpenerViewController.m */; };
 		E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD1A183AA16D009400DD /* CWSSOpenerViewController.m */; };
+		E924AD1D183AA902009400DD /* CWStartScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD1C183AA902009400DD /* CWStartScreenViewController.xib */; };
 		E9443987182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
 		E9443989182940AF0088A381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443988182940AF0088A381 /* CoreGraphics.framework */; };
 		E944398B182940AF0088A381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E944398A182940AF0088A381 /* UIKit.framework */; };
@@ -103,6 +104,7 @@
 		E924AD17183AA160009400DD /* CWPIPOpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPIPOpenerViewController.m; sourceTree = "<group>"; };
 		E924AD19183AA16D009400DD /* CWSSOpenerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSSOpenerViewController.h; sourceTree = "<group>"; };
 		E924AD1A183AA16D009400DD /* CWSSOpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSSOpenerViewController.m; sourceTree = "<group>"; };
+		E924AD1C183AA902009400DD /* CWStartScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWStartScreenViewController.xib; sourceTree = "<group>"; };
 		E9443983182940AF0088A381 /* Sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9443986182940AF0088A381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E9443988182940AF0088A381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -242,6 +244,7 @@
 				E94439DF18297ED30088A381 /* OpenerViewController.m */,
 				E90F04E6182D7AD4004B8CCD /* CWStartScreenViewController.h */,
 				E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */,
+				E924AD1C183AA902009400DD /* CWStartScreenViewController.xib */,
 				E9C115511832970E00DB67D2 /* CWComposerViewController.h */,
 				E9C115521832970E00DB67D2 /* CWComposerViewController.m */,
 				E9C115671832D82700DB67D2 /* CWReviewViewController.h */,
@@ -507,6 +510,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9C1156B1832D82700DB67D2 /* CWReviewViewController.xib in Resources */,
+				E924AD1D183AA902009400DD /* CWStartScreenViewController.xib in Resources */,
 				E944399F182940AF0088A381 /* Images.xcassets in Resources */,
 				E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */,
 				E9CE73EA1831810900056FA9 /* video.mp4 in Resources */,
