@@ -55,6 +55,8 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        smallFrame = CGRectZero;
+        largeFrame = CGRectZero;
     }
     return self;
 }
@@ -70,14 +72,25 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    smallFrame = self.cameraView.frame;
-    largeFrame = self.playbackView.frame;
-    
     self.feedbackVC = [[CWFeedbackViewController alloc]init];
     [self addChildViewController:self.feedbackVC];
     [self.view addSubview:self.feedbackVC.view];
     
 
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if(CGRectIsEmpty(smallFrame))
+    {
+        smallFrame = self.cameraView.frame;
+    }
+    if(CGRectIsEmpty(largeFrame))
+    {
+        largeFrame = self.playbackView.frame;
+    }
+       
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -93,6 +106,14 @@
     [self.recorder setDelegate:self];
     
     
+    if(!CGRectIsEmpty(smallFrame))
+    {
+        self.cameraView.frame = smallFrame;
+    }
+    if(!CGRectIsEmpty(largeFrame))
+    {
+        self.playbackView.frame = largeFrame;
+    }
     
     NSAssert(self.messageItem, @"message item must be non-nil");
     
