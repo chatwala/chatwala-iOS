@@ -11,8 +11,7 @@
 #import "CWComposerViewController.h"
 
 @interface CWStartScreenViewController ()
-@property (weak, nonatomic) IBOutlet UIButton *startButton;
-- (IBAction)onStart:(id)sender;
+
 @end
 
 @implementation CWStartScreenViewController

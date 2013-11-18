@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CWStartScreenViewController : UIViewController
-
+@property (weak, nonatomic) IBOutlet UIButton *startButton;
+- (IBAction)onStart:(id)sender;
 @end

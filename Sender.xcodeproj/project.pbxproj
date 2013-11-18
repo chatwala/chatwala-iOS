@@ -13,19 +13,20 @@
 		E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D6182AA430004B8CCD /* VideoLibrary.m */; };
 		E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D9182BEA71004B8CCD /* CWMessageItem.m */; };
 		E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04DC182BF758004B8CCD /* CWMetadata.m */; };
-		E90F04E2182C458A004B8CCD /* SmallScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90F04E0182C458A004B8CCD /* SmallScreen.storyboard */; };
 		E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */; };
 		E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD14183A9010009400DD /* CWSSOpenerViewController.xib */; };
 		E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD17183AA160009400DD /* CWPIPOpenerViewController.m */; };
 		E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD1A183AA16D009400DD /* CWSSOpenerViewController.m */; };
-		E924AD1D183AA902009400DD /* CWStartScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD1C183AA902009400DD /* CWStartScreenViewController.xib */; };
+		E924AD1D183AA902009400DD /* CWPIPStartScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD1C183AA902009400DD /* CWPIPStartScreenViewController.xib */; };
+		E924AD1F183AAD1F009400DD /* CWSSStartScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD1E183AAD1F009400DD /* CWSSStartScreenViewController.xib */; };
+		E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD21183AAD47009400DD /* CWPIPStartScreenViewController.m */; };
+		E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD24183AAD69009400DD /* CWSSStartScreenViewController.m */; };
 		E9443987182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
 		E9443989182940AF0088A381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443988182940AF0088A381 /* CoreGraphics.framework */; };
 		E944398B182940AF0088A381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E944398A182940AF0088A381 /* UIKit.framework */; };
 		E9443991182940AF0088A381 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E944398F182940AF0088A381 /* InfoPlist.strings */; };
 		E9443993182940AF0088A381 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = E9443992182940AF0088A381 /* main.m */; };
 		E9443997182940AF0088A381 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = E9443996182940AF0088A381 /* AppDelegate.m */; };
-		E944399A182940AF0088A381 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E9443998182940AF0088A381 /* Main.storyboard */; };
 		E944399D182940AF0088A381 /* SenderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E944399C182940AF0088A381 /* SenderViewController.m */; };
 		E944399F182940AF0088A381 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E944399E182940AF0088A381 /* Images.xcassets */; };
 		E94439A6182940AF0088A381 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94439A5182940AF0088A381 /* XCTest.framework */; };
@@ -96,7 +97,6 @@
 		E90F04D9182BEA71004B8CCD /* CWMessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageItem.m; sourceTree = "<group>"; };
 		E90F04DB182BF758004B8CCD /* CWMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMetadata.h; sourceTree = "<group>"; };
 		E90F04DC182BF758004B8CCD /* CWMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMetadata.m; sourceTree = "<group>"; };
-		E90F04E1182C458A004B8CCD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SmallScreen.storyboard; sourceTree = "<group>"; };
 		E90F04E6182D7AD4004B8CCD /* CWStartScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWStartScreenViewController.h; sourceTree = "<group>"; };
 		E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWStartScreenViewController.m; sourceTree = "<group>"; };
 		E924AD14183A9010009400DD /* CWSSOpenerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWSSOpenerViewController.xib; sourceTree = "<group>"; };
@@ -104,7 +104,12 @@
 		E924AD17183AA160009400DD /* CWPIPOpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPIPOpenerViewController.m; sourceTree = "<group>"; };
 		E924AD19183AA16D009400DD /* CWSSOpenerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSSOpenerViewController.h; sourceTree = "<group>"; };
 		E924AD1A183AA16D009400DD /* CWSSOpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSSOpenerViewController.m; sourceTree = "<group>"; };
-		E924AD1C183AA902009400DD /* CWStartScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWStartScreenViewController.xib; sourceTree = "<group>"; };
+		E924AD1C183AA902009400DD /* CWPIPStartScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPIPStartScreenViewController.xib; sourceTree = "<group>"; };
+		E924AD1E183AAD1F009400DD /* CWSSStartScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWSSStartScreenViewController.xib; sourceTree = "<group>"; };
+		E924AD20183AAD47009400DD /* CWPIPStartScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWPIPStartScreenViewController.h; sourceTree = "<group>"; };
+		E924AD21183AAD47009400DD /* CWPIPStartScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPIPStartScreenViewController.m; sourceTree = "<group>"; };
+		E924AD23183AAD69009400DD /* CWSSStartScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSSStartScreenViewController.h; sourceTree = "<group>"; };
+		E924AD24183AAD69009400DD /* CWSSStartScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSSStartScreenViewController.m; sourceTree = "<group>"; };
 		E9443983182940AF0088A381 /* Sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9443986182940AF0088A381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E9443988182940AF0088A381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -115,7 +120,6 @@
 		E9443994182940AF0088A381 /* Sender-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sender-Prefix.pch"; sourceTree = "<group>"; };
 		E9443995182940AF0088A381 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		E9443996182940AF0088A381 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		E9443999182940AF0088A381 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E944399B182940AF0088A381 /* SenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SenderViewController.h; sourceTree = "<group>"; };
 		E944399C182940AF0088A381 /* SenderViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SenderViewController.m; sourceTree = "<group>"; };
 		E944399E182940AF0088A381 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -242,9 +246,7 @@
 				E94439D61829511A0088A381 /* PlaybackViewController.m */,
 				E94439DE18297ED30088A381 /* OpenerViewController.h */,
 				E94439DF18297ED30088A381 /* OpenerViewController.m */,
-				E90F04E6182D7AD4004B8CCD /* CWStartScreenViewController.h */,
-				E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */,
-				E924AD1C183AA902009400DD /* CWStartScreenViewController.xib */,
+				E924AD26183AAD79009400DD /* Start Screen */,
 				E9C115511832970E00DB67D2 /* CWComposerViewController.h */,
 				E9C115521832970E00DB67D2 /* CWComposerViewController.m */,
 				E9C115671832D82700DB67D2 /* CWReviewViewController.h */,
@@ -283,10 +285,23 @@
 		E90F04E5182D2A67004B8CCD /* User Interface */ = {
 			isa = PBXGroup;
 			children = (
-				E9443998182940AF0088A381 /* Main.storyboard */,
-				E90F04E0182C458A004B8CCD /* SmallScreen.storyboard */,
 			);
 			name = "User Interface";
+			sourceTree = "<group>";
+		};
+		E924AD26183AAD79009400DD /* Start Screen */ = {
+			isa = PBXGroup;
+			children = (
+				E90F04E6182D7AD4004B8CCD /* CWStartScreenViewController.h */,
+				E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */,
+				E924AD20183AAD47009400DD /* CWPIPStartScreenViewController.h */,
+				E924AD21183AAD47009400DD /* CWPIPStartScreenViewController.m */,
+				E924AD1E183AAD1F009400DD /* CWSSStartScreenViewController.xib */,
+				E924AD23183AAD69009400DD /* CWSSStartScreenViewController.h */,
+				E924AD24183AAD69009400DD /* CWSSStartScreenViewController.m */,
+				E924AD1C183AA902009400DD /* CWPIPStartScreenViewController.xib */,
+			);
+			name = "Start Screen";
 			sourceTree = "<group>";
 		};
 		E944397A182940AF0088A381 = {
@@ -510,15 +525,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9C1156B1832D82700DB67D2 /* CWReviewViewController.xib in Resources */,
-				E924AD1D183AA902009400DD /* CWStartScreenViewController.xib in Resources */,
+				E924AD1D183AA902009400DD /* CWPIPStartScreenViewController.xib in Resources */,
 				E944399F182940AF0088A381 /* Images.xcassets in Resources */,
+				E924AD1F183AAD1F009400DD /* CWSSStartScreenViewController.xib in Resources */,
 				E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */,
 				E9CE73EA1831810900056FA9 /* video.mp4 in Resources */,
 				E9443991182940AF0088A381 /* InfoPlist.strings in Resources */,
 				E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */,
 				E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */,
-				E90F04E2182C458A004B8CCD /* SmallScreen.storyboard in Resources */,
-				E944399A182940AF0088A381 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -611,6 +625,7 @@
 				E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */,
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
+				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
 				E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */,
@@ -621,6 +636,7 @@
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
+				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
 				E94439D71829511A0088A381 /* PlaybackViewController.m in Sources */,
 				E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */,
@@ -657,28 +673,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E90F04E0182C458A004B8CCD /* SmallScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E90F04E1182C458A004B8CCD /* Base */,
-			);
-			name = SmallScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		E944398F182940AF0088A381 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E9443990182940AF0088A381 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		E9443998182940AF0088A381 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E9443999182940AF0088A381 /* Base */,
-			);
-			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 		E94439AE182940AF0088A381 /* InfoPlist.strings */ = {

@@ -11,8 +11,13 @@
 #import "SenderViewController.h"
 #import "CWOpenerViewController.h"
 #import "CWStartScreenViewController.h"
+#import "CWSSStartScreenViewController.h"
+#import "CWPIPStartScreenViewController.h"
 
 @interface AppDelegate ()
+{
+    BOOL isSplitScreen;
+}
 @property (nonatomic,strong) UINavigationController * navController;
 @end
 
@@ -35,8 +40,16 @@
 //        storyboard = [UIStoryboard storyboardWithName:@"SmallScreen" bundle:[NSBundle mainBundle]];
 //    }
     
-    CWStartScreenViewController * startVC = [[CWStartScreenViewController alloc]init];
+    CWStartScreenViewController * startVC;
+    // = [[CWStartScreenViewController alloc]init];
     
+    isSplitScreen = YES;
+    
+    if (isSplitScreen) {
+        startVC = [[CWSSStartScreenViewController alloc]init];
+    }else{
+        startVC = [[CWPIPStartScreenViewController alloc]init];
+    }
     
     self.navController = [[UINavigationController alloc]initWithRootViewController:startVC];
 
