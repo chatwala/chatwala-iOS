@@ -7,6 +7,7 @@
 //
 
 #import "CWSSComposerViewController.h"
+#import "CWSSReviewViewController.h"
 
 @interface CWSSComposerViewController ()
 
@@ -40,10 +41,13 @@
     [[[[CWVideoManager sharedManager]recorder]recorderView]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5)];
 }
 
-- (void)didReceiveMemoryWarning
+
+- (void)showReview
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    CWSSReviewViewController * reviewVC = [[CWSSReviewViewController alloc]init];
+    [reviewVC setStartRecordingTime:0];
+    [self.navigationController pushViewController:reviewVC animated:YES];
 }
+
 
 @end

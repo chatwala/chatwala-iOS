@@ -25,6 +25,9 @@
 		E924AD2B183AB450009400DD /* CWSSComposerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD2A183AB450009400DD /* CWSSComposerViewController.xib */; };
 		E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD2D183AB481009400DD /* CWPIPComposerViewController.m */; };
 		E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD30183AB491009400DD /* CWSSComposerViewController.m */; };
+		E924AD34183AB789009400DD /* CWSSReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD33183AB789009400DD /* CWSSReviewViewController.xib */; };
+		E924AD37183AB7CA009400DD /* CWPIPReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD36183AB7CA009400DD /* CWPIPReviewViewController.m */; };
+		E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD39183AB7D8009400DD /* CWSSReviewViewController.m */; };
 		E9443987182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
 		E9443989182940AF0088A381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443988182940AF0088A381 /* CoreGraphics.framework */; };
 		E944398B182940AF0088A381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E944398A182940AF0088A381 /* UIKit.framework */; };
@@ -71,7 +74,7 @@
 		E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */; };
 		E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */; };
 		E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115681832D82700DB67D2 /* CWReviewViewController.m */; };
-		E9C1156B1832D82700DB67D2 /* CWReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C115691832D82700DB67D2 /* CWReviewViewController.xib */; };
+		E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */; };
 		E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73E518316AEC00056FA9 /* TestUtils.m */; };
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 		E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */; };
@@ -120,6 +123,11 @@
 		E924AD2D183AB481009400DD /* CWPIPComposerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPIPComposerViewController.m; sourceTree = "<group>"; };
 		E924AD2F183AB491009400DD /* CWSSComposerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSSComposerViewController.h; sourceTree = "<group>"; };
 		E924AD30183AB491009400DD /* CWSSComposerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSSComposerViewController.m; sourceTree = "<group>"; };
+		E924AD33183AB789009400DD /* CWSSReviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWSSReviewViewController.xib; sourceTree = "<group>"; };
+		E924AD35183AB7CA009400DD /* CWPIPReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWPIPReviewViewController.h; sourceTree = "<group>"; };
+		E924AD36183AB7CA009400DD /* CWPIPReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPIPReviewViewController.m; sourceTree = "<group>"; };
+		E924AD38183AB7D8009400DD /* CWSSReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSSReviewViewController.h; sourceTree = "<group>"; };
+		E924AD39183AB7D8009400DD /* CWSSReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSSReviewViewController.m; sourceTree = "<group>"; };
 		E9443983182940AF0088A381 /* Sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9443986182940AF0088A381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E9443988182940AF0088A381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -188,7 +196,7 @@
 		E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayerItem+Spec.m"; sourceTree = "<group>"; };
 		E9C115671832D82700DB67D2 /* CWReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWReviewViewController.h; sourceTree = "<group>"; };
 		E9C115681832D82700DB67D2 /* CWReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWReviewViewController.m; sourceTree = "<group>"; };
-		E9C115691832D82700DB67D2 /* CWReviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWReviewViewController.xib; sourceTree = "<group>"; };
+		E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPIPReviewViewController.xib; sourceTree = "<group>"; };
 		E9CE73E418316AEC00056FA9 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		E9CE73E518316AEC00056FA9 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
 		E9CE73E91831810900056FA9 /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
@@ -258,9 +266,7 @@
 				E94439DF18297ED30088A381 /* OpenerViewController.m */,
 				E924AD26183AAD79009400DD /* Start Screen */,
 				E924AD27183AB0A2009400DD /* Composer */,
-				E9C115671832D82700DB67D2 /* CWReviewViewController.h */,
-				E9C115681832D82700DB67D2 /* CWReviewViewController.m */,
-				E9C115691832D82700DB67D2 /* CWReviewViewController.xib */,
+				E924AD32183AB718009400DD /* Review */,
 				E9C115571832987700DB67D2 /* CWFeedbackViewController.h */,
 				E9C115581832987700DB67D2 /* CWFeedbackViewController.m */,
 				E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */,
@@ -326,6 +332,21 @@
 				E924AD2A183AB450009400DD /* CWSSComposerViewController.xib */,
 			);
 			name = Composer;
+			sourceTree = "<group>";
+		};
+		E924AD32183AB718009400DD /* Review */ = {
+			isa = PBXGroup;
+			children = (
+				E9C115671832D82700DB67D2 /* CWReviewViewController.h */,
+				E9C115681832D82700DB67D2 /* CWReviewViewController.m */,
+				E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */,
+				E924AD35183AB7CA009400DD /* CWPIPReviewViewController.h */,
+				E924AD36183AB7CA009400DD /* CWPIPReviewViewController.m */,
+				E924AD33183AB789009400DD /* CWSSReviewViewController.xib */,
+				E924AD38183AB7D8009400DD /* CWSSReviewViewController.h */,
+				E924AD39183AB7D8009400DD /* CWSSReviewViewController.m */,
+			);
+			name = Review;
 			sourceTree = "<group>";
 		};
 		E944397A182940AF0088A381 = {
@@ -548,8 +569,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9C1156B1832D82700DB67D2 /* CWReviewViewController.xib in Resources */,
+				E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */,
 				E924AD1D183AA902009400DD /* CWPIPStartScreenViewController.xib in Resources */,
+				E924AD34183AB789009400DD /* CWSSReviewViewController.xib in Resources */,
 				E924AD29183AB0BC009400DD /* CWPIPComposerViewController.xib in Resources */,
 				E944399F182940AF0088A381 /* Images.xcassets in Resources */,
 				E924AD1F183AAD1F009400DD /* CWSSStartScreenViewController.xib in Resources */,
@@ -655,6 +677,7 @@
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
+				E924AD37183AB7CA009400DD /* CWPIPReviewViewController.m in Sources */,
 				E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */,
 				E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */,
 				E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */,
@@ -665,6 +688,7 @@
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
+				E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
 				E94439D71829511A0088A381 /* PlaybackViewController.m in Sources */,
 				E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */,

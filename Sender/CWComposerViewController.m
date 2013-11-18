@@ -15,7 +15,6 @@
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) CWReviewViewController * reviewVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
-@property (nonatomic,assign) NSInteger tickCount;
 
 @end
 
@@ -120,9 +119,14 @@
 {
     if (self.tickCount == 0 || !self.tickCount) {
         // push
-        [self.reviewVC setStartRecordingTime:0];
-        [self.navigationController pushViewController:self.reviewVC animated:YES];
+        [self showReview];
     }
 }
+
+- (void)showReview
+{
+    NSAssert(0, @"should be over written in subclass");
+}
+
 
 @end
