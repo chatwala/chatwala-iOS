@@ -46,7 +46,7 @@
 {
     CWSSReviewViewController * reviewVC = [[CWSSReviewViewController alloc]init];
     [reviewVC setStartRecordingTime:0];
-    [self.navigationController pushViewController:reviewVC animated:YES];
+    [self.navigationController pushViewController:reviewVC animated:NO];
 }
 
 
