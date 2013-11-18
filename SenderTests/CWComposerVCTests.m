@@ -97,6 +97,7 @@
 {
     [[self.mockRecorder expect]stopVideoRecording];
     [self.sut touchesEnded:nil withEvent:nil];
+    [self.mockRecorder verify];
     
 }
 
