@@ -15,6 +15,7 @@
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) CWReviewViewController * reviewVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
+@property (nonatomic,assign) NSInteger tickCount;
 
 @end
 
