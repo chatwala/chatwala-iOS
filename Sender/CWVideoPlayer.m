@@ -208,7 +208,7 @@
         
         if (newPlayerItem) {
             [self.playbackView setPlayer:self.player];
-            [self.playbackView setVideoFillMode:AVLayerVideoGravityResizeAspect];
+            [self.playbackView setVideoFillMode:AVLayerVideoGravityResizeAspectFill];
         }
 	} else {
 		[super observeValueForKeyPath:path ofObject:object change:change context:context];
