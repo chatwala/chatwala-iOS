@@ -13,7 +13,6 @@
 
 @interface CWComposerViewController ()
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
-@property (nonatomic,strong) CWReviewViewController * reviewVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
 @property (nonatomic,assign) NSInteger tickCount;
 
@@ -83,17 +82,6 @@
     [self.recordTimer invalidate];
     self.recordTimer = nil;
 }
-
-
-- (CWReviewViewController *)reviewVC
-{
-    if (_reviewVC == nil) {
-        _reviewVC = [[CWReviewViewController alloc]init];
-        [self addChildViewController:_reviewVC];
-    }
-    return _reviewVC;
-}
-
 
 #pragma mark CWVideoRecorderDelegate
 

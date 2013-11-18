@@ -107,22 +107,11 @@
     
     CWVideoRecorder * recorder = [[CWVideoManager sharedManager]recorder];
     id mockNavController = [OCMockObject partialMockForObject:navController];
-    [[mockNavController expect]pushViewController:self.sut.reviewVC animated:NO];
+    [[mockNavController expect]pushViewController:OCMOCK_ANY animated:NO];
     
     [self.sut setTickCount:0];
     [[recorder delegate]recorderRecordingFinished:recorder];
     
-}
-
-- (void)testShouldRestartTimerWhenRecordingBegins
-{
-    id mockTimer = [OCMockObject mockForClass:[NSTimer class]];
-    id mockSUT = [OCMockObject partialMockForObject:self.sut];
-    [[mockSUT stub]andReturn:mockTimer];
-    [[mockTimer expect]invalidate];
-    [[mockSUT expect]setRecordTimer:OCMOCK_ANY];
-    [self.sut recorderRecordingFinished:self.mockRecorder];
-    [mockSUT stopMocking];
 }
 
 - (void)testShouldUpdateFeedbackWhenOnTickEnvoked
