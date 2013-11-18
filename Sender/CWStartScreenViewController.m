@@ -35,6 +35,11 @@
     
 
     [[[CWVideoManager sharedManager]recorder]setupSession];
+
+}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
     [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.startButton];
     
