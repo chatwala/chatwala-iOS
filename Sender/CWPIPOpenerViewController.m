@@ -35,4 +35,22 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)enteringCameraState:(CWOpenerState)state
+{
+    switch (state) {
+        case CWOpenerReview:
+            //
+            [self.cameraView setHidden:YES];
+            break;
+        case CWOpenerReact:
+            //
+            [self.cameraView setHidden:NO];
+            break;
+        case CWOpenerRespond:
+            //
+            [self.cameraView setHidden:NO];
+            break;
+    }
+}
+
 @end

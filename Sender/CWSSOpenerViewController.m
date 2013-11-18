@@ -29,10 +29,24 @@
 	// Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
+
+- (void)enteringCameraState:(CWOpenerState)state
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    switch (state) {
+        case CWOpenerReview:
+            //
+            [self.cameraView setAlpha:0.5];
+            break;
+        case CWOpenerReact:
+            //
+            [self.cameraView setAlpha:1.0];
+            break;
+        case CWOpenerRespond:
+            //
+            [self.cameraView setAlpha:1.0];
+            break;
+    }
 }
+
 
 @end

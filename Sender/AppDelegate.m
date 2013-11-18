@@ -9,10 +9,12 @@
 #import "AppDelegate.h"
 #import "OpenerViewController.h"
 #import "SenderViewController.h"
-#import "CWOpenerViewController.h"
+#import "CWPIPOpenerViewController.h"
+#import "CWSSOpenerViewController.h"
 #import "CWStartScreenViewController.h"
 #import "CWSSStartScreenViewController.h"
 #import "CWPIPStartScreenViewController.h"
+
 
 @interface AppDelegate ()
 {
@@ -117,7 +119,13 @@
 {
     UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
     
-    CWOpenerViewController * openerVC = [[CWOpenerViewController alloc]init];
+    CWOpenerViewController * openerVC;
+    if (isSplitScreen) {
+        openerVC = [[CWSSOpenerViewController alloc]init];
+    }else{
+        openerVC = [[CWPIPOpenerViewController alloc]init];
+    }
+    
     [openerVC setZipURL:url];
     [rootVC pushViewController:openerVC animated:YES];
     
