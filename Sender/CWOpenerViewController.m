@@ -100,7 +100,6 @@
     self.player = [[CWVideoManager sharedManager]player];
     self.recorder = [[CWVideoManager sharedManager]recorder];
     
-    [self enteringCameraState:CWOpenerReview];
     
     [self.player setDelegate:self];
     [self.recorder setDelegate:self];
@@ -126,6 +125,27 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    
+    switch (self.openerState) {
+        case CWOpenerPreview:
+            // play preview
+            [self.player playVideo];
+            [self setOpenerState:CWOpenerReview];
+            break;
+        case CWOpenerReview:
+            //
+            [self.cameraView setAlpha:0.5];
+            break;
+        case CWOpenerReact:
+            //
+            [self.cameraView setAlpha:1.0];
+            break;
+        case CWOpenerRespond:
+            //
+            [self.cameraView setAlpha:1.0];
+            break;
+    }
+    
     [self.recorder stopVideoRecording];
 }
 
@@ -136,10 +156,12 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)enteringCameraState:(CWOpenerState)state
-{
-    NSAssert(0, @"should be implemented in subclass");
-}
+
+
+//- (void)enteringCameraState:(CWOpenerState)state
+//{
+//    NSAssert(0, @"should be implemented in subclass");
+//}
 
 - (void)setupCameraView
 {
@@ -194,7 +216,7 @@
 
 - (void)startResponseCountDown
 {
-    [self enteringCameraState:CWOpenerRespond];
+    [self setOpenerState:CWOpenerRespond];
     self.responseCountdownTickCount = MAX_RECORD_TIME;
     self.responseCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onResponseCountdownTick:) userInfo:nil repeats:YES];
     [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
@@ -213,7 +235,7 @@
 
 - (void)startReactionCountDown
 {
-    [self enteringCameraState:CWOpenerReact];
+    [self setOpenerState:CWOpenerReact];
     [self.recorder startVideoRecording];
     self.reactionCountdownTickCount = 0;
     self.reactionCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReactionCountdownTick:) userInfo:nil repeats:YES];
@@ -229,9 +251,7 @@
 {
     [self.playbackView addSubview:player.playbackView];
     [player.playbackView setFrame:self.playbackView.bounds];
-    [player playVideo];
-    // start review countdown
-    [self startReviewCountDown];
+    [self setOpenerState:CWOpenerPreview];
 }
 
 - (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError *)error

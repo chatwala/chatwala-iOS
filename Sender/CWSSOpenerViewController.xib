@@ -16,43 +16,46 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mvK-PY-gAu" userLabel="Upper View">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mvK-PY-gAu" userLabel="Upper View">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SWe-f5-RDK" userLabel="Lower View">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SWe-f5-RDK" userLabel="Lower View">
                     <rect key="frame" x="0.0" y="284" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="27k-F8-HPZ" userLabel="Middle View">
-                    <rect key="frame" x="0.0" y="251" width="320" height="67"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <subviews>
-                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8p-DT-eGr">
-                            <rect key="frame" x="135" y="9" width="50" height="50"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <state key="normal">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                        </button>
-                    </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8p-DT-eGr">
+                    <rect key="frame" x="125" y="249" width="70" height="70"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="67" id="78W-9Y-0mF"/>
-                        <constraint firstAttribute="width" constant="320" id="TPT-qT-Jif"/>
+                        <constraint firstAttribute="width" constant="70" id="FSY-ec-ijh"/>
+                        <constraint firstAttribute="height" constant="70" id="ZAx-3I-iRC"/>
                     </constraints>
-                </view>
+                    <state key="normal" image="cw_play">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="centerX" secondItem="27k-F8-HPZ" secondAttribute="centerX" id="0v6-WP-BqX"/>
-                <constraint firstAttribute="centerY" secondItem="27k-F8-HPZ" secondAttribute="centerY" id="acT-Gk-Ap3"/>
+                <constraint firstItem="mvK-PY-gAu" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="3I9-RU-sAV"/>
+                <constraint firstAttribute="trailing" secondItem="SWe-f5-RDK" secondAttribute="trailing" id="DqO-13-wOE"/>
+                <constraint firstAttribute="centerX" secondItem="a8p-DT-eGr" secondAttribute="centerX" id="PQP-XZ-UpE"/>
+                <constraint firstAttribute="trailing" secondItem="mvK-PY-gAu" secondAttribute="trailing" id="bUm-kj-tKS"/>
+                <constraint firstItem="a8p-DT-eGr" firstAttribute="top" secondItem="SWe-f5-RDK" secondAttribute="top" constant="-35" id="cJ0-oj-6zr"/>
+                <constraint firstItem="SWe-f5-RDK" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="f3W-qs-mNM"/>
+                <constraint firstAttribute="centerY" secondItem="a8p-DT-eGr" secondAttribute="centerY" id="gJT-SE-iS6"/>
+                <constraint firstItem="mvK-PY-gAu" firstAttribute="bottom" secondItem="a8p-DT-eGr" secondAttribute="bottom" constant="-35" id="lom-Tq-2aQ"/>
+                <constraint firstAttribute="bottom" secondItem="SWe-f5-RDK" secondAttribute="bottom" id="sbE-Em-TUt"/>
+                <constraint firstItem="mvK-PY-gAu" firstAttribute="top" secondItem="1" secondAttribute="top" id="zzp-FZ-qKV"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="cw_play" width="70" height="70"/>
+    </resources>
 </document>
