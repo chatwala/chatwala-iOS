@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 typedef enum {
+    CWOpenerPreview,
     CWOpenerReview,
     CWOpenerReact,
     CWOpenerRespond
@@ -25,7 +26,7 @@ static NSString *const FEEDBACK_REVIEW_STRING   = @"Recording Reaction in 0:%02d
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (nonatomic,strong) NSURL * zipURL;
+@property (nonatomic,assign) CWOpenerState openerState;
 
-- (void)enteringCameraState:(CWOpenerState)state;
 
 @end

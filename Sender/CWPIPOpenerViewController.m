@@ -13,6 +13,7 @@
 @end
 
 @implementation CWPIPOpenerViewController
+@synthesize openerState;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -35,9 +36,19 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)enteringCameraState:(CWOpenerState)state
+
+
+- (void)setOpenerState:(CWOpenerState)openerState
 {
-    switch (state) {
+    [super setOpenerState:openerState];
+    
+    switch (self.openerState) {
+        case CWOpenerPreview:
+            //            [self.player playVideo];
+            // start review countdown
+            //            [self startReviewCountDown];
+            //            [self.cameraView setHidden:YES];
+            break;
         case CWOpenerReview:
             //
             [self.cameraView setHidden:YES];
@@ -51,6 +62,8 @@
             [self.cameraView setHidden:NO];
             break;
     }
+    
 }
+
 
 @end

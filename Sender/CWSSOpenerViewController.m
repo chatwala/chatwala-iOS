@@ -28,11 +28,14 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
 }
-
-
-- (void)enteringCameraState:(CWOpenerState)state
+- (void)setOpenerState:(CWOpenerState)openerState
 {
-    switch (state) {
+    [super setOpenerState:openerState];
+    switch (self.openerState) {
+        case CWOpenerPreview:
+            //
+            [self.cameraView setAlpha:0.5];
+            break;
         case CWOpenerReview:
             //
             [self.cameraView setAlpha:0.5];
