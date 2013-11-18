@@ -15,6 +15,7 @@
 		E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04DC182BF758004B8CCD /* CWMetadata.m */; };
 		E90F04E2182C458A004B8CCD /* SmallScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E90F04E0182C458A004B8CCD /* SmallScreen.storyboard */; };
 		E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */; };
+		E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD14183A9010009400DD /* CWSSOpenerViewController.xib */; };
 		E9443987182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
 		E9443989182940AF0088A381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443988182940AF0088A381 /* CoreGraphics.framework */; };
 		E944398B182940AF0088A381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E944398A182940AF0088A381 /* UIKit.framework */; };
@@ -50,7 +51,7 @@
 		E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25EA18314DD200E3950B /* CWVideoPlayer.m */; };
 		E965255E18341963008987BD /* CWReviewVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E965255D18341963008987BD /* CWReviewVCTests.m */; };
 		E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9652560183535C1008987BD /* CWOpenerViewController.m */; };
-		E9652563183535C1008987BD /* CWOpenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9652561183535C1008987BD /* CWOpenerViewController.xib */; };
+		E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */; };
 		E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E96525641835367A008987BD /* CWOpenerVCTests.m */; };
 		E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */; };
 		E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */; };
@@ -95,6 +96,7 @@
 		E90F04E1182C458A004B8CCD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/SmallScreen.storyboard; sourceTree = "<group>"; };
 		E90F04E6182D7AD4004B8CCD /* CWStartScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWStartScreenViewController.h; sourceTree = "<group>"; };
 		E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWStartScreenViewController.m; sourceTree = "<group>"; };
+		E924AD14183A9010009400DD /* CWSSOpenerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWSSOpenerViewController.xib; sourceTree = "<group>"; };
 		E9443983182940AF0088A381 /* Sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9443986182940AF0088A381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E9443988182940AF0088A381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -145,7 +147,7 @@
 		E965255D18341963008987BD /* CWReviewVCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWReviewVCTests.m; sourceTree = "<group>"; };
 		E965255F183535C1008987BD /* CWOpenerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWOpenerViewController.h; sourceTree = "<group>"; };
 		E9652560183535C1008987BD /* CWOpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWOpenerViewController.m; sourceTree = "<group>"; };
-		E9652561183535C1008987BD /* CWOpenerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWOpenerViewController.xib; sourceTree = "<group>"; };
+		E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPIPOpenerViewController.xib; sourceTree = "<group>"; };
 		E96525641835367A008987BD /* CWOpenerVCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWOpenerVCTests.m; sourceTree = "<group>"; };
 		E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoRecorderTests.m; sourceTree = "<group>"; };
 		E9C1154E1832805300DB67D2 /* CWVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoRecorder.h; sourceTree = "<group>"; };
@@ -244,7 +246,8 @@
 				E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */,
 				E965255F183535C1008987BD /* CWOpenerViewController.h */,
 				E9652560183535C1008987BD /* CWOpenerViewController.m */,
-				E9652561183535C1008987BD /* CWOpenerViewController.xib */,
+				E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */,
+				E924AD14183A9010009400DD /* CWSSOpenerViewController.xib */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -498,7 +501,8 @@
 				E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */,
 				E9CE73EA1831810900056FA9 /* video.mp4 in Resources */,
 				E9443991182940AF0088A381 /* InfoPlist.strings in Resources */,
-				E9652563183535C1008987BD /* CWOpenerViewController.xib in Resources */,
+				E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */,
+				E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */,
 				E90F04E2182C458A004B8CCD /* SmallScreen.storyboard in Resources */,
 				E944399A182940AF0088A381 /* Main.storyboard in Resources */,
 			);
