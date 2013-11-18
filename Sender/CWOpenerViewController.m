@@ -130,6 +130,7 @@
         case CWOpenerPreview:
             // play preview
             [self.player playVideo];
+            [self startReviewCountDown];
             [self setOpenerState:CWOpenerReview];
             break;
         case CWOpenerReview:
