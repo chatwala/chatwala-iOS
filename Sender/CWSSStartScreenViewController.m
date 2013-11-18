@@ -7,6 +7,7 @@
 //
 
 #import "CWSSStartScreenViewController.h"
+#import "CWSSComposerViewController.h"
 #import "CWVideoManager.h"
 
 @interface CWSSStartScreenViewController ()
@@ -27,17 +28,20 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+    [self.startButton.layer setCornerRadius:self.startButton.frame.size.width*0.5];
     [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.startButton];
     
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5)];
     
 }
 
-- (void)didReceiveMemoryWarning
+
+- (void)onStart:(id)sender
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    CWSSComposerViewController * composerVC = [[CWSSComposerViewController alloc]init];
+    [self.navigationController pushViewController:composerVC animated:NO];
 }
+
+
 
 @end
