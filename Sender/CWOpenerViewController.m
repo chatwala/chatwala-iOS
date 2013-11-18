@@ -100,7 +100,7 @@
     self.player = [[CWVideoManager sharedManager]player];
     self.recorder = [[CWVideoManager sharedManager]recorder];
     
-    [self.cameraView setHidden:YES];
+    [self enteringCameraState:CWOpenerReview];
     
     [self.player setDelegate:self];
     [self.recorder setDelegate:self];
@@ -136,6 +136,10 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)enteringCameraState:(CWOpenerState)state
+{
+    NSAssert(0, @"should be implemented in subclass");
+}
 
 - (void)setupCameraView
 {
@@ -175,7 +179,6 @@
         [self.reviewCountdownTimer invalidate];
         self.reviewCountdownTimer = nil;
         
-        [self.cameraView setHidden:NO];
         // start reaction timer
         [self startReactionCountDown];
         
@@ -191,6 +194,7 @@
 
 - (void)startResponseCountDown
 {
+    [self enteringCameraState:CWOpenerRespond];
     self.responseCountdownTickCount = MAX_RECORD_TIME;
     self.responseCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onResponseCountdownTick:) userInfo:nil repeats:YES];
     [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
@@ -209,6 +213,7 @@
 
 - (void)startReactionCountDown
 {
+    [self enteringCameraState:CWOpenerReact];
     [self.recorder startVideoRecording];
     self.reactionCountdownTickCount = 0;
     self.reactionCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReactionCountdownTick:) userInfo:nil repeats:YES];

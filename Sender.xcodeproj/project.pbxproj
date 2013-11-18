@@ -270,14 +270,7 @@
 				E9C115571832987700DB67D2 /* CWFeedbackViewController.h */,
 				E9C115581832987700DB67D2 /* CWFeedbackViewController.m */,
 				E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */,
-				E965255F183535C1008987BD /* CWOpenerViewController.h */,
-				E9652560183535C1008987BD /* CWOpenerViewController.m */,
-				E924AD16183AA160009400DD /* CWPIPOpenerViewController.h */,
-				E924AD17183AA160009400DD /* CWPIPOpenerViewController.m */,
-				E924AD19183AA16D009400DD /* CWSSOpenerViewController.h */,
-				E924AD1A183AA16D009400DD /* CWSSOpenerViewController.m */,
-				E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */,
-				E924AD14183A9010009400DD /* CWSSOpenerViewController.xib */,
+				E924AD3B183AC0F3009400DD /* Opener */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -347,6 +340,21 @@
 				E924AD33183AB789009400DD /* CWSSReviewViewController.xib */,
 			);
 			name = Review;
+			sourceTree = "<group>";
+		};
+		E924AD3B183AC0F3009400DD /* Opener */ = {
+			isa = PBXGroup;
+			children = (
+				E965255F183535C1008987BD /* CWOpenerViewController.h */,
+				E9652560183535C1008987BD /* CWOpenerViewController.m */,
+				E924AD16183AA160009400DD /* CWPIPOpenerViewController.h */,
+				E924AD17183AA160009400DD /* CWPIPOpenerViewController.m */,
+				E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */,
+				E924AD19183AA16D009400DD /* CWSSOpenerViewController.h */,
+				E924AD1A183AA16D009400DD /* CWSSOpenerViewController.m */,
+				E924AD14183A9010009400DD /* CWSSOpenerViewController.xib */,
+			);
+			name = Opener;
 			sourceTree = "<group>";
 		};
 		E944397A182940AF0088A381 = {
