@@ -17,21 +17,17 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmn-e5-TTd">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmn-e5-TTd" userLabel="Preview">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="EyP-yJ-Hxx">
-                    <rect key="frame" x="20" y="498" width="140" height="50"/>
+                    <rect key="frame" x="75" y="249" width="70" height="70"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="50" id="LzV-B6-XGC"/>
-                        <constraint firstAttribute="width" constant="140" id="fVi-Jf-dQj"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                    <state key="normal" title="Record Again">
+                    <state key="normal" title="X">
                         <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -40,12 +36,12 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g29-lG-u7w">
-                    <rect key="frame" x="175" y="498" width="125" height="50"/>
+                    <rect key="frame" x="175" y="249" width="70" height="70"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="50" id="Ktl-Rn-Txb"/>
-                        <constraint firstAttribute="width" constant="125" id="j6g-Qa-c2L"/>
+                        <constraint firstAttribute="height" constant="70" id="67R-J0-I8e"/>
+                        <constraint firstAttribute="width" constant="70" id="hla-gf-IHh"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="Send">
@@ -60,13 +56,15 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="vmn-e5-TTd" firstAttribute="top" secondItem="1" secondAttribute="top" id="J31-mw-oYs"/>
-                <constraint firstAttribute="trailing" secondItem="g29-lG-u7w" secondAttribute="trailing" constant="20" id="a7B-AD-2cr"/>
-                <constraint firstAttribute="bottom" secondItem="vmn-e5-TTd" secondAttribute="bottom" id="aj8-Sz-ldP"/>
-                <constraint firstAttribute="bottom" secondItem="g29-lG-u7w" secondAttribute="bottom" constant="20" id="do6-Bx-oHF"/>
-                <constraint firstItem="EyP-yJ-Hxx" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="gIY-Sd-DP0"/>
+                <constraint firstItem="g29-lG-u7w" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="175" id="QtJ-9X-pDe"/>
+                <constraint firstAttribute="trailing" secondItem="EyP-yJ-Hxx" secondAttribute="trailing" constant="175" id="Xmm-yO-8jK"/>
+                <constraint firstAttribute="bottom" secondItem="vmn-e5-TTd" secondAttribute="bottom" constant="284" id="aj8-Sz-ldP"/>
+                <constraint firstItem="EyP-yJ-Hxx" firstAttribute="leading" secondItem="g29-lG-u7w" secondAttribute="trailing" constant="-170" id="ff0-jb-ONy"/>
+                <constraint firstItem="EyP-yJ-Hxx" firstAttribute="centerY" secondItem="vmn-e5-TTd" secondAttribute="centerY" constant="142" id="hNa-Yd-kYp"/>
+                <constraint firstItem="EyP-yJ-Hxx" firstAttribute="top" secondItem="g29-lG-u7w" secondAttribute="top" id="pDM-lH-uBN"/>
                 <constraint firstItem="vmn-e5-TTd" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="qZL-lR-gL8"/>
                 <constraint firstAttribute="trailing" secondItem="vmn-e5-TTd" secondAttribute="trailing" id="x06-kg-TNa"/>
-                <constraint firstAttribute="bottom" secondItem="EyP-yJ-Hxx" secondAttribute="bottom" constant="20" id="z5B-vh-aZi"/>
+                <constraint firstItem="EyP-yJ-Hxx" firstAttribute="bottom" secondItem="g29-lG-u7w" secondAttribute="bottom" id="yvi-QT-769"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

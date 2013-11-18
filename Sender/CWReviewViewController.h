@@ -15,4 +15,5 @@
 @property (nonatomic,assign) NSTimeInterval startRecordingTime;
 - (IBAction)onRecordAgain:(id)sender;
 - (IBAction)onSend:(id)sender;
+- (void)showVideoPreview;
 @end

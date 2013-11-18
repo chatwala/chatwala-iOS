@@ -339,12 +339,12 @@
 			children = (
 				E9C115671832D82700DB67D2 /* CWReviewViewController.h */,
 				E9C115681832D82700DB67D2 /* CWReviewViewController.m */,
-				E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */,
 				E924AD35183AB7CA009400DD /* CWPIPReviewViewController.h */,
 				E924AD36183AB7CA009400DD /* CWPIPReviewViewController.m */,
-				E924AD33183AB789009400DD /* CWSSReviewViewController.xib */,
+				E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */,
 				E924AD38183AB7D8009400DD /* CWSSReviewViewController.h */,
 				E924AD39183AB7D8009400DD /* CWSSReviewViewController.m */,
+				E924AD33183AB789009400DD /* CWSSReviewViewController.xib */,
 			);
 			name = Review;
 			sourceTree = "<group>";

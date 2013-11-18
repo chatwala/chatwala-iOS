@@ -108,6 +108,12 @@
 
 - (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer
 {
+    [self showVideoPreview];
+}
+
+- (void)showVideoPreview
+{
+//    [self.view insertSubview:self.player.playbackView belowSubview:self.recordAgainButton];
     [self.previewView addSubview:player.playbackView];
     [player.playbackView setFrame:self.previewView.bounds];
     [player playVideo];
