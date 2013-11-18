@@ -124,6 +124,11 @@
     
 }
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [self.recorder stopVideoRecording];
+}
+
 
 - (void)didReceiveMemoryWarning
 {

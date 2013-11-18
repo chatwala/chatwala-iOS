@@ -327,6 +327,13 @@
 }
 
 
-
+- (void)testShouldStopRecordingOnTouchsEnded
+{
+    [[self.mockRecorder expect]stopVideoRecording];
+    [[[self.mockSUT stub]andReturn:self.mockRecorder]recorder];
+    [self.sut touchesEnded:nil withEvent:nil];
+    [self.mockRecorder verify];
+    
+}
 
 @end
