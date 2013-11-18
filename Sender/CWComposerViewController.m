@@ -38,6 +38,7 @@
     self.feedbackVC = [[CWFeedbackViewController alloc]initWithNibName:@"CWFeedbackViewController" bundle:[NSBundle mainBundle]];
     [self addChildViewController:self.feedbackVC];
     [self.view addSubview:self.feedbackVC.view];
+    self.feedbackVC.view.frame = self.view.bounds;
 }
 
 - (void)viewWillAppear:(BOOL)animated
