@@ -11,6 +11,5 @@
 
 
 @interface CWComposerViewController : UIViewController <CWVideoRecorderDelegate>
-@property (nonatomic,assign) NSInteger tickCount;
 - (void)showReview;
 @end
