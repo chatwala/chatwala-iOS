@@ -33,7 +33,8 @@
     self.moreAnimationView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cw_more"]];
     [self.moreAnimationView setAnimationDuration:1];
     [self.moreAnimationView setAnimationImages:@[[UIImage imageNamed:@"cw_more1"],[UIImage imageNamed:@"cw_more2"],[UIImage imageNamed:@"cw_more3"]]];
-    
+    [self.moreAnimationView startAnimating];
+
 }
 - (void)setOpenerState:(CWOpenerState)openerState
 {
@@ -54,13 +55,11 @@
         case CWOpenerReview:
             //
             [self.middleButton addSubview:self.moreAnimationView];
-            [self.moreAnimationView startAnimating];
             [self.cameraView setAlpha:0.5];
             break;
         case CWOpenerReact:
             //
             [self.middleButton addSubview:self.moreAnimationView];
-            [self.moreAnimationView startAnimating];
             [self.cameraView setAlpha:1.0];
             break;
         case CWOpenerRespond:
