@@ -330,4 +330,38 @@
     
 }
 
+#pragma mark setOpenerState
+
+- (void)testShouldStartResponseCountDownWhenOpenerStateIsSetToReview
+{
+    [self prepMessageItem];
+    self.sut.messageItem.metadata.startRecording = 2;
+    [[self.mockSUT expect] startReviewCountDown];
+    [self.sut setOpenerState:CWOpenerReview];
+    [self.mockSUT verify];
+}
+
+- (void)testShouldSetStateToReviewWhenOpenerStateIsSetToReview
+{
+    [self prepMessageItem];
+    self.sut.messageItem.metadata.startRecording = 0;
+    [[self.mockSUT expect] setOpenerState:CWOpenerReview];
+    [self.sut setOpenerState:CWOpenerReview];
+    [self.mockSUT verify];
+}
+
+- (void)testShouldStartResponseCountDownWhenOpenerStateIsSetToReact
+{
+    [[self.mockSUT expect] startReactionCountDown];
+    [self.sut setOpenerState:CWOpenerReact];
+    [self.mockSUT verify];
+}
+- (void)testShouldStartResponseCountDownWhenOpenerStateIsSetToResponse
+{
+    [[self.mockSUT expect] startReactionCountDown];
+    [self.sut setOpenerState:CWOpenerReact];
+    [self.mockSUT verify];
+}
+
+
 @end
