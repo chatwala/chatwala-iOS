@@ -15,9 +15,6 @@
 
 @interface CWOpenerViewController () <AVAudioPlayerDelegate,CWVideoPlayerDelegate,CWVideoRecorderDelegate>
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
-@property (nonatomic,strong) CWVideoPlayer * player;
-@property (nonatomic,strong) CWVideoRecorder * recorder;
-@property (nonatomic,strong) CWMessageItem * messageItem;
 @property (nonatomic,strong) NSTimer * reviewCountdownTimer;
 @property (nonatomic,strong) NSTimer * reactionCountdownTimer;
 @property (nonatomic,strong) NSTimer * responseCountdownTimer;
@@ -200,7 +197,6 @@
 
 - (void)testShouldStartTheResponseCountDown
 {
-    [[self.mockSUT stub] setOpenerState:CWOpenerRespond];
     [self.sut videoPlayerPlayToEnd:self.sut.player];
     
     XCTAssertEqual(self.sut.responseCountdownTickCount, MAX_RECORD_TIME, @"expecting the coutn down to be started at MAX_RECORD_TIME");
@@ -345,8 +341,10 @@
 
 - (void)testShouldStopRecordingOnTouchsEnded
 {
+    [self prepMessageItem];
+    self.sut.openerState = CWOpenerRespond;
+    [self.sut viewWillAppear:NO];
     [[self.mockRecorder expect]stopVideoRecording];
-    [[[self.mockSUT stub]andReturn:self.mockRecorder]recorder];
     [self.sut touchesEnded:nil withEvent:nil];
     [self.mockRecorder verify];
     
