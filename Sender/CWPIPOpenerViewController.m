@@ -13,7 +13,7 @@
 @end
 
 @implementation CWPIPOpenerViewController
-@synthesize openerState;
+
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {

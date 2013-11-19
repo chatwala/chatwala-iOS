@@ -38,12 +38,6 @@
 }
 - (void)setOpenerState:(CWOpenerState)openerState
 {
-    
-    
-
-    
-    
-    
     [super setOpenerState:openerState];
     switch (self.openerState) {
         case CWOpenerPreview:
@@ -76,6 +70,7 @@
 {
     // push to review
     CWSSReviewViewController * reviewVC = [[CWSSReviewViewController alloc]init];
+    [reviewVC setStartRecordingTime:[self.player videoLength] - self.startRecordTime];
     [self.navigationController pushViewController:reviewVC animated:NO];
     
 }

@@ -94,6 +94,10 @@
     [self.player pause];
 }
 
+- (NSTimeInterval) videoLength
+{
+    return CMTimeGetSeconds(self.playerItem.asset.duration);
+}
 
 
 - (void)prepareToPlayAsset:(AVURLAsset *)asset withKeys:(NSArray *)requestedKeys {

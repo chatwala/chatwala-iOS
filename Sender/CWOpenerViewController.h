@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CWVideoManager.h"
+#import "CWMessageItem.h"
 
 typedef enum {
     CWOpenerPreview,
@@ -27,6 +29,9 @@ static NSString *const FEEDBACK_REVIEW_STRING   = @"Recording Reaction in 0:%02d
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (nonatomic,strong) NSURL * zipURL;
 @property (nonatomic,assign) CWOpenerState openerState;
-
+@property (nonatomic,strong) CWVideoPlayer * player;
+@property (nonatomic,strong) CWVideoRecorder * recorder;
+@property (nonatomic,strong) CWMessageItem * messageItem;
+@property (nonatomic,assign) NSTimeInterval startRecordTime;
 
 @end

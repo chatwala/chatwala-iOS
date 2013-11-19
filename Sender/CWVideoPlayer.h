@@ -29,6 +29,7 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
 - (void)playVideo;
 - (void)stop;
 - (void)replayVideo;
+- (NSTimeInterval) videoLength;
 @end
 
 

@@ -21,10 +21,9 @@
     CGRect smallFrame;
     CGRect largeFrame;
 }
+
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
-@property (nonatomic,strong) CWVideoPlayer * player;
-@property (nonatomic,strong) CWVideoRecorder * recorder;
-@property (nonatomic,strong) CWMessageItem * messageItem;
+
 
 @property (nonatomic,strong) NSTimer * reviewCountdownTimer;    // watching thier reaction to what you said
 @property (nonatomic,strong) NSTimer * reactionCountdownTimer;  // reacting to what they said
@@ -49,6 +48,7 @@
 @implementation CWOpenerViewController
 @synthesize player;
 @synthesize recorder;
+@synthesize startRecordTime;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -128,26 +128,23 @@
     
     switch (self.openerState) {
         case CWOpenerPreview:
-            // play preview
-            [self.player playVideo];
-            [self startReviewCountDown];
             [self setOpenerState:CWOpenerReview];
             break;
         case CWOpenerReview:
-            //
-            [self.cameraView setAlpha:0.5];
             break;
+            
         case CWOpenerReact:
-            //
-            [self.cameraView setAlpha:1.0];
             break;
+            
         case CWOpenerRespond:
-            //
-            [self.cameraView setAlpha:1.0];
+            [self.recorder stopVideoRecording];
+            break;
+            
+        default:
             break;
     }
     
-    [self.recorder stopVideoRecording];
+    
 }
 
 
@@ -158,11 +155,71 @@
 }
 
 
-
-//- (void)enteringCameraState:(CWOpenerState)state
-//{
-//    NSAssert(0, @"should be implemented in subclass");
-//}
+- (void)setOpenerState:(CWOpenerState)openerState
+{
+    _openerState = openerState;
+    
+    
+    
+    switch (self.openerState) {
+        case CWOpenerPreview:
+            /*
+             Preview State: Video Message is ready
+             • update view and feedback to reflect Preview state ( in subclass )
+             */
+            [self.feedbackVC.feedbackLabel setText:@"Tap to Play Message"];
+            break;
+            
+            
+            
+            
+        case CWOpenerReview:
+            /*
+            
+             Review State: Video Message is playing, but not Recording
+             • check if startRecording value is zero
+                • if zero change state to React
+                • else start Review count down
+             • play Video Message
+             • update view and feedback to reflect Review state ( in subclass )
+             */
+            if (self.messageItem.metadata.startRecording == 0) {
+                [self setOpenerState:CWOpenerReact];
+            }else{
+                [self startReviewCountDown];
+            }
+            [self.player playVideo];
+            break;
+            
+            
+            
+            
+        case CWOpenerReact:
+            /*
+             
+             Reaction State: Playing Message and Recording Reaction
+             • start recording Reaction portion of video
+             • update view and feedback to reflect Reaction state ( in subclass )
+             
+             */
+            [self startReactionCountDown];
+            break;
+            
+            
+            
+            
+        case CWOpenerRespond:
+            /*
+             
+             Responding State: Video Message ended and Recording Continues ( Response portion of the video )
+             • start recording Reaction portion of video
+             • update view and feedback to reflect Responding state ( in subclass )
+             
+             */
+            [self startResponseCountDown];
+            break;
+    }
+}
 
 - (void)setupCameraView
 {
@@ -182,6 +239,75 @@
 }
 
 
+- (void)killTimers
+{
+    if (self.reviewCountdownTimer) {
+        [self.reviewCountdownTimer invalidate];
+        self.reviewCountdownTimer = nil;
+    }
+    
+    if (self.reactionCountdownTimer) {
+        [self.reactionCountdownTimer invalidate];
+        self.reactionCountdownTimer = nil;
+    }
+    
+    if (self.responseCountdownTimer) {
+        [self.responseCountdownTimer invalidate];
+        self.responseCountdownTimer = nil;
+    }
+}
+
+
+- (void)startReviewCountDown
+{
+    [self killTimers];
+    self.reviewCountdownTickCount = self.messageItem.metadata.startRecording;
+    self.reviewCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReviewCountdownTick:) userInfo:nil repeats:YES];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REVIEW_STRING,self.reviewCountdownTickCount]];
+    NSLog(@"started review countdown from %d",self.reviewCountdownTickCount);
+    
+}
+
+- (void)startReactionCountDown
+{
+    [self killTimers];
+    [self.recorder startVideoRecording];
+    self.reactionCountdownTickCount = 0;
+    self.reactionCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReactionCountdownTick:) userInfo:nil repeats:YES];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REACTION_STRING,self.reactionCountdownTickCount]];
+    NSLog(@"started reaction countdown from %d",self.reactionCountdownTickCount);
+}
+
+- (void)startResponseCountDown
+{
+    [self killTimers];
+    self.responseCountdownTickCount = MAX_RECORD_TIME;
+    self.responseCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onResponseCountdownTick:) userInfo:nil repeats:YES];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
+    NSLog(@"started response countdown from %d",self.responseCountdownTickCount);
+}
+
+
+- (void)onReviewCountdownTick:(NSTimer*)timer
+{
+    self.reviewCountdownTickCount--;
+    if (self.reviewCountdownTickCount <=0 ) {
+        [self.reviewCountdownTimer invalidate];
+        self.reviewCountdownTimer = nil;
+        
+        // start reaction state
+        [self setOpenerState:CWOpenerReact];
+        
+    }
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REVIEW_STRING,self.reviewCountdownTickCount]];
+}
+
+- (void)onReactionCountdownTick:(NSTimer*)timer
+{
+    self.reactionCountdownTickCount++;
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REACTION_STRING,self.reactionCountdownTickCount]];
+}
+
 
 - (void)onResponseCountdownTick:(NSTimer*)timer
 {
@@ -195,56 +321,6 @@
     }
     [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
 }
-- (void)onReviewCountdownTick:(NSTimer*)timer
-{
-    self.reviewCountdownTickCount--;
-    if (self.reviewCountdownTickCount <=0 ) {
-        [self.reviewCountdownTimer invalidate];
-        self.reviewCountdownTimer = nil;
-        
-        // start reaction timer
-        [self startReactionCountDown];
-        
-    }
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REVIEW_STRING,self.reviewCountdownTickCount]];
-}
-
-- (void)onReactionCountdownTick:(NSTimer*)timer
-{
-    self.reactionCountdownTickCount++;
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REACTION_STRING,self.reactionCountdownTickCount]];
-}
-
-- (void)startResponseCountDown
-{
-    [self setOpenerState:CWOpenerRespond];
-    self.responseCountdownTickCount = MAX_RECORD_TIME;
-    self.responseCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onResponseCountdownTick:) userInfo:nil repeats:YES];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
-    NSLog(@"started response countdown from %d",self.responseCountdownTickCount);
-}
-
-
-- (void)startReviewCountDown
-{
-    self.reviewCountdownTickCount = self.messageItem.metadata.startRecording;
-    self.reviewCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReviewCountdownTick:) userInfo:nil repeats:YES];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REVIEW_STRING,self.reviewCountdownTickCount]];
-    NSLog(@"started review countdown from %d",self.reviewCountdownTickCount);
-    
-}
-
-- (void)startReactionCountDown
-{
-    [self setOpenerState:CWOpenerReact];
-    [self.recorder startVideoRecording];
-    self.reactionCountdownTickCount = 0;
-    self.reactionCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReactionCountdownTick:) userInfo:nil repeats:YES];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REACTION_STRING,self.reactionCountdownTickCount]];
-    NSLog(@"started reaction countdown from %d",self.reactionCountdownTickCount);
-}
-
-
 
 #pragma mark CWVideoPlayerDelegate
 
@@ -269,7 +345,7 @@
     
     [self.reactionCountdownTimer invalidate];
     self.reactionCountdownTimer = nil;
-    [self startResponseCountDown];
+    [self setOpenerState:CWOpenerRespond];
     
 }
 
