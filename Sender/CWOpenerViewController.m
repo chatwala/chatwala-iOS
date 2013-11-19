@@ -338,15 +338,7 @@
 
 - (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
 {
-//    [UIView animateWithDuration:0.6 animations:^{
-//        [self.cameraView setFrame:largeFrame];
-//        [self.recorder.recorderView setFrame:self.cameraView.bounds];
-//    }];
-    
-    [self.reactionCountdownTimer invalidate];
-    self.reactionCountdownTimer = nil;
     [self setOpenerState:CWOpenerRespond];
-    
 }
 
 
