@@ -79,19 +79,19 @@
 
 }
 
--(void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if(CGRectIsEmpty(smallFrame))
-    {
-        smallFrame = self.cameraView.frame;
-    }
-    if(CGRectIsEmpty(largeFrame))
-    {
-        largeFrame = self.playbackView.frame;
-    }
-       
-}
+//-(void)viewDidAppear:(BOOL)animated
+//{
+//    [super viewDidAppear:animated];
+//    if(CGRectIsEmpty(smallFrame))
+//    {
+//        smallFrame = self.cameraView.frame;
+//    }
+//    if(CGRectIsEmpty(largeFrame))
+//    {
+//        largeFrame = self.playbackView.frame;
+//    }
+//       
+//}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -105,14 +105,14 @@
     [self.recorder setDelegate:self];
     
     
-    if(!CGRectIsEmpty(smallFrame))
-    {
-        self.cameraView.frame = smallFrame;
-    }
-    if(!CGRectIsEmpty(largeFrame))
-    {
-        self.playbackView.frame = largeFrame;
-    }
+//    if(!CGRectIsEmpty(smallFrame))
+//    {
+//        self.cameraView.frame = smallFrame;
+//    }
+//    if(!CGRectIsEmpty(largeFrame))
+//    {
+//        self.playbackView.frame = largeFrame;
+//    }
     
     NSAssert(self.messageItem, @"message item must be non-nil");
     
@@ -262,10 +262,10 @@
 
 - (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
 {
-    [UIView animateWithDuration:0.6 animations:^{
-        [self.cameraView setFrame:largeFrame];
-        [self.recorder.recorderView setFrame:self.cameraView.bounds];
-    }];
+//    [UIView animateWithDuration:0.6 animations:^{
+//        [self.cameraView setFrame:largeFrame];
+//        [self.recorder.recorderView setFrame:self.cameraView.bounds];
+//    }];
     
     [self.reactionCountdownTimer invalidate];
     self.reactionCountdownTimer = nil;

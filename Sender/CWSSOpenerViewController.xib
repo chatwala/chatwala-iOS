@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWSSOpenerViewController">
             <connections>
                 <outlet property="cameraView" destination="SWe-f5-RDK" id="9nX-vp-JeV"/>
+                <outlet property="middleButton" destination="a8p-DT-eGr" id="2T9-qL-CCF"/>
                 <outlet property="playbackView" destination="mvK-PY-gAu" id="J1y-Lf-hSG"/>
                 <outlet property="view" destination="1" id="fAE-6I-wz6"/>
             </connections>

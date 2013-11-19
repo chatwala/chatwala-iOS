@@ -12,6 +12,7 @@
 
 @interface CWSSOpenerViewController ()
 
+@property (nonatomic,strong) UIImageView * moreAnimationView;
 @end
 
 @implementation CWSSOpenerViewController
@@ -29,25 +30,43 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    self.moreAnimationView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cw_more"]];
+    [self.moreAnimationView setAnimationDuration:1];
+    [self.moreAnimationView setAnimationImages:@[[UIImage imageNamed:@"cw_more1"],[UIImage imageNamed:@"cw_more2"],[UIImage imageNamed:@"cw_more3"]]];
+    
 }
 - (void)setOpenerState:(CWOpenerState)openerState
 {
+    
+    
+
+    
+    
+    
     [super setOpenerState:openerState];
     switch (self.openerState) {
         case CWOpenerPreview:
             //
+            [self.moreAnimationView removeFromSuperview];
+            [self.middleButton setImage:[UIImage imageNamed:@"cw_play"] forState:UIControlStateNormal];
             [self.cameraView setAlpha:0.5];
             break;
         case CWOpenerReview:
             //
+            [self.middleButton addSubview:self.moreAnimationView];
+            [self.moreAnimationView startAnimating];
             [self.cameraView setAlpha:0.5];
             break;
         case CWOpenerReact:
             //
+            [self.middleButton addSubview:self.moreAnimationView];
+            [self.moreAnimationView startAnimating];
             [self.cameraView setAlpha:1.0];
             break;
         case CWOpenerRespond:
             //
+            [self.moreAnimationView removeFromSuperview];
+            [self.middleButton setImage:[UIImage imageNamed:@"cw_stop"] forState:UIControlStateNormal];
             [self.cameraView setAlpha:1.0];
             break;
     }
