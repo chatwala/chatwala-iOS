@@ -7,6 +7,8 @@
 //
 
 #import "CWSSOpenerViewController.h"
+#import "CWSSReviewViewController.h"
+#import "CWVideoManager.h"
 
 @interface CWSSOpenerViewController ()
 
@@ -51,5 +53,13 @@
     }
 }
 
+
+- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
+{
+    // push to review
+    CWSSReviewViewController * reviewVC = [[CWSSReviewViewController alloc]init];
+    [self.navigationController pushViewController:reviewVC animated:NO];
+    
+}
 
 @end
