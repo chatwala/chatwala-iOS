@@ -115,7 +115,6 @@
 {
     [self prepMessageItem];
     [[self.mockPlayer expect]setDelegate:self.sut];
-    [[self.mockSUT stub] setOpenerState:CWOpenerReview];
     [self.sut viewWillAppear:NO];
     [self.mockPlayer verify];
 }
@@ -148,7 +147,6 @@
 - (void) testshouldInvokeSetupCameraWhenViewLoads {
     [self prepMessageItem];
     [[self.mockSUT expect]setupCameraView];
-    [[self.mockSUT stub] setOpenerState:CWOpenerReview];
     [self.sut viewWillAppear:YES];
     [self.mockSUT verify];
 }
@@ -157,7 +155,6 @@
 {
     [self prepMessageItem];
     [[self.mockRecorder expect]setDelegate:self.sut];
-    [[self.mockSUT stub] setOpenerState:CWOpenerReview];
     [self.sut viewWillAppear:NO];
     [self.mockRecorder verify];
 }
@@ -165,13 +162,11 @@
 - (void)testShouldSetVideoUrlOnPlayerWhenViewWillAppear
 {
     [self prepMessageItem];
-    [[self.mockSUT stub] setOpenerState:CWOpenerReview];
     [self.sut viewWillAppear:YES];
     [self.mockPlayer verify];
 }
 
 - (void) testShouldAddVideoPlayerViewWhenVideoIsReady {
-    
     id mockPlaybackView = [OCMockObject partialMockForObject:self.sut.playbackView];
     [[mockPlaybackView expect]addSubview:self.sut.player.playbackView];
     [self.sut videoPlayerDidLoadVideo:self.sut.player];
@@ -260,7 +255,7 @@
 - (void)testShouldCreateReactionTimerWhenStartReactionCountdownInvoked
 {
     XCTAssertNil(self.sut.reactionCountdownTimer, @"should be nil");
-    [[self.mockSUT stub] setOpenerState:CWOpenerReact];
+
     [self.sut startReactionCountDown];
     XCTAssertNotNil(self.sut.reactionCountdownTimer, @"should NOT be nil");
 }
@@ -268,7 +263,6 @@
 - (void)testShouldCreateResponseTimerWhenStartResponseCountdownInvoked
 {
     XCTAssertNil(self.sut.responseCountdownTimer, @"should be nil");
-    [[self.mockSUT stub] setOpenerState:CWOpenerRespond];
     [self.sut startResponseCountDown];
     XCTAssertNotNil(self.sut.responseCountdownTimer, @"should NOT be nil");
 }
@@ -280,24 +274,10 @@
     [self.mockSUT verify];
 }
 
-
-- (void)testShouldInvalidateReactionTimerWhenVideoPlaybackFinishes
+- (void)testShouldSetOpenerStateToRespondWhenVideoPlaybackFinishes
 {
-    [[self.mockReactionTimer expect]invalidate];
-    [[[self.mockSUT stub]andReturn:self.mockReactionTimer]reactionCountdownTimer];
-    [[self.mockSUT stub] setOpenerState:CWOpenerRespond];
-    [self.sut videoPlayerPlayToEnd:self.sut.player];
-    [self.mockReactionTimer verify];
-}
-
-- (void)testShouldSetReactionTimerToNilWhenVideoPlaybackFinishes
-{
-    [[self.mockReactionTimer expect]invalidate];
-    [[self.mockSUT expect]setReactionCountdownTimer:nil];
-    [[[self.mockSUT stub]andReturn:self.mockReactionTimer]reactionCountdownTimer];
-    [[self.mockSUT stub] setOpenerState:CWOpenerRespond];
-
-    [self.sut videoPlayerPlayToEnd:self.sut.player];
+    [[self.mockSUT expect] setOpenerState:CWOpenerRespond];
+    [self.sut videoPlayerPlayToEnd:nil];
     [self.mockSUT verify];
 }
 
@@ -305,7 +285,7 @@
 {
     [[self.mockRecorder expect]startVideoRecording];
     [[[self.mockSUT stub]andReturn:self.mockRecorder]recorder];
-    [[self.mockSUT stub] setOpenerState:CWOpenerReact];
+
 
     [self.sut startReactionCountDown];
     [self.mockRecorder verify];
@@ -313,7 +293,7 @@
 
 - (void)testShouldSetReactionTickCountToZeroWhenStartReactionCountdownInvoked
 {
-    [[self.mockSUT stub] setOpenerState:CWOpenerReact];
+
 
     [self.sut startReactionCountDown];
     XCTAssert(self.sut.reactionCountdownTickCount == 0, @"should be zero");
