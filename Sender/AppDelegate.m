@@ -15,6 +15,7 @@
 #import "CWSSStartScreenViewController.h"
 #import "CWPIPStartScreenViewController.h"
 #import "CWErrorViewController.h"
+#import "CWGroundControlManager.h"
 
 @interface AppDelegate ()
 {
@@ -31,7 +32,7 @@
     [application setStatusBarHidden:YES];
     
     [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
-    
+    [CWGroundControlManager sharedInstance];
 //    UIStoryboard * storyboard;
 //    UIViewController * vc;
 //    CGFloat screenHeight = SCREEN_BOUNDS.size.height;

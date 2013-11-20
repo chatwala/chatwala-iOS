@@ -11,6 +11,7 @@
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
+#import "CWGroundControlManager.h"
 
 
 @interface CWOpenerViewController () <CWVideoPlayerDelegate,CWVideoRecorderDelegate>
@@ -167,7 +168,7 @@
              Preview State: Video Message is ready
              • update view and feedback to reflect Preview state ( in subclass )
              */
-            [self.feedbackVC.feedbackLabel setText:@"Tap to Play Message"];
+            [self.feedbackVC.feedbackLabel setText:[[CWGroundControlManager sharedInstance] tapToPlayVideo]];
             break;
             
             
