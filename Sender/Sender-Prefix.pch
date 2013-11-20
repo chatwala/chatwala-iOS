@@ -23,7 +23,7 @@
     #import <SSZipArchive.h>
     #import <Mantle/Mantle.h>
     #import <TestFlightSDK/TestFlight.h>
-
+    #import "NSUserDefaults+GroundControl.h"
 #endif
 
 

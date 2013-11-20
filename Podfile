@@ -4,7 +4,7 @@ pod 'SVProgressHUD'
 pod 'SSZipArchive'
 pod 'Mantle'
 pod 'TestFlightSDK'
-
+pod 'GroundControl'
 
 
 
