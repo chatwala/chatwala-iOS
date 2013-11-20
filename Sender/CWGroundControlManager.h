@@ -11,4 +11,9 @@
 @interface CWGroundControlManager : NSObject
 +(instancetype) sharedInstance;
 - (NSString*)tapToPlayVideo;
+- (NSString*)feedbackRecordingString;
+- (NSString*)feedbackResponseString;
+- (NSString*)feedbackReactionString;
+- (NSString*)feedbackReviewString;
+
 @end

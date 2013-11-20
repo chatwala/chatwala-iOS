@@ -34,4 +34,31 @@
     return [[NSUserDefaults standardUserDefaults] valueForKey:@"TAP_TO_PLAY_VIDEO"];
 }
 
+
+// FEEDBACK_REVIEW_STRING
+- (NSString *)feedbackReviewString
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_REVIEW_STRING"];
+}
+
+
+// FEEDBACK_REACTION_STRING
+- (NSString *)feedbackReactionString
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_REACTION_STRING"];
+}
+// FEEDBACK_RESPONSE_STRING
+- (NSString *)feedbackResponseString
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_RESPONSE_STRING"];
+}
+
+// FEEDBACK_RECORDING_STRING
+- (NSString *)feedbackRecordingString
+{
+    return [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_RECORDING_STRING"];
+}
+
+
+
 @end
