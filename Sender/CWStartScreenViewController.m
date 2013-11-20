@@ -9,6 +9,7 @@
 #import "CWStartScreenViewController.h"
 #import "CWVideoManager.h"
 #import "CWComposerViewController.h"
+#import "CWErrorViewController.h"
 
 @interface CWStartScreenViewController ()
 
@@ -33,7 +34,13 @@
 
     
 
-    [[[CWVideoManager sharedManager]recorder]setupSession];
+    NSError * error = [[[CWVideoManager sharedManager]recorder]setupSession];
+    if (error) {
+        // handle session error
+        CWErrorViewController * vc = [[CWErrorViewController alloc]init];
+        [vc setError:error];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
 
 }
 - (void)viewDidAppear:(BOOL)animated

@@ -15,9 +15,12 @@
 @property (nonatomic,strong) UIView * recorderView;
 @property (nonatomic,strong) NSURL * outputFileURL;
 - (NSURL *) tempFileURL;
-- (void) setupSession;
+- (NSError*) setupSession;
+- (void) stopSession;
+- (void) resumeSession;
 - (void) startVideoRecording;
 - (void) stopVideoRecording;
+
 @end
 
 

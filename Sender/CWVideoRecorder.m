@@ -51,7 +51,23 @@
 }
 
 
-- (void) setupSession
+- (void) stopSession
+{
+    [self.session stopRunning];
+}
+- (void) resumeSession
+{
+    if (self.session) {
+        //
+        [self.session startRunning];
+        
+    }else{
+        [self setupSession];
+    }
+}
+
+
+- (NSError*) setupSession
 {
     
     NSError * err = nil;
@@ -60,13 +76,13 @@
     AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self frontFacingCamera] error:&err];
     if (err) {
         NSLog(@"failed to setup video input: %@",err.debugDescription);
-        return;
+        return err;
     }
     
     AVCaptureDeviceInput * audioInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self audioDevice] error:&err];
     if (err) {
         NSLog(@"failed to setup audio input: %@",err.debugDescription);
-        return;
+        return err;
     }
     
     AVCaptureSession * session = [[AVCaptureSession alloc]init];
@@ -114,6 +130,8 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self.session startRunning];
     });
+    
+    return err;
 
 }
 

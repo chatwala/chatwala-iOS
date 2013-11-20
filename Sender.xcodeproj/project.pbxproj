@@ -64,6 +64,8 @@
 		E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9652560183535C1008987BD /* CWOpenerViewController.m */; };
 		E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */; };
 		E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E96525641835367A008987BD /* CWOpenerVCTests.m */; };
+		E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCF64183D45470098E530 /* CWErrorViewController.m */; };
+		E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9ABCF65183D45470098E530 /* CWErrorViewController.xib */; };
 		E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */; };
 		E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */; };
 		E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115521832970E00DB67D2 /* CWComposerViewController.m */; };
@@ -179,6 +181,9 @@
 		E9652560183535C1008987BD /* CWOpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWOpenerViewController.m; sourceTree = "<group>"; };
 		E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPIPOpenerViewController.xib; sourceTree = "<group>"; };
 		E96525641835367A008987BD /* CWOpenerVCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWOpenerVCTests.m; sourceTree = "<group>"; };
+		E9ABCF63183D45470098E530 /* CWErrorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWErrorViewController.h; sourceTree = "<group>"; };
+		E9ABCF64183D45470098E530 /* CWErrorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWErrorViewController.m; sourceTree = "<group>"; };
+		E9ABCF65183D45470098E530 /* CWErrorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWErrorViewController.xib; sourceTree = "<group>"; };
 		E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoRecorderTests.m; sourceTree = "<group>"; };
 		E9C1154E1832805300DB67D2 /* CWVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoRecorder.h; sourceTree = "<group>"; };
 		E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoRecorder.m; sourceTree = "<group>"; };
@@ -264,6 +269,7 @@
 				E94439D61829511A0088A381 /* PlaybackViewController.m */,
 				E94439DE18297ED30088A381 /* OpenerViewController.h */,
 				E94439DF18297ED30088A381 /* OpenerViewController.m */,
+				E9ABCF62183D45270098E530 /* Error */,
 				E924AD26183AAD79009400DD /* Start Screen */,
 				E924AD27183AB0A2009400DD /* Composer */,
 				E924AD32183AB718009400DD /* Review */,
@@ -473,6 +479,16 @@
 			name = "Video Player";
 			sourceTree = "<group>";
 		};
+		E9ABCF62183D45270098E530 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				E9ABCF63183D45470098E530 /* CWErrorViewController.h */,
+				E9ABCF64183D45470098E530 /* CWErrorViewController.m */,
+				E9ABCF65183D45470098E530 /* CWErrorViewController.xib */,
+			);
+			name = Error;
+			sourceTree = "<group>";
+		};
 		E9C1154C1832803900DB67D2 /* Player */ = {
 			isa = PBXGroup;
 			children = (
@@ -586,6 +602,7 @@
 				E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */,
 				E9CE73EA1831810900056FA9 /* video.mp4 in Resources */,
 				E9443991182940AF0088A381 /* InfoPlist.strings in Resources */,
+				E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */,
 				E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */,
 				E924AD2B183AB450009400DD /* CWSSComposerViewController.xib in Resources */,
 				E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */,
@@ -672,6 +689,7 @@
 			files = (
 				E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */,
 				E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */,
+				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
 				E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */,
 				E94439DA18295B0B0088A381 /* VideoPlayerViewController.m in Sources */,
