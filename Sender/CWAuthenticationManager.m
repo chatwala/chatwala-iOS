@@ -14,6 +14,9 @@ static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
 
 
 @interface CWAuthenticationManager ()
+@property (nonatomic,strong)GTMOAuth2Authentication * auth;
+
+
 @end
 
 @implementation CWAuthenticationManager
@@ -40,7 +43,9 @@ static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
         // Authentication failed
     } else {
         // Authentication succeeded
+        self.auth = auth;
     }
+    [viewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (GTMOAuth2ViewControllerTouch *)requestAuthentication

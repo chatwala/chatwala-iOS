@@ -321,10 +321,10 @@
 				E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */,
 				E924AD20183AAD47009400DD /* CWPIPStartScreenViewController.h */,
 				E924AD21183AAD47009400DD /* CWPIPStartScreenViewController.m */,
-				E924AD1E183AAD1F009400DD /* CWSSStartScreenViewController.xib */,
+				E924AD1C183AA902009400DD /* CWPIPStartScreenViewController.xib */,
 				E924AD23183AAD69009400DD /* CWSSStartScreenViewController.h */,
 				E924AD24183AAD69009400DD /* CWSSStartScreenViewController.m */,
-				E924AD1C183AA902009400DD /* CWPIPStartScreenViewController.xib */,
+				E924AD1E183AAD1F009400DD /* CWSSStartScreenViewController.xib */,
 			);
 			name = "Start Screen";
 			sourceTree = "<group>";

@@ -43,7 +43,8 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     
-    [self presentViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:YES completion:nil];
+    // check if authenticated
+    
 
 }
 - (void)viewDidAppear:(BOOL)animated
@@ -94,5 +95,9 @@
 - (IBAction)onStart:(id)sender {
     CWComposerViewController * composerVC = [[CWComposerViewController alloc]initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:composerVC animated:NO];
+}
+
+- (IBAction)onAuthenticate:(id)sender {
+    [self presentViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:YES completion:nil];
 }
 @end
