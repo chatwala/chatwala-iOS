@@ -416,8 +416,7 @@
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
 				E9CE73E91831810900056FA9 /* video.mp4 */,
-				E9ABCFAC183D5BA40098E530 /* CWGroundControlManager.h */,
-				E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */,
+				E9ABCFB1183E5D960098E530 /* GroundControl */,
 				E90F04E5182D2A67004B8CCD /* User Interface */,
 				E90F04E3182D2A53004B8CCD /* View Controllers */,
 				E90F04E4182D2A5D004B8CCD /* Chatwala */,
@@ -492,6 +491,15 @@
 				E9ABCF65183D45470098E530 /* CWErrorViewController.xib */,
 			);
 			name = Error;
+			sourceTree = "<group>";
+		};
+		E9ABCFB1183E5D960098E530 /* GroundControl */ = {
+			isa = PBXGroup;
+			children = (
+				E9ABCFAC183D5BA40098E530 /* CWGroundControlManager.h */,
+				E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */,
+			);
+			name = GroundControl;
 			sourceTree = "<group>";
 		};
 		E9C1154C1832803900DB67D2 /* Player */ = {
