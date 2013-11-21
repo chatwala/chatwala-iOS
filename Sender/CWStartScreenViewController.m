@@ -101,9 +101,10 @@
 - (IBAction)onStart:(id)sender {
     CWComposerViewController * composerVC = [[CWComposerViewController alloc]initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:composerVC animated:NO];
+    [self.authenticateButton setHidden:YES];
 }
 
 - (IBAction)onAuthenticate:(id)sender {
-    [self presentViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:YES completion:nil];
+    [self presentViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:NO completion:nil];
 }
 @end

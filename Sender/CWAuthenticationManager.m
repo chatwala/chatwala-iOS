@@ -12,6 +12,15 @@
 static NSString * SECRET = @"RqSWaMigfHYOiX1xwNiS1vNy";
 static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
 
+static NSString * AuthKeyAccessToken    = @"accessToken";
+static NSString * AuthKeyRefreshToken   = @"refreshToken";
+static NSString * AuthKeyUserEmail      = @"userEmail";
+static NSString * AuthKeyUserId         = @"userID";
+static NSString * AuthKeyExpirationDate    = @"expirationDate";
+static NSString * AuthKeyCode           = @"code";
+
+
+
 
 @interface CWAuthenticationManager ()
 - (void)setAuth:(GTMOAuth2Authentication *)auth;
@@ -43,7 +52,7 @@ static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
         // Authentication succeeded
         self.auth = auth;
     }
-    [viewController dismissViewControllerAnimated:YES completion:nil];
+    [viewController dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (GTMOAuth2ViewControllerTouch *)requestAuthentication
@@ -63,7 +72,7 @@ static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
 //    NSString * redirectURL = [[jsonDict objectForKey:@"redirect_uris"]objectAtIndex:0];
     NSString * forAccountType = @"chatwala";
     
-    NSLog(@"extracted auth data");
+//    NSLog(@"extracted auth data");
     
     NSString *scope = @"https://www.googleapis.com/auth/userinfo.email";
     GTMOAuth2ViewControllerTouch *viewController;
@@ -81,21 +90,28 @@ static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
 - (void)setAuth:(GTMOAuth2Authentication *)auth
 {
        NSDictionary * authDict = @{
-                                @"accessToken": auth.accessToken,
-                                @"refreshToken" : auth.refreshToken,
-                                @"expirationDate":auth.expirationDate,
-                                @"code": auth.code
+                                AuthKeyAccessToken      : auth.accessToken,
+                                AuthKeyRefreshToken     : auth.refreshToken,
+                                AuthKeyExpirationDate   : auth.expirationDate,
+                                AuthKeyCode             : auth.code,
+                                AuthKeyUserEmail        : auth.userEmail,
+                                AuthKeyUserId           : auth.userID
                                 };
     
     [[NSUserDefaults standardUserDefaults]setObject:authDict forKey:@"auth"];
     [[NSUserDefaults standardUserDefaults]synchronize];
-    
+    NSLog(@"user auhtentication data saved");
 }
 
 
 - (BOOL)isAuthenticated
 {
     return ([[NSUserDefaults standardUserDefaults]objectForKey:@"auth"] != nil);
+}
+
+- (NSString *)userEmail
+{
+    return [[[NSUserDefaults standardUserDefaults]objectForKey:@"auth"] objectForKey:AuthKeyUserEmail];
 }
 
 @end
