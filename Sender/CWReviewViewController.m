@@ -95,8 +95,8 @@ Chatwala is a new way to communicate with your friends through video messaging.\
     mc.mailComposeDelegate = self;
     [mc setSubject:@"CW msg"];
 
-    if (self.incomingMessageItem) {
-        [mc setToRecipients:@[self.incomingMessageItem.metadata.recipientId]];
+    if (self.incomingMessageItem.metadata.senderId) {
+        [mc setToRecipients:@[self.incomingMessageItem.metadata.senderId]];
     }
     
     [mc setMessageBody:emailString isHTML:YES];
