@@ -12,6 +12,7 @@
 #import "CWFeedbackViewController.h"
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
+#import "CWGroundControlManager.h"
 
 @interface CWOpenerViewController () <AVAudioPlayerDelegate,CWVideoPlayerDelegate,CWVideoRecorderDelegate>
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
@@ -167,6 +168,8 @@
 }
 
 - (void) testShouldAddVideoPlayerViewWhenVideoIsReady {
+    [self prepMessageItem];
+    [self.sut viewWillAppear:NO];
     id mockPlaybackView = [OCMockObject partialMockForObject:self.sut.playbackView];
     [[mockPlaybackView expect]addSubview:self.sut.player.playbackView];
     [self.sut videoPlayerDidLoadVideo:self.sut.player];
@@ -197,7 +200,7 @@
     XCTAssertEqual(self.sut.responseCountdownTickCount, MAX_RECORD_TIME, @"expecting the coutn down to be started at MAX_RECORD_TIME");
     XCTAssertNotNil(self.sut.responseCountdownTimer, @"expecting the response timer to exist");
     NSString * actual = self.sut.feedbackVC.feedbackLabel.text;
-    NSString * expected = [NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,MAX_RECORD_TIME];
+    NSString * expected = [NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],MAX_RECORD_TIME];
     XCTAssertTrue([expected isEqualToString:actual], @"expecting feedback label should match");
     
 }
@@ -207,7 +210,7 @@
     [self.sut setResponseCountdownTickCount:21];
     [self.sut onResponseCountdownTick:nil];
     NSString * actual = self.sut.feedbackVC.feedbackLabel.text;
-    NSString * expected = [NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,20];
+    NSString * expected = [NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],20];
     XCTAssertTrue([expected isEqualToString:actual], @"expecting feedback label should match");
 }
 
@@ -305,7 +308,7 @@
     [self.sut setReactionCountdownTickCount:20];
     [self.sut onReactionCountdownTick:nil];
     NSString * actual = self.sut.feedbackVC.feedbackLabel.text;
-    NSString * expected = [NSString stringWithFormat:FEEDBACK_REACTION_STRING,21];
+    NSString * expected = [NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackReactionString],21];
     XCTAssertTrue([expected isEqualToString:actual], @"expecting feedback label should match");
 }
 
@@ -314,7 +317,7 @@
     [self.sut setResponseCountdownTickCount:21];
     [self.sut onResponseCountdownTick:nil];
     NSString * actual = self.sut.feedbackVC.feedbackLabel.text;
-    NSString * expected = [NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,20];
+    NSString * expected = [NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],20];
     XCTAssertTrue([expected isEqualToString:actual], @"expecting feedback label should match");
 }
 

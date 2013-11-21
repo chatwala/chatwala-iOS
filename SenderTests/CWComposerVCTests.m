@@ -91,6 +91,7 @@
     [[self.mockRecorder expect]stopVideoRecording];
     [self.sut setTickCount:1];
     [self.sut onTick:self.sut.recordTimer];
+    [self.mockRecorder verify];
 }
 
 - (void)testShouldStopRecordingOnTouchsEnded

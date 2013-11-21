@@ -23,40 +23,52 @@
     self=[super init];
     if (self)
     {
-        NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/downloads.apporchard.com/pho/defaults.plist"];
-        [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL];
+        [self refresh];
     }
     return self;
 }
 
+- (void)refresh
+{
+    NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/downloads.apporchard.com/pho/defaults.plist"];
+    [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL];
+}
+
 - (NSString *)tapToPlayVideo
 {
-    return [[NSUserDefaults standardUserDefaults] valueForKey:@"TAP_TO_PLAY_VIDEO"];
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"TAP_TO_PLAY_VIDEO"];
+    return value ? value:@"Tap To Play";
 }
 
 
 // FEEDBACK_REVIEW_STRING
 - (NSString *)feedbackReviewString
 {
-    return [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_REVIEW_STRING"];
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_REVIEW_STRING"];
+    return value ? value:@"Recording Reaction in 0:%02d";
 }
 
 
 // FEEDBACK_REACTION_STRING
 - (NSString *)feedbackReactionString
 {
-    return [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_REACTION_STRING"];
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_REACTION_STRING"];
+    return value ? value:@"Recording Reaction 0:%02d";
 }
+
 // FEEDBACK_RESPONSE_STRING
 - (NSString *)feedbackResponseString
 {
-    return [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_RESPONSE_STRING"];
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_RESPONSE_STRING"];
+    return value ? value:@"Recording Response 0:%02d";
 }
 
 // FEEDBACK_RECORDING_STRING
 - (NSString *)feedbackRecordingString
 {
-    return [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_RECORDING_STRING"];
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_RECORDING_STRING"];
+    return value ? value:@"Recording 0:%02d";
+    
 }
 
 

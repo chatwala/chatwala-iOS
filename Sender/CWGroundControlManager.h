@@ -15,5 +15,6 @@
 - (NSString*)feedbackResponseString;
 - (NSString*)feedbackReactionString;
 - (NSString*)feedbackReviewString;
+- (void)refresh;
 
 @end
