@@ -10,6 +10,7 @@
 #import "CWVideoManager.h"
 #import "CWComposerViewController.h"
 #import "CWErrorViewController.h"
+#import "CWAuthenticationManager.h"
 
 @interface CWStartScreenViewController ()
 
@@ -41,6 +42,8 @@
         [vc setError:error];
         [self.navigationController pushViewController:vc animated:YES];
     }
+    
+    [self presentViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:YES completion:nil];
 
 }
 - (void)viewDidAppear:(BOOL)animated

@@ -16,6 +16,7 @@
 #import "CWPIPStartScreenViewController.h"
 #import "CWErrorViewController.h"
 #import "CWGroundControlManager.h"
+#import "CWAuthenticationManager.h"
 
 @interface AppDelegate ()
 {
@@ -33,6 +34,7 @@
     
     [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
     [CWGroundControlManager sharedInstance];
+    [CWAuthenticationManager sharedInstance];
 //    UIStoryboard * storyboard;
 //    UIViewController * vc;
 //    CGFloat screenHeight = SCREEN_BOUNDS.size.height;
