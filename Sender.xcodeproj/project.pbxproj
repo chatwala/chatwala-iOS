@@ -64,6 +64,12 @@
 		E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9652560183535C1008987BD /* CWOpenerViewController.m */; };
 		E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */; };
 		E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E96525641835367A008987BD /* CWOpenerVCTests.m */; };
+		E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCF64183D45470098E530 /* CWErrorViewController.m */; };
+		E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9ABCF65183D45470098E530 /* CWErrorViewController.xib */; };
+		E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */; };
+		E9ABCFB3183E609E0098E530 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9ABCFB2183E609E0098E530 /* Security.framework */; };
+		E9ABCFB7183E61050098E530 /* CWAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCFB6183E61050098E530 /* CWAuthenticationManager.m */; };
+		E9ABCFB9183E632A0098E530 /* google_oauth2.json in Resources */ = {isa = PBXBuildFile; fileRef = E9ABCFB8183E632A0098E530 /* google_oauth2.json */; };
 		E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */; };
 		E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */; };
 		E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115521832970E00DB67D2 /* CWComposerViewController.m */; };
@@ -79,6 +85,7 @@
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 		E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */; };
 		E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */; };
+		E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +186,15 @@
 		E9652560183535C1008987BD /* CWOpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWOpenerViewController.m; sourceTree = "<group>"; };
 		E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPIPOpenerViewController.xib; sourceTree = "<group>"; };
 		E96525641835367A008987BD /* CWOpenerVCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWOpenerVCTests.m; sourceTree = "<group>"; };
+		E9ABCF63183D45470098E530 /* CWErrorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWErrorViewController.h; sourceTree = "<group>"; };
+		E9ABCF64183D45470098E530 /* CWErrorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWErrorViewController.m; sourceTree = "<group>"; };
+		E9ABCF65183D45470098E530 /* CWErrorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWErrorViewController.xib; sourceTree = "<group>"; };
+		E9ABCFAC183D5BA40098E530 /* CWGroundControlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWGroundControlManager.h; sourceTree = "<group>"; };
+		E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWGroundControlManager.m; sourceTree = "<group>"; };
+		E9ABCFB2183E609E0098E530 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		E9ABCFB5183E61050098E530 /* CWAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAuthenticationManager.h; sourceTree = "<group>"; };
+		E9ABCFB6183E61050098E530 /* CWAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAuthenticationManager.m; sourceTree = "<group>"; };
+		E9ABCFB8183E632A0098E530 /* google_oauth2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = google_oauth2.json; sourceTree = "<group>"; };
 		E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoRecorderTests.m; sourceTree = "<group>"; };
 		E9C1154E1832805300DB67D2 /* CWVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoRecorder.h; sourceTree = "<group>"; };
 		E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoRecorder.m; sourceTree = "<group>"; };
@@ -203,6 +219,7 @@
 		E9CE73EB1831873A00056FA9 /* CWVideoPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoPlayerView.h; sourceTree = "<group>"; };
 		E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerView.m; sourceTree = "<group>"; };
 		E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerViewTests.m; sourceTree = "<group>"; };
+		E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon76x76@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -210,6 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9ABCFB3183E609E0098E530 /* Security.framework in Frameworks */,
 				E94439D418294E990088A381 /* MessageUI.framework in Frameworks */,
 				E94439CC182945000088A381 /* AssetsLibrary.framework in Frameworks */,
 				E94439CA182944EC0088A381 /* ImageIO.framework in Frameworks */,
@@ -264,6 +282,7 @@
 				E94439D61829511A0088A381 /* PlaybackViewController.m */,
 				E94439DE18297ED30088A381 /* OpenerViewController.h */,
 				E94439DF18297ED30088A381 /* OpenerViewController.m */,
+				E9ABCF62183D45270098E530 /* Error */,
 				E924AD26183AAD79009400DD /* Start Screen */,
 				E924AD27183AB0A2009400DD /* Composer */,
 				E924AD32183AB718009400DD /* Review */,
@@ -304,10 +323,10 @@
 				E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */,
 				E924AD20183AAD47009400DD /* CWPIPStartScreenViewController.h */,
 				E924AD21183AAD47009400DD /* CWPIPStartScreenViewController.m */,
-				E924AD1E183AAD1F009400DD /* CWSSStartScreenViewController.xib */,
+				E924AD1C183AA902009400DD /* CWPIPStartScreenViewController.xib */,
 				E924AD23183AAD69009400DD /* CWSSStartScreenViewController.h */,
 				E924AD24183AAD69009400DD /* CWSSStartScreenViewController.m */,
-				E924AD1C183AA902009400DD /* CWPIPStartScreenViewController.xib */,
+				E924AD1E183AAD1F009400DD /* CWSSStartScreenViewController.xib */,
 			);
 			name = "Start Screen";
 			sourceTree = "<group>";
@@ -360,6 +379,7 @@
 		E944397A182940AF0088A381 = {
 			isa = PBXGroup;
 			children = (
+				E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */,
 				E944398C182940AF0088A381 /* Sender */,
 				E94439AB182940AF0088A381 /* SenderTests */,
 				E9443985182940AF0088A381 /* Frameworks */,
@@ -381,6 +401,7 @@
 		E9443985182940AF0088A381 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E9ABCFB2183E609E0098E530 /* Security.framework */,
 				E94439D318294E990088A381 /* MessageUI.framework */,
 				E94439CB182945000088A381 /* AssetsLibrary.framework */,
 				E94439C7182944EC0088A381 /* CoreImage.framework */,
@@ -407,6 +428,9 @@
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
 				E9CE73E91831810900056FA9 /* video.mp4 */,
+				E9ABCFB8183E632A0098E530 /* google_oauth2.json */,
+				E9ABCFB4183E60F00098E530 /* Auth */,
+				E9ABCFB1183E5D960098E530 /* GroundControl */,
 				E90F04E5182D2A67004B8CCD /* User Interface */,
 				E90F04E3182D2A53004B8CCD /* View Controllers */,
 				E90F04E4182D2A5D004B8CCD /* Chatwala */,
@@ -471,6 +495,34 @@
 				E94439D918295B0B0088A381 /* VideoPlayerViewController.m */,
 			);
 			name = "Video Player";
+			sourceTree = "<group>";
+		};
+		E9ABCF62183D45270098E530 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				E9ABCF63183D45470098E530 /* CWErrorViewController.h */,
+				E9ABCF64183D45470098E530 /* CWErrorViewController.m */,
+				E9ABCF65183D45470098E530 /* CWErrorViewController.xib */,
+			);
+			name = Error;
+			sourceTree = "<group>";
+		};
+		E9ABCFB1183E5D960098E530 /* GroundControl */ = {
+			isa = PBXGroup;
+			children = (
+				E9ABCFAC183D5BA40098E530 /* CWGroundControlManager.h */,
+				E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */,
+			);
+			name = GroundControl;
+			sourceTree = "<group>";
+		};
+		E9ABCFB4183E60F00098E530 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				E9ABCFB5183E61050098E530 /* CWAuthenticationManager.h */,
+				E9ABCFB6183E61050098E530 /* CWAuthenticationManager.m */,
+			);
+			name = Auth;
 			sourceTree = "<group>";
 		};
 		E9C1154C1832803900DB67D2 /* Player */ = {
@@ -578,6 +630,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */,
+				E9ABCFB9183E632A0098E530 /* google_oauth2.json in Resources */,
+				E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */,
 				E924AD1D183AA902009400DD /* CWPIPStartScreenViewController.xib in Resources */,
 				E924AD34183AB789009400DD /* CWSSReviewViewController.xib in Resources */,
 				E924AD29183AB0BC009400DD /* CWPIPComposerViewController.xib in Resources */,
@@ -586,6 +640,7 @@
 				E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */,
 				E9CE73EA1831810900056FA9 /* video.mp4 in Resources */,
 				E9443991182940AF0088A381 /* InfoPlist.strings in Resources */,
+				E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */,
 				E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */,
 				E924AD2B183AB450009400DD /* CWSSComposerViewController.xib in Resources */,
 				E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */,
@@ -672,6 +727,7 @@
 			files = (
 				E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */,
 				E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */,
+				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
 				E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */,
 				E94439DA18295B0B0088A381 /* VideoPlayerViewController.m in Sources */,
@@ -693,6 +749,7 @@
 				E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */,
 				E94439E018297ED30088A381 /* OpenerViewController.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
+				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
@@ -700,6 +757,7 @@
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
 				E94439D71829511A0088A381 /* PlaybackViewController.m in Sources */,
 				E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */,
+				E9ABCFB7183E61050098E530 /* CWAuthenticationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

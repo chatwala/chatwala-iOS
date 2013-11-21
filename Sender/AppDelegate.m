@@ -14,7 +14,9 @@
 #import "CWStartScreenViewController.h"
 #import "CWSSStartScreenViewController.h"
 #import "CWPIPStartScreenViewController.h"
-
+#import "CWErrorViewController.h"
+#import "CWGroundControlManager.h"
+#import "CWAuthenticationManager.h"
 
 @interface AppDelegate ()
 {
@@ -28,9 +30,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [application setStatusBarHidden:YES];
     
     [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
-    
+    [CWGroundControlManager sharedInstance];
+    [CWAuthenticationManager sharedInstance];
 //    UIStoryboard * storyboard;
 //    UIViewController * vc;
 //    CGFloat screenHeight = SCREEN_BOUNDS.size.height;
@@ -64,23 +68,38 @@
     
     return YES;
 }
-							
+
+
+- (void)activateSession
+{
+    [[[CWVideoManager sharedManager]recorder]resumeSession];
+}
+
+
+- (void)deactivateSession
+{
+    [[[CWVideoManager sharedManager]recorder]stopSession];
+}
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     
-    UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
-    [rootVC popToRootViewControllerAnimated:NO];
+//    UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
+//    [rootVC popToRootViewControllerAnimated:NO];
 //    id currentVC = rootVC.topViewController;
     
 //    if ([currentVC isKindOfClass:[SenderViewController class]]) {
 //        SenderViewController * vc = (SenderViewController* )currentVC;
 //        [vc interruptRecording];
 //    }
-//    
+//
     
+//    [[CWVideoManager sharedManager]recorder]
     
+    [self deactivateSession];
     
 }
 
@@ -101,13 +120,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
-    id currentVC = rootVC.topViewController;
-    
-    if ([currentVC isKindOfClass:[SenderViewController class]]) {
-        SenderViewController * vc = (SenderViewController* )currentVC;
-        [vc resumeRecording];
-    }
+    [self activateSession];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

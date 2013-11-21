@@ -9,6 +9,31 @@
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
+#import "CWAuthenticationManager.h"
+
+static NSString * emailString = @"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\
+<html xmlns='http://www.w3.org/1999/xhtml'>\
+<head>\
+<meta name='viewport' content='width=device-width' />\
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\
+<title>Chatwala Message</title>\
+<link rel='stylesheet' type='text/css' href='stylesheets/email.css' />\
+</head>\
+<body bgcolor='#FFFFFF'>\
+<table class='body-wrap'>\
+<tr>\
+<td></td>\
+<td class='container' bgcolor='#FFFFFF'>\
+<div class='content'>\
+<table>\
+<tr>\
+<td><h3>You have a new message!</h3>\
+<p class='callout'>\
+Chatwala is a new way to communicate with your friends through video messaging.\
+<br/><a href='http://google.com'>Get the App! &raquo;</a>\
+</p>\
+</body>\
+</html>";
 
 @interface CWReviewViewController () <CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
 {
@@ -69,7 +94,12 @@
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
     mc.mailComposeDelegate = self;
     [mc setSubject:@"CW msg"];
-    [mc setMessageBody:@"You've got video!" isHTML:NO];
+
+    if (self.incomingMessageItem.metadata.senderId) {
+        [mc setToRecipients:@[self.incomingMessageItem.metadata.senderId]];
+    }
+    
+    [mc setMessageBody:emailString isHTML:YES];
     [mc addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
     [self presentViewController:mc animated:YES completion:nil];
 }
@@ -79,6 +109,17 @@
     CWMessageItem * message = [[CWMessageItem alloc]init];
     [message setVideoURL:recorder.outputFileURL];
     message.metadata.startRecording = self.startRecordingTime;
+    
+    
+    if ([[CWAuthenticationManager sharedInstance]isAuthenticated]) {
+        [message.metadata setSenderId:[[CWAuthenticationManager sharedInstance] userEmail]];
+    }
+    
+    if (self.incomingMessageItem) {
+        [message.metadata setRecipientId:self.incomingMessageItem.metadata.senderId];
+        [message.metadata setThreadId:self.incomingMessageItem.metadata.threadId];
+        [message.metadata setThreadIndex:self.incomingMessageItem.metadata.threadIndex+1];
+    }
     return message;
 }
 

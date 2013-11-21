@@ -11,6 +11,7 @@
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
+#import "CWGroundControlManager.h"
 
 
 @interface CWOpenerViewController () <CWVideoPlayerDelegate,CWVideoRecorderDelegate>
@@ -167,7 +168,7 @@
              Preview State: Video Message is ready
              • update view and feedback to reflect Preview state ( in subclass )
              */
-            [self.feedbackVC.feedbackLabel setText:@"Tap to Play Message"];
+            [self.feedbackVC.feedbackLabel setText:[[CWGroundControlManager sharedInstance] tapToPlayVideo]];
             break;
             
             
@@ -263,7 +264,7 @@
     [self killTimers];
     self.reviewCountdownTickCount = self.messageItem.metadata.startRecording;
     self.reviewCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReviewCountdownTick:) userInfo:nil repeats:YES];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REVIEW_STRING,self.reviewCountdownTickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackReviewString],self.reviewCountdownTickCount]];
     NSLog(@"started review countdown from %d",self.reviewCountdownTickCount);
     
 }
@@ -274,7 +275,7 @@
     [self.recorder startVideoRecording];
     self.reactionCountdownTickCount = 0;
     self.reactionCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReactionCountdownTick:) userInfo:nil repeats:YES];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REACTION_STRING,self.reactionCountdownTickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackReactionString],self.reactionCountdownTickCount]];
     NSLog(@"started reaction countdown from %d",self.reactionCountdownTickCount);
 }
 
@@ -283,7 +284,7 @@
     [self killTimers];
     self.responseCountdownTickCount = MAX_RECORD_TIME;
     self.responseCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onResponseCountdownTick:) userInfo:nil repeats:YES];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],self.responseCountdownTickCount]];
     NSLog(@"started response countdown from %d",self.responseCountdownTickCount);
 }
 
@@ -299,13 +300,13 @@
         [self setOpenerState:CWOpenerReact];
         
     }
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REVIEW_STRING,self.reviewCountdownTickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackReviewString],self.reviewCountdownTickCount]];
 }
 
 - (void)onReactionCountdownTick:(NSTimer*)timer
 {
     self.reactionCountdownTickCount++;
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_REACTION_STRING,self.reactionCountdownTickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackReactionString],self.reactionCountdownTickCount]];
 }
 
 
@@ -319,7 +320,7 @@
         
         
     }
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:FEEDBACK_RESPONSE_STRING,self.responseCountdownTickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],self.responseCountdownTickCount]];
 }
 
 #pragma mark CWVideoPlayerDelegate
@@ -359,6 +360,7 @@
     [self.feedbackVC.feedbackLabel setTextColor:[UIColor whiteColor]];
     // push to review
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+    [reviewVC setIncomingMessageItem:self.messageItem];
     [self.navigationController pushViewController:reviewVC animated:NO];
 
 }

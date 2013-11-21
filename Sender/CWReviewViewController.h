@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class CWMessageItem;
 @interface CWReviewViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 @property (weak, nonatomic) IBOutlet UIButton *recordAgainButton;
 @property (weak, nonatomic) IBOutlet UIButton *sendButton;
 @property (nonatomic,assign) NSTimeInterval startRecordingTime;
+@property (nonatomic,strong) CWMessageItem * incomingMessageItem;
 - (IBAction)onRecordAgain:(id)sender;
 - (IBAction)onSend:(id)sender;
 - (void)showVideoPreview;

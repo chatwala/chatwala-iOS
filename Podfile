@@ -4,8 +4,8 @@ pod 'SVProgressHUD'
 pod 'SSZipArchive'
 pod 'Mantle'
 pod 'TestFlightSDK'
-
-
+pod 'GroundControl'
+pod 'gtm-oauth2'
 
 
 target :test, :exclusive => true do

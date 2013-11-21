@@ -34,6 +34,7 @@
     if (self) {
         self.recorderView = [[UIView alloc]init];
         [self.recorderView addObserver:self forKeyPath:@"frame" options:kNilOptions context:nil];
+        [self.recorderView setAlpha:0.0];
     }
     return self;
 }
@@ -51,7 +52,23 @@
 }
 
 
-- (void) setupSession
+- (void) stopSession
+{
+    [self.session stopRunning];
+}
+- (void) resumeSession
+{
+    if (self.session) {
+        //
+        [self.session startRunning];
+        
+    }else{
+        [self setupSession];
+    }
+}
+
+
+- (NSError*) setupSession
 {
     
     NSError * err = nil;
@@ -60,18 +77,18 @@
     AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self frontFacingCamera] error:&err];
     if (err) {
         NSLog(@"failed to setup video input: %@",err.debugDescription);
-        return;
+        return err;
     }
     
     AVCaptureDeviceInput * audioInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self audioDevice] error:&err];
     if (err) {
         NSLog(@"failed to setup audio input: %@",err.debugDescription);
-        return;
+        return err;
     }
     
     AVCaptureSession * session = [[AVCaptureSession alloc]init];
     [session setSessionPreset:AVCaptureSessionPresetMedium];
-    
+
     if ([session canAddInput:videoInput]) {
         [session addInput:videoInput];
     }
@@ -113,7 +130,15 @@
     // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self.session startRunning];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:1.0 animations:^{
+                [self.recorderView setAlpha:1.0];
+            }];
+        });
+        
     });
+    
+    return err;
 
 }
 

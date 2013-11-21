@@ -9,6 +9,8 @@
 #import "CWStartScreenViewController.h"
 #import "CWVideoManager.h"
 #import "CWComposerViewController.h"
+#import "CWErrorViewController.h"
+#import "CWAuthenticationManager.h"
 
 @interface CWStartScreenViewController ()
 
@@ -33,7 +35,20 @@
 
     
 
-    [[[CWVideoManager sharedManager]recorder]setupSession];
+    NSError * error = [[[CWVideoManager sharedManager]recorder]setupSession];
+    if (error) {
+        // handle session error
+        CWErrorViewController * vc = [[CWErrorViewController alloc]init];
+        [vc setError:error];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+    // check if authenticated
+    
+   
+    
+    
+    
 
 }
 - (void)viewDidAppear:(BOOL)animated
@@ -43,6 +58,8 @@
     [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.startButton];
     
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.view.bounds];
+    
+    [self.authenticateButton setHidden:[[CWAuthenticationManager sharedInstance]isAuthenticated]];
     
 }
 
@@ -84,5 +101,10 @@
 - (IBAction)onStart:(id)sender {
     CWComposerViewController * composerVC = [[CWComposerViewController alloc]initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:composerVC animated:NO];
+    [self.authenticateButton setHidden:YES];
+}
+
+- (IBAction)onAuthenticate:(id)sender {
+    [self presentViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:NO completion:nil];
 }
 @end

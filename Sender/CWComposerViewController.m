@@ -10,6 +10,7 @@
 #import "CWFeedbackViewController.h"
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
+#import "CWGroundControlManager.h"
 
 @interface CWComposerViewController ()
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
@@ -67,7 +68,7 @@
         [self stopRecording];
         self.tickCount = 0;
     }
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:@"Recording 0:%02d",self.tickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString],self.tickCount]];
 }
 
 - (void)startRecording
@@ -98,7 +99,7 @@
         self.recordTimer = nil;
     }
     self.tickCount = MAX_RECORD_TIME;
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:@"Recording 0:%02d",self.tickCount]];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString],self.tickCount]];
     self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
 
 }
