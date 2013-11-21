@@ -9,7 +9,7 @@
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
-
+#import "CWAuthenticationManager.h"
 
 static NSString * emailString = @"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\
 <html xmlns='http://www.w3.org/1999/xhtml'>\
@@ -94,6 +94,11 @@ Chatwala is a new way to communicate with your friends through video messaging.\
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
     mc.mailComposeDelegate = self;
     [mc setSubject:@"CW msg"];
+
+    if (self.incomingMessageItem) {
+        [mc setToRecipients:@[self.incomingMessageItem.metadata.recipientId]];
+    }
+    
     [mc setMessageBody:emailString isHTML:YES];
     [mc addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
     [self presentViewController:mc animated:YES completion:nil];
@@ -104,6 +109,17 @@ Chatwala is a new way to communicate with your friends through video messaging.\
     CWMessageItem * message = [[CWMessageItem alloc]init];
     [message setVideoURL:recorder.outputFileURL];
     message.metadata.startRecording = self.startRecordingTime;
+    
+    
+    if ([[CWAuthenticationManager sharedInstance]isAuthenticated]) {
+        [message.metadata setSenderId:[[CWAuthenticationManager sharedInstance] userEmail]];
+    }
+    
+    if (self.incomingMessageItem) {
+        [message.metadata setRecipientId:self.incomingMessageItem.metadata.senderId];
+        [message.metadata setThreadId:self.incomingMessageItem.metadata.threadId];
+        [message.metadata setThreadIndex:self.incomingMessageItem.metadata.threadIndex+1];
+    }
     return message;
 }
 
