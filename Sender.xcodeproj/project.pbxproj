@@ -85,6 +85,7 @@
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 		E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */; };
 		E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */; };
+		E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -218,6 +219,7 @@
 		E9CE73EB1831873A00056FA9 /* CWVideoPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoPlayerView.h; sourceTree = "<group>"; };
 		E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerView.m; sourceTree = "<group>"; };
 		E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerViewTests.m; sourceTree = "<group>"; };
+		E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon76x76@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -377,6 +379,7 @@
 		E944397A182940AF0088A381 = {
 			isa = PBXGroup;
 			children = (
+				E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */,
 				E944398C182940AF0088A381 /* Sender */,
 				E94439AB182940AF0088A381 /* SenderTests */,
 				E9443985182940AF0088A381 /* Frameworks */,
@@ -628,6 +631,7 @@
 			files = (
 				E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */,
 				E9ABCFB9183E632A0098E530 /* google_oauth2.json in Resources */,
+				E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */,
 				E924AD1D183AA902009400DD /* CWPIPStartScreenViewController.xib in Resources */,
 				E924AD34183AB789009400DD /* CWSSReviewViewController.xib in Resources */,
 				E924AD29183AB0BC009400DD /* CWPIPComposerViewController.xib in Resources */,
