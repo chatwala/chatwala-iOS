@@ -45,6 +45,10 @@
     
     // check if authenticated
     
+   
+    
+    
+    
 
 }
 - (void)viewDidAppear:(BOOL)animated
@@ -54,6 +58,8 @@
     [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.startButton];
     
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.view.bounds];
+    
+    [self.authenticateButton setHidden:[[CWAuthenticationManager sharedInstance]isAuthenticated]];
     
 }
 

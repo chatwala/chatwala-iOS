@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWStartScreenViewController">
             <connections>
+                <outlet property="authenticateButton" destination="pKX-OY-n1u" id="0op-Ny-WVx"/>
                 <outlet property="startButton" destination="1TE-q2-PEq" id="Ffp-fk-sW5"/>
                 <outlet property="view" destination="1" id="rkd-xu-hfU"/>
             </connections>

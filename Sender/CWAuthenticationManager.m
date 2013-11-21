@@ -14,9 +14,7 @@ static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
 
 
 @interface CWAuthenticationManager ()
-@property (nonatomic,strong)GTMOAuth2Authentication * auth;
-
-
+- (void)setAuth:(GTMOAuth2Authentication *)auth;
 @end
 
 @implementation CWAuthenticationManager
@@ -60,9 +58,9 @@ static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
     
     NSString * clientID = [jsonDict objectForKey:@"client_id"];
     NSString * secret = [jsonDict objectForKey:@"client_secret"];
-    NSString * authorizationURL = [jsonDict objectForKey:@"auth_uri"];
-    NSString * tokenURL = [jsonDict objectForKey:@"token_uri"];
-    NSString * redirectURL = [[jsonDict objectForKey:@"redirect_uris"]objectAtIndex:0];
+//    NSString * authorizationURL = [jsonDict objectForKey:@"auth_uri"];
+//    NSString * tokenURL = [jsonDict objectForKey:@"token_uri"];
+//    NSString * redirectURL = [[jsonDict objectForKey:@"redirect_uris"]objectAtIndex:0];
     NSString * forAccountType = @"chatwala";
     
     NSLog(@"extracted auth data");
@@ -78,6 +76,26 @@ static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
 
     return viewController;
     
+}
+
+- (void)setAuth:(GTMOAuth2Authentication *)auth
+{
+       NSDictionary * authDict = @{
+                                @"accessToken": auth.accessToken,
+                                @"refreshToken" : auth.refreshToken,
+                                @"expirationDate":auth.expirationDate,
+                                @"code": auth.code
+                                };
+    
+    [[NSUserDefaults standardUserDefaults]setObject:authDict forKey:@"auth"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+}
+
+
+- (BOOL)isAuthenticated
+{
+    return ([[NSUserDefaults standardUserDefaults]objectForKey:@"auth"] != nil);
 }
 
 @end

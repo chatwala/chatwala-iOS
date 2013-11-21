@@ -12,4 +12,5 @@
 @interface CWAuthenticationManager : NSObject
 +(instancetype) sharedInstance;
 - (GTMOAuth2ViewControllerTouch *)requestAuthentication;
+- (BOOL)isAuthenticated;
 @end
