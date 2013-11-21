@@ -360,6 +360,7 @@
     [self.feedbackVC.feedbackLabel setTextColor:[UIColor whiteColor]];
     // push to review
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+    [reviewVC setIncomingMessageItem:self.messageItem];
     [self.navigationController pushViewController:reviewVC animated:NO];
 
 }
