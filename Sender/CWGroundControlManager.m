@@ -23,10 +23,15 @@
     self=[super init];
     if (self)
     {
-        NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/downloads.apporchard.com/pho/defaults.plist"];
-        [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL];
+        [self refresh];
     }
     return self;
+}
+
+- (void)refresh
+{
+    NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/downloads.apporchard.com/pho/defaults.plist"];
+    [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL];
 }
 
 - (NSString *)tapToPlayVideo
