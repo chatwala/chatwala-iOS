@@ -11,7 +11,7 @@
 #import "CWComposerViewController.h"
 #import "CWErrorViewController.h"
 #import "CWAuthenticationManager.h"
-
+#import "CWAuthRequestViewController.h"
 @interface CWStartScreenViewController ()
 
 @end
@@ -43,7 +43,6 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
     
-    // check if authenticated
     
    
     
@@ -59,9 +58,23 @@
     
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.view.bounds];
     
-    [self.authenticateButton setHidden:[[CWAuthenticationManager sharedInstance]isAuthenticated]];
+    
+    
+
+    if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
+        // not-authenticated
+        CWAuthRequestViewController * vc = [[CWAuthRequestViewController alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
     
 }
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -101,10 +114,6 @@
 - (IBAction)onStart:(id)sender {
     CWComposerViewController * composerVC = [[CWComposerViewController alloc]initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:composerVC animated:NO];
-    [self.authenticateButton setHidden:YES];
 }
 
-- (IBAction)onAuthenticate:(id)sender {
-    [self presentViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:NO completion:nil];
-}
 @end

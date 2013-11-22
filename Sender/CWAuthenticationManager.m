@@ -23,6 +23,7 @@ static NSString * AuthKeyCode           = @"code";
 
 
 @interface CWAuthenticationManager ()
+@property (nonatomic,assign) BOOL skippedAuth;
 - (void)setAuth:(GTMOAuth2Authentication *)auth;
 @end
 
@@ -103,10 +104,47 @@ static NSString * AuthKeyCode           = @"code";
     NSLog(@"user auhtentication data saved");
 }
 
+- (void)didFinishFirstRun
+{
+    [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"firstRun"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    self.skippedAuth = NO;
+    
+}
+
+- (void)didSkipAuth
+{
+    self.skippedAuth = YES;
+}
+
+- (BOOL)isFirstRun
+{
+    return [[NSUserDefaults standardUserDefaults]valueForKey:@"firstRun"] == nil;
+}
+
 
 - (BOOL)isAuthenticated
 {
     return ([[NSUserDefaults standardUserDefaults]objectForKey:@"auth"] != nil);
+}
+
+- (BOOL)shouldShowAuth
+{
+    if ([self isAuthenticated]) {
+        return NO;
+    }
+    
+    
+    if (self.skippedAuth) {
+        return NO;
+    }
+    
+    if ([self isFirstRun]) {
+        return NO;
+    }
+    
+    
+    return YES;
 }
 
 - (NSString *)userEmail

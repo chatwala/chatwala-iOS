@@ -6,7 +6,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWStartScreenViewController">
             <connections>
-                <outlet property="authenticateButton" destination="pKX-OY-n1u" id="0op-Ny-WVx"/>
                 <outlet property="startButton" destination="1TE-q2-PEq" id="Ffp-fk-sW5"/>
                 <outlet property="view" destination="1" id="rkd-xu-hfU"/>
             </connections>
@@ -33,27 +32,9 @@
                         <action selector="onStart:" destination="-1" eventType="touchUpInside" id="njv-19-6VD"/>
                     </connections>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pKX-OY-n1u">
-                    <rect key="frame" x="20" y="502" width="280" height="46"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="280" id="3N1-h1-5Jn"/>
-                        <constraint firstAttribute="height" constant="46" id="gG8-Cl-vyR"/>
-                    </constraints>
-                    <state key="normal" title="Authenticate with Google">
-                        <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="onAuthenticate:" destination="-1" eventType="touchUpInside" id="wrf-Z9-1Gr"/>
-                    </connections>
-                </button>
             </subviews>
             <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="centerX" secondItem="pKX-OY-n1u" secondAttribute="centerX" id="3I2-Jc-zlH"/>
-                <constraint firstAttribute="bottom" secondItem="pKX-OY-n1u" secondAttribute="bottom" constant="20" id="FMk-oW-f5E"/>
                 <constraint firstAttribute="centerX" secondItem="1TE-q2-PEq" secondAttribute="centerX" id="GuM-xj-d8p"/>
                 <constraint firstAttribute="centerY" secondItem="1TE-q2-PEq" secondAttribute="centerY" id="N7V-uA-jpg"/>
             </constraints>

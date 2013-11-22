@@ -11,6 +11,4 @@
 @interface CWStartScreenViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
 - (IBAction)onStart:(id)sender;
-- (IBAction)onAuthenticate:(id)sender;
-@property (weak, nonatomic) IBOutlet UIButton *authenticateButton;
 @end
