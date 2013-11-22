@@ -10,6 +10,10 @@
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
 #import "CWAuthenticationManager.h"
+#import "CWFlowManager.h"
+#import "CWAuthenticationManager.h"
+#import "AppDelegate.h"
+#import "CWLandingViewController.h"
 
 static NSString * emailString = @"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\
 <html xmlns='http://www.w3.org/1999/xhtml'>\
@@ -176,8 +180,15 @@ Chatwala is a new way to communicate with your friends through video messaging.\
     
     switch (result) {
         case MFMailComposeResultSent:
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            {
+                AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
+                [appdel.landingVC setFlowDirection:eFlowToStartScreen];
+                [[CWAuthenticationManager sharedInstance]didSkipAuth];
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            }
             break;
+            
+            
         default:
             [self.player replayVideo];
             break;

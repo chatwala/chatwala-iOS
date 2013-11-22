@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class CWLandingViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+@property (nonatomic,strong) CWLandingViewController * landingVC ;
 
 @end
