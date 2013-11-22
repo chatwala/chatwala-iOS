@@ -13,5 +13,9 @@
 +(instancetype) sharedInstance;
 - (GTMOAuth2ViewControllerTouch *)requestAuthentication;
 - (BOOL)isAuthenticated;
+- (BOOL)shouldShowAuth;
+- (BOOL)isFirstRun;
+- (void)didFinishFirstRun;
+- (void)didSkipAuth;
 - (NSString*)userEmail;
 @end
