@@ -10,5 +10,5 @@
 
 @interface CWAuthRequestViewController : UIViewController
 - (IBAction)onAuthenticate:(id)sender;
-- (IBAction)onSkip:(id)sender;
+- (IBAction)onUseEmail:(id)sender;
 @end

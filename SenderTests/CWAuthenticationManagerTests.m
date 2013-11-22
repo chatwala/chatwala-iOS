@@ -56,7 +56,7 @@
 - (void)testShouldReturnNoForFirstRunAfterFinishedFirstRunIsInvoked
 {
     [self.sut didFinishFirstRun];
-    XCTAssertFalse([self.sut isFirstRun], @"should be YES");
+    XCTAssertFalse([self.sut isFirstRun], @"should be NO");
 }
 
 - (void)testShouldShowAuthReturnsNoWhenAuthSkipped

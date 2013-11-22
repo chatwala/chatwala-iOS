@@ -7,9 +7,10 @@
 //
 
 #import "CWEmailSignupViewController.h"
+#import "CWAuthenticationManager.h"
+
 
 @interface CWEmailSignupViewController ()
-
 @end
 
 @implementation CWEmailSignupViewController
@@ -27,6 +28,14 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self.navigationController setNavigationBarHidden:NO];
+    
+    UIBarButtonItem *backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel"
+                                                                   style:UIBarButtonItemStyleBordered
+                                                                  target:self
+                                                                  action:@selector(handleBack:)];
+    
+    self.navigationItem.leftBarButtonItem = backButton;
 }
 
 - (void)didReceiveMemoryWarning
@@ -35,4 +44,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)onSend:(id)sender {
+}
+
+
+- (void)handleBack:(id)sender
+{
+    [[CWAuthenticationManager sharedInstance]didSkipAuth];
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

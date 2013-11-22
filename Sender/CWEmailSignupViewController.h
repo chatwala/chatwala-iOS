@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CWEmailSignupViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UITextField *emailField;
+- (IBAction)onSend:(id)sender;
 
 @end
