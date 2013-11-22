@@ -63,8 +63,10 @@
             }
             else
             {
-                // show start
-                [self.navigationController pushViewController:[[CWFlowManager sharedInstance] openerVC] animated:YES];
+                // show opener
+                CWOpenerViewController * openerVC = [[CWFlowManager sharedInstance] openerVC];
+                [openerVC setZipURL:self.incomingMessageZipURL];
+                [self.navigationController pushViewController:openerVC animated:YES];
             }
             break;
             

@@ -77,7 +77,7 @@
     [self addChildViewController:self.feedbackVC];
     [self.view addSubview:self.feedbackVC.view];
     
-
+    [self.navigationController setNavigationBarHidden:YES];
 }
 
 //-(void)viewDidAppear:(BOOL)animated
