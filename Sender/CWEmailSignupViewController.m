@@ -50,7 +50,6 @@
 
 - (void)handleBack:(id)sender
 {
-    [[CWAuthenticationManager sharedInstance]didSkipAuth];
     [self.navigationController popViewControllerAnimated:YES];
 }
 @end
