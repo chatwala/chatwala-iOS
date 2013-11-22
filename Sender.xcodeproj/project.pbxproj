@@ -90,6 +90,9 @@
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 		E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */; };
 		E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */; };
+		E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E003F8183FEB6B0087E909 /* CWLandingViewController.m */; };
+		E9E003FB183FEB6B0087E909 /* CWLandingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9E003F9183FEB6B0087E909 /* CWLandingViewController.xib */; };
+		E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E003FD183FEC4E0087E909 /* CWFlowManager.m */; };
 		E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -231,6 +234,11 @@
 		E9CE73EB1831873A00056FA9 /* CWVideoPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoPlayerView.h; sourceTree = "<group>"; };
 		E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerView.m; sourceTree = "<group>"; };
 		E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerViewTests.m; sourceTree = "<group>"; };
+		E9E003F7183FEB6B0087E909 /* CWLandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLandingViewController.h; sourceTree = "<group>"; };
+		E9E003F8183FEB6B0087E909 /* CWLandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWLandingViewController.m; sourceTree = "<group>"; };
+		E9E003F9183FEB6B0087E909 /* CWLandingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWLandingViewController.xib; sourceTree = "<group>"; };
+		E9E003FC183FEC4E0087E909 /* CWFlowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWFlowManager.h; sourceTree = "<group>"; };
+		E9E003FD183FEC4E0087E909 /* CWFlowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWFlowManager.m; sourceTree = "<group>"; };
 		E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon76x76@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -294,6 +302,7 @@
 				E94439D61829511A0088A381 /* PlaybackViewController.m */,
 				E94439DE18297ED30088A381 /* OpenerViewController.h */,
 				E94439DF18297ED30088A381 /* OpenerViewController.m */,
+				E9E003FF183FEF1A0087E909 /* Landing */,
 				E96C1503183FABB900DA9B85 /* AuthRequest */,
 				E9ABCF62183D45270098E530 /* Error */,
 				E924AD26183AAD79009400DD /* Start Screen */,
@@ -440,6 +449,8 @@
 				E9443996182940AF0088A381 /* AppDelegate.m */,
 				E9CE73E91831810900056FA9 /* video.mp4 */,
 				E9ABCFB8183E632A0098E530 /* google_oauth2.json */,
+				E9E003FC183FEC4E0087E909 /* CWFlowManager.h */,
+				E9E003FD183FEC4E0087E909 /* CWFlowManager.m */,
 				E9ABCFB4183E60F00098E530 /* Auth */,
 				E9ABCFB1183E5D960098E530 /* GroundControl */,
 				E90F04E5182D2A67004B8CCD /* User Interface */,
@@ -580,6 +591,16 @@
 			name = Recorder;
 			sourceTree = "<group>";
 		};
+		E9E003FF183FEF1A0087E909 /* Landing */ = {
+			isa = PBXGroup;
+			children = (
+				E9E003F7183FEB6B0087E909 /* CWLandingViewController.h */,
+				E9E003F8183FEB6B0087E909 /* CWLandingViewController.m */,
+				E9E003F9183FEB6B0087E909 /* CWLandingViewController.xib */,
+			);
+			name = Landing;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -664,6 +685,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9E003FB183FEB6B0087E909 /* CWLandingViewController.xib in Resources */,
 				E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */,
 				E9ABCFB9183E632A0098E530 /* google_oauth2.json in Resources */,
 				E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */,
@@ -775,6 +797,7 @@
 				E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */,
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,
 				E96C1501183FABB200DA9B85 /* CWAuthRequestViewController.m in Sources */,
+				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
@@ -788,6 +811,7 @@
 				E94439E018297ED30088A381 /* OpenerViewController.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
+				E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,

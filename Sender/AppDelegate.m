@@ -17,12 +17,15 @@
 #import "CWErrorViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWAuthenticationManager.h"
+#import "CWLandingViewController.h"
 
 @interface AppDelegate ()
 {
     BOOL isSplitScreen;
 }
 @property (nonatomic,strong) UINavigationController * navController;
+@property (nonatomic,strong) CWLandingViewController * landingVC ;
+
 @end
 
 @implementation AppDelegate
@@ -35,32 +38,14 @@
     [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
     [CWGroundControlManager sharedInstance];
     [CWAuthenticationManager sharedInstance];
-//    UIStoryboard * storyboard;
-//    UIViewController * vc;
-//    CGFloat screenHeight = SCREEN_BOUNDS.size.height;
-//    if (screenHeight> 480) {
-//        // iphone5
-//        storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-//    }else{
-//        // pre-iphone5
-//        storyboard = [UIStoryboard storyboardWithName:@"SmallScreen" bundle:[NSBundle mainBundle]];
-//    }
+
     
-    CWStartScreenViewController * startVC;
-    // = [[CWStartScreenViewController alloc]init];
+    self.landingVC = [[CWLandingViewController alloc]init];
+    [self.landingVC setFlowDirection:eFlowToStartScreen];
     
-    isSplitScreen = YES;
-    
-    if (isSplitScreen) {
-        startVC = [[CWSSStartScreenViewController alloc]init];
-    }else{
-        startVC = [[CWPIPStartScreenViewController alloc]init];
-    }
-    
-    self.navController = [[UINavigationController alloc]initWithRootViewController:startVC];
+    self.navController = [[UINavigationController alloc]initWithRootViewController:self.landingVC];
 
     self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
-//    vc = [storyboard instantiateInitialViewController];
     
     [self.window addSubview:self.navController.view];
     [self.window setRootViewController:self.navController];
@@ -87,8 +72,7 @@
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     
-    UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
-    [rootVC popToRootViewControllerAnimated:NO];
+    [self.navController popToRootViewControllerAnimated:NO];
 //    id currentVC = rootVC.topViewController;
     
 //    if ([currentVC isKindOfClass:[SenderViewController class]]) {
@@ -107,6 +91,7 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -122,34 +107,24 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [self activateSession];
     [[CWGroundControlManager sharedInstance]refresh];
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    UINavigationController * rootVC = (UINavigationController*)self.window.rootViewController;
-    
-    CWOpenerViewController * openerVC;
-    if (isSplitScreen) {
-        openerVC = [[CWSSOpenerViewController alloc]init];
-    }else{
-        openerVC = [[CWPIPOpenerViewController alloc]init];
-    }
-    
-    [openerVC setZipURL:url];
-    [rootVC pushViewController:openerVC animated:YES];
-    
-    
-    NSLog(@"opener %@",openerVC);
-    
-    
+    [self.landingVC setIncomingMessageZipURL:url];
+    [self.landingVC setFlowDirection:eFlowToOpener];
+    [self.navController popToRootViewControllerAnimated:NO];
     return YES;
 }
 
 
-\
+
+
 @end

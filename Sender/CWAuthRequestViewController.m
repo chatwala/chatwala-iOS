@@ -45,14 +45,14 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)onAuthenticate:(id)sender {
-    [self presentViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:NO completion:nil];
+    [self.navigationController pushViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:YES];
 }
 
 
 - (void)handleBack:(id)sender
 {
     [[CWAuthenticationManager sharedInstance]didSkipAuth];
-    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
 

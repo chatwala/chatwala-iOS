@@ -53,7 +53,7 @@ static NSString * AuthKeyCode           = @"code";
         // Authentication succeeded
         self.auth = auth;
     }
-    [viewController dismissViewControllerAnimated:NO completion:nil];
+    [viewController.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (GTMOAuth2ViewControllerTouch *)requestAuthentication

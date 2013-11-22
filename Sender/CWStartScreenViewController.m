@@ -64,13 +64,14 @@
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.view.bounds];
     
     
-    
+    /*
 
     if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
         // not-authenticated
         CWAuthRequestViewController * vc = [[CWAuthRequestViewController alloc]init];
         [self.navigationController pushViewController:vc animated:YES];
     }
+     */
     
 }
 
