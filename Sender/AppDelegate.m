@@ -34,9 +34,13 @@
     // Override point for customization after application launch.
     [application setStatusBarHidden:YES];
     
-    [TestFlight takeOff:TESTFLIGHT_APP_TOKEN];
+
     [CWGroundControlManager sharedInstance];
     [CWAuthenticationManager sharedInstance];
+    
+    
+    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
+    [ARAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
 
     
     self.landingVC = [[CWLandingViewController alloc]init];

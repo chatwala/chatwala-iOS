@@ -1,1 +1,0 @@
-../../Helpshift/helpshift-ios-3.2.1/Helpshift.h

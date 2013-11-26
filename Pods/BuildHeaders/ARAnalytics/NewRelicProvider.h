@@ -1,1 +1,0 @@
-../../ARAnalytics/Providers/NewRelicProvider.h

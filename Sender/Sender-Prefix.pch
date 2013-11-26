@@ -23,9 +23,8 @@
 // 3rd party
     #import <SSZipArchive.h>
     #import <Mantle/Mantle.h>
-    #import <TestFlightSDK/TestFlight.h>
     #import "NSUserDefaults+GroundControl.h"
-
+    #import <ARAnalytics/ARAnalytics.h>
 #endif
 
 
@@ -39,6 +38,10 @@
 
 // testflight app token
 #define TESTFLIGHT_APP_TOKEN        @"73919668-dae2-4921-997a-71f27ac19678"
+// google analytics token
+#define GOOGLE_ANALYTICS_ID         @"UA-45902634-1"
+
+
 // max record time in seconds
 #define MAX_RECORD_TIME             10
 // version of the chatwala file

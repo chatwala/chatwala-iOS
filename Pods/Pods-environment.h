@@ -48,47 +48,11 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 0
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 3
 
-// ARAnalytics
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics 2
-
-// ARAnalytics/Amplitude
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_Amplitude
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_Amplitude 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_Amplitude 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_Amplitude 2
-
-// ARAnalytics/Bugsnag
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_Bugsnag
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_Bugsnag 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_Bugsnag 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_Bugsnag 2
-
 // ARAnalytics/CoreIOS
 #define COCOAPODS_POD_AVAILABLE_ARAnalytics_CoreIOS
 #define COCOAPODS_VERSION_MAJOR_ARAnalytics_CoreIOS 2
 #define COCOAPODS_VERSION_MINOR_ARAnalytics_CoreIOS 3
 #define COCOAPODS_VERSION_PATCH_ARAnalytics_CoreIOS 2
-
-// ARAnalytics/Countly
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_Countly
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_Countly 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_Countly 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_Countly 2
-
-// ARAnalytics/Crashlytics
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_Crashlytics
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_Crashlytics 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_Crashlytics 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_Crashlytics 2
-
-// ARAnalytics/Flurry
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_Flurry
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_Flurry 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_Flurry 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_Flurry 2
 
 // ARAnalytics/GoogleAnalytics
 #define COCOAPODS_POD_AVAILABLE_ARAnalytics_GoogleAnalytics
@@ -96,107 +60,17 @@
 #define COCOAPODS_VERSION_MINOR_ARAnalytics_GoogleAnalytics 3
 #define COCOAPODS_VERSION_PATCH_ARAnalytics_GoogleAnalytics 2
 
-// ARAnalytics/HeapAnalytics
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_HeapAnalytics
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_HeapAnalytics 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_HeapAnalytics 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_HeapAnalytics 2
-
-// ARAnalytics/Helpshift
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_Helpshift
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_Helpshift 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_Helpshift 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_Helpshift 2
-
-// ARAnalytics/HockeyApp
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_HockeyApp
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_HockeyApp 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_HockeyApp 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_HockeyApp 2
-
-// ARAnalytics/KISSmetrics
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_KISSmetrics
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_KISSmetrics 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_KISSmetrics 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_KISSmetrics 2
-
-// ARAnalytics/Localytics
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_Localytics
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_Localytics 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_Localytics 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_Localytics 2
-
-// ARAnalytics/Mixpanel
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_Mixpanel
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_Mixpanel 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_Mixpanel 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_Mixpanel 2
-
-// ARAnalytics/NewRelic
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_NewRelic
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_NewRelic 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_NewRelic 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_NewRelic 2
-
-// ARAnalytics/ParseAnalytics
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_ParseAnalytics
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_ParseAnalytics 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_ParseAnalytics 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_ParseAnalytics 2
-
-// ARAnalytics/Tapstream
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_Tapstream
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_Tapstream 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_Tapstream 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_Tapstream 2
-
 // ARAnalytics/TestFlight
 #define COCOAPODS_POD_AVAILABLE_ARAnalytics_TestFlight
 #define COCOAPODS_VERSION_MAJOR_ARAnalytics_TestFlight 2
 #define COCOAPODS_VERSION_MINOR_ARAnalytics_TestFlight 3
 #define COCOAPODS_VERSION_PATCH_ARAnalytics_TestFlight 2
 
-// ARAnalytics/no_clash_HockeyApp
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_no_clash_HockeyApp
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_no_clash_HockeyApp 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_no_clash_HockeyApp 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_no_clash_HockeyApp 2
-
-// Amplitude-iOS
-#define COCOAPODS_POD_AVAILABLE_Amplitude_iOS
-#define COCOAPODS_VERSION_MAJOR_Amplitude_iOS 1
-#define COCOAPODS_VERSION_MINOR_Amplitude_iOS 0
-#define COCOAPODS_VERSION_PATCH_Amplitude_iOS 2
-
 // BPXLUUIDHandler
 #define COCOAPODS_POD_AVAILABLE_BPXLUUIDHandler
 #define COCOAPODS_VERSION_MAJOR_BPXLUUIDHandler 0
 #define COCOAPODS_VERSION_MINOR_BPXLUUIDHandler 0
 #define COCOAPODS_VERSION_PATCH_BPXLUUIDHandler 1
-
-// Bugsnag
-#define COCOAPODS_POD_AVAILABLE_Bugsnag
-#define COCOAPODS_VERSION_MAJOR_Bugsnag 3
-#define COCOAPODS_VERSION_MINOR_Bugsnag 1
-#define COCOAPODS_VERSION_PATCH_Bugsnag 0
-
-// Countly
-#define COCOAPODS_POD_AVAILABLE_Countly
-#define COCOAPODS_VERSION_MAJOR_Countly 1
-#define COCOAPODS_VERSION_MINOR_Countly 0
-#define COCOAPODS_VERSION_PATCH_Countly 0
-
-// Facebook-iOS-SDK
-#define COCOAPODS_POD_AVAILABLE_Facebook_iOS_SDK
-#define COCOAPODS_VERSION_MAJOR_Facebook_iOS_SDK 3
-#define COCOAPODS_VERSION_MINOR_Facebook_iOS_SDK 10
-#define COCOAPODS_VERSION_PATCH_Facebook_iOS_SDK 0
-
-// FlurrySDK
-#define COCOAPODS_POD_AVAILABLE_FlurrySDK
-#define COCOAPODS_VERSION_MAJOR_FlurrySDK 4
-#define COCOAPODS_VERSION_MINOR_FlurrySDK 3
-#define COCOAPODS_VERSION_PATCH_FlurrySDK 0
 
 // GTMHTTPFetcher
 #define COCOAPODS_POD_AVAILABLE_GTMHTTPFetcher
@@ -216,36 +90,6 @@
 #define COCOAPODS_VERSION_MINOR_GroundControl 0
 #define COCOAPODS_VERSION_PATCH_GroundControl 0
 
-// HeapAnalytics
-#define COCOAPODS_POD_AVAILABLE_HeapAnalytics
-#define COCOAPODS_VERSION_MAJOR_HeapAnalytics 0
-#define COCOAPODS_VERSION_MINOR_HeapAnalytics 0
-#define COCOAPODS_VERSION_PATCH_HeapAnalytics 1
-
-// Helpshift
-#define COCOAPODS_POD_AVAILABLE_Helpshift
-#define COCOAPODS_VERSION_MAJOR_Helpshift 3
-#define COCOAPODS_VERSION_MINOR_Helpshift 2
-#define COCOAPODS_VERSION_PATCH_Helpshift 1
-
-// HockeySDK
-#define COCOAPODS_POD_AVAILABLE_HockeySDK
-#define COCOAPODS_VERSION_MAJOR_HockeySDK 3
-#define COCOAPODS_VERSION_MINOR_HockeySDK 5
-#define COCOAPODS_VERSION_PATCH_HockeySDK 0
-
-// KISSmetrics
-#define COCOAPODS_POD_AVAILABLE_KISSmetrics
-#define COCOAPODS_VERSION_MAJOR_KISSmetrics 1
-#define COCOAPODS_VERSION_MINOR_KISSmetrics 1
-#define COCOAPODS_VERSION_PATCH_KISSmetrics 3
-
-// Localytics
-#define COCOAPODS_POD_AVAILABLE_Localytics
-#define COCOAPODS_VERSION_MAJOR_Localytics 0
-#define COCOAPODS_VERSION_MINOR_Localytics 0
-#define COCOAPODS_VERSION_PATCH_Localytics 1
-
 // Mantle
 #define COCOAPODS_POD_AVAILABLE_Mantle
 #define COCOAPODS_VERSION_MAJOR_Mantle 1
@@ -257,30 +101,6 @@
 #define COCOAPODS_VERSION_MAJOR_Mantle_extobjc 1
 #define COCOAPODS_VERSION_MINOR_Mantle_extobjc 3
 #define COCOAPODS_VERSION_PATCH_Mantle_extobjc 1
-
-// Mixpanel
-#define COCOAPODS_POD_AVAILABLE_Mixpanel
-#define COCOAPODS_VERSION_MAJOR_Mixpanel 2
-#define COCOAPODS_VERSION_MINOR_Mixpanel 2
-#define COCOAPODS_VERSION_PATCH_Mixpanel 0
-
-// NewRelicAgent
-#define COCOAPODS_POD_AVAILABLE_NewRelicAgent
-#define COCOAPODS_VERSION_MAJOR_NewRelicAgent 1
-#define COCOAPODS_VERSION_MINOR_NewRelicAgent 396
-#define COCOAPODS_VERSION_PATCH_NewRelicAgent 0
-
-// Parse-iOS-SDK
-#define COCOAPODS_POD_AVAILABLE_Parse_iOS_SDK
-#define COCOAPODS_VERSION_MAJOR_Parse_iOS_SDK 1
-#define COCOAPODS_VERSION_MINOR_Parse_iOS_SDK 2
-#define COCOAPODS_VERSION_PATCH_Parse_iOS_SDK 16
-
-// Reachability
-#define COCOAPODS_POD_AVAILABLE_Reachability
-#define COCOAPODS_VERSION_MAJOR_Reachability 3
-#define COCOAPODS_VERSION_MINOR_Reachability 1
-#define COCOAPODS_VERSION_PATCH_Reachability 1
 
 // SBJson
 #define COCOAPODS_POD_AVAILABLE_SBJson
@@ -299,12 +119,6 @@
 #define COCOAPODS_VERSION_MAJOR_SVProgressHUD 1
 #define COCOAPODS_VERSION_MINOR_SVProgressHUD 0
 #define COCOAPODS_VERSION_PATCH_SVProgressHUD 0
-
-// Tapstream
-#define COCOAPODS_POD_AVAILABLE_Tapstream
-#define COCOAPODS_VERSION_MAJOR_Tapstream 2
-#define COCOAPODS_VERSION_MINOR_Tapstream 3
-#define COCOAPODS_VERSION_PATCH_Tapstream 0
 
 // TestFlightSDK
 #define COCOAPODS_POD_AVAILABLE_TestFlightSDK

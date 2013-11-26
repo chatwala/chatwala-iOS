@@ -1,1 +1,0 @@
-../../ARAnalytics/Providers/HelpshiftProvider.h
