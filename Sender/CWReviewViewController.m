@@ -47,7 +47,7 @@ Chatwala is a new way to communicate with your friends through video messaging.\
 }
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
-
+@property (nonatomic,strong) MFMailComposeViewController *mailComposer;
 @end
 
 @implementation CWReviewViewController
@@ -71,6 +71,14 @@ Chatwala is a new way to communicate with your friends through video messaging.\
     
     player =[[CWVideoManager sharedManager]player];
     recorder = [[CWVideoManager sharedManager]recorder];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(goToBackground)
+                                                 name:UIApplicationWillResignActiveNotification object:nil];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -86,6 +94,14 @@ Chatwala is a new way to communicate with your friends through video messaging.\
     [player setVideoURL:recorder.tempFileURL];
 }
 
+
+- (void)goToBackground
+{
+    if (self.mailComposer) {
+        [[self mailComposer]dismissViewControllerAnimated:NO completion:nil];
+    }
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -98,18 +114,20 @@ Chatwala is a new way to communicate with your friends through video messaging.\
 
 - (void)composeMessageWithData:(NSData*)messageData
 {
-    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-    mc.mailComposeDelegate = self;
-    [mc setSubject:@"CW msg"];
-
+    self.mailComposer = [[MFMailComposeViewController alloc] init];
+    [self.mailComposer setMailComposeDelegate:self];
+    [self.mailComposer setSubject:@"CW msg"];
+    
+    
     if (self.incomingMessageItem.metadata.senderId) {
-        [mc setToRecipients:@[self.incomingMessageItem.metadata.senderId]];
+        [[self mailComposer] setToRecipients:@[self.incomingMessageItem.metadata.senderId]];
     }
     
-    [mc setMessageBody:emailString isHTML:YES];
-    [mc addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
-    [self presentViewController:mc animated:YES completion:nil];
+    [[self mailComposer]  setMessageBody:emailString isHTML:YES];
+    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
+    [self presentViewController:[self mailComposer]  animated:YES completion:nil];
 }
+
 
 - (CWMessageItem*)createMessageItem
 {
@@ -229,6 +247,7 @@ Chatwala is a new way to communicate with your friends through video messaging.\
     }
     
     [controller dismissViewControllerAnimated:YES completion:nil];
+    self.mailComposer= nil;
 }
 
 @end
