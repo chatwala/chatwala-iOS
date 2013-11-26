@@ -81,6 +81,10 @@
     
     NSError * err = nil;
     
+    if (self.session) {
+        return err;
+    }
+    
     // setup device inputs
     AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self frontFacingCamera] error:&err];
     if (err) {
