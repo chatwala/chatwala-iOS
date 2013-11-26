@@ -107,7 +107,7 @@
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
-    if (self.tickCount == 0 || !self.tickCount) {
+    if (self.tickCount == 0) {
         // push
         [self showReview];
     }

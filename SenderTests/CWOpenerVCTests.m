@@ -170,8 +170,11 @@
 - (void) testShouldAddVideoPlayerViewWhenVideoIsReady {
     [self prepMessageItem];
     [self.sut viewWillAppear:NO];
-    id mockPlaybackView = [OCMockObject partialMockForObject:self.sut.playbackView];
-    [[mockPlaybackView expect]addSubview:self.sut.player.playbackView];
+    UIView * dummyView = [[UIView alloc]init];
+    id mockPlaybackView = [OCMockObject partialMockForObject:dummyView];
+    [[[self.mockSUT stub]andReturn:mockPlaybackView]playbackView];
+    [[mockPlaybackView expect]addSubview:OCMOCK_ANY];
+    
     [self.sut videoPlayerDidLoadVideo:self.sut.player];
     [mockPlaybackView verify];
     [mockPlaybackView stopMocking];
