@@ -37,7 +37,7 @@
     [CWAuthenticationManager sharedInstance];
     
     
-    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
+//    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
     [ARAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
 
     
@@ -72,6 +72,10 @@
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
+    [[[CWVideoManager sharedManager]player] stop];
+    [[[CWVideoManager sharedManager]recorder]stopSession];
+    [[[CWVideoManager sharedManager]recorder]stopVideoRecording];
+    
     [self.landingVC setFlowDirection:eFlowToStartScreen];
     [self.navController popToViewController:self.landingVC animated:NO];
 //    [self.navController.topViewController.navigationController popToRootViewControllerAnimated:NO];

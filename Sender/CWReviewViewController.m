@@ -212,7 +212,7 @@ Chatwala is a new way to communicate with your friends through video messaging.\
                 AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
                 [appdel.landingVC setFlowDirection:eFlowToStartScreen];
                 [[CWAuthenticationManager sharedInstance]didSkipAuth];
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self.navigationController popToViewController:appdel.landingVC animated:YES];
             }
             break;
     
