@@ -7,8 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "OpenerViewController.h"
-#import "SenderViewController.h"
 #import "CWPIPOpenerViewController.h"
 #import "CWSSOpenerViewController.h"
 #import "CWStartScreenViewController.h"

@@ -10,6 +10,13 @@
 #import "CWVideoPlayerView.h"
 #import <AVFoundation/AVFoundation.h>
 
+/* Asset keys */
+NSString * const kTracksKey = @"tracks";
+NSString * const kPlayableKey = @"playable";
+
+/* PlayerItem keys */
+NSString * const kStatusKey         = @"status";
+NSString * const kCurrentItemKey	= @"currentItem";
 
 
 
