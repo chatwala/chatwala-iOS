@@ -82,44 +82,21 @@
 }
 
 
-- (void)didReceiveMemoryWarning
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-//
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//    if ([segue.destinationViewController isKindOfClass:[SenderViewController class]]) {
-//        SenderViewController * nextVC = (SenderViewController*)segue.destinationViewController;
-//        
-//    }
-//}
-
-
-
-//#pragma mark CWVideoRecorderDelegate
-//
-//- (void)recorder:(CWVideoRecorder *)recorder didFailWithError:(NSError *)error
-//{
-//    
-//}
-//
-//- (void)recorderRecordingBegan:(CWVideoRecorder *)recorder
-//{
-//    
-//}
-//
-//- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
-//{
-//    
-//}
-
-
-- (IBAction)onStart:(id)sender {
+    UITouch * touch = [touches anyObject];
+    
+    
+    BOOL wasButton = CGRectContainsPoint(self.startButton.frame, [touch locationInView:self.view]);
+    
+    if (wasButton) {
+        [ARAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Button" withValue:nil];
+    }else{
+        [ARAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Screen" withValue:nil];
+    }
     CWComposerViewController * composerVC = [[CWComposerViewController alloc]initWithNibName:nil bundle:nil];
     [self.navigationController pushViewController:composerVC animated:NO];
 }
+
 
 @end

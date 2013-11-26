@@ -20,7 +20,7 @@
 - (void) resumeSession;
 - (void) startVideoRecording;
 - (void) stopVideoRecording;
-
+- (NSTimeInterval) videoLength;
 @end
 
 

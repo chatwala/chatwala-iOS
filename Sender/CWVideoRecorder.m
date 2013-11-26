@@ -10,6 +10,9 @@
 #import "AVCamRecorder.h"
 
 @interface CWVideoRecorder () <AVCamRecorderDelegate>
+{
+    NSDate * recordingStartTime;
+}
 @property (nonatomic,strong) AVCaptureSession *session;
 @property (nonatomic,strong) AVCaptureDeviceInput *videoInput;
 @property (nonatomic,strong) AVCaptureDeviceInput *audioInput;
@@ -17,7 +20,6 @@
 @property (nonatomic,strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
-
 - (AVCaptureDevice *) frontFacingCamera;
 - (AVCaptureDevice *) audioDevice;
 - (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position;
@@ -49,6 +51,12 @@
     self.videoInput = nil;
     self.audioInput = nil;
     self.session = nil;
+}
+
+
+- (NSTimeInterval) videoLength
+{
+    return [[NSDate date] timeIntervalSinceDate:recordingStartTime];
 }
 
 
@@ -176,6 +184,7 @@
     
     [self removeFile:[[self recorder] outputFileURL]];
     [[self recorder] startRecordingWithOrientation:AVCaptureVideoOrientationPortrait];
+    recordingStartTime = [NSDate date];
 }
 
 - (void) stopVideoRecording

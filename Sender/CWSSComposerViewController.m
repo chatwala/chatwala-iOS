@@ -49,5 +49,23 @@
     [self.navigationController pushViewController:reviewVC animated:NO];
 }
 
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+    
+    UITouch * touch = [touches anyObject];
+    BOOL wasButton = CGRectContainsPoint(self.middleButton.frame, [touch locationInView:self.view]);
+
+    // get duration
+    
+    if (wasButton) {
+        [ARAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Button" withValue:nil];
+    }else{
+        [ARAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Screen" withValue:nil];
+    }
+    
+    
+}
+
 
 @end

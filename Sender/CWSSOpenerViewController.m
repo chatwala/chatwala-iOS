@@ -36,34 +36,56 @@
     [self.moreAnimationView startAnimating];
 
 }
+
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+
+    UITouch * touch = [touches anyObject];
+    BOOL wasButton = CGRectContainsPoint(self.middleButton.frame, [touch locationInView:self.view]);
+    
+    if (wasButton) {
+        [ARAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Button" withValue:nil];
+    }else{
+        [ARAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Screen" withValue:nil];
+    }
+    
+}
+
 - (void)setOpenerState:(CWOpenerState)openerState
 {
     [super setOpenerState:openerState];
     switch (self.openerState) {
         case CWOpenerPreview:
             //
+            
             [self.moreAnimationView removeFromSuperview];
             [self.middleButton setImage:[UIImage imageNamed:@"cw_play"] forState:UIControlStateNormal];
             [self.cameraView setAlpha:0.5];
             break;
         case CWOpenerReview:
             //
+            [ARAnalytics event:@"Start" withCategory:@"Review" withLabel:@"" withValue:nil];
             [self.middleButton addSubview:self.moreAnimationView];
             [self.cameraView setAlpha:0.5];
             break;
         case CWOpenerReact:
             //
+            [ARAnalytics event:@"Start" withCategory:@"React" withLabel:@"" withValue:nil];
             [self.middleButton addSubview:self.moreAnimationView];
             [self.cameraView setAlpha:1.0];
             break;
         case CWOpenerRespond:
             //
+            [ARAnalytics event:@"Start" withCategory:@"Respond" withLabel:@"" withValue:nil];
             [self.moreAnimationView removeFromSuperview];
             [self.middleButton setImage:[UIImage imageNamed:@"cw_stop"] forState:UIControlStateNormal];
             [self.cameraView setAlpha:1.0];
             break;
     }
 }
+
 
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder

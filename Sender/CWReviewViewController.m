@@ -43,6 +43,7 @@ Chatwala is a new way to communicate with your friends through video messaging.\
 {
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
+    NSInteger playbackCount;
 }
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
@@ -67,6 +68,7 @@ Chatwala is a new way to communicate with your friends through video messaging.\
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
     player =[[CWVideoManager sharedManager]player];
     recorder = [[CWVideoManager sharedManager]recorder];
 }
@@ -74,6 +76,7 @@ Chatwala is a new way to communicate with your friends through video messaging.\
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    playbackCount = 0;
     [player setDelegate:self];
 }
 
@@ -136,6 +139,15 @@ Chatwala is a new way to communicate with your friends through video messaging.\
 }
 
 - (IBAction)onRecordAgain:(id)sender {
+    if (self.incomingMessageItem) {
+        // responding
+        
+        [ARAnalytics event:@"Re-do Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
+    }else{
+        [ARAnalytics event:@"Re-do Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
+        
+    }
+    
     [player.playbackView removeFromSuperview];
     [player setDelegate:nil];
     [player stop];
@@ -143,6 +155,16 @@ Chatwala is a new way to communicate with your friends through video messaging.\
 }
 
 - (IBAction)onSend:(id)sender {
+    if (self.incomingMessageItem) {
+        // responding
+        [ARAnalytics event:@"Send Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
+        
+        
+    }else{
+        [ARAnalytics event:@"Send Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
+
+        
+    }
     
     [player stop];
     [self composeMessageWithData:[self createMessageData]];
@@ -166,6 +188,7 @@ Chatwala is a new way to communicate with your friends through video messaging.\
 
 - (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
 {
+    playbackCount++;
     [player replayVideo];
 }
 - (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError *)error
@@ -181,14 +204,25 @@ Chatwala is a new way to communicate with your friends through video messaging.\
     switch (result) {
         case MFMailComposeResultSent:
             {
+                if (self.incomingMessageItem) {
+                    [ARAnalytics event:@"Send Email" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
+                }else{
+                    [ARAnalytics event:@"Send Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
+                }
                 AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
                 [appdel.landingVC setFlowDirection:eFlowToStartScreen];
                 [[CWAuthenticationManager sharedInstance]didSkipAuth];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
             break;
-            
-            
+    
+        case MFMailComposeResultCancelled:
+            if (self.incomingMessageItem) {
+                [ARAnalytics event:@"Cancel Email" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
+            }else{
+                [ARAnalytics event:@"Cancel Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
+            }
+            [self.player replayVideo];
         default:
             [self.player replayVideo];
             break;

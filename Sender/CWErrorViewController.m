@@ -40,8 +40,11 @@
         [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
             if (granted) {
                 [self.navigationController popToRootViewControllerAnimated:YES];
+                [ARAnalytics event:@"Microphone Accept" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
             }else{
                 //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs://"]];
+                [ARAnalytics event:@"Microphone Decline" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+                
                 UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Microphone" message:@"Please grant access to Microphone" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Settings", nil];
                 [alert show];
             }
