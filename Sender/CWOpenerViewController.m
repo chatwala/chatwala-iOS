@@ -10,6 +10,7 @@
 #import "CWFeedbackViewController.h"
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
+#import "CWFlowManager.h"
 #import "CWMessageItem.h"
 #import "CWGroundControlManager.h"
 
@@ -365,7 +366,7 @@
 
     [self.feedbackVC.feedbackLabel setTextColor:[UIColor whiteColor]];
     // push to review
-    CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+    CWReviewViewController * reviewVC = [[CWFlowManager sharedInstance]reviewVC];
     [reviewVC setIncomingMessageItem:self.messageItem];
     [self.navigationController pushViewController:reviewVC animated:NO];
 

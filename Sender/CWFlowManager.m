@@ -13,6 +13,9 @@
 #import "CWPIPOpenerViewController.h"
 #import "CWSSComposerViewController.h"
 #import "CWPIPComposerViewController.h"
+#import "CWSSReviewViewController.h"
+#import "CWPIPReviewViewController.h"
+
 
 @interface CWFlowManager ()
 @property (nonatomic,assign) BOOL isSplitScreen;
@@ -63,6 +66,15 @@
         return [[CWSSComposerViewController alloc]init];
     }else{
         return [[CWPIPComposerViewController alloc]init];
+    }
+}
+
+- (CWReviewViewController*)reviewVC
+{
+    if (self.isSplitScreen) {
+        return [[CWSSReviewViewController alloc]init];
+    }else{
+        return [[CWPIPReviewViewController alloc]init];
     }
 }
 
