@@ -6,7 +6,7 @@ pod 'Mantle'
 pod 'TestFlightSDK'
 pod 'GroundControl'
 pod 'gtm-oauth2'
-
+pod 'ARAnalytics'
 
 target :test, :exclusive => true do
   link_with 'SenderTests'
