@@ -9,6 +9,7 @@
 #import "CWSSStartScreenViewController.h"
 #import "CWSSComposerViewController.h"
 #import "CWVideoManager.h"
+#import "CWFlowManager.h"
 
 @interface CWSSStartScreenViewController ()
 
@@ -34,14 +35,6 @@
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5)];
     
 }
-
-
-- (void)onStart:(id)sender
-{
-    CWSSComposerViewController * composerVC = [[CWSSComposerViewController alloc]init];
-    [self.navigationController pushViewController:composerVC animated:NO];
-}
-
 
 
 @end

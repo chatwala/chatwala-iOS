@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "CWStartScreenViewController.h"
 #import "CWOpenerViewController.h"
-
+#import "CWComposerViewController.h"
 
 typedef enum {
     eFlowToOpener,
@@ -22,6 +22,6 @@ typedef enum {
 
 - (CWStartScreenViewController*)startScreenVC;
 - (CWOpenerViewController*)openerVC;
-
+- (CWComposerViewController*)composeVC;
 
 @end

@@ -11,7 +11,8 @@
 #import "CWPIPStartScreenViewController.h"
 #import "CWSSOpenerViewController.h"
 #import "CWPIPOpenerViewController.h"
-
+#import "CWSSComposerViewController.h"
+#import "CWPIPComposerViewController.h"
 
 @interface CWFlowManager ()
 @property (nonatomic,assign) BOOL isSplitScreen;
@@ -55,4 +56,14 @@
         return [[CWPIPOpenerViewController alloc]init];
     }
 }
+
+- (CWComposerViewController *)composeVC
+{
+    if (self.isSplitScreen) {
+        return [[CWSSComposerViewController alloc]init];
+    }else{
+        return [[CWPIPComposerViewController alloc]init];
+    }
+}
+
 @end

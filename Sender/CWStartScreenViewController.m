@@ -8,6 +8,7 @@
 
 #import "CWStartScreenViewController.h"
 #import "CWVideoManager.h"
+#import "CWFlowManager.h"
 #import "CWComposerViewController.h"
 #import "CWErrorViewController.h"
 #import "CWAuthenticationManager.h"
@@ -94,7 +95,7 @@
     }else{
         [ARAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Screen" withValue:nil];
     }
-    CWComposerViewController * composerVC = [[CWComposerViewController alloc]initWithNibName:nil bundle:nil];
+    CWComposerViewController * composerVC = [[CWFlowManager sharedInstance]composeVC];
     [self.navigationController pushViewController:composerVC animated:NO];
 }
 
