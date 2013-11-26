@@ -239,7 +239,7 @@
 		E9E003F9183FEB6B0087E909 /* CWLandingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWLandingViewController.xib; sourceTree = "<group>"; };
 		E9E003FC183FEC4E0087E909 /* CWFlowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWFlowManager.h; sourceTree = "<group>"; };
 		E9E003FD183FEC4E0087E909 /* CWFlowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWFlowManager.m; sourceTree = "<group>"; };
-		E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon76x76@2x.png"; sourceTree = "<group>"; };
+		E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AppIcon76x76@2x.png"; path = "../AppIcon76x76@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,47 +293,31 @@
 			name = AVCam;
 			sourceTree = "<group>";
 		};
-		E90F04E3182D2A53004B8CCD /* View Controllers */ = {
+		E90F04E3182D2A53004B8CCD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				E944399B182940AF0088A381 /* SenderViewController.h */,
-				E944399C182940AF0088A381 /* SenderViewController.m */,
-				E94439D51829511A0088A381 /* PlaybackViewController.h */,
-				E94439D61829511A0088A381 /* PlaybackViewController.m */,
-				E94439DE18297ED30088A381 /* OpenerViewController.h */,
-				E94439DF18297ED30088A381 /* OpenerViewController.m */,
+				E946BD271844FCBA00C6A99D /* !!TO_BE_REMOVED!! */,
 				E9E003FF183FEF1A0087E909 /* Landing */,
-				E96C1503183FABB900DA9B85 /* AuthRequest */,
-				E9ABCF62183D45270098E530 /* Error */,
 				E924AD26183AAD79009400DD /* Start Screen */,
+				E924AD3B183AC0F3009400DD /* Opener */,
+				E96C1503183FABB900DA9B85 /* AuthRequest */,
 				E924AD27183AB0A2009400DD /* Composer */,
 				E924AD32183AB718009400DD /* Review */,
 				E96C14FA183FAB7A00DA9B85 /* Feedback */,
-				E924AD3B183AC0F3009400DD /* Opener */,
+				E9ABCF62183D45270098E530 /* Error */,
 			);
-			name = "View Controllers";
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
-		E90F04E4182D2A5D004B8CCD /* Chatwala */ = {
+		E90F04E4182D2A5D004B8CCD /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				E90F04D8182BEA71004B8CCD /* CWMessageItem.h */,
 				E90F04D9182BEA71004B8CCD /* CWMessageItem.m */,
 				E90F04DB182BF758004B8CCD /* CWMetadata.h */,
 				E90F04DC182BF758004B8CCD /* CWMetadata.m */,
-				E95E25E118314B8300E3950B /* CWVideoManager.h */,
-				E95E25E218314B8300E3950B /* CWVideoManager.m */,
-				E9C1154D1832804000DB67D2 /* Recorder */,
-				E9C1154C1832803900DB67D2 /* Player */,
 			);
-			name = Chatwala;
-			sourceTree = "<group>";
-		};
-		E90F04E5182D2A67004B8CCD /* User Interface */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "User Interface";
+			name = Model;
 			sourceTree = "<group>";
 		};
 		E924AD26183AAD79009400DD /* Start Screen */ = {
@@ -399,7 +383,6 @@
 		E944397A182940AF0088A381 = {
 			isa = PBXGroup;
 			children = (
-				E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */,
 				E944398C182940AF0088A381 /* Sender */,
 				E94439AB182940AF0088A381 /* SenderTests */,
 				E9443985182940AF0088A381 /* Frameworks */,
@@ -447,18 +430,13 @@
 			children = (
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
-				E9CE73E91831810900056FA9 /* video.mp4 */,
-				E9ABCFB8183E632A0098E530 /* google_oauth2.json */,
-				E9E003FC183FEC4E0087E909 /* CWFlowManager.h */,
-				E9E003FD183FEC4E0087E909 /* CWFlowManager.m */,
-				E9ABCFB4183E60F00098E530 /* Auth */,
-				E9ABCFB1183E5D960098E530 /* GroundControl */,
-				E90F04E5182D2A67004B8CCD /* User Interface */,
-				E90F04E3182D2A53004B8CCD /* View Controllers */,
-				E90F04E4182D2A5D004B8CCD /* Chatwala */,
+				E946BD231844FC0E00C6A99D /* Managers */,
+				E90F04E3182D2A53004B8CCD /* ViewControllers */,
+				E90F04E4182D2A5D004B8CCD /* Model */,
 				E90F04D1182A9078004B8CCD /* AVCam */,
 				E94439E1182983B70088A381 /* Video Player */,
 				E944399E182940AF0088A381 /* Images.xcassets */,
+				E946BD261844FCA700C6A99D /* Resources */,
 				E944398D182940AF0088A381 /* Supporting Files */,
 			);
 			path = Sender;
@@ -520,6 +498,60 @@
 			name = "Video Player";
 			sourceTree = "<group>";
 		};
+		E946BD231844FC0E00C6A99D /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				E946BD251844FC8D00C6A99D /* Flow Manager */,
+				E9ABCFB4183E60F00098E530 /* Auth Manager */,
+				E9ABCFB1183E5D960098E530 /* GroundControl Manager */,
+				E946BD241844FC2200C6A99D /* Video Manager */,
+			);
+			name = Managers;
+			sourceTree = "<group>";
+		};
+		E946BD241844FC2200C6A99D /* Video Manager */ = {
+			isa = PBXGroup;
+			children = (
+				E95E25E118314B8300E3950B /* CWVideoManager.h */,
+				E95E25E218314B8300E3950B /* CWVideoManager.m */,
+				E9C1154D1832804000DB67D2 /* Recorder */,
+				E9C1154C1832803900DB67D2 /* Player */,
+			);
+			name = "Video Manager";
+			sourceTree = "<group>";
+		};
+		E946BD251844FC8D00C6A99D /* Flow Manager */ = {
+			isa = PBXGroup;
+			children = (
+				E9E003FC183FEC4E0087E909 /* CWFlowManager.h */,
+				E9E003FD183FEC4E0087E909 /* CWFlowManager.m */,
+			);
+			name = "Flow Manager";
+			sourceTree = "<group>";
+		};
+		E946BD261844FCA700C6A99D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */,
+				E9CE73E91831810900056FA9 /* video.mp4 */,
+				E9ABCFB8183E632A0098E530 /* google_oauth2.json */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		E946BD271844FCBA00C6A99D /* !!TO_BE_REMOVED!! */ = {
+			isa = PBXGroup;
+			children = (
+				E944399B182940AF0088A381 /* SenderViewController.h */,
+				E944399C182940AF0088A381 /* SenderViewController.m */,
+				E94439D51829511A0088A381 /* PlaybackViewController.h */,
+				E94439D61829511A0088A381 /* PlaybackViewController.m */,
+				E94439DE18297ED30088A381 /* OpenerViewController.h */,
+				E94439DF18297ED30088A381 /* OpenerViewController.m */,
+			);
+			name = "!!TO_BE_REMOVED!!";
+			sourceTree = "<group>";
+		};
 		E96C14FA183FAB7A00DA9B85 /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
@@ -553,22 +585,22 @@
 			name = Error;
 			sourceTree = "<group>";
 		};
-		E9ABCFB1183E5D960098E530 /* GroundControl */ = {
+		E9ABCFB1183E5D960098E530 /* GroundControl Manager */ = {
 			isa = PBXGroup;
 			children = (
 				E9ABCFAC183D5BA40098E530 /* CWGroundControlManager.h */,
 				E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */,
 			);
-			name = GroundControl;
+			name = "GroundControl Manager";
 			sourceTree = "<group>";
 		};
-		E9ABCFB4183E60F00098E530 /* Auth */ = {
+		E9ABCFB4183E60F00098E530 /* Auth Manager */ = {
 			isa = PBXGroup;
 			children = (
 				E9ABCFB5183E61050098E530 /* CWAuthenticationManager.h */,
 				E9ABCFB6183E61050098E530 /* CWAuthenticationManager.m */,
 			);
-			name = Auth;
+			name = "Auth Manager";
 			sourceTree = "<group>";
 		};
 		E9C1154C1832803900DB67D2 /* Player */ = {
