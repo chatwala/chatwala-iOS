@@ -37,7 +37,7 @@
     [CWAuthenticationManager sharedInstance];
     
     
-//    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
+    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
     [CWAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
 
     
