@@ -241,6 +241,7 @@ Chatwala is a new way to communicate with your friends through video messaging.\
                 [CWAnalytics event:@"Cancel Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
             }
             [self.player replayVideo];
+            break;
         default:
             [self.player replayVideo];
             break;

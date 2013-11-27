@@ -39,17 +39,27 @@
     if([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
         [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
             if (granted) {
-                [self.navigationController popToRootViewControllerAnimated:YES];
-                [CWAnalytics event:@"Microphone Accept" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+                [self onPermissionGranted];
             }else{
                 //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs://"]];
-                [CWAnalytics event:@"Microphone Decline" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
-                
-                UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Microphone" message:@"Please grant access to Microphone" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Settings", nil];
-                [alert show];
+                [self onPermissionDenied];
             }
         }];
     }
+}
+
+- (void)onPermissionGranted
+{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    [CWAnalytics event:@"Microphone Accept" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+}
+
+- (void)onPermissionDenied
+{
+    [CWAnalytics event:@"Microphone Decline" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+    
+    UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Microphone" message:@"Please grant access to Microphone" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Settings", nil];
+    [alert show];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
