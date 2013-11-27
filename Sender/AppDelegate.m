@@ -21,7 +21,7 @@
 {
     BOOL isSplitScreen;
 }
-@property (nonatomic,strong) UINavigationController * navController;
+
 
 @end
 

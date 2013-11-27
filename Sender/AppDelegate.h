@@ -13,5 +13,5 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (nonatomic,strong) CWLandingViewController * landingVC ;
-
+@property (nonatomic,strong) UINavigationController * navController;
 @end

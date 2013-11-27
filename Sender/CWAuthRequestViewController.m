@@ -39,6 +39,16 @@
     self.navigationItem.leftBarButtonItem = backButton;
 }
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if ([[CWAuthenticationManager sharedInstance]isAuthenticated]) {
+        [self.navigationController popToRootViewControllerAnimated:NO];
+    }
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

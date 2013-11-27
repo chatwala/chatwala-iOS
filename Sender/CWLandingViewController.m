@@ -44,13 +44,13 @@
             
             if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
                 // show auth
-                [self.navigationController pushViewController:[[CWAuthRequestViewController alloc] init] animated:YES];
+                [self.navigationController pushViewController:[[CWAuthRequestViewController alloc] init] animated:NO];
             }
             else
             {
                 // show start
                 CWStartScreenViewController * startScreen = [[CWFlowManager sharedInstance] startScreenVC];
-                [self.navigationController pushViewController:startScreen animated:YES];
+                [self.navigationController pushViewController:startScreen animated:NO];
             }
             
             break;
@@ -59,14 +59,14 @@
             // opener
             if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
                 // show auth
-                [self.navigationController pushViewController:[[CWAuthRequestViewController alloc] init] animated:YES];
+                [self.navigationController pushViewController:[[CWAuthRequestViewController alloc] init] animated:NO];
             }
             else
             {
                 // show opener
                 CWOpenerViewController * openerVC = [[CWFlowManager sharedInstance] openerVC];
                 [openerVC setZipURL:self.incomingMessageZipURL];
-                [self.navigationController pushViewController:openerVC animated:YES];
+                [self.navigationController pushViewController:openerVC animated:NO];
             }
             break;
             

@@ -9,6 +9,7 @@
 #import "CWAuthenticationManager.h"
 #import "GTMOAuth2ViewControllerTouch.h"
 
+
 static NSString * SECRET = @"RqSWaMigfHYOiX1xwNiS1vNy";
 static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
 
@@ -53,7 +54,7 @@ static NSString * AuthKeyCode           = @"code";
         // Authentication succeeded
         self.auth = auth;
     }
-    [viewController.navigationController popToRootViewControllerAnimated:YES];
+
 }
 
 - (GTMOAuth2ViewControllerTouch *)requestAuthentication
