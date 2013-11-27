@@ -15,12 +15,12 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLX-zb-CUC">
-                    <rect key="frame" x="20" y="440" width="280" height="50"/>
+                    <rect key="frame" x="20" y="498" width="280" height="50"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="280" id="6b4-RA-vmx"/>
-                        <constraint firstAttribute="height" constant="50" id="d2Y-Hj-vY6"/>
+                        <constraint firstAttribute="width" constant="280" id="GDG-Lo-7XX"/>
+                        <constraint firstAttribute="height" constant="50" id="fd5-Aq-E9w"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <state key="normal" title="Signin with Gmail">
@@ -29,23 +29,6 @@
                     </state>
                     <connections>
                         <action selector="onAuthenticate:" destination="-1" eventType="touchUpInside" id="bQq-Ps-FMF"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q1e-ng-ZjB">
-                    <rect key="frame" x="20" y="498" width="280" height="50"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="280" id="0sA-2d-E3A"/>
-                        <constraint firstAttribute="height" constant="50" id="ICe-0c-le0"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                    <state key="normal" title="I don't use Gmail">
-                        <color key="titleColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                    <connections>
-                        <action selector="onUseEmail:" destination="-1" eventType="touchUpInside" id="uP7-JK-NFh"/>
                     </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please confirm your email address" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="eAU-qE-nfG">
@@ -65,10 +48,8 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="centerX" secondItem="Q1e-ng-ZjB" secondAttribute="centerX" id="9Ua-qy-S0v"/>
-                <constraint firstAttribute="centerX" secondItem="BLX-zb-CUC" secondAttribute="centerX" id="Ktr-yp-kKX"/>
-                <constraint firstAttribute="bottom" secondItem="Q1e-ng-ZjB" secondAttribute="bottom" constant="20" id="sc2-Ub-ogd"/>
-                <constraint firstItem="Q1e-ng-ZjB" firstAttribute="top" secondItem="BLX-zb-CUC" secondAttribute="bottom" constant="8" id="tt6-ah-jkF"/>
+                <constraint firstAttribute="bottom" secondItem="BLX-zb-CUC" secondAttribute="bottom" constant="20" id="8iB-vd-biA"/>
+                <constraint firstAttribute="centerX" secondItem="BLX-zb-CUC" secondAttribute="centerX" id="nL3-g6-DCu"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
