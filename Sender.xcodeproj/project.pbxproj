@@ -64,6 +64,7 @@
 		E96C1507183FAD1300DA9B85 /* CWEmailSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E96C1505183FAD1300DA9B85 /* CWEmailSignupViewController.m */; };
 		E96C1508183FAD1300DA9B85 /* CWEmailSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E96C1506183FAD1300DA9B85 /* CWEmailSignupViewController.xib */; };
 		E96C150A183FB36800DA9B85 /* CWAuthenticationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E96C1509183FB36800DA9B85 /* CWAuthenticationManagerTests.m */; };
+		E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E973B1A218453C3E007A8D51 /* CWAnalyticsTests.m */; };
 		E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCF64183D45470098E530 /* CWErrorViewController.m */; };
 		E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9ABCF65183D45470098E530 /* CWErrorViewController.xib */; };
 		E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */; };
@@ -188,6 +189,7 @@
 		E96C1505183FAD1300DA9B85 /* CWEmailSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWEmailSignupViewController.m; sourceTree = "<group>"; };
 		E96C1506183FAD1300DA9B85 /* CWEmailSignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWEmailSignupViewController.xib; sourceTree = "<group>"; };
 		E96C1509183FB36800DA9B85 /* CWAuthenticationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAuthenticationManagerTests.m; sourceTree = "<group>"; };
+		E973B1A218453C3E007A8D51 /* CWAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAnalyticsTests.m; sourceTree = "<group>"; };
 		E9ABCF63183D45470098E530 /* CWErrorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWErrorViewController.h; sourceTree = "<group>"; };
 		E9ABCF64183D45470098E530 /* CWErrorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWErrorViewController.m; sourceTree = "<group>"; };
 		E9ABCF65183D45470098E530 /* CWErrorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWErrorViewController.xib; sourceTree = "<group>"; };
@@ -457,6 +459,7 @@
 				E965255D18341963008987BD /* CWReviewVCTests.m */,
 				E96525641835367A008987BD /* CWOpenerVCTests.m */,
 				E96C1509183FB36800DA9B85 /* CWAuthenticationManagerTests.m */,
+				E973B1A218453C3E007A8D51 /* CWAnalyticsTests.m */,
 				E9CE73E418316AEC00056FA9 /* TestUtils.h */,
 				E9CE73E518316AEC00056FA9 /* TestUtils.m */,
 				E9C1155E1832B9AD00DB67D2 /* AVURLAsset+Spec.h */,
@@ -861,6 +864,7 @@
 				E9C1155D1832AFEE00DB67D2 /* CWComposerVCTests.m in Sources */,
 				E965255E18341963008987BD /* CWReviewVCTests.m in Sources */,
 				E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */,
+				E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */,
 				E96C150A183FB36800DA9B85 /* CWAuthenticationManagerTests.m in Sources */,
 				E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */,
 				E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */,

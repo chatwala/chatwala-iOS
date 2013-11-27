@@ -298,7 +298,7 @@
         self.reviewCountdownTimer = nil;
         
         // start reaction state
-        [ARAnalytics event:@"Completion" withCategory:@"Review" withLabel:@"" withValue:@(self.messageItem.metadata.startRecording)];
+        [CWAnalytics event:@"Completion" withCategory:@"Review" withLabel:@"" withValue:@(self.messageItem.metadata.startRecording)];
         [self setOpenerState:CWOpenerReact];
         
     }
@@ -341,7 +341,7 @@
 
 - (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
 {
-    [ARAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.player.videoLength - self.messageItem.metadata.startRecording)];
+    [CWAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.player.videoLength - self.messageItem.metadata.startRecording)];
 
     [self setOpenerState:CWOpenerRespond];
 }
@@ -362,7 +362,7 @@
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
     NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
-    [ARAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
+    [CWAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
 
     [self.feedbackVC.feedbackLabel setTextColor:[UIColor whiteColor]];
     // push to review

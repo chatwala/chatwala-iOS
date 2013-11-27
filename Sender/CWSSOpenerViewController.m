@@ -46,9 +46,9 @@
     BOOL wasButton = CGRectContainsPoint(self.middleButton.frame, [touch locationInView:self.view]);
     
     if (wasButton) {
-        [ARAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Button" withValue:nil];
+        [CWAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Button" withValue:nil];
     }else{
-        [ARAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Screen" withValue:nil];
+        [CWAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Screen" withValue:nil];
     }
     
 }
@@ -66,19 +66,19 @@
             break;
         case CWOpenerReview:
             //
-            [ARAnalytics event:@"Start" withCategory:@"Review" withLabel:@"" withValue:nil];
+            [CWAnalytics event:@"Start" withCategory:@"Review" withLabel:@"" withValue:nil];
             [self.middleButton addSubview:self.moreAnimationView];
             [self.cameraView setAlpha:0.5];
             break;
         case CWOpenerReact:
             //
-            [ARAnalytics event:@"Start" withCategory:@"React" withLabel:@"" withValue:nil];
+            [CWAnalytics event:@"Start" withCategory:@"React" withLabel:@"" withValue:nil];
             [self.middleButton addSubview:self.moreAnimationView];
             [self.cameraView setAlpha:1.0];
             break;
         case CWOpenerRespond:
             //
-            [ARAnalytics event:@"Start" withCategory:@"Respond" withLabel:@"" withValue:nil];
+            [CWAnalytics event:@"Start" withCategory:@"Respond" withLabel:@"" withValue:nil];
             [self.moreAnimationView removeFromSuperview];
             [self.middleButton setImage:[UIImage imageNamed:@"cw_stop"] forState:UIControlStateNormal];
             [self.cameraView setAlpha:1.0];

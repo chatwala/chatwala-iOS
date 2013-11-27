@@ -125,7 +125,7 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
     
-    [ARAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
+    [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
 
     
     [self.landingVC setIncomingMessageZipURL:url];

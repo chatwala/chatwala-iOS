@@ -9,5 +9,6 @@
 #import "CWAnalytics.h"
 
 @interface CWAnalytics (Spec)
-
++ (void)resetFlag;
++ (BOOL)flagValue;
 @end
