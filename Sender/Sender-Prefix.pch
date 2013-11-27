@@ -24,9 +24,9 @@
     #import <SSZipArchive.h>
     #import <Mantle/Mantle.h>
     #import "NSUserDefaults+GroundControl.h"
-    #import <ARAnalytics/ARAnalytics.h>
-    #import "ARAnalytics+GoogleAnalytics.h"
-
+//    #import <ARAnalytics/ARAnalytics.h>
+//    #import "ARAnalytics+GoogleAnalytics.h"
+    #import "CWAnalytics.h"
 #endif
 
 

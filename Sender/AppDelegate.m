@@ -38,7 +38,7 @@
     
     
 //    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
-    [ARAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
+    [CWAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
 
     
     self.landingVC = [[CWLandingViewController alloc]init];

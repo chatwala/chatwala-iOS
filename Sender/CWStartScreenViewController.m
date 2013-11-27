@@ -91,9 +91,9 @@
     BOOL wasButton = CGRectContainsPoint(self.startButton.frame, [touch locationInView:self.view]);
     
     if (wasButton) {
-        [ARAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Button" withValue:nil];
+        [CWAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Button" withValue:nil];
     }else{
-        [ARAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Screen" withValue:nil];
+        [CWAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Screen" withValue:nil];
     }
     CWComposerViewController * composerVC = [[CWFlowManager sharedInstance]composeVC];
     [self.navigationController pushViewController:composerVC animated:NO];

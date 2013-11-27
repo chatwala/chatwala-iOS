@@ -70,6 +70,8 @@
 		E9ABCFB3183E609E0098E530 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9ABCFB2183E609E0098E530 /* Security.framework */; };
 		E9ABCFB7183E61050098E530 /* CWAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCFB6183E61050098E530 /* CWAuthenticationManager.m */; };
 		E9ABCFB9183E632A0098E530 /* google_oauth2.json in Resources */ = {isa = PBXBuildFile; fileRef = E9ABCFB8183E632A0098E530 /* google_oauth2.json */; };
+		E9B214FC18464B9400E09DA8 /* CWAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B214FB18464B9400E09DA8 /* CWAnalytics.m */; };
+		E9B214FF18464C6900E09DA8 /* CWAnalytics+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9B214FE18464C6900E09DA8 /* CWAnalytics+Spec.m */; };
 		E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */; };
 		E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */; };
 		E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115521832970E00DB67D2 /* CWComposerViewController.m */; };
@@ -195,6 +197,10 @@
 		E9ABCFB5183E61050098E530 /* CWAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAuthenticationManager.h; sourceTree = "<group>"; };
 		E9ABCFB6183E61050098E530 /* CWAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAuthenticationManager.m; sourceTree = "<group>"; };
 		E9ABCFB8183E632A0098E530 /* google_oauth2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = google_oauth2.json; sourceTree = "<group>"; };
+		E9B214FA18464B9400E09DA8 /* CWAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAnalytics.h; sourceTree = "<group>"; };
+		E9B214FB18464B9400E09DA8 /* CWAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAnalytics.m; sourceTree = "<group>"; };
+		E9B214FD18464C6900E09DA8 /* CWAnalytics+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CWAnalytics+Spec.h"; sourceTree = "<group>"; };
+		E9B214FE18464C6900E09DA8 /* CWAnalytics+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CWAnalytics+Spec.m"; sourceTree = "<group>"; };
 		E9C1154A1832803400DB67D2 /* CWVideoRecorderTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoRecorderTests.m; sourceTree = "<group>"; };
 		E9C1154E1832805300DB67D2 /* CWVideoRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoRecorder.h; sourceTree = "<group>"; };
 		E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoRecorder.m; sourceTree = "<group>"; };
@@ -414,6 +420,8 @@
 			children = (
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
+				E9B214FA18464B9400E09DA8 /* CWAnalytics.h */,
+				E9B214FB18464B9400E09DA8 /* CWAnalytics.m */,
 				E946BD231844FC0E00C6A99D /* Managers */,
 				E90F04E3182D2A53004B8CCD /* ViewControllers */,
 				E90F04E4182D2A5D004B8CCD /* Model */,
@@ -457,6 +465,8 @@
 				E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */,
 				E9C115641832CA1900DB67D2 /* AVPlayerItem+Spec.h */,
 				E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */,
+				E9B214FD18464C6900E09DA8 /* CWAnalytics+Spec.h */,
+				E9B214FE18464C6900E09DA8 /* CWAnalytics+Spec.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -830,6 +840,7 @@
 				E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
+				E9B214FC18464B9400E09DA8 /* CWAnalytics.m in Sources */,
 				E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
@@ -853,6 +864,7 @@
 				E96C150A183FB36800DA9B85 /* CWAuthenticationManagerTests.m in Sources */,
 				E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */,
 				E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */,
+				E9B214FF18464C6900E09DA8 /* CWAnalytics+Spec.m in Sources */,
 				E9C115601832B9AD00DB67D2 /* AVURLAsset+Spec.m in Sources */,
 				E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */,
 				E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */,
