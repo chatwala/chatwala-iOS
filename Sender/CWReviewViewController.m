@@ -14,30 +14,9 @@
 #import "CWAuthenticationManager.h"
 #import "AppDelegate.h"
 #import "CWLandingViewController.h"
+#import "CWGroundControlManager.h"
 
-static NSString * emailString = @"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'>\
-<html xmlns='http://www.w3.org/1999/xhtml'>\
-<head>\
-<meta name='viewport' content='width=device-width' />\
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />\
-<title>Chatwala Message</title>\
-<link rel='stylesheet' type='text/css' href='stylesheets/email.css' />\
-</head>\
-<body bgcolor='#FFFFFF'>\
-<table class='body-wrap'>\
-<tr>\
-<td></td>\
-<td class='container' bgcolor='#FFFFFF'>\
-<div class='content'>\
-<table>\
-<tr>\
-<td><h3>You have a new message!</h3>\
-<p class='callout'>\
-Chatwala is a new way to communicate with your friends through video messaging.\
-<br/><a href='http://google.com'>Get the App! &raquo;</a>\
-</p>\
-</body>\
-</html>";
+
 
 @interface CWReviewViewController () <CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
 {
@@ -116,14 +95,14 @@ Chatwala is a new way to communicate with your friends through video messaging.\
 {
     self.mailComposer = [[MFMailComposeViewController alloc] init];
     [self.mailComposer setMailComposeDelegate:self];
-    [self.mailComposer setSubject:@"CW msg"];
+    [self.mailComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
     
     
     if (self.incomingMessageItem.metadata.senderId) {
         [[self mailComposer] setToRecipients:@[self.incomingMessageItem.metadata.senderId]];
     }
     
-    [[self mailComposer]  setMessageBody:emailString isHTML:YES];
+    [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
     [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
     [self presentViewController:[self mailComposer]  animated:YES completion:nil];
 }

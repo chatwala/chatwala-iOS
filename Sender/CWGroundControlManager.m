@@ -90,5 +90,18 @@
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"ERROR_SCREEN_MESSAGE_MIC"];
     return value ? value:@"Chatawala can't access your microphone. Go to your Settings app → Privacy → Microphone to enable access.";
 }
+// EMAIL_MESSAGE
+- (NSString *)emailMessage
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"EMAIL_MESSAGE"];
+    return value ? value:@"<!DOCTYPE html PUBLIC '-//W3C//DTD XHTML 1.0 Transitional//EN' 'http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd'><html xmlns='http://www.w3.org/1999/xhtml'><head><meta name='viewport' content='width=device-width' /><meta http-equiv='Content-Type' content='text/html; charset=UTF-8' /><title>Chatwala Message</title><link rel='stylesheet' type='text/css' href='stylesheets/email.css' /></head><body bgcolor='#FFFFFF'><p class='callout'>Chatwala is a new way to have real conversations with friends. <a href='http://chatwala.com'>Get the App.</a></p></body></html>";
+}
+
+// EMAIL_SUBJECT
+- (NSString *)emailSubject
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"EMAIL_SUBJECT"];
+    return value ? value:@"New Message from...";
+}
 
 @end
