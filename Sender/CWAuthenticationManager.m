@@ -8,7 +8,7 @@
 
 #import "CWAuthenticationManager.h"
 #import "GTMOAuth2ViewControllerTouch.h"
-
+#import "CWGoogleAuthViewController.h"
 
 static NSString * SECRET = @"RqSWaMigfHYOiX1xwNiS1vNy";
 static NSString * CLIENT_ID = @"910545881277.apps.googleusercontent.com";
@@ -77,8 +77,8 @@ static NSString * AuthKeyCode           = @"code";
 //    NSLog(@"extracted auth data");
     
     NSString *scope = @"https://www.googleapis.com/auth/userinfo.email";
-    GTMOAuth2ViewControllerTouch *viewController;
-    viewController = [[GTMOAuth2ViewControllerTouch alloc] initWithScope:scope
+    CWGoogleAuthViewController *viewController;
+    viewController = [[CWGoogleAuthViewController alloc] initWithScope:scope
                                                                 clientID:clientID
                                                             clientSecret:secret
                                                         keychainItemName:forAccountType
