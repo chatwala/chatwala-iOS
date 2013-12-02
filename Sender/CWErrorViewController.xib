@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWErrorViewController">
             <connections>
+                <outlet property="micErrorLabel" destination="2Oj-nx-AJW" id="HN9-7M-dyh"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -14,26 +15,25 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2Oj-nx-AJW">
-                    <rect key="frame" x="20" y="49" width="280" height="58"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chatawala can't access your microphone. Go to your Settings app → Privacy → Microphone to enable access." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2Oj-nx-AJW">
+                    <rect key="frame" x="20" y="344" width="280" height="204"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <string key="text">Please grant access to your
-microphone to use the app.</string>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="204" id="o8K-Pm-Rdw"/>
+                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="mic" translatesAutoresizingMaskIntoConstraints="NO" id="VZK-Qr-oMX">
-                    <rect key="frame" x="42" y="115" width="260" height="359"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="2Oj-nx-AJW" secondAttribute="trailing" constant="20" id="6Tp-J1-cWk"/>
+                <constraint firstAttribute="bottom" secondItem="2Oj-nx-AJW" secondAttribute="bottom" constant="20" id="Pr7-1M-xgM"/>
+                <constraint firstItem="2Oj-nx-AJW" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="vmx-lf-AmV"/>
+            </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
-    <resources>
-        <image name="mic" width="240" height="289"/>
-    </resources>
 </document>

@@ -28,6 +28,7 @@
 		E924AD34183AB789009400DD /* CWSSReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD33183AB789009400DD /* CWSSReviewViewController.xib */; };
 		E924AD37183AB7CA009400DD /* CWPIPReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD36183AB7CA009400DD /* CWPIPReviewViewController.m */; };
 		E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD39183AB7D8009400DD /* CWSSReviewViewController.m */; };
+		E9344A23184CF4FB004281A9 /* CWGoogleAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9344A22184CF4FB004281A9 /* CWGoogleAuthViewController.m */; };
 		E9443987182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
 		E9443989182940AF0088A381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443988182940AF0088A381 /* CoreGraphics.framework */; };
 		E944398B182940AF0088A381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E944398A182940AF0088A381 /* UIKit.framework */; };
@@ -141,6 +142,8 @@
 		E924AD36183AB7CA009400DD /* CWPIPReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPIPReviewViewController.m; sourceTree = "<group>"; };
 		E924AD38183AB7D8009400DD /* CWSSReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSSReviewViewController.h; sourceTree = "<group>"; };
 		E924AD39183AB7D8009400DD /* CWSSReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSSReviewViewController.m; sourceTree = "<group>"; };
+		E9344A21184CF4FB004281A9 /* CWGoogleAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWGoogleAuthViewController.h; sourceTree = "<group>"; };
+		E9344A22184CF4FB004281A9 /* CWGoogleAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWGoogleAuthViewController.m; sourceTree = "<group>"; };
 		E9443983182940AF0088A381 /* Sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9443986182940AF0088A381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E9443988182940AF0088A381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -543,6 +546,8 @@
 				E96C1504183FAD1300DA9B85 /* CWEmailSignupViewController.h */,
 				E96C1505183FAD1300DA9B85 /* CWEmailSignupViewController.m */,
 				E96C1506183FAD1300DA9B85 /* CWEmailSignupViewController.xib */,
+				E9344A21184CF4FB004281A9 /* CWGoogleAuthViewController.h */,
+				E9344A22184CF4FB004281A9 /* CWGoogleAuthViewController.m */,
 			);
 			name = AuthRequest;
 			sourceTree = "<group>";
@@ -837,6 +842,7 @@
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
 				E924AD37183AB7CA009400DD /* CWPIPReviewViewController.m in Sources */,
+				E9344A23184CF4FB004281A9 /* CWGoogleAuthViewController.m in Sources */,
 				E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */,
 				E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */,
 				E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */,

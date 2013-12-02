@@ -9,6 +9,7 @@
 #import "CWSSOpenerViewController.h"
 #import "CWSSReviewViewController.h"
 #import "CWVideoManager.h"
+#import "CWGroundControlManager.h"
 
 @interface CWSSOpenerViewController ()
 
@@ -37,6 +38,11 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.openerMessageLabel setText:[[CWGroundControlManager sharedInstance] openerScreenMessage]];
+}
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {

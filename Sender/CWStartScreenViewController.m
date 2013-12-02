@@ -13,6 +13,8 @@
 #import "CWErrorViewController.h"
 #import "CWAuthenticationManager.h"
 #import "CWAuthRequestViewController.h"
+#import "CWGroundControlManager.h"
+
 @interface CWStartScreenViewController ()
 
 @end
@@ -55,6 +57,7 @@
 {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
+    [self.startScreenMessageLabel setText:[[CWGroundControlManager sharedInstance] startScreenMessage]];
 }
 - (void)viewDidAppear:(BOOL)animated
 {

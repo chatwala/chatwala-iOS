@@ -70,7 +70,25 @@
     return value ? value:@"Recording 0:%02d";
     
 }
+// START_SCREEN_MESSAGE
+- (NSString *)startScreenMessage
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"START_SCREEN_MESSAGE"];
+    return value ? value:@"Tap to record and send a message. Your friend’s reaction will show here when they receive your message and reply.";
+}
 
+// OPENER_SCREEN_MESSAGE
+- (NSString *)openerScreenMessage
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"OPENER_SCREEN_MESSAGE"];
+    return value ? value:@"Play your friend's message and record your reaction.\nThen replay, preview & send it!";
+}
 
+// ERROR_SCREEN_MESSAGE_MIC
+- (NSString *)micErrorScreenMessage
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"ERROR_SCREEN_MESSAGE_MIC"];
+    return value ? value:@"Chatawala can't access your microphone. Go to your Settings app → Privacy → Microphone to enable access.";
+}
 
 @end

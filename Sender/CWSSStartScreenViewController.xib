@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWStartScreenViewController">
             <connections>
                 <outlet property="startButton" destination="1TE-q2-PEq" id="Ffp-fk-sW5"/>
+                <outlet property="startScreenMessageLabel" destination="vfZ-uk-aff" id="f2n-gL-jOu"/>
                 <outlet property="view" destination="1" id="rkd-xu-hfU"/>
             </connections>
         </placeholder>
@@ -29,11 +30,25 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="255" translatesAutoresizingMaskIntoConstraints="NO" id="vfZ-uk-aff">
+                    <rect key="frame" x="33" y="373" width="255" height="140"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="140" id="92z-Fg-Kju"/>
+                    </constraints>
+                    <string key="text">Tap to record and send a message. Your friend’s reaction will show here when they receiveyour message and reply.</string>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="vfZ-uk-aff" secondAttribute="trailing" constant="32" id="CPt-P7-JRK"/>
                 <constraint firstAttribute="centerX" secondItem="1TE-q2-PEq" secondAttribute="centerX" id="GuM-xj-d8p"/>
                 <constraint firstAttribute="centerY" secondItem="1TE-q2-PEq" secondAttribute="centerY" id="N7V-uA-jpg"/>
+                <constraint firstAttribute="bottom" secondItem="vfZ-uk-aff" secondAttribute="bottom" constant="55" id="Wsa-gx-pCk"/>
+                <constraint firstItem="vfZ-uk-aff" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="33" id="iXi-9E-aCK"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

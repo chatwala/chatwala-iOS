@@ -10,5 +10,6 @@
 
 @interface CWStartScreenViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
+@property (weak, nonatomic) IBOutlet UILabel *startScreenMessageLabel;
 - (IBAction)onStart:(id)sender;
 @end

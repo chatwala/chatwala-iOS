@@ -10,4 +10,5 @@
 #import "CWOpenerViewController.h"
 @interface CWSSOpenerViewController : CWOpenerViewController
 @property (weak, nonatomic) IBOutlet UIButton *middleButton;
+@property (weak, nonatomic) IBOutlet UILabel *openerMessageLabel;
 @end

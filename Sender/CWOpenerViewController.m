@@ -169,6 +169,7 @@
              Preview State: Video Message is ready
              • update view and feedback to reflect Preview state ( in subclass )
              */
+            [self.feedbackVC.feedbackLabel setTextColor:[UIColor whiteColor]];
             [self.feedbackVC.feedbackLabel setText:[[CWGroundControlManager sharedInstance] tapToPlayVideo]];
             break;
             
