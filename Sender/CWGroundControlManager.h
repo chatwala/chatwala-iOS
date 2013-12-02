@@ -15,6 +15,7 @@
 - (NSString*)feedbackResponseString;
 - (NSString*)feedbackReactionString;
 - (NSString*)feedbackReviewString;
+- (NSString*)startScreenMessage;
 - (void)refresh;
 
 @end

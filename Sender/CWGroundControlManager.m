@@ -70,7 +70,11 @@
     return value ? value:@"Recording 0:%02d";
     
 }
-
-
+// START_SCREEN_MESSAGE
+- (NSString *)startScreenMessage
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"START_SCREEN_MESSAGE"];
+    return value ? value:@"Tap to record and send a message. Your friend’s reaction will show here when they receive your message and reply.";
+}
 
 @end
