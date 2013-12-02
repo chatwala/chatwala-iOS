@@ -10,5 +10,5 @@
 
 @interface CWErrorViewController : UIViewController
 @property (nonatomic,strong) NSError * error;
-- (IBAction)onGrantAccess:(id)sender;
+@property (weak, nonatomic) IBOutlet UILabel *micErrorLabel;
 @end
