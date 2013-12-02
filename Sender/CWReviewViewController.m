@@ -157,19 +157,22 @@ Chatwala is a new way to communicate with your friends through video messaging.\
 }
 
 - (IBAction)onRecordAgain:(id)sender {
+    [player.playbackView removeFromSuperview];
+    [player setDelegate:nil];
+    [player stop];
+    
     if (self.incomingMessageItem) {
         // responding
         
         [CWAnalytics event:@"Re-do Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
+        [self.navigationController popViewControllerAnimated:NO];
     }else{
         [CWAnalytics event:@"Re-do Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
-        
+        [self.navigationController popToRootViewControllerAnimated:NO];
     }
     
-    [player.playbackView removeFromSuperview];
-    [player setDelegate:nil];
-    [player stop];
-    [self.navigationController popViewControllerAnimated:NO];
+    
+    
 }
 
 - (IBAction)onSend:(id)sender {
