@@ -77,4 +77,11 @@
     return value ? value:@"Tap to record and send a message. Your friend’s reaction will show here when they receive your message and reply.";
 }
 
+// OPENER_SCREEN_MESSAGE
+- (NSString *)openerScreenMessage
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"OPENER_SCREEN_MESSAGE"];
+    return value ? value:@"Play your friend's message and record your reaction.\nThen replay, preview & send it!";
+}
+
 @end

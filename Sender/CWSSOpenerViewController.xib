@@ -8,6 +8,7 @@
             <connections>
                 <outlet property="cameraView" destination="mvK-PY-gAu" id="u2n-32-FMF"/>
                 <outlet property="middleButton" destination="a8p-DT-eGr" id="2T9-qL-CCF"/>
+                <outlet property="openerMessageLabel" destination="c1c-Vc-IFS" id="aYs-Lo-5kL"/>
                 <outlet property="playbackView" destination="SWe-f5-RDK" id="8Fr-DA-5PJ"/>
                 <outlet property="view" destination="1" id="fAE-6I-wz6"/>
             </connections>
@@ -20,7 +21,24 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mvK-PY-gAu" userLabel="Upper View">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                    <subviews>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play your friend's message and record your reaction. Then replay, preview &amp; send it!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="255" translatesAutoresizingMaskIntoConstraints="NO" id="c1c-Vc-IFS">
+                            <rect key="frame" x="33" y="54" width="255" height="140"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="140" id="43k-XV-6EZ"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="c1c-Vc-IFS" firstAttribute="leading" secondItem="mvK-PY-gAu" secondAttribute="leading" constant="33" id="5Um-77-BxV"/>
+                        <constraint firstAttribute="trailing" secondItem="c1c-Vc-IFS" secondAttribute="trailing" constant="32" id="FWG-w0-M01"/>
+                        <constraint firstItem="c1c-Vc-IFS" firstAttribute="top" secondItem="mvK-PY-gAu" secondAttribute="top" constant="54" id="wD2-ZG-RgO"/>
+                    </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SWe-f5-RDK" userLabel="Lower View">
                     <rect key="frame" x="0.0" y="284" width="320" height="284"/>
