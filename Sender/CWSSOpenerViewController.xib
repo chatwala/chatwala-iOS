@@ -21,31 +21,24 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mvK-PY-gAu" userLabel="Upper View">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <subviews>
-                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play your friend's message and record your reaction. Then replay, preview &amp; send it!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="255" translatesAutoresizingMaskIntoConstraints="NO" id="c1c-Vc-IFS">
-                            <rect key="frame" x="33" y="54" width="255" height="140"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="140" id="43k-XV-6EZ"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                    </subviews>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstItem="c1c-Vc-IFS" firstAttribute="leading" secondItem="mvK-PY-gAu" secondAttribute="leading" constant="33" id="5Um-77-BxV"/>
-                        <constraint firstAttribute="trailing" secondItem="c1c-Vc-IFS" secondAttribute="trailing" constant="32" id="FWG-w0-M01"/>
-                        <constraint firstItem="c1c-Vc-IFS" firstAttribute="top" secondItem="mvK-PY-gAu" secondAttribute="top" constant="54" id="wD2-ZG-RgO"/>
-                    </constraints>
                 </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play your friend's message and record your reaction. Then replay, preview &amp; send it!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="c1c-Vc-IFS">
+                    <rect key="frame" x="37" y="55" width="246" height="140"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="140" id="Tr3-Bz-cAg"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SWe-f5-RDK" userLabel="Lower View">
                     <rect key="frame" x="0.0" y="284" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8p-DT-eGr">
+                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8p-DT-eGr">
                     <rect key="frame" x="125" y="249" width="70" height="70"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
@@ -60,9 +53,12 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="mvK-PY-gAu" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="3I9-RU-sAV"/>
+                <constraint firstItem="c1c-Vc-IFS" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="37" id="Ae5-6d-jj2"/>
                 <constraint firstAttribute="trailing" secondItem="SWe-f5-RDK" secondAttribute="trailing" id="DqO-13-wOE"/>
                 <constraint firstAttribute="centerX" secondItem="a8p-DT-eGr" secondAttribute="centerX" id="PQP-XZ-UpE"/>
+                <constraint firstItem="c1c-Vc-IFS" firstAttribute="top" secondItem="1" secondAttribute="top" constant="55" id="ayT-tw-0Kc"/>
                 <constraint firstAttribute="trailing" secondItem="mvK-PY-gAu" secondAttribute="trailing" id="bUm-kj-tKS"/>
+                <constraint firstAttribute="trailing" secondItem="c1c-Vc-IFS" secondAttribute="trailing" constant="37" id="bck-qp-PQd"/>
                 <constraint firstItem="a8p-DT-eGr" firstAttribute="top" secondItem="SWe-f5-RDK" secondAttribute="top" constant="-35" id="cJ0-oj-6zr"/>
                 <constraint firstItem="SWe-f5-RDK" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="f3W-qs-mNM"/>
                 <constraint firstAttribute="centerY" secondItem="a8p-DT-eGr" secondAttribute="centerY" id="gJT-SE-iS6"/>

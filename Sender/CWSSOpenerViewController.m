@@ -69,18 +69,21 @@
             [self.moreAnimationView removeFromSuperview];
             [self.middleButton setImage:[UIImage imageNamed:@"cw_play"] forState:UIControlStateNormal];
             [self.cameraView setAlpha:0.5];
+            [self.openerMessageLabel setHidden:NO];
             break;
         case CWOpenerReview:
             //
             [CWAnalytics event:@"Start" withCategory:@"Review" withLabel:@"" withValue:nil];
             [self.middleButton addSubview:self.moreAnimationView];
             [self.cameraView setAlpha:0.5];
+            [self.openerMessageLabel setHidden:YES];
             break;
         case CWOpenerReact:
             //
             [CWAnalytics event:@"Start" withCategory:@"React" withLabel:@"" withValue:nil];
             [self.middleButton addSubview:self.moreAnimationView];
             [self.cameraView setAlpha:1.0];
+            [self.openerMessageLabel setHidden:YES];
             break;
         case CWOpenerRespond:
             //
@@ -88,6 +91,7 @@
             [self.moreAnimationView removeFromSuperview];
             [self.middleButton setImage:[UIImage imageNamed:@"cw_stop"] forState:UIControlStateNormal];
             [self.cameraView setAlpha:1.0];
+            [self.openerMessageLabel setHidden:YES];
             break;
     }
 }

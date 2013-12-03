@@ -171,6 +171,7 @@
              */
             [self.feedbackVC.feedbackLabel setTextColor:[UIColor whiteColor]];
             [self.feedbackVC.feedbackLabel setText:[[CWGroundControlManager sharedInstance] tapToPlayVideo]];
+            [self.feedbackVC.view setHidden:YES];
             break;
             
             
@@ -192,6 +193,7 @@
                 [self startReviewCountDown];
             }
             [self.player playVideo];
+            [self.feedbackVC.view setHidden:NO];
             break;
             
             
@@ -206,6 +208,7 @@
              
              */
             [self startReactionCountDown];
+            [self.feedbackVC.view setHidden:NO];
             break;
             
             
@@ -220,6 +223,7 @@
              
              */
             [self startResponseCountDown];
+            [self.feedbackVC.view setHidden:NO];
             break;
     }
 }
