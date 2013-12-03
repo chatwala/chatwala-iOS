@@ -59,11 +59,11 @@
             
         case eFlowToOpener:
             // opener
-            if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
-                // show auth
-                [self.navigationController pushViewController:[[CWAuthRequestViewController alloc] init] animated:NO];
-            }
-            else
+//            if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
+//                // show auth
+//                [self.navigationController pushViewController:[[CWAuthRequestViewController alloc] init] animated:NO];
+//            }
+//            else
             {
                 // show opener
                 CWOpenerViewController * openerVC = [[CWFlowManager sharedInstance] openerVC];
