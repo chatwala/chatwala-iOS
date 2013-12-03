@@ -20,7 +20,7 @@ static NSString * AuthKeyUserId         = @"userID";
 static NSString * AuthKeyExpirationDate    = @"expirationDate";
 static NSString * AuthKeyCode           = @"code";
 
-
+#define DEBUG_AUTH (NO)
 
 
 @interface CWAuthenticationManager ()
@@ -39,9 +39,17 @@ static NSString * AuthKeyCode           = @"code";
     return shared;
 }
 
-+ (void)initialize
+- (id)init
 {
-    
+    self = [super init];
+    if(self)
+    {
+        if(DEBUG_AUTH)
+        {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"auth"];
+        }
+    }
+    return self;
 
 }
 
