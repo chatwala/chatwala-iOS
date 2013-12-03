@@ -56,6 +56,8 @@
 }
 - (IBAction)onAuthenticate:(id)sender {
     [CWAnalytics event:@"Choose Google Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+    
+    
     [self.navigationController pushViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:YES];
 }
 
@@ -64,7 +66,7 @@
 {
     [CWAnalytics event:@"Skip Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
     [[CWAuthenticationManager sharedInstance]didSkipAuth];
-    [self.navigationController popViewControllerAnimated:NO];
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 

@@ -20,7 +20,7 @@ static NSString * AuthKeyUserId         = @"userID";
 static NSString * AuthKeyExpirationDate    = @"expirationDate";
 static NSString * AuthKeyCode           = @"code";
 
-
+#define DEBUG_AUTH (NO)
 
 
 @interface CWAuthenticationManager ()
@@ -39,9 +39,17 @@ static NSString * AuthKeyCode           = @"code";
     return shared;
 }
 
-+ (void)initialize
+- (id)init
 {
-    
+    self = [super init];
+    if(self)
+    {
+        if(DEBUG_AUTH)
+        {
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"auth"];
+        }
+    }
+    return self;
 
 }
 
@@ -78,12 +86,31 @@ static NSString * AuthKeyCode           = @"code";
     
     NSString *scope = @"https://www.googleapis.com/auth/userinfo.email";
     CWGoogleAuthViewController *viewController;
-    viewController = [[CWGoogleAuthViewController alloc] initWithScope:scope
-                                                                clientID:clientID
-                                                            clientSecret:secret
-                                                        keychainItemName:forAccountType
-                                                                delegate:self
-                                                        finishedSelector:@selector(viewController:finishedWithAuth:error:)];
+    
+    viewController = [CWGoogleAuthViewController controllerWithScope:scope clientID:clientID clientSecret:secret keychainItemName:forAccountType completionHandler:^(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error) {
+        //
+        if(!error)
+        {
+            [self setAuth:auth];
+        }
+        NSLog(@"");
+    }];
+    
+    __block CWGoogleAuthViewController * blockVC = viewController;
+    
+    [viewController setPopViewBlock:^{
+        [self setSkippedAuth:YES];
+        [blockVC.navigationController dismissViewControllerAnimated:YES completion:^{
+            //
+            
+        }];
+    }];
+//    viewController = [[CWGoogleAuthViewController alloc] initWithScope:scope
+//                                                                clientID:clientID
+//                                                            clientSecret:secret
+//                                                        keychainItemName:forAccountType
+//                                                                delegate:self
+//                                                        finishedSelector:@selector(viewController:finishedWithAuth:error:)];
 
     return viewController;
     

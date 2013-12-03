@@ -32,6 +32,13 @@
                                                                   target:self
                                                                   action:@selector(handleBack:)];
     
+//    __block CWGoogleAuthViewController * blockSelf= se
+//    [self setPopViewBlock:^{
+//        [self dismissViewControllerAnimated:YES completion:nil];
+//    }];
+    
+//    self
+    
     self.navigationItem.leftBarButtonItem = backButton;
 }
 
@@ -41,7 +48,9 @@
     [self.backButton removeFromSuperview];
     [self.forwardButton removeFromSuperview];
     NSLog(@"");
+    
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -51,7 +60,7 @@
 
 - (void)handleBack:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

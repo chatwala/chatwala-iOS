@@ -157,10 +157,26 @@
     UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:self.sut];
     id mockNavController = [OCMockObject partialMockForObject:navController];
     [[mockNavController expect]popViewControllerAnimated:NO];
+    self.sut.incomingMessageItem = OCMOCK_ANY;
+    
     [self.sut onRecordAgain:nil];
     [mockNavController verify];
     [mockNavController stopMocking];
 }
+
+
+- (void)testShouldPopViewControllerWhenRecordAgainIsInvokedWhenThereIsNoIncomingMessage
+{
+    UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:self.sut];
+    id mockNavController = [OCMockObject partialMockForObject:navController];
+    [[mockNavController expect]popToRootViewControllerAnimated:NO];
+    self.sut.incomingMessageItem = nil;
+    
+    [self.sut onRecordAgain:nil];
+    [mockNavController verify];
+    [mockNavController stopMocking];
+}
+
 
 - (void)testShouldConformToMFMailComposeViewControllerDelegateProtocol
 {
