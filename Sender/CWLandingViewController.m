@@ -44,7 +44,9 @@
             
             if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
                 // show auth
-                [self.navigationController pushViewController:[[CWAuthRequestViewController alloc] init] animated:NO];
+                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[[CWAuthRequestViewController alloc] init]] animated:YES completion:^{
+                    //
+                }];
             }
             else
             {

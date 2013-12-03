@@ -78,12 +78,28 @@ static NSString * AuthKeyCode           = @"code";
     
     NSString *scope = @"https://www.googleapis.com/auth/userinfo.email";
     CWGoogleAuthViewController *viewController;
-    viewController = [[CWGoogleAuthViewController alloc] initWithScope:scope
-                                                                clientID:clientID
-                                                            clientSecret:secret
-                                                        keychainItemName:forAccountType
-                                                                delegate:self
-                                                        finishedSelector:@selector(viewController:finishedWithAuth:error:)];
+    
+    viewController = [CWGoogleAuthViewController controllerWithScope:scope clientID:clientID clientSecret:secret keychainItemName:forAccountType completionHandler:^(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error) {
+        //
+        [self setAuth:auth];
+        NSLog(@"");
+    }];
+    
+    __block CWGoogleAuthViewController * blockVC = viewController;
+    
+    [viewController setPopViewBlock:^{
+        [self setSkippedAuth:YES];
+        [blockVC.navigationController dismissViewControllerAnimated:YES completion:^{
+            //
+            
+        }];
+    }];
+//    viewController = [[CWGoogleAuthViewController alloc] initWithScope:scope
+//                                                                clientID:clientID
+//                                                            clientSecret:secret
+//                                                        keychainItemName:forAccountType
+//                                                                delegate:self
+//                                                        finishedSelector:@selector(viewController:finishedWithAuth:error:)];
 
     return viewController;
     

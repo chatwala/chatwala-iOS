@@ -56,6 +56,8 @@
 }
 - (IBAction)onAuthenticate:(id)sender {
     [CWAnalytics event:@"Choose Google Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+    
+    
     [self.navigationController pushViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:YES];
 }
 
