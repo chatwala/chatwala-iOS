@@ -60,7 +60,7 @@
 
 - (void)handleBack:(id)sender
 {
-    [self.navigationController popViewControllerAnimated:NO];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

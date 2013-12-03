@@ -89,7 +89,10 @@ static NSString * AuthKeyCode           = @"code";
     
     viewController = [CWGoogleAuthViewController controllerWithScope:scope clientID:clientID clientSecret:secret keychainItemName:forAccountType completionHandler:^(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error) {
         //
-        [self setAuth:auth];
+        if(!error)
+        {
+            [self setAuth:auth];
+        }
         NSLog(@"");
     }];
     
