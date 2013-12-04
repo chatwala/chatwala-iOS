@@ -50,7 +50,7 @@
         [self.knob setColor:[UIColor colorFromHexString:@"#ff6c8d"]];
         [self.knob setMin:0];
         [self.knob setMax:1];
-        [self.knob setValue:0.5];
+        [self.knob setValue:0];
         [self.knob setBackgroundColorAlpha:0];
         [self.knob setCutoutSize:0];
         [self.knob setArcStartAngle:-90];
@@ -61,6 +61,7 @@
         
         self.iconImage = [[UIImageView alloc]initWithFrame:self.bounds];
         [self.iconImage setBackgroundColor:[UIColor clearColor]];
+        [self.iconImage setContentMode:UIViewContentModeCenter];
         [self addSubview:self.iconImage];
         
     }

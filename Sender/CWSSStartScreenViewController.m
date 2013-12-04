@@ -10,6 +10,7 @@
 #import "CWSSComposerViewController.h"
 #import "CWVideoManager.h"
 #import "CWFlowManager.h"
+#import "CWMiddleButton.h"
 
 @interface CWSSStartScreenViewController ()
 
@@ -29,9 +30,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.startButton.layer setCornerRadius:self.startButton.frame.size.width*0.5];
-    [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.startButton];
-    
+//    [self.startButton.layer setCornerRadius:self.startButton.frame.size.width*0.5];
+    [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.middleButton];
+    [self.middleButton setButtonState:eButtonStateRecord];
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5)];
     
 }
