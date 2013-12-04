@@ -16,7 +16,7 @@
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
 @property (nonatomic,assign) NSInteger tickCount;
-
+@property (nonatomic,strong) CWMiddleButton * middleButton;
 @end
 
 @implementation CWComposerViewController
@@ -39,6 +39,10 @@
     [self addChildViewController:self.feedbackVC];
     [self.view addSubview:self.feedbackVC.view];
     self.feedbackVC.view.frame = self.view.bounds;
+    
+//    self.middleButton = [[CWMiddleButton alloc]initWithFrame:CGRectMake(20, 20, 80, 80)];
+//    [self.view addSubview:self.middleButton];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
