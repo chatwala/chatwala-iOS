@@ -16,6 +16,10 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Chatwala-White-BG" translatesAutoresizingMaskIntoConstraints="NO" id="Bz8-Mu-2ey">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap to record and send a message. Your friend’s reaction will show here when they reply." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="247" translatesAutoresizingMaskIntoConstraints="NO" id="vfZ-uk-aff">
                     <rect key="frame" x="33" y="352" width="247" height="163"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -39,13 +43,21 @@
             <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="vfZ-uk-aff" secondAttribute="trailing" constant="40" id="CPt-P7-JRK"/>
+                <constraint firstItem="Bz8-Mu-2ey" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Mgw-tO-r5d"/>
                 <constraint firstAttribute="bottom" secondItem="vfZ-uk-aff" secondAttribute="bottom" constant="53" id="Wsa-gx-pCk"/>
+                <constraint firstItem="vfZ-uk-aff" firstAttribute="top" secondItem="r82-ej-PxY" secondAttribute="top" constant="113" id="XWf-jX-uah"/>
+                <constraint firstAttribute="trailing" secondItem="Bz8-Mu-2ey" secondAttribute="trailing" id="cdg-7i-HQt"/>
+                <constraint firstAttribute="bottom" secondItem="Bz8-Mu-2ey" secondAttribute="bottom" id="hOB-kR-Xvc"/>
                 <constraint firstItem="vfZ-uk-aff" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="33" id="iXi-9E-aCK"/>
                 <constraint firstAttribute="centerY" secondItem="r82-ej-PxY" secondAttribute="centerY" id="ll4-hx-Y9b"/>
                 <constraint firstAttribute="centerX" secondItem="r82-ej-PxY" secondAttribute="centerX" id="rjg-rW-AL1"/>
+                <constraint firstItem="Bz8-Mu-2ey" firstAttribute="top" secondItem="1" secondAttribute="top" id="uMw-cM-LjV"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="Chatwala-White-BG" width="320" height="568"/>
+    </resources>
 </document>
