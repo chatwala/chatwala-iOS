@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CWOpenerViewController.h"
-@class CWMiddleButton;
 @interface CWSSOpenerViewController : CWOpenerViewController
-@property (weak, nonatomic) IBOutlet CWMiddleButton *middleButton;
 @property (weak, nonatomic) IBOutlet UILabel *openerMessageLabel;
 @end

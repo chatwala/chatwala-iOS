@@ -10,7 +10,6 @@
 #import "CWSSReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWGroundControlManager.h"
-#import "CWMiddleButton.h"
 
 @interface CWSSOpenerViewController ()
 

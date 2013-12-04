@@ -22,6 +22,7 @@
     NSTimeInterval startRecordTime;
     CGRect smallFrame;
     CGRect largeFrame;
+    
 }
 
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
@@ -34,8 +35,10 @@
 
 
 @property (nonatomic,assign) NSInteger reviewCountdownTickCount;
-@property (nonatomic,assign) NSInteger reactionCountdownTickCount;
-@property (nonatomic,assign) NSInteger responseCountdownTickCount;
+//@property (nonatomic,assign) NSInteger reactionCountdownTickCount;
+//@property (nonatomic,assign) NSInteger responseCountdownTickCount;
+@property (nonatomic, strong) NSDate * startTime;
+
 
 - (void)onResponseCountdownTick:(NSTimer*)timer;
 - (void)onReactionCountdownTick:(NSTimer*)timer;
@@ -172,6 +175,8 @@
             [self.feedbackVC.feedbackLabel setTextColor:[UIColor whiteColor]];
             [self.feedbackVC.feedbackLabel setText:[[CWGroundControlManager sharedInstance] tapToPlayVideo]];
             [self.feedbackVC.view setHidden:YES];
+            [self.middleButton setMaxValue:MAX_RECORD_TIME];
+            [self.middleButton setValue:0];
             break;
             
             
@@ -194,6 +199,11 @@
             }
             [self.player playVideo];
             [self.feedbackVC.view setHidden:NO];
+            
+            [self.middleButton setMaxValue:MAX_RECORD_TIME];
+            [self.middleButton setValue:0];
+            
+            
             break;
             
             
@@ -279,19 +289,25 @@
 {
     [self killTimers];
     [self.recorder startVideoRecording];
-    self.reactionCountdownTickCount = 0;
-    self.reactionCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReactionCountdownTick:) userInfo:nil repeats:YES];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackReactionString],self.reactionCountdownTickCount]];
-    NSLog(@"started reaction countdown from %d",self.reactionCountdownTickCount);
+//    self.reactionCountdownTickCount = 0;
+    self.reactionCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1/30 target:self selector:@selector(onReactionCountdownTick:) userInfo:nil repeats:YES];
+   
+    
+    NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
+    CGFloat startValue = reactionTime+MAX_RECORD_TIME;
+    [self.middleButton setMaxValue:startValue];
+    [self.middleButton setValue:0];
+    self.startTime = [NSDate date];
+    
 }
 
 - (void)startResponseCountDown
 {
     [self killTimers];
-    self.responseCountdownTickCount = MAX_RECORD_TIME;
-    self.responseCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onResponseCountdownTick:) userInfo:nil repeats:YES];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],self.responseCountdownTickCount]];
-    NSLog(@"started response countdown from %d",self.responseCountdownTickCount);
+//    self.responseCountdownTickCount = MAX_RECORD_TIME;
+    self.responseCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1/30 target:self selector:@selector(onResponseCountdownTick:) userInfo:nil repeats:YES];
+//    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],self.responseCountdownTickCount]];
+//    NSLog(@"started response countdown from %d",self.responseCountdownTickCount);
 }
 
 
@@ -312,22 +328,25 @@
 
 - (void)onReactionCountdownTick:(NSTimer*)timer
 {
-    self.reactionCountdownTickCount++;
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackReactionString],self.reactionCountdownTickCount]];
+    NSTimeInterval reactionTickCount = -[self.startTime timeIntervalSinceNow];
+    [self.middleButton setValue:reactionTickCount];
 }
 
 
 - (void)onResponseCountdownTick:(NSTimer*)timer
 {
-    self.responseCountdownTickCount--;
-    if (self.responseCountdownTickCount <=0 ) {
+    NSTimeInterval reactionTickCount = -[self.startTime timeIntervalSinceNow];
+    [self.middleButton setValue:reactionTickCount];
+    NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
+    NSTimeInterval responseTickCount = reactionTickCount -reactionTime;
+    if (responseTickCount >= (reactionTime+MAX_RECORD_TIME) ) {
         [self.responseCountdownTimer invalidate];
         self.responseCountdownTimer = nil;
         [self.recorder stopVideoRecording];
         
         
     }
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],self.responseCountdownTickCount]];
+//    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],self.responseCountdownTickCount]];
 }
 
 #pragma mark CWVideoPlayerDelegate
