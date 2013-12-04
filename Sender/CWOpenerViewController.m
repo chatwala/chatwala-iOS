@@ -192,16 +192,17 @@
              • play Video Message
              • update view and feedback to reflect Review state ( in subclass )
              */
-            if (self.messageItem.metadata.startRecording == 0) {
-                [self setOpenerState:CWOpenerReact];
-            }else{
-                [self startReviewCountDown];
-            }
             [self.player playVideo];
             [self.feedbackVC.view setHidden:NO];
             
             [self.middleButton setMaxValue:MAX_RECORD_TIME];
             [self.middleButton setValue:0];
+            
+            if (self.messageItem.metadata.startRecording == 0) {
+                [self setOpenerState:CWOpenerReact];
+            }else{
+                [self startReviewCountDown];
+            }
             
             
             break;
@@ -330,22 +331,28 @@
 {
     NSTimeInterval reactionTickCount = -[self.startTime timeIntervalSinceNow];
     [self.middleButton setValue:reactionTickCount];
+    NSLog(@"reaction count:%f", reactionTickCount);
 }
 
 
 - (void)onResponseCountdownTick:(NSTimer*)timer
 {
-    NSTimeInterval reactionTickCount = -[self.startTime timeIntervalSinceNow];
-    [self.middleButton setValue:reactionTickCount];
+    NSTimeInterval recordTickCount = -[self.startTime timeIntervalSinceNow];
+    [self.middleButton setValue:recordTickCount];
     NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
-    NSTimeInterval responseTickCount = reactionTickCount -reactionTime;
-    if (responseTickCount >= (reactionTime+MAX_RECORD_TIME) ) {
+    NSTimeInterval responseTickCount = recordTickCount -reactionTime;
+    
+    CGFloat maxRecordTime = reactionTime+MAX_RECORD_TIME;
+
+    if (recordTickCount >= maxRecordTime ) {
         [self.responseCountdownTimer invalidate];
         self.responseCountdownTimer = nil;
         [self.recorder stopVideoRecording];
         
         
     }
+    NSLog(@"reponse count:%f", recordTickCount);
+
 //    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],self.responseCountdownTickCount]];
 }
 
