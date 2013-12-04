@@ -20,9 +20,10 @@
                 </imageView>
             </subviews>
             <constraints>
-                <constraint firstItem="RN4-4S-egZ" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="HGW-Ft-fIW"/>
-                <constraint firstItem="RN4-4S-egZ" firstAttribute="top" secondItem="1" secondAttribute="top" id="L0d-aU-cN5"/>
-                <constraint firstAttribute="bottom" secondItem="RN4-4S-egZ" secondAttribute="bottom" id="VDo-Q4-HMX"/>
+                <constraint firstItem="RN4-4S-egZ" firstAttribute="top" secondItem="1" secondAttribute="top" id="U7G-B9-Z72"/>
+                <constraint firstAttribute="trailing" secondItem="RN4-4S-egZ" secondAttribute="trailing" id="YeU-DN-dcF"/>
+                <constraint firstAttribute="bottom" secondItem="RN4-4S-egZ" secondAttribute="bottom" id="eHR-8b-Z3s"/>
+                <constraint firstItem="RN4-4S-egZ" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="f8R-Ja-YXl"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

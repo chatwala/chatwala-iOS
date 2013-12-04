@@ -39,6 +39,7 @@
     [self addChildViewController:self.feedbackVC];
     [self.view addSubview:self.feedbackVC.view];
     self.feedbackVC.view.frame = self.view.bounds;
+    [self.feedbackVC.view setHidden:YES];
     
 //    self.middleButton = [[CWMiddleButton alloc]initWithFrame:CGRectMake(20, 20, 80, 80)];
 //    [self.view addSubview:self.middleButton];
