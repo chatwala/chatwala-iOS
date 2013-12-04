@@ -37,7 +37,7 @@
                         <constraint firstAttribute="height" constant="90" id="tZT-NN-LDD"/>
                     </constraints>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play your friend's message and record your reaction. Then replay, preview &amp; send it!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="c1c-Vc-IFS">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Play your friend's message and record your reaction. Then replay, preview &amp; send it!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="c1c-Vc-IFS">
                     <rect key="frame" x="20" y="45" width="280" height="140"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="20"/>
@@ -47,19 +47,18 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="mvK-PY-gAu" firstAttribute="trailing" secondItem="SWe-f5-RDK" secondAttribute="trailing" id="6R8-PH-d6G"/>
-                <constraint firstItem="SWe-f5-RDK" firstAttribute="top" secondItem="mvK-PY-gAu" secondAttribute="bottom" id="6gf-xD-4lt"/>
-                <constraint firstItem="mvK-PY-gAu" firstAttribute="leading" secondItem="SWe-f5-RDK" secondAttribute="leading" id="6uS-c5-k6q"/>
-                <constraint firstAttribute="trailing" secondItem="SWe-f5-RDK" secondAttribute="trailing" id="DqO-13-wOE"/>
-                <constraint firstItem="mvK-PY-gAu" firstAttribute="top" secondItem="1" secondAttribute="top" id="FJ5-sV-uHW"/>
+                <constraint firstAttribute="trailing" secondItem="SWe-f5-RDK" secondAttribute="trailing" id="DXq-De-vtR"/>
+                <constraint firstItem="SWe-f5-RDK" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="GzA-qW-umU"/>
+                <constraint firstAttribute="trailing" secondItem="mvK-PY-gAu" secondAttribute="trailing" id="HID-7y-tfk"/>
                 <constraint firstAttribute="centerX" secondItem="W9i-5Z-Xxb" secondAttribute="centerX" id="Ib0-CS-mLB"/>
                 <constraint firstItem="W9i-5Z-Xxb" firstAttribute="top" secondItem="c1c-Vc-IFS" secondAttribute="bottom" constant="54" id="O8X-Uz-S5V"/>
-                <constraint firstItem="mvK-PY-gAu" firstAttribute="centerX" secondItem="c1c-Vc-IFS" secondAttribute="centerX" id="SFi-Td-EtE"/>
-                <constraint firstItem="SWe-f5-RDK" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="f3W-qs-mNM"/>
+                <constraint firstAttribute="bottom" secondItem="SWe-f5-RDK" secondAttribute="bottom" id="Xjp-0P-YuZ"/>
+                <constraint firstItem="mvK-PY-gAu" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="YB6-GK-Us3"/>
+                <constraint firstItem="mvK-PY-gAu" firstAttribute="top" secondItem="1" secondAttribute="top" id="ddC-FP-mJ9"/>
                 <constraint firstItem="c1c-Vc-IFS" firstAttribute="top" secondItem="1" secondAttribute="top" constant="45" id="fzO-gU-MRN"/>
                 <constraint firstAttribute="centerY" secondItem="W9i-5Z-Xxb" secondAttribute="centerY" id="hIH-vW-I2c"/>
-                <constraint firstAttribute="bottom" secondItem="mvK-PY-gAu" secondAttribute="bottom" constant="284" id="hTb-tm-iZ0"/>
-                <constraint firstAttribute="bottom" secondItem="SWe-f5-RDK" secondAttribute="bottom" id="sbE-Em-TUt"/>
+                <constraint firstItem="W9i-5Z-Xxb" firstAttribute="bottom" secondItem="mvK-PY-gAu" secondAttribute="bottom" constant="45" id="jIY-Nt-Y1R"/>
+                <constraint firstItem="W9i-5Z-Xxb" firstAttribute="top" secondItem="SWe-f5-RDK" secondAttribute="top" constant="-45" id="w0M-xO-JrW"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

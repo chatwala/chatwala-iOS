@@ -17,11 +17,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Chatwala-White-BG" translatesAutoresizingMaskIntoConstraints="NO" id="Twh-m0-gYu">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Chatwala-White-BG" translatesAutoresizingMaskIntoConstraints="NO" id="Twh-m0-gYu">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vmn-e5-TTd" userLabel="Preview">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vmn-e5-TTd" userLabel="Preview">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
@@ -54,13 +54,20 @@
             </subviews>
             <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="vmn-e5-TTd" secondAttribute="trailing" id="6cf-iC-tq0"/>
+                <constraint firstItem="vmn-e5-TTd" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="89z-Nj-Vut"/>
+                <constraint firstItem="vmn-e5-TTd" firstAttribute="top" secondItem="Twh-m0-gYu" secondAttribute="top" id="9da-0W-l2z"/>
+                <constraint firstItem="vmn-e5-TTd" firstAttribute="top" secondItem="1" secondAttribute="top" id="D1C-Pw-TV2"/>
+                <constraint firstItem="vmn-e5-TTd" firstAttribute="top" secondItem="EyP-yJ-Hxx" secondAttribute="top" id="D5n-le-Nnw"/>
+                <constraint firstItem="vmn-e5-TTd" firstAttribute="leading" secondItem="EyP-yJ-Hxx" secondAttribute="leading" id="Kdx-PM-z0c"/>
                 <constraint firstItem="EyP-yJ-Hxx" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="TXK-Kt-6xn"/>
-                <constraint firstItem="vmn-e5-TTd" firstAttribute="top" secondItem="1" secondAttribute="top" id="aw9-zq-KGl"/>
+                <constraint firstItem="vmn-e5-TTd" firstAttribute="trailing" secondItem="Twh-m0-gYu" secondAttribute="trailing" id="atq-lw-kQK"/>
+                <constraint firstAttribute="bottom" secondItem="vmn-e5-TTd" secondAttribute="bottom" constant="284" id="b56-Rx-fjP"/>
                 <constraint firstAttribute="centerX" secondItem="VJT-th-EN0" secondAttribute="centerX" id="fmW-bW-0eJ"/>
                 <constraint firstAttribute="centerY" secondItem="VJT-th-EN0" secondAttribute="centerY" id="gdr-Br-rrM"/>
                 <constraint firstItem="EyP-yJ-Hxx" firstAttribute="top" secondItem="1" secondAttribute="top" id="meu-8N-fRf"/>
-                <constraint firstItem="vmn-e5-TTd" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="zkL-Lt-b6w"/>
+                <constraint firstAttribute="trailing" secondItem="vmn-e5-TTd" secondAttribute="trailing" id="vrc-RL-uWg"/>
+                <constraint firstItem="vmn-e5-TTd" firstAttribute="leading" secondItem="Twh-m0-gYu" secondAttribute="leading" id="yIJ-IZ-k8C"/>
+                <constraint firstItem="VJT-th-EN0" firstAttribute="bottom" secondItem="vmn-e5-TTd" secondAttribute="bottom" constant="45" id="yQp-Zc-TdF"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
