@@ -16,7 +16,6 @@
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
 @property (nonatomic,assign) NSInteger tickCount;
-@property (nonatomic,strong) CWMiddleButton * middleButton;
 @end
 
 @implementation CWComposerViewController
@@ -72,6 +71,7 @@
         [self stopRecording];
         self.tickCount = 0;
     }
+    [self.middleButton setValue:MAX_RECORD_TIME-self.tickCount];
     [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString],self.tickCount]];
 }
 
@@ -103,6 +103,7 @@
         self.recordTimer = nil;
     }
     self.tickCount = MAX_RECORD_TIME;
+    [self.middleButton setMaxValue:MAX_RECORD_TIME];
     [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString],self.tickCount]];
     self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
 

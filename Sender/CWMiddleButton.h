@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CWMiddleButton : UIView <DCControlDelegate>
-
+- (void)setMinValue:(CGFloat)minValue;
+- (void)setMaxValue:(CGFloat)maxValue;
+- (void)setValue:(CGFloat)value;
 @end

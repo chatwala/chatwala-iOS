@@ -8,6 +8,11 @@
 
 #import "CWMiddleButton.h"
 
+@interface CWMiddleButton ()
+@property (nonatomic,strong) DCKnob * knob;
+@end
+
+
 @implementation CWMiddleButton
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -37,29 +42,20 @@
         
         
         
-        DCKnob * knob = [[DCKnob alloc]initWithDelegate:self];
-        [knob setFrame:innerRect];
-        [knob setBackgroundColor:[UIColor clearColor]];
-        [knob setColor:[UIColor colorFromHexString:@"#ff6c8d"]];
-        [knob setMin:0];
-        [knob setMax:1];
-        [knob setValue:0.5];
-        [knob setBackgroundColorAlpha:0];
-        [knob setCutoutSize:0];
-        [knob setArcStartAngle:-90];
-        [knob setDisplaysValue:NO];
-        [knob setValueArcWidth:innerRect.size.width*0.5];
-        [self addSubview:knob];
-    }
-    return self;
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        // Initialization code
-    
+        self.knob= [[DCKnob alloc]initWithDelegate:self];
+        [self.knob setUserInteractionEnabled:NO];
+        [self.knob setFrame:innerRect];
+        [self.knob setBackgroundColor:[UIColor clearColor]];
+        [self.knob setColor:[UIColor colorFromHexString:@"#ff6c8d"]];
+        [self.knob setMin:0];
+        [self.knob setMax:1];
+        [self.knob setValue:0.5];
+        [self.knob setBackgroundColorAlpha:0];
+        [self.knob setCutoutSize:0];
+        [self.knob setArcStartAngle:-90];
+        [self.knob setDisplaysValue:NO];
+        [self.knob setValueArcWidth:innerRect.size.width*0.5];
+        [self addSubview:self.knob];
     }
     return self;
 }
@@ -67,6 +63,19 @@
 - (void)controlValueDidChange:(float)value sender:(id)sender
 {
     
+}
+
+- (void)setMinValue:(CGFloat)minValue
+{
+    [self.knob setMin:minValue];
+}
+- (void)setMaxValue:(CGFloat)maxValue
+{
+    [self.knob setMax:maxValue];
+}
+- (void)setValue:(CGFloat)value
+{
+    [self.knob setValue:value];
 }
 
 /*
