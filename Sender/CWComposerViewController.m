@@ -15,7 +15,8 @@
 @interface CWComposerViewController ()
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
-@property (nonatomic,assign) NSInteger tickCount;
+//@property (nonatomic,assign) NSInteger tickCount;
+@property (nonatomic, strong) NSDate * startTime;
 @end
 
 @implementation CWComposerViewController
@@ -60,19 +61,17 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    self.tickCount = 0;
     [self stopRecording];
 }
 
 - (void)onTick:(NSTimer*)timer
 {
-    self.tickCount--;
-    if (self.tickCount <= 0) {
+    NSTimeInterval tickCount = -[self.startTime timeIntervalSinceNow];
+    if (tickCount >= MAX_RECORD_TIME) {
         [self stopRecording];
-        self.tickCount = 0;
     }
-    [self.middleButton setValue:MAX_RECORD_TIME-self.tickCount];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString],self.tickCount]];
+    [self.middleButton setValue:tickCount];
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString], (int)tickCount]];
 }
 
 - (void)startRecording
@@ -86,6 +85,7 @@
     [[[CWVideoManager sharedManager]recorder]stopVideoRecording];
     [self.recordTimer invalidate];
     self.recordTimer = nil;
+    self.startTime = nil;
 }
 
 #pragma mark CWVideoRecorderDelegate
@@ -102,17 +102,16 @@
         [self.recordTimer invalidate];
         self.recordTimer = nil;
     }
-    self.tickCount = MAX_RECORD_TIME;
     [self.middleButton setMaxValue:MAX_RECORD_TIME];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString],self.tickCount]];
-    self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
-
+    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString],MAX_RECORD_TIME]];
+    self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1 / 30.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
+    self.startTime = [NSDate date];
 }
 
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
-    if (self.tickCount == 0) {
+    if (self.startTime == nil) {
         // push
         [self showReview];
     }
