@@ -7,7 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWSSOpenerViewController">
             <connections>
                 <outlet property="cameraView" destination="mvK-PY-gAu" id="u2n-32-FMF"/>
-                <outlet property="middleButton" destination="a8p-DT-eGr" id="2T9-qL-CCF"/>
+                <outlet property="middleButton" destination="W9i-5Z-Xxb" id="1kA-ce-zcr"/>
                 <outlet property="openerMessageLabel" destination="c1c-Vc-IFS" id="aYs-Lo-5kL"/>
                 <outlet property="playbackView" destination="SWe-f5-RDK" id="8Fr-DA-5PJ"/>
                 <outlet property="view" destination="1" id="fAE-6I-wz6"/>
@@ -23,54 +23,45 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Play your friend's message and record your reaction. Then replay, preview &amp; send it!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="246" translatesAutoresizingMaskIntoConstraints="NO" id="c1c-Vc-IFS">
-                    <rect key="frame" x="37" y="55" width="246" height="140"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="140" id="Tr3-Bz-cAg"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SWe-f5-RDK" userLabel="Lower View">
                     <rect key="frame" x="0.0" y="284" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a8p-DT-eGr">
-                    <rect key="frame" x="125" y="249" width="70" height="70"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W9i-5Z-Xxb" customClass="CWMiddleButton">
+                    <rect key="frame" x="115" y="239" width="90" height="90"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="70" id="FSY-ec-ijh"/>
-                        <constraint firstAttribute="height" constant="70" id="ZAx-3I-iRC"/>
+                        <constraint firstAttribute="width" constant="90" id="6wn-Ge-z7K"/>
+                        <constraint firstAttribute="height" constant="90" id="tZT-NN-LDD"/>
                     </constraints>
-                    <state key="normal" image="cw_play">
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                    </state>
-                </button>
+                </view>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Play your friend's message and record your reaction. Then replay, preview &amp; send it!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="c1c-Vc-IFS">
+                    <rect key="frame" x="20" y="45" width="280" height="140"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="20"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="mvK-PY-gAu" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="3I9-RU-sAV"/>
-                <constraint firstItem="c1c-Vc-IFS" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="37" id="Ae5-6d-jj2"/>
-                <constraint firstAttribute="trailing" secondItem="SWe-f5-RDK" secondAttribute="trailing" id="DqO-13-wOE"/>
-                <constraint firstAttribute="centerX" secondItem="a8p-DT-eGr" secondAttribute="centerX" id="PQP-XZ-UpE"/>
-                <constraint firstItem="c1c-Vc-IFS" firstAttribute="top" secondItem="1" secondAttribute="top" constant="55" id="ayT-tw-0Kc"/>
-                <constraint firstAttribute="trailing" secondItem="mvK-PY-gAu" secondAttribute="trailing" id="bUm-kj-tKS"/>
-                <constraint firstAttribute="trailing" secondItem="c1c-Vc-IFS" secondAttribute="trailing" constant="37" id="bck-qp-PQd"/>
-                <constraint firstItem="a8p-DT-eGr" firstAttribute="top" secondItem="SWe-f5-RDK" secondAttribute="top" constant="-35" id="cJ0-oj-6zr"/>
-                <constraint firstItem="SWe-f5-RDK" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="f3W-qs-mNM"/>
-                <constraint firstAttribute="centerY" secondItem="a8p-DT-eGr" secondAttribute="centerY" id="gJT-SE-iS6"/>
-                <constraint firstItem="mvK-PY-gAu" firstAttribute="bottom" secondItem="a8p-DT-eGr" secondAttribute="bottom" constant="-35" id="lom-Tq-2aQ"/>
-                <constraint firstAttribute="bottom" secondItem="SWe-f5-RDK" secondAttribute="bottom" id="sbE-Em-TUt"/>
-                <constraint firstItem="mvK-PY-gAu" firstAttribute="top" secondItem="1" secondAttribute="top" id="zzp-FZ-qKV"/>
+                <constraint firstAttribute="trailing" secondItem="SWe-f5-RDK" secondAttribute="trailing" id="DXq-De-vtR"/>
+                <constraint firstItem="SWe-f5-RDK" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="GzA-qW-umU"/>
+                <constraint firstAttribute="trailing" secondItem="mvK-PY-gAu" secondAttribute="trailing" id="HID-7y-tfk"/>
+                <constraint firstAttribute="centerX" secondItem="W9i-5Z-Xxb" secondAttribute="centerX" id="Ib0-CS-mLB"/>
+                <constraint firstItem="W9i-5Z-Xxb" firstAttribute="top" secondItem="c1c-Vc-IFS" secondAttribute="bottom" constant="54" id="O8X-Uz-S5V"/>
+                <constraint firstAttribute="bottom" secondItem="SWe-f5-RDK" secondAttribute="bottom" id="Xjp-0P-YuZ"/>
+                <constraint firstItem="mvK-PY-gAu" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="YB6-GK-Us3"/>
+                <constraint firstItem="mvK-PY-gAu" firstAttribute="top" secondItem="1" secondAttribute="top" id="ddC-FP-mJ9"/>
+                <constraint firstItem="c1c-Vc-IFS" firstAttribute="top" secondItem="1" secondAttribute="top" constant="45" id="fzO-gU-MRN"/>
+                <constraint firstAttribute="centerY" secondItem="W9i-5Z-Xxb" secondAttribute="centerY" id="hIH-vW-I2c"/>
+                <constraint firstItem="W9i-5Z-Xxb" firstAttribute="bottom" secondItem="mvK-PY-gAu" secondAttribute="bottom" constant="45" id="jIY-Nt-Y1R"/>
+                <constraint firstItem="W9i-5Z-Xxb" firstAttribute="top" secondItem="SWe-f5-RDK" secondAttribute="top" constant="-45" id="w0M-xO-JrW"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
-    <resources>
-        <image name="cw_play" width="70" height="70"/>
-    </resources>
 </document>

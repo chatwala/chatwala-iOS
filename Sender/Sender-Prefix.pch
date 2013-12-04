@@ -27,6 +27,9 @@
 //    #import <ARAnalytics/ARAnalytics.h>
 //    #import "ARAnalytics+GoogleAnalytics.h"
     #import "CWAnalytics.h"
+    #import "UIColor+Additions.h"
+#import "DCControl.h"
+#import "DCKnob.h"
 #endif
 
 

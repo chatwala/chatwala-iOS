@@ -7,7 +7,7 @@
 //
 
 #import "CWSSReviewViewController.h"
-
+#import "CWMiddleButton.h"
 @interface CWSSReviewViewController ()
 
 @end
@@ -27,12 +27,19 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [self.sendButton setButtonState:eButtonStateShare];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    [super touchesEnded:touches withEvent:event];
+    [self onSend:nil];
 }
 
 @end

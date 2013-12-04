@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 @class CWMessageItem;
+@class CWMiddleButton;
 @interface CWReviewViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 @property (weak, nonatomic) IBOutlet UIButton *recordAgainButton;
-@property (weak, nonatomic) IBOutlet UIButton *sendButton;
+@property (weak, nonatomic) IBOutlet CWMiddleButton *sendButton;
 @property (nonatomic,assign) NSTimeInterval startRecordingTime;
 @property (nonatomic,strong) CWMessageItem * incomingMessageItem;
 - (IBAction)onRecordAgain:(id)sender;

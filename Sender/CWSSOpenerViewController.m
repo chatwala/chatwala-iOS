@@ -13,7 +13,6 @@
 
 @interface CWSSOpenerViewController ()
 
-@property (nonatomic,strong) UIImageView * moreAnimationView;
 @end
 
 @implementation CWSSOpenerViewController
@@ -31,10 +30,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    self.moreAnimationView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"cw_more"]];
-    [self.moreAnimationView setAnimationDuration:1];
-    [self.moreAnimationView setAnimationImages:@[[UIImage imageNamed:@"cw_more1"],[UIImage imageNamed:@"cw_more2"],[UIImage imageNamed:@"cw_more3"]]];
-    [self.moreAnimationView startAnimating];
+
 
 }
 
@@ -64,32 +60,28 @@
     [super setOpenerState:openerState];
     switch (self.openerState) {
         case CWOpenerPreview:
-            //
-            
-            [self.moreAnimationView removeFromSuperview];
-            [self.middleButton setImage:[UIImage imageNamed:@"cw_play"] forState:UIControlStateNormal];
+            [self.middleButton setButtonState:eButtonStatePlay];
             [self.cameraView setAlpha:0.5];
             [self.openerMessageLabel setHidden:NO];
             break;
         case CWOpenerReview:
             //
             [CWAnalytics event:@"Start" withCategory:@"Review" withLabel:@"" withValue:nil];
-            [self.middleButton addSubview:self.moreAnimationView];
+            [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:0.5];
             [self.openerMessageLabel setHidden:YES];
             break;
         case CWOpenerReact:
             //
             [CWAnalytics event:@"Start" withCategory:@"React" withLabel:@"" withValue:nil];
-            [self.middleButton addSubview:self.moreAnimationView];
+            [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:1.0];
             [self.openerMessageLabel setHidden:YES];
             break;
         case CWOpenerRespond:
             //
             [CWAnalytics event:@"Start" withCategory:@"Respond" withLabel:@"" withValue:nil];
-            [self.moreAnimationView removeFromSuperview];
-            [self.middleButton setImage:[UIImage imageNamed:@"cw_stop"] forState:UIControlStateNormal];
+            [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:1.0];
             [self.openerMessageLabel setHidden:YES];
             break;
