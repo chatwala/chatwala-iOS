@@ -20,7 +20,7 @@ static NSString * AuthKeyUserId         = @"userID";
 static NSString * AuthKeyExpirationDate    = @"expirationDate";
 static NSString * AuthKeyCode           = @"code";
 
-#define DEBUG_AUTH (NO)
+#define DEBUG_AUTH (YES)
 
 
 @interface CWAuthenticationManager ()

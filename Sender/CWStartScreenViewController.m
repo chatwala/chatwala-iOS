@@ -82,7 +82,6 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
 }
 
 
