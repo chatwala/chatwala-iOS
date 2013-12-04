@@ -10,6 +10,7 @@
 
 @interface CWMiddleButton ()
 @property (nonatomic,strong) DCKnob * knob;
+@property (nonatomic,strong) UIImageView * iconImage;
 @end
 
 
@@ -56,6 +57,12 @@
         [self.knob setDisplaysValue:NO];
         [self.knob setValueArcWidth:innerRect.size.width*0.5];
         [self addSubview:self.knob];
+        
+        
+        self.iconImage = [[UIImageView alloc]initWithFrame:self.bounds];
+        [self.iconImage setBackgroundColor:[UIColor clearColor]];
+        [self addSubview:self.iconImage];
+        
     }
     return self;
 }
@@ -63,6 +70,32 @@
 - (void)controlValueDidChange:(float)value sender:(id)sender
 {
     
+}
+
+- (void)setButtonState:(MiddleButtonState)state
+{
+    switch (state) {
+        case eButtonStateDefault:
+            [self.iconImage setImage:nil];
+            break;
+        case eButtonStatePlay:
+            [self.iconImage setImage:[UIImage imageNamed:@"Button-Icon-Play"]];
+            break;
+        case eButtonStateStop:
+            [self.iconImage setImage:[UIImage imageNamed:@"Button-Icon-Stop"]];
+            break;
+        case eButtonStateShare:
+            [self.iconImage setImage:[UIImage imageNamed:@"Button-Icon-Send"]];
+            break;
+        case eButtonStateRecord:
+            [self.iconImage setImage:[UIImage imageNamed:@"Button-Icon-Record"]];
+            break;
+            
+            
+        default:
+            [self setButtonState:eButtonStateDefault];
+            break;
+    }
 }
 
 - (void)setMinValue:(CGFloat)minValue

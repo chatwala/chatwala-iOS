@@ -77,6 +77,7 @@
 - (void)startRecording
 {
     [self.feedbackVC.feedbackLabel setText:@""];
+    [self.middleButton setButtonState:eButtonStateStop];
     [[[CWVideoManager sharedManager]recorder] startVideoRecording];
 }
 
