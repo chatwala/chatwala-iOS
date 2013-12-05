@@ -15,7 +15,7 @@
 #import "CWGroundControlManager.h"
 
 
-@interface CWOpenerViewController () <CWVideoPlayerDelegate,CWVideoRecorderDelegate>
+@interface CWOpenerViewController () 
 {
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
@@ -392,10 +392,9 @@
     NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
     [CWAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
 
-    // push to review
-    CWReviewViewController * reviewVC = [[CWFlowManager sharedInstance]reviewVC];
-    [reviewVC setIncomingMessageItem:self.messageItem];
-    [self.navigationController pushViewController:reviewVC animated:NO];
+    [self killTimers];
+    self.openerState = CWOpenerPreview;
+
 
 }
 

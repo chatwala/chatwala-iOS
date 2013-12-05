@@ -25,7 +25,7 @@ typedef enum {
 
 
 
-@interface CWOpenerViewController : UIViewController
+@interface CWOpenerViewController : UIViewController <CWVideoPlayerDelegate,CWVideoRecorderDelegate>
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet CWMiddleButton *middleButton;
