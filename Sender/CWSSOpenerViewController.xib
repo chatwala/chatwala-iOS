@@ -10,6 +10,7 @@
                 <outlet property="middleButton" destination="W9i-5Z-Xxb" id="1kA-ce-zcr"/>
                 <outlet property="openerMessageLabel" destination="c1c-Vc-IFS" id="aYs-Lo-5kL"/>
                 <outlet property="playbackView" destination="SWe-f5-RDK" id="8Fr-DA-5PJ"/>
+                <outlet property="recordMessageLabel" destination="3aD-y9-TRI" id="Zps-M5-yaS"/>
                 <outlet property="view" destination="1" id="fAE-6I-wz6"/>
             </connections>
         </placeholder>
@@ -44,6 +45,16 @@
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Now record your reply!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="3aD-y9-TRI">
+                    <rect key="frame" x="20" y="369" width="280" height="140"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="140" id="4ON-Eg-9M8"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="20"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -52,6 +63,8 @@
                 <constraint firstAttribute="trailing" secondItem="mvK-PY-gAu" secondAttribute="trailing" id="HID-7y-tfk"/>
                 <constraint firstAttribute="centerX" secondItem="W9i-5Z-Xxb" secondAttribute="centerX" id="Ib0-CS-mLB"/>
                 <constraint firstItem="W9i-5Z-Xxb" firstAttribute="top" secondItem="c1c-Vc-IFS" secondAttribute="bottom" constant="54" id="O8X-Uz-S5V"/>
+                <constraint firstAttribute="trailing" secondItem="3aD-y9-TRI" secondAttribute="trailing" constant="20" id="TSN-GA-nlJ"/>
+                <constraint firstAttribute="bottom" secondItem="3aD-y9-TRI" secondAttribute="bottom" constant="59" id="UVB-6M-mdC"/>
                 <constraint firstAttribute="bottom" secondItem="SWe-f5-RDK" secondAttribute="bottom" id="Xjp-0P-YuZ"/>
                 <constraint firstItem="mvK-PY-gAu" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="YB6-GK-Us3"/>
                 <constraint firstItem="mvK-PY-gAu" firstAttribute="top" secondItem="1" secondAttribute="top" id="ddC-FP-mJ9"/>
@@ -59,6 +72,7 @@
                 <constraint firstAttribute="centerY" secondItem="W9i-5Z-Xxb" secondAttribute="centerY" id="hIH-vW-I2c"/>
                 <constraint firstItem="W9i-5Z-Xxb" firstAttribute="bottom" secondItem="mvK-PY-gAu" secondAttribute="bottom" constant="45" id="jIY-Nt-Y1R"/>
                 <constraint firstItem="W9i-5Z-Xxb" firstAttribute="top" secondItem="SWe-f5-RDK" secondAttribute="top" constant="-45" id="w0M-xO-JrW"/>
+                <constraint firstItem="3aD-y9-TRI" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="w8B-Il-g8O"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

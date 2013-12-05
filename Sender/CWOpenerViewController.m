@@ -95,6 +95,9 @@
 {
     [super viewWillAppear:animated];
     
+    [self.playbackView setAlpha:0];
+    [self.cameraView setAlpha:0];
+    
     self.player = [[CWVideoManager sharedManager]player];
     self.recorder = [[CWVideoManager sharedManager]recorder];
     
@@ -230,6 +233,9 @@
 {
     [self.recorder.recorderView setFrame:self.cameraView.bounds];
     [self.cameraView addSubview:self.recorder.recorderView];
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.cameraView setAlpha:1];
+    }];
 }
 
 
@@ -343,8 +349,14 @@
 
 - (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer
 {
+    
+    
     [self.playbackView addSubview:player.playbackView];
     [player.playbackView setFrame:self.playbackView.bounds];
+    [UIView animateWithDuration:0.3 animations:^{
+        [self.playbackView setAlpha:1];
+    }];
+    
     [self setOpenerState:CWOpenerPreview];
 }
 
