@@ -182,7 +182,10 @@
 {
 //    [self.view insertSubview:self.player.playbackView belowSubview:self.recordAgainButton];
     [self.previewView addSubview:player.playbackView];
-    [player.playbackView setFrame:self.previewView.bounds];
+    self.previewView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
+    player.playbackView.frame = self.previewView.bounds;
+    
+    
     [player playVideo];
 }
 
