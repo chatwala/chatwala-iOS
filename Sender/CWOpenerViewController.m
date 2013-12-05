@@ -132,11 +132,11 @@
             [self setOpenerState:CWOpenerReview];
             break;
         case CWOpenerReview:
+            [self setOpenerState:CWOpenerPreview];
             break;
-            
         case CWOpenerReact:
+            [self setOpenerState:CWOpenerPreview];
             break;
-            
         case CWOpenerRespond:
             [self.recorder stopVideoRecording];
             break;
@@ -168,6 +168,10 @@
              Preview State: Video Message is ready
              • update view and feedback to reflect Preview state ( in subclass )
              */
+            self.startTime = nil;
+            [self killTimers];
+            [self.player stop];
+            [self.recorder stopVideoRecording];
             [self.middleButton setMaxValue:MAX_RECORD_TIME];
             [self.middleButton setValue:0];
             break;
@@ -389,12 +393,19 @@
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
-    NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
-    [CWAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
+    if(self.openerState == CWOpenerRespond)
+    {
 
-    [self killTimers];
-    self.openerState = CWOpenerPreview;
-
+        NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
+        [CWAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
+        
+        [self killTimers];
+        self.openerState = CWOpenerPreview;
+    }
+    else
+    {
+        //add some analytics for canceled stuff
+    }
 
 }
 
