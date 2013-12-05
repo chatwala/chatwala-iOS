@@ -24,7 +24,6 @@
                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vmn-e5-TTd" userLabel="Preview">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VJT-th-EN0" customClass="CWMiddleButton">
                     <rect key="frame" x="115" y="239" width="90" height="90"/>
