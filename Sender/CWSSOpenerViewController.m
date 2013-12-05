@@ -38,7 +38,6 @@
 {
     [super viewWillAppear:animated];
     [self.openerMessageLabel setText:[[CWGroundControlManager sharedInstance] openerScreenMessage]];
-    [[[CWVideoManager sharedManager]recorder]checkForMicAccess];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event

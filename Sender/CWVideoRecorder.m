@@ -85,7 +85,7 @@
     CWErrorViewController * errScreen = [[CWErrorViewController alloc]init];
     dispatch_async(dispatch_get_main_queue(), ^{
         if (![appdel.navController.visibleViewController isKindOfClass:[CWErrorViewController class]]) {
-            [appdel.navController pushViewController:errScreen animated:YES];
+            [appdel.navController pushViewController:errScreen animated:NO];
         }
     });
 }
