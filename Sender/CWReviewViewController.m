@@ -210,7 +210,8 @@
                     [CWAnalytics event:@"Send Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
                 }
                 AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
-                [appdel.landingVC setFlowDirection:eFlowToStartScreen];
+                
+                [appdel.landingVC setFlowDirection:eFlowToStartScreenSent];
                 [[CWAuthenticationManager sharedInstance]didSkipAuth];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }

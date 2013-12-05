@@ -35,7 +35,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
-
+    [self.sentMessageView setAlpha:0];
     
 
 //    NSError * error = [[[CWVideoManager sharedManager]recorder]setupSession];
@@ -59,6 +59,9 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
     [self.startScreenMessageLabel setText:[[CWGroundControlManager sharedInstance] startScreenMessage]];
+    
+    
+    
 }
 - (void)viewDidAppear:(BOOL)animated
 {
@@ -68,7 +71,20 @@
     
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.view.bounds];
     
-    
+    if (self.showSentMessage) {
+        [UIView animateWithDuration:0.3 animations:^{
+            //
+            [self.sentMessageView setAlpha:1];
+        } completion:^(BOOL finished) {
+            //
+            [UIView animateWithDuration:0.3 delay:2 options:kNilOptions animations:^{
+                //
+                [self.sentMessageView setAlpha:0];
+            } completion:^(BOOL finished) {
+                //
+            }];
+        }];
+    }
     /*
 
     if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
