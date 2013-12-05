@@ -11,4 +11,6 @@
 @interface CWErrorViewController : UIViewController
 @property (nonatomic,strong) NSError * error;
 @property (weak, nonatomic) IBOutlet UILabel *micErrorLabel;
+@property (weak, nonatomic) IBOutlet UIView *upperView;
+
 @end

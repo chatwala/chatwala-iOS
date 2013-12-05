@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWErrorViewController">
             <connections>
                 <outlet property="micErrorLabel" destination="2Oj-nx-AJW" id="HN9-7M-dyh"/>
+                <outlet property="upperView" destination="WgL-ZG-zac" id="wqH-jI-NSE"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -15,25 +16,62 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chatawala can't access your microphone. Go to your Settings app → Privacy → Microphone to enable access." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2Oj-nx-AJW">
-                    <rect key="frame" x="20" y="344" width="280" height="204"/>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="red_bg" translatesAutoresizingMaskIntoConstraints="NO" id="10B-re-0qk">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chatawala can't access the microphone. Go to your Settings app → Privacy → Microphone to enable access." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="2Oj-nx-AJW">
+                    <rect key="frame" x="20" y="349" width="280" height="140"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="204" id="o8K-Pm-Rdw"/>
+                        <constraint firstAttribute="height" constant="140" id="j2w-eW-Wvp"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
+                    <color key="textColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WgL-ZG-zac">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="283"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sag-BB-gmf">
+                    <rect key="frame" x="115" y="239" width="90" height="90"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="No-Mic" translatesAutoresizingMaskIntoConstraints="NO" id="omR-PI-NOd">
+                            <rect key="frame" x="0.0" y="0.0" width="90" height="90"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        </imageView>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="90" id="H5p-cr-v14"/>
+                        <constraint firstAttribute="height" constant="90" id="bx2-1o-Uit"/>
+                    </constraints>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="trailing" secondItem="2Oj-nx-AJW" secondAttribute="trailing" constant="20" id="6Tp-J1-cWk"/>
-                <constraint firstAttribute="bottom" secondItem="2Oj-nx-AJW" secondAttribute="bottom" constant="20" id="Pr7-1M-xgM"/>
-                <constraint firstItem="2Oj-nx-AJW" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="vmx-lf-AmV"/>
+                <constraint firstItem="10B-re-0qk" firstAttribute="top" secondItem="1" secondAttribute="top" id="1kG-KT-Eoc"/>
+                <constraint firstAttribute="centerX" secondItem="sag-BB-gmf" secondAttribute="centerX" id="DfM-hw-Ivd"/>
+                <constraint firstItem="2Oj-nx-AJW" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" id="GTP-qq-DQI"/>
+                <constraint firstItem="WgL-ZG-zac" firstAttribute="bottom" secondItem="sag-BB-gmf" secondAttribute="bottom" constant="-46" id="Hzs-tK-ous"/>
+                <constraint firstAttribute="bottom" secondItem="10B-re-0qk" secondAttribute="bottom" id="Kxa-Mx-Buq"/>
+                <constraint firstItem="WgL-ZG-zac" firstAttribute="top" secondItem="1" secondAttribute="top" id="Nqx-FV-6Nb"/>
+                <constraint firstAttribute="trailing" secondItem="2Oj-nx-AJW" secondAttribute="trailing" constant="20" id="OGZ-I1-96F"/>
+                <constraint firstAttribute="trailing" secondItem="10B-re-0qk" secondAttribute="trailing" id="Q5O-WS-lZk"/>
+                <constraint firstAttribute="trailing" secondItem="WgL-ZG-zac" secondAttribute="trailing" id="RgI-D6-g4E"/>
+                <constraint firstItem="WgL-ZG-zac" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="XbQ-SL-y5L"/>
+                <constraint firstAttribute="centerY" secondItem="sag-BB-gmf" secondAttribute="centerY" id="hIL-8k-sPF"/>
+                <constraint firstItem="2Oj-nx-AJW" firstAttribute="top" secondItem="sag-BB-gmf" secondAttribute="bottom" constant="20" id="hTd-Q8-BHd"/>
+                <constraint firstItem="10B-re-0qk" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="tOq-rx-22a"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>
+    <resources>
+        <image name="No-Mic" width="100" height="100"/>
+        <image name="red_bg" width="320" height="568"/>
+    </resources>
 </document>
