@@ -405,6 +405,17 @@
     else
     {
         //add some analytics for canceled stuff
+        //stop and go back
+        switch (self.openerState) {
+            case CWOpenerReview:
+                [CWAnalytics event:@"stop and go back" withCategory:@"Review" withLabel:@"" withValue:nil];
+                break;
+            case CWOpenerReact:
+                [CWAnalytics event:@"stop and go back" withCategory:@"React" withLabel:@"" withValue:nil];
+                break;
+            default:
+                break;
+        }
     }
 
 }
