@@ -38,15 +38,15 @@
 
     
 
-    NSError * error = [[[CWVideoManager sharedManager]recorder]setupSession];
-    if (error) {
-        // handle session error
-        CWErrorViewController * vc = [[CWErrorViewController alloc]init];
-        [vc setError:error];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
+//    NSError * error = [[[CWVideoManager sharedManager]recorder]setupSession];
+//    if (error) {
+//        // handle session error
+//        CWErrorViewController * vc = [[CWErrorViewController alloc]init];
+//        [vc setError:error];
+//        [self.navigationController pushViewController:vc animated:YES];
+//    }
     
-    
+    [[[CWVideoManager sharedManager]recorder]setupSession];
    
     
     

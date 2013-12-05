@@ -70,19 +70,24 @@
     
     if([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
         [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
-            AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
-            if (granted) {
+           if (granted) {
                 
             }else{
-                CWErrorViewController * errScreen = [[CWErrorViewController alloc]init];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (![appdel.navController.visibleViewController isKindOfClass:[CWErrorViewController class]]) {
-                        [appdel.navController pushViewController:errScreen animated:YES];
-                    }
-                });
+                [self presentErrorScreen];
             }
         }];
     }
+}
+
+- (void)presentErrorScreen
+{
+    AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
+    CWErrorViewController * errScreen = [[CWErrorViewController alloc]init];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![appdel.navController.visibleViewController isKindOfClass:[CWErrorViewController class]]) {
+            [appdel.navController pushViewController:errScreen animated:YES];
+        }
+    });
 }
 
 - (NSTimeInterval) videoLength
@@ -120,13 +125,15 @@
     AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self frontFacingCamera] error:&err];
     if (err) {
         NSLog(@"failed to setup video input: %@",err.debugDescription);
-        return err;
+        [self presentErrorScreen];
+//        return err;
     }
     
     AVCaptureDeviceInput * audioInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self audioDevice] error:&err];
     if (err) {
         NSLog(@"failed to setup audio input: %@",err.debugDescription);
 //        return err;
+        [self presentErrorScreen];
     }
     
     AVCaptureSession * session = [[AVCaptureSession alloc]init];
