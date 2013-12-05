@@ -231,6 +231,8 @@
 
 - (void)setupCameraView
 {
+    
+    self.cameraView.frame = CGRectMake(0, 0, SCREEN_BOUNDS.size.width, SCREEN_BOUNDS.size.height*0.5);
     [self.recorder.recorderView setFrame:self.cameraView.bounds];
     [self.cameraView addSubview:self.recorder.recorderView];
     [UIView animateWithDuration:0.3 animations:^{
@@ -352,6 +354,7 @@
     
     
     [self.playbackView addSubview:player.playbackView];
+    self.playbackView.frame = CGRectMake(0, self.view.bounds.size.height*0.5, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
     [player.playbackView setFrame:self.playbackView.bounds];
     [UIView animateWithDuration:0.3 animations:^{
         [self.playbackView setAlpha:1];

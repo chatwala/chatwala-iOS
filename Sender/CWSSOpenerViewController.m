@@ -39,7 +39,6 @@
     [super viewWillAppear:animated];
     [self.openerMessageLabel setText:[[CWGroundControlManager sharedInstance] openerScreenMessage]];
     [self.recordMessageLabel setText:[[CWGroundControlManager sharedInstance] replyMessage]];
-    
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -107,7 +106,6 @@
             [CWAnalytics event:@"Start" withCategory:@"Respond" withLabel:@"" withValue:nil];
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:1.0];
-            [self.openerMessageLabel setHidden:YES];
         {
             [UIView animateWithDuration:0.3 animations:^{
                 [self.openerMessageLabel setAlpha:0];
