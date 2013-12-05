@@ -38,6 +38,7 @@
 {
     [super viewWillAppear:animated];
     [self.openerMessageLabel setText:[[CWGroundControlManager sharedInstance] openerScreenMessage]];
+    
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -58,25 +59,47 @@
 - (void)setOpenerState:(CWOpenerState)openerState
 {
     [super setOpenerState:openerState];
+    [self.playbackView setAlpha:1];
+    [self.recordMessageLabel setAlpha:0];
+    
+    
     switch (self.openerState) {
         case CWOpenerPreview:
+        
             [self.middleButton setButtonState:eButtonStatePlay];
             [self.cameraView setAlpha:0.5];
-            [self.openerMessageLabel setHidden:NO];
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                [self.openerMessageLabel setAlpha:1];
+            }];
+            
+        }
             break;
+            
+            
         case CWOpenerReview:
             //
             [CWAnalytics event:@"Start" withCategory:@"Review" withLabel:@"" withValue:nil];
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:0.5];
-            [self.openerMessageLabel setHidden:YES];
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                [self.openerMessageLabel setAlpha:0];
+            }];
+            
+        }
             break;
         case CWOpenerReact:
             //
             [CWAnalytics event:@"Start" withCategory:@"React" withLabel:@"" withValue:nil];
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:1.0];
-            [self.openerMessageLabel setHidden:YES];
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                [self.openerMessageLabel setAlpha:0];
+            }];
+            
+        }
             break;
         case CWOpenerRespond:
             //
@@ -84,6 +107,13 @@
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:1.0];
             [self.openerMessageLabel setHidden:YES];
+        {
+            [UIView animateWithDuration:0.3 animations:^{
+                [self.openerMessageLabel setAlpha:0];
+                [self.playbackView setAlpha:0.3];
+                [self.recordMessageLabel setAlpha:1];
+            }];
+        }
             break;
     }
 }

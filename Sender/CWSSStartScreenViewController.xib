@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWStartScreenViewController">
             <connections>
                 <outlet property="middleButton" destination="r82-ej-PxY" id="lTz-oV-UVA"/>
+                <outlet property="sentMessageView" destination="3DS-pu-zy7" id="5wl-jA-dL7"/>
                 <outlet property="startScreenMessageLabel" destination="vfZ-uk-aff" id="f2n-gL-jOu"/>
                 <outlet property="view" destination="1" id="rkd-xu-hfU"/>
             </connections>
@@ -39,6 +40,13 @@
                         <constraint firstAttribute="width" constant="90" id="iS5-Ad-eN4"/>
                     </constraints>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Sent-Notification" translatesAutoresizingMaskIntoConstraints="NO" id="3DS-pu-zy7">
+                    <rect key="frame" x="40" y="25" width="240" height="65"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="65" id="vEv-Vi-Z53"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -46,10 +54,13 @@
                 <constraint firstItem="Bz8-Mu-2ey" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Mgw-tO-r5d"/>
                 <constraint firstAttribute="bottom" secondItem="vfZ-uk-aff" secondAttribute="bottom" constant="53" id="Wsa-gx-pCk"/>
                 <constraint firstItem="vfZ-uk-aff" firstAttribute="top" secondItem="r82-ej-PxY" secondAttribute="top" constant="113" id="XWf-jX-uah"/>
+                <constraint firstAttribute="trailing" secondItem="3DS-pu-zy7" secondAttribute="trailing" constant="40" id="ZcN-qX-7BG"/>
                 <constraint firstAttribute="trailing" secondItem="Bz8-Mu-2ey" secondAttribute="trailing" id="cdg-7i-HQt"/>
                 <constraint firstAttribute="bottom" secondItem="Bz8-Mu-2ey" secondAttribute="bottom" id="hOB-kR-Xvc"/>
                 <constraint firstItem="vfZ-uk-aff" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="33" id="iXi-9E-aCK"/>
+                <constraint firstItem="3DS-pu-zy7" firstAttribute="top" secondItem="1" secondAttribute="top" constant="25" id="igK-Cv-zcU"/>
                 <constraint firstAttribute="centerY" secondItem="r82-ej-PxY" secondAttribute="centerY" id="ll4-hx-Y9b"/>
+                <constraint firstItem="3DS-pu-zy7" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="40" id="r4u-IA-GiP"/>
                 <constraint firstAttribute="centerX" secondItem="r82-ej-PxY" secondAttribute="centerX" id="rjg-rW-AL1"/>
                 <constraint firstItem="Bz8-Mu-2ey" firstAttribute="top" secondItem="1" secondAttribute="top" id="uMw-cM-LjV"/>
             </constraints>
@@ -59,5 +70,6 @@
     </objects>
     <resources>
         <image name="Chatwala-White-BG" width="320" height="568"/>
+        <image name="Sent-Notification" width="227" height="67"/>
     </resources>
 </document>

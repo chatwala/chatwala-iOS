@@ -15,6 +15,7 @@
 typedef enum {
     eFlowToOpener,
     eFlowToStartScreen,
+    eFlowToStartScreenSent
 }eFlow;
 
 

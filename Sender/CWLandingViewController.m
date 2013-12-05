@@ -56,6 +56,24 @@
             }
             
             break;
+        case eFlowToStartScreenSent:
+            // start
+            
+            if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
+                // show auth
+                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[[CWAuthRequestViewController alloc] init]] animated:YES completion:^{
+                    //
+                }];
+            }
+            else
+            {
+                // show start
+                CWStartScreenViewController * startScreen = [[CWFlowManager sharedInstance] startScreenVC];
+                [startScreen setShowSentMessage:YES];
+                [self.navigationController pushViewController:startScreen animated:NO];
+            }
+            
+            break;
             
         case eFlowToOpener:
             // opener

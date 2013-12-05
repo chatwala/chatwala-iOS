@@ -10,4 +10,5 @@
 #import "CWOpenerViewController.h"
 @interface CWSSOpenerViewController : CWOpenerViewController
 @property (weak, nonatomic) IBOutlet UILabel *openerMessageLabel;
+@property (weak, nonatomic) IBOutlet UILabel *recordMessageLabel;
 @end
