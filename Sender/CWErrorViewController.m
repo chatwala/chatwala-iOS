@@ -9,6 +9,8 @@
 #import "CWErrorViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWVideoManager.h"
+#import "AppDelegate.h"
+#import "CWLandingViewController.h"
 
 @interface CWErrorViewController () <UIAlertViewDelegate>
 
@@ -39,7 +41,21 @@
     [self.upperView addSubview:[[[CWVideoManager sharedManager]recorder]recorderView]];
     [[[[CWVideoManager sharedManager]recorder]recorderView]setFrame:self.upperView.bounds];
     
-    [self.micErrorLabel setText:[[CWGroundControlManager sharedInstance] micErrorScreenMessage]];
+    AppDelegate * appDel = [[UIApplication sharedApplication]delegate];
+    
+    switch (appDel.landingVC.flowDirection) {
+        case eFlowToOpener:
+            // opener error string
+            [self.micErrorLabel setText:[[CWGroundControlManager sharedInstance] openerMicErrorScreenMessage]];
+            break;
+
+        case eFlowToStartScreen:
+            // start error string
+            [self.micErrorLabel setText:[[CWGroundControlManager sharedInstance] composerMicErrorScreenMessage]];
+            break;
+    }
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
