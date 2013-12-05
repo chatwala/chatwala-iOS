@@ -108,7 +108,7 @@
 - (NSString *)emailSubject
 {
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"EMAIL_SUBJECT"];
-    return value ? value:@"New Message from...";
+    return value ? value:@"Chatwala message";
 }
 
 @end
