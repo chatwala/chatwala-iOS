@@ -161,6 +161,9 @@ static NSString * AuthKeyCode           = @"code";
 
 - (BOOL)shouldShowAuth
 {
+    return NO;
+    
+    
     if ([self isAuthenticated]) {
         return NO;
     }
