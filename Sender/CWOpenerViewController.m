@@ -399,8 +399,8 @@
         NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
         [CWAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
         
-        [self killTimers];
-        self.openerState = CWOpenerPreview;
+//        [self killTimers];
+//        self.openerState = CWOpenerPreview;
     }
     else
     {
