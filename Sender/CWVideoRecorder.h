@@ -22,6 +22,7 @@
 - (void) startVideoRecording;
 - (void) stopVideoRecording;
 - (NSTimeInterval) videoLength;
+- (void)checkForMicAccess;
 @end
 
 

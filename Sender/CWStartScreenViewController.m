@@ -46,6 +46,7 @@
 //        [self.navigationController pushViewController:vc animated:YES];
 //    }
     
+    
     [[[CWVideoManager sharedManager]recorder]setupSession];
    
     
@@ -58,6 +59,7 @@
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
     [self.startScreenMessageLabel setText:[[CWGroundControlManager sharedInstance] startScreenMessage]];
+    [[[CWVideoManager sharedManager]recorder]checkForMicAccess];
 }
 - (void)viewDidAppear:(BOOL)animated
 {
