@@ -76,6 +76,8 @@
             break;
     }
     
+    [[[CWVideoManager sharedManager]recorder]checkForMicAccess];
+    
     
 }
 

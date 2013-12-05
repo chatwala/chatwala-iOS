@@ -17,7 +17,8 @@
 - (NSString*)feedbackReviewString;
 - (NSString*)startScreenMessage;
 - (NSString*)openerScreenMessage;
-- (NSString*)micErrorScreenMessage;
+- (NSString*)composerMicErrorScreenMessage;
+- (NSString*)openerMicErrorScreenMessage;
 - (NSString*)emailMessage;
 - (NSString *)emailSubject;
 - (void)refresh;

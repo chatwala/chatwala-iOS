@@ -14,6 +14,7 @@
 @property (nonatomic,weak) id<CWVideoRecorderDelegate> delegate;
 @property (nonatomic,strong) UIView * recorderView;
 @property (nonatomic,strong) NSURL * outputFileURL;
+
 - (NSURL *) tempFileURL;
 - (NSError*) setupSession;
 - (void) stopSession;
@@ -21,6 +22,7 @@
 - (void) startVideoRecording;
 - (void) stopVideoRecording;
 - (NSTimeInterval) videoLength;
+- (void)checkForMicAccess;
 @end
 
 

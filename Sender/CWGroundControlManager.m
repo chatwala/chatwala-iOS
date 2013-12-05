@@ -84,10 +84,17 @@
     return value ? value:@"Play your friend's message and record your reaction.\nThen replay, preview & send it!";
 }
 
-// ERROR_SCREEN_MESSAGE_MIC
-- (NSString *)micErrorScreenMessage
+// ERROR_SCREEN_MESSAGE_MIC_COMPOSER
+- (NSString*)composerMicErrorScreenMessage
 {
-    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"ERROR_SCREEN_MESSAGE_MIC"];
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"ERROR_SCREEN_MESSAGE_MIC_COMPOSER"];
+    return value ? value:@"Chatawala can't access your microphone. Go to your Settings app → Privacy → Microphone to enable access.";
+}
+
+// ERROR_SCREEN_MESSAGE_MIC_OPENER
+- (NSString*)openerMicErrorScreenMessage
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"ERROR_SCREEN_MESSAGE_MIC_OPENER"];
     return value ? value:@"Chatawala can't access your microphone. Go to your Settings app → Privacy → Microphone to enable access.";
 }
 // EMAIL_MESSAGE

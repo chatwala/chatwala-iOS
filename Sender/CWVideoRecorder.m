@@ -8,6 +8,9 @@
 
 #import "CWVideoRecorder.h"
 #import "AVCamRecorder.h"
+#import "AppDelegate.h"
+#import "CWErrorViewController.h"
+
 
 @interface CWVideoRecorder () <AVCamRecorderDelegate>
 {
@@ -37,9 +40,14 @@
         self.recorderView = [[UIView alloc]init];
         [self.recorderView addObserver:self forKeyPath:@"frame" options:kNilOptions context:nil];
         [self.recorderView setAlpha:0.0];
+        
+        [self checkForMicAccess];
+        
+        
     }
     return self;
 }
+
 
 - (void)dealloc
 {
@@ -53,6 +61,34 @@
     self.session = nil;
 }
 
+
+
+- (void)checkForMicAccess
+{
+    
+    
+    
+    if([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
+        [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+           if (granted) {
+                
+            }else{
+                [self presentErrorScreen];
+            }
+        }];
+    }
+}
+
+- (void)presentErrorScreen
+{
+    AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
+    CWErrorViewController * errScreen = [[CWErrorViewController alloc]init];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (![appdel.navController.visibleViewController isKindOfClass:[CWErrorViewController class]]) {
+            [appdel.navController pushViewController:errScreen animated:NO];
+        }
+    });
+}
 
 - (NSTimeInterval) videoLength
 {
@@ -89,13 +125,15 @@
     AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self frontFacingCamera] error:&err];
     if (err) {
         NSLog(@"failed to setup video input: %@",err.debugDescription);
-        return err;
+        [self presentErrorScreen];
+//        return err;
     }
     
     AVCaptureDeviceInput * audioInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self audioDevice] error:&err];
     if (err) {
         NSLog(@"failed to setup audio input: %@",err.debugDescription);
-        return err;
+//        return err;
+        [self presentErrorScreen];
     }
     
     AVCaptureSession * session = [[AVCaptureSession alloc]init];
