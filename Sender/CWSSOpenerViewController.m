@@ -38,6 +38,7 @@
 {
     [super viewWillAppear:animated];
     [self.openerMessageLabel setText:[[CWGroundControlManager sharedInstance] openerScreenMessage]];
+    [self.recordMessageLabel setText:[[CWGroundControlManager sharedInstance] replyMessage]];
     
 }
 

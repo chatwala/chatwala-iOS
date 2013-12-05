@@ -88,14 +88,14 @@
 - (NSString*)composerMicErrorScreenMessage
 {
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"ERROR_SCREEN_MESSAGE_MIC_COMPOSER"];
-    return value ? value:@"Chatawala can't access your microphone. Go to your Settings app → Privacy → Microphone to enable access.";
+    return value ? value:@"Chatawala can't access your microphone. Go to your Settings → Privacy → Microphone to enable access.";
 }
 
 // ERROR_SCREEN_MESSAGE_MIC_OPENER
 - (NSString*)openerMicErrorScreenMessage
 {
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"ERROR_SCREEN_MESSAGE_MIC_OPENER"];
-    return value ? value:@"Chatawala can't access your microphone. Go to your Settings app → Privacy → Microphone to enable access.";
+    return value ? value:@"Chatawala can't access your microphone. Go to your Settings → Privacy → Microphone to enable access.";
 }
 // EMAIL_MESSAGE
 - (NSString *)emailMessage
@@ -109,6 +109,14 @@
 {
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"EMAIL_SUBJECT"];
     return value ? value:@"Chatwala message";
+}
+
+
+// REPLY_MESSAGE
+- (NSString *)replyMessage
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"REPLY_MESSAGE"];
+    return value ? value:@"Now Reply!";
 }
 
 @end

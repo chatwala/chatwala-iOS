@@ -21,6 +21,7 @@
 - (NSString*)openerMicErrorScreenMessage;
 - (NSString*)emailMessage;
 - (NSString *)emailSubject;
+- (NSString *)replyMessage;
 - (void)refresh;
 
 @end
