@@ -124,7 +124,7 @@
     AVCaptureDeviceInput * audioInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self audioDevice] error:&err];
     if (err) {
         NSLog(@"failed to setup audio input: %@",err.debugDescription);
-        return err;
+//        return err;
     }
     
     AVCaptureSession * session = [[AVCaptureSession alloc]init];

@@ -8,6 +8,7 @@
 
 #import "CWErrorViewController.h"
 #import "CWGroundControlManager.h"
+#import "CWVideoManager.h"
 
 @interface CWErrorViewController () <UIAlertViewDelegate>
 
@@ -28,11 +29,16 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+    
+    [self.upperView addSubview:[[[CWVideoManager sharedManager]recorder]recorderView]];
+    [[[[CWVideoManager sharedManager]recorder]recorderView]setFrame:self.upperView.bounds];
+    
     [self.micErrorLabel setText:[[CWGroundControlManager sharedInstance] micErrorScreenMessage]];
 }
 
