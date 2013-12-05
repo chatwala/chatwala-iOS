@@ -8,6 +8,9 @@
 
 #import "CWVideoRecorder.h"
 #import "AVCamRecorder.h"
+#import "AppDelegate.h"
+#import "CWErrorViewController.h"
+
 
 @interface CWVideoRecorder () <AVCamRecorderDelegate>
 {
@@ -37,9 +40,14 @@
         self.recorderView = [[UIView alloc]init];
         [self.recorderView addObserver:self forKeyPath:@"frame" options:kNilOptions context:nil];
         [self.recorderView setAlpha:0.0];
+        
+        [self checkForMicAccess];
+        
+        
     }
     return self;
 }
+
 
 - (void)dealloc
 {
@@ -53,6 +61,27 @@
     self.session = nil;
 }
 
+
+
+- (void)checkForMicAccess
+{
+    
+    
+    
+    if([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
+        [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+            AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
+            if (granted) {
+                
+            }else{
+                CWErrorViewController * errScreen = [[CWErrorViewController alloc]init];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [appdel.navController pushViewController:errScreen animated:YES];
+                });
+            }
+        }];
+    }
+}
 
 - (NSTimeInterval) videoLength
 {
