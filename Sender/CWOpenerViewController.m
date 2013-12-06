@@ -65,8 +65,7 @@
 
 - (void)dealloc
 {
-    [self.player setDelegate:nil];
-    [self.recorder setDelegate:nil];
+    
 }
 
 - (void)viewDidLoad
