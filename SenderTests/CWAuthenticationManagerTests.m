@@ -40,15 +40,20 @@
     [super tearDown];
 }
 
-- (void)testShouldShowAuthReturnYesAllFlagsAreFalse
+- (void) testShouldShowAuthReturnsNo
 {
-
-    [[[self.mockSUT stub]andReturnValue:@NO]isFirstRun];
-    [[[self.mockSUT stub]andReturnValue:@NO]skippedAuth];
-    [[[self.mockSUT stub]andReturnValue:@NO]isAuthenticated];
-    
-    XCTAssertTrue([self.sut shouldShowAuth], @"should be YES");
+    XCTAssertFalse([self.sut shouldShowAuth], @"should be NO");
 }
+
+//- (void)testShouldShowAuthReturnYesAllFlagsAreFalse
+//{
+//
+//    [[[self.mockSUT stub]andReturnValue:@NO]isFirstRun];
+//    [[[self.mockSUT stub]andReturnValue:@NO]skippedAuth];
+//    [[[self.mockSUT stub]andReturnValue:@NO]isAuthenticated];
+//    
+//    XCTAssertTrue([self.sut shouldShowAuth], @"should be YES");
+//}
 
 
 

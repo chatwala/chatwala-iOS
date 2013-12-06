@@ -8,16 +8,17 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
-#import "CWComposerViewController.h"
+#import "CWSSComposerViewController.h"
 #import "CWFeedbackViewController.h"
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 
-@interface CWComposerViewController () <AVAudioPlayerDelegate>
+@interface CWComposerViewController (tests) <AVAudioPlayerDelegate>
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) CWReviewViewController * reviewVC;
+@property (nonatomic, strong) NSDate * startTime;
+
 @property (nonatomic,strong) NSTimer * recordTimer;
-@property (nonatomic,assign) NSInteger tickCount;
 - (void)startRecording;
 - (void)stopRecording;
 - (void)onTick:(NSTimer*)timer;
@@ -34,7 +35,7 @@
 {
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
-    self.sut = [[CWComposerViewController alloc]init];
+    self.sut = [[CWSSComposerViewController alloc]init];
     self.mockRecorder = [OCMockObject partialMockForObject:[[CWVideoManager sharedManager] recorder]];
 }
 
@@ -78,18 +79,26 @@
     [self.sut viewDidAppear:NO];
 }
 
-- (void)testShouldSetTickCountToMaxWhenRecordingStarts
+- (void) testShouldChangeButtonStateWhenStartReconding
 {
-    id mockSUT = [OCMockObject partialMockForObject:self.sut];
-    [[mockSUT expect]setTickCount:MAX_RECORD_TIME];
+    [self.sut view];
+    OCMockObject * middleButtonMock = [OCMockObject partialMockForObject:self.sut.middleButton];
+    [[middleButtonMock expect] setButtonState:eButtonStateStop];
+
+    [[self.mockRecorder expect]startVideoRecording];
+    
+    
     [self.sut startRecording];
-    [mockSUT stopMocking];
+    
+    [self.mockRecorder verify];
+    [middleButtonMock verify];
+    [middleButtonMock stopMocking];
 }
 
 - (void)testShouldStopRecordingWhenTimerReachesZero
 {
     [[self.mockRecorder expect]stopVideoRecording];
-    [self.sut setTickCount:1];
+    self.sut.startTime = [NSDate dateWithTimeIntervalSinceNow:-MAX_RECORD_TIME];
     [self.sut onTick:self.sut.recordTimer];
     [self.mockRecorder verify];
 }
@@ -110,18 +119,10 @@
     id mockNavController = [OCMockObject partialMockForObject:navController];
     [[mockNavController expect]pushViewController:OCMOCK_ANY animated:NO];
     
-    [self.sut setTickCount:0];
+    self.sut.startTime = [NSDate dateWithTimeIntervalSinceNow:-MAX_RECORD_TIME];
+
     [[recorder delegate]recorderRecordingFinished:recorder];
     
-}
-
-- (void)testShouldUpdateFeedbackWhenOnTickEnvoked
-{
-    [self.sut view];
-    id mockFeedbackLabel = [OCMockObject partialMockForObject:self.sut.feedbackVC.feedbackLabel];
-    [self.sut setTickCount:7];
-    [[mockFeedbackLabel expect]setText:[NSString stringWithFormat:@"Recording 0:%02d",7]];
-    [self.sut onTick:nil];
 }
 
 @end
