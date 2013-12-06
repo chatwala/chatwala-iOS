@@ -65,8 +65,8 @@
 
 - (void)dealloc
 {
-//    [self.player setDelegate:nil];
-//    [self.recorder setDelegate:nil];
+    [self.player setDelegate:nil];
+    [self.recorder setDelegate:nil];
 }
 
 - (void)viewDidLoad
@@ -115,14 +115,11 @@
 //        self.playbackView.frame = largeFrame;
 //    }
     
-    
     NSAssert(self.messageItem, @"message item must be non-nil");
     
     [self.player setVideoURL:self.messageItem.videoURL];
     
     [self setupCameraView];
-    
-    
     
     
 }
