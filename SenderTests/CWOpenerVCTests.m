@@ -8,7 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
-#import "CWOpenerViewController.h"
+#import "CWSSOpenerViewController.h"
 #import "CWFeedbackViewController.h"
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
@@ -19,9 +19,6 @@
 @property (nonatomic,strong) NSTimer * reviewCountdownTimer;
 @property (nonatomic,strong) NSTimer * reactionCountdownTimer;
 @property (nonatomic,strong) NSTimer * responseCountdownTimer;
-@property (nonatomic,assign) NSInteger reviewCountdownTickCount;
-@property (nonatomic,assign) NSInteger reactionCountdownTickCount;
-@property (nonatomic,assign) NSInteger responseCountdownTickCount;
 - (void)onResponseCountdownTick:(NSTimer*)timer;
 - (void)onReactionCountdownTick:(NSTimer*)timer;
 - (void)onReviewCountdownTick:(NSTimer*)timer;
@@ -29,6 +26,7 @@
 - (void)startReviewCountDown;
 - (void)startReactionCountDown;
 - (void)setupCameraView;
+@property (nonatomic, strong) NSDate * startTime;
 @end
 
 @interface CWOpenerVCTests : XCTestCase
@@ -48,7 +46,7 @@
 {
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
-    self.sut = [[CWOpenerViewController alloc]init];
+    self.sut = [[CWSSOpenerViewController alloc]init];
     [self.sut view];
     self.mockSUT = [OCMockObject partialMockForObject:self.sut];
     self.mockPlayer = [OCMockObject partialMockForObject:[[CWVideoManager sharedManager] player]];
@@ -190,47 +188,13 @@
 }
 
 
-- (void)testShouldCreateFeedbackVC
-{
-    XCTAssertNotNil(self.sut.feedbackVC, @"feedback should be created");
-}
-
-
-- (void)testShouldStartTheResponseCountDown
-{
-    [self.sut videoPlayerPlayToEnd:self.sut.player];
-    
-    XCTAssertEqual(self.sut.responseCountdownTickCount, MAX_RECORD_TIME, @"expecting the coutn down to be started at MAX_RECORD_TIME");
-    XCTAssertNotNil(self.sut.responseCountdownTimer, @"expecting the response timer to exist");
-    NSString * actual = self.sut.feedbackVC.feedbackLabel.text;
-    NSString * expected = [NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],MAX_RECORD_TIME];
-    XCTAssertTrue([expected isEqualToString:actual], @"expecting feedback label should match");
-    
-}
-
-- (void) testShouldUpdateFeedbackLabelWhenResponseTimerTicks{
-    
-    [self.sut setResponseCountdownTickCount:21];
-    [self.sut onResponseCountdownTick:nil];
-    NSString * actual = self.sut.feedbackVC.feedbackLabel.text;
-    NSString * expected = [NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],20];
-    XCTAssertTrue([expected isEqualToString:actual], @"expecting feedback label should match");
-}
-
-
-- (void) testShouldInvalidateResponseTimerWhenItReachesZero {
-
-    [self.sut setResponseCountdownTickCount:1];
-    [self.sut onResponseCountdownTick:nil];
-    
-    XCTAssertNil(self.sut.responseCountdownTimer, @"response timer should be nil");
-}
-
 - (void) testShouldPushToReviewVCWhenRecordingFinishes {
     
     UINavigationController * navController = [[UINavigationController alloc]initWithRootViewController:self.sut];
     id mockNavController = [OCMockObject partialMockForObject:navController];
     [[mockNavController expect]pushViewController:OCMOCK_ANY animated:NO];
+    
+    [[[self.mockSUT stub] andReturnValue:@(CWOpenerRespond)] openerState];
     
     [self.sut recorderRecordingFinished:self.sut.recorder];
     
@@ -297,32 +261,6 @@
     [self.mockRecorder verify];
 }
 
-- (void)testShouldSetReactionTickCountToZeroWhenStartReactionCountdownInvoked
-{
-
-
-    [self.sut startReactionCountDown];
-    XCTAssert(self.sut.reactionCountdownTickCount == 0, @"should be zero");
-}
-
-
-- (void) testShouldUpdateFeedbackLabelWhenReactionTimerTicks{
-    
-    [self.sut setReactionCountdownTickCount:20];
-    [self.sut onReactionCountdownTick:nil];
-    NSString * actual = self.sut.feedbackVC.feedbackLabel.text;
-    NSString * expected = [NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackReactionString],21];
-    XCTAssertTrue([expected isEqualToString:actual], @"expecting feedback label should match");
-}
-
-- (void) testShouldUpdateFeedbackLabelWhenReviewTimerTicks{
-    
-    [self.sut setResponseCountdownTickCount:21];
-    [self.sut onResponseCountdownTick:nil];
-    NSString * actual = self.sut.feedbackVC.feedbackLabel.text;
-    NSString * expected = [NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackResponseString],20];
-    XCTAssertTrue([expected isEqualToString:actual], @"expecting feedback label should match");
-}
 
 
 - (void)testShouldStopRecordingOnTouchsEnded
