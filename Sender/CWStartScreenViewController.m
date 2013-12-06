@@ -14,6 +14,8 @@
 #import "CWAuthenticationManager.h"
 #import "CWAuthRequestViewController.h"
 #import "CWGroundControlManager.h"
+#import "AppDelegate.h"
+#import "CWLandingViewController.h"
 
 @interface CWStartScreenViewController ()
 
@@ -85,6 +87,10 @@
             }];
         }];
         self.showSentMessage = NO;
+        AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
+
+        [appdel.landingVC setFlowDirection:eFlowToStartScreen];
+
     }
     /*
 
