@@ -100,6 +100,12 @@
 }
 
 
+- (void)setFlowDirection:(eFlow)flowDirection
+{
+    _flowDirection = flowDirection;
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

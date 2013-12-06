@@ -28,6 +28,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVURLAsset *asset;
+@property (nonatomic) UIBackgroundTaskIdentifier backgroundPlaybackID;
 @end
 
 
@@ -59,10 +60,20 @@ NSString * const kCurrentItemKey	= @"currentItem";
     self.player = nil;
     self.playerItem = nil;
 }
-
+- (void)setDelegate:(id<CWVideoPlayerDelegate>)delegate
+{
+    _delegate = delegate;
+}
 - (void)setVideoURL:(NSURL *)URL
 {
     _videoURL = URL;
+    if ([[UIDevice currentDevice]isMultitaskingSupported]) {
+        [self setBackgroundPlaybackID:[[UIApplication sharedApplication]beginBackgroundTaskWithExpirationHandler:^{
+            
+        } ]];
+    }
+    
+    
     // check if video file exists
     BOOL videoFileExists = [[NSFileManager defaultManager] fileExistsAtPath:URL.path];
     if (!videoFileExists) {
@@ -210,6 +221,10 @@ NSString * const kCurrentItemKey	= @"currentItem";
         AVPlayerStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
         if (status == AVPlayerStatusReadyToPlay) {
             // inform the delegate (if registered)
+            if ([[UIDevice currentDevice] isMultitaskingSupported]) {
+                [[UIApplication sharedApplication]endBackgroundTask:self.backgroundPlaybackID];
+            }
+            
             if ([self.delegate respondsToSelector:@selector(videoPlayerDidLoadVideo:)]) {
                 [self.delegate videoPlayerDidLoadVideo:self];
             }
