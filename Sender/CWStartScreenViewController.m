@@ -84,6 +84,7 @@
                 //
             }];
         }];
+        self.showSentMessage = NO;
     }
     /*
 
