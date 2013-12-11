@@ -18,7 +18,7 @@ PODS:
   - AFNetworking/UIKit (2.0.3):
     - AFNetworking/NSURLConnection
   - ARAnalytics/CoreIOS (2.3.3)
-  - ARAnalytics/GoogleAnalytics (2.3.2):
+  - ARAnalytics/GoogleAnalytics (2.3.3):
     - ARAnalytics/CoreIOS
     - GoogleAnalytics-iOS-SDK
   - ARAnalytics/TestFlight (2.3.3):
