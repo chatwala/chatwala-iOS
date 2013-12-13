@@ -23,6 +23,7 @@
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
     NSInteger playbackCount;
+ 
 }
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
@@ -91,7 +92,7 @@
     return [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
 }
 
-- (void)composeMessageWithData:(NSData*)messageData
+- (void)composeMessageWithMessageKey:(NSString*)messageKey
 {
     self.mailComposer = [[MFMailComposeViewController alloc] init];
     [self.mailComposer setMailComposeDelegate:self];
@@ -102,8 +103,10 @@
         [[self mailComposer] setToRecipients:@[self.incomingMessageItem.metadata.senderId]];
     }
     
-    [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
-    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
+//    [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
+    [[self mailComposer]  setMessageBody:[NSString stringWithFormat:@"chatwala://message/%@",messageKey] isHTML:NO];
+    
+//    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
     [self presentViewController:[self mailComposer]  animated:YES completion:nil];
 }
 
@@ -186,6 +189,7 @@
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
+        [self composeMessageWithMessageKey:[[responseObject valueForKey:@"key"]objectAtIndex:0]];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
