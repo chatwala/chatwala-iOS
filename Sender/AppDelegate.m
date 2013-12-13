@@ -124,15 +124,55 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    NSLog(@"opening URL...");
+    NSString * scheme = [url scheme];
+    if ([scheme isEqualToString:@"chatwala"]) {
+        // open remote message
+        
+        NSString * messagePath =[NSString stringWithFormat:@"%@/%@",SUBMIT_MESSAGE_ENDPOINT,[[url pathComponents] objectAtIndex:1]];
+//        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
+        
+        NSLog(@"downloading file at: %@",messagePath);
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+        
+        NSURL *URL = [NSURL URLWithString:messagePath];
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+            NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+            return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+            
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            if(error)
+            {
+                NSLog(@"error %@", error);
+            }
+            else
+            {
+                NSLog(@"File downloaded to: %@", filePath);
+                [self.landingVC setIncomingMessageZipURL:filePath];
+                [self.landingVC setFlowDirection:eFlowToOpener];
+                [self.navController popToRootViewControllerAnimated:NO];
+            }
+        }];
+        [downloadTask resume];
+        
+        
+    }else{
+        [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
+        [self.landingVC setIncomingMessageZipURL:url];
+        [self.landingVC setFlowDirection:eFlowToOpener];
+        [self.navController popToRootViewControllerAnimated:NO];
+    }
     
-    [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
+    
 
     
-    [self.landingVC setIncomingMessageZipURL:url];
-    [self.landingVC setFlowDirection:eFlowToOpener];
-    [self.navController popToRootViewControllerAnimated:NO];
+    
     return YES;
 }
+ 
 
 
 
