@@ -92,7 +92,7 @@
     return [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
 }
 
-- (void)composeMessageWithMessageKey:(NSString*)messageKey
+- (void)composeMessageWithMessageKey:(NSString*)messageURL
 {
     self.mailComposer = [[MFMailComposeViewController alloc] init];
     [self.mailComposer setMailComposeDelegate:self];
@@ -104,7 +104,7 @@
     }
     
 //    [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
-    [[self mailComposer]  setMessageBody:[NSString stringWithFormat:@"chatwala://message/%@",messageKey] isHTML:NO];
+    [[self mailComposer]  setMessageBody:messageURL isHTML:NO];
     
 //    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
     [self presentViewController:[self mailComposer]  animated:YES completion:nil];
@@ -180,7 +180,7 @@
                              @"recipient_id": message.metadata.recipientId};
     
     
-    [manager POST:CHATWALA_SUMIT_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:SUBMIT_MESSAGE_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         NSError * err = nil;
         [formData appendPartWithFileURL:message.zipURL name:@"file" error:&err];
         if (err) {
@@ -189,7 +189,7 @@
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
-        [self composeMessageWithMessageKey:[[responseObject valueForKey:@"key"]objectAtIndex:0]];
+        [self composeMessageWithMessageKey:[[responseObject valueForKey:@"url"]objectAtIndex:0]];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];

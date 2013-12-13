@@ -42,7 +42,17 @@
  *****/
 
 
-#define CHATWALA_SUMIT_ENDPOINT @"http://chatwala.azurewebsites.net/messages"
+#define LOCAL_SUMIT_ENDPOINT @"http://192.168.0.10:1337/messages"
+#define CHATWALA_SUBMIT_ENDPOINT @"http://chatwala.azurewebsites.net/messages"
+
+
+#define CHATWALA_ENDPOINTS_LOCAL 1
+#if CHATWALA_ENDPOINTS_LOCAL
+    #define SUBMIT_MESSAGE_ENDPOINT  LOCAL_SUMIT_ENDPOINT
+#else
+    #define SUBMIT_MESSAGE_ENDPOINT  CHATWALA_SUBMIT_ENDPOINT
+#endif
+
 
 // testflight app token
 #define TESTFLIGHT_APP_TOKEN        @"73919668-dae2-4921-997a-71f27ac19678"
