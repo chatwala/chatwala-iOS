@@ -177,14 +177,20 @@
                              @"recipient_id": message.metadata.recipientId};
     
     
-    
-    
-    [manager POST:@"http://chatwala.azurewebsites.net/messages" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+    [manager POST:CHATWALA_SUMIT_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        NSError * err = nil;
+        [formData appendPartWithFileURL:message.zipURL name:@"file" error:&err];
+        if (err) {
+            NSLog(@"%@",err.debugDescription);
+        }
+        
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@", responseObject);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
     
+
 }
 
 

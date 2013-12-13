@@ -42,7 +42,7 @@
  *****/
 
 
-
+#define CHATWALA_SUMIT_ENDPOINT @"http://chatwala.azurewebsites.net/messages"
 
 // testflight app token
 #define TESTFLIGHT_APP_TOKEN        @"73919668-dae2-4921-997a-71f27ac19678"
