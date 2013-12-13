@@ -128,12 +128,7 @@
 }
 
 
-- (NSData*)createMessageData
-{
-    CWMessageItem * message = [self createMessageItem];
-    [message exportZip];
-    return [NSData dataWithContentsOfURL:[message zipURL]];
-}
+
 
 - (IBAction)onRecordAgain:(id)sender {
     [player.playbackView removeFromSuperview];
@@ -167,7 +162,29 @@
     }
     
     [player stop];
-    [self composeMessageWithData:[self createMessageData]];
+//    [self composeMessageWithData:[self createMessageData]];
+    
+    // send message to backend
+    
+    CWMessageItem * message = [self createMessageItem];
+    [message exportZip];
+//    NSData * messageData = [NSData dataWithContentsOfURL:message.zipURL];
+    
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *params = @{@"message_id": message.metadata.messageId,
+                             @"sender_id": message.metadata.senderId,
+                             @"recipient_id": message.metadata.recipientId};
+    
+    
+    
+    
+    [manager POST:@"http://chatwala.azurewebsites.net/messages" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+    
 }
 
 

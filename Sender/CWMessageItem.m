@@ -24,7 +24,10 @@
         self.zipURL = [NSURL fileURLWithPath:[[self cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
         self.metadata = [[CWMetadata alloc]init];
         [self.metadata setTimestamp:[NSDate date]];
-        [self.metadata setSenderId:[[NSUserDefaults standardUserDefaults] valueForKey:CHATWALA_USER]];
+        [self.metadata setSenderId:@"unknown_sender"];
+        [self.metadata setRecipientId:@"unknown_recipient"];
+        
+         
         [self.metadata setMessageId:[[NSUUID UUID]UUIDString]];
         [self.metadata setThreadId:[[NSUUID UUID]UUIDString]];
         [self.metadata setThreadIndex:0];
