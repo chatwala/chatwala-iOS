@@ -46,7 +46,7 @@
 #define CHATWALA_SUBMIT_ENDPOINT @"http://chatwala.azurewebsites.net/messages"
 
 
-#define CHATWALA_ENDPOINTS_LOCAL 1
+#define CHATWALA_ENDPOINTS_LOCAL 0
 #if CHATWALA_ENDPOINTS_LOCAL
     #define SUBMIT_MESSAGE_ENDPOINT  LOCAL_SUMIT_ENDPOINT
 #else
