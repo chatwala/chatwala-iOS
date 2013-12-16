@@ -181,15 +181,16 @@
     
     
     [manager POST:SUBMIT_MESSAGE_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        NSError * err = nil;
-//        [formData appendPartWithFileURL:message.zipURL name:@"file" error:&err];
-//        if (err) {
-//            NSLog(@"%@",err.debugDescription);
-//        }
+        
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
+        message.metadata.messageId = [responseObject valueForKey:@"message_id"];
+        
         [self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
+        
+        [self uploadMessageWalaFile:message];
+
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
@@ -197,6 +198,34 @@
 
 }
 
+
+- (void) uploadMessageWalaFile:(CWMessageItem *) message
+{
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *params = @{@"message_id": message.metadata.messageId,
+                             @"sender_id": message.metadata.senderId,
+                             @"recipient_id": message.metadata.recipientId};
+    
+  
+    NSString * endPoint = [NSString stringWithFormat:@"%@/%@",SUBMIT_MESSAGE_ENDPOINT,message.metadata.messageId];
+    
+    [manager POST:endPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+        NSError * err = nil;
+        [formData appendPartWithFileURL:message.zipURL name:@"file" error:&err];
+        if (err) {
+            NSLog(@"%@",err.debugDescription);
+        }
+        
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@", responseObject);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+
+}
 
 #pragma mark CWVideoPlayerDelegate
 
