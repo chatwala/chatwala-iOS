@@ -182,14 +182,14 @@
     
     [manager POST:SUBMIT_MESSAGE_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         NSError * err = nil;
-        [formData appendPartWithFileURL:message.zipURL name:@"file" error:&err];
-        if (err) {
-            NSLog(@"%@",err.debugDescription);
-        }
+//        [formData appendPartWithFileURL:message.zipURL name:@"file" error:&err];
+//        if (err) {
+//            NSLog(@"%@",err.debugDescription);
+//        }
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Success: %@", responseObject);
-        [self composeMessageWithMessageKey:[[responseObject valueForKey:@"url"]objectAtIndex:0]];
+        [self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
