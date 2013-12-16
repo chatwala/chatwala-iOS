@@ -7,7 +7,7 @@
 //
 
 #import "CWMessageItem.h"
-
+#import "CWUserManager.h"
 
 
 @implementation CWMessageItem
@@ -24,7 +24,7 @@
         self.zipURL = [NSURL fileURLWithPath:[[self cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
         self.metadata = [[CWMetadata alloc]init];
         [self.metadata setTimestamp:[NSDate date]];
-        [self.metadata setSenderId:@"unknown_sender"];
+        [self.metadata setSenderId:[[CWUserManager sharedInstance] userId]];
         [self.metadata setRecipientId:@"unknown_recipient"];
         
          

@@ -10,4 +10,6 @@
 
 @interface CWUserManager : NSObject
 + (id)sharedInstance;
+
+- (NSString *) userId;
 @end
