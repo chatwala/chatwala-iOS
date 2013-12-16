@@ -16,6 +16,8 @@
 #import "CWGroundControlManager.h"
 #import "CWAuthenticationManager.h"
 #import "CWLandingViewController.h"
+#import "CWUserManager.h"
+
 
 @interface AppDelegate ()
 {
@@ -32,6 +34,7 @@
     // Override point for customization after application launch.
     [application setStatusBarHidden:YES];
     
+    [CWUserManager sharedInstance];
 
     [CWGroundControlManager sharedInstance];
     [CWAuthenticationManager sharedInstance];
