@@ -721,6 +721,11 @@
 				TargetAttributes = {
 					E9443982182940AF0088A381 = {
 						DevelopmentTeam = HTV788WGFM;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					E94439A3182940AF0088A381 = {
 						TestTargetID = E9443982182940AF0088A381;

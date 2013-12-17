@@ -33,18 +33,37 @@
     NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     if(user_id)
     {
+//        [self getUserMessages:user_id];
         return user_id;
     }
     [self getANewUserID];
     return @"unkown_user";
 }
 
+
+- (void)getUserMessages:(NSString*)user_id
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASEURL_ENDPOINT,user_id] ;
+    NSLog(@"fetching messages: %@",url);
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //
+        NSLog(@"fetched user messages: %@",responseObject);
+        NSArray * messages = [responseObject objectForKey:@"messages"];
+//        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:messages.count];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //
+        NSLog(@"failed to fecth messages");
+    }];
+}
+
 - (void)getANewUserID
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:@"http://chatwala.azurewebsites.net/register" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:REGISTER_ENDPOINT  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
-        NSString * user_id =[responseObject valueForKey:@"user_id"];
+        NSString * user_id =[[responseObject valueForKey:@"user_id"]objectAtIndex:0];
         NSLog(@"New user ID Fetched: %@",user_id);
         [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
         [[NSUserDefaults standardUserDefaults]synchronize];

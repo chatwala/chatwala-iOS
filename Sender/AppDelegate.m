@@ -55,7 +55,30 @@
     [self.window setRootViewController:self.navController];
     [self.window makeKeyAndVisible];
     
+    [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
+    
     return YES;
+}
+
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    
+    NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASEURL_ENDPOINT,user_id] ;
+    NSLog(@"fetching messages: %@",url);
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //
+        NSLog(@"fetched user messages: %@",responseObject);
+        NSArray * messages = [responseObject objectForKey:@"messages"];
+        [application setApplicationIconBadgeNumber:messages.count];
+        completionHandler(UIBackgroundFetchResultNewData);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //
+        NSLog(@"failed to fecth messages");
+        completionHandler(UIBackgroundFetchResultNoData);
+    }];
 }
 
 
@@ -69,6 +92,8 @@
 {
     [[[CWVideoManager sharedManager]recorder]stopSession];
 }
+
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application
