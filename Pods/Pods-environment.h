@@ -72,6 +72,12 @@
 #define COCOAPODS_VERSION_MINOR_BPXLUUIDHandler 0
 #define COCOAPODS_VERSION_PATCH_BPXLUUIDHandler 1
 
+// ECSlidingViewController
+#define COCOAPODS_POD_AVAILABLE_ECSlidingViewController
+#define COCOAPODS_VERSION_MAJOR_ECSlidingViewController 2
+#define COCOAPODS_VERSION_MINOR_ECSlidingViewController 0
+#define COCOAPODS_VERSION_PATCH_ECSlidingViewController 0
+
 // GTMHTTPFetcher
 #define COCOAPODS_POD_AVAILABLE_GTMHTTPFetcher
 #define COCOAPODS_VERSION_MAJOR_GTMHTTPFetcher 0

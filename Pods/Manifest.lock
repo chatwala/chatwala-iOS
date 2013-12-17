@@ -26,6 +26,7 @@ PODS:
     - BPXLUUIDHandler
     - TestFlightSDK
   - BPXLUUIDHandler (0.0.1)
+  - ECSlidingViewController (2.0.0-beta2)
   - GoogleAnalytics-iOS-SDK (3.0.2)
   - GroundControl (2.0.0):
     - AFNetworking (~> 2.0)
@@ -58,6 +59,7 @@ PODS:
 DEPENDENCIES:
   - ARAnalytics/GoogleAnalytics
   - ARAnalytics/TestFlight
+  - ECSlidingViewController
   - GroundControl
   - gtm-oauth2
   - Mantle
@@ -69,6 +71,7 @@ SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
   ARAnalytics: 11500eba605b00e208d3bad5d4638165b2c536e1
   BPXLUUIDHandler: 227f5e8f11ed1bc443f73b43fedf1bf24b47be8d
+  ECSlidingViewController: 097e5451e8628611f17ed27a6e0829fa705f7851
   GoogleAnalytics-iOS-SDK: 86393b99f7328ae8d8e975fcaa8632a39dafafe8
   GroundControl: 7246542fbddc789a448c7a60e4f4df94881972f9
   gtm-oauth2: 92e23fbb4ab77c4f441ffc95e2bbbf174ea589c1
@@ -80,4 +83,4 @@ SPEC CHECKSUMS:
   SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
   TestFlightSDK: 8f8941d0dd990508e127480b06cc6c36379c1b49
 
-COCOAPODS: 0.28.0
+COCOAPODS: 0.26.2

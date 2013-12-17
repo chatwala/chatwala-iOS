@@ -180,7 +180,7 @@
                              @"recipient_id": message.metadata.recipientId};
     
     
-    [manager POST:SUBMIT_MESSAGE_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:MESSAGE_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -208,7 +208,7 @@
                              @"recipient_id": message.metadata.recipientId};
     
   
-    NSString * endPoint = [NSString stringWithFormat:@"%@/%@",SUBMIT_MESSAGE_ENDPOINT,message.metadata.messageId];
+    NSString * endPoint = [NSString stringWithFormat:@"%@/%@",MESSAGE_ENDPOINT,message.metadata.messageId];
     
     [manager POST:endPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         

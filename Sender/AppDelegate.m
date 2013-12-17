@@ -66,7 +66,7 @@
     NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASEURL_ENDPOINT,user_id] ;
+    NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASE_URL_ENDPOINT,user_id] ;
     NSLog(@"fetching messages: %@",url);
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
@@ -157,7 +157,7 @@
     if ([scheme isEqualToString:@"chatwala"]) {
         // open remote message
         
-        NSString * messagePath =[NSString stringWithFormat:@"%@/%@",SUBMIT_MESSAGE_ENDPOINT,[[url pathComponents] objectAtIndex:1]];
+        NSString * messagePath =[NSString stringWithFormat:@"%@/%@",MESSAGE_ENDPOINT,[[url pathComponents] objectAtIndex:1]];
 //        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
         
         NSLog(@"downloading file at: %@",messagePath);

@@ -45,7 +45,7 @@
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASEURL_ENDPOINT,user_id] ;
+    NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASE_URL_ENDPOINT,user_id] ;
     NSLog(@"fetching messages: %@",url);
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
