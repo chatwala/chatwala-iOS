@@ -72,12 +72,6 @@
 #define COCOAPODS_VERSION_MINOR_BPXLUUIDHandler 0
 #define COCOAPODS_VERSION_PATCH_BPXLUUIDHandler 1
 
-// ECSlidingViewController
-#define COCOAPODS_POD_AVAILABLE_ECSlidingViewController
-#define COCOAPODS_VERSION_MAJOR_ECSlidingViewController 2
-#define COCOAPODS_VERSION_MINOR_ECSlidingViewController 0
-#define COCOAPODS_VERSION_PATCH_ECSlidingViewController 0
-
 // GTMHTTPFetcher
 #define COCOAPODS_POD_AVAILABLE_GTMHTTPFetcher
 #define COCOAPODS_VERSION_MAJOR_GTMHTTPFetcher 0
@@ -125,6 +119,12 @@
 #define COCOAPODS_VERSION_MAJOR_SVProgressHUD 1
 #define COCOAPODS_VERSION_MINOR_SVProgressHUD 0
 #define COCOAPODS_VERSION_PATCH_SVProgressHUD 0
+
+// SWRevealViewController
+#define COCOAPODS_POD_AVAILABLE_SWRevealViewController
+#define COCOAPODS_VERSION_MAJOR_SWRevealViewController 1
+#define COCOAPODS_VERSION_MINOR_SWRevealViewController 0
+#define COCOAPODS_VERSION_PATCH_SWRevealViewController 8
 
 // TestFlightSDK
 #define COCOAPODS_POD_AVAILABLE_TestFlightSDK

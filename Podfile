@@ -6,7 +6,7 @@ pod 'GroundControl'
 pod 'gtm-oauth2'
 pod 'ARAnalytics/TestFlight'
 pod 'ARAnalytics/GoogleAnalytics'
-pod 'ECSlidingViewController'
+pod 'SWRevealViewController'
 
 target :test, :exclusive => true do
   link_with 'SenderTests'

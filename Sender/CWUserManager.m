@@ -33,7 +33,7 @@
     NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     if(user_id)
     {
-//        [self getUserMessages:user_id];
+        [self getUserMessages:user_id];
         return user_id;
     }
     [self getANewUserID];
