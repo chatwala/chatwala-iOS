@@ -52,6 +52,7 @@
     [[[CWVideoManager sharedManager]recorder]setupSession];
    
     
+        
     
     
 

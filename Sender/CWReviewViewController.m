@@ -287,9 +287,12 @@
                 }else{
                     [CWAnalytics event:@"Send Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
                 }
-                AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
                 
-//                [appdel.landingVC setFlowDirection:eFlowToStartScreenSent];
+                [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+              
+                [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+                [[NSUserDefaults standardUserDefaults]synchronize];
+                
                 [[CWAuthenticationManager sharedInstance]didSkipAuth];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }

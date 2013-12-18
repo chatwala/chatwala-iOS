@@ -42,6 +42,7 @@
     
     
     [self.view addSubview:self.startScreen.view];
+    
     [self setNavMode:NavModeBurger];
 }
 

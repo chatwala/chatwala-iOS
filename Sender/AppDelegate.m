@@ -44,6 +44,9 @@
 //    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
     [CWAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
     
+    [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
     
     self.menuVC = [[CWMenuViewController alloc]init];
     self.mainVC = [[CWMainViewController alloc]init];
@@ -58,7 +61,7 @@
     self.navController.navigationBar.shadowImage = [UIImage new];
     self.navController.navigationBar.translucent = YES;
     [self.navController.navigationBar setTintColor:[UIColor whiteColor]];
-    
+
      
     self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.menuVC];
     [self.drawController setMaximumLeftDrawerWidth:200];
@@ -74,6 +77,8 @@
     
     
     [NC addObserver:self selector:@selector(onMenuButtonTapped) name:MENU_BUTTON_TAPPED object:nil];
+    [NC addObserver:self selector:@selector(onMessageSent) name:@"message_sent" object:nil];
+    
 
     /*
     self.landingVC = [[CWLandingViewController alloc]init];
@@ -89,6 +94,8 @@
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
     */
+    
+    
     return YES;
 }
 
@@ -254,6 +261,10 @@
     }
 }
 
+- (void)onMessageSent
+{
+    [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
+}
 
 
 
