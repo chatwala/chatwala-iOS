@@ -7,11 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CWViewController.h"
 @class CWMessageItem;
 @class CWMiddleButton;
-@interface CWReviewViewController : UIViewController
+
+
+@interface CWReviewViewController : CWViewController
 @property (weak, nonatomic) IBOutlet UIView *previewView;
-@property (weak, nonatomic) IBOutlet UIButton *recordAgainButton;
+
 @property (weak, nonatomic) IBOutlet CWMiddleButton *sendButton;
 @property (nonatomic,assign) NSTimeInterval startRecordingTime;
 @property (nonatomic,strong) CWMessageItem * incomingMessageItem;

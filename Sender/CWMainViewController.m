@@ -10,10 +10,7 @@
 #import "AppDelegate.h"
 #import "CWSSStartScreenViewController.h"
 
-
 @interface CWMainViewController ()
-@property (nonatomic,strong) UIButton * menuButton;
-@property (nonatomic,strong) UIBarButtonItem * menuBtn;
 @property (nonatomic,strong) CWSSStartScreenViewController * startScreen;
 @end
 
@@ -39,41 +36,16 @@
 //    [[self menuButton]setFrame:CGRectMake(20, 20, 50, 50)];
 //    [self.view addSubview:self.menuButton];
     
-    
-    
-    
-    UIButton * button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setImage:[UIImage imageNamed:@"menu_btn"] forState:UIControlStateNormal];
-    [button setFrame:CGRectMake(0, 0, 40, 40)];
-    [button addTarget:self action:@selector(onTap) forControlEvents:UIControlEventTouchUpInside];
-    self.menuBtn = [[UIBarButtonItem alloc]initWithCustomView:button];
-    [self.navigationItem setLeftBarButtonItem:self.menuBtn];
-    
-    
     self.startScreen = [[CWSSStartScreenViewController alloc]init];
     [self.startScreen.view setAlpha:0.99];
     [self addChildViewController:self.startScreen];
     
     
     [self.view addSubview:self.startScreen.view];
-    
+    [self setNavMode:NavModeBurger];
 }
 
-- (void)onTap
-{
-    AppDelegate * appdel = [[UIApplication sharedApplication]delegate];
-    if (appdel.drawController.openSide == MMDrawerSideNone) {
-        [appdel.drawController openDrawerSide:MMDrawerSideLeft animated:YES completion:^(BOOL finished) {
-            //
-        }];
-    }else{
-        [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
-            //
-        }];
-    }
-    
-    
-}
+
 
 - (void)didReceiveMemoryWarning
 {

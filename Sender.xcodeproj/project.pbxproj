@@ -76,6 +76,7 @@
 		E99094521860F5F90050695F /* CWMenuViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E99094501860F5F90050695F /* CWMenuViewController.xib */; };
 		E99094561860F6010050695F /* CWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99094541860F6010050695F /* CWMainViewController.m */; };
 		E99094571860F6010050695F /* CWMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E99094551860F6010050695F /* CWMainViewController.xib */; };
+		E990946118620AD70050695F /* CWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E990946018620AD70050695F /* CWViewController.m */; };
 		E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCF64183D45470098E530 /* CWErrorViewController.m */; };
 		E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9ABCF65183D45470098E530 /* CWErrorViewController.xib */; };
 		E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */; };
@@ -221,6 +222,8 @@
 		E99094531860F6010050695F /* CWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMainViewController.h; sourceTree = "<group>"; };
 		E99094541860F6010050695F /* CWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMainViewController.m; sourceTree = "<group>"; };
 		E99094551860F6010050695F /* CWMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWMainViewController.xib; sourceTree = "<group>"; };
+		E990945F18620AD70050695F /* CWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWViewController.h; sourceTree = "<group>"; };
+		E990946018620AD70050695F /* CWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewController.m; sourceTree = "<group>"; };
 		E9ABCF63183D45470098E530 /* CWErrorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWErrorViewController.h; sourceTree = "<group>"; };
 		E9ABCF64183D45470098E530 /* CWErrorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWErrorViewController.m; sourceTree = "<group>"; };
 		E9ABCF65183D45470098E530 /* CWErrorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWErrorViewController.xib; sourceTree = "<group>"; };
@@ -343,6 +346,8 @@
 				E99094531860F6010050695F /* CWMainViewController.h */,
 				E99094541860F6010050695F /* CWMainViewController.m */,
 				E99094551860F6010050695F /* CWMainViewController.xib */,
+				E990945F18620AD70050695F /* CWViewController.h */,
+				E990946018620AD70050695F /* CWViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -472,8 +477,7 @@
 				E9B214FB18464B9400E09DA8 /* CWAnalytics.m */,
 				E98B1687184F81F00021A611 /* UIColor+Additions.h */,
 				E98B1688184F81F00021A611 /* UIColor+Additions.m */,
-				E98B1695184F85B80021A611 /* CWMiddleButton.h */,
-				E98B1696184F85B80021A611 /* CWMiddleButton.m */,
+				E99094581861F69E0050695F /* Buttons */,
 				E98B168A184F848E0021A611 /* Third Party */,
 				E946BD231844FC0E00C6A99D /* Managers */,
 				E90F04E3182D2A53004B8CCD /* ViewControllers */,
@@ -620,6 +624,15 @@
 				E98B1690184F84B40021A611 /* DCSlider.m */,
 			);
 			name = DCControl;
+			sourceTree = "<group>";
+		};
+		E99094581861F69E0050695F /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				E98B1695184F85B80021A611 /* CWMiddleButton.h */,
+				E98B1696184F85B80021A611 /* CWMiddleButton.m */,
+			);
+			name = Buttons;
 			sourceTree = "<group>";
 		};
 		E9ABCF62183D45270098E530 /* Error */ = {
@@ -938,6 +951,7 @@
 				E99094561860F6010050695F /* CWMainViewController.m in Sources */,
 				E98B1697184F85B80021A611 /* CWMiddleButton.m in Sources */,
 				E98B1689184F81F00021A611 /* UIColor+Additions.m in Sources */,
+				E990946118620AD70050695F /* CWViewController.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
 				E924AD37183AB7CA009400DD /* CWPIPReviewViewController.m in Sources */,
 				E9344A23184CF4FB004281A9 /* CWGoogleAuthViewController.m in Sources */,

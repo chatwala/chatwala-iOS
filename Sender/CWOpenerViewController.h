@@ -10,6 +10,7 @@
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
 #import "CWMiddleButton.h"
+#import "CWViewController.h"
 
 typedef enum {
     CWOpenerPreview,
@@ -25,7 +26,7 @@ typedef enum {
 
 
 
-@interface CWOpenerViewController : UIViewController <CWVideoPlayerDelegate,CWVideoRecorderDelegate>
+@interface CWOpenerViewController : CWViewController <CWVideoPlayerDelegate,CWVideoRecorderDelegate>
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet CWMiddleButton *middleButton;

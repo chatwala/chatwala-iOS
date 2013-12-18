@@ -54,6 +54,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(goToBackground)
                                                  name:UIApplicationWillResignActiveNotification object:nil];
+    
+    [self setNavMode:NavModeClose];
 }
 
 - (void)dealloc
@@ -131,6 +133,23 @@
 }
 
 
+- (void)onTap:(id)sender
+{
+    [player.playbackView removeFromSuperview];
+    [player setDelegate:nil];
+    [player stop];
+    
+    if (self.incomingMessageItem) {
+        // responding
+        
+        [CWAnalytics event:@"Re-do Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
+        [self.navigationController popViewControllerAnimated:NO];
+    }else{
+        [CWAnalytics event:@"Re-do Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
+        [self.navigationController popToRootViewControllerAnimated:NO];
+    }
+//    [super onTap:sender];
+}
 
 
 - (IBAction)onRecordAgain:(id)sender {
@@ -270,7 +289,7 @@
                 }
                 AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
                 
-                [appdel.landingVC setFlowDirection:eFlowToStartScreenSent];
+//                [appdel.landingVC setFlowDirection:eFlowToStartScreenSent];
                 [[CWAuthenticationManager sharedInstance]didSkipAuth];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }

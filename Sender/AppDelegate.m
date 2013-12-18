@@ -20,7 +20,6 @@
 #import "CWMenuViewController.h"
 #import "CWMainViewController.h"
 
-
 @interface AppDelegate ()
 {
     BOOL isSplitScreen;
@@ -51,13 +50,14 @@
     
 //    self.landingVC = [[CWLandingViewController alloc]init];
 //    [self.landingVC setFlowDirection:eFlowToStartScreen];
-//    
+//
     
     
     self.navController = [[UINavigationController alloc]initWithRootViewController:self.mainVC];
     [self.navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     self.navController.navigationBar.shadowImage = [UIImage new];
     self.navController.navigationBar.translucent = YES;
+    [self.navController.navigationBar setTintColor:[UIColor whiteColor]];
     
      
     self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.menuVC];
@@ -72,6 +72,8 @@
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
 
     
+    
+    [NC addObserver:self selector:@selector(onMenuButtonTapped) name:MENU_BUTTON_TAPPED object:nil];
 
     /*
     self.landingVC = [[CWLandingViewController alloc]init];
@@ -135,8 +137,8 @@
     [[[CWVideoManager sharedManager]recorder]stopSession];
     [[[CWVideoManager sharedManager]recorder]stopVideoRecording];
     
-    [self.landingVC setFlowDirection:eFlowToStartScreen];
-    [self.navController popToViewController:self.landingVC animated:NO];
+//    [self.landingVC setFlowDirection:eFlowToStartScreen];
+    [self.navController popToRootViewControllerAnimated:NO];
 //    [self.navController.topViewController.navigationController popToRootViewControllerAnimated:NO];
 //    id currentVC = rootVC.topViewController;
     
@@ -185,6 +187,8 @@
 {
     NSLog(@"opening URL...");
     NSString * scheme = [url scheme];
+    CWSSOpenerViewController * openerVC = [[CWSSOpenerViewController alloc]init];
+
     if ([scheme isEqualToString:@"chatwala"]) {
         // open remote message
         
@@ -210,9 +214,12 @@
             else
             {
                 NSLog(@"File downloaded to: %@", filePath);
-                [self.landingVC setIncomingMessageZipURL:filePath];
-                [self.landingVC setFlowDirection:eFlowToOpener];
-                [self.navController popToRootViewControllerAnimated:NO];
+                [openerVC setZipURL:filePath];
+                [self.navController pushViewController:openerVC animated:NO];
+                
+//                [self.landingVC setIncomingMessageZipURL:filePath];
+//                [self.landingVC setFlowDirection:eFlowToOpener];
+//                [self.navController popToRootViewControllerAnimated:NO];
             }
         }];
         [downloadTask resume];
@@ -220,9 +227,10 @@
         
     }else{
         [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
-        [self.landingVC setIncomingMessageZipURL:url];
-        [self.landingVC setFlowDirection:eFlowToOpener];
-        [self.navController popToRootViewControllerAnimated:NO];
+//        [self.landingVC setIncomingMessageZipURL:url];
+//        [self.landingVC setFlowDirection:eFlowToOpener];
+        [openerVC setZipURL:url];
+        [self.navController pushViewController:openerVC animated:NO];
     }
     
     
@@ -231,7 +239,20 @@
     
     return YES;
 }
- 
+
+
+- (void)onMenuButtonTapped
+{
+    if (self.drawController.openSide == MMDrawerSideNone) {
+        [[self drawController]openDrawerSide:MMDrawerSideLeft animated:YES completion:^(BOOL finished) {
+            //
+        }];
+    }else{
+        [[self drawController]closeDrawerAnimated:YES completion:^(BOOL finished) {
+            //
+        }];
+    }
+}
 
 
 

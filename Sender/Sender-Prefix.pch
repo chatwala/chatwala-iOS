@@ -92,3 +92,6 @@
 #define OUTPUT_VIDEO_FILE_NAME      @"output.mp4"
 
 #define NC [NSNotificationCenter defaultCenter]
+
+#define MENU_BUTTON_TAPPED @"MENU_BUTTON_TAPPED"
+

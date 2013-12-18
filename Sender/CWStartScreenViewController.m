@@ -87,9 +87,9 @@
             }];
         }];
         self.showSentMessage = NO;
-        AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
-
-        [appdel.landingVC setFlowDirection:eFlowToStartScreen];
+//        AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
+//
+//        [appdel.landingVC setFlowDirection:eFlowToStartScreen];
 
     }
     /*

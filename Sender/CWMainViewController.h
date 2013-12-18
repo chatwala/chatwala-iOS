@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CWViewController.h"
 
-@interface CWMainViewController : UIViewController
+@interface CWMainViewController : CWViewController
 
 @end
