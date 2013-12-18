@@ -20,6 +20,16 @@
 #import "CWMenuViewController.h"
 #import "CWMainViewController.h"
 
+@interface UINavigationBar (customNav)
+@end
+
+@implementation UINavigationBar (customNav)
+- (CGSize)sizeThatFits:(CGSize)size {
+    CGSize newSize = CGSizeMake(self.frame.size.width,60);
+    return newSize;
+}
+@end
+
 @interface AppDelegate ()
 {
     BOOL isSplitScreen;
