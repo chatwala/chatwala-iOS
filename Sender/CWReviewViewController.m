@@ -221,29 +221,24 @@
 - (void) uploadMessageWalaFile:(CWMessageItem *) message
 {
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *params = @{@"message_id": message.metadata.messageId,
-                             @"sender_id": message.metadata.senderId,
-                             @"recipient_id": message.metadata.recipientId};
-    
-  
     NSString * endPoint = [NSString stringWithFormat:@"%@/%@",MESSAGE_ENDPOINT,message.metadata.messageId];
-    
-    [manager POST:endPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        
-        NSError * err = nil;
-        [formData appendPartWithFileURL:message.zipURL name:@"file" error:&err];
-        if (err) {
-            NSLog(@"%@",err.debugDescription);
-        }
-        
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Success: %@", responseObject);
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
+    NSLog(@"uploading message: %@",endPoint);
+    NSURL *URL = [NSURL URLWithString:endPoint];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    [request setHTTPMethod:@"PUT"];
 
+    AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:message.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        //
+        if (error) {
+            NSLog(@"Error: %@", error);
+        } else {
+            NSLog(@"Success: %@ %@", response, responseObject);
+        }
+    }];
+    
+    [task resume];
 }
 
 #pragma mark CWVideoPlayerDelegate
