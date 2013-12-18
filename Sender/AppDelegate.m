@@ -17,14 +17,16 @@
 #import "CWAuthenticationManager.h"
 #import "CWLandingViewController.h"
 #import "CWUserManager.h"
+#import "CWMenuViewController.h"
+#import "CWMainViewController.h"
 
 
 @interface AppDelegate ()
 {
     BOOL isSplitScreen;
 }
-
-
+@property (nonatomic,strong) CWMenuViewController * menuVC;
+@property (nonatomic,strong) CWMainViewController * mainVC;
 @end
 
 @implementation AppDelegate
@@ -42,8 +44,36 @@
     
 //    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
     [CWAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
+    
+    
+    self.menuVC = [[CWMenuViewController alloc]init];
+    self.mainVC = [[CWMainViewController alloc]init];
+    
+//    self.landingVC = [[CWLandingViewController alloc]init];
+//    [self.landingVC setFlowDirection:eFlowToStartScreen];
+//    
+    
+    
+    self.navController = [[UINavigationController alloc]initWithRootViewController:self.mainVC];
+    [self.navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navController.navigationBar.shadowImage = [UIImage new];
+    self.navController.navigationBar.translucent = YES;
+    
+     
+    self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.menuVC];
+    [self.drawController setMaximumLeftDrawerWidth:200];
+    [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModePanningCenterView|MMCloseDrawerGestureModeTapCenterView];
+    
+    self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
+    [self.window addSubview:self.drawController.view];
+    [self.window setRootViewController:self.drawController];
+    [self.window makeKeyAndVisible];
+    
+    [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
 
     
+
+    /*
     self.landingVC = [[CWLandingViewController alloc]init];
     [self.landingVC setFlowDirection:eFlowToStartScreen];
     
@@ -56,7 +86,7 @@
     [self.window makeKeyAndVisible];
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
-    
+    */
     return YES;
 }
 
@@ -80,6 +110,7 @@
         completionHandler(UIBackgroundFetchResultNoData);
     }];
 }
+
 
 
 - (void)activateSession

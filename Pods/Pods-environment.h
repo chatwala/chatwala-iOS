@@ -76,7 +76,7 @@
 #define COCOAPODS_POD_AVAILABLE_GTMHTTPFetcher
 #define COCOAPODS_VERSION_MAJOR_GTMHTTPFetcher 0
 #define COCOAPODS_VERSION_MINOR_GTMHTTPFetcher 0
-#define COCOAPODS_VERSION_PATCH_GTMHTTPFetcher 1
+#define COCOAPODS_VERSION_PATCH_GTMHTTPFetcher 2
 
 // GoogleAnalytics-iOS-SDK
 #define COCOAPODS_POD_AVAILABLE_GoogleAnalytics_iOS_SDK
@@ -89,6 +89,36 @@
 #define COCOAPODS_VERSION_MAJOR_GroundControl 2
 #define COCOAPODS_VERSION_MINOR_GroundControl 0
 #define COCOAPODS_VERSION_PATCH_GroundControl 0
+
+// MMDrawerController
+#define COCOAPODS_POD_AVAILABLE_MMDrawerController
+#define COCOAPODS_VERSION_MAJOR_MMDrawerController 0
+#define COCOAPODS_VERSION_MINOR_MMDrawerController 5
+#define COCOAPODS_VERSION_PATCH_MMDrawerController 1
+
+// MMDrawerController/Core
+#define COCOAPODS_POD_AVAILABLE_MMDrawerController_Core
+#define COCOAPODS_VERSION_MAJOR_MMDrawerController_Core 0
+#define COCOAPODS_VERSION_MINOR_MMDrawerController_Core 5
+#define COCOAPODS_VERSION_PATCH_MMDrawerController_Core 1
+
+// MMDrawerController/MMDrawerBarButtonItem
+#define COCOAPODS_POD_AVAILABLE_MMDrawerController_MMDrawerBarButtonItem
+#define COCOAPODS_VERSION_MAJOR_MMDrawerController_MMDrawerBarButtonItem 0
+#define COCOAPODS_VERSION_MINOR_MMDrawerController_MMDrawerBarButtonItem 5
+#define COCOAPODS_VERSION_PATCH_MMDrawerController_MMDrawerBarButtonItem 1
+
+// MMDrawerController/MMDrawerVisualStates
+#define COCOAPODS_POD_AVAILABLE_MMDrawerController_MMDrawerVisualStates
+#define COCOAPODS_VERSION_MAJOR_MMDrawerController_MMDrawerVisualStates 0
+#define COCOAPODS_VERSION_MINOR_MMDrawerController_MMDrawerVisualStates 5
+#define COCOAPODS_VERSION_PATCH_MMDrawerController_MMDrawerVisualStates 1
+
+// MMDrawerController/Subclass
+#define COCOAPODS_POD_AVAILABLE_MMDrawerController_Subclass
+#define COCOAPODS_VERSION_MAJOR_MMDrawerController_Subclass 0
+#define COCOAPODS_VERSION_MINOR_MMDrawerController_Subclass 5
+#define COCOAPODS_VERSION_PATCH_MMDrawerController_Subclass 1
 
 // Mantle
 #define COCOAPODS_POD_AVAILABLE_Mantle
@@ -120,12 +150,6 @@
 #define COCOAPODS_VERSION_MINOR_SVProgressHUD 0
 #define COCOAPODS_VERSION_PATCH_SVProgressHUD 0
 
-// SWRevealViewController
-#define COCOAPODS_POD_AVAILABLE_SWRevealViewController
-#define COCOAPODS_VERSION_MAJOR_SWRevealViewController 1
-#define COCOAPODS_VERSION_MINOR_SWRevealViewController 0
-#define COCOAPODS_VERSION_PATCH_SWRevealViewController 8
-
 // TestFlightSDK
 #define COCOAPODS_POD_AVAILABLE_TestFlightSDK
 #define COCOAPODS_VERSION_MAJOR_TestFlightSDK 2
@@ -136,23 +160,23 @@
 #define COCOAPODS_POD_AVAILABLE_gtm_oauth2
 #define COCOAPODS_VERSION_MAJOR_gtm_oauth2 0
 #define COCOAPODS_VERSION_MINOR_gtm_oauth2 0
-#define COCOAPODS_VERSION_PATCH_gtm_oauth2 2
+#define COCOAPODS_VERSION_PATCH_gtm_oauth2 3
 
 // gtm-oauth2/Core
 #define COCOAPODS_POD_AVAILABLE_gtm_oauth2_Core
 #define COCOAPODS_VERSION_MAJOR_gtm_oauth2_Core 0
 #define COCOAPODS_VERSION_MINOR_gtm_oauth2_Core 0
-#define COCOAPODS_VERSION_PATCH_gtm_oauth2_Core 2
+#define COCOAPODS_VERSION_PATCH_gtm_oauth2_Core 3
 
 // gtm-oauth2/Core/Mac
 #define COCOAPODS_POD_AVAILABLE_gtm_oauth2_Core_Mac
 #define COCOAPODS_VERSION_MAJOR_gtm_oauth2_Core_Mac 0
 #define COCOAPODS_VERSION_MINOR_gtm_oauth2_Core_Mac 0
-#define COCOAPODS_VERSION_PATCH_gtm_oauth2_Core_Mac 2
+#define COCOAPODS_VERSION_PATCH_gtm_oauth2_Core_Mac 3
 
 // gtm-oauth2/Core/Touch
 #define COCOAPODS_POD_AVAILABLE_gtm_oauth2_Core_Touch
 #define COCOAPODS_VERSION_MAJOR_gtm_oauth2_Core_Touch 0
 #define COCOAPODS_VERSION_MINOR_gtm_oauth2_Core_Touch 0
-#define COCOAPODS_VERSION_PATCH_gtm_oauth2_Core_Touch 2
+#define COCOAPODS_VERSION_PATCH_gtm_oauth2_Core_Touch 3
 
