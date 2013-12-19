@@ -112,6 +112,11 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    
+    if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
+        return;
+    }
+    
     UITouch * touch = [touches anyObject];
     
     

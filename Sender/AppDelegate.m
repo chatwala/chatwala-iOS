@@ -173,6 +173,7 @@
 //    [[CWVideoManager sharedManager]recorder]
     
     [self deactivateSession];
+    [[AFNetworkReachabilityManager sharedManager]stopMonitoring];
     
 }
 
@@ -196,6 +197,41 @@
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [self activateSession];
     [[CWGroundControlManager sharedInstance]refresh];
+    
+    
+    [[AFNetworkReachabilityManager sharedManager]startMonitoring];
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, -100)];
+        // Check the reachability status and show an alert if the internet connection is not available
+        switch (status) {
+            case -1:
+                // AFNetworkReachabilityStatusUnknown = -1,
+                NSLog(@"The reachability status is Unknown");
+                
+                [SVProgressHUD showWithStatus:@"Network not reachable.\nConnection Required."];
+                break;
+            case 0:
+                // AFNetworkReachabilityStatusNotReachable = 0
+                NSLog(@"The reachability status is not reachable");
+                [SVProgressHUD showWithStatus:@"Network not reachable.\nConnection Required."];
+                break;
+            case 1:
+                // AFNetworkReachabilityStatusReachableViaWWAN = 1
+                NSLog(@"The reachability status is reachable via WWAN");
+                [SVProgressHUD dismiss];
+                break;
+            case 2:
+                // AFNetworkReachabilityStatusReachableViaWiFi = 2
+                NSLog(@"The reachability status is reachable via WiFi");
+                [SVProgressHUD dismiss];
+                break;
+                
+            default:
+                break;
+        }
+        
+    }];
     
 }
 
@@ -265,6 +301,10 @@
 
 - (void)onMenuButtonTapped
 {
+    if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
+        return;
+    }
+    
     if (self.drawController.openSide == MMDrawerSideNone) {
         [[self drawController]openDrawerSide:MMDrawerSideLeft animated:YES completion:^(BOOL finished) {
             //

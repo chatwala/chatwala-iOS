@@ -42,6 +42,7 @@
             //
             NSLog(@"failed to fecth messages");
             [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
+//            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
         }];
     }
 }

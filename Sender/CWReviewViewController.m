@@ -225,6 +225,7 @@
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
+        [SVProgressHUD showErrorWithStatus:error.localizedDescription];
     }];
     
 
@@ -246,6 +247,7 @@
         //
         if (error) {
             NSLog(@"Error: %@", error);
+            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
         } else {
             NSLog(@"Success: %@ %@", response, responseObject);
         }
