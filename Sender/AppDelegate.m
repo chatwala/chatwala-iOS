@@ -118,7 +118,7 @@
     NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASE_URL_ENDPOINT,user_id] ;
+    NSString * url = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getUserMessagesEndPoint],user_id] ;
     NSLog(@"fetching messages: %@",url);
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
@@ -173,6 +173,7 @@
 //    [[CWVideoManager sharedManager]recorder]
     
     [self deactivateSession];
+    [[AFNetworkReachabilityManager sharedManager]stopMonitoring];
     
 }
 
@@ -195,7 +196,45 @@
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [self activateSession];
+    
+    NSLog(@"server environment: %@",[[CWMessageManager sharedInstance] baseEndPoint]);
+    
     [[CWGroundControlManager sharedInstance]refresh];
+    
+    
+    [[AFNetworkReachabilityManager sharedManager]startMonitoring];
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSLog(@"Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+        [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, -100)];
+        // Check the reachability status and show an alert if the internet connection is not available
+        switch (status) {
+            case -1:
+                // AFNetworkReachabilityStatusUnknown = -1,
+                NSLog(@"The reachability status is Unknown");
+                
+                [SVProgressHUD showWithStatus:@"Network not reachable.\nConnection Required."];
+                break;
+            case 0:
+                // AFNetworkReachabilityStatusNotReachable = 0
+                NSLog(@"The reachability status is not reachable");
+                [SVProgressHUD showWithStatus:@"Network not reachable.\nConnection Required."];
+                break;
+            case 1:
+                // AFNetworkReachabilityStatusReachableViaWWAN = 1
+                NSLog(@"The reachability status is reachable via WWAN");
+                [SVProgressHUD dismiss];
+                break;
+            case 2:
+                // AFNetworkReachabilityStatusReachableViaWiFi = 2
+                NSLog(@"The reachability status is reachable via WiFi");
+                [SVProgressHUD dismiss];
+                break;
+                
+            default:
+                break;
+        }
+        
+    }];
     
 }
 
@@ -214,7 +253,7 @@
     if ([scheme isEqualToString:@"chatwala"]) {
         // open remote message
         
-        NSString * messagePath =[NSString stringWithFormat:@"%@/%@",MESSAGE_ENDPOINT,[[url pathComponents] objectAtIndex:1]];
+        NSString * messagePath =[NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint],[[url pathComponents] objectAtIndex:1]];
 //        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
         
         NSLog(@"downloading file at: %@",messagePath);
@@ -263,8 +302,13 @@
 }
 
 
+
 - (void)onMenuButtonTapped
 {
+    if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
+        return;
+    }
+    
     if (self.drawController.openSide == MMDrawerSideNone) {
         [[self drawController]openDrawerSide:MMDrawerSideLeft animated:YES completion:^(BOOL finished) {
             //
@@ -280,7 +324,5 @@
 {
     [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
 }
-
-
 
 @end

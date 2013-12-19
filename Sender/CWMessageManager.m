@@ -24,6 +24,48 @@
     return shared;
 }
 
+
+- (NSString *)baseEndPoint
+{
+    NSInteger serverEnv = 0;
+    //[[[NSUserDefaults standardUserDefaults] valueForKey:@"ServerEnvironment"]integerValue];
+    if (serverEnv) {
+        // development
+        return @"http://chatwala-dev.azurewebsites.net";
+    }else{
+        // production
+        return @"http://chatwala-prod.azurewebsites.net";
+    }
+}
+
+
+- (NSString *)registerEndPoint
+{
+    return [[self baseEndPoint]stringByAppendingPathComponent:@"register"];
+}
+
+
+- (NSString *)messagesEndPoint
+{
+    return [[self baseEndPoint]stringByAppendingPathComponent:@"messages"];
+}
+
+- (NSString *)getUserMessagesEndPoint
+{
+    return [[self baseEndPoint]stringByAppendingString:@"/users/%@/messages"];
+}
+
+- (NSString *)getMessageEndPoint
+{
+    return [[self baseEndPoint]stringByAppendingString:@"/messages/%@"];
+}
+
+
+
+
+
+
+
 - (void)getMessages
 {
     if([[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"])
@@ -31,7 +73,7 @@
         NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         
-        NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASE_URL_ENDPOINT,user_id] ;
+        NSString * url = [NSString stringWithFormat:[self getUserMessagesEndPoint],user_id] ;
         NSLog(@"fetching messages: %@",url);
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             //
@@ -42,6 +84,7 @@
             //
             NSLog(@"failed to fecth messages");
             [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
+//            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
         }];
     }
 }
@@ -65,7 +108,7 @@
     AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
     NSDictionary * dict = [self.messages objectAtIndex:indexPath.row];
     
-    NSString * messagePath =[NSString stringWithFormat:@"%@/%@",MESSAGE_ENDPOINT,[dict valueForKey:@"message_id"]];
+    NSString * messagePath =[NSString stringWithFormat:[self getMessageEndPoint],[dict valueForKey:@"message_id"]];
     //        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
     
     NSLog(@"downloading file at: %@",messagePath);
