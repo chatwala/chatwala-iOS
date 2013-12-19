@@ -190,7 +190,8 @@
     
     CWMessageItem * message = [self createMessageItem];
     [message exportZip];
-//    NSData * messageData = [NSData dataWithContentsOfURL:message.zipURL];
+    
+    
     
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -213,12 +214,15 @@
             [self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
             
         }else{
-            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
-            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
-            [[NSUserDefaults standardUserDefaults]synchronize];
-            
             [[CWAuthenticationManager sharedInstance]didSkipAuth];
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+            dispatch_barrier_async(dispatch_get_main_queue(), ^{
+                [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+                [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+                [[NSUserDefaults standardUserDefaults]synchronize];
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
+            
         }
         
         
@@ -235,7 +239,7 @@
 - (void) uploadMessageWalaFile:(CWMessageItem *) message
 {
     
-    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] messagesEndPoint] ,message.metadata.messageId];
+    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint] ,message.metadata.messageId];
     NSLog(@"uploading message: %@",endPoint);
     NSURL *URL = [NSURL URLWithString:endPoint];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
