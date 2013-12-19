@@ -16,13 +16,28 @@
 #import "CWGroundControlManager.h"
 #import "CWAuthenticationManager.h"
 #import "CWLandingViewController.h"
+#import "CWUserManager.h"
+#import "CWMenuViewController.h"
+#import "CWMainViewController.h"
+#import "CWMessageManager.h"
+
+
+@interface UINavigationBar (customNav)
+@end
+
+@implementation UINavigationBar (customNav)
+- (CGSize)sizeThatFits:(CGSize)size {
+    CGSize newSize = CGSizeMake(self.frame.size.width,60);
+    return newSize;
+}
+@end
 
 @interface AppDelegate ()
 {
     BOOL isSplitScreen;
 }
-
-
+@property (nonatomic,strong) CWMenuViewController * menuVC;
+@property (nonatomic,strong) CWMainViewController * mainVC;
 @end
 
 @implementation AppDelegate
@@ -32,15 +47,53 @@
     // Override point for customization after application launch.
     [application setStatusBarHidden:YES];
     
+    [CWUserManager sharedInstance];
 
     [CWGroundControlManager sharedInstance];
     [CWAuthenticationManager sharedInstance];
     
+
     
     [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
     [CWAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
+    
+    [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    
+    self.menuVC = [[CWMenuViewController alloc]init];
+    self.mainVC = [[CWMainViewController alloc]init];
+    
+//    self.landingVC = [[CWLandingViewController alloc]init];
+//    [self.landingVC setFlowDirection:eFlowToStartScreen];
+//
+    
+    
+    self.navController = [[UINavigationController alloc]initWithRootViewController:self.mainVC];
+    [self.navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navController.navigationBar.shadowImage = [UIImage new];
+    self.navController.navigationBar.translucent = YES;
+    [self.navController.navigationBar setTintColor:[UIColor whiteColor]];
+
+     
+    self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.menuVC];
+    [self.drawController setMaximumLeftDrawerWidth:200];
+    [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModePanningCenterView|MMCloseDrawerGestureModeTapCenterView];
+    
+    self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
+    [self.window addSubview:self.drawController.view];
+    [self.window setRootViewController:self.drawController];
+    [self.window makeKeyAndVisible];
+    
+    [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
 
     
+    
+    [NC addObserver:self selector:@selector(onMenuButtonTapped) name:MENU_BUTTON_TAPPED object:nil];
+    [NC addObserver:self selector:@selector(onMessageSent) name:@"message_sent" object:nil];
+    
+
+    /*
     self.landingVC = [[CWLandingViewController alloc]init];
     [self.landingVC setFlowDirection:eFlowToStartScreen];
     
@@ -52,8 +105,36 @@
     [self.window setRootViewController:self.navController];
     [self.window makeKeyAndVisible];
     
+    [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
+    */
+    
+    
     return YES;
 }
+
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    
+    NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASE_URL_ENDPOINT,user_id] ;
+    NSLog(@"fetching messages: %@",url);
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        //
+        NSLog(@"fetched user messages: %@",responseObject);
+        NSArray * messages = [responseObject objectForKey:@"messages"];
+        [application setApplicationIconBadgeNumber:messages.count];
+        completionHandler(UIBackgroundFetchResultNewData);
+        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        //
+        NSLog(@"failed to fecth messages");
+        completionHandler(UIBackgroundFetchResultNoData);
+        [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
+    }];
+}
+
 
 
 - (void)activateSession
@@ -68,6 +149,8 @@
 }
 
 
+
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -76,8 +159,8 @@
     [[[CWVideoManager sharedManager]recorder]stopSession];
     [[[CWVideoManager sharedManager]recorder]stopVideoRecording];
     
-    [self.landingVC setFlowDirection:eFlowToStartScreen];
-    [self.navController popToViewController:self.landingVC animated:NO];
+//    [self.landingVC setFlowDirection:eFlowToStartScreen];
+    [self.navController popToRootViewControllerAnimated:NO];
 //    [self.navController.topViewController.navigationController popToRootViewControllerAnimated:NO];
 //    id currentVC = rootVC.topViewController;
     
@@ -124,16 +207,79 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    NSLog(@"opening URL...");
+    NSString * scheme = [url scheme];
+    CWSSOpenerViewController * openerVC = [[CWSSOpenerViewController alloc]init];
+
+    if ([scheme isEqualToString:@"chatwala"]) {
+        // open remote message
+        
+        NSString * messagePath =[NSString stringWithFormat:@"%@/%@",MESSAGE_ENDPOINT,[[url pathComponents] objectAtIndex:1]];
+//        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
+        
+        NSLog(@"downloading file at: %@",messagePath);
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+        
+        NSURL *URL = [NSURL URLWithString:messagePath];
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+            NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+            return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+            
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            if(error)
+            {
+                NSLog(@"error %@", error);
+            }
+            else
+            {
+                NSLog(@"File downloaded to: %@", filePath);
+                [openerVC setZipURL:filePath];
+                [self.navController pushViewController:openerVC animated:NO];
+                
+//                [self.landingVC setIncomingMessageZipURL:filePath];
+//                [self.landingVC setFlowDirection:eFlowToOpener];
+//                [self.navController popToRootViewControllerAnimated:NO];
+            }
+        }];
+        [downloadTask resume];
+        
+        
+    }else{
+        [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
+//        [self.landingVC setIncomingMessageZipURL:url];
+//        [self.landingVC setFlowDirection:eFlowToOpener];
+        [openerVC setZipURL:url];
+        [self.navController pushViewController:openerVC animated:NO];
+    }
     
-    [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
+    
 
     
-    [self.landingVC setIncomingMessageZipURL:url];
-    [self.landingVC setFlowDirection:eFlowToOpener];
-    [self.navController popToRootViewControllerAnimated:NO];
+    
     return YES;
 }
 
+
+- (void)onMenuButtonTapped
+{
+    if (self.drawController.openSide == MMDrawerSideNone) {
+        [[self drawController]openDrawerSide:MMDrawerSideLeft animated:YES completion:^(BOOL finished) {
+            //
+        }];
+    }else{
+        [[self drawController]closeDrawerAnimated:YES completion:^(BOOL finished) {
+            //
+        }];
+    }
+}
+
+- (void)onMessageSent
+{
+    [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
+}
 
 
 

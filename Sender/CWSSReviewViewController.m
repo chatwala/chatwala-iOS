@@ -8,6 +8,8 @@
 
 #import "CWSSReviewViewController.h"
 #import "CWMiddleButton.h"
+#import "CWVideoManager.h"
+
 @interface CWSSReviewViewController ()
 
 @end
@@ -28,6 +30,8 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.sendButton setButtonState:eButtonStateShare];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning

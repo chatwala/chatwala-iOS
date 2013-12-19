@@ -41,19 +41,21 @@
     [self.upperView addSubview:[[[CWVideoManager sharedManager]recorder]recorderView]];
     [[[[CWVideoManager sharedManager]recorder]recorderView]setFrame:self.upperView.bounds];
     
-    AppDelegate * appDel = [[UIApplication sharedApplication]delegate];
+//    AppDelegate * appDel = [[UIApplication sharedApplication]delegate];
+//    
+//    switch (appDel.landingVC.flowDirection) {
+//        case eFlowToOpener:
+//            // opener error string
+//            [self.micErrorLabel setText:[[CWGroundControlManager sharedInstance] openerMicErrorScreenMessage]];
+//            break;
+//
+//        case eFlowToStartScreen:
+//            // start error string
+//            [self.micErrorLabel setText:[[CWGroundControlManager sharedInstance] composerMicErrorScreenMessage]];
+//            break;
+//    }
     
-    switch (appDel.landingVC.flowDirection) {
-        case eFlowToOpener:
-            // opener error string
-            [self.micErrorLabel setText:[[CWGroundControlManager sharedInstance] openerMicErrorScreenMessage]];
-            break;
-
-        case eFlowToStartScreen:
-            // start error string
-            [self.micErrorLabel setText:[[CWGroundControlManager sharedInstance] composerMicErrorScreenMessage]];
-            break;
-    }
+    [self.micErrorLabel setText:[[CWGroundControlManager sharedInstance] openerMicErrorScreenMessage]];
     
     
 }

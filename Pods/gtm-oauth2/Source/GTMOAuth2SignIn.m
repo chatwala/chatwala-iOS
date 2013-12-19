@@ -55,6 +55,7 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
    finishedWithData:(NSData *)data
               error:(NSError *)error;
 + (NSData *)decodeWebSafeBase64:(NSString *)base64Str;
+- (void)updateGoogleUserInfoWithData:(NSData *)data;
 #endif
 
 - (void)closeTheWindow;
@@ -668,6 +669,11 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
     // Save the email into the auth object
     NSString *email = [profileDict objectForKey:@"email"];
     [auth setUserEmail:email];
+
+#if DEBUG
+    NSAssert([subjectID length] > 0 && [email length] > 0,
+             @"profile lacks userID or userEmail: %@", profileDict);
+#endif
 
     // The email_verified key is a boolean NSNumber in the userinfo
     // endpoint response, but it is a string like "true" in the id_token.

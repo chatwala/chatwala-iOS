@@ -23,6 +23,7 @@
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
     NSInteger playbackCount;
+ 
 }
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
@@ -53,6 +54,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(goToBackground)
                                                  name:UIApplicationWillResignActiveNotification object:nil];
+    
+    [self setNavMode:NavModeClose];
 }
 
 - (void)dealloc
@@ -91,7 +94,7 @@
     return [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
 }
 
-- (void)composeMessageWithData:(NSData*)messageData
+- (void)composeMessageWithMessageKey:(NSString*)messageURL
 {
     self.mailComposer = [[MFMailComposeViewController alloc] init];
     [self.mailComposer setMailComposeDelegate:self];
@@ -102,8 +105,10 @@
         [[self mailComposer] setToRecipients:@[self.incomingMessageItem.metadata.senderId]];
     }
     
-    [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
-    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
+//    [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
+    [[self mailComposer]  setMessageBody:messageURL isHTML:NO];
+    
+//    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
     [self presentViewController:[self mailComposer]  animated:YES completion:nil];
 }
 
@@ -128,12 +133,24 @@
 }
 
 
-- (NSData*)createMessageData
+- (void)onTap:(id)sender
 {
-    CWMessageItem * message = [self createMessageItem];
-    [message exportZip];
-    return [NSData dataWithContentsOfURL:[message zipURL]];
+    [player.playbackView removeFromSuperview];
+    [player setDelegate:nil];
+    [player stop];
+    
+    if (self.incomingMessageItem) {
+        // responding
+        
+        [CWAnalytics event:@"Re-do Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
+        [self.navigationController popViewControllerAnimated:NO];
+    }else{
+        [CWAnalytics event:@"Re-do Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
+        [self.navigationController popToRootViewControllerAnimated:NO];
+    }
+//    [super onTap:sender];
 }
+
 
 - (IBAction)onRecordAgain:(id)sender {
     [player.playbackView removeFromSuperview];
@@ -167,9 +184,75 @@
     }
     
     [player stop];
-    [self composeMessageWithData:[self createMessageData]];
+//    [self composeMessageWithData:[self createMessageData]];
+    
+    // send message to backend
+    
+    CWMessageItem * message = [self createMessageItem];
+    [message exportZip];
+//    NSData * messageData = [NSData dataWithContentsOfURL:message.zipURL];
+    
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    NSDictionary *params = @{@"message_id": message.metadata.messageId,
+                             @"sender_id": message.metadata.senderId,
+                             @"recipient_id": message.metadata.recipientId};
+    
+    
+    [manager POST:MESSAGE_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        
+        
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"Success: %@", responseObject);
+        message.metadata.messageId = [responseObject valueForKey:@"message_id"];
+        
+        [self uploadMessageWalaFile:message];
+        
+        if(self.incomingMessageItem==nil)
+        {
+            [self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
+            
+        }else{
+            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
+            [[CWAuthenticationManager sharedInstance]didSkipAuth];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        
+        
+
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
+    
+
 }
 
+
+- (void) uploadMessageWalaFile:(CWMessageItem *) message
+{
+    
+    NSString * endPoint = [NSString stringWithFormat:@"%@/%@",MESSAGE_ENDPOINT,message.metadata.messageId];
+    NSLog(@"uploading message: %@",endPoint);
+    NSURL *URL = [NSURL URLWithString:endPoint];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    [request setHTTPMethod:@"PUT"];
+
+    AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:message.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        //
+        if (error) {
+            NSLog(@"Error: %@", error);
+        } else {
+            NSLog(@"Success: %@ %@", response, responseObject);
+        }
+    }];
+    
+    [task resume];
+}
 
 #pragma mark CWVideoPlayerDelegate
 
@@ -182,7 +265,10 @@
 {
 //    [self.view insertSubview:self.player.playbackView belowSubview:self.recordAgainButton];
     [self.previewView addSubview:player.playbackView];
-    [player.playbackView setFrame:self.previewView.bounds];
+    self.previewView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
+    player.playbackView.frame = self.previewView.bounds;
+    
+    
     [player playVideo];
 }
 
@@ -209,9 +295,12 @@
                 }else{
                     [CWAnalytics event:@"Send Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
                 }
-                AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
                 
-                [appdel.landingVC setFlowDirection:eFlowToStartScreenSent];
+                [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+              
+                [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+                [[NSUserDefaults standardUserDefaults]synchronize];
+                
                 [[CWAuthenticationManager sharedInstance]didSkipAuth];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }

@@ -43,6 +43,7 @@
     
 //    self.middleButton = [[CWMiddleButton alloc]initWithFrame:CGRectMake(20, 20, 80, 80)];
 //    [self.view addSubview:self.middleButton];
+    [self setNavMode:NavModeClose];
     
 }
 

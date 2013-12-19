@@ -39,7 +39,6 @@
     [super viewWillAppear:animated];
     [self.openerMessageLabel setText:[[CWGroundControlManager sharedInstance] openerScreenMessage]];
     [self.recordMessageLabel setText:[[CWGroundControlManager sharedInstance] replyMessage]];
-    
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
@@ -107,7 +106,6 @@
             [CWAnalytics event:@"Start" withCategory:@"Respond" withLabel:@"" withValue:nil];
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:1.0];
-            [self.openerMessageLabel setHidden:YES];
         {
             [UIView animateWithDuration:0.3 animations:^{
                 [self.openerMessageLabel setAlpha:0];
@@ -123,11 +121,16 @@
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
-    // push to review
-    CWSSReviewViewController * reviewVC = [[CWSSReviewViewController alloc]init];
-    [reviewVC setStartRecordingTime:[self.player videoLength] - self.startRecordTime];
-    [reviewVC setIncomingMessageItem:self.messageItem];
-    [self.navigationController pushViewController:reviewVC animated:NO];
+    [super recorderRecordingFinished:recorder];
+    
+    if(self.openerState == CWOpenerRespond)
+    {
+        // push to review
+        CWSSReviewViewController * reviewVC = [[CWSSReviewViewController alloc]init];
+        [reviewVC setStartRecordingTime:[self.player videoLength] - self.startRecordTime];
+        [reviewVC setIncomingMessageItem:self.messageItem];
+        [self.navigationController pushViewController:reviewVC animated:NO];
+    }
     
 }
 

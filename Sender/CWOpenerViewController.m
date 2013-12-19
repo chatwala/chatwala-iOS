@@ -15,7 +15,7 @@
 #import "CWGroundControlManager.h"
 
 
-@interface CWOpenerViewController () <CWVideoPlayerDelegate,CWVideoRecorderDelegate>
+@interface CWOpenerViewController () 
 {
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
@@ -65,8 +65,7 @@
 
 - (void)dealloc
 {
-    [self.player setDelegate:nil];
-    [self.recorder setDelegate:nil];
+    
 }
 
 - (void)viewDidLoad
@@ -74,7 +73,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-    [self.navigationController setNavigationBarHidden:YES];
+//    [self.navigationController setNavigationBarHidden:YES];
+    [self setNavMode:NavModeClose];
 }
 
 //-(void)viewDidAppear:(BOOL)animated
@@ -132,11 +132,11 @@
             [self setOpenerState:CWOpenerReview];
             break;
         case CWOpenerReview:
+            [self setOpenerState:CWOpenerPreview];
             break;
-            
         case CWOpenerReact:
+            [self setOpenerState:CWOpenerPreview];
             break;
-            
         case CWOpenerRespond:
             [self.recorder stopVideoRecording];
             break;
@@ -168,6 +168,10 @@
              Preview State: Video Message is ready
              • update view and feedback to reflect Preview state ( in subclass )
              */
+            self.startTime = nil;
+            [self killTimers];
+            [self.player stop];
+            [self.recorder stopVideoRecording];
             [self.middleButton setMaxValue:MAX_RECORD_TIME];
             [self.middleButton setValue:0];
             break;
@@ -231,6 +235,8 @@
 
 - (void)setupCameraView
 {
+    
+    self.cameraView.frame = CGRectMake(0, 0, SCREEN_BOUNDS.size.width, SCREEN_BOUNDS.size.height*0.5);
     [self.recorder.recorderView setFrame:self.cameraView.bounds];
     [self.cameraView addSubview:self.recorder.recorderView];
     [UIView animateWithDuration:0.3 animations:^{
@@ -340,7 +346,7 @@
         
         
     }
-    NSLog(@"reponse count:%f", recordTickCount);
+//    NSLog(@"reponse count:%f", recordTickCount);
 
 
 }
@@ -352,6 +358,7 @@
     
     
     [self.playbackView addSubview:player.playbackView];
+    self.playbackView.frame = CGRectMake(0, self.view.bounds.size.height*0.5, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
     [player.playbackView setFrame:self.playbackView.bounds];
     [UIView animateWithDuration:0.3 animations:^{
         [self.playbackView setAlpha:1];
@@ -386,13 +393,31 @@
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
-    NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
-    [CWAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
+    [self killTimers];
+    if(self.openerState == CWOpenerRespond)
+    {
 
-    // push to review
-    CWReviewViewController * reviewVC = [[CWFlowManager sharedInstance]reviewVC];
-    [reviewVC setIncomingMessageItem:self.messageItem];
-    [self.navigationController pushViewController:reviewVC animated:NO];
+        NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
+        [CWAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
+        
+//        [self killTimers];
+//        self.openerState = CWOpenerPreview;
+    }
+    else
+    {
+        //add some analytics for canceled stuff
+        //stop and go back
+        switch (self.openerState) {
+            case CWOpenerReview:
+                [CWAnalytics event:@"stop and go back" withCategory:@"Review" withLabel:@"" withValue:nil];
+                break;
+            case CWOpenerReact:
+                [CWAnalytics event:@"stop and go back" withCategory:@"React" withLabel:@"" withValue:nil];
+                break;
+            default:
+                break;
+        }
+    }
 
 }
 
