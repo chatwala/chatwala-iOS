@@ -73,8 +73,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
-//    [self.navigationController setNavigationBarHidden:YES];
-    [self setNavMode:NavModeClose];
+    [self.navigationController setNavigationBarHidden:YES];
 }
 
 //-(void)viewDidAppear:(BOOL)animated
@@ -346,7 +345,7 @@
         
         
     }
-//    NSLog(@"reponse count:%f", recordTickCount);
+    NSLog(@"reponse count:%f", recordTickCount);
 
 
 }
@@ -393,7 +392,6 @@
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
-    [self killTimers];
     if(self.openerState == CWOpenerRespond)
     {
 

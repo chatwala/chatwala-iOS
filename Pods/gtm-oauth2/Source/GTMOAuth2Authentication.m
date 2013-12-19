@@ -581,11 +581,9 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
 
   NSMutableURLRequest *request = args.request;
 
-  NSURL *requestURL = [request URL];
-  NSString *scheme = [requestURL scheme];
+  NSString *scheme = [[request URL] scheme];
   BOOL isAuthorizableRequest = self.shouldAuthorizeAllRequests
-    || [scheme caseInsensitiveCompare:@"https"] == NSOrderedSame
-    || [requestURL isFileURL];
+    || [scheme caseInsensitiveCompare:@"https"] == NSOrderedSame;
   if (!isAuthorizableRequest) {
     // Request is not https, so may be insecure
     //

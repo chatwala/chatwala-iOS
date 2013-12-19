@@ -85,9 +85,7 @@
 // iOS 6 and Mac OS X 10.7, clients may simply create an operation queue for
 // callbacks on a background thread:
 //
-//   NSOperationQueue *queue = [[[NSOperationQueue alloc] init] autorelease];
-//   [queue setMaxConcurrentOperationCount:1];
-//   fetcher.delegateQueue = queue;
+//   fetcher.delegateQueue = [[[NSOperationQueue alloc] init] autorelease];
 //
 // or specify the main queue for callbacks on the main thread:
 //
@@ -263,27 +261,33 @@
   #define GTM_BACKGROUND_FETCHING 1
 #endif
 
-#ifdef __cplusplus
-extern "C" {
+#undef _EXTERN
+#undef _INITIALIZE_AS
+#ifdef GTMHTTPFETCHER_DEFINE_GLOBALS
+  #define _EXTERN
+  #define _INITIALIZE_AS(x) =x
+#else
+  #if defined(__cplusplus)
+    #define _EXTERN extern "C"
+  #else
+    #define _EXTERN extern
+  #endif
+  #define _INITIALIZE_AS(x)
 #endif
 
 // notifications
 //
 // fetch started and stopped, and fetch retry delay started and stopped
-extern NSString *const kGTMHTTPFetcherStartedNotification;
-extern NSString *const kGTMHTTPFetcherStoppedNotification;
-extern NSString *const kGTMHTTPFetcherRetryDelayStartedNotification;
-extern NSString *const kGTMHTTPFetcherRetryDelayStoppedNotification;
+_EXTERN NSString* const kGTMHTTPFetcherStartedNotification           _INITIALIZE_AS(@"kGTMHTTPFetcherStartedNotification");
+_EXTERN NSString* const kGTMHTTPFetcherStoppedNotification           _INITIALIZE_AS(@"kGTMHTTPFetcherStoppedNotification");
+_EXTERN NSString* const kGTMHTTPFetcherRetryDelayStartedNotification _INITIALIZE_AS(@"kGTMHTTPFetcherRetryDelayStartedNotification");
+_EXTERN NSString* const kGTMHTTPFetcherRetryDelayStoppedNotification _INITIALIZE_AS(@"kGTMHTTPFetcherRetryDelayStoppedNotification");
 
 // callback constants
-extern NSString *const kGTMHTTPFetcherErrorDomain;
-extern NSString *const kGTMHTTPFetcherStatusDomain;
-extern NSString *const kGTMHTTPFetcherErrorChallengeKey;
-extern NSString *const kGTMHTTPFetcherStatusDataKey;  // data returned with a kGTMHTTPFetcherStatusDomain error
-
-#ifdef __cplusplus
-}
-#endif
+_EXTERN NSString* const kGTMHTTPFetcherErrorDomain       _INITIALIZE_AS(@"com.google.GTMHTTPFetcher");
+_EXTERN NSString* const kGTMHTTPFetcherStatusDomain      _INITIALIZE_AS(@"com.google.HTTPStatus");
+_EXTERN NSString* const kGTMHTTPFetcherErrorChallengeKey _INITIALIZE_AS(@"challenge");
+_EXTERN NSString* const kGTMHTTPFetcherStatusDataKey     _INITIALIZE_AS(@"data");  // data returned with a kGTMHTTPFetcherStatusDomain error
 
 enum {
   kGTMHTTPFetcherErrorDownloadFailed = -1,
@@ -329,13 +333,8 @@ NSString *GTMSystemVersionString(void);
 
 // Make a generic name and version for the current application, like
 // com.example.MyApp/1.2.3 relying on the bundle identifier and the
-// CFBundleShortVersionString or CFBundleVersion.
-//
-// The bundle ID may be overridden as the base identifier string by
-// adding to the bundle's Info.plist a "GTMUserAgentID" key.
-//
-// If no bundle ID or override is available, the process name preceded
-// by "proc_" is used.
+// CFBundleShortVersionString or CFBundleVersion.  If no bundle ID
+// is available, the process name preceded by "proc_" is used.
 NSString *GTMApplicationIdentifier(NSBundle *bundle);
 
 #ifdef __cplusplus
@@ -384,7 +383,7 @@ NSString *GTMApplicationIdentifier(NSBundle *bundle);
 @protocol GTMFetcherAuthorizationProtocol <NSObject>
 @required
 // This protocol allows us to call the authorizer without requiring its sources
-// in this project.
+// in this project
 - (void)authorizeRequest:(NSMutableURLRequest *)request
                 delegate:(id)delegate
        didFinishSelector:(SEL)sel;
@@ -397,27 +396,12 @@ NSString *GTMApplicationIdentifier(NSBundle *bundle);
 
 - (BOOL)isAuthorizedRequest:(NSURLRequest *)request;
 
-@property (retain, readonly) NSString *userEmail;
+- (NSString *)userEmail;
 
 @optional
-
-// Indicate if authorization may be attempted. Even if this succeeds,
-// authorization may fail if the user's permissions have been revoked.
-@property (readonly) BOOL canAuthorize;
-
-// For development only, allow authorization of non-SSL requests, allowing
-// transmission of the bearer token unencrypted.
-@property (assign) BOOL shouldAuthorizeAllRequests;
-
-#if NS_BLOCKS_AVAILABLE
-- (void)authorizeRequest:(NSMutableURLRequest *)request
-       completionHandler:(void (^)(NSError *error))handler;
-#endif
-
 @property (assign) id <GTMHTTPFetcherServiceProtocol> fetcherService; // WEAK
 
 - (BOOL)primeForRefresh;
-
 @end
 
 // GTMHTTPFetcher objects are used for async retrieval of an http get or post
@@ -486,16 +470,13 @@ NSString *GTMApplicationIdentifier(NSBundle *bundle);
   NSTimeInterval minRetryInterval_; // random between 1 and 2 seconds
   NSTimeInterval retryFactor_;      // default interval multiplier is 2
   NSTimeInterval lastRetryInterval_;
-  NSDate *initialRequestDate_;
   BOOL hasAttemptedAuthRefresh_;
 
   NSString *comment_;               // comment for log
   NSString *log_;
 #if !STRIP_GTM_FETCH_LOGGING
-  NSURL *redirectedFromURL_;
   NSString *logRequestBody_;
   NSString *logResponseBody_;
-  BOOL hasLoggedError_;
   BOOL shouldDeferResponseBodyLogging_;
 #endif
 }

@@ -7,7 +7,6 @@
 //
 
 #import "CWUserManager.h"
-#import "CWMessageManager.h"
 
 @implementation CWUserManager
 + (id)sharedInstance
@@ -37,21 +36,18 @@
         return user_id;
     }
     [self getANewUserID];
-    return @"unknown_user";
+    return @"unkown_user";
 }
-
 
 - (void)getANewUserID
 {
-    NSLog(@"getting new user id: %@",REGISTER_ENDPOINT);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    [manager GET:REGISTER_ENDPOINT  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:@"http://chatwala.azurewebsites.net/register" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
-        NSString * user_id =[[responseObject valueForKey:@"user_id"]objectAtIndex:0];
+        NSString * user_id =[responseObject valueForKey:@"user_id"];
         NSLog(@"New user ID Fetched: %@",user_id);
         [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
         [[NSUserDefaults standardUserDefaults]synchronize];
-        [[CWMessageManager sharedInstance]getMessages];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@",error);
     }];

@@ -17,6 +17,8 @@
 //  GTMHTTPFetcher.m
 //
 
+#define GTMHTTPFETCHER_DEFINE_GLOBALS 1
+
 #import "GTMHTTPFetcher.h"
 
 #if GTM_BACKGROUND_FETCHING
@@ -25,17 +27,6 @@
 
 static id <GTMCookieStorageProtocol> gGTMFetcherStaticCookieStorage = nil;
 static Class gGTMFetcherConnectionClass = nil;
-
-
-NSString *const kGTMHTTPFetcherStartedNotification           = @"kGTMHTTPFetcherStartedNotification";
-NSString *const kGTMHTTPFetcherStoppedNotification           = @"kGTMHTTPFetcherStoppedNotification";
-NSString *const kGTMHTTPFetcherRetryDelayStartedNotification = @"kGTMHTTPFetcherRetryDelayStartedNotification";
-NSString *const kGTMHTTPFetcherRetryDelayStoppedNotification = @"kGTMHTTPFetcherRetryDelayStoppedNotification";
-
-NSString *const kGTMHTTPFetcherErrorDomain       = @"com.google.GTMHTTPFetcher";
-NSString *const kGTMHTTPFetcherStatusDomain      = @"com.google.HTTPStatus";
-NSString *const kGTMHTTPFetcherErrorChallengeKey = @"challenge";
-NSString *const kGTMHTTPFetcherStatusDataKey     = @"data";  // data returned with a kGTMHTTPFetcherStatusDomain error
 
 // The default max retry interview is 10 minutes for uploads (POST/PUT/PATCH),
 // 1 minute for downloads.
@@ -90,7 +81,6 @@ static NSString *const kCallbackError = @"error";
                       error:(NSError *)error;
 - (void)invokeFetchCallbacksOnDelegateQueueWithData:(NSData *)data
                                               error:(NSError *)error;
-- (void)invokeOnQueueWithDictionary:(NSDictionary *)dict;
 - (void)releaseCallbacks;
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error;
@@ -107,7 +97,6 @@ static NSString *const kCallbackError = @"error";
 @interface GTMHTTPFetcher (GTMHTTPFetcherLoggingInternal)
 - (void)setupStreamLogging;
 - (void)logFetchWithError:(NSError *)error;
-- (void)logNowWithError:(NSError *)error;
 @end
 
 @implementation GTMHTTPFetcher
@@ -153,11 +142,6 @@ static NSString *const kCallbackError = @"error";
       // Default to system default cookie storage
       [self setCookieStorageMethod:kGTMHTTPFetcherCookieStorageMethodSystemDefault];
     }
-#if !STRIP_GTM_FETCH_LOGGING
-    // Encourage developers to set the comment property or use
-    // setCommentWithFormat: by providing a default string.
-    comment_ = @"(No fetcher comment set)";
-#endif
   }
   return self;
 }
@@ -218,11 +202,9 @@ static NSString *const kCallbackError = @"error";
   [serviceHost_ release];
   [thread_ release];
   [retryTimer_ release];
-  [initialRequestDate_ release];
   [comment_ release];
   [log_ release];
 #if !STRIP_GTM_FETCH_LOGGING
-  [redirectedFromURL_ release];
   [logRequestBody_ release];
   [logResponseBody_ release];
 #endif
@@ -363,13 +345,6 @@ static NSString *const kCallbackError = @"error";
   }
 #endif
 
-  if (downloadFileHandle_ != nil) {
-    // Downloading to a file, so downloadedData_ remains nil.
-  } else {
-    self.downloadedData = [NSMutableData data];
-  }
-
-  hasConnectionEnded_ = NO;
   if ([runLoopModes_ count] == 0 && delegateQueue == nil) {
     // No custom callback modes or queue were specified, so start the connection
     // on the current run loop in the current mode
@@ -392,11 +367,17 @@ static NSString *const kCallbackError = @"error";
     }
     [connection_ start];
   }
+  hasConnectionEnded_ = NO;
 
   if (!connection_) {
     NSAssert(connection_ != nil, @"beginFetchWithDelegate could not create a connection");
-    self.downloadedData = nil;
     goto CannotBeginFetch;
+  }
+
+  if (downloadFileHandle_ != nil) {
+    // downloading to a file, so downloadedData_ remains nil
+  } else {
+    self.downloadedData = [NSMutableData data];
   }
 
 #if GTM_BACKGROUND_FETCHING
@@ -407,30 +388,19 @@ static NSString *const kCallbackError = @"error";
     if ([app respondsToSelector:@selector(beginBackgroundTaskWithExpirationHandler:)]) {
       // Tell UIApplication that we want to continue even when the app is in the
       // background.
-      NSThread *thread = delegateQueue_ ? nil : [NSThread currentThread];
+      NSThread *thread = [NSThread currentThread];
       backgroundTaskIdentifer_ = [app beginBackgroundTaskWithExpirationHandler:^{
-        // Background task expiration callback - this block is always invoked by
-        // UIApplication on the main thread.
-        if (thread) {
-          // Run the user's callbacks on the thread used to start the
-          // fetch.
-          [self performSelector:@selector(backgroundFetchExpired)
-                       onThread:thread
-                     withObject:nil
-                  waitUntilDone:YES];
-        } else {
-          // backgroundFetchExpired invokes callbacks on the provided delegate
-          // queue.
-          [self backgroundFetchExpired];
-        }
+        // Callback - this block is always invoked by UIApplication on the main
+        // thread, but we want to run the user's callbacks on the thread used
+        // to start the fetch.
+        [self performSelector:@selector(backgroundFetchExpired)
+                     onThread:thread
+                   withObject:nil
+                waitUntilDone:YES];
       }];
     }
   }
 #endif
-
-  if (!initialRequestDate_) {
-    initialRequestDate_ = [[NSDate alloc] init];
-  }
 
   // Once connection_ is non-nil we can send the start notification
   isStopNotificationNeeded_ = YES;
@@ -703,7 +673,7 @@ CannotBeginFetch:
       // this may be called in a callback from the connection, so use autorelease
       [oldConnection autorelease];
     }
-  }  // @synchronized(self)
+  }
 
   // send the stopped notification
   [self sendStopNotificationIfNeeded];
@@ -722,7 +692,7 @@ CannotBeginFetch:
                                                  error:NULL];
       self.temporaryDownloadPath = nil;
     }
-  }  // @synchronized(self)
+  }
 
   [service fetcherDidStop:self];
 
@@ -854,7 +824,7 @@ CannotBeginFetch:
       [self setMutableRequest:mutable];
     }
     return redirectRequest;
-  }  // @synchronized(self)
+  }
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
@@ -930,7 +900,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
                forAuthenticationChallenge:challenge];
         return;
       }
-    }  // @synchronized(self)
+    }
 
     // If we don't have credentials, or we've already failed auth 3x,
     // report the error, putting the challenge as a value in the userInfo
@@ -965,16 +935,10 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
 #if NS_BLOCKS_AVAILABLE
   void (^block)(NSData *, NSError *);
 #endif
-
-  // If -stopFetching is called in another thread directly after this @synchronized stanza finishes
-  // on this thread, then target and block could be released before being used in this method. So
-  // retain each until this method is done with them.
   @synchronized(self) {
-    target = [[delegate_ retain] autorelease];
+    target = delegate_;
     sel = finishedSel_;
-#if NS_BLOCKS_AVAILABLE
-    block = [[completionBlock_ retain] autorelease];
-#endif
+    block = completionBlock_;
   }
 
   [[self retain] autorelease];  // In case the callback releases us
@@ -1097,18 +1061,11 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
   @synchronized(self) {
 #if DEBUG
-    NSAssert(!hasConnectionEnded_, @"Connection received data after ending");
-
-    // The download file handle should be set or the data object allocated
-    // before the fetch is started.
+    // The download file handle should be set before the fetch is started, not
+    // after
     NSAssert((downloadFileHandle_ == nil) != (downloadedData_ == nil),
-             @"received data accumulates as either NSData (%d) or"
-             @" NSFileHandle (%d)",
-             (downloadedData_ != nil), (downloadFileHandle_ != nil));
+             @"received data accumulates as NSData or NSFileHandle, not both");
 #endif
-    // Hopefully, we'll never see this execute out-of-order, receiving data
-    // after we've received the finished or failed callback.
-    if (hasConnectionEnded_) return;
 
     if (downloadFileHandle_ != nil) {
       // Append to file
@@ -1145,7 +1102,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
       receivedDataBlock_(downloadedData_);
     }
 #endif
-  }  // @synchronized(self)
+  }
 }
 
 // For error 304's ("Not Modified") where we've cached the data, return
@@ -1201,6 +1158,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
   BOOL shouldDeferLogging = NO;
 #endif
   BOOL shouldBeginRetryTimer = NO;
+  BOOL hasLogged = NO;
 
   @synchronized(self) {
     // We no longer need to cancel the connection
@@ -1219,11 +1177,9 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 
     NSInteger status = [self statusCode];
     if ([self cachedDataForStatus] != nil) {
-#if !STRIP_GTM_FETCH_LOGGING
       // Log the pre-cache response.
       [self logNowWithError:nil];
-      hasLoggedError_ = YES;
-#endif
+      hasLogged = YES;
       status = [self statusAfterHandlingNotModifiedError];
     }
 
@@ -1248,12 +1204,10 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
       }
     } else {
       // unsuccessful
-#if !STRIP_GTM_FETCH_LOGGING
-      if (!hasLoggedError_) {
+      if (!hasLogged) {
         [self logNowWithError:nil];
-        hasLoggedError_ = YES;
+        hasLogged = YES;
       }
-#endif
       // Status over 300; retry or notify the delegate of failure
       if ([self shouldRetryNowForStatus:status error:nil]) {
         // retrying
@@ -1274,7 +1228,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
 #if !STRIP_GTM_FETCH_LOGGING
     shouldDeferLogging = shouldDeferResponseBodyLogging_;
 #endif
-  }  // @synchronized(self)
+  }
 
   if (shouldBeginRetryTimer) {
     [self beginRetryTimer];
@@ -1299,13 +1253,15 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
     [self stopFetchReleasingCallbacks:shouldRelease];
   }
 
-#if !STRIP_GTM_FETCH_LOGGING
   @synchronized(self) {
-    if (!shouldDeferLogging && !hasLoggedError_) {
+    BOOL shouldLogNow = !hasLogged;
+#if !STRIP_GTM_FETCH_LOGGING
+    if (shouldDeferLogging) shouldLogNow = NO;
+#endif
+    if (shouldLogNow) {
       [self logNowWithError:nil];
     }
   }
-#endif
 }
 
 - (BOOL)shouldReleaseCallbacksUponCompletion {
@@ -1416,21 +1372,6 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
   BOOL shouldDoIntervalRetry = [self isRetryEnabled]
     && ([self nextRetryInterval] < [self maxRetryInterval]);
 
-  if (shouldDoIntervalRetry) {
-    // If an explicit max retry interval was set, we expect repeated backoffs to take
-    // up to roughly twice that for repeated fast failures.  If the initial attempt is
-    // already more than 3 times the max retry interval, then failures have taken a long time
-    // (such as from network timeouts) so don't retry again to avoid the app becoming
-    // unexpectedly unresponsive.
-    if (maxRetryInterval_ > kUnsetMaxRetryInterval) {
-      NSTimeInterval maxAllowedIntervalBeforeRetry = maxRetryInterval_ * 3;
-      NSTimeInterval timeSinceInitialRequest = -[initialRequestDate_ timeIntervalSinceNow];
-      if (timeSinceInitialRequest > maxAllowedIntervalBeforeRetry) {
-        shouldDoIntervalRetry = NO;
-      }
-    }
-  }
-
   BOOL willRetry = NO;
   BOOL canRetry = shouldRetryForAuthRefresh || shouldDoIntervalRetry;
   if (canRetry) {
@@ -1529,7 +1470,7 @@ totalBytesExpectedToWrite:(NSInteger)totalBytesExpectedToWrite {
       retryTimer_ = nil;
       shouldNotify = YES;
     }
-  }  // @synchronized(self)
+  }
 
   if (shouldNotify) {
     NSNotificationCenter *defaultNC = [NSNotificationCenter defaultCenter];
@@ -1952,56 +1893,43 @@ NSString *GTMSystemVersionString(void) {
 // Return a generic name and version for the current application; this avoids
 // anonymous server transactions.
 NSString *GTMApplicationIdentifier(NSBundle *bundle) {
-  @synchronized([GTMHTTPFetcher class]) {
-    static NSMutableDictionary *sAppIDMap = nil;
+  static NSString *sAppID = nil;
+  if (sAppID != nil) return sAppID;
 
-    // If there's a bundle ID, use that; otherwise, use the process name
-    if (bundle == nil) {
-      bundle = [NSBundle mainBundle];
-    }
-    NSString *bundleID = [bundle bundleIdentifier];
-    if (bundleID == nil) {
-      bundleID = @"";
-    }
-
-    NSString *identifier = [sAppIDMap objectForKey:bundleID];
-    if (identifier) return identifier;
-
-    // Apps may add a string to the info.plist to uniquely identify different builds.
-    identifier = [bundle objectForInfoDictionaryKey:@"GTMUserAgentID"];
-    if ([identifier length] == 0) {
-      if ([bundleID length] > 0) {
-        identifier = bundleID;
-      } else {
-        // Fall back on the procname, prefixed by "proc" to flag that it's
-        // autogenerated and perhaps unreliable
-        NSString *procName = [[NSProcessInfo processInfo] processName];
-        identifier = [NSString stringWithFormat:@"proc_%@", procName];
-      }
-    }
-
-    // Clean up whitespace and special characters
-    identifier = GTMCleanedUserAgentString(identifier);
-
-    // If there's a version number, append that
-    NSString *version = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    if ([version length] == 0) {
-      version = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
-    }
-
-    // Clean up whitespace and special characters
-    version = GTMCleanedUserAgentString(version);
-
-    // Glue the two together (cleanup done above or else cleanup would strip the
-    // slash)
-    if ([version length] > 0) {
-      identifier = [identifier stringByAppendingFormat:@"/%@", version];
-    }
-
-    if (sAppIDMap == nil) {
-      sAppIDMap = [[NSMutableDictionary alloc] init];
-    }
-    [sAppIDMap setObject:identifier forKey:bundleID];
-    return identifier;
+  // If there's a bundle ID, use that; otherwise, use the process name
+  if (bundle == nil) {
+    bundle = [NSBundle mainBundle];
   }
+
+  NSString *identifier;
+  NSString *bundleID = [bundle bundleIdentifier];
+  if ([bundleID length] > 0) {
+    identifier = bundleID;
+  } else {
+    // Fall back on the procname, prefixed by "proc" to flag that it's
+    // autogenerated and perhaps unreliable
+    NSString *procName = [[NSProcessInfo processInfo] processName];
+    identifier = [NSString stringWithFormat:@"proc_%@", procName];
+  }
+
+  // Clean up whitespace and special characters
+  identifier = GTMCleanedUserAgentString(identifier);
+
+  // If there's a version number, append that
+  NSString *version = [bundle objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+  if ([version length] == 0) {
+    version = [bundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+  }
+
+  // Clean up whitespace and special characters
+  version = GTMCleanedUserAgentString(version);
+
+  // Glue the two together (cleanup done above or else cleanup would strip the
+  // slash)
+  if ([version length] > 0) {
+    identifier = [identifier stringByAppendingFormat:@"/%@", version];
+  }
+
+  sAppID = [identifier copy];
+  return sAppID;
 }

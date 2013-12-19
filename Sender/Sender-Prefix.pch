@@ -27,12 +27,10 @@
 //    #import <ARAnalytics/ARAnalytics.h>
 //    #import "ARAnalytics+GoogleAnalytics.h"
     #import <AFNetworking/AFNetworking.h>
-    #import <SVProgressHUD/SVProgressHUD.h>
     #import "CWAnalytics.h"
     #import "UIColor+Additions.h"
 #import "DCControl.h"
 #import "DCKnob.h"
-#import <MMDrawerController/MMDrawerController.h>
 #endif
 
 
@@ -43,25 +41,16 @@
  
  *****/
 
-#define LOCAL_REGISTER_ENDPOINT @"http://192.168.0.10:1337/register"
-#define REMOTE_REGISTER_ENDPOINT @"http://chatwala.azurewebsites.net/register"
 
-#define LOCAL_BASEURL @"http://192.168.0.10:1337"
-#define REMOTE_BASEURL @"http://chatwala.azurewebsites.net"
-
-#define LOCAL_MESSAGES_ENDPOINT @"http://192.168.0.10:1337/messages"
-#define CHATWALA_MESSAGES_ENDPOINT @"http://chatwala.azurewebsites.net/messages"
+#define LOCAL_SUMIT_ENDPOINT @"http://192.168.0.10:1337/messages"
+#define CHATWALA_SUBMIT_ENDPOINT @"http://chatwala.azurewebsites.net/messages"
 
 
 #define CHATWALA_ENDPOINTS_LOCAL 0
 #if CHATWALA_ENDPOINTS_LOCAL
-    #define REGISTER_ENDPOINT LOCAL_REGISTER_ENDPOINT
-    #define BASE_URL_ENDPOINT LOCAL_BASEURL
-    #define MESSAGE_ENDPOINT  LOCAL_MESSAGES_ENDPOINT
+    #define SUBMIT_MESSAGE_ENDPOINT  LOCAL_SUMIT_ENDPOINT
 #else
-    #define REGISTER_ENDPOINT REMOTE_REGISTER_ENDPOINT
-    #define BASE_URL_ENDPOINT REMOTE_BASEURL
-    #define MESSAGE_ENDPOINT  CHATWALA_MESSAGES_ENDPOINT
+    #define SUBMIT_MESSAGE_ENDPOINT  CHATWALA_SUBMIT_ENDPOINT
 #endif
 
 
@@ -93,6 +82,3 @@
 #define OUTPUT_VIDEO_FILE_NAME      @"output.mp4"
 
 #define NC [NSNotificationCenter defaultCenter]
-
-#define MENU_BUTTON_TAPPED @"MENU_BUTTON_TAPPED"
-

@@ -18,7 +18,7 @@
 
 
 
-@interface CWReviewViewController () <CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
+@interface CWReviewViewController () <CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
@@ -89,6 +89,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 - (NSURL*)cacheDirectoryURL
 {
     return [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
@@ -96,6 +97,11 @@
 
 - (void)composeMessageWithMessageKey:(NSString*)messageURL
 {
+
+    if ([MFMailComposeViewController canSendMail]) {
+        // Should we move composer allocation code here?
+    }
+    
     self.mailComposer = [[MFMailComposeViewController alloc] init];
     [self.mailComposer setMailComposeDelegate:self];
     [self.mailComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
@@ -112,6 +118,18 @@
     [self presentViewController:[self mailComposer]  animated:YES completion:nil];
 }
 
+- (void)composeSMSWithMessageKey:(NSString*)messageURL {
+    
+    MFMessageComposeViewController *controller = nil;
+    
+    if([MFMessageComposeViewController canSendText]) {
+        controller = [[MFMessageComposeViewController alloc] init];
+        controller.body = messageURL;
+        //controller.recipients = [NSArray arrayWithObjects:@"1(234)567-8910", nil];
+        controller.messageComposeDelegate = self;
+        [self presentViewController:controller animated:YES completion:nil];
+    }
+}
 
 - (CWMessageItem*)createMessageItem
 {
@@ -132,7 +150,6 @@
     return message;
 }
 
-
 - (void)onTap:(id)sender
 {
     [player.playbackView removeFromSuperview];
@@ -151,7 +168,6 @@
 //    [super onTap:sender];
 }
 
-
 - (IBAction)onRecordAgain:(id)sender {
     [player.playbackView removeFromSuperview];
     [player setDelegate:nil];
@@ -166,9 +182,6 @@
         [CWAnalytics event:@"Re-do Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
         [self.navigationController popToRootViewControllerAnimated:NO];
     }
-    
-    
-    
 }
 
 - (IBAction)onSend:(id)sender {
@@ -176,11 +189,8 @@
         // responding
         [CWAnalytics event:@"Send Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
         
-        
     }else{
         [CWAnalytics event:@"Send Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
-
-        
     }
     
     [player stop];
@@ -206,6 +216,10 @@
         NSLog(@"Success: %@", responseObject);
         message.metadata.messageId = [responseObject valueForKey:@"message_id"];
         
+        
+        // Need to add functionality here to allow SMS or Email to be configurable
+        //[self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
+        [self composeSMSWithMessageKey:[responseObject valueForKey:@"url"]];
         [self uploadMessageWalaFile:message];
         
         if(self.incomingMessageItem==nil)
@@ -226,10 +240,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
     }];
-    
-
 }
-
 
 - (void) uploadMessageWalaFile:(CWMessageItem *) message
 {
@@ -282,10 +293,50 @@
     
 }
 
+#pragma mark - MFMessageComposeViewControllerDelegate
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result {
+    NSLog(@"Received callback from text message");
+    
+    // TODO: This code is similar to the email version, we should remove the duplication soon.
+    switch (result) {
+        case MessageComposeResultSent:
+        {
+            if (self.incomingMessageItem) {
+                [CWAnalytics event:@"Send SMS" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
+            }else{
+                [CWAnalytics event:@"Send SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
+            }
+            
+            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+            
+            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
+            [[CWAuthenticationManager sharedInstance]didSkipAuth];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        break;
+            
+        case MessageComposeResultCancelled:
+            if (self.incomingMessageItem) {
+                [CWAnalytics event:@"Cancel SMS" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
+            }else{
+                [CWAnalytics event:@"Cancel SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
+            }
+            [self.player replayVideo];
+            break;
+        default:
+            [self.player replayVideo];
+            break;
+    }
+    
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark MFMailComposeViewControllerDelegate
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
-    
     
     switch (result) {
         case MFMailComposeResultSent:
