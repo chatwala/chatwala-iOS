@@ -54,6 +54,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(goToBackground)
                                                  name:UIApplicationWillResignActiveNotification object:nil];
+    
+    [self setNavMode:NavModeClose];
 }
 
 - (void)dealloc
@@ -148,6 +150,23 @@
     return message;
 }
 
+- (void)onTap:(id)sender
+{
+    [player.playbackView removeFromSuperview];
+    [player setDelegate:nil];
+    [player stop];
+    
+    if (self.incomingMessageItem) {
+        // responding
+        
+        [CWAnalytics event:@"Re-do Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
+        [self.navigationController popViewControllerAnimated:NO];
+    }else{
+        [CWAnalytics event:@"Re-do Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
+        [self.navigationController popToRootViewControllerAnimated:NO];
+    }
+//    [super onTap:sender];
+}
 
 - (IBAction)onRecordAgain:(id)sender {
     [player.playbackView removeFromSuperview];
@@ -190,7 +209,7 @@
                              @"recipient_id": message.metadata.recipientId};
     
     
-    [manager POST:SUBMIT_MESSAGE_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:MESSAGE_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -201,8 +220,22 @@
         // Need to add functionality here to allow SMS or Email to be configurable
         //[self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
         [self composeSMSWithMessageKey:[responseObject valueForKey:@"url"]];
-        
         [self uploadMessageWalaFile:message];
+        
+        if(self.incomingMessageItem==nil)
+        {
+            [self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
+            
+        }else{
+            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
+            [[CWAuthenticationManager sharedInstance]didSkipAuth];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        
+        
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
@@ -212,29 +245,24 @@
 - (void) uploadMessageWalaFile:(CWMessageItem *) message
 {
     
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *params = @{@"message_id": message.metadata.messageId,
-                             @"sender_id": message.metadata.senderId,
-                             @"recipient_id": message.metadata.recipientId};
-    
-  
-    NSString * endPoint = [NSString stringWithFormat:@"%@/%@",SUBMIT_MESSAGE_ENDPOINT,message.metadata.messageId];
-    
-    [manager POST:endPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        
-        NSError * err = nil;
-        [formData appendPartWithFileURL:message.zipURL name:@"file" error:&err];
-        if (err) {
-            NSLog(@"%@",err.debugDescription);
-        }
-        
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Success: %@", responseObject);
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-    }];
+    NSString * endPoint = [NSString stringWithFormat:@"%@/%@",MESSAGE_ENDPOINT,message.metadata.messageId];
+    NSLog(@"uploading message: %@",endPoint);
+    NSURL *URL = [NSURL URLWithString:endPoint];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    [request setHTTPMethod:@"PUT"];
 
+    AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:message.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        //
+        if (error) {
+            NSLog(@"Error: %@", error);
+        } else {
+            NSLog(@"Success: %@ %@", response, responseObject);
+        }
+    }];
+    
+    [task resume];
 }
 
 #pragma mark CWVideoPlayerDelegate
@@ -279,13 +307,16 @@
             }else{
                 [CWAnalytics event:@"Send SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
             }
-            AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
             
-            [appdel.landingVC setFlowDirection:eFlowToStartScreenSent];
+            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+            
+            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
             [[CWAuthenticationManager sharedInstance]didSkipAuth];
             [self.navigationController popToRootViewControllerAnimated:YES];
         }
-            break;
+        break;
             
         case MessageComposeResultCancelled:
             if (self.incomingMessageItem) {
@@ -315,9 +346,12 @@
                 }else{
                     [CWAnalytics event:@"Send Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
                 }
-                AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
                 
-                [appdel.landingVC setFlowDirection:eFlowToStartScreenSent];
+                [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+              
+                [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+                [[NSUserDefaults standardUserDefaults]synchronize];
+                
                 [[CWAuthenticationManager sharedInstance]didSkipAuth];
                 [self.navigationController popToRootViewControllerAnimated:YES];
             }
