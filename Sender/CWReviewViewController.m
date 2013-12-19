@@ -15,7 +15,7 @@
 #import "AppDelegate.h"
 #import "CWLandingViewController.h"
 #import "CWGroundControlManager.h"
-
+#import "CWMessageManager.h"
 
 
 @interface CWReviewViewController () <CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
@@ -199,7 +199,7 @@
                              @"recipient_id": message.metadata.recipientId};
     
     
-    [manager POST:MESSAGE_ENDPOINT parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [manager POST:[[CWMessageManager sharedInstance] messagesEndPoint] parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         
         
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -235,7 +235,7 @@
 - (void) uploadMessageWalaFile:(CWMessageItem *) message
 {
     
-    NSString * endPoint = [NSString stringWithFormat:@"%@/%@",MESSAGE_ENDPOINT,message.metadata.messageId];
+    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] messagesEndPoint] ,message.metadata.messageId];
     NSLog(@"uploading message: %@",endPoint);
     NSURL *URL = [NSURL URLWithString:endPoint];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];

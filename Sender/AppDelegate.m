@@ -118,7 +118,7 @@
     NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASE_URL_ENDPOINT,user_id] ;
+    NSString * url = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getUserMessagesEndPoint],user_id] ;
     NSLog(@"fetching messages: %@",url);
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
@@ -196,6 +196,9 @@
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [self activateSession];
+    
+    NSLog(@"server environment: %@",[[CWMessageManager sharedInstance] baseEndPoint]);
+    
     [[CWGroundControlManager sharedInstance]refresh];
     
     
@@ -250,7 +253,7 @@
     if ([scheme isEqualToString:@"chatwala"]) {
         // open remote message
         
-        NSString * messagePath =[NSString stringWithFormat:@"%@/%@",MESSAGE_ENDPOINT,[[url pathComponents] objectAtIndex:1]];
+        NSString * messagePath =[NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint],[[url pathComponents] objectAtIndex:1]];
 //        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
         
         NSLog(@"downloading file at: %@",messagePath);
@@ -299,6 +302,7 @@
 }
 
 
+
 - (void)onMenuButtonTapped
 {
     if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
@@ -320,7 +324,5 @@
 {
     [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
 }
-
-
 
 @end
