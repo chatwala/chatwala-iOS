@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CWMenuViewController : UIViewController
-
+@property (nonatomic,weak) IBOutlet UITableView * messagesTable;
+@property (nonatomic,weak) IBOutlet UILabel * messagesLabel;
 @end

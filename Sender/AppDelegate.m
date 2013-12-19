@@ -19,6 +19,8 @@
 #import "CWUserManager.h"
 #import "CWMenuViewController.h"
 #import "CWMainViewController.h"
+#import "CWMessageManager.h"
+
 
 @interface UINavigationBar (customNav)
 @end
@@ -50,6 +52,7 @@
     [CWGroundControlManager sharedInstance];
     [CWAuthenticationManager sharedInstance];
     
+
     
 //    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
     [CWAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];

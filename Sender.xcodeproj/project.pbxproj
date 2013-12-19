@@ -77,6 +77,7 @@
 		E99094561860F6010050695F /* CWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E99094541860F6010050695F /* CWMainViewController.m */; };
 		E99094571860F6010050695F /* CWMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E99094551860F6010050695F /* CWMainViewController.xib */; };
 		E990946118620AD70050695F /* CWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E990946018620AD70050695F /* CWViewController.m */; };
+		E9909464186231BF0050695F /* CWMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9909463186231BF0050695F /* CWMessageManager.m */; };
 		E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCF64183D45470098E530 /* CWErrorViewController.m */; };
 		E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9ABCF65183D45470098E530 /* CWErrorViewController.xib */; };
 		E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */; };
@@ -224,6 +225,8 @@
 		E99094551860F6010050695F /* CWMainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWMainViewController.xib; sourceTree = "<group>"; };
 		E990945F18620AD70050695F /* CWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWViewController.h; sourceTree = "<group>"; };
 		E990946018620AD70050695F /* CWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewController.m; sourceTree = "<group>"; };
+		E9909462186231BF0050695F /* CWMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageManager.h; sourceTree = "<group>"; };
+		E9909463186231BF0050695F /* CWMessageManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageManager.m; sourceTree = "<group>"; };
 		E9ABCF63183D45470098E530 /* CWErrorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWErrorViewController.h; sourceTree = "<group>"; };
 		E9ABCF64183D45470098E530 /* CWErrorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWErrorViewController.m; sourceTree = "<group>"; };
 		E9ABCF65183D45470098E530 /* CWErrorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWErrorViewController.xib; sourceTree = "<group>"; };
@@ -546,6 +549,8 @@
 				E9ABCFB4183E60F00098E530 /* Auth Manager */,
 				E9ABCFB1183E5D960098E530 /* GroundControl Manager */,
 				E946BD241844FC2200C6A99D /* Video Manager */,
+				E9909462186231BF0050695F /* CWMessageManager.h */,
+				E9909463186231BF0050695F /* CWMessageManager.m */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -944,6 +949,7 @@
 				E98B1692184F84B40021A611 /* DCKnob.m in Sources */,
 				E98B1691184F84B40021A611 /* DCControl.m in Sources */,
 				E96C1501183FABB200DA9B85 /* CWAuthRequestViewController.m in Sources */,
+				E9909464186231BF0050695F /* CWMessageManager.m in Sources */,
 				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,

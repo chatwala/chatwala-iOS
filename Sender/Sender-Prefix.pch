@@ -43,8 +43,8 @@
  
  *****/
 
-#define LOCAL_REGISTER_ENDPOINT @"http://192.168.0.10:1337"
-#define REMOTE_REGISTER_ENDPOINT @"http://chatwala.azurewebsites.net"
+#define LOCAL_REGISTER_ENDPOINT @"http://192.168.0.10:1337/register"
+#define REMOTE_REGISTER_ENDPOINT @"http://chatwala.azurewebsites.net/register"
 
 #define LOCAL_BASEURL @"http://192.168.0.10:1337"
 #define REMOTE_BASEURL @"http://chatwala.azurewebsites.net"
@@ -53,7 +53,7 @@
 #define CHATWALA_MESSAGES_ENDPOINT @"http://chatwala.azurewebsites.net/messages"
 
 
-#define CHATWALA_ENDPOINTS_LOCAL 0
+#define CHATWALA_ENDPOINTS_LOCAL 1
 #if CHATWALA_ENDPOINTS_LOCAL
     #define REGISTER_ENDPOINT LOCAL_REGISTER_ENDPOINT
     #define BASE_URL_ENDPOINT LOCAL_BASEURL

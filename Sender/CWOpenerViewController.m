@@ -346,7 +346,7 @@
         
         
     }
-    NSLog(@"reponse count:%f", recordTickCount);
+//    NSLog(@"reponse count:%f", recordTickCount);
 
 
 }
@@ -393,6 +393,7 @@
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
+    [self killTimers];
     if(self.openerState == CWOpenerRespond)
     {
 
