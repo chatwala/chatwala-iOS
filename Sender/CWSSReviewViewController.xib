@@ -33,6 +33,10 @@
                         <constraint firstAttribute="width" constant="90" id="Xsq-I2-dAC"/>
                     </constraints>
                 </view>
+                <imageView userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Top-Left-Blue" translatesAutoresizingMaskIntoConstraints="NO" id="gYe-mF-4DX">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
@@ -45,5 +49,6 @@
     </objects>
     <resources>
         <image name="Chatwala-White-BG" width="320" height="568"/>
+        <image name="Top-Left-Blue" width="198" height="198"/>
     </resources>
 </document>
