@@ -34,31 +34,13 @@
     NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     if(user_id)
     {
-//        [self getUserMessages:user_id];
         return user_id;
     }
     [self getANewUserID];
     return @"unknown_user";
 }
 
-//
-//- (void)getUserMessages:(NSString*)user_id
-//{
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    
-//    NSString * url = [NSString stringWithFormat:@"%@/users/%@/messages",BASE_URL_ENDPOINT,user_id] ;
-//    NSLog(@"fetching messages: %@",url);
-//    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        //
-//        NSLog(@"fetched user messages: %@",responseObject);
-//        NSArray * messages = [responseObject objectForKey:@"messages"];
-////        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:messages.count];
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        //
-//        NSLog(@"failed to fecth messages");
-//    }];
-//}
-//
+
 - (void)getANewUserID
 {
     NSLog(@"getting new user id: %@",REGISTER_ENDPOINT);

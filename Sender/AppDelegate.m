@@ -126,10 +126,12 @@
         NSArray * messages = [responseObject objectForKey:@"messages"];
         [application setApplicationIconBadgeNumber:messages.count];
         completionHandler(UIBackgroundFetchResultNewData);
+        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //
         NSLog(@"failed to fecth messages");
         completionHandler(UIBackgroundFetchResultNoData);
+        [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
     }];
 }
 

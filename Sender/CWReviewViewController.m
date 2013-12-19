@@ -206,9 +206,22 @@
         NSLog(@"Success: %@", responseObject);
         message.metadata.messageId = [responseObject valueForKey:@"message_id"];
         
-        [self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
-        
         [self uploadMessageWalaFile:message];
+        
+        if(self.incomingMessageItem==nil)
+        {
+            [self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
+            
+        }else{
+            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
+            [[CWAuthenticationManager sharedInstance]didSkipAuth];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+        
+        
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
