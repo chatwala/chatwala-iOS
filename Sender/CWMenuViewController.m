@@ -8,6 +8,7 @@
 
 #import "CWMenuViewController.h"
 #import "CWMessageManager.h"
+#import "CWMessageCell.h"
 
 @interface CWMenuViewController ()
 @property (nonatomic,strong) UIRefreshControl * refreshControl;
@@ -28,7 +29,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self.messagesTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"messageCell"];
+//    [self.messagesTable registerClass:[CWMessageCell class] forCellReuseIdentifier:@"messageCell"];
     [self.messagesTable setDelegate:[CWMessageManager sharedInstance]];
     [self.messagesTable setDataSource:[CWMessageManager sharedInstance]];
     

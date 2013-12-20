@@ -10,6 +10,7 @@
 		36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E814C9185FB78A002B1A12 /* CWUserManager.m */; };
 		5A22DD32AA184288BEC932AA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8B4EC8D342465796C4A37E /* libPods.a */; };
 		82380876CA9D496387191727 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5043C247C54257A2FCABFE /* libPods-test.a */; };
+		CC0C4BA01864D78C0096D5B3 /* CWMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CC0C4B9F1864D78C0096D5B3 /* CWMessageCell.m */; };
 		E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D3182AA41A004B8CCD /* AssetItem.m */; };
 		E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D6182AA430004B8CCD /* VideoLibrary.m */; };
 		E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D9182BEA71004B8CCD /* CWMessageItem.m */; };
@@ -124,6 +125,8 @@
 		36E814C9185FB78A002B1A12 /* CWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserManager.m; sourceTree = "<group>"; };
 		810134A78491415EBDC34438 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		BC8B4EC8D342465796C4A37E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC0C4B9E1864D78C0096D5B3 /* CWMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageCell.h; sourceTree = "<group>"; };
+		CC0C4B9F1864D78C0096D5B3 /* CWMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCell.m; sourceTree = "<group>"; };
 		DA5043C247C54257A2FCABFE /* libPods-test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90F04D2182AA41A004B8CCD /* AssetItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetItem.h; sourceTree = "<group>"; };
 		E90F04D3182AA41A004B8CCD /* AssetItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetItem.m; sourceTree = "<group>"; };
@@ -325,6 +328,8 @@
 				E990944E1860F5F90050695F /* CWMenuViewController.h */,
 				E990944F1860F5F90050695F /* CWMenuViewController.m */,
 				E99094501860F5F90050695F /* CWMenuViewController.xib */,
+				CC0C4B9E1864D78C0096D5B3 /* CWMessageCell.h */,
+				CC0C4B9F1864D78C0096D5B3 /* CWMessageCell.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -976,6 +981,7 @@
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
 				E9B214FC18464B9400E09DA8 /* CWAnalytics.m in Sources */,
 				E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */,
+				CC0C4BA01864D78C0096D5B3 /* CWMessageCell.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,

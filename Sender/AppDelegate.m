@@ -290,7 +290,12 @@
 //        [self.landingVC setIncomingMessageZipURL:url];
 //        [self.landingVC setFlowDirection:eFlowToOpener];
         [self.openerVC setZipURL:url];
-        [self.navController pushViewController:self.openerVC animated:NO];
+        if ([self.navController.topViewController isEqual:self.openerVC]) {
+            // already showing opener
+        }else{
+            [self.navController pushViewController:self.openerVC animated:NO];
+        }
+        
     }
     
     
