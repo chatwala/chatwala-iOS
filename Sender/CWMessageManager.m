@@ -22,7 +22,7 @@
 {
     self = [super init];
     if (self) {
-        useLocalServer = YES;
+        useLocalServer = NO;
     }
     return self;
 }
