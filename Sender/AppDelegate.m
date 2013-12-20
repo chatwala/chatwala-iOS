@@ -54,7 +54,7 @@
     
 
     
-//    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
+    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
     [CWAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
     
     [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
