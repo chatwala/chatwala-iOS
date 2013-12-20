@@ -74,7 +74,8 @@
     // Do any additional setup after loading the view from its nib.
     
 //    [self.navigationController setNavigationBarHidden:YES];
-    [self setNavMode:NavModeClose];
+    [self setNavMode:NavModeNone];
+    [self.navigationItem setHidesBackButton:YES];
 }
 
 //-(void)viewDidAppear:(BOOL)animated
