@@ -142,40 +142,62 @@
     AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
     NSDictionary * dict = [self.messages objectAtIndex:indexPath.row];
     
-    NSString * messagePath =[NSString stringWithFormat:[self getMessageEndPoint],[dict valueForKey:@"message_id"]];
-    //        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
-    
-    NSLog(@"downloading file at: %@",messagePath);
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    
-    NSURL *URL = [NSURL URLWithString:messagePath];
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     
-    NSProgress * progress;
+    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[[dict valueForKey:@"message_id"] stringByAppendingString:@".zip"]];
     
+    NSLog(@"checking localPath: %@",localPath);
     
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
-        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+    if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
         
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        if(error)
-        {
-            NSLog(@"error %@", error);
-        }
-        else
-        {
-            NSLog(@"File downloaded to: %@", filePath);
-            [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
-                [appdel application:[UIApplication sharedApplication] openURL:filePath sourceApplication:nil annotation:nil];
-            }];
-        }
-    }];
+        NSLog(@"MESSAGE ALREADY DOWNLOADED!!");
+        [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
+            [appdel application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:localPath] sourceApplication:nil annotation:nil];
+        }];
+        
+    }else{
     
-    [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
-    [downloadTask resume];
+
+        
+        
+        
+        NSString * messagePath =[NSString stringWithFormat:[self getMessageEndPoint],[dict valueForKey:@"message_id"]];
+        
+        
+        //        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
+        
+        NSLog(@"downloading file at: %@",messagePath);
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+        
+        NSURL *URL = [NSURL URLWithString:messagePath];
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        
+        
+        NSProgress * progress;
+        
+        
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+            NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+            return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+            
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            if(error)
+            {
+                NSLog(@"error %@", error);
+            }
+            else
+            {
+                NSLog(@"File downloaded to: %@", filePath);
+                [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
+                    [appdel application:[UIApplication sharedApplication] openURL:filePath sourceApplication:nil annotation:nil];
+                }];
+            }
+        }];
+        
+        [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
+        [downloadTask resume];
+    }
 }
 
 - (void)updateProgressView:(NSNumber*)p

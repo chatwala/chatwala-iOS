@@ -258,6 +258,16 @@
     [self.messageItem setZipURL:self.zipURL];
     [self.messageItem extractZip];
     startRecordTime = self.messageItem.metadata.startRecording;
+    @try {
+        [self.player setVideoURL:self.messageItem.videoURL];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    }
+    @finally {
+        
+    }
+    
     
 }
 
