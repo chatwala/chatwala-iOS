@@ -10,11 +10,23 @@
 #import "AppDelegate.h"
 
 @interface CWMessageManager ()
-
+{
+    BOOL useLocalServer;
+}
 @end
 
 
 @implementation CWMessageManager
+
+- (id)init
+{
+    self = [super init];
+    if (self) {
+        useLocalServer = YES;
+    }
+    return self;
+}
+
 +(instancetype) sharedInstance {
     static dispatch_once_t pred;
     static id shared = nil;
@@ -27,6 +39,11 @@
 
 - (NSString *)baseEndPoint
 {
+    if (useLocalServer) {
+        return @"http://192.168.0.10:1337";
+    }
+    
+    
     NSInteger serverEnv = 0;
     //[[[NSUserDefaults standardUserDefaults] valueForKey:@"ServerEnvironment"]integerValue];
     if (serverEnv) {
