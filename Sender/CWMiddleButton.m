@@ -64,6 +64,12 @@
         [self.iconImage setContentMode:UIViewContentModeCenter];
         [self addSubview:self.iconImage];
         
+        
+        self.button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [self.button setFrame:self.bounds];
+        [self addSubview:self.button];
+        
+        
     }
     return self;
 }

@@ -19,6 +19,7 @@ typedef enum {
 
 
 @interface CWMiddleButton : UIView <DCControlDelegate>
+@property (nonatomic,strong) UIButton * button;
 - (void)setMinValue:(CGFloat)minValue;
 - (void)setMaxValue:(CGFloat)maxValue;
 - (void)setValue:(CGFloat)value;

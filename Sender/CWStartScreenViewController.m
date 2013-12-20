@@ -39,6 +39,7 @@
     [self.navigationController setNavigationBarHidden:YES];
     [self.sentMessageView setAlpha:0];
     
+    [self.middleButton.button addTarget:self action:@selector(onMiddleButtonTap) forControlEvents:UIControlEventTouchUpInside];
 
 //    NSError * error = [[[CWVideoManager sharedManager]recorder]setupSession];
 //    if (error) {
@@ -110,23 +111,14 @@
 }
 
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)onMiddleButtonTap
 {
     
     if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
         return;
     }
     
-    UITouch * touch = [touches anyObject];
-    
-    
-    BOOL wasButton = CGRectContainsPoint(self.startButton.frame, [touch locationInView:self.view]);
-    
-    if (wasButton) {
-        [CWAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Button" withValue:nil];
-    }else{
-        [CWAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Screen" withValue:nil];
-    }
+    [CWAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Button" withValue:nil];
     CWComposerViewController * composerVC = [[CWFlowManager sharedInstance]composeVC];
     [self.navigationController pushViewController:composerVC animated:NO];
 }

@@ -44,6 +44,7 @@
 - (void)startReviewCountDown;
 - (void)startReactionCountDown;
 - (void)setupCameraView;
+- (void)onMiddleButtonTap;
 
 @end
 
@@ -76,6 +77,7 @@
 //    [self.navigationController setNavigationBarHidden:YES];
     [self setNavMode:NavModeNone];
     [self.navigationItem setHidesBackButton:YES];
+    [self.middleButton.button addTarget:self action:@selector(onMiddleButtonTap) forControlEvents:UIControlEventTouchUpInside];
 }
 
 //-(void)viewDidAppear:(BOOL)animated
@@ -125,7 +127,7 @@
     
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)onMiddleButtonTap
 {
     
     switch (self.openerState) {
