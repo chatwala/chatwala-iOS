@@ -177,6 +177,7 @@
             [self.recorder stopVideoRecording];
             [self.middleButton setMaxValue:MAX_RECORD_TIME];
             [self.middleButton setValue:0];
+            [self setNavMode:NavModeBurger];
             break;
             
             
@@ -203,7 +204,7 @@
                 [self startReviewCountDown];
             }
             
-            
+            [self setNavMode:NavModeNone];
             break;
             
             
@@ -218,6 +219,7 @@
              
              */
             [self startReactionCountDown];
+            [self setNavMode:NavModeNone];
             break;
             
             
@@ -232,6 +234,7 @@
              
              */
             [self startResponseCountDown];
+            [self setNavMode:NavModeNone];
             break;
     }
 }
