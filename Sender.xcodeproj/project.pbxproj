@@ -319,6 +319,26 @@
 			name = "User Manager";
 			sourceTree = "<group>";
 		};
+		CC0C4B9C1864D34E0096D5B3 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				E990944E1860F5F90050695F /* CWMenuViewController.h */,
+				E990944F1860F5F90050695F /* CWMenuViewController.m */,
+				E99094501860F5F90050695F /* CWMenuViewController.xib */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
+		CC0C4B9D1864D3570096D5B3 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				E99094531860F6010050695F /* CWMainViewController.h */,
+				E99094541860F6010050695F /* CWMainViewController.m */,
+				E99094551860F6010050695F /* CWMainViewController.xib */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
 		E90F04D1182A9078004B8CCD /* AVCam */ = {
 			isa = PBXGroup;
 			children = (
@@ -345,12 +365,8 @@
 				E924AD32183AB718009400DD /* Review */,
 				E96C14FA183FAB7A00DA9B85 /* Feedback */,
 				E9ABCF62183D45270098E530 /* Error */,
-				E990944E1860F5F90050695F /* CWMenuViewController.h */,
-				E990944F1860F5F90050695F /* CWMenuViewController.m */,
-				E99094501860F5F90050695F /* CWMenuViewController.xib */,
-				E99094531860F6010050695F /* CWMainViewController.h */,
-				E99094541860F6010050695F /* CWMainViewController.m */,
-				E99094551860F6010050695F /* CWMainViewController.xib */,
+				CC0C4B9C1864D34E0096D5B3 /* Menu */,
+				CC0C4B9D1864D3570096D5B3 /* Main */,
 				E990945F18620AD70050695F /* CWViewController.h */,
 				E990946018620AD70050695F /* CWViewController.m */,
 			);
