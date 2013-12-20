@@ -248,8 +248,7 @@
 {
     NSLog(@"opening URL...");
     NSString * scheme = [url scheme];
-    CWSSOpenerViewController * openerVC = [[CWSSOpenerViewController alloc]init];
-
+  
     if ([scheme isEqualToString:@"chatwala"]) {
         // open remote message
         
@@ -275,8 +274,8 @@
             else
             {
                 NSLog(@"File downloaded to: %@", filePath);
-                [openerVC setZipURL:filePath];
-                [self.navController pushViewController:openerVC animated:NO];
+                [self.openerVC setZipURL:filePath];
+                [self.navController pushViewController:self.openerVC animated:NO];
                 
 //                [self.landingVC setIncomingMessageZipURL:filePath];
 //                [self.landingVC setFlowDirection:eFlowToOpener];
@@ -290,8 +289,8 @@
         [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
 //        [self.landingVC setIncomingMessageZipURL:url];
 //        [self.landingVC setFlowDirection:eFlowToOpener];
-        [openerVC setZipURL:url];
-        [self.navController pushViewController:openerVC animated:NO];
+        [self.openerVC setZipURL:url];
+        [self.navController pushViewController:self.openerVC animated:NO];
     }
     
     
@@ -301,6 +300,15 @@
     return YES;
 }
 
+
+- (CWSSOpenerViewController *)openerVC
+{
+    if (_openerVC == nil) {
+        _openerVC = [[CWSSOpenerViewController alloc]init];
+    }
+    
+    return _openerVC;
+}
 
 
 - (void)onMenuButtonTapped
