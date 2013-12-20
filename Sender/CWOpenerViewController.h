@@ -36,5 +36,5 @@ typedef enum {
 @property (nonatomic,strong) CWVideoRecorder * recorder;
 @property (nonatomic,strong) CWMessageItem * messageItem;
 @property (nonatomic,assign) NSTimeInterval startRecordTime;
-
+- (void)onMiddleButtonTap;
 @end

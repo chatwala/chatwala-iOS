@@ -41,19 +41,10 @@
     [self.recordMessageLabel setText:[[CWGroundControlManager sharedInstance] replyMessage]];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)onMiddleButtonTap
 {
-    [super touchesEnded:touches withEvent:event];
-
-    UITouch * touch = [touches anyObject];
-    BOOL wasButton = CGRectContainsPoint(self.middleButton.frame, [touch locationInView:self.view]);
-    
-    if (wasButton) {
-        [CWAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Button" withValue:nil];
-    }else{
-        [CWAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Screen" withValue:nil];
-    }
-    
+    [super onMiddleButtonTap];
+    [CWAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Button" withValue:nil];
 }
 
 - (void)setOpenerState:(CWOpenerState)openerState

@@ -30,6 +30,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.sendButton setButtonState:eButtonStateShare];
+    [self.sendButton.button addTarget:self action:@selector(onMiddleButtonTap) forControlEvents:UIControlEventTouchUpInside];
     
     
 }
@@ -40,9 +41,8 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)onMiddleButtonTap
 {
-    [super touchesEnded:touches withEvent:event];
     [self onSend:nil];
 }
 

@@ -40,6 +40,7 @@
     [self.view addSubview:self.feedbackVC.view];
     self.feedbackVC.view.frame = self.view.bounds;
     [self.feedbackVC.view setHidden:YES];
+    [self.middleButton.button addTarget:self action:@selector(onMiddleButtonTap) forControlEvents:UIControlEventTouchUpInside];
     
 //    self.middleButton = [[CWMiddleButton alloc]initWithFrame:CGRectMake(20, 20, 80, 80)];
 //    [self.view addSubview:self.middleButton];
@@ -62,7 +63,7 @@
 }
 
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+- (void)onMiddleButtonTap
 {
     [self stopRecording];
 }
