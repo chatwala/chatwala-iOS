@@ -246,9 +246,26 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+   
+    
+    
     NSLog(@"opening URL...");
     NSString * scheme = [url scheme];
+    NSString * messageId = [[url pathComponents]lastObject];
   
+    if ([scheme isEqualToString:@"chatwala"]) {
+        [[CWMessageManager sharedInstance]downloadMessageWithID:messageId progress:nil completion:^(BOOL success, NSURL *url) {
+            // fin
+            [self.openerVC setZipURL:url];
+            if ([self.navController.topViewController isEqual:self.openerVC]) {
+                // already showing opener
+            }else{
+                [self.navController pushViewController:self.openerVC animated:NO];
+            }
+        }];
+    }
+    
+    /*
     if ([scheme isEqualToString:@"chatwala"]) {
         // open remote message
         
@@ -310,7 +327,7 @@
     }
     
     
-
+    */
     
     
     return YES;
