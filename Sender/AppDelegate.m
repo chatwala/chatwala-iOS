@@ -200,6 +200,7 @@
     NSLog(@"server environment: %@",[[CWMessageManager sharedInstance] baseEndPoint]);
     
     [[CWGroundControlManager sharedInstance]refresh];
+    [[CWMessageManager sharedInstance]getMessages];
     
     
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
