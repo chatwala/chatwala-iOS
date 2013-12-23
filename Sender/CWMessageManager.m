@@ -166,16 +166,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
-    
-    if (cell==nil) {
-        cell = [[CWMessageCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"messageCell"];
-    }
-    
+    CWMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
     NSDictionary * dict = [self.messages objectAtIndex:indexPath.row];
-    [cell.textLabel setText:[dict valueForKey:@"message_id"]];
-    [cell.detailTextLabel setText:[dict valueForKey:@"sender_id"]];
-    cell.tag = indexPath.row;
+//    [cell.textLabel setText:[dict valueForKey:@"message_id"]];
+//    [cell setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[dict valueForKey:@"thumbnail"]]]]];
+    [cell setMessageData:dict];
     return cell;
 }
 
@@ -285,5 +280,6 @@
 {
     return self.messages.count;
 }
+
 
 @end

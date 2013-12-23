@@ -20,6 +20,7 @@
 - (NSString*)composerMicErrorScreenMessage;
 - (NSString*)openerMicErrorScreenMessage;
 - (NSString*)emailMessage;
+- (NSString*)smsMessage;
 - (NSString *)emailSubject;
 - (NSString *)replyMessage;
 - (void)refresh;

@@ -2,12 +2,13 @@
 //  CWMessageCell.h
 //  Sender
 //
-//  Created by k on 12/20/13.
+//  Created by Khalid on 12/23/13.
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 @interface CWMessageCell : UITableViewCell
+- (void)setMessageData:(NSDictionary*)data;
 @property (nonatomic,assign) CGFloat progress;
 @end

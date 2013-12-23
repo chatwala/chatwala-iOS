@@ -14,7 +14,8 @@ typedef enum {
     eButtonStateStop,
     eButtonStateShare,
     eButtonStatePlay,
-    eButtonStateRecord
+    eButtonStateRecord,
+    eButtonStateBusy
 }MiddleButtonState;
 
 
@@ -24,4 +25,5 @@ typedef enum {
 - (void)setMaxValue:(CGFloat)maxValue;
 - (void)setValue:(CGFloat)value;
 - (void)setButtonState:(MiddleButtonState)state;
+- (MiddleButtonState)buttonState;
 @end

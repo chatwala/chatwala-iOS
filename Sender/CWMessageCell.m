@@ -13,6 +13,7 @@
 @property (nonatomic,strong) UIProgressView * progressView;
 @property (nonatomic,strong) UIActivityIndicatorView * spinner;
 @property (nonatomic,strong) UIView * cellView;
+@property (nonatomic,strong) UIImageView * thumbView;
 @end
 
 
@@ -26,6 +27,10 @@
         self.progressView = [[UIProgressView alloc]initWithFrame:CGRectMake(0, 78, 200, 2)];
         [self.contentView addSubview:self.progressView];
         [self.progressView setHidden:YES];
+        
+        self.thumbView  = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 200, 80)];
+        [self.thumbView setContentMode:UIViewContentModeCenter];
+        [self addSubview:self.thumbView];
     }
     return self;
 }
@@ -75,6 +80,11 @@
     [self.progressView setHidden:YES];
      [self setAccessoryView:nil];
     
+}
+
+- (void)setMessageData:(NSDictionary*)data
+{
+    [self.thumbView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[data valueForKey:@"thumbnail"]]]]];
 }
 
 
