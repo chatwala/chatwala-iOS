@@ -263,6 +263,13 @@
                 [self.navController pushViewController:self.openerVC animated:NO];
             }
         }];
+    }else{
+        [self.openerVC setZipURL:url];
+        if ([self.navController.topViewController isEqual:self.openerVC]) {
+            // already showing opener
+        }else{
+            [self.navController pushViewController:self.openerVC animated:NO];
+        }
     }
     
     /*
