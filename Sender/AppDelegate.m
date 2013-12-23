@@ -252,7 +252,9 @@
     NSLog(@"opening URL...");
     NSString * scheme = [url scheme];
     NSString * messageId = [[url pathComponents]lastObject];
-  
+    
+    [self.drawController closeDrawerAnimated:YES completion:nil];
+    
     if ([scheme isEqualToString:@"chatwala"]) {
         [[CWMessageManager sharedInstance]downloadMessageWithID:messageId progress:nil completion:^(BOOL success, NSURL *url) {
             // fin
@@ -271,6 +273,7 @@
             [self.navController pushViewController:self.openerVC animated:NO];
         }
     }
+    
     
     /*
     if ([scheme isEqualToString:@"chatwala"]) {
