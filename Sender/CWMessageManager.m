@@ -57,7 +57,7 @@
         return @"http://chatwala-prod.azurewebsites.net";
     }
 }
-
+#warning Need to update these names to better describe roles
 
 - (NSString *)registerEndPoint
 {
