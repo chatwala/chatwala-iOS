@@ -99,7 +99,7 @@
     
     // SMS
     MFMessageComposeViewController  * smsComposer = [[MFMessageComposeViewController alloc] init];
-    [smsComposer setDelegate:self];
+    [smsComposer setMessageComposeDelegate:self];
     [smsComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
     [smsComposer setBody:messageURL];
     
