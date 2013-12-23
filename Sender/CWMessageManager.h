@@ -17,4 +17,6 @@
 @property (nonatomic,strong) NSArray * messages;
 +(instancetype) sharedInstance;
 - (void)getMessages;
+- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(void (^)(BOOL success, NSURL *url))completionBlock;
+
 @end

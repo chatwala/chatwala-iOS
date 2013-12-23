@@ -57,7 +57,7 @@
         return @"http://chatwala-prod.azurewebsites.net";
     }
 }
-
+#warning Need to update these names to better describe roles
 
 - (NSString *)registerEndPoint
 {
@@ -81,9 +81,55 @@
 }
 
 
-
-
-
+- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(void (^)(BOOL success, NSURL *url))completionBlock
+{
+    // check if file exists locally
+    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
+    if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
+        // don't download
+        NSURL * localURL =[NSURL fileURLWithPath:localPath];
+        if (completionBlock) {
+            completionBlock(YES,localURL);
+        }
+    }else{
+        
+        // do download
+        NSString * messagePath =[NSString stringWithFormat:[self getMessageEndPoint],messageID];
+        NSLog(@"downloading file at: %@",messagePath);
+        
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+        NSURL *URL = [NSURL URLWithString:messagePath];
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        NSProgress * progress;
+        
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response)
+        {
+                                                                          
+            NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+            return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+            
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            if(error)
+            {
+                NSLog(@"error %@", error);
+                if (completionBlock) {
+                    completionBlock(NO,filePath);//if we need to pass error/response adjust function callback
+                }
+            }
+            else
+            {
+                NSLog(@"File downloaded to: %@", filePath);
+                if (completionBlock) {
+                    completionBlock(YES,filePath);
+                }
+            }
+        }];
+        
+        [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
+        [downloadTask resume];
+    }
+}
 
 
 - (void)getMessages
@@ -133,6 +179,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
+    NSString * mid = [[self.messages objectAtIndex:indexPath.row] valueForKey:@"message_id"];
+    
+    [[CWMessageManager sharedInstance]downloadMessageWithID:mid  progress:nil completion:^(BOOL success, NSURL *url) {
+        //
+        AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
+        NSLog(@"Download Complete! %@",url);
+        [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
+            [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
+        }];
+    }];
+    /*
     selectedIndexPath = indexPath;
     AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
     NSDictionary * dict = [self.messages objectAtIndex:indexPath.row];
@@ -193,6 +251,7 @@
         [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
         [downloadTask resume];
     }
+     */
 }
 
 - (void)updateProgressView:(NSNumber*)p
@@ -210,17 +269,13 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    
     NSProgress *progress = (NSProgress *)object;
     CGFloat p = progress.fractionCompleted;
-    
     if (p < 1.0) {
         [self performSelectorOnMainThread:@selector(updateProgressView:) withObject:@(p) waitUntilDone:NO];
     }else{
         [self performSelectorOnMainThread:@selector(completedDownload) withObject:nil waitUntilDone:NO];
     }
-    
-
 }
 
 

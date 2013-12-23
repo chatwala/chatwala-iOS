@@ -344,6 +344,15 @@
 			name = Main;
 			sourceTree = "<group>";
 		};
+		CC0C4BA31864EEFC0096D5B3 /* Message Manager */ = {
+			isa = PBXGroup;
+			children = (
+				E9909462186231BF0050695F /* CWMessageManager.h */,
+				E9909463186231BF0050695F /* CWMessageManager.m */,
+			);
+			name = "Message Manager";
+			sourceTree = "<group>";
+		};
 		E90F04D1182A9078004B8CCD /* AVCam */ = {
 			isa = PBXGroup;
 			children = (
@@ -572,8 +581,7 @@
 				E9ABCFB4183E60F00098E530 /* Auth Manager */,
 				E9ABCFB1183E5D960098E530 /* GroundControl Manager */,
 				E946BD241844FC2200C6A99D /* Video Manager */,
-				E9909462186231BF0050695F /* CWMessageManager.h */,
-				E9909463186231BF0050695F /* CWMessageManager.m */,
+				CC0C4BA31864EEFC0096D5B3 /* Message Manager */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
@@ -1064,7 +1072,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2.2.5;
+				CURRENT_PROJECT_VERSION = 2.2.6;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1104,7 +1112,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 2.2.5;
+				CURRENT_PROJECT_VERSION = 2.2.6;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
