@@ -9,8 +9,12 @@
 #import "CWMiddleButton.h"
 
 @interface CWMiddleButton ()
+{
+    MiddleButtonState _state;
+}
 @property (nonatomic,strong) DCKnob * knob;
 @property (nonatomic,strong) UIImageView * iconImage;
+@property (nonatomic,strong) UIActivityIndicatorView * spinner;
 @end
 
 
@@ -70,6 +74,13 @@
         [self addSubview:self.button];
         
         
+        self.spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [self.spinner setFrame:self.bounds];
+        [self.spinner startAnimating];
+        [self.spinner setHidesWhenStopped:YES];
+        [self addSubview:self.spinner];
+        
+        
     }
     return self;
 }
@@ -81,6 +92,8 @@
 
 - (void)setButtonState:(MiddleButtonState)state
 {
+    [self.spinner stopAnimating];
+    _state = state;
     switch (state) {
         case eButtonStateDefault:
             [self.iconImage setImage:nil];
@@ -97,12 +110,21 @@
         case eButtonStateRecord:
             [self.iconImage setImage:[UIImage imageNamed:@"Button-Icon-Record"]];
             break;
+        case eButtonStateBusy:
+            [self.iconImage setImage:nil];
+            [self.spinner startAnimating];
+            break;
             
             
         default:
             [self setButtonState:eButtonStateDefault];
             break;
     }
+}
+
+- (MiddleButtonState)buttonState
+{
+    return _state;
 }
 
 - (void)setMinValue:(CGFloat)minValue

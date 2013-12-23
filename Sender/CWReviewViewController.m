@@ -172,6 +172,12 @@
 }
 
 - (IBAction)onSend:(id)sender {
+    
+    if (self.sendButton.buttonState == eButtonStateBusy) {
+        return;
+    }
+    
+    
     if (self.incomingMessageItem) {
         // responding
         [CWAnalytics event:@"Send Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
@@ -187,6 +193,9 @@
 //    [self composeMessageWithData:[self createMessageData]];
     
     // send message to backend
+    
+    [self.sendButton setButtonState:eButtonStateBusy];
+    
     
     CWMessageItem * message = [self createMessageItem];
     [message exportZip];
@@ -216,12 +225,11 @@
         }else{
             [[CWAuthenticationManager sharedInstance]didSkipAuth];
             
-            dispatch_barrier_async(dispatch_get_main_queue(), ^{
-                [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
-                [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
-                [[NSUserDefaults standardUserDefaults]synchronize];
-                [self.navigationController popToRootViewControllerAnimated:YES];
-            });
+            [self.sendButton setButtonState:eButtonStateShare];
+            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            [self.navigationController popToRootViewControllerAnimated:YES];
             
         }
         
@@ -292,6 +300,7 @@
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error{
     
+    [self.sendButton setButtonState:eButtonStateShare];
     
     switch (result) {
         case MFMailComposeResultSent:
