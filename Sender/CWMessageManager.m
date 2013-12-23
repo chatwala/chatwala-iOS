@@ -113,6 +113,9 @@
             if(error)
             {
                 NSLog(@"error %@", error);
+                if (completionBlock) {
+                    completionBlock(NO,filePath);//if we need to pass error/response adjust function callback
+                }
             }
             else
             {
