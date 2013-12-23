@@ -29,12 +29,14 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-//    [self.messagesTable registerClass:[CWMessageCell class] forCellReuseIdentifier:@"messageCell"];
+    [self.messagesTable registerClass:[CWMessageCell class] forCellReuseIdentifier:@"messageCell"];
     [self.messagesTable setDelegate:[CWMessageManager sharedInstance]];
     [self.messagesTable setDataSource:[CWMessageManager sharedInstance]];
+//    [self.messagesTable setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl setTintColor:[UIColor whiteColor]];
     [self.messagesTable addSubview:self.refreshControl];
     
     
