@@ -18,7 +18,7 @@
 #import "CWMessageManager.h"
 
 
-@interface CWReviewViewController () <CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
+@interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
@@ -96,6 +96,17 @@
 
 - (void)composeMessageWithMessageKey:(NSString*)messageURL
 {
+    
+    // SMS
+    MFMessageComposeViewController  * smsComposer = [[MFMessageComposeViewController alloc] init];
+    [smsComposer setMessageComposeDelegate:self];
+    [smsComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
+    [smsComposer setBody:messageURL];
+    
+    [self presentViewController:smsComposer  animated:YES completion:nil];
+    
+    /*
+    // MAIL
     self.mailComposer = [[MFMailComposeViewController alloc] init];
     [self.mailComposer setMailComposeDelegate:self];
     [self.mailComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
@@ -110,6 +121,8 @@
     
 //    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
     [self presentViewController:[self mailComposer]  animated:YES completion:nil];
+    
+    */
 }
 
 
@@ -223,6 +236,9 @@
             [self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
             
         }else{
+            
+            /// Responding to message.
+            
             [[CWAuthenticationManager sharedInstance]didSkipAuth];
             
             [self.sendButton setButtonState:eButtonStateShare];
@@ -338,4 +354,44 @@
     self.mailComposer= nil;
 }
 
+#pragma mark MFMessageComposeViewControllerDelegate
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result
+{
+    [self.sendButton setButtonState:eButtonStateShare];
+    
+    switch (result) {
+        case MessageComposeResultSent:
+        {
+            if (self.incomingMessageItem) {
+                [CWAnalytics event:@"Send SMS" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
+            }else{
+                [CWAnalytics event:@"Send SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
+            }
+            
+            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+            
+            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+            [[NSUserDefaults standardUserDefaults]synchronize];
+            
+            [[CWAuthenticationManager sharedInstance]didSkipAuth];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        }
+            break;
+            
+        case MessageComposeResultCancelled:
+            if (self.incomingMessageItem) {
+                [CWAnalytics event:@"Cancel SMS" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
+            }else{
+                [CWAnalytics event:@"Cancel SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
+            }
+            [self.player replayVideo];
+            break;
+        default:
+            [self.player replayVideo];
+            break;
+    }
+    
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
 @end
