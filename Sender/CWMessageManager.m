@@ -13,6 +13,8 @@
 @interface CWMessageManager ()
 {
     BOOL useLocalServer;
+    NSIndexPath * selectedIndexPath;
+    UITableView * messageTable;
 }
 @end
 
@@ -110,7 +112,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+    messageTable = tableView;
     return 1;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -125,42 +133,94 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    selectedIndexPath = indexPath;
     AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
     NSDictionary * dict = [self.messages objectAtIndex:indexPath.row];
     
-    NSString * messagePath =[NSString stringWithFormat:[self getMessageEndPoint],[dict valueForKey:@"message_id"]];
-    //        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
-    
-    NSLog(@"downloading file at: %@",messagePath);
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    
-    NSURL *URL = [NSURL URLWithString:messagePath];
-    NSURLRequest *request = [NSURLRequest requestWithURL:URL];
     
     
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
-        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[[dict valueForKey:@"message_id"] stringByAppendingString:@".zip"]];
+    
+    NSLog(@"checking localPath: %@",localPath);
+    
+    if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
         
-    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        if(error)
-        {
-            NSLog(@"error %@", error);
-        }
-        else
-        {
-            NSLog(@"File downloaded to: %@", filePath);
-            [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
-                [appdel application:[UIApplication sharedApplication] openURL:filePath sourceApplication:nil annotation:nil];
-            }];
-        }
-    }];
+        NSLog(@"MESSAGE ALREADY DOWNLOADED!!");
+        [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
+            [appdel application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:localPath] sourceApplication:nil annotation:nil];
+        }];
+        
+    }else{
     
-    [downloadTask resume];
+
+        
+        
+        
+        NSString * messagePath =[NSString stringWithFormat:[self getMessageEndPoint],[dict valueForKey:@"message_id"]];
+        
+        
+        //        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
+        
+        NSLog(@"downloading file at: %@",messagePath);
+        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+        
+        NSURL *URL = [NSURL URLWithString:messagePath];
+        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        
+        
+        NSProgress * progress;
+        
+        
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+            NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+            return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+            
+        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            if(error)
+            {
+                NSLog(@"error %@", error);
+            }
+            else
+            {
+                NSLog(@"File downloaded to: %@", filePath);
+                [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
+                    [appdel application:[UIApplication sharedApplication] openURL:filePath sourceApplication:nil annotation:nil];
+                }];
+            }
+        }];
+        
+        [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
+        [downloadTask resume];
+    }
+}
+
+- (void)updateProgressView:(NSNumber*)p
+{
+//    [SVProgressHUD showProgress:p.floatValue status:@"loading message"];
+    CWMessageCell *cell = (CWMessageCell *)[messageTable cellForRowAtIndexPath:selectedIndexPath];
+    [cell setProgress:p.floatValue];
+}
+
+- (void)completedDownload
+{
+//    [SVProgressHUD showSuccessWithStatus:@"message loaded"];
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
     
+    NSProgress *progress = (NSProgress *)object;
+    CGFloat p = progress.fractionCompleted;
     
+    if (p < 1.0) {
+        [self performSelectorOnMainThread:@selector(updateProgressView:) withObject:@(p) waitUntilDone:NO];
+    }else{
+        [self performSelectorOnMainThread:@selector(completedDownload) withObject:nil waitUntilDone:NO];
+    }
     
+
 }
 
 
@@ -169,9 +229,5 @@
     return self.messages.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 80;
-}
 
 @end

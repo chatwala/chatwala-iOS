@@ -10,4 +10,5 @@
 
 @interface CWMessageCell : UITableViewCell
 - (void)setMessageData:(NSDictionary*)data;
+@property (nonatomic,assign) CGFloat progress;
 @end
