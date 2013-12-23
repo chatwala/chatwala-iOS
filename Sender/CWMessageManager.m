@@ -8,6 +8,7 @@
 
 #import "CWMessageManager.h"
 #import "AppDelegate.h"
+#import "CWMessageCell.h"
 
 @interface CWMessageManager ()
 {
@@ -114,9 +115,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
+    CWMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
     NSDictionary * dict = [self.messages objectAtIndex:indexPath.row];
-    [cell.textLabel setText:[dict valueForKey:@"message_id"]];
+//    [cell.textLabel setText:[dict valueForKey:@"message_id"]];
+//    [cell setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[dict valueForKey:@"thumbnail"]]]]];
+    [cell setMessageData:dict];
     return cell;
 }
 
@@ -164,6 +167,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.messages.count;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
 }
 
 @end

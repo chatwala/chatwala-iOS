@@ -58,6 +58,7 @@
 		E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E218314B8300E3950B /* CWVideoManager.m */; };
 		E95E25E818314DC500E3950B /* CWVideoPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */; };
 		E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25EA18314DD200E3950B /* CWVideoPlayer.m */; };
+		E961049C1868A5A600279CB1 /* CWMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E961049B1868A5A600279CB1 /* CWMessageCell.m */; };
 		E965255E18341963008987BD /* CWReviewVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E965255D18341963008987BD /* CWReviewVCTests.m */; };
 		E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9652560183535C1008987BD /* CWOpenerViewController.m */; };
 		E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */; };
@@ -196,6 +197,8 @@
 		E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerTests.m; sourceTree = "<group>"; };
 		E95E25E918314DD200E3950B /* CWVideoPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoPlayer.h; sourceTree = "<group>"; };
 		E95E25EA18314DD200E3950B /* CWVideoPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayer.m; sourceTree = "<group>"; };
+		E961049A1868A5A600279CB1 /* CWMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageCell.h; sourceTree = "<group>"; };
+		E961049B1868A5A600279CB1 /* CWMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCell.m; sourceTree = "<group>"; };
 		E965255D18341963008987BD /* CWReviewVCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWReviewVCTests.m; sourceTree = "<group>"; };
 		E965255F183535C1008987BD /* CWOpenerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWOpenerViewController.h; sourceTree = "<group>"; };
 		E9652560183535C1008987BD /* CWOpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWOpenerViewController.m; sourceTree = "<group>"; };
@@ -348,6 +351,8 @@
 				E990944E1860F5F90050695F /* CWMenuViewController.h */,
 				E990944F1860F5F90050695F /* CWMenuViewController.m */,
 				E99094501860F5F90050695F /* CWMenuViewController.xib */,
+				E961049A1868A5A600279CB1 /* CWMessageCell.h */,
+				E961049B1868A5A600279CB1 /* CWMessageCell.m */,
 				E99094531860F6010050695F /* CWMainViewController.h */,
 				E99094541860F6010050695F /* CWMainViewController.m */,
 				E99094551860F6010050695F /* CWMainViewController.xib */,
@@ -960,6 +965,7 @@
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
 				E9B214FC18464B9400E09DA8 /* CWAnalytics.m in Sources */,
 				E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */,
+				E961049C1868A5A600279CB1 /* CWMessageCell.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
