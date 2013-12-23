@@ -344,6 +344,15 @@
 			name = Main;
 			sourceTree = "<group>";
 		};
+		CC0C4BA31864EEFC0096D5B3 /* Message Manager */ = {
+			isa = PBXGroup;
+			children = (
+				E9909462186231BF0050695F /* CWMessageManager.h */,
+				E9909463186231BF0050695F /* CWMessageManager.m */,
+			);
+			name = "Message Manager";
+			sourceTree = "<group>";
+		};
 		E90F04D1182A9078004B8CCD /* AVCam */ = {
 			isa = PBXGroup;
 			children = (
@@ -572,8 +581,7 @@
 				E9ABCFB4183E60F00098E530 /* Auth Manager */,
 				E9ABCFB1183E5D960098E530 /* GroundControl Manager */,
 				E946BD241844FC2200C6A99D /* Video Manager */,
-				E9909462186231BF0050695F /* CWMessageManager.h */,
-				E9909463186231BF0050695F /* CWMessageManager.m */,
+				CC0C4BA31864EEFC0096D5B3 /* Message Manager */,
 			);
 			name = Managers;
 			sourceTree = "<group>";
