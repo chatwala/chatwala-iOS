@@ -200,7 +200,7 @@
     NSLog(@"server environment: %@",[[CWMessageManager sharedInstance] baseEndPoint]);
     
     [[CWGroundControlManager sharedInstance]refresh];
-    [[CWMessageManager sharedInstance]getMessages];
+//    [[CWMessageManager sharedInstance]getMessages];
     
     
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
@@ -209,25 +209,11 @@
         [SVProgressHUD setOffsetFromCenter:UIOffsetMake(0, -100)];
         // Check the reachability status and show an alert if the internet connection is not available
         switch (status) {
-            case -1:
-                // AFNetworkReachabilityStatusUnknown = -1,
-                NSLog(@"The reachability status is Unknown");
-                
+            case AFNetworkReachabilityStatusNotReachable:
                 [SVProgressHUD showWithStatus:@"Network not reachable.\nConnection Required."];
                 break;
-            case 0:
-                // AFNetworkReachabilityStatusNotReachable = 0
-                NSLog(@"The reachability status is not reachable");
-                [SVProgressHUD showWithStatus:@"Network not reachable.\nConnection Required."];
-                break;
-            case 1:
-                // AFNetworkReachabilityStatusReachableViaWWAN = 1
-                NSLog(@"The reachability status is reachable via WWAN");
-                [SVProgressHUD dismiss];
-                break;
-            case 2:
-                // AFNetworkReachabilityStatusReachableViaWiFi = 2
-                NSLog(@"The reachability status is reachable via WiFi");
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+            case AFNetworkReachabilityStatusReachableViaWiFi:
                 [SVProgressHUD dismiss];
                 break;
                 
