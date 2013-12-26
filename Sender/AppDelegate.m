@@ -134,7 +134,7 @@
         //
         NSLog(@"fetched user messages: %@",responseObject);
         NSArray * messages = [responseObject objectForKey:@"messages"];
-        [application setApplicationIconBadgeNumber:messages.count];
+//        [application setApplicationIconBadgeNumber:messages.count];
         completionHandler(UIBackgroundFetchResultNewData);
         [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
