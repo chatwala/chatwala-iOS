@@ -10,7 +10,7 @@
 #import "CWMessageManager.h"
 #import "CWMessageCell.h"
 
-@interface CWMenuViewController ()
+@interface CWMenuViewController () <UITableViewDelegate>
 @property (nonatomic,strong) UIRefreshControl * refreshControl;
 @end
 
@@ -30,7 +30,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.messagesTable registerClass:[CWMessageCell class] forCellReuseIdentifier:@"messageCell"];
-    [self.messagesTable setDelegate:[CWMessageManager sharedInstance]];
+//    [self.messagesTable setDelegate:[CWMessageManager sharedInstance]];
+    [self.messagesTable setDelegate:self];
     [self.messagesTable setDataSource:[CWMessageManager sharedInstance]];
 //    [self.messagesTable setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
     
@@ -80,4 +81,29 @@
 {
     [[CWMessageManager sharedInstance]getMessages];
 }
+
+
+
+- (IBAction)onButtonSelect:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(menuViewController:didSelectButton:)]) {
+        [self.delegate menuViewController:self didSelectButton:sender];
+    }
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString* messageId = [[[[CWMessageManager sharedInstance]messages]objectAtIndex:indexPath.row] valueForKey:@"message_id"];
+  
+    if ([self.delegate respondsToSelector:@selector(menuViewController:didSelectMessageWithID:)]) {
+        [self.delegate menuViewController:self didSelectMessageWithID:messageId];
+    }
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+
 @end

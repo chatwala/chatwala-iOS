@@ -32,7 +32,7 @@
 }
 @end
 
-@interface AppDelegate ()
+@interface AppDelegate () <CWMenuDelegate>
 {
     BOOL isSplitScreen;
 }
@@ -67,6 +67,8 @@
 //    self.landingVC = [[CWLandingViewController alloc]init];
 //    [self.landingVC setFlowDirection:eFlowToStartScreen];
 //
+    
+    [self.menuVC setDelegate:self];
     
     
     self.navController = [[UINavigationController alloc]initWithRootViewController:self.mainVC];
@@ -361,6 +363,30 @@
 - (void)onMessageSent
 {
     [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
+}
+
+
+#pragma mark CWMenuDelegate
+
+- (void)menuViewController:(CWMenuViewController *)menuVC didSelectButton:(UIButton *)button
+{
+    
+}
+
+
+- (void)menuViewController:(CWMenuViewController *)meneVC didSelectMessageWithID:(NSString *)messageId
+{
+    
+    AppDelegate * appdel = self;
+    
+    [[CWMessageManager sharedInstance]downloadMessageWithID:messageId  progress:nil completion:^(BOOL success, NSURL *url) {
+        //
+        NSLog(@"Download Complete! %@",url);
+        [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
+            [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
+        }];
+    }];
+
 }
 
 @end

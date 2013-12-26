@@ -8,6 +8,8 @@
             <connections>
                 <outlet property="messagesLabel" destination="gec-wb-qMK" id="lN2-18-6K2"/>
                 <outlet property="messagesTable" destination="sQW-Ez-6aI" id="0j8-2O-NLa"/>
+                <outlet property="plusButton" destination="fbv-Bi-UKC" id="ibY-Va-g8U"/>
+                <outlet property="settingsButton" destination="tLm-Gt-sZC" id="sJs-fx-NXz"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -28,6 +30,9 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="onButtonSelect:" destination="-1" eventType="touchUpInside" id="hpG-Yl-2jJ"/>
+                    </connections>
                 </button>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="sQW-Ez-6aI">
                     <rect key="frame" x="0.0" y="50" width="200" height="444"/>
@@ -46,6 +51,9 @@
                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="onButtonSelect:" destination="-1" eventType="touchUpInside" id="X9h-Uv-chM"/>
+                    </connections>
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gec-wb-qMK">
                     <rect key="frame" x="0.0" y="496" width="200" height="21"/>
