@@ -86,6 +86,7 @@
     
     self.loadingVC = [[CWLoadingViewController alloc]init];
     [self.loadingVC.view setAlpha:0];
+//    [self.loadingVC restartAnimation];
 
     
     [self.drawController.view addSubview:self.loadingVC.view];
@@ -251,6 +252,7 @@
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
+    [self.loadingVC restartAnimation];
     [self.loadingVC.view setAlpha:1];
 
     

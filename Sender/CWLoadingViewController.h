@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CWLoadingViewController : UIViewController
-
+- (void)restartAnimation;
 @end
