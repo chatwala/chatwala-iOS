@@ -141,7 +141,6 @@ NSString * const kCurrentItemKey	= @"currentItem";
         return;
     }
     
-    
     [self setupPlayerItemWithAsset:asset];
     [self setupPlayerWithAsset:asset];
     
@@ -154,22 +153,22 @@ NSString * const kCurrentItemKey	= @"currentItem";
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:[self.player currentItem]];
     
-    
+
 }
 
 
 - (void)setupPlayerItemWithAsset:(AVAsset*)asset
 {
     if (self.playerItem) {
-        [self.playerItem removeObserver:self forKeyPath:kStatusKey];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
+        self.playerItem = nil;
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
     
     // setup player item
     self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
     [self.playerItem addObserver:self forKeyPath:kStatusKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext];
     
-//    id obs = [self.playerItem observationInfo];
+    id obs = [self.playerItem observationInfo];
 //    NSLog(@"observationInfo: %@",obs);
 }
 
@@ -177,11 +176,8 @@ NSString * const kCurrentItemKey	= @"currentItem";
 - (void)setupPlayerWithAsset:(AVAsset*)asset
 {
     if (self.player) {
-        [self.player removeObserver:self forKeyPath:kCurrentItemKey];
+        self.player = nil;
     }
-    
-    
-    
     
     // setup player
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
