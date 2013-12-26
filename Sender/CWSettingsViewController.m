@@ -34,8 +34,10 @@
     UIBarButtonItem * doneBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onSettingsDone)];
     
     [self.navigationItem setRightBarButtonItem:doneBtn];
+    [self.navigationItem setTitle:@"SETTINGS"];
+    [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
     
-    
+
     [self setSectionHeaders:@[@"",@""]];
     [self setSection1Titles:@[@"Push Notification"]];
     [self setSection2Titles:@[@"Import Messages",@"Link Accounts",@"Terms and Conditions",@"Privacy Policy"]];
@@ -46,6 +48,8 @@
     [self.settingsTable setDelegate:self];
     [self.settingsTable setDataSource:self];
     [self.settingsTable setBackgroundColor:[UIColor clearColor]];
+    [self.settingsTable setSeparatorColor:[UIColor colorFromHexString:@"#3a4c69"]];
+    [self.settingsTable setScrollEnabled:NO];
 }
 
 
@@ -63,7 +67,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell"];
-    [cell setBackgroundColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.1]];
+    [cell setBackgroundColor:[UIColor colorFromHexString:@"#172d50"]];
     [cell.textLabel setTextColor:[UIColor whiteColor]];
     [cell.textLabel setText:[[@[self.section1Titles,self.section2Titles]objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]];
     if (indexPath.section == 1) {
@@ -94,10 +98,10 @@
 {
     CGFloat h;
     if (section==0) {
-        h= 66;
+        h= 60;
     }
     if (section==1) {
-        h= 80;
+        h= 40;
     }
     return h;
     
