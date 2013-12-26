@@ -73,6 +73,9 @@ NSString * const kCurrentItemKey	= @"currentItem";
         return;
     }
     
+    if (self.asset) {
+        self.asset = nil;
+    }
     
     // load the video asset
     self.asset = [AVURLAsset URLAssetWithURL:_videoURL options:nil];

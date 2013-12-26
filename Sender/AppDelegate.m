@@ -86,6 +86,7 @@
     
     self.loadingVC = [[CWLoadingViewController alloc]init];
     [self.loadingVC.view setAlpha:0];
+//    [self.loadingVC restartAnimation];
 
     
     [self.drawController.view addSubview:self.loadingVC.view];
@@ -133,7 +134,7 @@
         //
         NSLog(@"fetched user messages: %@",responseObject);
         NSArray * messages = [responseObject objectForKey:@"messages"];
-        [application setApplicationIconBadgeNumber:messages.count];
+//        [application setApplicationIconBadgeNumber:messages.count];
         completionHandler(UIBackgroundFetchResultNewData);
         [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -251,6 +252,7 @@
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
+    [self.loadingVC restartAnimation];
     [self.loadingVC.view setAlpha:1];
 
     
@@ -384,23 +386,22 @@
 
 - (void)menuViewController:(CWMenuViewController *)menuVC didSelectButton:(UIButton *)button
 {
-    [self.drawController closeDrawerAnimated:YES completion:nil];
-    
-    if ([button isEqual:menuVC.plusButton]) {
-        // check if showing start screen
-        if ([self.mainVC.navigationController.visibleViewController isKindOfClass:[CWStartScreenViewController class]]) {
-            // do nothing
-        }else{
-            [self.mainVC.navigationController popToRootViewControllerAnimated:YES];
+    [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
+        if ([button isEqual:menuVC.plusButton]) {
+            // check if showing start screen
+            if ([self.mainVC.navigationController.visibleViewController isKindOfClass:[CWStartScreenViewController class]]) {
+                // do nothing
+            }else{
+                [self.mainVC.navigationController popToRootViewControllerAnimated:YES];
+            }
         }
-        
-        
-        
-    }
-    else if ([button isEqual:menuVC.settingsButton])
-    {
-        // do nothing!
-    }
+        else if ([button isEqual:menuVC.settingsButton])
+        {
+            // do nothing!
+        }
+    }];
+    
+    
     
 }
 

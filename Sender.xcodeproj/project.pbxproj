@@ -12,6 +12,66 @@
 		82380876CA9D496387191727 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5043C247C54257A2FCABFE /* libPods-test.a */; };
 		E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90B7C80186C958D00B94DCC /* CWLoadingViewController.m */; };
 		E90B7C83186C958D00B94DCC /* CWLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C81186C958D00B94DCC /* CWLoadingViewController.xib */; };
+		E90B7CA4186CBE4A00B94DCC /* waves0000.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C86186CBE4A00B94DCC /* waves0000.png */; };
+		E90B7CA5186CBE4A00B94DCC /* waves0001.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C87186CBE4A00B94DCC /* waves0001.png */; };
+		E90B7CA6186CBE4A00B94DCC /* waves0002.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C88186CBE4A00B94DCC /* waves0002.png */; };
+		E90B7CA7186CBE4A00B94DCC /* waves0003.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C89186CBE4A00B94DCC /* waves0003.png */; };
+		E90B7CA8186CBE4A00B94DCC /* waves0004.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C8A186CBE4A00B94DCC /* waves0004.png */; };
+		E90B7CA9186CBE4A00B94DCC /* waves0005.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C8B186CBE4A00B94DCC /* waves0005.png */; };
+		E90B7CAA186CBE4A00B94DCC /* waves0006.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C8C186CBE4A00B94DCC /* waves0006.png */; };
+		E90B7CAB186CBE4A00B94DCC /* waves0007.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C8D186CBE4A00B94DCC /* waves0007.png */; };
+		E90B7CAC186CBE4A00B94DCC /* waves0008.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C8E186CBE4A00B94DCC /* waves0008.png */; };
+		E90B7CAD186CBE4A00B94DCC /* waves0009.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C8F186CBE4A00B94DCC /* waves0009.png */; };
+		E90B7CAE186CBE4A00B94DCC /* waves0010.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C90186CBE4A00B94DCC /* waves0010.png */; };
+		E90B7CAF186CBE4A00B94DCC /* waves0011.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C91186CBE4A00B94DCC /* waves0011.png */; };
+		E90B7CB0186CBE4A00B94DCC /* waves0012.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C92186CBE4A00B94DCC /* waves0012.png */; };
+		E90B7CB1186CBE4A00B94DCC /* waves0013.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C93186CBE4A00B94DCC /* waves0013.png */; };
+		E90B7CB2186CBE4A00B94DCC /* waves0014.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C94186CBE4A00B94DCC /* waves0014.png */; };
+		E90B7CB3186CBE4A00B94DCC /* waves0015.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C95186CBE4A00B94DCC /* waves0015.png */; };
+		E90B7CB4186CBE4A00B94DCC /* waves0016.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C96186CBE4A00B94DCC /* waves0016.png */; };
+		E90B7CB5186CBE4A00B94DCC /* waves0017.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C97186CBE4A00B94DCC /* waves0017.png */; };
+		E90B7CB6186CBE4A00B94DCC /* waves0018.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C98186CBE4A00B94DCC /* waves0018.png */; };
+		E90B7CB7186CBE4A00B94DCC /* waves0019.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C99186CBE4A00B94DCC /* waves0019.png */; };
+		E90B7CB8186CBE4A00B94DCC /* waves0020.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C9A186CBE4A00B94DCC /* waves0020.png */; };
+		E90B7CB9186CBE4A00B94DCC /* waves0021.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C9B186CBE4A00B94DCC /* waves0021.png */; };
+		E90B7CBA186CBE4A00B94DCC /* waves0022.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C9C186CBE4A00B94DCC /* waves0022.png */; };
+		E90B7CBB186CBE4A00B94DCC /* waves0023.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C9D186CBE4A00B94DCC /* waves0023.png */; };
+		E90B7CBC186CBE4A00B94DCC /* waves0024.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C9E186CBE4A00B94DCC /* waves0024.png */; };
+		E90B7CBD186CBE4A00B94DCC /* waves0025.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C9F186CBE4A00B94DCC /* waves0025.png */; };
+		E90B7CBE186CBE4A00B94DCC /* waves0026.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CA0186CBE4A00B94DCC /* waves0026.png */; };
+		E90B7CBF186CBE4A00B94DCC /* waves0027.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CA1186CBE4A00B94DCC /* waves0027.png */; };
+		E90B7CC0186CBE4A00B94DCC /* waves0028.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CA2186CBE4A00B94DCC /* waves0028.png */; };
+		E90B7CC1186CBE4A00B94DCC /* waves0029.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CA3186CBE4A00B94DCC /* waves0029.png */; };
+		E90B7CE0186CC01800B94DCC /* waves0015@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CC2186CC01800B94DCC /* waves0015@2x.png */; };
+		E90B7CE1186CC01800B94DCC /* waves0016@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CC3186CC01800B94DCC /* waves0016@2x.png */; };
+		E90B7CE2186CC01800B94DCC /* waves0017@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CC4186CC01800B94DCC /* waves0017@2x.png */; };
+		E90B7CE3186CC01800B94DCC /* waves0018@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CC5186CC01800B94DCC /* waves0018@2x.png */; };
+		E90B7CE4186CC01800B94DCC /* waves0019@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CC6186CC01800B94DCC /* waves0019@2x.png */; };
+		E90B7CE5186CC01800B94DCC /* waves0020@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CC7186CC01800B94DCC /* waves0020@2x.png */; };
+		E90B7CE6186CC01800B94DCC /* waves0021@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CC8186CC01800B94DCC /* waves0021@2x.png */; };
+		E90B7CE7186CC01800B94DCC /* waves0022@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CC9186CC01800B94DCC /* waves0022@2x.png */; };
+		E90B7CE8186CC01800B94DCC /* waves0023@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CCA186CC01800B94DCC /* waves0023@2x.png */; };
+		E90B7CE9186CC01800B94DCC /* waves0024@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CCB186CC01800B94DCC /* waves0024@2x.png */; };
+		E90B7CEA186CC01800B94DCC /* waves0025@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CCC186CC01800B94DCC /* waves0025@2x.png */; };
+		E90B7CEB186CC01800B94DCC /* waves0026@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CCD186CC01800B94DCC /* waves0026@2x.png */; };
+		E90B7CEC186CC01800B94DCC /* waves0027@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CCE186CC01800B94DCC /* waves0027@2x.png */; };
+		E90B7CED186CC01800B94DCC /* waves0028@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CCF186CC01800B94DCC /* waves0028@2x.png */; };
+		E90B7CEE186CC01800B94DCC /* waves0029@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CD0186CC01800B94DCC /* waves0029@2x.png */; };
+		E90B7CEF186CC01800B94DCC /* waves0000@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CD1186CC01800B94DCC /* waves0000@2x.png */; };
+		E90B7CF0186CC01800B94DCC /* waves0001@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CD2186CC01800B94DCC /* waves0001@2x.png */; };
+		E90B7CF1186CC01800B94DCC /* waves0002@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CD3186CC01800B94DCC /* waves0002@2x.png */; };
+		E90B7CF2186CC01800B94DCC /* waves0003@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CD4186CC01800B94DCC /* waves0003@2x.png */; };
+		E90B7CF3186CC01800B94DCC /* waves0004@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CD5186CC01800B94DCC /* waves0004@2x.png */; };
+		E90B7CF4186CC01800B94DCC /* waves0005@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CD6186CC01800B94DCC /* waves0005@2x.png */; };
+		E90B7CF5186CC01800B94DCC /* waves0006@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CD7186CC01800B94DCC /* waves0006@2x.png */; };
+		E90B7CF6186CC01800B94DCC /* waves0007@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CD8186CC01800B94DCC /* waves0007@2x.png */; };
+		E90B7CF7186CC01800B94DCC /* waves0008@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CD9186CC01800B94DCC /* waves0008@2x.png */; };
+		E90B7CF8186CC01800B94DCC /* waves0009@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDA186CC01800B94DCC /* waves0009@2x.png */; };
+		E90B7CF9186CC01800B94DCC /* waves0010@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDB186CC01800B94DCC /* waves0010@2x.png */; };
+		E90B7CFA186CC01800B94DCC /* waves0011@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDC186CC01800B94DCC /* waves0011@2x.png */; };
+		E90B7CFB186CC01800B94DCC /* waves0012@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDD186CC01800B94DCC /* waves0012@2x.png */; };
+		E90B7CFC186CC01800B94DCC /* waves0013@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDE186CC01800B94DCC /* waves0013@2x.png */; };
+		E90B7CFD186CC01800B94DCC /* waves0014@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDF186CC01800B94DCC /* waves0014@2x.png */; };
 		E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D3182AA41A004B8CCD /* AssetItem.m */; };
 		E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D6182AA430004B8CCD /* VideoLibrary.m */; };
 		E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D9182BEA71004B8CCD /* CWMessageItem.m */; };
@@ -131,6 +191,66 @@
 		E90B7C7F186C958D00B94DCC /* CWLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLoadingViewController.h; sourceTree = "<group>"; };
 		E90B7C80186C958D00B94DCC /* CWLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWLoadingViewController.m; sourceTree = "<group>"; };
 		E90B7C81186C958D00B94DCC /* CWLoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWLoadingViewController.xib; sourceTree = "<group>"; };
+		E90B7C86186CBE4A00B94DCC /* waves0000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0000.png; sourceTree = "<group>"; };
+		E90B7C87186CBE4A00B94DCC /* waves0001.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0001.png; sourceTree = "<group>"; };
+		E90B7C88186CBE4A00B94DCC /* waves0002.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0002.png; sourceTree = "<group>"; };
+		E90B7C89186CBE4A00B94DCC /* waves0003.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0003.png; sourceTree = "<group>"; };
+		E90B7C8A186CBE4A00B94DCC /* waves0004.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0004.png; sourceTree = "<group>"; };
+		E90B7C8B186CBE4A00B94DCC /* waves0005.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0005.png; sourceTree = "<group>"; };
+		E90B7C8C186CBE4A00B94DCC /* waves0006.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0006.png; sourceTree = "<group>"; };
+		E90B7C8D186CBE4A00B94DCC /* waves0007.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0007.png; sourceTree = "<group>"; };
+		E90B7C8E186CBE4A00B94DCC /* waves0008.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0008.png; sourceTree = "<group>"; };
+		E90B7C8F186CBE4A00B94DCC /* waves0009.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0009.png; sourceTree = "<group>"; };
+		E90B7C90186CBE4A00B94DCC /* waves0010.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0010.png; sourceTree = "<group>"; };
+		E90B7C91186CBE4A00B94DCC /* waves0011.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0011.png; sourceTree = "<group>"; };
+		E90B7C92186CBE4A00B94DCC /* waves0012.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0012.png; sourceTree = "<group>"; };
+		E90B7C93186CBE4A00B94DCC /* waves0013.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0013.png; sourceTree = "<group>"; };
+		E90B7C94186CBE4A00B94DCC /* waves0014.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0014.png; sourceTree = "<group>"; };
+		E90B7C95186CBE4A00B94DCC /* waves0015.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0015.png; sourceTree = "<group>"; };
+		E90B7C96186CBE4A00B94DCC /* waves0016.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0016.png; sourceTree = "<group>"; };
+		E90B7C97186CBE4A00B94DCC /* waves0017.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0017.png; sourceTree = "<group>"; };
+		E90B7C98186CBE4A00B94DCC /* waves0018.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0018.png; sourceTree = "<group>"; };
+		E90B7C99186CBE4A00B94DCC /* waves0019.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0019.png; sourceTree = "<group>"; };
+		E90B7C9A186CBE4A00B94DCC /* waves0020.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0020.png; sourceTree = "<group>"; };
+		E90B7C9B186CBE4A00B94DCC /* waves0021.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0021.png; sourceTree = "<group>"; };
+		E90B7C9C186CBE4A00B94DCC /* waves0022.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0022.png; sourceTree = "<group>"; };
+		E90B7C9D186CBE4A00B94DCC /* waves0023.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0023.png; sourceTree = "<group>"; };
+		E90B7C9E186CBE4A00B94DCC /* waves0024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0024.png; sourceTree = "<group>"; };
+		E90B7C9F186CBE4A00B94DCC /* waves0025.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0025.png; sourceTree = "<group>"; };
+		E90B7CA0186CBE4A00B94DCC /* waves0026.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0026.png; sourceTree = "<group>"; };
+		E90B7CA1186CBE4A00B94DCC /* waves0027.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0027.png; sourceTree = "<group>"; };
+		E90B7CA2186CBE4A00B94DCC /* waves0028.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0028.png; sourceTree = "<group>"; };
+		E90B7CA3186CBE4A00B94DCC /* waves0029.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = waves0029.png; sourceTree = "<group>"; };
+		E90B7CC2186CC01800B94DCC /* waves0015@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0015@2x.png"; sourceTree = "<group>"; };
+		E90B7CC3186CC01800B94DCC /* waves0016@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0016@2x.png"; sourceTree = "<group>"; };
+		E90B7CC4186CC01800B94DCC /* waves0017@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0017@2x.png"; sourceTree = "<group>"; };
+		E90B7CC5186CC01800B94DCC /* waves0018@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0018@2x.png"; sourceTree = "<group>"; };
+		E90B7CC6186CC01800B94DCC /* waves0019@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0019@2x.png"; sourceTree = "<group>"; };
+		E90B7CC7186CC01800B94DCC /* waves0020@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0020@2x.png"; sourceTree = "<group>"; };
+		E90B7CC8186CC01800B94DCC /* waves0021@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0021@2x.png"; sourceTree = "<group>"; };
+		E90B7CC9186CC01800B94DCC /* waves0022@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0022@2x.png"; sourceTree = "<group>"; };
+		E90B7CCA186CC01800B94DCC /* waves0023@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0023@2x.png"; sourceTree = "<group>"; };
+		E90B7CCB186CC01800B94DCC /* waves0024@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0024@2x.png"; sourceTree = "<group>"; };
+		E90B7CCC186CC01800B94DCC /* waves0025@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0025@2x.png"; sourceTree = "<group>"; };
+		E90B7CCD186CC01800B94DCC /* waves0026@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0026@2x.png"; sourceTree = "<group>"; };
+		E90B7CCE186CC01800B94DCC /* waves0027@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0027@2x.png"; sourceTree = "<group>"; };
+		E90B7CCF186CC01800B94DCC /* waves0028@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0028@2x.png"; sourceTree = "<group>"; };
+		E90B7CD0186CC01800B94DCC /* waves0029@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0029@2x.png"; sourceTree = "<group>"; };
+		E90B7CD1186CC01800B94DCC /* waves0000@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0000@2x.png"; sourceTree = "<group>"; };
+		E90B7CD2186CC01800B94DCC /* waves0001@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0001@2x.png"; sourceTree = "<group>"; };
+		E90B7CD3186CC01800B94DCC /* waves0002@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0002@2x.png"; sourceTree = "<group>"; };
+		E90B7CD4186CC01800B94DCC /* waves0003@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0003@2x.png"; sourceTree = "<group>"; };
+		E90B7CD5186CC01800B94DCC /* waves0004@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0004@2x.png"; sourceTree = "<group>"; };
+		E90B7CD6186CC01800B94DCC /* waves0005@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0005@2x.png"; sourceTree = "<group>"; };
+		E90B7CD7186CC01800B94DCC /* waves0006@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0006@2x.png"; sourceTree = "<group>"; };
+		E90B7CD8186CC01800B94DCC /* waves0007@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0007@2x.png"; sourceTree = "<group>"; };
+		E90B7CD9186CC01800B94DCC /* waves0008@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0008@2x.png"; sourceTree = "<group>"; };
+		E90B7CDA186CC01800B94DCC /* waves0009@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0009@2x.png"; sourceTree = "<group>"; };
+		E90B7CDB186CC01800B94DCC /* waves0010@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0010@2x.png"; sourceTree = "<group>"; };
+		E90B7CDC186CC01800B94DCC /* waves0011@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0011@2x.png"; sourceTree = "<group>"; };
+		E90B7CDD186CC01800B94DCC /* waves0012@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0012@2x.png"; sourceTree = "<group>"; };
+		E90B7CDE186CC01800B94DCC /* waves0013@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0013@2x.png"; sourceTree = "<group>"; };
+		E90B7CDF186CC01800B94DCC /* waves0014@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0014@2x.png"; sourceTree = "<group>"; };
 		E90F04D2182AA41A004B8CCD /* AssetItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetItem.h; sourceTree = "<group>"; };
 		E90F04D3182AA41A004B8CCD /* AssetItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetItem.m; sourceTree = "<group>"; };
 		E90F04D5182AA430004B8CCD /* VideoLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoLibrary.h; sourceTree = "<group>"; };
@@ -366,6 +486,73 @@
 				E90B7C81186C958D00B94DCC /* CWLoadingViewController.xib */,
 			);
 			name = Loading;
+			sourceTree = "<group>";
+		};
+		E90B7C85186CBE4A00B94DCC /* waves */ = {
+			isa = PBXGroup;
+			children = (
+				E90B7CC2186CC01800B94DCC /* waves0015@2x.png */,
+				E90B7CC3186CC01800B94DCC /* waves0016@2x.png */,
+				E90B7CC4186CC01800B94DCC /* waves0017@2x.png */,
+				E90B7CC5186CC01800B94DCC /* waves0018@2x.png */,
+				E90B7CC6186CC01800B94DCC /* waves0019@2x.png */,
+				E90B7CC7186CC01800B94DCC /* waves0020@2x.png */,
+				E90B7CC8186CC01800B94DCC /* waves0021@2x.png */,
+				E90B7CC9186CC01800B94DCC /* waves0022@2x.png */,
+				E90B7CCA186CC01800B94DCC /* waves0023@2x.png */,
+				E90B7CCB186CC01800B94DCC /* waves0024@2x.png */,
+				E90B7CCC186CC01800B94DCC /* waves0025@2x.png */,
+				E90B7CCD186CC01800B94DCC /* waves0026@2x.png */,
+				E90B7CCE186CC01800B94DCC /* waves0027@2x.png */,
+				E90B7CCF186CC01800B94DCC /* waves0028@2x.png */,
+				E90B7CD0186CC01800B94DCC /* waves0029@2x.png */,
+				E90B7CD1186CC01800B94DCC /* waves0000@2x.png */,
+				E90B7CD2186CC01800B94DCC /* waves0001@2x.png */,
+				E90B7CD3186CC01800B94DCC /* waves0002@2x.png */,
+				E90B7CD4186CC01800B94DCC /* waves0003@2x.png */,
+				E90B7CD5186CC01800B94DCC /* waves0004@2x.png */,
+				E90B7CD6186CC01800B94DCC /* waves0005@2x.png */,
+				E90B7CD7186CC01800B94DCC /* waves0006@2x.png */,
+				E90B7CD8186CC01800B94DCC /* waves0007@2x.png */,
+				E90B7CD9186CC01800B94DCC /* waves0008@2x.png */,
+				E90B7CDA186CC01800B94DCC /* waves0009@2x.png */,
+				E90B7CDB186CC01800B94DCC /* waves0010@2x.png */,
+				E90B7CDC186CC01800B94DCC /* waves0011@2x.png */,
+				E90B7CDD186CC01800B94DCC /* waves0012@2x.png */,
+				E90B7CDE186CC01800B94DCC /* waves0013@2x.png */,
+				E90B7CDF186CC01800B94DCC /* waves0014@2x.png */,
+				E90B7C86186CBE4A00B94DCC /* waves0000.png */,
+				E90B7C87186CBE4A00B94DCC /* waves0001.png */,
+				E90B7C88186CBE4A00B94DCC /* waves0002.png */,
+				E90B7C89186CBE4A00B94DCC /* waves0003.png */,
+				E90B7C8A186CBE4A00B94DCC /* waves0004.png */,
+				E90B7C8B186CBE4A00B94DCC /* waves0005.png */,
+				E90B7C8C186CBE4A00B94DCC /* waves0006.png */,
+				E90B7C8D186CBE4A00B94DCC /* waves0007.png */,
+				E90B7C8E186CBE4A00B94DCC /* waves0008.png */,
+				E90B7C8F186CBE4A00B94DCC /* waves0009.png */,
+				E90B7C90186CBE4A00B94DCC /* waves0010.png */,
+				E90B7C91186CBE4A00B94DCC /* waves0011.png */,
+				E90B7C92186CBE4A00B94DCC /* waves0012.png */,
+				E90B7C93186CBE4A00B94DCC /* waves0013.png */,
+				E90B7C94186CBE4A00B94DCC /* waves0014.png */,
+				E90B7C95186CBE4A00B94DCC /* waves0015.png */,
+				E90B7C96186CBE4A00B94DCC /* waves0016.png */,
+				E90B7C97186CBE4A00B94DCC /* waves0017.png */,
+				E90B7C98186CBE4A00B94DCC /* waves0018.png */,
+				E90B7C99186CBE4A00B94DCC /* waves0019.png */,
+				E90B7C9A186CBE4A00B94DCC /* waves0020.png */,
+				E90B7C9B186CBE4A00B94DCC /* waves0021.png */,
+				E90B7C9C186CBE4A00B94DCC /* waves0022.png */,
+				E90B7C9D186CBE4A00B94DCC /* waves0023.png */,
+				E90B7C9E186CBE4A00B94DCC /* waves0024.png */,
+				E90B7C9F186CBE4A00B94DCC /* waves0025.png */,
+				E90B7CA0186CBE4A00B94DCC /* waves0026.png */,
+				E90B7CA1186CBE4A00B94DCC /* waves0027.png */,
+				E90B7CA2186CBE4A00B94DCC /* waves0028.png */,
+				E90B7CA3186CBE4A00B94DCC /* waves0029.png */,
+			);
+			path = waves;
 			sourceTree = "<group>";
 		};
 		E90F04D1182A9078004B8CCD /* AVCam */ = {
@@ -628,6 +815,7 @@
 				E953F5CC186384EB00663E7D /* Settings.bundle */,
 				E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */,
 				E9CE73E91831810900056FA9 /* video.mp4 */,
+				E90B7C85186CBE4A00B94DCC /* waves */,
 				E9ABCFB8183E632A0098E530 /* google_oauth2.json */,
 			);
 			name = Resources;
@@ -838,27 +1026,87 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9E003FB183FEB6B0087E909 /* CWLandingViewController.xib in Resources */,
+				E90B7CB0186CBE4A00B94DCC /* waves0012.png in Resources */,
+				E90B7CAB186CBE4A00B94DCC /* waves0007.png in Resources */,
 				E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */,
 				E9ABCFB9183E632A0098E530 /* google_oauth2.json in Resources */,
+				E90B7CF1186CC01800B94DCC /* waves0002@2x.png in Resources */,
+				E90B7CAE186CBE4A00B94DCC /* waves0010.png in Resources */,
+				E90B7CB6186CBE4A00B94DCC /* waves0018.png in Resources */,
+				E90B7CED186CC01800B94DCC /* waves0028@2x.png in Resources */,
+				E90B7CB5186CBE4A00B94DCC /* waves0017.png in Resources */,
+				E90B7CB8186CBE4A00B94DCC /* waves0020.png in Resources */,
+				E90B7CE5186CC01800B94DCC /* waves0020@2x.png in Resources */,
 				E90B7C83186C958D00B94DCC /* CWLoadingViewController.xib in Resources */,
+				E90B7CE4186CC01800B94DCC /* waves0019@2x.png in Resources */,
+				E90B7CEC186CC01800B94DCC /* waves0027@2x.png in Resources */,
+				E90B7CF5186CC01800B94DCC /* waves0006@2x.png in Resources */,
+				E90B7CE0186CC01800B94DCC /* waves0015@2x.png in Resources */,
+				E90B7CEA186CC01800B94DCC /* waves0025@2x.png in Resources */,
 				E9AF03311868B40A006CB546 /* CWMainViewController.xib in Resources */,
+				E90B7CBF186CBE4A00B94DCC /* waves0027.png in Resources */,
+				E90B7CF4186CC01800B94DCC /* waves0005@2x.png in Resources */,
+				E90B7CA7186CBE4A00B94DCC /* waves0003.png in Resources */,
+				E90B7CE6186CC01800B94DCC /* waves0021@2x.png in Resources */,
+				E90B7CA4186CBE4A00B94DCC /* waves0000.png in Resources */,
+				E90B7CBD186CBE4A00B94DCC /* waves0025.png in Resources */,
+				E90B7CA9186CBE4A00B94DCC /* waves0005.png in Resources */,
 				E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */,
+				E90B7CBE186CBE4A00B94DCC /* waves0026.png in Resources */,
+				E90B7CA5186CBE4A00B94DCC /* waves0001.png in Resources */,
+				E90B7CF0186CC01800B94DCC /* waves0001@2x.png in Resources */,
+				E90B7CE7186CC01800B94DCC /* waves0022@2x.png in Resources */,
+				E90B7CFA186CC01800B94DCC /* waves0011@2x.png in Resources */,
+				E90B7CE3186CC01800B94DCC /* waves0018@2x.png in Resources */,
 				E924AD1D183AA902009400DD /* CWPIPStartScreenViewController.xib in Resources */,
+				E90B7CEB186CC01800B94DCC /* waves0026@2x.png in Resources */,
+				E90B7CB9186CBE4A00B94DCC /* waves0021.png in Resources */,
+				E90B7CF6186CC01800B94DCC /* waves0007@2x.png in Resources */,
 				E96C1502183FABB200DA9B85 /* CWAuthRequestViewController.xib in Resources */,
 				E924AD34183AB789009400DD /* CWSSReviewViewController.xib in Resources */,
+				E90B7CA6186CBE4A00B94DCC /* waves0002.png in Resources */,
+				E90B7CAD186CBE4A00B94DCC /* waves0009.png in Resources */,
 				E924AD29183AB0BC009400DD /* CWPIPComposerViewController.xib in Resources */,
+				E90B7CB2186CBE4A00B94DCC /* waves0014.png in Resources */,
+				E90B7CB7186CBE4A00B94DCC /* waves0019.png in Resources */,
+				E90B7CE8186CC01800B94DCC /* waves0023@2x.png in Resources */,
+				E90B7CE9186CC01800B94DCC /* waves0024@2x.png in Resources */,
 				E944399F182940AF0088A381 /* Images.xcassets in Resources */,
+				E90B7CAC186CBE4A00B94DCC /* waves0008.png in Resources */,
+				E90B7CBC186CBE4A00B94DCC /* waves0024.png in Resources */,
 				E924AD1F183AAD1F009400DD /* CWSSStartScreenViewController.xib in Resources */,
+				E90B7CE2186CC01800B94DCC /* waves0017@2x.png in Resources */,
+				E90B7CF3186CC01800B94DCC /* waves0004@2x.png in Resources */,
 				E9C1155B1832987700DB67D2 /* CWFeedbackViewController.xib in Resources */,
+				E90B7CFC186CC01800B94DCC /* waves0013@2x.png in Resources */,
 				E9CE73EA1831810900056FA9 /* video.mp4 in Resources */,
+				E90B7CFB186CC01800B94DCC /* waves0012@2x.png in Resources */,
+				E90B7CAA186CBE4A00B94DCC /* waves0006.png in Resources */,
+				E90B7CBA186CBE4A00B94DCC /* waves0022.png in Resources */,
 				E9443991182940AF0088A381 /* InfoPlist.strings in Resources */,
+				E90B7CF9186CC01800B94DCC /* waves0010@2x.png in Resources */,
+				E90B7CC1186CBE4A00B94DCC /* waves0029.png in Resources */,
+				E90B7CC0186CBE4A00B94DCC /* waves0028.png in Resources */,
+				E90B7CA8186CBE4A00B94DCC /* waves0004.png in Resources */,
+				E90B7CF8186CC01800B94DCC /* waves0009@2x.png in Resources */,
+				E90B7CAF186CBE4A00B94DCC /* waves0011.png in Resources */,
+				E90B7CBB186CBE4A00B94DCC /* waves0023.png in Resources */,
+				E90B7CF2186CC01800B94DCC /* waves0003@2x.png in Resources */,
 				E953F5CD186384EB00663E7D /* Settings.bundle in Resources */,
+				E90B7CF7186CC01800B94DCC /* waves0008@2x.png in Resources */,
+				E90B7CB3186CBE4A00B94DCC /* waves0015.png in Resources */,
+				E90B7CFD186CC01800B94DCC /* waves0014@2x.png in Resources */,
 				E9AF03381868B433006CB546 /* CWMenuViewController.xib in Resources */,
 				E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */,
 				E96C1508183FAD1300DA9B85 /* CWEmailSignupViewController.xib in Resources */,
+				E90B7CB4186CBE4A00B94DCC /* waves0016.png in Resources */,
 				E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */,
+				E90B7CE1186CC01800B94DCC /* waves0016@2x.png in Resources */,
+				E90B7CEF186CC01800B94DCC /* waves0000@2x.png in Resources */,
 				E924AD2B183AB450009400DD /* CWSSComposerViewController.xib in Resources */,
+				E90B7CB1186CBE4A00B94DCC /* waves0013.png in Resources */,
 				E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */,
+				E90B7CEE186CC01800B94DCC /* waves0029@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

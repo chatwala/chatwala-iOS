@@ -67,14 +67,14 @@
         [self.refreshControl endRefreshing];
     }
     [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages",[[[CWMessageManager sharedInstance]messages] count]]];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWMessageManager sharedInstance]messages] count]];
+//    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWMessageManager sharedInstance]messages] count]];
     
 }
 
 - (void)onMessagLoadedFailed:(NSNotification*)note
 {
     [self.messagesLabel setText:@"failed to load messages."];
-    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWMessageManager sharedInstance]messages] count]];
+//    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWMessageManager sharedInstance]messages] count]];
 }
 
 - (void)handleRefresh:(UIRefreshControl*)r
