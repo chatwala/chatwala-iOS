@@ -15,7 +15,6 @@
 {
     self= [super init];
     if (self) {
-        NSLog(@"new metadata object");
     }
     return self;
 }
