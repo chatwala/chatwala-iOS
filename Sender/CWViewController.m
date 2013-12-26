@@ -35,11 +35,17 @@
     self.closeButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Close-Button"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
     self.messageSentView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]];
     [self.messageSentView setFrame:CGRectMake(0, 0, 80, 50)];
+    [self.messageSentView setAlpha:0];
     [self.navigationItem setTitleView:self.messageSentView];
     
     UIView * spacer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:spacer]];
+}
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.messageSentView setAlpha:0];
 }
 
 - (void)viewDidAppear:(BOOL)animated

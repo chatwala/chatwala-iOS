@@ -370,6 +370,23 @@
 
 - (void)menuViewController:(CWMenuViewController *)menuVC didSelectButton:(UIButton *)button
 {
+    [self.drawController closeDrawerAnimated:YES completion:nil];
+    
+    if ([button isEqual:menuVC.plusButton]) {
+        // check if showing start screen
+        if ([self.mainVC.navigationController.visibleViewController isKindOfClass:[CWStartScreenViewController class]]) {
+            // do nothing
+        }else{
+            [self.mainVC.navigationController popToRootViewControllerAnimated:YES];
+        }
+        
+        
+        
+    }
+    else if ([button isEqual:menuVC.settingsButton])
+    {
+        // do nothing!
+    }
     
 }
 
