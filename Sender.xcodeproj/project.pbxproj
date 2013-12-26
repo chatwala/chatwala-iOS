@@ -72,6 +72,8 @@
 		E90B7CFB186CC01800B94DCC /* waves0012@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDD186CC01800B94DCC /* waves0012@2x.png */; };
 		E90B7CFC186CC01800B94DCC /* waves0013@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDE186CC01800B94DCC /* waves0013@2x.png */; };
 		E90B7CFD186CC01800B94DCC /* waves0014@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDF186CC01800B94DCC /* waves0014@2x.png */; };
+		E90B7D01186CD2DE00B94DCC /* CWSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90B7CFF186CD2DE00B94DCC /* CWSettingsViewController.m */; };
+		E90B7D02186CD2DE00B94DCC /* CWSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E90B7D00186CD2DE00B94DCC /* CWSettingsViewController.xib */; };
 		E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D3182AA41A004B8CCD /* AssetItem.m */; };
 		E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D6182AA430004B8CCD /* VideoLibrary.m */; };
 		E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D9182BEA71004B8CCD /* CWMessageItem.m */; };
@@ -251,6 +253,9 @@
 		E90B7CDD186CC01800B94DCC /* waves0012@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0012@2x.png"; sourceTree = "<group>"; };
 		E90B7CDE186CC01800B94DCC /* waves0013@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0013@2x.png"; sourceTree = "<group>"; };
 		E90B7CDF186CC01800B94DCC /* waves0014@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0014@2x.png"; sourceTree = "<group>"; };
+		E90B7CFE186CD2DE00B94DCC /* CWSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSettingsViewController.h; sourceTree = "<group>"; };
+		E90B7CFF186CD2DE00B94DCC /* CWSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSettingsViewController.m; sourceTree = "<group>"; };
+		E90B7D00186CD2DE00B94DCC /* CWSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWSettingsViewController.xib; sourceTree = "<group>"; };
 		E90F04D2182AA41A004B8CCD /* AssetItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetItem.h; sourceTree = "<group>"; };
 		E90F04D3182AA41A004B8CCD /* AssetItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetItem.m; sourceTree = "<group>"; };
 		E90F04D5182AA430004B8CCD /* VideoLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoLibrary.h; sourceTree = "<group>"; };
@@ -586,6 +591,9 @@
 				E990945F18620AD70050695F /* CWViewController.h */,
 				E990946018620AD70050695F /* CWViewController.m */,
 				E90B7C84186C959200B94DCC /* Loading */,
+				E90B7CFE186CD2DE00B94DCC /* CWSettingsViewController.h */,
+				E90B7CFF186CD2DE00B94DCC /* CWSettingsViewController.m */,
+				E90B7D00186CD2DE00B94DCC /* CWSettingsViewController.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1106,6 +1114,7 @@
 				E924AD2B183AB450009400DD /* CWSSComposerViewController.xib in Resources */,
 				E90B7CB1186CBE4A00B94DCC /* waves0013.png in Resources */,
 				E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */,
+				E90B7D02186CD2DE00B94DCC /* CWSettingsViewController.xib in Resources */,
 				E90B7CEE186CC01800B94DCC /* waves0029@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1227,6 +1236,7 @@
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
+				E90B7D01186CD2DE00B94DCC /* CWSettingsViewController.m in Sources */,
 				E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */,
 				E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */,
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,

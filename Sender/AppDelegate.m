@@ -22,14 +22,16 @@
 #import "CWMessageManager.h"
 #import "CWLoadingViewController.h"
 
+#import "CWSettingsViewController.h"
+
 @interface UINavigationBar (customNav)
 @end
 
 @implementation UINavigationBar (customNav)
-- (CGSize)sizeThatFits:(CGSize)size {
-    CGSize newSize = CGSizeMake(self.frame.size.width,50);
-    return newSize;
-}
+//- (CGSize)sizeThatFits:(CGSize)size {
+//    CGSize newSize = CGSizeMake(self.frame.size.width,50);
+//    return newSize;
+//}
 @end
 
 @interface AppDelegate () <CWMenuDelegate>
@@ -397,7 +399,21 @@
         }
         else if ([button isEqual:menuVC.settingsButton])
         {
-            // do nothing!
+            
+            
+            
+            CWSettingsViewController * settings = [[CWSettingsViewController alloc]init];
+            UINavigationController * settingsNavController = [[UINavigationController alloc]initWithRootViewController:settings];
+            [settingsNavController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+            settingsNavController.navigationBar.shadowImage = [UIImage new];
+            settingsNavController.navigationBar.translucent = YES;
+            [settingsNavController.navigationBar setTintColor:[UIColor whiteColor]];
+            
+            
+            
+            [self.drawController presentViewController:settingsNavController animated:YES completion:^{
+                //
+            }];
         }
     }];
     
