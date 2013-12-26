@@ -18,7 +18,7 @@
 #import "CWLandingViewController.h"
 
 @interface CWStartScreenViewController ()
-
+@property (nonatomic,strong) UIImageView * messageSentView;
 @end
 
 @implementation CWStartScreenViewController
@@ -37,7 +37,14 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
-    [self.sentMessageView setAlpha:0];
+    
+    self.messageSentView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]];
+
+    [self.messageSentView setFrame:CGRectMake(0, 0, 227, 67)];
+    [self.messageSentView setCenter:CGPointMake(160, self.messageSentView.center.y)];
+    
+    [self.view addSubview:self.messageSentView];
+    [self.messageSentView setAlpha:0];
     
     [self.middleButton.button addTarget:self action:@selector(onMiddleButtonTap) forControlEvents:UIControlEventTouchUpInside];
 
@@ -103,6 +110,20 @@
     }
      */
     
+    
+    if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"MESSAGE_SENT"]boolValue]) {
+        [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        [self.messageSentView setAlpha:1];
+        [UIView animateKeyframesWithDuration:0.5 delay:2 options:kNilOptions animations:^{
+            //
+            [self.messageSentView setAlpha:0];
+        } completion:^(BOOL finished) {
+            //
+        }];
+    }else{
+        [self.messageSentView setAlpha:0];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated

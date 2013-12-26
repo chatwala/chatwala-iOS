@@ -20,7 +20,7 @@
 #import "CWMenuViewController.h"
 #import "CWMainViewController.h"
 #import "CWMessageManager.h"
-
+#import "CWLoadingViewController.h"
 
 @interface UINavigationBar (customNav)
 @end
@@ -32,12 +32,13 @@
 }
 @end
 
-@interface AppDelegate ()
+@interface AppDelegate () <CWMenuDelegate>
 {
     BOOL isSplitScreen;
 }
 @property (nonatomic,strong) CWMenuViewController * menuVC;
 @property (nonatomic,strong) CWMainViewController * mainVC;
+@property (nonatomic,strong) CWLoadingViewController * loadingVC;
 @end
 
 @implementation AppDelegate
@@ -68,6 +69,8 @@
 //    [self.landingVC setFlowDirection:eFlowToStartScreen];
 //
     
+    [self.menuVC setDelegate:self];
+    
     
     self.navController = [[UINavigationController alloc]initWithRootViewController:self.mainVC];
     [self.navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -80,6 +83,13 @@
     [self.drawController setMaximumLeftDrawerWidth:200];
     [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModePanningCenterView|MMCloseDrawerGestureModeTapCenterView];
     
+    
+    self.loadingVC = [[CWLoadingViewController alloc]init];
+    [self.loadingVC.view setAlpha:0];
+
+    
+    [self.drawController.view addSubview:self.loadingVC.view];
+    
     self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
     [self.window addSubview:self.drawController.view];
     [self.window setRootViewController:self.drawController];
@@ -90,7 +100,6 @@
     
     
     [NC addObserver:self selector:@selector(onMenuButtonTapped) name:MENU_BUTTON_TAPPED object:nil];
-    [NC addObserver:self selector:@selector(onMessageSent) name:@"message_sent" object:nil];
     
 
     /*
@@ -242,6 +251,9 @@
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
+    [self.loadingVC.view setAlpha:1];
+
+    
     if ([scheme isEqualToString:@"chatwala"]) {
         [[CWMessageManager sharedInstance]downloadMessageWithID:messageId progress:nil completion:^(BOOL success, NSURL *url) {
             // fin
@@ -251,6 +263,8 @@
             }else{
                 [self.navController pushViewController:self.openerVC animated:NO];
             }
+            [self.loadingVC.view setAlpha:0];
+
         }];
     }else{
         [self.openerVC setZipURL:url];
@@ -259,6 +273,8 @@
         }else{
             [self.navController pushViewController:self.openerVC animated:NO];
         }
+        [self.loadingVC.view setAlpha:0];
+
     }
     
     
@@ -357,10 +373,54 @@
         }];
     }
 }
+//
+//- (void)onMessageSent
+//{
+//    [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
+//}
 
-- (void)onMessageSent
+
+#pragma mark CWMenuDelegate
+
+- (void)menuViewController:(CWMenuViewController *)menuVC didSelectButton:(UIButton *)button
 {
-    [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
+    [self.drawController closeDrawerAnimated:YES completion:nil];
+    
+    if ([button isEqual:menuVC.plusButton]) {
+        // check if showing start screen
+        if ([self.mainVC.navigationController.visibleViewController isKindOfClass:[CWStartScreenViewController class]]) {
+            // do nothing
+        }else{
+            [self.mainVC.navigationController popToRootViewControllerAnimated:YES];
+        }
+        
+        
+        
+    }
+    else if ([button isEqual:menuVC.settingsButton])
+    {
+        // do nothing!
+    }
+    
+}
+
+
+- (void)menuViewController:(CWMenuViewController *)meneVC didSelectMessageWithID:(NSString *)messageId
+{
+    
+    AppDelegate * appdel = self;
+    [self.drawController closeDrawerAnimated:YES completion:nil];
+    
+    
+    
+    [[CWMessageManager sharedInstance]downloadMessageWithID:messageId  progress:nil completion:^(BOOL success, NSURL *url) {
+        //
+        NSLog(@"Download Complete! %@",url);
+        [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
+            [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
+        }];
+    }];
+
 }
 
 @end

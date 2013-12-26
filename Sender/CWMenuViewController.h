@@ -8,7 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol CWMenuDelegate;
+
 @interface CWMenuViewController : UIViewController
 @property (nonatomic,weak) IBOutlet UITableView * messagesTable;
 @property (nonatomic,weak) IBOutlet UILabel * messagesLabel;
+@property (nonatomic,weak) IBOutlet UIButton * plusButton;
+@property (nonatomic,weak) IBOutlet UIButton * settingsButton;
+@property (nonatomic,weak) id<CWMenuDelegate> delegate;
+- (IBAction)onButtonSelect:(id)sender;
+@end
+
+
+
+@protocol CWMenuDelegate <NSObject>
+- (void)menuViewController:(CWMenuViewController*)menuVC didSelectButton:(UIButton*)button;
+- (void)menuViewController:(CWMenuViewController*)meneVC didSelectMessageWithID:(NSString*)messageId;
 @end

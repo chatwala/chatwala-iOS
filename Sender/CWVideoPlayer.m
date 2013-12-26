@@ -169,7 +169,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
     self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
     [self.playerItem addObserver:self forKeyPath:kStatusKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext];
     
-    id obs = [self.playerItem observationInfo];
+//    id obs = [self.playerItem observationInfo];
 //    NSLog(@"observationInfo: %@",obs);
 }
 
