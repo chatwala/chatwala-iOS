@@ -10,6 +10,8 @@
 		36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E814C9185FB78A002B1A12 /* CWUserManager.m */; };
 		5A22DD32AA184288BEC932AA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8B4EC8D342465796C4A37E /* libPods.a */; };
 		82380876CA9D496387191727 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5043C247C54257A2FCABFE /* libPods-test.a */; };
+		E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90B7C80186C958D00B94DCC /* CWLoadingViewController.m */; };
+		E90B7C83186C958D00B94DCC /* CWLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C81186C958D00B94DCC /* CWLoadingViewController.xib */; };
 		E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D3182AA41A004B8CCD /* AssetItem.m */; };
 		E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D6182AA430004B8CCD /* VideoLibrary.m */; };
 		E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D9182BEA71004B8CCD /* CWMessageItem.m */; };
@@ -126,6 +128,9 @@
 		810134A78491415EBDC34438 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		BC8B4EC8D342465796C4A37E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5043C247C54257A2FCABFE /* libPods-test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E90B7C7F186C958D00B94DCC /* CWLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLoadingViewController.h; sourceTree = "<group>"; };
+		E90B7C80186C958D00B94DCC /* CWLoadingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWLoadingViewController.m; sourceTree = "<group>"; };
+		E90B7C81186C958D00B94DCC /* CWLoadingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWLoadingViewController.xib; sourceTree = "<group>"; };
 		E90F04D2182AA41A004B8CCD /* AssetItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetItem.h; sourceTree = "<group>"; };
 		E90F04D3182AA41A004B8CCD /* AssetItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetItem.m; sourceTree = "<group>"; };
 		E90F04D5182AA430004B8CCD /* VideoLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoLibrary.h; sourceTree = "<group>"; };
@@ -353,6 +358,16 @@
 			name = "Message Manager";
 			sourceTree = "<group>";
 		};
+		E90B7C84186C959200B94DCC /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				E90B7C7F186C958D00B94DCC /* CWLoadingViewController.h */,
+				E90B7C80186C958D00B94DCC /* CWLoadingViewController.m */,
+				E90B7C81186C958D00B94DCC /* CWLoadingViewController.xib */,
+			);
+			name = Loading;
+			sourceTree = "<group>";
+		};
 		E90F04D1182A9078004B8CCD /* AVCam */ = {
 			isa = PBXGroup;
 			children = (
@@ -383,6 +398,7 @@
 				CC0C4B9D1864D3570096D5B3 /* Main */,
 				E990945F18620AD70050695F /* CWViewController.h */,
 				E990946018620AD70050695F /* CWViewController.m */,
+				E90B7C84186C959200B94DCC /* Loading */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -824,6 +840,7 @@
 				E9E003FB183FEB6B0087E909 /* CWLandingViewController.xib in Resources */,
 				E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */,
 				E9ABCFB9183E632A0098E530 /* google_oauth2.json in Resources */,
+				E90B7C83186C958D00B94DCC /* CWLoadingViewController.xib in Resources */,
 				E9AF03311868B40A006CB546 /* CWMainViewController.xib in Resources */,
 				E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */,
 				E924AD1D183AA902009400DD /* CWPIPStartScreenViewController.xib in Resources */,
@@ -984,6 +1001,7 @@
 				E98B1693184F84B40021A611 /* DCSlider.m in Sources */,
 				E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */,
 				E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */,
+				E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
 				E9B214FC18464B9400E09DA8 /* CWAnalytics.m in Sources */,

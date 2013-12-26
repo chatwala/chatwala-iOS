@@ -20,7 +20,7 @@
 #import "CWMenuViewController.h"
 #import "CWMainViewController.h"
 #import "CWMessageManager.h"
-
+#import "CWLoadingViewController.h"
 
 @interface UINavigationBar (customNav)
 @end
@@ -38,6 +38,7 @@
 }
 @property (nonatomic,strong) CWMenuViewController * menuVC;
 @property (nonatomic,strong) CWMainViewController * mainVC;
+@property (nonatomic,strong) CWLoadingViewController * loadingVC;
 @end
 
 @implementation AppDelegate
@@ -82,6 +83,13 @@
     [self.drawController setMaximumLeftDrawerWidth:200];
     [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModePanningCenterView|MMCloseDrawerGestureModeTapCenterView];
     
+    
+    self.loadingVC = [[CWLoadingViewController alloc]init];
+    [self.loadingVC.view setAlpha:0];
+
+    
+    [self.drawController.view addSubview:self.loadingVC.view];
+    
     self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
     [self.window addSubview:self.drawController.view];
     [self.window setRootViewController:self.drawController];
@@ -92,7 +100,6 @@
     
     
     [NC addObserver:self selector:@selector(onMenuButtonTapped) name:MENU_BUTTON_TAPPED object:nil];
-    [NC addObserver:self selector:@selector(onMessageSent) name:@"message_sent" object:nil];
     
 
     /*
@@ -244,6 +251,9 @@
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
+    [self.loadingVC.view setAlpha:1];
+
+    
     if ([scheme isEqualToString:@"chatwala"]) {
         [[CWMessageManager sharedInstance]downloadMessageWithID:messageId progress:nil completion:^(BOOL success, NSURL *url) {
             // fin
@@ -253,6 +263,8 @@
             }else{
                 [self.navController pushViewController:self.openerVC animated:NO];
             }
+            [self.loadingVC.view setAlpha:0];
+
         }];
     }else{
         [self.openerVC setZipURL:url];
@@ -261,6 +273,8 @@
         }else{
             [self.navController pushViewController:self.openerVC animated:NO];
         }
+        [self.loadingVC.view setAlpha:0];
+
     }
     
     
@@ -395,6 +409,9 @@
 {
     
     AppDelegate * appdel = self;
+    [self.drawController closeDrawerAnimated:YES completion:nil];
+    
+    
     
     [[CWMessageManager sharedInstance]downloadMessageWithID:messageId  progress:nil completion:^(BOOL success, NSURL *url) {
         //
