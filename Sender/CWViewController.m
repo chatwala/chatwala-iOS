@@ -12,7 +12,7 @@
 
 @property (nonatomic,strong) UIBarButtonItem * burgerButton;
 @property (nonatomic,strong) UIBarButtonItem * closeButton;
-@property (nonatomic,strong) UIImageView * messageSentView;
+//@property (nonatomic,strong) UIImageView * messageSentView;
 @end
 
 @implementation CWViewController
@@ -33,38 +33,13 @@
 	// Do any additional setup after loading the view.
     self.burgerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu_btn"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
     self.closeButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Close-Button"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
-    self.messageSentView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]];
-    [self.messageSentView setFrame:CGRectMake(0, 0, 80, 50)];
-    [self.messageSentView setAlpha:0];
-    [self.navigationItem setTitleView:self.messageSentView];
+
     
     UIView * spacer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:spacer]];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.messageSentView setAlpha:0];
-}
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"MESSAGE_SENT"]boolValue]) {
-        [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
-        [[NSUserDefaults standardUserDefaults]synchronize];
-        [self.messageSentView setAlpha:1];
-        [UIView animateKeyframesWithDuration:0.5 delay:2 options:kNilOptions animations:^{
-            //
-            [self.messageSentView setAlpha:0];
-        } completion:^(BOOL finished) {
-            //
-        }];
-    }else{
-        [self.messageSentView setAlpha:0];
-    }
-}
 
 - (void)setNavMode:(NavMode)mode
 {

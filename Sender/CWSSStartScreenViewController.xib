@@ -7,7 +7,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWStartScreenViewController">
             <connections>
                 <outlet property="middleButton" destination="r82-ej-PxY" id="lTz-oV-UVA"/>
-                <outlet property="sentMessageView" destination="3DS-pu-zy7" id="5wl-jA-dL7"/>
                 <outlet property="startScreenMessageLabel" destination="vfZ-uk-aff" id="f2n-gL-jOu"/>
                 <outlet property="view" destination="1" id="rkd-xu-hfU"/>
             </connections>
@@ -41,20 +40,10 @@
                         <constraint firstAttribute="width" constant="90" id="kqV-UT-Wbh"/>
                     </constraints>
                 </view>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Sent-Notification" translatesAutoresizingMaskIntoConstraints="NO" id="3DS-pu-zy7">
-                    <rect key="frame" x="40" y="25" width="240" height="65"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="240" id="dec-AP-7tB"/>
-                        <constraint firstAttribute="height" constant="65" id="jZh-Zt-3k4"/>
-                    </constraints>
-                </imageView>
             </subviews>
             <color key="backgroundColor" red="0.90196078430000004" green="0.90196078430000004" blue="0.90196078430000004" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="r82-ej-PxY" secondAttribute="centerX" id="74K-HO-A8D"/>
-                <constraint firstItem="3DS-pu-zy7" firstAttribute="top" secondItem="1" secondAttribute="top" constant="25" id="D75-u0-bPA"/>
-                <constraint firstAttribute="centerX" secondItem="3DS-pu-zy7" secondAttribute="centerX" id="Xjv-h6-rE7"/>
                 <constraint firstAttribute="centerY" secondItem="r82-ej-PxY" secondAttribute="centerY" id="g61-Qk-KvW"/>
                 <constraint firstAttribute="centerX" secondItem="vfZ-uk-aff" secondAttribute="centerX" id="l4D-Z1-0Jh"/>
                 <constraint firstAttribute="bottom" secondItem="vfZ-uk-aff" secondAttribute="bottom" constant="53" id="ynl-f2-Lcn"/>
@@ -65,6 +54,5 @@
     </objects>
     <resources>
         <image name="Chatwala-White-BG" width="320" height="568"/>
-        <image name="Sent-Notification" width="227" height="67"/>
     </resources>
 </document>

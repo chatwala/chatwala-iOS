@@ -369,7 +369,7 @@
                 [CWAnalytics event:@"Send SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
             }
             
-            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+//            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
             
             [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
             [[NSUserDefaults standardUserDefaults]synchronize];

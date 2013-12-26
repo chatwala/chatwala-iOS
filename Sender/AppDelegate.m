@@ -359,11 +359,11 @@
         }];
     }
 }
-
-- (void)onMessageSent
-{
-    [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
-}
+//
+//- (void)onMessageSent
+//{
+//    [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
+//}
 
 
 #pragma mark CWMenuDelegate
