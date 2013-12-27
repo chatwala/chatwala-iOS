@@ -27,7 +27,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self.navigationItem setTitle:@"Terms & Conditions"];
+    [self.navigationItem setTitle:@"TERMS & CONDITIONS"];
     
     UIImage * backImg = [UIImage imageNamed:@"back_button"];
     UIButton * backBtn =[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
