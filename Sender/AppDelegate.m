@@ -33,7 +33,7 @@
 
 @implementation UINavigationBar (customNav)
 - (CGSize)sizeThatFits:(CGSize)size {
-    CGSize newSize = CGSizeMake(self.frame.size.width,50);
+    CGSize newSize = CGSizeMake(self.frame.size.width,53);
     return newSize;
 }
 @end
