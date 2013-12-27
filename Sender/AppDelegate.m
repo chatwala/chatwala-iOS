@@ -28,10 +28,10 @@
 @end
 
 @implementation UINavigationBar (customNav)
-//- (CGSize)sizeThatFits:(CGSize)size {
-//    CGSize newSize = CGSizeMake(self.frame.size.width,50);
-//    return newSize;
-//}
+- (CGSize)sizeThatFits:(CGSize)size {
+    CGSize newSize = CGSizeMake(self.frame.size.width,50);
+    return newSize;
+}
 @end
 
 @interface AppDelegate () <CWMenuDelegate>
@@ -48,6 +48,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [application setApplicationIconBadgeNumber:0];
+    
     [application setStatusBarHidden:YES];
     
     [CWUserManager sharedInstance];
