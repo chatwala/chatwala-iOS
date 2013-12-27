@@ -48,6 +48,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [application setApplicationIconBadgeNumber:0];
+    
     [application setStatusBarHidden:YES];
     
     [CWUserManager sharedInstance];
