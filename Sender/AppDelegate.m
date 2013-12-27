@@ -41,6 +41,7 @@
 @property (nonatomic,strong) CWMenuViewController * menuVC;
 @property (nonatomic,strong) CWMainViewController * mainVC;
 @property (nonatomic,strong) CWLoadingViewController * loadingVC;
+@property (nonatomic,strong) UINavigationController * settingsNavController;
 @end
 
 @implementation AppDelegate
@@ -172,6 +173,12 @@
     [[[CWVideoManager sharedManager]player] stop];
     [[[CWVideoManager sharedManager]recorder]stopSession];
     [[[CWVideoManager sharedManager]recorder]stopVideoRecording];
+    
+    
+    [self.settingsNavController dismissViewControllerAnimated:YES completion:^{
+        //
+        self.settingsNavController = nil;
+    }];
     
 //    [self.landingVC setFlowDirection:eFlowToStartScreen];
     [self.navController popToRootViewControllerAnimated:NO];
@@ -390,6 +397,20 @@
 //    [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
 //}
 
+- (UINavigationController *)settingsNavController
+{
+    if (_settingsNavController==nil) {
+        CWSettingsViewController * settings = [[CWSettingsViewController alloc]init];
+        _settingsNavController = [[UINavigationController alloc]initWithRootViewController:settings];
+        [self.settingsNavController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+        self.settingsNavController.navigationBar.shadowImage = [UIImage new];
+        self.settingsNavController.navigationBar.translucent = YES;
+        [self.settingsNavController.navigationBar setTintColor:[UIColor whiteColor]];
+    }
+    
+    return _settingsNavController;
+}
+
 
 #pragma mark CWMenuDelegate
 
@@ -409,16 +430,11 @@
             
             
             
-            CWSettingsViewController * settings = [[CWSettingsViewController alloc]init];
-            UINavigationController * settingsNavController = [[UINavigationController alloc]initWithRootViewController:settings];
-            [settingsNavController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-            settingsNavController.navigationBar.shadowImage = [UIImage new];
-            settingsNavController.navigationBar.translucent = YES;
-            [settingsNavController.navigationBar setTintColor:[UIColor whiteColor]];
             
             
             
-            [self.drawController presentViewController:settingsNavController animated:YES completion:^{
+            
+            [self.drawController presentViewController:self.settingsNavController animated:YES completion:^{
                 //
             }];
         }
