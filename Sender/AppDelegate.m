@@ -24,6 +24,10 @@
 
 #import "CWSettingsViewController.h"
 
+
+
+
+
 @interface UINavigationBar (customNav)
 @end
 
@@ -37,14 +41,25 @@
 @interface AppDelegate () <CWMenuDelegate>
 {
     BOOL isSplitScreen;
+    
 }
+//void (^)(BOOL success, NSURL *url)completionBlock;
+
 @property (nonatomic,strong) CWMenuViewController * menuVC;
 @property (nonatomic,strong) CWMainViewController * mainVC;
 @property (nonatomic,strong) CWLoadingViewController * loadingVC;
 @property (nonatomic,strong) UINavigationController * settingsNavController;
 @end
 
+
+
+
+
+
 @implementation AppDelegate
+
+
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -122,7 +137,6 @@
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
     */
-    
     
     return YES;
 }
@@ -231,11 +245,11 @@
         // Check the reachability status and show an alert if the internet connection is not available
         switch (status) {
             case AFNetworkReachabilityStatusNotReachable:
-                [SVProgressHUD showWithStatus:@"Network not reachable.\nConnection Required."];
+//                [SVProgressHUD showWithStatus:@"Network not reachable.\nConnection Required."];
                 break;
             case AFNetworkReachabilityStatusReachableViaWWAN:
             case AFNetworkReachabilityStatusReachableViaWiFi:
-                [SVProgressHUD dismiss];
+//                [SVProgressHUD dismiss];
                 break;
                 
             default:
@@ -251,6 +265,9 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
 }
+
+
+
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
@@ -273,15 +290,31 @@
     if ([scheme isEqualToString:@"chatwala"]) {
         [[CWMessageManager sharedInstance]downloadMessageWithID:messageId progress:nil completion:^(BOOL success, NSURL *url) {
             // fin
-            [self.openerVC setZipURL:url];
-            if ([self.navController.topViewController isEqual:self.openerVC]) {
-                // already showing opener
+            
+            if (success) {
+                // loaded message
+                [self.openerVC setZipURL:url];
+                if ([self.navController.topViewController isEqual:self.openerVC]) {
+                    // already showing opener
+                }else{
+                    [self.navController pushViewController:self.openerVC animated:NO];
+                }
+                [UIView animateWithDuration:0.5 animations:^{
+                    [self.loadingVC.view setAlpha:0];
+                }];
             }else{
-                [self.navController pushViewController:self.openerVC animated:NO];
+                // failed to load message
+                [self.navController popToRootViewControllerAnimated:NO];
+                [UIView animateWithDuration:0.5 animations:^{
+                    [self.loadingVC.view setAlpha:0];
+                }];
+                NSLog(@"failed to download message");
+                [SVProgressHUD showErrorWithStatus:@"Message Unavailable"];
             }
-            [UIView animateWithDuration:0.5 animations:^{
-                [self.loadingVC.view setAlpha:0];
-            }];
+            
+            
+            
+            
             
 
         }];
@@ -458,7 +491,18 @@
     
     [[CWMessageManager sharedInstance]downloadMessageWithID:messageId  progress:nil completion:^(BOOL success, NSURL *url) {
         //
-        [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
+        if (success) {
+            [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
+        }else{
+            // fail
+            [self.navController popToRootViewControllerAnimated:NO];
+            [UIView animateWithDuration:0.5 animations:^{
+                [self.loadingVC.view setAlpha:0];
+            }];
+            [SVProgressHUD showErrorWithStatus:@"Message Unavailable"];
+            NSLog(@"failed to download message");
+        }
+        
 
     }];
 
