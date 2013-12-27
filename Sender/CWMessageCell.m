@@ -11,6 +11,7 @@
 
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIProgressView * progressView;
+@property (nonatomic,strong) UIActivityIndicatorView * spinner;
 @property (nonatomic,strong) UIView * cellView;
 @property (nonatomic,strong) UIImageView * thumbView;
 @end
@@ -34,6 +35,18 @@
     return self;
 }
 
+- (UIActivityIndicatorView *)spinner
+{
+    if (_spinner == nil) {
+        _spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        [_spinner setTintColor:[UIColor redColor]];
+        [_spinner setFrame:CGRectMake(0, 0, 40, 40)];
+        [_spinner startAnimating];
+    }
+    
+    return _spinner;
+}
+
 
 - (void)setProgress:(CGFloat)progress
 {
@@ -52,6 +65,22 @@
 }
 
 
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    [super setSelected:selected animated:animated];
+    if (selected) {
+        [self setAccessoryView:self.spinner];
+    }else{
+        [self setAccessoryView:nil];
+    }
+}
+
+- (void)prepareForReuse
+{
+    [self.progressView setHidden:YES];
+    [self setAccessoryView:nil];
+    
+}
 
 - (void)setMessageData:(NSDictionary*)data
 {
