@@ -17,4 +17,28 @@
     return [UIColor colorWithRed:((rgbValue & 0xFF0000) >> 16)/255.0 green:((rgbValue & 0xFF00) >> 8)/255.0 blue:(rgbValue & 0xFF)/255.0 alpha:1.0];
 }
 
++ (UIColor *)chatwalaRed
+{
+    return [UIColor colorFromHexString:@"#d70137"];
+}
+
+
++ (UIColor *)chatwalaBlueDark
+{
+    return [UIColor colorFromHexString:@"#0c2753"];
+}
+
+
++ (UIColor *)chatwalaBlueMedium
+{
+    return [UIColor colorFromHexString:@"#172d50"];
+}
+
+
++ (UIColor *)chatwalaBlueLight
+{
+    return [UIColor colorFromHexString:@"#3a4c69"];
+}
+
+
 @end

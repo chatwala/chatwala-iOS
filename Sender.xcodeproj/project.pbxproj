@@ -72,6 +72,12 @@
 		E90B7CFB186CC01800B94DCC /* waves0012@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDD186CC01800B94DCC /* waves0012@2x.png */; };
 		E90B7CFC186CC01800B94DCC /* waves0013@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDE186CC01800B94DCC /* waves0013@2x.png */; };
 		E90B7CFD186CC01800B94DCC /* waves0014@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7CDF186CC01800B94DCC /* waves0014@2x.png */; };
+		E90B7D01186CD2DE00B94DCC /* CWSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90B7CFF186CD2DE00B94DCC /* CWSettingsViewController.m */; };
+		E90B7D02186CD2DE00B94DCC /* CWSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E90B7D00186CD2DE00B94DCC /* CWSettingsViewController.xib */; };
+		E90B7D0B186CED8300B94DCC /* CWPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90B7D09186CED8300B94DCC /* CWPrivacyViewController.m */; };
+		E90B7D0C186CED8300B94DCC /* CWPrivacyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E90B7D0A186CED8300B94DCC /* CWPrivacyViewController.xib */; };
+		E90B7D10186CED9C00B94DCC /* CWTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90B7D0E186CED9C00B94DCC /* CWTermsViewController.m */; };
+		E90B7D11186CED9C00B94DCC /* CWTermsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E90B7D0F186CED9C00B94DCC /* CWTermsViewController.xib */; };
 		E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D3182AA41A004B8CCD /* AssetItem.m */; };
 		E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D6182AA430004B8CCD /* VideoLibrary.m */; };
 		E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D9182BEA71004B8CCD /* CWMessageItem.m */; };
@@ -251,6 +257,15 @@
 		E90B7CDD186CC01800B94DCC /* waves0012@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0012@2x.png"; sourceTree = "<group>"; };
 		E90B7CDE186CC01800B94DCC /* waves0013@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0013@2x.png"; sourceTree = "<group>"; };
 		E90B7CDF186CC01800B94DCC /* waves0014@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "waves0014@2x.png"; sourceTree = "<group>"; };
+		E90B7CFE186CD2DE00B94DCC /* CWSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSettingsViewController.h; sourceTree = "<group>"; };
+		E90B7CFF186CD2DE00B94DCC /* CWSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSettingsViewController.m; sourceTree = "<group>"; };
+		E90B7D00186CD2DE00B94DCC /* CWSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWSettingsViewController.xib; sourceTree = "<group>"; };
+		E90B7D08186CED8300B94DCC /* CWPrivacyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWPrivacyViewController.h; sourceTree = "<group>"; };
+		E90B7D09186CED8300B94DCC /* CWPrivacyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPrivacyViewController.m; sourceTree = "<group>"; };
+		E90B7D0A186CED8300B94DCC /* CWPrivacyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPrivacyViewController.xib; sourceTree = "<group>"; };
+		E90B7D0D186CED9C00B94DCC /* CWTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTermsViewController.h; sourceTree = "<group>"; };
+		E90B7D0E186CED9C00B94DCC /* CWTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWTermsViewController.m; sourceTree = "<group>"; };
+		E90B7D0F186CED9C00B94DCC /* CWTermsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWTermsViewController.xib; sourceTree = "<group>"; };
 		E90F04D2182AA41A004B8CCD /* AssetItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetItem.h; sourceTree = "<group>"; };
 		E90F04D3182AA41A004B8CCD /* AssetItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetItem.m; sourceTree = "<group>"; };
 		E90F04D5182AA430004B8CCD /* VideoLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoLibrary.h; sourceTree = "<group>"; };
@@ -586,6 +601,15 @@
 				E990945F18620AD70050695F /* CWViewController.h */,
 				E990946018620AD70050695F /* CWViewController.m */,
 				E90B7C84186C959200B94DCC /* Loading */,
+				E90B7CFE186CD2DE00B94DCC /* CWSettingsViewController.h */,
+				E90B7CFF186CD2DE00B94DCC /* CWSettingsViewController.m */,
+				E90B7D00186CD2DE00B94DCC /* CWSettingsViewController.xib */,
+				E90B7D0D186CED9C00B94DCC /* CWTermsViewController.h */,
+				E90B7D0E186CED9C00B94DCC /* CWTermsViewController.m */,
+				E90B7D0F186CED9C00B94DCC /* CWTermsViewController.xib */,
+				E90B7D08186CED8300B94DCC /* CWPrivacyViewController.h */,
+				E90B7D09186CED8300B94DCC /* CWPrivacyViewController.m */,
+				E90B7D0A186CED8300B94DCC /* CWPrivacyViewController.xib */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -1028,6 +1052,7 @@
 				E9E003FB183FEB6B0087E909 /* CWLandingViewController.xib in Resources */,
 				E90B7CB0186CBE4A00B94DCC /* waves0012.png in Resources */,
 				E90B7CAB186CBE4A00B94DCC /* waves0007.png in Resources */,
+				E90B7D11186CED9C00B94DCC /* CWTermsViewController.xib in Resources */,
 				E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */,
 				E9ABCFB9183E632A0098E530 /* google_oauth2.json in Resources */,
 				E90B7CF1186CC01800B94DCC /* waves0002@2x.png in Resources */,
@@ -1105,7 +1130,9 @@
 				E90B7CEF186CC01800B94DCC /* waves0000@2x.png in Resources */,
 				E924AD2B183AB450009400DD /* CWSSComposerViewController.xib in Resources */,
 				E90B7CB1186CBE4A00B94DCC /* waves0013.png in Resources */,
+				E90B7D0C186CED8300B94DCC /* CWPrivacyViewController.xib in Resources */,
 				E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */,
+				E90B7D02186CD2DE00B94DCC /* CWSettingsViewController.xib in Resources */,
 				E90B7CEE186CC01800B94DCC /* waves0029@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1227,6 +1254,7 @@
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
+				E90B7D01186CD2DE00B94DCC /* CWSettingsViewController.m in Sources */,
 				E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */,
 				E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */,
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,
@@ -1235,6 +1263,7 @@
 				E96C1501183FABB200DA9B85 /* CWAuthRequestViewController.m in Sources */,
 				E9909464186231BF0050695F /* CWMessageManager.m in Sources */,
 				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
+				E90B7D0B186CED8300B94DCC /* CWPrivacyViewController.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
@@ -1262,6 +1291,7 @@
 				E9AF03351868B423006CB546 /* CWMenuViewController.m in Sources */,
 				E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
+				E90B7D10186CED9C00B94DCC /* CWTermsViewController.m in Sources */,
 				E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */,
 				E9ABCFB7183E61050098E530 /* CWAuthenticationManager.m in Sources */,
 			);

@@ -22,14 +22,16 @@
 #import "CWMessageManager.h"
 #import "CWLoadingViewController.h"
 
+#import "CWSettingsViewController.h"
+
 @interface UINavigationBar (customNav)
 @end
 
 @implementation UINavigationBar (customNav)
-- (CGSize)sizeThatFits:(CGSize)size {
-    CGSize newSize = CGSizeMake(self.frame.size.width,50);
-    return newSize;
-}
+//- (CGSize)sizeThatFits:(CGSize)size {
+//    CGSize newSize = CGSizeMake(self.frame.size.width,50);
+//    return newSize;
+//}
 @end
 
 @interface AppDelegate () <CWMenuDelegate>
@@ -139,7 +141,7 @@
         [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //
-        NSLog(@"failed to fecth messages");
+        NSLog(@"failed to fetch messages with error: %@",error);
         completionHandler(UIBackgroundFetchResultNoData);
         [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
     }];
@@ -252,8 +254,11 @@
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
-    [self.loadingVC restartAnimation];
-    [self.loadingVC.view setAlpha:1];
+    if (self.loadingVC.view.alpha == 0) {
+        [self.loadingVC restartAnimation];
+        [self.loadingVC.view setAlpha:1];
+    }
+    
 
     
     if ([scheme isEqualToString:@"chatwala"]) {
@@ -265,7 +270,10 @@
             }else{
                 [self.navController pushViewController:self.openerVC animated:NO];
             }
-            [self.loadingVC.view setAlpha:0];
+            [UIView animateWithDuration:0.5 animations:^{
+                [self.loadingVC.view setAlpha:0];
+            }];
+            
 
         }];
     }else{
@@ -276,7 +284,6 @@
             [self.navController pushViewController:self.openerVC animated:NO];
         }
         [self.loadingVC.view setAlpha:0];
-
     }
     
     
@@ -392,12 +399,26 @@
             if ([self.mainVC.navigationController.visibleViewController isKindOfClass:[CWStartScreenViewController class]]) {
                 // do nothing
             }else{
-                [self.mainVC.navigationController popToRootViewControllerAnimated:YES];
+                [self.mainVC.navigationController popToRootViewControllerAnimated:NO];
             }
         }
         else if ([button isEqual:menuVC.settingsButton])
         {
-            // do nothing!
+            
+            
+            
+            CWSettingsViewController * settings = [[CWSettingsViewController alloc]init];
+            UINavigationController * settingsNavController = [[UINavigationController alloc]initWithRootViewController:settings];
+            [settingsNavController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+            settingsNavController.navigationBar.shadowImage = [UIImage new];
+            settingsNavController.navigationBar.translucent = YES;
+            [settingsNavController.navigationBar setTintColor:[UIColor whiteColor]];
+            
+            
+            
+            [self.drawController presentViewController:settingsNavController animated:YES completion:^{
+                //
+            }];
         }
     }];
     
@@ -406,20 +427,21 @@
 }
 
 
-- (void)menuViewController:(CWMenuViewController *)meneVC didSelectMessageWithID:(NSString *)messageId
+- (void)menuViewController:(CWMenuViewController *)menuVC didSelectMessageWithID:(NSString *)messageId
 {
     
     AppDelegate * appdel = self;
     [self.drawController closeDrawerAnimated:YES completion:nil];
+    [self.loadingVC restartAnimation];
+    [self.loadingVC.view setAlpha:1];
+    
     
     
     
     [[CWMessageManager sharedInstance]downloadMessageWithID:messageId  progress:nil completion:^(BOOL success, NSURL *url) {
         //
-        NSLog(@"Download Complete! %@",url);
-        [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
-            [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
-        }];
+        [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
+
     }];
 
 }

@@ -10,4 +10,8 @@
 
 @interface UIColor (Additions)
 + (UIColor *)colorFromHexString:(NSString *)hexString;
++ (UIColor *)chatwalaRed;
++ (UIColor *)chatwalaBlueDark;
++ (UIColor *)chatwalaBlueMedium;
++ (UIColor *)chatwalaBlueLight;
 @end
