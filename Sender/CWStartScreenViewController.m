@@ -40,7 +40,8 @@
     
     self.messageSentView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]];
 
-    [self.messageSentView setFrame:CGRectMake(0, 0, 227, 67)];
+    [self.messageSentView setFrame:CGRectMake(0, 8, self.messageSentView.frame.size.width, self.messageSentView.frame.size.height)];
+    
     [self.messageSentView setCenter:CGPointMake(160, self.messageSentView.center.y)];
     
     [self.view addSubview:self.messageSentView];
