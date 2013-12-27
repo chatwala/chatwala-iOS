@@ -254,8 +254,11 @@
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
-    [self.loadingVC restartAnimation];
-    [self.loadingVC.view setAlpha:1];
+    if (self.loadingVC.view.alpha == 0) {
+        [self.loadingVC restartAnimation];
+        [self.loadingVC.view setAlpha:1];
+    }
+    
 
     
     if ([scheme isEqualToString:@"chatwala"]) {
@@ -267,7 +270,10 @@
             }else{
                 [self.navController pushViewController:self.openerVC animated:NO];
             }
-            [self.loadingVC.view setAlpha:0];
+            [UIView animateWithDuration:0.5 animations:^{
+                [self.loadingVC.view setAlpha:0];
+            }];
+            
 
         }];
     }else{
@@ -277,7 +283,10 @@
         }else{
             [self.navController pushViewController:self.openerVC animated:NO];
         }
-        [self.loadingVC.view setAlpha:0];
+        [UIView animateWithDuration:0.5 animations:^{
+            [self.loadingVC.view setAlpha:0];
+        }];
+        
 
     }
     
@@ -394,7 +403,7 @@
             if ([self.mainVC.navigationController.visibleViewController isKindOfClass:[CWStartScreenViewController class]]) {
                 // do nothing
             }else{
-                [self.mainVC.navigationController popToRootViewControllerAnimated:YES];
+                [self.mainVC.navigationController popToRootViewControllerAnimated:NO];
             }
         }
         else if ([button isEqual:menuVC.settingsButton])
@@ -427,15 +436,16 @@
     
     AppDelegate * appdel = self;
     [self.drawController closeDrawerAnimated:YES completion:nil];
+    [self.loadingVC restartAnimation];
+    [self.loadingVC.view setAlpha:1];
+    
     
     
     
     [[CWMessageManager sharedInstance]downloadMessageWithID:messageId  progress:nil completion:^(BOOL success, NSURL *url) {
         //
-        NSLog(@"Download Complete! %@",url);
-        [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
-            [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
-        }];
+        [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
+
     }];
 
 }
