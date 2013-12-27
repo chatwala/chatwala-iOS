@@ -427,7 +427,7 @@
 }
 
 
-- (void)menuViewController:(CWMenuViewController *)meneVC didSelectMessageWithID:(NSString *)messageId
+- (void)menuViewController:(CWMenuViewController *)menuVC didSelectMessageWithID:(NSString *)messageId
 {
     
     AppDelegate * appdel = self;
