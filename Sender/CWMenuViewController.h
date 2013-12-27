@@ -23,5 +23,5 @@
 
 @protocol CWMenuDelegate <NSObject>
 - (void)menuViewController:(CWMenuViewController*)menuVC didSelectButton:(UIButton*)button;
-- (void)menuViewController:(CWMenuViewController*)meneVC didSelectMessageWithID:(NSString*)messageId;
+- (void)menuViewController:(CWMenuViewController*)menuVC didSelectMessageWithID:(NSString*)messageId;
 @end
