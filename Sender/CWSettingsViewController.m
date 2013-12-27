@@ -7,13 +7,14 @@
 //
 
 #import "CWSettingsViewController.h"
+#import "CWTermsViewController.h"
+#import "CWPrivacyViewController.h"
 
 @interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
 @property (nonatomic,strong) NSArray * sectionHeaders;
 @property (nonatomic,strong) NSArray * section1Titles;
 @property (nonatomic,strong) NSArray * section2Titles;
-
 @end
 
 @implementation CWSettingsViewController
@@ -39,8 +40,14 @@
     
 
     [self setSectionHeaders:@[@"",@""]];
-    [self setSection1Titles:@[@"Push Notification"]];
-    [self setSection2Titles:@[@"Import Messages",@"Link Accounts",@"Terms and Conditions",@"Privacy Policy"]];
+//    [self setSection2Titles:@[@"Push Notification"]];
+    NSDictionary * att = @{
+                           NSForegroundColorAttributeName: [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5]
+                           };
+    [self.navigationController.navigationBar setTitleTextAttributes:att];
+    
+    
+    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy"]];
     
     
     
@@ -48,10 +55,18 @@
     [self.settingsTable setDelegate:self];
     [self.settingsTable setDataSource:self];
     [self.settingsTable setBackgroundColor:[UIColor clearColor]];
-    [self.settingsTable setSeparatorColor:[UIColor colorFromHexString:@"#3a4c69"]];
+    [self.settingsTable setSeparatorColor:[UIColor chatwalaBlueLight]];
     [self.settingsTable setScrollEnabled:NO];
+    
+    
+    
 }
 
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+}
 
 - (void)onSettingsDone
 {
@@ -59,18 +74,23 @@
 }
 
 
+
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell"];
-    [cell setBackgroundColor:[UIColor colorFromHexString:@"#172d50"]];
+    [cell setBackgroundColor:[UIColor chatwalaBlueMedium]];
     [cell.textLabel setTextColor:[UIColor whiteColor]];
-    [cell.textLabel setText:[[@[self.section1Titles,self.section2Titles]objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]];
-    if (indexPath.section == 1) {
+    UIView* bgview = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 80)];
+    [bgview setBackgroundColor:[UIColor chatwalaRed]];
+    [cell setSelectedBackgroundView:bgview];
+    [cell.textLabel setText:[[@[self.section1Titles]objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]];
+    if (indexPath.section == 0) {
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     }
     return cell;
@@ -86,7 +106,7 @@
 {
     NSInteger count = 0;
     if (section == 0) {
-        count = 1;
+        count = [self.section1Titles count];
     }else if (section == 1)
     {
         count = 4;
@@ -110,6 +130,44 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 50;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    switch (indexPath.section) {
+        case 0:
+            // section 1
+        {
+            switch (indexPath.row) {
+                case 0:
+                {
+                    CWTermsViewController* tocVC = [[CWTermsViewController alloc]init];
+                    [self.navigationController pushViewController:tocVC animated:YES];
+                }
+                    break;
+                    
+                default:
+                {
+                    CWPrivacyViewController* privVC = [[CWPrivacyViewController alloc]init];
+                    [self.navigationController pushViewController:privVC animated:YES];
+                }
+                    break;
+            }
+        }
+            break;
+            
+        case 1:
+            // section 2
+        {
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 @end
