@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^DownloadCompletionBlock)(BOOL success, NSURL *url);
+
+
 @interface CWMessageManager : NSObject < UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic,readonly) NSString * baseEndPoint;
 @property (nonatomic,readonly) NSString * messagesEndPoint;
@@ -17,6 +20,6 @@
 @property (nonatomic,strong) NSArray * messages;
 +(instancetype) sharedInstance;
 - (void)getMessages;
-- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(void (^)(BOOL success, NSURL *url))completionBlock;
+- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(DownloadCompletionBlock)completionBlock;
 
 @end

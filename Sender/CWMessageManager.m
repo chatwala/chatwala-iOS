@@ -25,7 +25,7 @@
 {
     self = [super init];
     if (self) {
-        useLocalServer = NO;
+        useLocalServer = YES;
     }
     return self;
 }
@@ -119,10 +119,29 @@
             }
             else
             {
-                NSLog(@"File downloaded to: %@", filePath);
-                if (completionBlock) {
-                    completionBlock(YES,filePath);
+                
+                
+                NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
+                switch (httpResponse.statusCode) {
+                    case 200:
+                        // success
+                        NSLog(@"File downloaded to: %@", filePath);
+                        if (completionBlock) {
+                            completionBlock(YES,filePath);
+                        }
+                        break;
+                        
+                    default:
+                        // fail
+                        NSLog(@"failed to load message file. with code:%i",httpResponse.statusCode);
+                        if (completionBlock) {
+                            completionBlock(NO,nil);
+                        }
+                        break;
                 }
+               
+                
+                
             }
         }];
         
