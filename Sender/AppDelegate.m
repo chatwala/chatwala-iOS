@@ -141,7 +141,7 @@
         [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         //
-        NSLog(@"failed to fecth messages");
+        NSLog(@"failed to fetch messages with error: %@",error);
         completionHandler(UIBackgroundFetchResultNoData);
         [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
     }];
