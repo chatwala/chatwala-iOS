@@ -283,11 +283,7 @@
         }else{
             [self.navController pushViewController:self.openerVC animated:NO];
         }
-        [UIView animateWithDuration:0.5 animations:^{
-            [self.loadingVC.view setAlpha:0];
-        }];
-        
-
+        [self.loadingVC.view setAlpha:0];
     }
     
     
