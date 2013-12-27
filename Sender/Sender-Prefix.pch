@@ -49,7 +49,7 @@
 #define TESTFLIGHT_APP_TOKEN        @"73919668-dae2-4921-997a-71f27ac19678"
 
 // google analytics token
-#define GOOGLE_ANALYTICS_ID         @"UA-45902634-1"
+#define GOOGLE_ANALYTICS_ID         @"UA-46207837-1"
 
 //
 #define CHATWALA_USER_ID            @"CHATWALA_USER_ID"
