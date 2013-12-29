@@ -21,11 +21,7 @@
 #import "CWMainViewController.h"
 #import "CWMessageManager.h"
 #import "CWLoadingViewController.h"
-
 #import "CWSettingsViewController.h"
-
-
-
 
 
 @interface UINavigationBar (customNav)
@@ -52,13 +48,7 @@
 @end
 
 
-
-
-
-
 @implementation AppDelegate
-
-
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -178,8 +168,6 @@
 }
 
 
-
-
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -255,9 +243,12 @@
             default:
                 break;
         }
-        
     }];
     
+    // Update a new upload ID here if it's needed
+    if ([[CWMessageManager sharedInstance] needsMessageUploadID]) {
+        [[CWMessageManager sharedInstance] fetchMessageUploadIDWithCompletionBlockOrNil:nil];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -272,9 +263,6 @@
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
    
-    
-    
-    NSLog(@"opening URL...");
     NSString * scheme = [url scheme];
     NSString * messageId = [[url pathComponents]lastObject];
     
@@ -292,6 +280,7 @@
             // fin
             
             if (success) {
+                
                 // loaded message
                 [self.openerVC setZipURL:url];
                 if ([self.navController.topViewController isEqual:self.openerVC]) {
@@ -311,14 +300,9 @@
                 NSLog(@"failed to download message");
                 [SVProgressHUD showErrorWithStatus:@"Message Unavailable"];
             }
-            
-            
-            
-            
-            
-
         }];
-    }else{
+    }
+    else{
         [self.openerVC setZipURL:url];
         if ([self.navController.topViewController isEqual:self.openerVC]) {
             // already showing opener
@@ -407,7 +391,6 @@
     return _openerVC;
 }
 
-
 - (void)onMenuButtonTapped
 {
     if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
@@ -460,20 +443,11 @@
         }
         else if ([button isEqual:menuVC.settingsButton])
         {
-            
-            
-            
-            
-            
-            
-            
             [self.drawController presentViewController:self.settingsNavController animated:YES completion:^{
-                //
+                // Do nothing
             }];
         }
     }];
-    
-    
     
 }
 
@@ -485,7 +459,6 @@
     [self.drawController closeDrawerAnimated:YES completion:nil];
     [self.loadingVC restartAnimation];
     [self.loadingVC.view setAlpha:1];
-    
     
     
     
@@ -505,7 +478,6 @@
         
 
     }];
-
 }
 
 @end

@@ -8,7 +8,6 @@
 
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
-#import "CWMessageItem.h"
 #import "CWAuthenticationManager.h"
 #import "CWFlowManager.h"
 #import "CWAuthenticationManager.h"
@@ -184,6 +183,8 @@
     
 }
 
+#pragma mark - Message Sending
+
 - (IBAction)onSend:(id)sender {
     
     if (self.sendButton.buttonState == eButtonStateBusy) {
@@ -198,90 +199,49 @@
         
     }else{
         [CWAnalytics event:@"Send Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
-
-        
     }
     
     [player stop];
-//    [self composeMessageWithData:[self createMessageData]];
-    
-    // send message to backend
+    //    [self composeMessageWithData:[self createMessageData]];
     
     [self.sendButton setButtonState:eButtonStateBusy];
-    
     
     CWMessageItem * message = [self createMessageItem];
     [message exportZip];
     
-    
-    
-    
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    NSDictionary *params = @{@"message_id": message.metadata.messageId,
-                             @"sender_id": message.metadata.senderId,
-                             @"recipient_id": message.metadata.recipientId};
-    
-    
-    [manager POST:[[CWMessageManager sharedInstance] messagesEndPoint] parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        
-        
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Success: %@", responseObject);
-        message.metadata.messageId = [responseObject valueForKey:@"message_id"];
-        
-        [self uploadMessageWalaFile:message];
-        
-        if(self.incomingMessageItem==nil)
-        {
-            [self composeMessageWithMessageKey:[responseObject valueForKey:@"url"]];
-            
-        }else{
-            
-            /// Responding to message.
-            
-            [[CWAuthenticationManager sharedInstance]didSkipAuth];
-            
-            [self.sendButton setButtonState:eButtonStateShare];
-            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
-            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
-            [[NSUserDefaults standardUserDefaults]synchronize];
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            
-        }
-        
-        
-
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
-        [SVProgressHUD showErrorWithStatus:error.localizedDescription];
-    }];
-    
-
+    if ([[CWMessageManager sharedInstance] needsMessageUploadID]) {
+        [[CWMessageManager sharedInstance] fetchMessageUploadIDWithCompletionBlockOrNil:^(BOOL success) {
+            if (success) {
+                message.metadata.messageId = [[CWMessageManager sharedInstance] idForNewMessage];
+                [self sendMessage:message];
+            }
+        }];
+    }
+    else {
+        // Just upload data
+        message.metadata.messageId = [[CWMessageManager sharedInstance] idForNewMessage];
+        [self sendMessage:message];
+    }
 }
 
-
-- (void) uploadMessageWalaFile:(CWMessageItem *) message
-{
+- (void)sendMessage:(CWMessageItem *)messageToSend {
     
-    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint] ,message.metadata.messageId];
-    NSLog(@"uploading message: %@",endPoint);
-    NSURL *URL = [NSURL URLWithString:endPoint];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    [request setHTTPMethod:@"PUT"];
-
-    AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    [[CWMessageManager sharedInstance] uploadMesage:messageToSend];
     
-    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:message.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        //
-        if (error) {
-            NSLog(@"Error: %@", error);
-            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
-        } else {
-            NSLog(@"Success: %@ %@", response, responseObject);
-        }
-    }];
-    
-    [task resume];
+    if (self.incomingMessageItem==nil) {
+        [self composeMessageWithMessageKey:[[CWMessageManager sharedInstance] urlForNewMessage]];
+    }
+    else {
+        
+        /// Responding to message.
+        [[CWAuthenticationManager sharedInstance]didSkipAuth];
+        
+        [self.sendButton setButtonState:eButtonStateShare];
+        [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+        [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark CWVideoPlayerDelegate
@@ -307,6 +267,7 @@
     playbackCount++;
     [player replayVideo];
 }
+
 - (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError *)error
 {
     

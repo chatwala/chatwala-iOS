@@ -13,9 +13,6 @@
 @implementation CWMessageItem
 
 
-
-
-
 - (id)init
 {
     self=[super init];
@@ -116,7 +113,7 @@
     // copy video to folder
     [[NSFileManager defaultManager]copyItemAtPath:self.videoURL.path toPath:[newDirectoryPath stringByAppendingPathComponent:VIDEO_FILE_NAME] error:&err];
     if (err) {
-        NSLog(@"faild to copy video to new directory: %@",err.debugDescription);
+        NSLog(@"failed to copy video to new directory: %@",err.debugDescription);
         return;
     }
     
@@ -131,7 +128,6 @@
     }
     
     [jsonData writeToFile:[newDirectoryPath stringByAppendingPathComponent:METADATA_FILE_NAME] atomically:YES];
-    
     
     NSLog(@"ready!");
     // zip it up

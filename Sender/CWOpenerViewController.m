@@ -13,7 +13,7 @@
 #import "CWFlowManager.h"
 #import "CWMessageItem.h"
 #import "CWGroundControlManager.h"
-
+#import "CWMessageManager.h"
 
 @interface CWOpenerViewController () 
 {
@@ -129,6 +129,9 @@
 
 - (void)onMiddleButtonTap
 {
+    if ([[CWMessageManager sharedInstance] needsMessageUploadID]) {
+        [[CWMessageManager sharedInstance] fetchMessageUploadIDWithCompletionBlockOrNil:nil];
+    }
     
     switch (self.openerState) {
         case CWOpenerPreview:

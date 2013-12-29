@@ -11,6 +11,15 @@
 #import "CWMessageCell.h"
 
 @interface CWMessageManager ()
+
+@property (nonatomic,assign) BOOL needsMessageUploadID;
+@property (nonatomic,strong) NSString *idForNewMessage;
+@property (nonatomic,strong) NSString *urlForNewMessage;
+@property (nonatomic,strong) AFHTTPRequestOperation *messageIDOperation;
+
+@end
+
+@interface CWMessageManager ()
 {
     BOOL useLocalServer;
     NSIndexPath * selectedIndexPath;
@@ -26,6 +35,7 @@
     self = [super init];
     if (self) {
         useLocalServer = NO;
+        self.needsMessageUploadID = YES;
     }
     return self;
 }
@@ -271,6 +281,84 @@
         [downloadTask resume];
     }
      */
+}
+
+- (void)fetchMessageUploadIDWithCompletionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
+    
+    NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
+
+    // Cancel & cleanup previous requests
+    [self.messageIDOperation setCompletionBlockWithSuccess:nil failure:nil];
+    [self.messageIDOperation cancel];
+    
+    self.idForNewMessage = nil;
+    self.urlForNewMessage = nil;
+    self.messageIDOperation = nil;
+    
+    // Create new request
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    self.messageIDOperation = [manager POST:self.messagesEndPoint parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        // Nothing needed here
+        // Should we change this to not use multipart then?
+    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+
+        self.needsMessageUploadID = NO;
+        self.idForNewMessage = [responseObject valueForKey:@"message_id"];
+        self.urlForNewMessage = [responseObject valueForKey:@"url"];
+
+        NSLog(@"Fetched new message upload ID: %@: and URL: %@",self.idForNewMessage, self.urlForNewMessage);
+        
+        if (completionBlock) {
+            completionBlock(YES);
+        }
+        
+        self.messageIDOperation = nil;
+    
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        self.needsMessageUploadID = YES;
+        NSLog(@"Error retrieving message ID or URL from the server");
+        [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
+        
+        NSLog(@"Failed to fetched new message upload ID");
+        
+        if (completionBlock) {
+            completionBlock(NO);
+        }
+        
+        self.messageIDOperation = nil;
+    }];
+}
+
+- (void)uploadMesage:(CWMessageItem *)messageToUpload {
+    NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
+    
+    
+    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint], messageToUpload.metadata.messageId];
+    NSLog(@"uploading message: %@",endPoint);
+    NSURL *URL = [NSURL URLWithString:endPoint];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    [request setHTTPMethod:@"PUT"];
+    
+    AFURLSessionManager *mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        
+        self.idForNewMessage = nil;
+        self.urlForNewMessage = nil;
+        
+        if (error) {
+            NSLog(@"Error during message upload: %@", error);
+            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+        } else {
+            NSLog(@"Successful message upload: %@ %@", response, responseObject);
+        }
+    }];
+    
+    // After this we'll need a different endpoint for upload if we cancel or kill the app
+    self.needsMessageUploadID = YES;
+    [task resume];
 }
 
 - (void)updateProgressView:(NSNumber*)p
