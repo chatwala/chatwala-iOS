@@ -217,13 +217,11 @@ NSString * const kCurrentItemKey	= @"currentItem";
     
     AVAssetImageGenerator * imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:self.asset];
     
-    CWVideoPlayer *weakSelf = self;
-
     [imageGenerator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:kCMTimeZero]]
                                          completionHandler:^(CMTime requestedTime, CGImageRef image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error) {
                                                       if(result == AVAssetImageGeneratorSucceeded)
                                                       {
-                                                          weakSelf.thumbnail = [UIImage imageWithCGImage:image];
+                                                          self.thumbnail = [UIImage imageWithCGImage:image];
                                                           completionHandler(self.thumbnail);
                                                       }
                                                   }];
