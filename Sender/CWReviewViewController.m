@@ -369,6 +369,10 @@
                 [CWAnalytics event:@"Send SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
             }
             
+            [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+                NSLog(@"thumbnail created:%@", thumbnail);
+            }];
+            
 //            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
             
             [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
