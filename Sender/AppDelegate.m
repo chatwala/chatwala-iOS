@@ -327,6 +327,7 @@
         }
         [self.loadingVC.view setAlpha:0];
     }
+    [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
     
     
     /*
