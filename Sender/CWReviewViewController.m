@@ -238,14 +238,7 @@
         }else{
             
             /// Responding to message.
-            
-            [[CWAuthenticationManager sharedInstance]didSkipAuth];
-            
-            [self.sendButton setButtonState:eButtonStateShare];
-            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
-            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
-            [[NSUserDefaults standardUserDefaults]synchronize];
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self didSendMessage];
             
         }
         
@@ -282,6 +275,22 @@
     }];
     
     [task resume];
+}
+
+- (void) didSendMessage
+{
+    
+    [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        NSLog(@"thumbnail created:%@", thumbnail);
+    }];
+    
+    [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+    
+    [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    [[CWAuthenticationManager sharedInstance]didSkipAuth];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark CWVideoPlayerDelegate
@@ -326,14 +335,7 @@
                 }else{
                     [CWAnalytics event:@"Send Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
                 }
-                
-                [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
-              
-                [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
-                [[NSUserDefaults standardUserDefaults]synchronize];
-                
-                [[CWAuthenticationManager sharedInstance]didSkipAuth];
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self didSendMessage];
             }
             break;
     
@@ -369,17 +371,7 @@
                 [CWAnalytics event:@"Send SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
             }
             
-            [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-                NSLog(@"thumbnail created:%@", thumbnail);
-            }];
-            
-//            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
-            
-            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
-            [[NSUserDefaults standardUserDefaults]synchronize];
-            
-            [[CWAuthenticationManager sharedInstance]didSkipAuth];
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self didSendMessage];
         }
             break;
             
