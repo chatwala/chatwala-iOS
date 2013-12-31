@@ -216,12 +216,12 @@ NSString * const kCurrentItemKey	= @"currentItem";
     
     
     AVAssetImageGenerator * imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:self.asset];
-    
+    imageGenerator.appliesPreferredTrackTransform = YES;
     [imageGenerator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:kCMTimeZero]]
                                          completionHandler:^(CMTime requestedTime, CGImageRef image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error) {
                                                       if(result == AVAssetImageGeneratorSucceeded)
                                                       {
-                                                          self.thumbnail = [UIImage imageWithCGImage:image];
+                                                          self.thumbnail = [UIImage imageWithCGImage:image scale:1.0 orientation:UIImageOrientationLeft];
                                                           completionHandler(self.thumbnail);
                                                       }
                                                   }];

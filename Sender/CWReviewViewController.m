@@ -16,6 +16,7 @@
 #import "CWLandingViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWMessageManager.h"
+#import "CWUtility.h"
 
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
@@ -88,10 +89,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-- (NSURL*)cacheDirectoryURL
-{
-    return [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
 }
 
 - (void)composeMessageWithMessageKey:(NSString*)messageURL
@@ -277,11 +274,17 @@
     [task resume];
 }
 
+
+
 - (void) didSendMessage
 {
     
     [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
         NSLog(@"thumbnail created:%@", thumbnail);
+        
+        NSURL * thumbnailPath = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"thumbnailImage.png"];
+        [UIImagePNGRepresentation(thumbnail) writeToURL:thumbnailPath atomically:YES];
+        
     }];
     
 //    [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
