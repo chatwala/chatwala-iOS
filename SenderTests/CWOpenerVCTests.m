@@ -172,10 +172,12 @@
     id mockPlaybackView = [OCMockObject partialMockForObject:dummyView];
     [[[self.mockSUT stub]andReturn:mockPlaybackView]playbackView];
     [[mockPlaybackView expect]addSubview:OCMOCK_ANY];
+    [[self.mockRecorder expect] stopRecording];
     
     [self.sut videoPlayerDidLoadVideo:self.sut.player];
     [mockPlaybackView verify];
     [mockPlaybackView stopMocking];
+    [self.mockRecorder verify];
     
 }
 

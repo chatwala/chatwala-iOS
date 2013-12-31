@@ -24,6 +24,7 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
 - (void)stop;
 - (void)replayVideo;
 - (NSTimeInterval) videoLength;
+- (void) createThumbnailWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler;
 @end
 
 

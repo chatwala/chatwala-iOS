@@ -16,6 +16,7 @@
 #import "CWLandingViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWMessageManager.h"
+#import "CWUtility.h"
 
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
@@ -88,10 +89,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-- (NSURL*)cacheDirectoryURL
-{
-    return [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
 }
 
 - (void)composeMessageWithMessageKey:(NSString*)messageURL
@@ -238,20 +235,14 @@
         }else{
             
             /// Responding to message.
-            
-            [[CWAuthenticationManager sharedInstance]didSkipAuth];
-            
-            [self.sendButton setButtonState:eButtonStateShare];
-            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
-            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
-            [[NSUserDefaults standardUserDefaults]synchronize];
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self didSendMessage];
             
         }
         
         
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"request: %@", operation.request);
         NSLog(@"Error: %@", error);
         [SVProgressHUD showErrorWithStatus:error.localizedDescription];
     }];
@@ -282,6 +273,54 @@
     }];
     
     [task resume];
+}
+
+- (void) uploadProfilePicture
+{
+    
+    [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        NSLog(@"thumbnail created:%@", thumbnail);
+        
+        NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"thumbnailImage.png"];
+        [UIImagePNGRepresentation(thumbnail) writeToURL:thumbnailURL atomically:YES];
+
+        NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+
+        NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
+        NSLog(@"uploading profile image: %@",endPoint);
+        NSURL *URL = [NSURL URLWithString:endPoint];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+        [request setHTTPMethod:@"PUT"];
+        
+        AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        
+        NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            //
+            if (error) {
+                NSLog(@"Error: %@", error);
+                [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+            } else {
+                NSLog(@"Successfully upload profile picture: %@ %@", response, responseObject);
+                
+            }
+        }];
+        
+        [task resume];
+        
+    }];
+    
+}
+
+- (void) didSendMessage
+{
+    [self uploadProfilePicture];
+//    [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+    
+    [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
+    [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    [[CWAuthenticationManager sharedInstance]didSkipAuth];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 #pragma mark CWVideoPlayerDelegate
@@ -326,14 +365,7 @@
                 }else{
                     [CWAnalytics event:@"Send Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
                 }
-                
-                [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
-              
-                [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
-                [[NSUserDefaults standardUserDefaults]synchronize];
-                
-                [[CWAuthenticationManager sharedInstance]didSkipAuth];
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [self didSendMessage];
             }
             break;
     
@@ -369,13 +401,7 @@
                 [CWAnalytics event:@"Send SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
             }
             
-//            [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
-            
-            [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
-            [[NSUserDefaults standardUserDefaults]synchronize];
-            
-            [[CWAuthenticationManager sharedInstance]didSkipAuth];
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self didSendMessage];
         }
             break;
             

@@ -82,7 +82,7 @@
 {
 
     AppDelegate * appdel = [[AppDelegate alloc]init];
-    [appdel application:OCMOCK_ANY openURL:OCMOCK_ANY sourceApplication:OCMOCK_ANY annotation:OCMOCK_ANY];
+    [appdel application:OCMOCK_ANY openURL:[OCMockObject niceMockForClass:[NSURL class]] sourceApplication:OCMOCK_ANY annotation:OCMOCK_ANY];
     
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
 }

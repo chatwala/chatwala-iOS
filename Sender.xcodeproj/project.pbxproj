@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		366035E31873394800EE9233 /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 366035E21873394800EE9233 /* CWUtility.m */; };
 		36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E814C9185FB78A002B1A12 /* CWUserManager.m */; };
 		5A22DD32AA184288BEC932AA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8B4EC8D342465796C4A37E /* libPods.a */; };
 		82380876CA9D496387191727 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5043C247C54257A2FCABFE /* libPods-test.a */; };
@@ -189,6 +190,8 @@
 
 /* Begin PBXFileReference section */
 		021C04FCE95441C395C53215 /* Pods-test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.xcconfig"; path = "Pods/Pods-test.xcconfig"; sourceTree = "<group>"; };
+		366035E11873394800EE9233 /* CWUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUtility.h; sourceTree = "<group>"; };
+		366035E21873394800EE9233 /* CWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUtility.m; sourceTree = "<group>"; };
 		36E814C8185FB78A002B1A12 /* CWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserManager.h; sourceTree = "<group>"; };
 		36E814C9185FB78A002B1A12 /* CWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserManager.m; sourceTree = "<group>"; };
 		810134A78491415EBDC34438 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -748,6 +751,8 @@
 				E944399E182940AF0088A381 /* Images.xcassets */,
 				E946BD261844FCA700C6A99D /* Resources */,
 				E944398D182940AF0088A381 /* Supporting Files */,
+				366035E11873394800EE9233 /* CWUtility.h */,
+				366035E21873394800EE9233 /* CWUtility.m */,
 			);
 			path = Sender;
 			sourceTree = "<group>";
@@ -1291,6 +1296,7 @@
 				E9AF03351868B423006CB546 /* CWMenuViewController.m in Sources */,
 				E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
+				366035E31873394800EE9233 /* CWUtility.m in Sources */,
 				E90B7D10186CED9C00B94DCC /* CWTermsViewController.m in Sources */,
 				E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */,
 				E9ABCFB7183E61050098E530 /* CWAuthenticationManager.m in Sources */,
@@ -1368,7 +1374,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2.3.4;
+				CURRENT_PROJECT_VERSION = 2.3.5;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1408,7 +1414,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 2.3.4;
+				CURRENT_PROJECT_VERSION = 2.3.5;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

@@ -84,7 +84,10 @@
 
 - (void)setMessageData:(NSDictionary*)data
 {
-    [self.thumbView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[data valueForKey:@"thumbnail"]]]]];
+    NSURL * imageURL = [NSURL URLWithString:[data valueForKey:@"thumbnail"]];
+    NSData * imageData = [NSData dataWithContentsOfURL:imageURL];
+    UIImage * image = [UIImage imageWithData:imageData];
+    [self.thumbView setImage:image];
 }
 
 
