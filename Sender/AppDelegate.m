@@ -58,14 +58,9 @@
 
 @implementation AppDelegate
 
-
-
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [application setApplicationIconBadgeNumber:0];
-    
     [application setStatusBarHidden:YES];
     
     [CWUserManager sharedInstance];
@@ -153,7 +148,17 @@
         //
         NSLog(@"fetched user messages: %@",responseObject);
         NSArray * messages = [responseObject objectForKey:@"messages"];
-//        [application setApplicationIconBadgeNumber:messages.count];
+        
+        
+        NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
+        
+        int newMessageCount = [messages count] - [previousTotalMessages intValue];
+        if (newMessageCount > 0) {
+            [application setApplicationIconBadgeNumber:newMessageCount];
+        }
+        
+        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
+        
         completionHandler(UIBackgroundFetchResultNewData);
         [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -229,6 +234,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    
+    [application setApplicationIconBadgeNumber:0];
+    
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [self activateSession];
     
@@ -265,8 +273,6 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
 }
-
-
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

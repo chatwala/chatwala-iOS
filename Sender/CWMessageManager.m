@@ -120,7 +120,6 @@
             else
             {
                 
-                
                 NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
                 switch (httpResponse.statusCode) {
                     case 200:
@@ -153,9 +152,11 @@
 
 - (void)getMessages
 {
-    if([[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"])
+    
+    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    
+    if([user_id length])
     {
-        NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         
         NSString * url = [NSString stringWithFormat:[self getUserMessagesEndPoint],user_id] ;
