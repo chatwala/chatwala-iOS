@@ -82,7 +82,7 @@
 
 - (NSString *)putUserProfileEndPoint
 {
-    return [[self baseEndPoint]stringByAppendingString:@"/users/%@/profile"];
+    return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
 }
 
 
