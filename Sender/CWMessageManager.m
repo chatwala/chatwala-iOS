@@ -9,6 +9,7 @@
 #import "CWMessageManager.h"
 #import "AppDelegate.h"
 #import "CWMessageCell.h"
+#import "CWUserManager.h"
 
 @interface CWMessageManager ()
 
@@ -149,9 +150,6 @@
                         }
                         break;
                 }
-               
-                
-                
             }
         }];
         
@@ -283,6 +281,8 @@
      */
 }
 
+#pragma mark - MessageID Server Fetches
+
 - (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
     
     // Create new request
@@ -334,10 +334,13 @@
     self.originalMessageURL = nil;
     self.messageIDOperation = nil;
     
+    NSDictionary *params = @{@"sender_id" : [[CWUserManager sharedInstance] userId],
+                             @"recipient_id" : @"unkown_recipient"};
+    
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    self.messageIDOperation = [manager POST:self.messagesEndPoint parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    self.messageIDOperation = [manager POST:self.messagesEndPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // Nothing needed here
         // Should we change this to not use multipart then?
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
