@@ -242,6 +242,7 @@
         
 
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"request: %@", operation.request);
         NSLog(@"Error: %@", error);
         [SVProgressHUD showErrorWithStatus:error.localizedDescription];
     }];
@@ -274,19 +275,45 @@
     [task resume];
 }
 
-
-
-- (void) didSendMessage
+- (void) uploadProfilePicture
 {
     
     [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
         NSLog(@"thumbnail created:%@", thumbnail);
         
-        NSURL * thumbnailPath = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"thumbnailImage.png"];
-        [UIImagePNGRepresentation(thumbnail) writeToURL:thumbnailPath atomically:YES];
+        NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"thumbnailImage.png"];
+        [UIImagePNGRepresentation(thumbnail) writeToURL:thumbnailURL atomically:YES];
+
+        NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+
+        NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
+        NSLog(@"uploading profile image: %@",endPoint);
+        NSURL *URL = [NSURL URLWithString:endPoint];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+        [request setHTTPMethod:@"PUT"];
+        
+        AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+        
+        NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            //
+            if (error) {
+                NSLog(@"Error: %@", error);
+                [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+            } else {
+                NSLog(@"Successfully upload profile picture: %@ %@", response, responseObject);
+                
+            }
+        }];
+        
+        [task resume];
         
     }];
     
+}
+
+- (void) didSendMessage
+{
+    [self uploadProfilePicture];
 //    [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];

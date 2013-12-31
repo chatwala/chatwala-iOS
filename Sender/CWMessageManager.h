@@ -17,6 +17,8 @@ typedef void (^DownloadCompletionBlock)(BOOL success, NSURL *url);
 @property (nonatomic,readonly) NSString * registerEndPoint;
 @property (nonatomic,readonly) NSString * getUserMessagesEndPoint;
 @property (nonatomic,readonly) NSString * getMessageEndPoint;
+@property (nonatomic,readonly) NSString * putUserProfileEndPoint;
+
 @property (nonatomic,strong) NSArray * messages;
 +(instancetype) sharedInstance;
 - (void)getMessages;

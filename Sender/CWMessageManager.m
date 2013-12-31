@@ -25,7 +25,7 @@
 {
     self = [super init];
     if (self) {
-        useLocalServer = NO;
+        useLocalServer = YES;
     }
     return self;
 }
@@ -43,7 +43,7 @@
 - (NSString *)baseEndPoint
 {
     if (useLocalServer) {
-        return @"http://192.168.0.10:1337";
+        return @"http://192.168.0.102:1337";
     }
     
     
@@ -78,6 +78,11 @@
 - (NSString *)getMessageEndPoint
 {
     return [[self baseEndPoint]stringByAppendingString:@"/messages/%@"];
+}
+
+- (NSString *)putUserProfileEndPoint
+{
+    return [[self baseEndPoint]stringByAppendingString:@"/users/%@/profile"];
 }
 
 
