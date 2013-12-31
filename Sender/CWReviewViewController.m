@@ -192,15 +192,6 @@
     }
     
     
-    if (self.incomingMessageItem) {
-        // responding
-        [CWAnalytics event:@"Send Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
-        
-        
-    }else{
-        [CWAnalytics event:@"Send Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
-    }
-    
     [player stop];
     //    [self composeMessageWithData:[self createMessageData]];
     
@@ -209,27 +200,44 @@
     CWMessageItem * message = [self createMessageItem];
     [message exportZip];
     
-    if ([[CWMessageManager sharedInstance] needsMessageUploadID]) {
-        [[CWMessageManager sharedInstance] fetchMessageUploadIDWithCompletionBlockOrNil:^(BOOL success) {
-            if (success) {
-                message.metadata.messageId = [[CWMessageManager sharedInstance] idForNewMessage];
-                [self sendMessage:message];
+    if (self.incomingMessageItem) {
+        // responding
+        [CWAnalytics event:@"Send Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
+        
+        [[CWMessageManager sharedInstance] fetchMessageIDForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
+            if (messageID && messageURL) {
+                message.metadata.messageId = messageID;
+                [self sendMessage:message andShareURLString:messageURL];
+            }
+            else {
+                return;
             }
         }];
-    }
-    else {
-        // Just upload data
-        message.metadata.messageId = [[CWMessageManager sharedInstance] idForNewMessage];
-        [self sendMessage:message];
+        
+    }else{
+        [CWAnalytics event:@"Send Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
+        
+
+        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
+            
+            if (messageID && messageURL) {
+                message.metadata.messageId = messageID;
+                [self sendMessage:message andShareURLString:messageURL];
+            }
+            else {
+                return;
+            }
+        }];
+
     }
 }
 
-- (void)sendMessage:(CWMessageItem *)messageToSend {
+- (void)sendMessage:(CWMessageItem *)messageToSend andShareURLString:(NSString *)urlString {
     
-    [[CWMessageManager sharedInstance] uploadMesage:messageToSend];
+    [[CWMessageManager sharedInstance] uploadMesage:messageToSend isReply:(self.incomingMessageItem ? YES : NO)];
     
     if (self.incomingMessageItem==nil) {
-        [self composeMessageWithMessageKey:[[CWMessageManager sharedInstance] urlForNewMessage]];
+        [self composeMessageWithMessageKey:urlString];
     }
     else {
         

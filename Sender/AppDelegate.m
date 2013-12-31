@@ -245,10 +245,9 @@
         }
     }];
     
-    // Update a new upload ID here if it's needed
-    if ([[CWMessageManager sharedInstance] needsMessageUploadID]) {
-        [[CWMessageManager sharedInstance] fetchMessageUploadIDWithCompletionBlockOrNil:nil];
-    }
+    // Fetch a new message upload ID from server
+    [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:nil];
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

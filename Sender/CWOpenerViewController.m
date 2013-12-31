@@ -129,10 +129,6 @@
 
 - (void)onMiddleButtonTap
 {
-    if ([[CWMessageManager sharedInstance] needsMessageUploadID]) {
-        [[CWMessageManager sharedInstance] fetchMessageUploadIDWithCompletionBlockOrNil:nil];
-    }
-    
     switch (self.openerState) {
         case CWOpenerPreview:
             [self setOpenerState:CWOpenerReview];

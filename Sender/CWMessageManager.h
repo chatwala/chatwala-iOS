@@ -10,7 +10,7 @@
 #import "CWMessageItem.h"
 
 typedef void (^DownloadCompletionBlock)(BOOL success, NSURL *url);
-typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(BOOL success);
+typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(NSString *messageID, NSString *messageURL);
 
 @interface CWMessageManager : NSObject < UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic,readonly) NSString * baseEndPoint;
@@ -20,16 +20,12 @@ typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(BOOL success
 @property (nonatomic,readonly) NSString * getMessageEndPoint;
 @property (nonatomic,strong) NSArray * messages;
 
-// Used for uploading a new message to server
-@property (nonatomic,assign,readonly) BOOL needsMessageUploadID;
-@property (nonatomic,readonly) NSString *idForNewMessage;
-@property (nonatomic,readonly) NSString *urlForNewMessage;
-
 +(instancetype) sharedInstance;
 
 - (void)getMessages;
 - (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(DownloadCompletionBlock)completionBlock;
-- (void)fetchMessageUploadIDWithCompletionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
-- (void)uploadMesage:(CWMessageItem *)messageToUpload;
+- (void)fetchOriginalMessageIDWithCompletionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
+- (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
+- (void)uploadMesage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage;
 
 @end

@@ -135,9 +135,8 @@
         return;
     }
     
-    if ([[CWMessageManager sharedInstance] needsMessageUploadID]) {
-        [[CWMessageManager sharedInstance] fetchMessageUploadIDWithCompletionBlockOrNil:nil];
-    }
+
+    [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:nil];
     
     [CWAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Button" withValue:nil];
     CWComposerViewController * composerVC = [[CWFlowManager sharedInstance]composeVC];
