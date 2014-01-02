@@ -21,7 +21,7 @@ typedef void (^DownloadCompletionBlock)(BOOL success, NSURL *url);
 
 @property (nonatomic,strong) NSArray * messages;
 +(instancetype) sharedInstance;
-- (void)getMessages;
+- (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
 - (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(DownloadCompletionBlock)completionBlock;
 
 @end

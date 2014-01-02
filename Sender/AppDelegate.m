@@ -138,35 +138,7 @@
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    
-    NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
-    NSString * url = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getUserMessagesEndPoint],user_id] ;
-    NSLog(@"fetching messages: %@",url);
-    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //
-        NSLog(@"fetched user messages: %@",responseObject);
-        NSArray * messages = [responseObject objectForKey:@"messages"];
-        
-        
-        NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
-        
-        int newMessageCount = [messages count] - [previousTotalMessages intValue];
-        if (newMessageCount > 0) {
-            [application setApplicationIconBadgeNumber:newMessageCount];
-        }
-        
-        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
-        
-        completionHandler(UIBackgroundFetchResultNewData);
-        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //
-        NSLog(@"failed to fetch messages with error: %@",error);
-        completionHandler(UIBackgroundFetchResultNoData);
-        [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
-    }];
+    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:completionHandler];
 }
 
 
@@ -243,8 +215,6 @@
     NSLog(@"server environment: %@",[[CWMessageManager sharedInstance] baseEndPoint]);
     
     [[CWGroundControlManager sharedInstance]refresh];
-//    [[CWMessageManager sharedInstance]getMessages];
-    
     
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
