@@ -175,7 +175,8 @@
             
             int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
             if (newMessageCount > 0) {
-                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:newMessageCount];
+                int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
+                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
             }
             
             [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[self.messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
