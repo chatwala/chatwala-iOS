@@ -200,10 +200,8 @@
     }
     
     [player stop];
-//    [self composeMessageWithData:[self createMessageData]];
     
     // send message to backend
-    
     [self.sendButton setButtonState:eButtonStateBusy];
     
     
@@ -277,6 +275,12 @@
 
 - (void) uploadProfilePicture
 {
+    NSString * const uploadedProfilePicture = @"profilePictureKey";
+    
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:uploadedProfilePicture] boolValue])
+    {
+        return;//already did this
+    }
     
     [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
         NSLog(@"thumbnail created:%@", thumbnail);
@@ -301,7 +305,8 @@
                 [SVProgressHUD showErrorWithStatus:error.localizedDescription];
             } else {
                 NSLog(@"Successfully upload profile picture: %@ %@", response, responseObject);
-                
+                [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:uploadedProfilePicture];
+                [[NSUserDefaults standardUserDefaults] synchronize];
             }
         }];
         

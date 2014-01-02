@@ -166,19 +166,24 @@
 }
 
 - (void) testShouldAddVideoPlayerViewWhenVideoIsReady {
+    //given
     [self prepMessageItem];
     [self.sut viewWillAppear:NO];
     UIView * dummyView = [[UIView alloc]init];
     id mockPlaybackView = [OCMockObject partialMockForObject:dummyView];
     [[[self.mockSUT stub]andReturn:mockPlaybackView]playbackView];
     [[mockPlaybackView expect]addSubview:OCMOCK_ANY];
-    [[self.mockRecorder expect] stopRecording];
     
+    //when
     [self.sut videoPlayerDidLoadVideo:self.sut.player];
-    [mockPlaybackView verify];
-    [mockPlaybackView stopMocking];
-    [self.mockRecorder verify];
     
+    //should
+    [mockPlaybackView verify];
+    [self.mockRecorder verify];
+
+    //cleanup
+    [mockPlaybackView stopMocking];
+
 }
 
 - (void)testShouldCreateMessageItemWhenZipUrlIsSet
@@ -267,11 +272,16 @@
 
 - (void)testShouldStopRecordingOnTouchsEnded
 {
+    //given
     [self prepMessageItem];
     self.sut.openerState = CWOpenerRespond;
     [self.sut viewWillAppear:NO];
     [[self.mockRecorder expect]stopVideoRecording];
-    [self.sut touchesEnded:nil withEvent:nil];
+    
+    //when
+    [self.sut onMiddleButtonTap];
+    
+    //should
     [self.mockRecorder verify];
     
 }

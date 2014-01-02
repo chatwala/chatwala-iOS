@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		366035E31873394800EE9233 /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 366035E21873394800EE9233 /* CWUtility.m */; };
+		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
 		36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E814C9185FB78A002B1A12 /* CWUserManager.m */; };
 		5A22DD32AA184288BEC932AA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8B4EC8D342465796C4A37E /* libPods.a */; };
 		82380876CA9D496387191727 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5043C247C54257A2FCABFE /* libPods-test.a */; };
@@ -192,6 +193,7 @@
 		021C04FCE95441C395C53215 /* Pods-test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.xcconfig"; path = "Pods/Pods-test.xcconfig"; sourceTree = "<group>"; };
 		366035E11873394800EE9233 /* CWUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUtility.h; sourceTree = "<group>"; };
 		366035E21873394800EE9233 /* CWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUtility.m; sourceTree = "<group>"; };
+		36781C9118760591005AE1C6 /* CWMessageCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCellTest.m; sourceTree = "<group>"; };
 		36E814C8185FB78A002B1A12 /* CWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserManager.h; sourceTree = "<group>"; };
 		36E814C9185FB78A002B1A12 /* CWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserManager.m; sourceTree = "<group>"; };
 		810134A78491415EBDC34438 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
@@ -792,6 +794,7 @@
 				E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */,
 				E9B214FD18464C6900E09DA8 /* CWAnalytics+Spec.h */,
 				E9B214FE18464C6900E09DA8 /* CWAnalytics+Spec.m */,
+				36781C9118760591005AE1C6 /* CWMessageCellTest.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -1320,6 +1323,7 @@
 				E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */,
 				E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */,
 				E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */,
+				36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */,
 				E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */,
 				E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */,
 			);
