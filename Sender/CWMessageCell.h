@@ -16,6 +16,7 @@ typedef void (^AFNetworkingFailureBlock)(AFHTTPRequestOperation *operation, NSEr
 @property (nonatomic,strong) UIImageView * thumbView;
 @property (nonatomic,assign) CGFloat progress;
 @property (nonatomic,strong) UIActivityIndicatorView * spinner;
+@property (nonatomic, strong) NSURL * imageURL;
 
 @property (strong, readonly) AFNetworkingSuccessBlock successImageDownloadBlock;
 @property (strong, readonly) AFNetworkingFailureBlock failureImageDownloadBlock;

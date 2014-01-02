@@ -54,10 +54,15 @@
 
 - (void)setMessageData:(NSDictionary*)data
 {
+    NSURL * imageURL = [NSURL URLWithString:[data objectForKey:@"thumbnail"]];
+    if(([imageURL isEqual:self.imageURL]) && (self.imageURL != nil))
+    {
+        return;//exit early because we are already there.
+    }
+       
     [self.thumbView setImage:[UIImage imageNamed:@"message_thumb"]];
     [self.spinner startAnimating];
 
-    NSURL * imageURL = [NSURL URLWithString:[data valueForKey:@"thumbnail"]];
     
     AFHTTPRequestOperation *imageDownloadOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:imageURL]];
     imageDownloadOperation.responseSerializer = [AFImageResponseSerializer serializer];
@@ -71,6 +76,7 @@
     return (^ void(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"message thumbnail Response: %@", responseObject);
         self.thumbView.image = responseObject;
+        self.imageURL = operation.request.URL;
         [self.spinner stopAnimating];
     });
 }
