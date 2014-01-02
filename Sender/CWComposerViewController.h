@@ -11,6 +11,8 @@
 #import "CWMiddleButton.h"
 #import "CWViewController.h"
 @interface CWComposerViewController : CWViewController <CWVideoRecorderDelegate>
-- (void)showReview;
 @property (nonatomic, weak) IBOutlet CWMiddleButton * middleButton;
+
+- (void)showReview;
+- (void)onMiddleButtonTap;
 @end

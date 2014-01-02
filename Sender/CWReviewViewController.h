@@ -21,4 +21,6 @@
 - (IBAction)onRecordAgain:(id)sender;
 - (IBAction)onSend:(id)sender;
 - (void)showVideoPreview;
+
+- (CWMessageItem*)createMessageItem;
 @end

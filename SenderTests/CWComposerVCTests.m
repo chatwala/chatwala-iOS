@@ -106,6 +106,7 @@
 - (void)testShouldStopRecordingOnTouchsEnded
 {
     [[self.mockRecorder expect]stopVideoRecording];
+    [self.sut onMiddleButtonTap];
     [self.sut touchesEnded:nil withEvent:nil];
     [self.mockRecorder verify];
     

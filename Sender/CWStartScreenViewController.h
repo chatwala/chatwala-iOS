@@ -16,4 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *sentMessageView;
 @property (nonatomic,assign) BOOL showSentMessage;
 - (IBAction)onStart:(id)sender;
+
+- (void)onMiddleButtonTap;
 @end

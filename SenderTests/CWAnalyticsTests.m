@@ -147,7 +147,7 @@
     //when
     [reviewVC onRecordAgain:nil];
     
-    //then
+    //should
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
 }
 
@@ -161,28 +161,41 @@
 
 - (void)testShouldSendEventWhenSendIsSelectedWithIncomingMessage
 {
+    //given
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
     id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-//    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
-    [[mockReviewVC stub]createMessageData];
+
     CWMessageItem * msg = [[CWMessageItem alloc] init];
     msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
-    [reviewVC setIncomingMessageItem:msg];
     
+    [[[mockReviewVC stub] andReturn:msg] createMessageItem];
+    
+    //when
     [reviewVC onSend:nil];
+    
+    //should
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
+    
+    //cleanup
     [mockReviewVC stopMocking];
 }
 
 - (void)testShouldSendEventWhenSendIsSelectedWithoutIncomingMessage
 {
+    //given
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
     id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-//    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
-    [[mockReviewVC stub]createMessageData];
-    
+    CWMessageItem * msg = [[CWMessageItem alloc] init];
+    msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
+    [[[mockReviewVC stub] andReturn:msg] createMessageItem];
+
+    //when
     [reviewVC onSend:nil];
+    
+    //should
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
+    
+    //cleanup
     [mockReviewVC stopMocking];
 }
 
@@ -213,7 +226,7 @@
 - (void)testShouldSendEventWhenScreenTappedOnOpenerScreen
 {
     CWSSOpenerViewController * openerVC = [[CWSSOpenerViewController alloc]init];
-    [openerVC touchesEnded:[NSSet set] withEvent:OCMOCK_ANY];
+    [openerVC onMiddleButtonTap];
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
 }
 
@@ -241,7 +254,7 @@
 - (void)testShouldSendEventWhenScreenTappedOnStartScreen
 {
     CWStartScreenViewController * startVC = [[CWStartScreenViewController alloc]init];
-    [startVC touchesEnded:[NSSet set] withEvent:OCMOCK_ANY];
+    [startVC onMiddleButtonTap];
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
 }
 
