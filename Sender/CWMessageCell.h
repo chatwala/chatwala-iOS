@@ -10,5 +10,6 @@
 
 @interface CWMessageCell : UITableViewCell
 - (void)setMessageData:(NSDictionary*)data;
+@property (nonatomic,strong) UIImageView * thumbView;
 @property (nonatomic,assign) CGFloat progress;
 @end

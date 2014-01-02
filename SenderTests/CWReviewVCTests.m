@@ -73,12 +73,6 @@
     XCTAssertTrue(isTrue, @"should have preview view");
 }
 
-- (void)testHasRecordAgainButton
-{
-    BOOL isTrue = [self.sut respondsToSelector:@selector(recordAgainButton)];
-    XCTAssertTrue(isTrue, @"should have record button");
-}
-
 
 - (void)testHasSendButton
 {
@@ -184,25 +178,21 @@
 }
 
 - (void)testShouldInvokeComposeMessageWithDataWhenOnSendIsInvoked {
+    //given
+    CWMessageItem * msg = [[CWMessageItem alloc] init];
+    msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
+    [[[self.mockSUT expect] andReturn:msg] createMessageItem];
+    id mockMsg = [OCMockObject partialMockForObject:msg];
+    [[mockMsg expect] extractZip];
     
-    [[[self.mockSUT stub]andReturn:self.messageItem]createMessageItem];
-    [[self.mockSUT expect]composeMessageWithData:OCMOCK_ANY];
+    //when
     [self.sut onSend:nil];
+    
+    //should
     [self.mockSUT verify];
-}
-
-
-- (void)testShouldInvokeCreateMessageDataWhenOnSendIsInvoked {
-    [[[self.mockSUT stub]andReturn:self.messageItem]createMessageItem];
-    [[self.mockSUT expect]createMessageData];
-    [self.sut onSend:nil];
-    [self.mockSUT verify];
-}
-
-- (void) testShouldPresentMailComposeVCWhenSendWithMessageDataIsInvoked {
-    [[self.mockSUT expect]presentViewController:OCMOCK_ANY animated:YES completion:nil];
-    [self.sut composeMessageWithData:OCMOCK_ANY];
-    [self.mockSUT verify];
+    
+    //cleanup
+    [mockMsg stopMocking];
 }
 
 
@@ -232,13 +222,13 @@
     [self.mockPlayer verify];
 }
 
-- (void)testShouldPresentMainComposeVCWhenOnSendIsInvoked
-{
-    [[[self.mockSUT stub]andReturn:self.messageItem]createMessageItem];
-    [[self.mockSUT expect]presentViewController:[OCMArg isNotNil] animated:YES completion:nil];
-    [self.sut onSend:nil];
-    [self.mockSUT verify];
-}
+//- (void)testShouldPresentMainComposeVCWhenOnSendIsInvoked
+//{
+//    [[[self.mockSUT stub]andReturn:self.messageItem]createMessageItem];
+//    [[self.mockSUT expect]presentViewController:[OCMArg isNotNil] animated:YES completion:nil];
+//    [self.sut onSend:nil];
+//    [self.mockSUT verify];
+//}
 
 - (void)testShouldProperlySetupMessageItemVideoURLWhenCreateMessageItemIsInvoked
 {
