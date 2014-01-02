@@ -13,7 +13,6 @@
 @property (nonatomic,strong) UIProgressView * progressView;
 @property (nonatomic,strong) UIActivityIndicatorView * spinner;
 @property (nonatomic,strong) UIView * cellView;
-@property (nonatomic,strong) UIImageView * thumbView;
 @end
 
 
@@ -87,7 +86,14 @@
     NSURL * imageURL = [NSURL URLWithString:[data valueForKey:@"thumbnail"]];
     NSData * imageData = [NSData dataWithContentsOfURL:imageURL];
     UIImage * image = [UIImage imageWithData:imageData];
-    [self.thumbView setImage:image];
+    if(image)
+    {
+        [self.thumbView setImage:image];
+    }
+    else
+    {
+        [self.thumbView setImage:[UIImage imageNamed:@"message_thumb"]];
+    }
 }
 
 
