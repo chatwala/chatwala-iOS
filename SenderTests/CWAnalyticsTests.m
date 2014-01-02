@@ -37,7 +37,6 @@
 
 
 @interface CWReviewViewController ()<CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
-- (void)composeMessageWithData:(NSData*)messageData;
 - (NSData*)createMessageData;
 @end
 
@@ -139,36 +138,32 @@
 
 - (void)testShouldSendEventWhenRecordAgainIsSelectedWithIncomingMessage
 {
+    //given
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
-    id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
-    [[mockReviewVC stub]createMessageData];
     CWMessageItem * msg = [[CWMessageItem alloc] init];
     msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
     [reviewVC setIncomingMessageItem:msg];
     
+    //when
     [reviewVC onRecordAgain:nil];
+    
+    //then
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
-    [mockReviewVC stopMocking];
 }
 
 - (void)testShouldSendEventWhenRecordAgainIsSelectedWithoutIncomingMessage
 {
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
-    id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
-    [[mockReviewVC stub]createMessageData];
     
     [reviewVC onRecordAgain:nil];
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
-    [mockReviewVC stopMocking];
 }
 
 - (void)testShouldSendEventWhenSendIsSelectedWithIncomingMessage
 {
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
     id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
+//    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
     [[mockReviewVC stub]createMessageData];
     CWMessageItem * msg = [[CWMessageItem alloc] init];
     msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
@@ -183,7 +178,7 @@
 {
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
     id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
+//    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
     [[mockReviewVC stub]createMessageData];
     
     [reviewVC onSend:nil];
