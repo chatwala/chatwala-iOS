@@ -10,7 +10,6 @@
 
 
 @interface CWMessageCell ()
-@property (nonatomic,strong) UIActivityIndicatorView * spinner;
 @property (nonatomic,strong) UIView * cellView;
 @end
 
@@ -62,17 +61,26 @@
     
     AFHTTPRequestOperation *imageDownloadOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:imageURL]];
     imageDownloadOperation.responseSerializer = [AFImageResponseSerializer serializer];
-    [imageDownloadOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"message thumbnail Response: %@", responseObject);
-        self.thumbView.image = responseObject;
-        [self.spinner stopAnimating];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"message thumbnail Image error: %@", error);
-        [self.spinner stopAnimating];
-    }];
+    [imageDownloadOperation setCompletionBlockWithSuccess:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
     [imageDownloadOperation start];
 
 }
 
+- (AFNetworkingSuccessBlock) successImageDownloadBlock
+{
+    return (^ void(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"message thumbnail Response: %@", responseObject);
+        self.thumbView.image = responseObject;
+        [self.spinner stopAnimating];
+    });
+}
+
+- (AFNetworkingFailureBlock) failureImageDownloadBlock
+{
+    return (^ void(AFHTTPRequestOperation *operation, NSError *error){
+        NSLog(@"message thumbnail Image error: %@", error);
+        [self.spinner stopAnimating];
+    });
+}
 
 @end

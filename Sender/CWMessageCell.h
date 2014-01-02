@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^AFNetworkingSuccessBlock)(AFHTTPRequestOperation *operation, id responseObject);
+typedef void (^AFNetworkingFailureBlock)(AFHTTPRequestOperation *operation, NSError *error);
+
 @interface CWMessageCell : UITableViewCell
 - (void)setMessageData:(NSDictionary*)data;
 @property (nonatomic,strong) UIImageView * thumbView;
 @property (nonatomic,assign) CGFloat progress;
+@property (nonatomic,strong) UIActivityIndicatorView * spinner;
+
+@property (strong, readonly) AFNetworkingSuccessBlock successImageDownloadBlock;
+@property (strong, readonly) AFNetworkingFailureBlock failureImageDownloadBlock;
 @end
