@@ -200,10 +200,8 @@
     }
     
     [player stop];
-//    [self composeMessageWithData:[self createMessageData]];
     
     // send message to backend
-    
     [self.sendButton setButtonState:eButtonStateBusy];
     
     
