@@ -7,6 +7,7 @@
 //
 
 #import "CWMessageCell.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 
 @interface CWMessageCell ()
@@ -62,28 +63,32 @@
        
     [self.thumbView setImage:[UIImage imageNamed:@"message_thumb"]];
     [self.spinner startAnimating];
+    
+    UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];
+    NSURLRequest * imageURLRequest = [NSURLRequest requestWithURL:imageURL];
+    [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
 
     
-    AFHTTPRequestOperation *imageDownloadOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:imageURL]];
-    imageDownloadOperation.responseSerializer = [AFImageResponseSerializer serializer];
-    [imageDownloadOperation setCompletionBlockWithSuccess:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
-    [imageDownloadOperation start];
+//    AFHTTPRequestOperation *imageDownloadOperation = [[AFHTTPRequestOperation alloc] initWithRequest:imageURLRequest];
+//    imageDownloadOperation.responseSerializer = [AFImageResponseSerializer serializer];
+//    [imageDownloadOperation setCompletionBlockWithSuccess:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
+//    [imageDownloadOperation start];
 
 }
 
 - (AFNetworkingSuccessBlock) successImageDownloadBlock
 {
-    return (^ void(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"message thumbnail Response: %@", responseObject);
-        self.thumbView.image = responseObject;
-        self.imageURL = operation.request.URL;
+    return (^ void(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        NSLog(@"message thumbnail Response: %@", response);
+        self.thumbView.image = image;
+        self.imageURL = request.URL;
         [self.spinner stopAnimating];
     });
 }
 
 - (AFNetworkingFailureBlock) failureImageDownloadBlock
 {
-    return (^ void(AFHTTPRequestOperation *operation, NSError *error){
+    return (^ void(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error){
         NSLog(@"message thumbnail Image error: %@", error);
         [self.spinner stopAnimating];
     });
