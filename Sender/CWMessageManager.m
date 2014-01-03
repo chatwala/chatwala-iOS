@@ -188,6 +188,7 @@
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
             NSLog(@"failed to fetch messages with error: %@",error);
+//            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
             [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
             
             if (completionBlock) {
