@@ -44,8 +44,7 @@
     [NC addObserver:self selector:@selector(onMessagesLoaded:) name:@"MessagesLoaded" object:nil];
     [NC addObserver:self selector:@selector(onMessagLoadedFailed:) name:@"MessagesLoadFailed" object:nil];
     
-    [[CWMessageManager sharedInstance]getMessages];
-    
+    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -79,10 +78,8 @@
 
 - (void)handleRefresh:(UIRefreshControl*)r
 {
-    [[CWMessageManager sharedInstance]getMessages];
+    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
 }
-
-
 
 - (IBAction)onButtonSelect:(id)sender {
     if ([self.delegate respondsToSelector:@selector(menuViewController:didSelectButton:)]) {
