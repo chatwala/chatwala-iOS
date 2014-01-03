@@ -74,11 +74,14 @@
 {
     [self.messagesLabel setText:@"failed to load messages."];
 //    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWMessageManager sharedInstance]messages] count]];
+    
+    [self.refreshControl endRefreshing];
 }
 
 - (void)handleRefresh:(UIRefreshControl*)r
 {
     [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
+    
 }
 
 - (IBAction)onButtonSelect:(id)sender {
