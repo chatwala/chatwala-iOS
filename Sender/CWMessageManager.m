@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
+#import "CWUtility.h"
 
 @interface CWMessageManager ()
 
@@ -37,6 +38,7 @@
     if (self) {
         useLocalServer = NO;
         self.needsOriginalMessageID = YES;
+        [self loadCachedMessages];
     }
     return self;
 }
@@ -50,6 +52,10 @@
     return shared;
 }
 
+- (void) loadCachedMessages
+{
+    self.messages = [NSArray arrayWithContentsOfURL:[self messageCacheURL]];
+}
 
 - (NSString *)baseEndPoint
 {
@@ -162,9 +168,16 @@
     }
 }
 
+- (NSURL *) messageCacheURL
+{
+    NSString * const messagesCacheFile = @"messages";
+    return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
+    
+}
 
 - (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock
 {
+    
     
     NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     
@@ -179,6 +192,8 @@
             NSLog(@"fetched user messages: %@",responseObject);
             
             self.messages = [responseObject objectForKey:@"messages"];
+            
+            [self.messages writeToURL:[self messageCacheURL] atomically:YES];
             
             if (completionBlock) {
                 
