@@ -61,18 +61,12 @@
         return;//exit early because we are already there.
     }
        
-    [self.thumbView setImage:[UIImage imageNamed:@"message_thumb"]];
     [self.spinner startAnimating];
     
     UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];
     NSURLRequest * imageURLRequest = [NSURLRequest requestWithURL:imageURL];
     [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
 
-    
-//    AFHTTPRequestOperation *imageDownloadOperation = [[AFHTTPRequestOperation alloc] initWithRequest:imageURLRequest];
-//    imageDownloadOperation.responseSerializer = [AFImageResponseSerializer serializer];
-//    [imageDownloadOperation setCompletionBlockWithSuccess:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
-//    [imageDownloadOperation start];
 
 }
 
