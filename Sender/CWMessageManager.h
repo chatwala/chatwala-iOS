@@ -18,11 +18,12 @@ typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(NSString *me
 @property (nonatomic,readonly) NSString * registerEndPoint;
 @property (nonatomic,readonly) NSString * getUserMessagesEndPoint;
 @property (nonatomic,readonly) NSString * getMessageEndPoint;
+@property (nonatomic,readonly) NSString * putUserProfileEndPoint;
+
 @property (nonatomic,strong) NSArray * messages;
 
 +(instancetype) sharedInstance;
-
-- (void)getMessages;
+- (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
 - (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(DownloadCompletionBlock)completionBlock;
 - (void)fetchOriginalMessageIDWithCompletionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 - (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;

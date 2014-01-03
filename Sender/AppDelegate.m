@@ -50,12 +50,9 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    [application setApplicationIconBadgeNumber:0];
-    
     [application setStatusBarHidden:YES];
     
     [CWUserManager sharedInstance];
@@ -133,25 +130,7 @@
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    
-    NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
-    NSString * url = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getUserMessagesEndPoint],user_id] ;
-    NSLog(@"fetching messages: %@",url);
-    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //
-        NSLog(@"fetched user messages: %@",responseObject);
-        NSArray * messages = [responseObject objectForKey:@"messages"];
-//        [application setApplicationIconBadgeNumber:messages.count];
-        completionHandler(UIBackgroundFetchResultNewData);
-        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        //
-        NSLog(@"failed to fetch messages with error: %@",error);
-        completionHandler(UIBackgroundFetchResultNoData);
-        [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
-    }];
+    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:completionHandler];
 }
 
 
@@ -217,14 +196,15 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
+    
+    [application setApplicationIconBadgeNumber:0];
+    
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [self activateSession];
     
     NSLog(@"server environment: %@",[[CWMessageManager sharedInstance] baseEndPoint]);
     
     [[CWGroundControlManager sharedInstance]refresh];
-//    [[CWMessageManager sharedInstance]getMessages];
-    
     
     [[AFNetworkReachabilityManager sharedManager]startMonitoring];
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
@@ -255,8 +235,6 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     
 }
-
-
 
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
@@ -310,6 +288,7 @@
         }
         [self.loadingVC.view setAlpha:0];
     }
+    [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
     
     
     /*

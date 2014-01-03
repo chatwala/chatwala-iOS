@@ -54,7 +54,7 @@
 - (NSString *)baseEndPoint
 {
     if (useLocalServer) {
-        return @"http://192.168.0.10:1337";
+        return @"http://192.168.0.102:1337";
     }
     
     
@@ -89,6 +89,11 @@
 - (NSString *)getMessageEndPoint
 {
     return [[self baseEndPoint]stringByAppendingString:@"/messages/%@"];
+}
+
+- (NSString *)putUserProfileEndPoint
+{
+    return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
 }
 
 
@@ -131,7 +136,6 @@
             else
             {
                 
-                
                 NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
                 switch (httpResponse.statusCode) {
                     case 200:
@@ -159,11 +163,13 @@
 }
 
 
-- (void)getMessages
+- (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock
 {
-    if([[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"])
+    
+    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    
+    if([user_id length])
     {
-        NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         
         NSString * url = [NSString stringWithFormat:[self getUserMessagesEndPoint],user_id] ;
@@ -171,13 +177,31 @@
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             //
             NSLog(@"fetched user messages: %@",responseObject);
+            
             self.messages = [responseObject objectForKey:@"messages"];
+            NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
+            
+            int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
+            if (newMessageCount > 0) {
+                int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
+                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
+            }
+            
+            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[self.messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
             [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+            
+            if (completionBlock) {
+                completionBlock(UIBackgroundFetchResultNewData);
+            }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
             NSLog(@"failed to fetch messages with error: %@",error);
-            [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
 //            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
+            [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
+            
+            if (completionBlock) {
+                completionBlock(UIBackgroundFetchResultNoData);
+            }
         }];
     }
 }

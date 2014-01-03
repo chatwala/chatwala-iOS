@@ -37,7 +37,6 @@
 
 
 @interface CWReviewViewController ()<CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
-- (void)composeMessageWithData:(NSData*)messageData;
 - (NSData*)createMessageData;
 @end
 
@@ -82,7 +81,7 @@
 {
 
     AppDelegate * appdel = [[AppDelegate alloc]init];
-    [appdel application:OCMOCK_ANY openURL:OCMOCK_ANY sourceApplication:OCMOCK_ANY annotation:OCMOCK_ANY];
+    [appdel application:OCMOCK_ANY openURL:[OCMockObject niceMockForClass:[NSURL class]] sourceApplication:OCMOCK_ANY annotation:OCMOCK_ANY];
     
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
 }
@@ -139,55 +138,64 @@
 
 - (void)testShouldSendEventWhenRecordAgainIsSelectedWithIncomingMessage
 {
+    //given
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
-    id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
-    [[mockReviewVC stub]createMessageData];
     CWMessageItem * msg = [[CWMessageItem alloc] init];
     msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
     [reviewVC setIncomingMessageItem:msg];
     
+    //when
     [reviewVC onRecordAgain:nil];
+    
+    //should
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
-    [mockReviewVC stopMocking];
 }
 
 - (void)testShouldSendEventWhenRecordAgainIsSelectedWithoutIncomingMessage
 {
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
-    id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
-    [[mockReviewVC stub]createMessageData];
     
     [reviewVC onRecordAgain:nil];
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
-    [mockReviewVC stopMocking];
 }
 
 - (void)testShouldSendEventWhenSendIsSelectedWithIncomingMessage
 {
+    //given
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
     id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
-    [[mockReviewVC stub]createMessageData];
+
     CWMessageItem * msg = [[CWMessageItem alloc] init];
     msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
-    [reviewVC setIncomingMessageItem:msg];
     
+    [[[mockReviewVC stub] andReturn:msg] createMessageItem];
+    
+    //when
     [reviewVC onSend:nil];
+    
+    //should
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
+    
+    //cleanup
     [mockReviewVC stopMocking];
 }
 
 - (void)testShouldSendEventWhenSendIsSelectedWithoutIncomingMessage
 {
+    //given
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
     id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-    [[mockReviewVC stub]composeMessageWithData:OCMOCK_ANY];
-    [[mockReviewVC stub]createMessageData];
-    
+    CWMessageItem * msg = [[CWMessageItem alloc] init];
+    msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
+    [[[mockReviewVC stub] andReturn:msg] createMessageItem];
+
+    //when
     [reviewVC onSend:nil];
+    
+    //should
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
+    
+    //cleanup
     [mockReviewVC stopMocking];
 }
 
@@ -218,7 +226,7 @@
 - (void)testShouldSendEventWhenScreenTappedOnOpenerScreen
 {
     CWSSOpenerViewController * openerVC = [[CWSSOpenerViewController alloc]init];
-    [openerVC touchesEnded:[NSSet set] withEvent:OCMOCK_ANY];
+    [openerVC onMiddleButtonTap];
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
 }
 
@@ -246,8 +254,9 @@
 - (void)testShouldSendEventWhenScreenTappedOnStartScreen
 {
     CWStartScreenViewController * startVC = [[CWStartScreenViewController alloc]init];
-    [startVC touchesEnded:[NSSet set] withEvent:OCMOCK_ANY];
+    [startVC onMiddleButtonTap];
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
 }
+
 
 @end

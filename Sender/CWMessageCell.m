@@ -10,10 +10,7 @@
 
 
 @interface CWMessageCell ()
-@property (nonatomic,strong) UIProgressView * progressView;
-@property (nonatomic,strong) UIActivityIndicatorView * spinner;
 @property (nonatomic,strong) UIView * cellView;
-@property (nonatomic,strong) UIImageView * thumbView;
 @end
 
 
@@ -24,44 +21,19 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.progressView = [[UIProgressView alloc]initWithFrame:CGRectMake(0, 78, 200, 2)];
-        [self.contentView addSubview:self.progressView];
-        [self.progressView setHidden:YES];
-        
         self.thumbView  = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 200, 80)];
         [self.thumbView setContentMode:UIViewContentModeCenter];
+        self.thumbView.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:self.thumbView];
+        
+        self.spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];;
+        [self.spinner setTintColor:[UIColor redColor]];
+        [self.spinner setHidesWhenStopped:YES];
+        [self.spinner startAnimating];
+        
+        self.accessoryView = self.spinner;
     }
     return self;
-}
-
-- (UIActivityIndicatorView *)spinner
-{
-    if (_spinner == nil) {
-        _spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        [_spinner setTintColor:[UIColor redColor]];
-        [_spinner setFrame:CGRectMake(0, 0, 40, 40)];
-        [_spinner startAnimating];
-    }
-    
-    return _spinner;
-}
-
-
-- (void)setProgress:(CGFloat)progress
-{
-    _progress = progress;
-    [self.progressView setProgress:_progress];
-    
-    if (_progress<.9)
-    {
-        [self.progressView setHidden:NO];
-    }
-    else
-    {
-        [self.progressView setHidden:YES];
-        [self setAccessoryView:nil];
-    }
 }
 
 
@@ -69,23 +41,52 @@
 {
     [super setSelected:selected animated:animated];
     if (selected) {
-        [self setAccessoryView:self.spinner];
+        [self.spinner startAnimating];
     }else{
-        [self setAccessoryView:nil];
+//        [self.spinner stopAnimating];
     }
 }
 
 - (void)prepareForReuse
 {
-    [self.progressView setHidden:YES];
-    [self setAccessoryView:nil];
-    
+//    [self.spinner stopAnimating];
 }
 
 - (void)setMessageData:(NSDictionary*)data
 {
-    [self.thumbView setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[data valueForKey:@"thumbnail"]]]]];
+    NSURL * imageURL = [NSURL URLWithString:[data objectForKey:@"thumbnail"]];
+    if(([imageURL isEqual:self.imageURL]) && (self.imageURL != nil))
+    {
+        return;//exit early because we are already there.
+    }
+       
+    [self.thumbView setImage:[UIImage imageNamed:@"message_thumb"]];
+    [self.spinner startAnimating];
+
+    
+    AFHTTPRequestOperation *imageDownloadOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:imageURL]];
+    imageDownloadOperation.responseSerializer = [AFImageResponseSerializer serializer];
+    [imageDownloadOperation setCompletionBlockWithSuccess:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
+    [imageDownloadOperation start];
+
 }
 
+- (AFNetworkingSuccessBlock) successImageDownloadBlock
+{
+    return (^ void(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"message thumbnail Response: %@", responseObject);
+        self.thumbView.image = responseObject;
+        self.imageURL = operation.request.URL;
+        [self.spinner stopAnimating];
+    });
+}
+
+- (AFNetworkingFailureBlock) failureImageDownloadBlock
+{
+    return (^ void(AFHTTPRequestOperation *operation, NSError *error){
+        NSLog(@"message thumbnail Image error: %@", error);
+        [self.spinner stopAnimating];
+    });
+}
 
 @end

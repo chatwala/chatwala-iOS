@@ -28,6 +28,8 @@ NSString * const kCurrentItemKey	= @"currentItem";
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVURLAsset *asset;
+
+@property (nonatomic, strong) UIImage * thumbnail;
 @end
 
 
@@ -63,6 +65,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
 - (void)setVideoURL:(NSURL *)URL
 {
     _videoURL = URL;
+    self.thumbnail = nil;
     // check if video file exists
     BOOL videoFileExists = [[NSFileManager defaultManager] fileExistsAtPath:URL.path];
     if (!videoFileExists) {
@@ -196,6 +199,33 @@ NSString * const kCurrentItemKey	= @"currentItem";
     if ([self.delegate respondsToSelector:@selector(videoPlayerPlayToEnd:)]) {
         [self.delegate videoPlayerPlayToEnd:self];
     }
+}
+
+#pragma mark - generate thumbnail
+
+- (void) createThumbnailWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
+{
+    if(self.thumbnail)
+    {
+        if(completionHandler)
+        {
+            completionHandler(self.thumbnail);
+        }
+        return;
+    }
+    
+    
+    AVAssetImageGenerator * imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:self.asset];
+    imageGenerator.appliesPreferredTrackTransform = YES;
+    [imageGenerator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:kCMTimeZero]]
+                                         completionHandler:^(CMTime requestedTime, CGImageRef image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error) {
+                                                      if(result == AVAssetImageGeneratorSucceeded)
+                                                      {
+                                                          self.thumbnail = [UIImage imageWithCGImage:image scale:1.0 orientation:UIImageOrientationLeft];
+                                                          completionHandler(self.thumbnail);
+                                                      }
+                                                  }];
+    
 }
 
 

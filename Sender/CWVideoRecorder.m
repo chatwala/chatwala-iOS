@@ -10,6 +10,7 @@
 #import "AVCamRecorder.h"
 #import "AppDelegate.h"
 #import "CWErrorViewController.h"
+#import "CWUtility.h"
 
 
 @interface CWVideoRecorder () <AVCamRecorderDelegate>
@@ -191,13 +192,9 @@
 
 }
 
-- (NSURL*)cacheDirectoryURL
-{
-    return [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0]];
-}
 - (NSURL *) tempFileURL
 {
-    return [[self cacheDirectoryURL] URLByAppendingPathComponent:@"output.mp4"];
+    return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"output.mp4"];
 }
 - (void) removeFile:(NSURL *)fileURL
 {
@@ -285,7 +282,7 @@
 
 - (void)converVideoWithURL:(NSURL*)videoURL
 {
-    self.outputFileURL = [[self cacheDirectoryURL] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@",[[NSUUID UUID] UUIDString],@".mp4"]];
+    self.outputFileURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@",[[NSUUID UUID] UUIDString],@".mp4"]];
     
     // setup exporter
     AVAssetExportSession *exporter = [self createVideExporterWithSourceVideoURL:videoURL andOutPutURL:self.outputFileURL];
