@@ -79,7 +79,7 @@
     AFNetworkingSuccessBlock block = self.sut.successImageDownloadBlock;
     
     //when
-    block(nil, nil);
+    block(nil, nil, nil);
     
     //should
     [mockSpinner verify];
@@ -98,7 +98,7 @@
     AFNetworkingSuccessBlock block = self.sut.successImageDownloadBlock;
     
     //when
-    block(nil, mockImage);
+    block(nil, nil, mockImage);
     
     //should
     [mockThumbView verify];
@@ -111,11 +111,11 @@
 {
     //given
     id mockURL = [NSURL URLWithString:@"www.google.com"];
-    AFHTTPRequestOperation * operation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:mockURL]];
+    NSURLRequest * request = [NSURLRequest requestWithURL:mockURL];
     
     AFNetworkingSuccessBlock block = self.sut.successImageDownloadBlock;
     //when
-    block(operation, nil);
+    block(request, nil, nil);
     
     //should
     XCTAssertEqualObjects(self.sut.imageURL, mockURL, @"image url should be set");
@@ -131,7 +131,7 @@
     AFNetworkingFailureBlock block = self.sut.failureImageDownloadBlock;
     
     //when
-    block(nil,nil);
+    block(nil,nil, nil);
     
     //should
     [mockSpinner verify];

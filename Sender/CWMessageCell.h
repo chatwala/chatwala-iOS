@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^AFNetworkingSuccessBlock)(AFHTTPRequestOperation *operation, id responseObject);
-typedef void (^AFNetworkingFailureBlock)(AFHTTPRequestOperation *operation, NSError *error);
+typedef void (^AFNetworkingSuccessBlock)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image);
+typedef void (^AFNetworkingFailureBlock)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error);
 
 @interface CWMessageCell : UITableViewCell
 - (void)setMessageData:(NSDictionary*)data;

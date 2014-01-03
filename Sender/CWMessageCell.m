@@ -7,6 +7,7 @@
 //
 
 #import "CWMessageCell.h"
+#import <AFNetworking/UIImageView+AFNetworking.h>
 
 
 @interface CWMessageCell ()
@@ -49,7 +50,7 @@
 
 - (void)prepareForReuse
 {
-//    [self.spinner stopAnimating];
+    [self.spinner stopAnimating];
 }
 
 - (void)setMessageData:(NSDictionary*)data
@@ -60,30 +61,28 @@
         return;//exit early because we are already there.
     }
        
-    [self.thumbView setImage:[UIImage imageNamed:@"message_thumb"]];
     [self.spinner startAnimating];
-
     
-    AFHTTPRequestOperation *imageDownloadOperation = [[AFHTTPRequestOperation alloc] initWithRequest:[NSURLRequest requestWithURL:imageURL]];
-    imageDownloadOperation.responseSerializer = [AFImageResponseSerializer serializer];
-    [imageDownloadOperation setCompletionBlockWithSuccess:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
-    [imageDownloadOperation start];
+    UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];
+    NSURLRequest * imageURLRequest = [NSURLRequest requestWithURL:imageURL];
+    [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
+
 
 }
 
 - (AFNetworkingSuccessBlock) successImageDownloadBlock
 {
-    return (^ void(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"message thumbnail Response: %@", responseObject);
-        self.thumbView.image = responseObject;
-        self.imageURL = operation.request.URL;
+    return (^ void(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
+        NSLog(@"message thumbnail Response: %@", response);
+        self.thumbView.image = image;
+        self.imageURL = request.URL;
         [self.spinner stopAnimating];
     });
 }
 
 - (AFNetworkingFailureBlock) failureImageDownloadBlock
 {
-    return (^ void(AFHTTPRequestOperation *operation, NSError *error){
+    return (^ void(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error){
         NSLog(@"message thumbnail Image error: %@", error);
         [self.spinner stopAnimating];
     });
