@@ -221,7 +221,7 @@
             
             if (messageID && messageURL) {
                 message.metadata.messageId = messageID;
-                [[CWMessageManager sharedInstance] uploadMesage:message isReply:YES];
+                [[CWMessageManager sharedInstance] uploadMesage:message isReply:NO];
                 [self composeMessageWithMessageKey:messageURL];
             }
             else {
