@@ -171,20 +171,24 @@
             NSLog(@"fetched user messages: %@",responseObject);
             
             self.messages = [responseObject objectForKey:@"messages"];
-            NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
             
-            int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
-            if (newMessageCount > 0) {
-                int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
-                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
+            if (completionBlock) {
+                
+                // Only perform badge update when we are fetching due to a background fetch
+                NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
+                
+                int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
+                if (newMessageCount > 0) {
+                    int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
+                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
+                }
+                
+                completionBlock(UIBackgroundFetchResultNewData);
             }
             
             [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[self.messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
             [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
             
-            if (completionBlock) {
-                completionBlock(UIBackgroundFetchResultNewData);
-            }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
             NSLog(@"failed to fetch messages with error: %@",error);
