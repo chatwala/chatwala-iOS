@@ -67,8 +67,6 @@
 - (void)checkForMicAccess
 {
     
-    
-    
     if([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
         [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
            if (granted) {
@@ -101,6 +99,7 @@
 {
     [self.session stopRunning];
 }
+
 - (void) resumeSession
 {
     if (self.session) {

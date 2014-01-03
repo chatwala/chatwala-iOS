@@ -16,6 +16,7 @@
 #import "CWGroundControlManager.h"
 #import "AppDelegate.h"
 #import "CWLandingViewController.h"
+#import "CWMessageManager.h"
 
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
@@ -60,12 +61,8 @@
     
     [[[CWVideoManager sharedManager]recorder]setupSession];
    
-    
-        
-    
-    
-
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -133,12 +130,13 @@
 }
 
 
-- (void)onMiddleButtonTap
-{
-    
+- (void)onMiddleButtonTap {
     if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
         return;
     }
+    
+
+    [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:nil];
     
     [CWAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Button" withValue:nil];
     CWComposerViewController * composerVC = [[CWFlowManager sharedInstance]composeVC];

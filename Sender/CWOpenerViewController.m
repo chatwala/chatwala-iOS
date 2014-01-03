@@ -13,7 +13,7 @@
 #import "CWFlowManager.h"
 #import "CWMessageItem.h"
 #import "CWGroundControlManager.h"
-
+#import "CWMessageManager.h"
 
 @interface CWOpenerViewController () 
 {
@@ -129,7 +129,6 @@
 
 - (void)onMiddleButtonTap
 {
-    
     switch (self.openerState) {
         case CWOpenerPreview:
             [self setOpenerState:CWOpenerReview];
