@@ -210,6 +210,7 @@
     }
 }
 
+#pragma mark - table view datasource delegate functions
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -217,96 +218,18 @@
     return 1;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 80;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CWMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
     NSDictionary * dict = [self.messages objectAtIndex:indexPath.row];
-//    [cell.textLabel setText:[dict valueForKey:@"message_id"]];
-//    [cell setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[dict valueForKey:@"thumbnail"]]]]];
     [cell setMessageData:dict];
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    NSString * mid = [[self.messages objectAtIndex:indexPath.row] valueForKey:@"message_id"];
-    
-    [[CWMessageManager sharedInstance]downloadMessageWithID:mid  progress:nil completion:^(BOOL success, NSURL *url) {
-        //
-        AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
-        NSLog(@"Download Complete! %@",url);
-        [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
-            [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
-        }];
-    }];
-    /*
-    selectedIndexPath = indexPath;
-    AppDelegate * appdel = [[UIApplication sharedApplication] delegate];
-    NSDictionary * dict = [self.messages objectAtIndex:indexPath.row];
-    
-    
-    
-    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[[dict valueForKey:@"message_id"] stringByAppendingString:@".zip"]];
-    
-    NSLog(@"checking localPath: %@",localPath);
-    
-    if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
-        
-        NSLog(@"MESSAGE ALREADY DOWNLOADED!!");
-        [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
-            [appdel application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:localPath] sourceApplication:nil annotation:nil];
-        }];
-        
-    }else{
-    
 
-        
-        
-        
-        NSString * messagePath =[NSString stringWithFormat:[self getMessageEndPoint],[dict valueForKey:@"message_id"]];
-        
-        
-        //        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
-        
-        NSLog(@"downloading file at: %@",messagePath);
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-        
-        NSURL *URL = [NSURL URLWithString:messagePath];
-        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-        
-        
-        NSProgress * progress;
-        
-        
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-            NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
-            return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
-            
-        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            if(error)
-            {
-                NSLog(@"error %@", error);
-            }
-            else
-            {
-                NSLog(@"File downloaded to: %@", filePath);
-                [appdel.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
-                    [appdel application:[UIApplication sharedApplication] openURL:filePath sourceApplication:nil annotation:nil];
-                }];
-            }
-        }];
-        
-        [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
-        [downloadTask resume];
-    }
-     */
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.messages.count;
 }
 
 #pragma mark - MessageID Server Fetches
@@ -459,10 +382,6 @@
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.messages.count;
-}
 
 
 @end
