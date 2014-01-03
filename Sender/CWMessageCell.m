@@ -50,7 +50,7 @@
 
 - (void)prepareForReuse
 {
-//    [self.spinner stopAnimating];
+    [self.spinner stopAnimating];
 }
 
 - (void)setMessageData:(NSDictionary*)data
