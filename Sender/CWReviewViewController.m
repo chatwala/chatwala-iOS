@@ -91,13 +91,12 @@
 }
 
 - (void)composeMessageWithMessageKey:(NSString*)messageURL
-{
-    
+{    
     // SMS
     MFMessageComposeViewController  * smsComposer = [[MFMessageComposeViewController alloc] init];
     [smsComposer setMessageComposeDelegate:self];
     [smsComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
-    [smsComposer setBody:messageURL];
+    [smsComposer setBody:[NSString stringWithFormat:@"Hey, I sent you a video message on Chatwala: %@",messageURL]];
     
     [self presentViewController:smsComposer  animated:YES completion:nil];
     
@@ -198,14 +197,16 @@
     [message exportZip];
     
     if (self.incomingMessageItem) {
-        // responding
+        // Responding to an incoming message
         [CWAnalytics event:@"Send Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
         
-
         [[CWMessageManager sharedInstance] fetchMessageIDForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
             if (messageID && messageURL) {
                 message.metadata.messageId = messageID;
-                [self sendMessage:message andShareURLString:messageURL];
+                
+                [[CWMessageManager sharedInstance] uploadMesage:message isReply:YES];
+                [self.sendButton setButtonState:eButtonStateShare];
+                [self didSendMessage];
             }
             else {
                 return;
@@ -213,37 +214,20 @@
         }];
         
     }else{
+        // Original message send
+        
         [CWAnalytics event:@"Send Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
         [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
             
             if (messageID && messageURL) {
                 message.metadata.messageId = messageID;
-                [self sendMessage:message andShareURLString:messageURL];
+                [[CWMessageManager sharedInstance] uploadMesage:message isReply:YES];
+                [self composeMessageWithMessageKey:messageURL];
             }
             else {
                 return;
             }
         }];
-    }
-}
-
-- (void)sendMessage:(CWMessageItem *)messageToSend andShareURLString:(NSString *)urlString {
-    
-    [[CWMessageManager sharedInstance] uploadMesage:messageToSend isReply:(self.incomingMessageItem ? YES : NO)];
-    
-    if (self.incomingMessageItem==nil) {
-        [self composeMessageWithMessageKey:urlString];
-    }
-    else {
-        
-        /// Responding to message.
-        [[CWAuthenticationManager sharedInstance]didSkipAuth];
-        
-        [self.sendButton setButtonState:eButtonStateShare];
-        [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
-        [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
-        [[NSUserDefaults standardUserDefaults]synchronize];
-        [self.navigationController popToRootViewControllerAnimated:YES];
     }
 }
 
@@ -297,7 +281,6 @@
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
-    
     [[CWAuthenticationManager sharedInstance]didSkipAuth];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

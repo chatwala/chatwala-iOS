@@ -181,18 +181,20 @@
             self.messages = [responseObject objectForKey:@"messages"];
             NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
             
-            int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
-            if (newMessageCount > 0) {
-                int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
-                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
+            if (completionBlock) {
+                int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
+                if (newMessageCount > 0) {
+                    int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
+                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
+                }
+                
+                completionBlock(UIBackgroundFetchResultNewData);
             }
             
             [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[self.messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
             [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
             
-            if (completionBlock) {
-                completionBlock(UIBackgroundFetchResultNewData);
-            }
+
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
             NSLog(@"failed to fetch messages with error: %@",error);
@@ -342,6 +344,7 @@
     
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
 
+    // Check if we already have unused messageID we fetched earlier - return that
     if (!self.needsOriginalMessageID && [self.originalMessageID length] && [self.originalMessageURL length]) {
         if (completionBlock) {
             completionBlock(self.originalMessageID, self.originalMessageURL);
