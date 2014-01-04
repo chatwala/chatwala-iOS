@@ -59,12 +59,10 @@
     // get duration
     
     if (wasButton) {
-        [CWAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Button" withValue:nil];
+        [CWAnalytics event:@"COMPLETE_RECORDING" withCategory:@"CONVERSATION_STARTER" withLabel:@"TAP_BUTTON" withValue:nil];
     }else{
-        [CWAnalytics event:@"Complete Recording" withCategory:@"Original Message" withLabel:@"Tap Screen" withValue:nil];
+        [CWAnalytics event:@"COMPLETE_RECORDING" withCategory:@"CONVERSATION_STARTER" withLabel:@"TAP_BUTTON" withValue:nil];
     }
-    
-    
 }
 
 

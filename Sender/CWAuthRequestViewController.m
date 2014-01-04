@@ -55,7 +55,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)onAuthenticate:(id)sender {
-    [CWAnalytics event:@"Choose Google Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+    //[CWAnalytics event:@"Choose Google Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
     
     
     [self.navigationController pushViewController:[[CWAuthenticationManager sharedInstance] requestAuthentication] animated:YES];
@@ -64,14 +64,14 @@
 
 - (void)handleBack:(id)sender
 {
-    [CWAnalytics event:@"Skip Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+    //[CWAnalytics event:@"Skip Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
     [[CWAuthenticationManager sharedInstance]didSkipAuth];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
 - (IBAction)onUseEmail:(id)sender {
-    [CWAnalytics event:@"Choose Email Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+    //[CWAnalytics event:@"Choose Email Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
     CWEmailSignupViewController * vc = [[CWEmailSignupViewController alloc]init];
     [self.navigationController pushViewController:vc animated:NO];
 }
