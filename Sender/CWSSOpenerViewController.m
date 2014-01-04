@@ -44,7 +44,7 @@
 - (void)onMiddleButtonTap
 {
     [super onMiddleButtonTap];
-    [CWAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Button" withValue:nil];
+    //[CWAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Button" withValue:nil];
 }
 
 - (void)setOpenerState:(CWOpenerState)openerState
@@ -70,7 +70,6 @@
             
         case CWOpenerReview:
             //
-            [CWAnalytics event:@"Start" withCategory:@"Review" withLabel:@"" withValue:nil];
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:0.5];
         {
@@ -82,7 +81,6 @@
             break;
         case CWOpenerReact:
             //
-            [CWAnalytics event:@"Start" withCategory:@"React" withLabel:@"" withValue:nil];
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:1.0];
         {
@@ -94,7 +92,6 @@
             break;
         case CWOpenerRespond:
             //
-            [CWAnalytics event:@"Start" withCategory:@"Respond" withLabel:@"" withValue:nil];
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:1.0];
         {

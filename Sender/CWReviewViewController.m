@@ -150,10 +150,10 @@
     if (self.incomingMessageItem) {
         // responding
         
-        [CWAnalytics event:@"Re-do Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
+        [CWAnalytics event:@"REDO_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
         [self.navigationController popViewControllerAnimated:NO];
     }else{
-        [CWAnalytics event:@"Re-do Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
+        [CWAnalytics event:@"REDO_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
         [self.navigationController popToRootViewControllerAnimated:NO];
     }
 //    [super onTap:sender];
@@ -168,10 +168,10 @@
     if (self.incomingMessageItem) {
         // responding
         
-        [CWAnalytics event:@"Re-do Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
+        [CWAnalytics event:@"REDO_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
         [self.navigationController popViewControllerAnimated:NO];
     }else{
-        [CWAnalytics event:@"Re-do Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
+        [CWAnalytics event:@"REDO_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
         [self.navigationController popToRootViewControllerAnimated:NO];
     }
     
@@ -198,7 +198,7 @@
     
     if (self.incomingMessageItem) {
         // Responding to an incoming message
-        [CWAnalytics event:@"Send Message" withCategory:@"Preview" withLabel:@"" withValue:@(playbackCount)];
+        [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
         
         [[CWMessageManager sharedInstance] fetchMessageIDForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
             if (messageID && messageURL) {
@@ -207,6 +207,7 @@
                 [[CWMessageManager sharedInstance] uploadMesage:message isReply:YES];
                 [self.sendButton setButtonState:eButtonStateShare];
                 [self didSendMessage];
+                [CWAnalytics event:@"SENT_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
             }
             else {
                 return;
@@ -216,7 +217,7 @@
     }else{
         // Original message send
         
-        [CWAnalytics event:@"Send Message" withCategory:@"Preview Original Message" withLabel:@"" withValue:@(playbackCount)];
+        [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
         [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
             
             if (messageID && messageURL) {
@@ -324,9 +325,9 @@
         case MFMailComposeResultSent:
             {
                 if (self.incomingMessageItem) {
-                    [CWAnalytics event:@"Send Email" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
+                    [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
                 }else{
-                    [CWAnalytics event:@"Send Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
+                    [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Message" withLabel:@"" withValue:nil];
                 }
                 [self didSendMessage];
             }
@@ -334,9 +335,9 @@
     
         case MFMailComposeResultCancelled:
             if (self.incomingMessageItem) {
-                [CWAnalytics event:@"Cancel Email" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
+                [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
             }else{
-                [CWAnalytics event:@"Cancel Email" withCategory:@"Send Message" withLabel:@"" withValue:nil];
+                [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Message" withLabel:@"" withValue:nil];
             }
             [self.player replayVideo];
             break;
@@ -359,9 +360,9 @@
         case MessageComposeResultSent:
         {
             if (self.incomingMessageItem) {
-                [CWAnalytics event:@"Send SMS" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
+                [CWAnalytics event:@"MESSAGE_SENT" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             }else{
-                [CWAnalytics event:@"Send SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
+                [CWAnalytics event:@"MESSAGE_SENT" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:nil];
             }
             
             [self didSendMessage];
@@ -370,9 +371,9 @@
             
         case MessageComposeResultCancelled:
             if (self.incomingMessageItem) {
-                [CWAnalytics event:@"Cancel SMS" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
+                [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             }else{
-                [CWAnalytics event:@"Cancel SMS" withCategory:@"Send Message" withLabel:@"" withValue:nil];
+                [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:nil];
             }
             [self.player replayVideo];
             break;
