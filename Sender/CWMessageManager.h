@@ -12,7 +12,7 @@
 typedef void (^DownloadCompletionBlock)(BOOL success, NSURL *url);
 typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(NSString *messageID, NSString *messageURL);
 
-@interface CWMessageManager : NSObject < UITableViewDataSource, UITableViewDelegate>
+@interface CWMessageManager : NSObject < UITableViewDataSource>
 @property (nonatomic,readonly) NSString * baseEndPoint;
 @property (nonatomic,readonly) NSString * messagesEndPoint;
 @property (nonatomic,readonly) NSString * registerEndPoint;

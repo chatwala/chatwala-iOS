@@ -83,12 +83,12 @@
 - (void)onPermissionGranted
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [CWAnalytics event:@"Microphone Accept" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+    [CWAnalytics event:@"MICROPHONE_ACCEPT" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
 }
 
 - (void)onPermissionDenied
 {
-    [CWAnalytics event:@"Microphone Decline" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+    [CWAnalytics event:@"MICROPHONE_DECLINE" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
     
     UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Microphone" message:@"Please grant access to Microphone" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Settings", nil];
     [alert show];

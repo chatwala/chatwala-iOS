@@ -192,6 +192,8 @@
              • play Video Message
              • update view and feedback to reflect Review state ( in subclass )
              */
+            
+            [CWAnalytics event:@"START_REVIEW" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             [self.player playVideo];
             
             [self.middleButton setMaxValue:MAX_RECORD_TIME];
@@ -217,6 +219,7 @@
              • update view and feedback to reflect Reaction state ( in subclass )
              
              */
+            [CWAnalytics event:@"START_REACTION" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             [self startReactionCountDown];
             [self setNavMode:NavModeNone];
             break;
@@ -232,6 +235,7 @@
              • update view and feedback to reflect Responding state ( in subclass )
              
              */
+            [CWAnalytics event:@"START_REPLY" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             [self startResponseCountDown];
             [self setNavMode:NavModeNone];
             break;
@@ -332,7 +336,7 @@
         self.reviewCountdownTimer = nil;
         
         // start reaction state
-        [CWAnalytics event:@"Completion" withCategory:@"Review" withLabel:@"" withValue:@(self.messageItem.metadata.startRecording)];
+        [CWAnalytics event:@"COMPLETE_REVIEW" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(self.messageItem.metadata.startRecording)];
         [self setOpenerState:CWOpenerReact];
         
     }
@@ -389,7 +393,7 @@
 
 - (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
 {
-    [CWAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.player.videoLength - self.messageItem.metadata.startRecording)];
+    [CWAnalytics event:@"COMPLETE_REACTION" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(self.player.videoLength - self.messageItem.metadata.startRecording)];
 
     [self setOpenerState:CWOpenerRespond];
 }
@@ -413,7 +417,7 @@
     {
 
         NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
-        [CWAnalytics event:@"Completion" withCategory:@"React" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
+        [CWAnalytics event:@"COMPLETE_REPLY" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
         
 //        [self killTimers];
 //        self.openerState = CWOpenerPreview;
