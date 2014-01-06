@@ -35,12 +35,11 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 
 - (void) setupAuthentication
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     NSString * keyAndSecret = [NSString stringWithFormat:@"%@:%@", kChatwalaAPIKey, kChatwalaAPISecret];
 
-    [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
-    [manager.requestSerializer setValue:keyAndSecret forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
+    self.requestHeaderSerializer = [AFHTTPRequestSerializer serializer];
+    [self.requestHeaderSerializer setValue:keyAndSecret forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
     
     NSString * user_id = [self userId];
     NSLog(@"User: %@",user_id);
@@ -64,13 +63,18 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
     
     NSLog(@"getting new user id: %@",[[CWMessageManager sharedInstance] registerEndPoint]);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager setRequestSerializer:self.requestHeaderSerializer];
     [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
         NSString * user_id =[[responseObject valueForKey:@"user_id"]objectAtIndex:0];
         NSLog(@"New user ID Fetched: %@",user_id);
         [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
         [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Operation: %@",operation);
         NSLog(@"Error: %@",error);
     }];
 }
