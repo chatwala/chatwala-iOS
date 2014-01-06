@@ -46,6 +46,19 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
     
 }
 
+- (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request
+{
+    NSDictionary * headerDictionary = [[[CWUserManager sharedInstance] requestHeaderSerializer] HTTPRequestHeaders];
+    for (NSString * key in headerDictionary) {
+        NSAssert([key isKindOfClass:[NSString class]], @"expecting strings for the keys of the request header. found: %@", key);
+        NSString* value = [headerDictionary objectForKey:key];
+        NSAssert([value isKindOfClass:[NSString class]], @"expecting strings for the values of the request header. found: %@", value);
+        
+        [request addValue:value forHTTPHeaderField:key];
+    }
+
+}
+
 - (NSString *) userId
 {
     NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];

@@ -122,8 +122,10 @@
         NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
         AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
         NSURL *URL = [NSURL URLWithString:messagePath];
-        NSURLRequest *request = [NSURLRequest requestWithURL:URL];
+        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
         NSProgress * progress;
+        
+        [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
         
         NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response)
         {
@@ -185,6 +187,8 @@
     {
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         
+        manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+        
         NSString * url = [NSString stringWithFormat:[self getUserMessagesEndPoint],user_id] ;
         NSLog(@"fetching messages: %@",url);
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -215,6 +219,8 @@
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
             NSLog(@"failed to fetch messages with error: %@",error);
+            NSLog(@"operation:%@",operation);
+
 //            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
             [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
             
@@ -254,6 +260,7 @@
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
+    manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     NSDictionary *params = @{@"sender_id" : message.metadata.senderId,
                              @"recipient_id" : message.metadata.recipientId};
     
@@ -272,7 +279,8 @@
 
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
-        NSLog(@"Failed to fetch message ID from the server for a reply");
+        NSLog(@"Failed to fetch message ID from the server for a reply with error:%@",error);
+        NSLog(@"operation:%@",operation);
         
         if (completionBlock) {
             completionBlock(nil, nil);
@@ -307,6 +315,7 @@
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
+    manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     self.messageIDOperation = [manager POST:self.messagesEndPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // Nothing needed here
         // Should we change this to not use multipart then?
@@ -330,7 +339,8 @@
         NSLog(@"Error retrieving message ID or URL from the server");
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
-        NSLog(@"Failed to fetched new message upload ID");
+        NSLog(@"Failed to fetched new message upload ID from the server for a reply with error:%@",error);
+        NSLog(@"operation:%@",operation);
         
         if (completionBlock) {
             completionBlock(nil,nil);
@@ -349,13 +359,16 @@
     NSURL *URL = [NSURL URLWithString:endPoint];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
     [request setHTTPMethod:@"PUT"];
+    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
     
     AFURLSessionManager *mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
     
     NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         
         if (error) {
             NSLog(@"Error during message upload: %@", error);
+            NSLog(@"Response : %@", response);
             [SVProgressHUD showErrorWithStatus:error.localizedDescription];
         } else {
             NSLog(@"Successful message upload: %@ %@", response, responseObject);
