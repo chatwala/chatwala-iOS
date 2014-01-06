@@ -9,6 +9,10 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 
+NSString * const kChatwalaAPIKey = @"123456789";
+NSString * const kChatwalaAPISecret = @"qwertyuiop";
+NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
+
 @implementation CWUserManager
 + (id)sharedInstance
 {
@@ -24,11 +28,25 @@
 {
     self = [super init];
     if (self) {
-        NSString * user_id = [self userId];
-        NSLog(@"User: %@",user_id);
+        [self setupAuthentication];
     }
     return self;
 }
+
+- (void) setupAuthentication
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSString * keyAndSecret = [NSString stringWithFormat:@"%@:%@", kChatwalaAPIKey, kChatwalaAPISecret];
+
+    [manager setRequestSerializer:[AFHTTPRequestSerializer serializer]];
+    [manager.requestSerializer setValue:keyAndSecret forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
+    
+    NSString * user_id = [self userId];
+    NSLog(@"User: %@",user_id);
+    
+}
+
 - (NSString *) userId
 {
     NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
