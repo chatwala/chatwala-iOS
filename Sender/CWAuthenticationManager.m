@@ -130,7 +130,7 @@ static NSString * AuthKeyCode           = @"code";
     [[NSUserDefaults standardUserDefaults]setObject:authDict forKey:@"auth"];
     [[NSUserDefaults standardUserDefaults]synchronize];
     
-    [CWAnalytics event:@"Finish Google Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
+    //[CWAnalytics event:@"Finish Google Authentication" withCategory:@"Onboarding" withLabel:@"" withValue:nil];
     
     NSLog(@"user auhtentication data saved");
 }

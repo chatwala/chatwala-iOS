@@ -8,6 +8,7 @@
 
 #import "CWMessageCell.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
+#import "CWUserManager.h"
 
 
 @interface CWMessageCell ()
@@ -64,7 +65,10 @@
     [self.spinner startAnimating];
     
     UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];
-    NSURLRequest * imageURLRequest = [NSURLRequest requestWithURL:imageURL];
+    NSMutableURLRequest * imageURLRequest = [NSMutableURLRequest requestWithURL:imageURL];
+    
+    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
+    
     [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
 
 
