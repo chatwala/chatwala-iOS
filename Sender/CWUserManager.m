@@ -9,8 +9,8 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 
-NSString * const kChatwalaAPIKey = @"123456789";
-NSString * const kChatwalaAPISecret = @"qwertyuiop";
+NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
+NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
 NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 
 @implementation CWUserManager

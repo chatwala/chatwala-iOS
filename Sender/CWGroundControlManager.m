@@ -30,7 +30,7 @@
 
 - (void)refresh
 {
-    NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/downloads.apporchard.com/pho/defaults.plist"];
+    NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/chatwala.groundcontrol/defaults.plist"];
     [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL];
 }
 
