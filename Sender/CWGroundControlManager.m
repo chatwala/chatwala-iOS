@@ -7,6 +7,8 @@
 //
 
 #import "CWGroundControlManager.h"
+#import "AppDelegate.h"
+#import "CWKillScreenViewController.h"
 
 @implementation CWGroundControlManager
 +(instancetype) sharedInstance {
@@ -33,9 +35,32 @@
     NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/chatwala.groundcontrol/defaults.plist"];
     [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL success:^(NSDictionary *defaults) {
         NSLog(@"succesful ground control update");
+        if([self shouldShowKillScreen])
+        {
+            [self showKillScreen];
+        }
     } failure:^(NSError *error) {
         NSAssert(0==1, @"ground control update failed:%@",error);
     }];
+}
+
+- (BOOL) shouldShowKillScreen
+{
+    NSString * const kKillScreenFlagKey = @"APP_DISABLED";
+    if([[NSUserDefaults standardUserDefaults] boolForKey:kKillScreenFlagKey])
+    {
+        return YES;
+    }
+    return NO;
+}
+
+- (void) showKillScreen
+{
+    AppDelegate * appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    
+    [appDel.navController pushViewController:[[CWKillScreenViewController alloc]init] animated:NO];
+    
+    [appDel.drawController closeDrawerAnimated:NO completion:nil];
 }
 
 - (NSString *)tapToPlayVideo
