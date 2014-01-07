@@ -31,7 +31,11 @@
 - (void)refresh
 {
     NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/chatwala.groundcontrol/defaults.plist"];
-    [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL];
+    [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL success:^(NSDictionary *defaults) {
+        NSLog(@"succesful ground control update");
+    } failure:^(NSError *error) {
+        NSAssert(0==1, @"ground control update failed:%@",error);
+    }];
 }
 
 - (NSString *)tapToPlayVideo
