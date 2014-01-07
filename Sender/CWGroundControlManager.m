@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "CWKillScreenViewController.h"
 
+
+
 @implementation CWGroundControlManager
 +(instancetype) sharedInstance {
     static dispatch_once_t pred;
@@ -33,23 +35,36 @@
 - (void)refresh
 {
     NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/chatwala.groundcontrol/defaults.plist"];
-    [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL success:^(NSDictionary *defaults) {
-        NSLog(@"succesful ground control update");
-        if([self shouldShowKillScreen])
-        {
-            [self showKillScreen];
-        }
-    } failure:^(NSError *error) {
+    [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL success:self.refreshSuccessBlock failure:self.refreshFailureBlock];
+}
+
+- (RefreshGroundControlSuccessBlock) refreshSuccessBlock
+{
+    return (^ void(NSDictionary *defaults)
+            {
+                NSLog(@"succesful ground control update");
+                if([self shouldShowKillScreen])
+                {
+                    [self showKillScreen];
+                }
+            });
+}
+
+- (RefreshGroundControlFailureBlock) refreshFailureBlock
+{
+    return (^ void(NSError * error)
+            {
 #ifdef DEBUG
-    if ([[AFNetworkReachabilityManager sharedManager] isReachable]) {
-        NSAssert(0==1, @"ground control update failed:%@",error);
-    }
+                if ([[AFNetworkReachabilityManager sharedManager] isReachable])
+                {
+//                    NSAssert(0==1, @"ground control update failed:%@",error);
+                }
 #endif
-        if([self shouldShowKillScreen])
-        {
-            [self showKillScreen];
-        }
-    }];
+                if([self shouldShowKillScreen])
+                {
+                    [self showKillScreen];
+                }
+            });
 }
 
 - (BOOL) shouldShowKillScreen
@@ -67,7 +82,6 @@
     AppDelegate * appDel = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     
     [appDel.navController pushViewController:[[CWKillScreenViewController alloc]init] animated:NO];
-    
     [appDel.drawController closeDrawerAnimated:NO completion:nil];
 }
 

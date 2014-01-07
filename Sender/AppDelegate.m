@@ -93,7 +93,7 @@
 
      
     self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.menuVC];
-    [self.drawController setMaximumLeftDrawerWidth:200];
+    [self.drawController setMaximumLeftDrawerWidth:131];
     [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModePanningCenterView|MMCloseDrawerGestureModeTapCenterView];
     
     
