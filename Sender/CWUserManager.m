@@ -9,6 +9,10 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 
+NSString * const kChatwalaAPIKey = @"123456789";
+NSString * const kChatwalaAPISecret = @"qwertyuiop";
+NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
+
 @implementation CWUserManager
 + (id)sharedInstance
 {
@@ -24,11 +28,37 @@
 {
     self = [super init];
     if (self) {
-        NSString * user_id = [self userId];
-        NSLog(@"User: %@",user_id);
+        [self setupAuthentication];
     }
     return self;
 }
+
+- (void) setupAuthentication
+{
+    
+    NSString * keyAndSecret = [NSString stringWithFormat:@"%@:%@", kChatwalaAPIKey, kChatwalaAPISecret];
+
+    self.requestHeaderSerializer = [AFHTTPRequestSerializer serializer];
+    [self.requestHeaderSerializer setValue:keyAndSecret forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
+    
+    NSString * user_id = [self userId];
+    NSLog(@"User: %@",user_id);
+    
+}
+
+- (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request
+{
+    NSDictionary * headerDictionary = [[[CWUserManager sharedInstance] requestHeaderSerializer] HTTPRequestHeaders];
+    for (NSString * key in headerDictionary) {
+        NSAssert([key isKindOfClass:[NSString class]], @"expecting strings for the keys of the request header. found: %@", key);
+        NSString* value = [headerDictionary objectForKey:key];
+        NSAssert([value isKindOfClass:[NSString class]], @"expecting strings for the values of the request header. found: %@", value);
+        
+        [request addValue:value forHTTPHeaderField:key];
+    }
+
+}
+
 - (NSString *) userId
 {
     NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
@@ -46,13 +76,18 @@
     
     NSLog(@"getting new user id: %@",[[CWMessageManager sharedInstance] registerEndPoint]);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager setRequestSerializer:self.requestHeaderSerializer];
     [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
         NSString * user_id =[[responseObject valueForKey:@"user_id"]objectAtIndex:0];
         NSLog(@"New user ID Fetched: %@",user_id);
         [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
         [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Operation: %@",operation);
         NSLog(@"Error: %@",error);
     }];
 }

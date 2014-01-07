@@ -15,6 +15,7 @@
 #import "CWLandingViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWMessageManager.h"
+#import "CWUserManager.h"
 #import "CWUtility.h"
 
 
@@ -254,6 +255,7 @@
         NSURL *URL = [NSURL URLWithString:endPoint];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
         [request setHTTPMethod:@"PUT"];
+        [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
         
         AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
         

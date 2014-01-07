@@ -11,5 +11,9 @@
 @interface CWUserManager : NSObject
 + (id)sharedInstance;
 
+@property (nonatomic) AFHTTPRequestSerializer * requestHeaderSerializer;
+
+- (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request;
+
 - (NSString *) userId;
 @end
