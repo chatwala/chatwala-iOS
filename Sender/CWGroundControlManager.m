@@ -40,7 +40,15 @@
             [self showKillScreen];
         }
     } failure:^(NSError *error) {
+#ifdef DEBUG
+    if ([[AFNetworkReachabilityManager sharedManager] isReachable]) {
         NSAssert(0==1, @"ground control update failed:%@",error);
+    }
+#endif
+        if([self shouldShowKillScreen])
+        {
+            [self showKillScreen];
+        }
     }];
 }
 
