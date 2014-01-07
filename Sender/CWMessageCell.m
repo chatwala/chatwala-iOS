@@ -23,7 +23,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.thumbView  = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 200, 80)];
+        self.thumbView  = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 131, 80)];
         [self.thumbView setContentMode:UIViewContentModeCenter];
         self.thumbView.contentMode = UIViewContentModeScaleAspectFill;
         [self addSubview:self.thumbView];
