@@ -10,6 +10,8 @@
 #import "AppDelegate.h"
 #import "CWKillScreenViewController.h"
 
+
+
 @implementation CWGroundControlManager
 +(instancetype) sharedInstance {
     static dispatch_once_t pred;
