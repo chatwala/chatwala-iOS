@@ -59,23 +59,23 @@
     [super tearDown];
 }
 
-- (void)testShouldSendEventWhenUserAuthenticatesWithGoogle
-{
-    
-    CWAuthenticationManager * authManager = [CWAuthenticationManager sharedInstance];
-    
-    GTMOAuth2Authentication * auth = [[GTMOAuth2Authentication alloc]init];
-    [auth setUserEmail:@"123"];
-    [auth setAccessToken:@"auth"];
-    [auth setRefreshToken:@"auth"];
-    [auth setCode:@"auth"];
-    [auth setExpirationDate:[NSDate date]];
-    [auth setUserID:@"auth"];
-    
-    [authManager setAuth:auth];
-    
-    XCTAssertTrue([CWAnalytics flagValue], @"should be true");
-}
+//- (void)testShouldSendEventWhenUserAuthenticatesWithGoogle
+//{
+//    
+//    CWAuthenticationManager * authManager = [CWAuthenticationManager sharedInstance];
+//    
+//    GTMOAuth2Authentication * auth = [[GTMOAuth2Authentication alloc]init];
+//    [auth setUserEmail:@"123"];
+//    [auth setAccessToken:@"auth"];
+//    [auth setRefreshToken:@"auth"];
+//    [auth setCode:@"auth"];
+//    [auth setExpirationDate:[NSDate date]];
+//    [auth setUserID:@"auth"];
+//    
+//    [authManager setAuth:auth];
+//    
+//    XCTAssertTrue([CWAnalytics flagValue], @"should be true");
+//}
 
 - (void)testShouldSendEventWhenApplicationRecievesMessage
 {
@@ -85,27 +85,27 @@
     
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
 }
-
-- (void) testShouldSendEventWhenUserSelectsActivateWithGoogleButtonInAuthVC  {
-    
-    CWAuthRequestViewController * authVC = [[CWAuthRequestViewController alloc]init];
-    [authVC onAuthenticate:nil];
-    XCTAssertTrue([CWAnalytics flagValue], @"should be true");
-}
-
-- (void) testShouldSendEventWhenUserSelectsBackButtonInAuthVC {
-    
-    CWAuthRequestViewController * authVC = [[CWAuthRequestViewController alloc]init];
-    [authVC handleBack:nil];
-    XCTAssertTrue([CWAnalytics flagValue], @"should be true");
-}
-
-- (void) testShouldSendEventWhenUserSelectsAuthEithEmailButtonInAuthVC {
-    
-    CWAuthRequestViewController * authVC = [[CWAuthRequestViewController alloc]init];
-    [authVC onUseEmail:nil];
-    XCTAssertTrue([CWAnalytics flagValue], @"should be true");
-}
+//
+//- (void) testShouldSendEventWhenUserSelectsActivateWithGoogleButtonInAuthVC  {
+//    
+//    CWAuthRequestViewController * authVC = [[CWAuthRequestViewController alloc]init];
+//    [authVC onAuthenticate:nil];
+//    XCTAssertTrue([CWAnalytics flagValue], @"should be true");
+//}
+//
+//- (void) testShouldSendEventWhenUserSelectsBackButtonInAuthVC {
+//    
+//    CWAuthRequestViewController * authVC = [[CWAuthRequestViewController alloc]init];
+//    [authVC handleBack:nil];
+//    XCTAssertTrue([CWAnalytics flagValue], @"should be true");
+//}
+//
+//- (void) testShouldSendEventWhenUserSelectsAuthEithEmailButtonInAuthVC {
+//    
+//    CWAuthRequestViewController * authVC = [[CWAuthRequestViewController alloc]init];
+//    [authVC onUseEmail:nil];
+//    XCTAssertTrue([CWAnalytics flagValue], @"should be true");
+//}
 
 
 - (void) testShouldSendEventWhenReviewCountdownCompletes {
