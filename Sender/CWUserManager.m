@@ -78,14 +78,13 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     [manager setRequestSerializer:self.requestHeaderSerializer];
+
     [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
         NSString * user_id =[[responseObject valueForKey:@"user_id"]objectAtIndex:0];
         NSLog(@"New user ID Fetched: %@",user_id);
         [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
         [[NSUserDefaults standardUserDefaults]synchronize];
-        
-        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Operation: %@",operation);
         NSLog(@"Error: %@",error);
