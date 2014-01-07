@@ -92,14 +92,21 @@
 }
 
 - (void)composeMessageWithMessageKey:(NSString*)messageURL
-{    
-    // SMS
-    MFMessageComposeViewController  * smsComposer = [[MFMessageComposeViewController alloc] init];
-    [smsComposer setMessageComposeDelegate:self];
-    [smsComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
-    [smsComposer setBody:[NSString stringWithFormat:@"Hey, I sent you a video message on Chatwala: %@",messageURL]];
-    
-    [self presentViewController:smsComposer  animated:YES completion:nil];
+{
+    if([MFMessageComposeViewController canSendText])
+    {
+        // SMS
+        MFMessageComposeViewController  * smsComposer = [[MFMessageComposeViewController alloc] init];
+        [smsComposer setMessageComposeDelegate:self];
+        [smsComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
+        [smsComposer setBody:[NSString stringWithFormat:@"Hey, I sent you a video message on Chatwala: %@",messageURL]];
+        
+        [self presentViewController:smsComposer  animated:YES completion:nil];
+    }
+    else
+    {
+        [SVProgressHUD showErrorWithStatus:@"SMS/iMessage currently unavailable"];
+    }
     
     /*
     // MAIL
