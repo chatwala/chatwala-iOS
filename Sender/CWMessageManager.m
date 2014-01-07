@@ -66,7 +66,7 @@
     
     NSInteger serverEnv = 0;
     //[[[NSUserDefaults standardUserDefaults] valueForKey:@"ServerEnvironment"]integerValue];
-    if (serverEnv) {
+    if (YES) {
         // development
         return @"http://chatwala-dev.azurewebsites.net";
     }else{
@@ -123,6 +123,7 @@
         AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
         NSURL *URL = [NSURL URLWithString:messagePath];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+
         NSProgress * progress;
         
         [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
@@ -186,9 +187,8 @@
     if([user_id length])
     {
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        
         manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-        
+
         NSString * url = [NSString stringWithFormat:[self getUserMessagesEndPoint],user_id] ;
         NSLog(@"fetching messages: %@",url);
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -259,8 +259,8 @@
     
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+
     NSDictionary *params = @{@"sender_id" : message.metadata.senderId,
                              @"recipient_id" : message.metadata.recipientId};
     
@@ -310,12 +310,12 @@
     self.messageIDOperation = nil;
     
     NSDictionary *params = @{@"sender_id" : [[CWUserManager sharedInstance] userId],
-                             @"recipient_id" : @"unkown_recipient"};
+                             @"recipient_id" : @"unknown_recipient"};
     
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+
     self.messageIDOperation = [manager POST:self.messagesEndPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // Nothing needed here
         // Should we change this to not use multipart then?
@@ -350,7 +350,7 @@
     }];
 }
 
-- (void)uploadMesage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage {
+- (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage {
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
     
     
@@ -359,6 +359,7 @@
     NSURL *URL = [NSURL URLWithString:endPoint];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
     [request setHTTPMethod:@"PUT"];
+
     [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
     
     AFURLSessionManager *mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];

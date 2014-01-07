@@ -232,7 +232,10 @@
     }];
     
     // Fetch a new message upload ID from server
-    [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:nil];
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"] length]) {
+        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:nil];
+    }
+
     
 }
 
