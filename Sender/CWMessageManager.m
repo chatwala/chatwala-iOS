@@ -66,10 +66,10 @@
     
     NSInteger serverEnv = 0;
     //[[[NSUserDefaults standardUserDefaults] valueForKey:@"ServerEnvironment"]integerValue];
-    if (YES) {
+    if (serverEnv) {
         // development
         return @"http://chatwala-dev.azurewebsites.net";
-    }else{
+    } else{
         // production
         return @"http://chatwala-prod.azurewebsites.net";
     }
