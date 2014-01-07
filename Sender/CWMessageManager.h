@@ -27,6 +27,6 @@ typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(NSString *me
 - (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(DownloadCompletionBlock)completionBlock;
 - (void)fetchOriginalMessageIDWithCompletionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 - (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
-- (void)uploadMesage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage;
+- (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage;
 
 @end
