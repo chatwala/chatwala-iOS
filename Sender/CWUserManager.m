@@ -9,8 +9,8 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 
-NSString * const kChatwalaAPIKey = @"123456789";
-NSString * const kChatwalaAPISecret = @"qwertyuiop";
+NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
+NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
 NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 
 @implementation CWUserManager
@@ -78,14 +78,13 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     [manager setRequestSerializer:self.requestHeaderSerializer];
+
     [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
         NSString * user_id =[[responseObject valueForKey:@"user_id"]objectAtIndex:0];
         NSLog(@"New user ID Fetched: %@",user_id);
         [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
         [[NSUserDefaults standardUserDefaults]synchronize];
-        
-        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Operation: %@",operation);
         NSLog(@"Error: %@",error);

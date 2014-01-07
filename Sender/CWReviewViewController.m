@@ -212,7 +212,7 @@
             if (messageID && messageURL) {
                 message.metadata.messageId = messageID;
                 
-                [[CWMessageManager sharedInstance] uploadMesage:message isReply:YES];
+                [[CWMessageManager sharedInstance] uploadMessage:message isReply:YES];
                 [self.sendButton setButtonState:eButtonStateShare];
                 [self didSendMessage];
                 [CWAnalytics event:@"SENT_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
@@ -230,7 +230,7 @@
             
             if (messageID && messageURL) {
                 message.metadata.messageId = messageID;
-                [[CWMessageManager sharedInstance] uploadMesage:message isReply:NO];
+                [[CWMessageManager sharedInstance] uploadMessage:message isReply:NO];
                 [self composeMessageWithMessageKey:messageURL];
             }
             else {
@@ -262,6 +262,7 @@
         NSURL *URL = [NSURL URLWithString:endPoint];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
         [request setHTTPMethod:@"PUT"];
+
         [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
         
         AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];

@@ -30,7 +30,7 @@
 
 - (void)refresh
 {
-    NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/downloads.apporchard.com/pho/defaults.plist"];
+    NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/chatwala.groundcontrol/defaults.plist"];
     [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL];
 }
 
@@ -88,14 +88,14 @@
 - (NSString*)composerMicErrorScreenMessage
 {
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"ERROR_SCREEN_MESSAGE_MIC_COMPOSER"];
-    return value ? value:@"Chatawala can't access your microphone. Go to your Settings → Privacy → Microphone to enable access.";
+    return value ? value:@"Chatwala can't access your microphone. Go to your Settings → Privacy → Microphone to enable access.";
 }
 
 // ERROR_SCREEN_MESSAGE_MIC_OPENER
 - (NSString*)openerMicErrorScreenMessage
 {
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"ERROR_SCREEN_MESSAGE_MIC_OPENER"];
-    return value ? value:@"Chatawala can't access your microphone. Go to your Settings → Privacy → Microphone to enable access.";
+    return value ? value:@"Chatwala can't access your microphone. Go to your Settings → Privacy → Microphone to enable access.";
 }
 // EMAIL_MESSAGE
 - (NSString *)emailMessage
