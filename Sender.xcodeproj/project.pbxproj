@@ -21,6 +21,7 @@
 		36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5838187DF0AB00C5C13F /* _Thread.m */; };
 		36AF583E187DF0AB00C5C13F /* _User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF583A187DF0AB00C5C13F /* _User.m */; };
 		36AF583F187DF0AB00C5C13F /* _Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF583C187DF0AB00C5C13F /* _Message.m */; };
+		36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5841187DF45F00C5C13F /* CWDataManager.m */; };
 		36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E814C9185FB78A002B1A12 /* CWUserManager.m */; };
 		36F0EB82187DB3B300DDE28B /* CWViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */; };
 		36F0EB84187DB96600DDE28B /* CWMenuViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0EB83187DB96600DDE28B /* CWMenuViewControllerTests.m */; };
@@ -229,6 +230,8 @@
 		36AF583A187DF0AB00C5C13F /* _User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _User.m; sourceTree = "<group>"; };
 		36AF583B187DF0AB00C5C13F /* _Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Message.h; sourceTree = "<group>"; };
 		36AF583C187DF0AB00C5C13F /* _Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Message.m; sourceTree = "<group>"; };
+		36AF5840187DF45F00C5C13F /* CWDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWDataManager.h; sourceTree = "<group>"; };
+		36AF5841187DF45F00C5C13F /* CWDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWDataManager.m; sourceTree = "<group>"; };
 		36E814C8185FB78A002B1A12 /* CWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserManager.h; sourceTree = "<group>"; };
 		36E814C9185FB78A002B1A12 /* CWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserManager.m; sourceTree = "<group>"; };
 		36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewControllerTests.m; sourceTree = "<group>"; };
@@ -506,6 +509,8 @@
 				36AF581A187DD91300C5C13F /* ModelMachine */,
 				36AF581B187DD91300C5C13F /* ModelTemplates */,
 				36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */,
+				36AF5840187DF45F00C5C13F /* CWDataManager.h */,
+				36AF5841187DF45F00C5C13F /* CWDataManager.m */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -1435,6 +1440,7 @@
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
 				E96C1507183FAD1300DA9B85 /* CWEmailSignupViewController.m in Sources */,
+				36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */,
 				36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */,
 				E9AF03351868B423006CB546 /* CWMenuViewController.m in Sources */,
 				E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */,

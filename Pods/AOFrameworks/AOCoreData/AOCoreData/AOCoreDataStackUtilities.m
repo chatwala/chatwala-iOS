@@ -50,8 +50,35 @@
     
     [AOCoreDataStackUtilities addPersistentStoreWithLocation:storeURL andPersistentStoreCoordinator:psc andStoreType:NSSQLiteStoreType andConfiguration:nil andOptions:nil andCompletionHandler:^(NSError *error) {
         
-        dispatch_sync(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
             completionHandler(moc, error);
+        });
+    }];
+}
+
++ (void)createCoreDataStackWithModelName:(NSString *)modelName andConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType options:(NSDictionary *) options andCompletionHandler:(void (^)(NSManagedObjectContext * moc, NSError *error, NSURL * storeURL))completionHandler
+{
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:modelName withExtension:@"momd"];
+    NSManagedObjectModel *mom = nil;
+    mom = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
+    NSPersistentStoreCoordinator *psc = nil;
+    psc = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
+    
+    NSManagedObjectContext *moc = nil;
+    moc = [[NSManagedObjectContext alloc] initWithConcurrencyType:concurrencyType];
+    [moc setPersistentStoreCoordinator:psc];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *directoryArray = [fileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
+    NSURL *storeURL = [directoryArray lastObject];
+    NSString *storeName = [modelName stringByAppendingString:@".sqlite"];
+    storeURL = [storeURL URLByAppendingPathComponent:storeName];
+    
+    [AOCoreDataStackUtilities addPersistentStoreWithLocation:storeURL andPersistentStoreCoordinator:psc andStoreType:NSSQLiteStoreType andConfiguration:nil andOptions:options andCompletionHandler:^(NSError *error) {
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandler(moc, error, storeURL);
         });
     }];
 }

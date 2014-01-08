@@ -35,4 +35,8 @@
  */
 + (void)createCoreDataStackWithModelName:(NSString *)modelName andConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType andCompletionHandler:(void (^)(NSManagedObjectContext *, NSError *))completionHandler;
 
+
+//more options
++ (void)createCoreDataStackWithModelName:(NSString *)modelName andConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType options:(NSDictionary *) options andCompletionHandler:(void (^)(NSManagedObjectContext * moc, NSError *error, NSURL * storeURL))completionHandler;
+
 @end

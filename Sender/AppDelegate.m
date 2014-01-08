@@ -22,6 +22,7 @@
 #import "CWMessageManager.h"
 #import "CWLoadingViewController.h"
 #import "CWSettingsViewController.h"
+#import "CWDataManager.h"
 
 
 @interface UINavigationBar (customNav)
@@ -125,6 +126,8 @@
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
     */
+    
+    [[CWDataManager sharedInstance] setup];
     
     return YES;
 }
