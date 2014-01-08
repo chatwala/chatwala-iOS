@@ -15,6 +15,12 @@
 		36AF5823187DD97000C5C13F /* machine.m.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581F187DD97000C5C13F /* machine.m.motemplate */; };
 		36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */; };
 		36AF582A187DDBCF00C5C13F /* mogenerator in Resources */ = {isa = PBXBuildFile; fileRef = 36AF5829187DDBCF00C5C13F /* mogenerator */; };
+		36AF5834187DF0A200C5C13F /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF582F187DF0A200C5C13F /* Message.m */; };
+		36AF5835187DF0A200C5C13F /* Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5831187DF0A200C5C13F /* Thread.m */; };
+		36AF5836187DF0A200C5C13F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5833187DF0A200C5C13F /* User.m */; };
+		36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5838187DF0AB00C5C13F /* _Thread.m */; };
+		36AF583E187DF0AB00C5C13F /* _User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF583A187DF0AB00C5C13F /* _User.m */; };
+		36AF583F187DF0AB00C5C13F /* _Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF583C187DF0AB00C5C13F /* _Message.m */; };
 		36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E814C9185FB78A002B1A12 /* CWUserManager.m */; };
 		36F0EB82187DB3B300DDE28B /* CWViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */; };
 		36F0EB84187DB96600DDE28B /* CWMenuViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0EB83187DB96600DDE28B /* CWMenuViewControllerTests.m */; };
@@ -211,6 +217,18 @@
 		36AF581F187DD97000C5C13F /* machine.m.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = machine.m.motemplate; sourceTree = "<group>"; };
 		36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ChatwalaModel.xcdatamodel; sourceTree = "<group>"; };
 		36AF5829187DDBCF00C5C13F /* mogenerator */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mogenerator; sourceTree = "<group>"; };
+		36AF582E187DF0A200C5C13F /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		36AF582F187DF0A200C5C13F /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		36AF5830187DF0A200C5C13F /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
+		36AF5831187DF0A200C5C13F /* Thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Thread.m; sourceTree = "<group>"; };
+		36AF5832187DF0A200C5C13F /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		36AF5833187DF0A200C5C13F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		36AF5837187DF0AB00C5C13F /* _Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Thread.h; sourceTree = "<group>"; };
+		36AF5838187DF0AB00C5C13F /* _Thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Thread.m; sourceTree = "<group>"; };
+		36AF5839187DF0AB00C5C13F /* _User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _User.h; sourceTree = "<group>"; };
+		36AF583A187DF0AB00C5C13F /* _User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _User.m; sourceTree = "<group>"; };
+		36AF583B187DF0AB00C5C13F /* _Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Message.h; sourceTree = "<group>"; };
+		36AF583C187DF0AB00C5C13F /* _Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Message.m; sourceTree = "<group>"; };
 		36E814C8185FB78A002B1A12 /* CWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserManager.h; sourceTree = "<group>"; };
 		36E814C9185FB78A002B1A12 /* CWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserManager.m; sourceTree = "<group>"; };
 		36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewControllerTests.m; sourceTree = "<group>"; };
@@ -495,6 +513,12 @@
 		36AF5819187DD91300C5C13F /* ModelHuman */ = {
 			isa = PBXGroup;
 			children = (
+				36AF582E187DF0A200C5C13F /* Message.h */,
+				36AF582F187DF0A200C5C13F /* Message.m */,
+				36AF5830187DF0A200C5C13F /* Thread.h */,
+				36AF5831187DF0A200C5C13F /* Thread.m */,
+				36AF5832187DF0A200C5C13F /* User.h */,
+				36AF5833187DF0A200C5C13F /* User.m */,
 			);
 			path = ModelHuman;
 			sourceTree = "<group>";
@@ -502,6 +526,12 @@
 		36AF581A187DD91300C5C13F /* ModelMachine */ = {
 			isa = PBXGroup;
 			children = (
+				36AF5837187DF0AB00C5C13F /* _Thread.h */,
+				36AF5838187DF0AB00C5C13F /* _Thread.m */,
+				36AF5839187DF0AB00C5C13F /* _User.h */,
+				36AF583A187DF0AB00C5C13F /* _User.m */,
+				36AF583B187DF0AB00C5C13F /* _Message.h */,
+				36AF583C187DF0AB00C5C13F /* _Message.m */,
 			);
 			path = ModelMachine;
 			sourceTree = "<group>";
@@ -1365,6 +1395,8 @@
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
+				36AF583F187DF0AB00C5C13F /* _Message.m in Sources */,
+				36AF5834187DF0A200C5C13F /* Message.m in Sources */,
 				E90B7D01186CD2DE00B94DCC /* CWSettingsViewController.m in Sources */,
 				E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */,
 				E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */,
@@ -1376,6 +1408,7 @@
 				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
 				E90B7D0B186CED8300B94DCC /* CWPrivacyViewController.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
+				36AF583E187DF0AB00C5C13F /* _User.m in Sources */,
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
 				E98B1697184F85B80021A611 /* CWMiddleButton.m in Sources */,
@@ -1390,12 +1423,14 @@
 				E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */,
 				E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */,
 				E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */,
+				36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
 				E9B214FC18464B9400E09DA8 /* CWAnalytics.m in Sources */,
 				E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */,
 				36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
+				36AF5835187DF0A200C5C13F /* Thread.m in Sources */,
 				E9AF033B1868B450006CB546 /* CWMessageCell.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
@@ -1404,6 +1439,7 @@
 				E9AF03351868B423006CB546 /* CWMenuViewController.m in Sources */,
 				E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
+				36AF5836187DF0A200C5C13F /* User.m in Sources */,
 				366035E31873394800EE9233 /* CWUtility.m in Sources */,
 				E90B7D10186CED9C00B94DCC /* CWTermsViewController.m in Sources */,
 				E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */,
