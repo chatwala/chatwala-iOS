@@ -1,0 +1,8 @@
+#import "_<$managedObjectClassName$>.h"
+
+@protocol <$managedObjectClassName$> <_<$managedObjectClassName$>>
+@end
+
+@interface <$managedObjectClassName$> : _<$managedObjectClassName$> <<$managedObjectClassName$>> {}
+// Custom logic goes here.
+@end
