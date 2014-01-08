@@ -3,7 +3,4 @@
 #endif
 
 #import "Pods-environment.h"
-
 #define AR_GOOGLEANALYTICS_EXISTS 1
-
-#define AR_TESTFLIGHT_EXISTS 1

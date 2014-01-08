@@ -51,20 +51,20 @@
 // ARAnalytics/CoreIOS
 #define COCOAPODS_POD_AVAILABLE_ARAnalytics_CoreIOS
 #define COCOAPODS_VERSION_MAJOR_ARAnalytics_CoreIOS 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_CoreIOS 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_CoreIOS 3
+#define COCOAPODS_VERSION_MINOR_ARAnalytics_CoreIOS 4
+#define COCOAPODS_VERSION_PATCH_ARAnalytics_CoreIOS 0
+
+// ARAnalytics/TestFlight
+#define COCOAPODS_POD_AVAILABLE_ARAnalytics_TestFlight
+#define COCOAPODS_VERSION_MAJOR_ARAnalytics_TestFlight 2
+#define COCOAPODS_VERSION_MINOR_ARAnalytics_TestFlight 4
+#define COCOAPODS_VERSION_PATCH_ARAnalytics_TestFlight 0
 
 // ARAnalytics/GoogleAnalytics
 #define COCOAPODS_POD_AVAILABLE_ARAnalytics_GoogleAnalytics
 #define COCOAPODS_VERSION_MAJOR_ARAnalytics_GoogleAnalytics 2
 #define COCOAPODS_VERSION_MINOR_ARAnalytics_GoogleAnalytics 3
 #define COCOAPODS_VERSION_PATCH_ARAnalytics_GoogleAnalytics 3
-
-// ARAnalytics/TestFlight
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_TestFlight
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_TestFlight 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_TestFlight 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_TestFlight 3
 
 // BPXLUUIDHandler
 #define COCOAPODS_POD_AVAILABLE_BPXLUUIDHandler
@@ -153,8 +153,8 @@
 // TestFlightSDK
 #define COCOAPODS_POD_AVAILABLE_TestFlightSDK
 #define COCOAPODS_VERSION_MAJOR_TestFlightSDK 2
-#define COCOAPODS_VERSION_MINOR_TestFlightSDK 1
-#define COCOAPODS_VERSION_PATCH_TestFlightSDK 3
+#define COCOAPODS_VERSION_MINOR_TestFlightSDK 2
+#define COCOAPODS_VERSION_PATCH_TestFlightSDK 0
 
 // gtm-oauth2
 #define COCOAPODS_POD_AVAILABLE_gtm_oauth2
