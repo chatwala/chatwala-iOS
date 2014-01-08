@@ -22,6 +22,7 @@
 		36AF583E187DF0AB00C5C13F /* _User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF583A187DF0AB00C5C13F /* _User.m */; };
 		36AF583F187DF0AB00C5C13F /* _Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF583C187DF0AB00C5C13F /* _Message.m */; };
 		36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5841187DF45F00C5C13F /* CWDataManager.m */; };
+		36AF5844187E034700C5C13F /* CWMessageManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5843187E034700C5C13F /* CWMessageManagerTests.m */; };
 		36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E814C9185FB78A002B1A12 /* CWUserManager.m */; };
 		36F0EB82187DB3B300DDE28B /* CWViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */; };
 		36F0EB84187DB96600DDE28B /* CWMenuViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0EB83187DB96600DDE28B /* CWMenuViewControllerTests.m */; };
@@ -232,6 +233,7 @@
 		36AF583C187DF0AB00C5C13F /* _Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Message.m; sourceTree = "<group>"; };
 		36AF5840187DF45F00C5C13F /* CWDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWDataManager.h; sourceTree = "<group>"; };
 		36AF5841187DF45F00C5C13F /* CWDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWDataManager.m; sourceTree = "<group>"; };
+		36AF5843187E034700C5C13F /* CWMessageManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageManagerTests.m; sourceTree = "<group>"; };
 		36E814C8185FB78A002B1A12 /* CWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserManager.h; sourceTree = "<group>"; };
 		36E814C9185FB78A002B1A12 /* CWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserManager.m; sourceTree = "<group>"; };
 		36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewControllerTests.m; sourceTree = "<group>"; };
@@ -913,6 +915,7 @@
 				36781C9118760591005AE1C6 /* CWMessageCellTest.m */,
 				36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */,
 				36F0EB83187DB96600DDE28B /* CWMenuViewControllerTests.m */,
+				36AF5843187E034700C5C13F /* CWMessageManagerTests.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -1472,6 +1475,7 @@
 				E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */,
 				36F3F87C187C9C54002CBB63 /* CWGroundControlTests.m in Sources */,
 				E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */,
+				36AF5844187E034700C5C13F /* CWMessageManagerTests.m in Sources */,
 				36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */,
 				E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */,
 				E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */,
