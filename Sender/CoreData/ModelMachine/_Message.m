@@ -9,6 +9,7 @@ const struct MessageAttributes MessageAttributes = {
 	.messageID = @"messageID",
 	.startRecording = @"startRecording",
 	.threadIndex = @"threadIndex",
+	.thumbnailPictureURL = @"thumbnailPictureURL",
 	.timeStamp = @"timeStamp",
 	.viewedState = @"viewedState",
 };
@@ -209,6 +210,13 @@ const struct MessageUserInfo MessageUserInfo = {
 - (void)setPrimitiveThreadIndexValue:(int32_t)value_ {
 	[self setPrimitiveThreadIndex:[NSNumber numberWithInt:value_]];
 }
+
+
+
+
+
+@dynamic thumbnailPictureURL;
+
 
 
 

@@ -5,6 +5,7 @@
         <attribute name="messageID" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="startRecording" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="threadIndex" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="thumbnailPictureURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeStamp" attributeType="Date" syncable="YES"/>
         <attribute name="viewedState" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="recipient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="messagesReceived" inverseEntity="User" syncable="YES"/>
@@ -16,7 +17,8 @@
         <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Message" inverseName="thread" inverseEntity="Message" syncable="YES"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES">
-        <attribute name="userID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profilePictureURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userID" attributeType="String" syncable="YES"/>
         <relationship name="messagesReceived" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Message" inverseName="recipient" inverseEntity="Message" syncable="YES"/>
         <relationship name="messagesSent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Message" inverseName="sender" inverseEntity="Message" syncable="YES"/>
     </entity>

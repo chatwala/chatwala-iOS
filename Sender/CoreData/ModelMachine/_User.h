@@ -15,6 +15,15 @@
 
 
 
+@property (nonatomic, strong) NSString* profilePictureURL;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSString* userID;
 
 
@@ -40,6 +49,7 @@
 
 
 extern const struct UserAttributes {
+	__unsafe_unretained NSString *profilePictureURL;
 	__unsafe_unretained NSString *userID;
 } UserAttributes;
 
@@ -62,6 +72,8 @@ extern const struct UserUserInfo {
 
 
 
+
+
 @interface UserID : AOManagedObjectID {}
 @end
 
@@ -73,6 +85,15 @@ extern const struct UserUserInfo {
 + (NSArray *)fetchAllUsersWithContext:(NSManagedObjectContext *)context andSortDescriptors:(NSArray *)sortDescriptors error:(NSError **)error;
 + (NSArray *)fetchAllUsersWithContext:(NSManagedObjectContext *)context andSortDescriptors:(NSArray *)sortDescriptors andFetchLimit:(NSUInteger)fetchLimit error:(NSError **)error;
 - (UserID*)objectID;
+
+
+
+
+
+@property (nonatomic, strong) NSString* profilePictureURL;
+
+
+
 
 
 
@@ -105,6 +126,12 @@ extern const struct UserUserInfo {
 
 
 @interface _User (CoreDataGeneratedPrimitiveAccessors)
+
+
+- (NSString*)primitiveProfilePictureURL;
+- (void)setPrimitiveProfilePictureURL:(NSString*)value;
+
+
 
 
 - (NSString*)primitiveUserID;

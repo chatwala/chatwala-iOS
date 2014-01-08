@@ -5,6 +5,7 @@
 
 
 const struct UserAttributes UserAttributes = {
+	.profilePictureURL = @"profilePictureURL",
 	.userID = @"userID",
 };
 
@@ -67,6 +68,13 @@ const struct UserUserInfo UserUserInfo = {
 
 	return keyPaths;
 }
+
+
+
+
+@dynamic profilePictureURL;
+
+
 
 
 
