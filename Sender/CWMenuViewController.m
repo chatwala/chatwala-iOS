@@ -49,6 +49,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
     [self.messagesTable reloadData];
 }
 
