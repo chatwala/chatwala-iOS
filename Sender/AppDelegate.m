@@ -111,11 +111,6 @@
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
 
-    
-    
-    [NC addObserver:self selector:@selector(onMenuButtonTapped) name:MENU_BUTTON_TAPPED object:nil];
-    
-
     /*
     self.landingVC = [[CWLandingViewController alloc]init];
     [self.landingVC setFlowDirection:eFlowToStartScreen];
@@ -230,6 +225,8 @@
                 break;
         }
     }];
+
+    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
     
     // Fetch a new message upload ID from server
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"] length]) {
@@ -378,22 +375,6 @@
     return _openerVC;
 }
 
-- (void)onMenuButtonTapped
-{
-    if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
-        return;
-    }
-    
-    if (self.drawController.openSide == MMDrawerSideNone) {
-        [[self drawController]openDrawerSide:MMDrawerSideLeft animated:YES completion:^(BOOL finished) {
-            //
-        }];
-    }else{
-        [[self drawController]closeDrawerAnimated:YES completion:^(BOOL finished) {
-            //
-        }];
-    }
-}
 //
 //- (void)onMessageSent
 //{

@@ -7,11 +7,10 @@
 //
 
 #import "CWViewController.h"
+#import "AppDelegate.h"
 
 @interface CWViewController ()
 
-@property (nonatomic,strong) UIBarButtonItem * burgerButton;
-@property (nonatomic,strong) UIBarButtonItem * closeButton;
 //@property (nonatomic,strong) UIImageView * messageSentView;
 @end
 
@@ -71,7 +70,8 @@
 - (void)onTap:(id)sender
 {
     if ([sender isEqual:self.burgerButton]) {
-        [NC postNotificationName:MENU_BUTTON_TAPPED object:nil];
+        AppDelegate * appDel = (AppDelegate *) APPDEL;
+        [appDel.drawController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
     }
     
     if ([sender isEqual:self.closeButton]) {

@@ -79,7 +79,6 @@
 #define APPDEL [[UIApplication sharedApplication]delegate]
 
 
-#define MENU_BUTTON_TAPPED @"MENU_BUTTON_TAPPED"
 
 
 

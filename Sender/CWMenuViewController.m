@@ -44,12 +44,12 @@
     [NC addObserver:self selector:@selector(onMessagesLoaded:) name:@"MessagesLoaded" object:nil];
     [NC addObserver:self selector:@selector(onMessagLoadedFailed:) name:@"MessagesLoadFailed" object:nil];
     
-    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
     [self.messagesTable reloadData];
 }
 
