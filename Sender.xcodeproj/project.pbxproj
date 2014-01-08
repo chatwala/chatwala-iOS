@@ -10,6 +10,9 @@
 		366035E31873394800EE9233 /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 366035E21873394800EE9233 /* CWUtility.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
 		36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E814C9185FB78A002B1A12 /* CWUserManager.m */; };
+		36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F3F877187C9573002CBB63 /* CWKillScreenViewController.m */; };
+		36F3F87A187C9573002CBB63 /* CWKillScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36F3F878187C9573002CBB63 /* CWKillScreenViewController.xib */; };
+		36F3F87C187C9C54002CBB63 /* CWGroundControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */; };
 		5A22DD32AA184288BEC932AA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8B4EC8D342465796C4A37E /* libPods.a */; };
 		82380876CA9D496387191727 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5043C247C54257A2FCABFE /* libPods-test.a */; };
 		E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90B7C80186C958D00B94DCC /* CWLoadingViewController.m */; };
@@ -196,6 +199,10 @@
 		36781C9118760591005AE1C6 /* CWMessageCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCellTest.m; sourceTree = "<group>"; };
 		36E814C8185FB78A002B1A12 /* CWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserManager.h; sourceTree = "<group>"; };
 		36E814C9185FB78A002B1A12 /* CWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserManager.m; sourceTree = "<group>"; };
+		36F3F876187C9573002CBB63 /* CWKillScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWKillScreenViewController.h; sourceTree = "<group>"; };
+		36F3F877187C9573002CBB63 /* CWKillScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWKillScreenViewController.m; sourceTree = "<group>"; };
+		36F3F878187C9573002CBB63 /* CWKillScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWKillScreenViewController.xib; sourceTree = "<group>"; };
+		36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWGroundControlTests.m; sourceTree = "<group>"; };
 		810134A78491415EBDC34438 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		BC8B4EC8D342465796C4A37E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5043C247C54257A2FCABFE /* libPods-test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -467,6 +474,16 @@
 			name = "User Manager";
 			sourceTree = "<group>";
 		};
+		36F3F875187C9530002CBB63 /* killScreen */ = {
+			isa = PBXGroup;
+			children = (
+				36F3F876187C9573002CBB63 /* CWKillScreenViewController.h */,
+				36F3F877187C9573002CBB63 /* CWKillScreenViewController.m */,
+				36F3F878187C9573002CBB63 /* CWKillScreenViewController.xib */,
+			);
+			name = killScreen;
+			sourceTree = "<group>";
+		};
 		CC0C4B9C1864D34E0096D5B3 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
@@ -593,6 +610,7 @@
 		E90F04E3182D2A53004B8CCD /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				36F3F875187C9530002CBB63 /* killScreen */,
 				E9E003FF183FEF1A0087E909 /* Landing */,
 				E924AD26183AAD79009400DD /* Start Screen */,
 				E924AD3B183AC0F3009400DD /* Opener */,
@@ -774,6 +792,7 @@
 			isa = PBXGroup;
 			children = (
 				E94439AC182940AF0088A381 /* Supporting Files */,
+				36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */,
 				E95E25DB1831425800E3950B /* CWMessageItemTests.m */,
 				E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */,
 				E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */,
@@ -1067,6 +1086,7 @@
 				E90B7CAE186CBE4A00B94DCC /* waves0010.png in Resources */,
 				E90B7CB6186CBE4A00B94DCC /* waves0018.png in Resources */,
 				E90B7CED186CC01800B94DCC /* waves0028@2x.png in Resources */,
+				36F3F87A187C9573002CBB63 /* CWKillScreenViewController.xib in Resources */,
 				E90B7CB5186CBE4A00B94DCC /* waves0017.png in Resources */,
 				E90B7CB8186CBE4A00B94DCC /* waves0020.png in Resources */,
 				E90B7CE5186CC01800B94DCC /* waves0020@2x.png in Resources */,
@@ -1291,6 +1311,7 @@
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
 				E9B214FC18464B9400E09DA8 /* CWAnalytics.m in Sources */,
 				E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */,
+				36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				E9AF033B1868B450006CB546 /* CWMessageCell.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
@@ -1322,6 +1343,7 @@
 				E9C115601832B9AD00DB67D2 /* AVURLAsset+Spec.m in Sources */,
 				E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */,
 				E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */,
+				36F3F87C187C9C54002CBB63 /* CWGroundControlTests.m in Sources */,
 				E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */,
 				36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */,
 				E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */,

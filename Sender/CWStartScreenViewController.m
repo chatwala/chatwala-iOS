@@ -132,6 +132,7 @@
 
 - (void)onMiddleButtonTap {
     if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
+        [SVProgressHUD showErrorWithStatus:@"Internet connection requried\n to send message"];
         return;
     }
     

@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+
+typedef void (^ RefreshGroundControlSuccessBlock)(NSDictionary * defaults);
+typedef void (^ RefreshGroundControlFailureBlock)(NSError * failure);
+
 @interface CWGroundControlManager : NSObject
 +(instancetype) sharedInstance;
 - (NSString*)tapToPlayVideo;
@@ -24,5 +28,12 @@
 - (NSString *)emailSubject;
 - (NSString *)replyMessage;
 - (void)refresh;
+
+- (BOOL) shouldShowKillScreen;
+- (void) showKillScreen;
+
+
+@property (strong, readonly) RefreshGroundControlFailureBlock refreshFailureBlock;
+@property (strong, readonly) RefreshGroundControlSuccessBlock refreshSuccessBlock;
 
 @end
