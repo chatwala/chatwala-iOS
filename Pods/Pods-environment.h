@@ -48,23 +48,35 @@
 #define COCOAPODS_VERSION_MINOR_AFNetworking_UIKit 0
 #define COCOAPODS_VERSION_PATCH_AFNetworking_UIKit 3
 
+// AOFrameworks/AOCoreData
+#define COCOAPODS_POD_AVAILABLE_AOFrameworks_AOCoreData
+#define COCOAPODS_VERSION_MAJOR_AOFrameworks_AOCoreData 0
+#define COCOAPODS_VERSION_MINOR_AOFrameworks_AOCoreData 2
+#define COCOAPODS_VERSION_PATCH_AOFrameworks_AOCoreData 5
+
+// AOFrameworks/AOFoundation
+#define COCOAPODS_POD_AVAILABLE_AOFrameworks_AOFoundation
+#define COCOAPODS_VERSION_MAJOR_AOFrameworks_AOFoundation 0
+#define COCOAPODS_VERSION_MINOR_AOFrameworks_AOFoundation 2
+#define COCOAPODS_VERSION_PATCH_AOFrameworks_AOFoundation 5
+
 // ARAnalytics/CoreIOS
 #define COCOAPODS_POD_AVAILABLE_ARAnalytics_CoreIOS
 #define COCOAPODS_VERSION_MAJOR_ARAnalytics_CoreIOS 2
 #define COCOAPODS_VERSION_MINOR_ARAnalytics_CoreIOS 4
 #define COCOAPODS_VERSION_PATCH_ARAnalytics_CoreIOS 0
 
+// ARAnalytics/GoogleAnalytics
+#define COCOAPODS_POD_AVAILABLE_ARAnalytics_GoogleAnalytics
+#define COCOAPODS_VERSION_MAJOR_ARAnalytics_GoogleAnalytics 2
+#define COCOAPODS_VERSION_MINOR_ARAnalytics_GoogleAnalytics 4
+#define COCOAPODS_VERSION_PATCH_ARAnalytics_GoogleAnalytics 0
+
 // ARAnalytics/TestFlight
 #define COCOAPODS_POD_AVAILABLE_ARAnalytics_TestFlight
 #define COCOAPODS_VERSION_MAJOR_ARAnalytics_TestFlight 2
 #define COCOAPODS_VERSION_MINOR_ARAnalytics_TestFlight 4
 #define COCOAPODS_VERSION_PATCH_ARAnalytics_TestFlight 0
-
-// ARAnalytics/GoogleAnalytics
-#define COCOAPODS_POD_AVAILABLE_ARAnalytics_GoogleAnalytics
-#define COCOAPODS_VERSION_MAJOR_ARAnalytics_GoogleAnalytics 2
-#define COCOAPODS_VERSION_MINOR_ARAnalytics_GoogleAnalytics 3
-#define COCOAPODS_VERSION_PATCH_ARAnalytics_GoogleAnalytics 3
 
 // BPXLUUIDHandler
 #define COCOAPODS_POD_AVAILABLE_BPXLUUIDHandler

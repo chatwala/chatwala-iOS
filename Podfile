@@ -1,4 +1,6 @@
 platform :ios, '7.0'
+
+pod 'AOFrameworks/AOCoreData'
 pod 'SVProgressHUD'
 pod 'SSZipArchive'
 pod 'Mantle'
