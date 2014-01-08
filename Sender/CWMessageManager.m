@@ -71,7 +71,7 @@
         return @"http://chatwala-dev.azurewebsites.net";
     } else{
         // production
-        return @"http://chatwala-prod.azurewebsites.net";
+        return @"http://chatwala-prodeast.azurewebsites.net";
     }
 }
 #warning Need to update these names to better describe roles
