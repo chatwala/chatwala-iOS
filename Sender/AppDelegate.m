@@ -230,6 +230,8 @@
                 break;
         }
     }];
+
+    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
     
     // Fetch a new message upload ID from server
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"] length]) {
