@@ -11,8 +11,6 @@
 
 @interface CWViewController ()
 
-@property (nonatomic,strong) UIBarButtonItem * burgerButton;
-@property (nonatomic,strong) UIBarButtonItem * closeButton;
 //@property (nonatomic,strong) UIImageView * messageSentView;
 @end
 

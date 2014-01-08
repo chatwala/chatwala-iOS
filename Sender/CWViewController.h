@@ -15,4 +15,8 @@ typedef enum {
 @interface CWViewController : UIViewController
 - (void)setNavMode:(NavMode)mode;
 - (void)onTap:(id)sender;
+
+@property (nonatomic,strong) UIBarButtonItem * burgerButton;
+@property (nonatomic,strong) UIBarButtonItem * closeButton;
+
 @end
