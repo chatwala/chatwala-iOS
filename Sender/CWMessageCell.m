@@ -61,6 +61,7 @@
 
 - (void)setMessageData:(NSDictionary*)data
 {
+    NSAssert([data isKindOfClass:[NSDictionary class]], @"expecting dictionary argument, found:%@",data);
     NSURL * imageURL = [NSURL URLWithString:[data objectForKey:@"thumbnail"]];
     if(([imageURL isEqual:self.imageURL]) && (self.imageURL != nil))
     {

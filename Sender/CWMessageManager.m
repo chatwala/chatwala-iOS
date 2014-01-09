@@ -12,6 +12,7 @@
 #import "CWUserManager.h"
 #import "CWUtility.h"
 
+
 @interface CWMessageManager ()
 
 @property (nonatomic,assign) BOOL needsOriginalMessageID;
@@ -180,8 +181,6 @@
 
 - (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock
 {
-    
-    
     NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     
     if([user_id length])
@@ -193,12 +192,9 @@
         NSLog(@"fetching messages: %@",url);
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             //
-            NSLog(@"fetched user messages: %@",responseObject);
+            self.getMessagesSuccessBlock(operation, responseObject);
             
-            self.messages = [responseObject objectForKey:@"messages"];
-            
-            [self.messages writeToURL:[self messageCacheURL] atomically:YES];
-            
+            //badge adjustment hack logic below
             if (completionBlock) {
                 
                 // Only perform badge update when we are fetching due to a background fetch
@@ -214,7 +210,6 @@
             }
             
             [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[self.messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
-            [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
@@ -229,6 +224,19 @@
             }
         }];
     }
+}
+
+- (AFRequestOperationManagerSuccessBlock) getMessagesSuccessBlock
+{
+    return (^ void(AFHTTPRequestOperation *operation, id responseObject){
+        NSLog(@"fetched user messages: %@",responseObject);
+        
+        self.messages = [responseObject objectForKey:@"messages"];
+        
+        [self.messages writeToURL:[self messageCacheURL] atomically:YES];
+        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+
+    });
 }
 
 #pragma mark - table view datasource delegate functions

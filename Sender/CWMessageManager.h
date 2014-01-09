@@ -12,6 +12,10 @@
 typedef void (^DownloadCompletionBlock)(BOOL success, NSURL *url);
 typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(NSString *messageID, NSString *messageURL);
 
+typedef void (^AFRequestOperationManagerSuccessBlock) (AFHTTPRequestOperation *operation, id responseObject);
+typedef void (^AFRequestOperationManagerFailureBlock) (AFHTTPRequestOperation *operation, NSError *error);
+
+
 @interface CWMessageManager : NSObject < UITableViewDataSource>
 @property (nonatomic,readonly) NSString * baseEndPoint;
 @property (nonatomic,readonly) NSString * messagesEndPoint;
@@ -28,5 +32,8 @@ typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(NSString *me
 - (void)fetchOriginalMessageIDWithCompletionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 - (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 - (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage;
+
+@property (strong, readonly) AFRequestOperationManagerSuccessBlock getMessagesSuccessBlock;
+@property (strong, readonly) AFRequestOperationManagerFailureBlock getMessagesFailureBlock;
 
 @end

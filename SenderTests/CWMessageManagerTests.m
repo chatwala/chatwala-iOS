@@ -53,4 +53,22 @@
     [mockUserDefaults stopMocking];
 }
 
+- (void)testGetMessagesSuccessBlock
+{
+    // given
+    id mockOperation = [OCMockObject mockForClass:[AFHTTPRequestOperation class]];
+    id messages = @[@"randomThingInHere"];
+    id mockMessages = [OCMockObject partialMockForObject:messages];
+    [[mockMessages stub] writeToURL:OCMOCK_ANY atomically:YES];
+    NSDictionary * responseObject = @{@"messages": messages};
+    
+    // when
+    self.sut.getMessagesSuccessBlock(mockOperation, responseObject);
+    
+    // should
+    XCTAssertEqual(messages, self.sut.messages, @"expecting messages to be set");
+    // cleanup
+    [mockMessages stopMocking];
+}
+
 @end
