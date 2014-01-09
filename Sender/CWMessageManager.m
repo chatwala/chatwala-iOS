@@ -125,7 +125,7 @@
         NSURL *URL = [NSURL URLWithString:messagePath];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
 
-        NSProgress * progress;
+        NSProgress * progress = nil;
         
         [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
         
