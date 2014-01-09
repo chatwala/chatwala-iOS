@@ -50,9 +50,7 @@
     
     [AOCoreDataStackUtilities addPersistentStoreWithLocation:storeURL andPersistentStoreCoordinator:psc andStoreType:NSSQLiteStoreType andConfiguration:nil andOptions:nil andCompletionHandler:^(NSError *error) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completionHandler(moc, error);
-        });
+        completionHandler(moc, error);
     }];
 }
 
@@ -77,9 +75,7 @@
     
     [AOCoreDataStackUtilities addPersistentStoreWithLocation:storeURL andPersistentStoreCoordinator:psc andStoreType:NSSQLiteStoreType andConfiguration:nil andOptions:options andCompletionHandler:^(NSError *error) {
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            completionHandler(moc, error, storeURL);
-        });
+        completionHandler(moc, error, storeURL);
     }];
 }
 
