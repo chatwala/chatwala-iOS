@@ -148,6 +148,21 @@
     
 }
 
+- (void) testDownloadDestinationBlock
+{
+    //given
+    id mockResponse = [OCMockObject mockForClass:[NSURLResponse class]];
+    [[[mockResponse stub] andReturn:@"mySuggestion"] suggestedFilename];
+    NSURL * docDir = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+    NSURL * expectedURL = [docDir URLByAppendingPathComponent:@"mySuggestion"];
+    
+    //when
+    NSURL * actual = self.sut.downloadDestinationBlock(OCMOCK_ANY, mockResponse);
+    
+    //should
+    XCTAssertEqualObjects(actual, expectedURL, @"download path should be expected dl path");
+}
+
 
 
 @end

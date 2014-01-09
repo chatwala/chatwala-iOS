@@ -103,6 +103,13 @@
     return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
 }
 
+- (AFDownloadTaskDestinationBlock) downloadDestinationBlock
+{
+    return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
+        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+    });
+}
 
 - (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(void (^)(BOOL success, NSURL *url))completionBlock
 {
@@ -129,13 +136,7 @@
         
         [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
         
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response)
-        {
-                                                                          
-            NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
-            return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
-            
-        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:self.downloadDestinationBlock completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
             if(error)
             {
                 NSLog(@"error %@", error);
