@@ -135,7 +135,8 @@
     NSProgress * progress = OCMOCK_ANY;
     id mockManager = [OCMockObject mockForClass:[AFURLSessionManager class]];
     [[[mockManager stub] andReturn:mockManager] alloc];
-    [[[mockManager stub] andReturn:mockManager] initWithSessionConfiguration:OCMOCK_ANY];
+    id toMakeWarningGoAway = [[[mockManager stub] andReturn:mockManager] initWithSessionConfiguration:OCMOCK_ANY];
+    NSLog(@"%@",toMakeWarningGoAway);
     [[mockManager expect] downloadTaskWithRequest:OCMOCK_ANY progress:[OCMArg setTo:progress] destination:OCMOCK_ANY completionHandler:OCMOCK_ANY];
     
     //when
@@ -146,5 +147,7 @@
     [mockManager stopMocking];
     
 }
+
+
 
 @end
