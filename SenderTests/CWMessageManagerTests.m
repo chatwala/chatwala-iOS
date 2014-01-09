@@ -13,6 +13,7 @@
 @interface CWMessageManagerTests : XCTestCase
 
 @property (nonatomic) CWMessageManager *sut;
+@property (nonatomic) id mockSut;
 
 @end
 
@@ -23,10 +24,12 @@
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
     self.sut = [[CWMessageManager alloc] init];
+    self.mockSut = [OCMockObject partialMockForObject:self.sut];
 }
 
 - (void)tearDown
 {
+    [self.mockSut stopMocking];
     // Put teardown code here; it will be run once, after the last test case.
     [super tearDown];
 }
@@ -69,6 +72,60 @@
     XCTAssertEqual(messages, self.sut.messages, @"expecting messages to be set");
     // cleanup
     [mockMessages stopMocking];
+}
+
+- (void)testGetMessagesSuccessBlockShouldPostNotification
+{
+    // given
+    id messages = @[@"randomThingInHere"];
+    id mockMessages = [OCMockObject partialMockForObject:messages];
+    [[mockMessages stub] writeToURL:OCMOCK_ANY atomically:YES];
+    NSDictionary * responseObject = @{@"messages": messages};
+    id mockNC = [OCMockObject partialMockForObject:NC];
+    [[mockNC expect] postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+
+    // when
+    self.sut.getMessagesSuccessBlock(OCMOCK_ANY, responseObject);
+    
+    // should
+    [mockNC verify];
+    
+    // cleanup
+    [mockNC stopMocking];
+    
+}
+
+- (void)testGetMessagesSuccessBlockShouldNotNilMessages
+{
+    // given
+    id messages = @[@"randomThingInHere"];
+    NSDictionary * responseObject = @{@"bad_key": messages};
+    self.sut.messages = messages;
+    
+    // when
+    self.sut.getMessagesSuccessBlock(OCMOCK_ANY, responseObject);
+    
+    // should
+    XCTAssertEqual(messages, self.sut.messages, @"expecting messages to be the same");
+    
+    // cleanup
+
+}
+
+
+- (void)testGetMessagesFailureBlock
+{
+    // given
+    id mockNC = [OCMockObject partialMockForObject:NC];
+    [[mockNC expect] postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
+    // when
+    self.sut.getMessagesFailureBlock(OCMOCK_ANY, OCMOCK_ANY);
+    
+    // should
+    [mockNC verify];
+    
+    // cleanup
+    [mockNC stopMocking];
 }
 
 @end

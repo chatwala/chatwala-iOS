@@ -213,11 +213,7 @@
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
-            NSLog(@"failed to fetch messages with error: %@",error);
-            NSLog(@"operation:%@",operation);
-
-//            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
-            [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
+            self.getMessagesFailureBlock(operation, error);
             
             if (completionBlock) {
                 completionBlock(UIBackgroundFetchResultNoData);
@@ -231,11 +227,29 @@
     return (^ void(AFHTTPRequestOperation *operation, id responseObject){
         NSLog(@"fetched user messages: %@",responseObject);
         
-        self.messages = [responseObject objectForKey:@"messages"];
-        
-        [self.messages writeToURL:[self messageCacheURL] atomically:YES];
-        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+        NSArray *messages = [responseObject objectForKey:@"messages"];
+        if([messages isKindOfClass:[NSArray class]]){
+            self.messages = messages;
+            [self.messages writeToURL:[self messageCacheURL] atomically:YES];
+            [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+        }
+        else{
+            NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
+            self.getMessagesFailureBlock(operation, error);
+        }
 
+    });
+}
+
+- (AFRequestOperationManagerFailureBlock) getMessagesFailureBlock
+{
+    return (^ void(AFHTTPRequestOperation *operation, NSError * error){
+        NSLog(@"failed to fetch messages with error: %@",error);
+        NSLog(@"operation:%@",operation);
+        
+        //            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
+        [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
+        
     });
 }
 
