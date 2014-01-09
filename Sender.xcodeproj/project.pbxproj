@@ -8,7 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		366035E31873394800EE9233 /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 366035E21873394800EE9233 /* CWUtility.m */; };
+		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
+		36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36ACC922187F557B00314C40 /* CWDataManagerTests.m */; };
 		36AF5820187DD97000C5C13F /* human.h.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581C187DD97000C5C13F /* human.h.motemplate */; };
 		36AF5821187DD97000C5C13F /* human.m.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581D187DD97000C5C13F /* human.m.motemplate */; };
 		36AF5822187DD97000C5C13F /* machine.h.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581E187DD97000C5C13F /* machine.h.motemplate */; };
@@ -212,7 +214,10 @@
 		021C04FCE95441C395C53215 /* Pods-test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.xcconfig"; path = "Pods/Pods-test.xcconfig"; sourceTree = "<group>"; };
 		366035E11873394800EE9233 /* CWUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUtility.h; sourceTree = "<group>"; };
 		366035E21873394800EE9233 /* CWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUtility.m; sourceTree = "<group>"; };
+		367439E9187F5C6200613FD6 /* MocForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MocForTests.h; sourceTree = "<group>"; };
+		367439EA187F5C6200613FD6 /* MocForTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MocForTests.m; sourceTree = "<group>"; };
 		36781C9118760591005AE1C6 /* CWMessageCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCellTest.m; sourceTree = "<group>"; };
+		36ACC922187F557B00314C40 /* CWDataManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWDataManagerTests.m; sourceTree = "<group>"; };
 		36AF581C187DD97000C5C13F /* human.h.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.h.motemplate; sourceTree = "<group>"; };
 		36AF581D187DD97000C5C13F /* human.m.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.m.motemplate; sourceTree = "<group>"; };
 		36AF581E187DD97000C5C13F /* machine.h.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = machine.h.motemplate; sourceTree = "<group>"; };
@@ -890,6 +895,8 @@
 		E94439AB182940AF0088A381 /* SenderTests */ = {
 			isa = PBXGroup;
 			children = (
+				367439E9187F5C6200613FD6 /* MocForTests.h */,
+				367439EA187F5C6200613FD6 /* MocForTests.m */,
 				E94439AC182940AF0088A381 /* Supporting Files */,
 				36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */,
 				E95E25DB1831425800E3950B /* CWMessageItemTests.m */,
@@ -916,6 +923,7 @@
 				36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */,
 				36F0EB83187DB96600DDE28B /* CWMenuViewControllerTests.m */,
 				36AF5843187E034700C5C13F /* CWMessageManagerTests.m */,
+				36ACC922187F557B00314C40 /* CWDataManagerTests.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -1465,6 +1473,7 @@
 				36F0EB82187DB3B300DDE28B /* CWViewControllerTests.m in Sources */,
 				E965255E18341963008987BD /* CWReviewVCTests.m in Sources */,
 				E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */,
+				36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */,
 				E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */,
 				E96C150A183FB36800DA9B85 /* CWAuthenticationManagerTests.m in Sources */,
 				E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */,
@@ -1472,6 +1481,7 @@
 				E9B214FF18464C6900E09DA8 /* CWAnalytics+Spec.m in Sources */,
 				E9C115601832B9AD00DB67D2 /* AVURLAsset+Spec.m in Sources */,
 				E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */,
+				367439EB187F5C6200613FD6 /* MocForTests.m in Sources */,
 				E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */,
 				36F3F87C187C9C54002CBB63 /* CWGroundControlTests.m in Sources */,
 				E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */,

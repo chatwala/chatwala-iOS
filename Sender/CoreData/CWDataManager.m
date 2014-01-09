@@ -8,6 +8,7 @@
 
 #import "CWDataManager.h"
 #import <AOFrameworks/AOCoreDataStackUtilities.h>
+#import "Message.h"
 
 @interface CWDataManager ()
 {
@@ -28,9 +29,41 @@
     });
     return sharedInstance;
 }
+
+#pragma mark - import data
+
+- (NSError *) importMessages:(NSArray *)messages
+{
+    if(![messages isKindOfClass:[NSArray class]])
+    {
+        return [NSError errorWithDomain:@"com.chatwala" code:6002 userInfo:@{@"Failed import":@"import messages expects an array", @"found":messages}];//failed to import
+    }
+    
+    NSError * error = nil;
+    for (NSDictionary * messageDictionary in messages) {
+        if(![messageDictionary isKindOfClass:[NSDictionary class]])
+        {
+            return [NSError errorWithDomain:@"com.chatwala" code:6003 userInfo:@{@"Failed import":@"import messages expects an array of dictionaries", @"found":messageDictionary}];//failed to import
+        }
+        Message * item = [Message insertInManagedObjectContext:self.moc];
+        
+        [item fromDictionary:messageDictionary withDateFormatter:nil error:&error];
+        
+        if(error)
+        {
+            return error;
+        }
+    }
+    
+    [self.moc save:&error];
+    
+    
+    return error;
+}
+
 #pragma mark - Core Data stack
 
-- (void) setup
+- (void) setupCoreData
 {
 
     [AOCoreDataStackUtilities createCoreDataStackWithModelName:@"ChatwalaModel" andConcurrencyType:NSMainQueueConcurrencyType options:@{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES} andCompletionHandler:^(NSManagedObjectContext *moc, NSError *error, NSURL *storeURL) {

@@ -38,5 +38,14 @@
  */
 -(AOManagedObject *)fromJSON:(NSData *)json withDateFormatter:(NSDateFormatter *)dateFormatter error:(NSError **)error;
 
+/*!
+ Returns the managed object populated with values from a NSDictionary representation.
+ 
+ @param dictionary The NSDictionary to be used to populate the managed object.
+ @param dateFormatter An NSDateFormatter used when transforming date string from the JSON to an NSDate. Since there is no standard JSON date representation the caller needs to pass in the date formatter itself.
+ 
+ @return the AOManagedObject with attribute values populated by the passed JSON.
+ */
+-(AOManagedObject *)fromDictionary:(NSDictionary *)dictionary withDateFormatter:(NSDateFormatter *)dateFormatter error:(NSError **)error;
 
 @end

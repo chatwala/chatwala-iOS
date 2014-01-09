@@ -45,10 +45,15 @@
 -(AOManagedObject *)fromJSON:(NSData *)json withDateFormatter:(NSDateFormatter *)dateFormatter error:(NSError **)error
 {
     NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:json options:NSJSONReadingAllowFragments error:error];
+    return [self fromDictionary:jsonDict withDateFormatter:dateFormatter error:error];
+}
+
+-(AOManagedObject *)fromDictionary:(NSDictionary *)dictionary withDateFormatter:(NSDateFormatter *)dateFormatter error:(NSError **)error
+{
     NSDictionary *attributes = [[self entity] attributesByName];
     
     for (NSString *attribute in attributes) {
-        id value = [jsonDict objectForKey:attribute];
+        id value = [dictionary objectForKey:attribute];
         
         if (value == nil) {
             continue;

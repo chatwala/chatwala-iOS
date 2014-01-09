@@ -127,7 +127,7 @@
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
     */
     
-    [[CWDataManager sharedInstance] setup];
+    [[CWDataManager sharedInstance] setupCoreData];
     
     return YES;
 }

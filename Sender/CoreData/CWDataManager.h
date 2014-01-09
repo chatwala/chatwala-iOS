@@ -7,12 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "User.h"
 
 @interface CWDataManager : NSObject
 + (id)sharedInstance;
 
+@property (nonatomic, strong) User * localUser;
 @property (nonatomic, strong) NSManagedObjectContext * moc;
 
-- (void) setup;
+- (void) setupCoreData;
+- (NSError *) importMessages:(NSArray *) messages;
 
 @end
