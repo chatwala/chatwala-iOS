@@ -7,6 +7,7 @@
 const struct MessageAttributes MessageAttributes = {
 	.downloadState = @"downloadState",
 	.messageID = @"messageID",
+	.messageURL = @"messageURL",
 	.startRecording = @"startRecording",
 	.threadIndex = @"threadIndex",
 	.thumbnailPictureURL = @"thumbnailPictureURL",
@@ -154,6 +155,13 @@ const struct MessageUserInfo MessageUserInfo = {
 - (void)setPrimitiveMessageIDValue:(double)value_ {
 	[self setPrimitiveMessageID:[NSNumber numberWithDouble:value_]];
 }
+
+
+
+
+
+@dynamic messageURL;
+
 
 
 

@@ -42,6 +42,15 @@
 
 
 
+@property (nonatomic, strong) NSString* messageURL;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* startRecording;
 
 
@@ -123,6 +132,7 @@
 extern const struct MessageAttributes {
 	__unsafe_unretained NSString *downloadState;
 	__unsafe_unretained NSString *messageID;
+	__unsafe_unretained NSString *messageURL;
 	__unsafe_unretained NSString *startRecording;
 	__unsafe_unretained NSString *threadIndex;
 	__unsafe_unretained NSString *thumbnailPictureURL;
@@ -144,6 +154,8 @@ extern const struct MessageRelationships {
 
 extern const struct MessageUserInfo {
 } MessageUserInfo;
+
+
 
 
 
@@ -201,6 +213,15 @@ extern const struct MessageUserInfo {
 @property (atomic) double messageIDValue;
 - (double)messageIDValue;
 - (void)setMessageIDValue:(double)value_;
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* messageURL;
+
 
 
 
@@ -311,6 +332,12 @@ extern const struct MessageUserInfo {
 
 - (double)primitiveMessageIDValue;
 - (void)setPrimitiveMessageIDValue:(double)value_;
+
+
+
+
+- (NSString*)primitiveMessageURL;
+- (void)setPrimitiveMessageURL:(NSString*)value;
 
 
 
