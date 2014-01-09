@@ -9,13 +9,16 @@
 
 #import "CWMessageItem.h"
 
-typedef void (^DownloadCompletionBlock)(BOOL success, NSURL *url);
 typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(NSString *messageID, NSString *messageURL);
 
 typedef void (^AFRequestOperationManagerSuccessBlock) (AFHTTPRequestOperation *operation, id responseObject);
 typedef void (^AFRequestOperationManagerFailureBlock) (AFHTTPRequestOperation *operation, NSError *error);
 
 typedef NSURL * (^AFDownloadTaskDestinationBlock) (NSURL *targetPath, NSURLResponse *response);
+
+
+typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
+typedef void (^CWDownloadTaskCompletionBlock) (NSURLResponse *response, NSURL *filePath, NSError *error, CWMessageDownloadCompletionBlock messageDownloadCompletionBlock );
 
 
 @interface CWMessageManager : NSObject < UITableViewDataSource>
@@ -30,13 +33,14 @@ typedef NSURL * (^AFDownloadTaskDestinationBlock) (NSURL *targetPath, NSURLRespo
 
 +(instancetype) sharedInstance;
 - (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
-- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(DownloadCompletionBlock)completionBlock;
+- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(CWMessageDownloadCompletionBlock)completionBlock;
 - (void)fetchOriginalMessageIDWithCompletionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 - (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 - (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage;
 
 @property (strong, readonly) AFRequestOperationManagerSuccessBlock getMessagesSuccessBlock;
 @property (strong, readonly) AFRequestOperationManagerFailureBlock getMessagesFailureBlock;
-@property (strong, readonly) AFDownloadTaskDestinationBlock downloadDestinationBlock;
+@property (strong, readonly) AFDownloadTaskDestinationBlock downloadURLDestinationBlock;
+@property (strong, readonly) CWDownloadTaskCompletionBlock downloadTaskCompletionBlock;
 
 @end

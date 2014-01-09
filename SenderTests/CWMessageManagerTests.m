@@ -148,7 +148,7 @@
     
 }
 
-- (void) testDownloadDestinationBlock
+- (void) testDownloadURLDestinationBlock
 {
     //given
     id mockResponse = [OCMockObject mockForClass:[NSURLResponse class]];
@@ -157,10 +157,78 @@
     NSURL * expectedURL = [docDir URLByAppendingPathComponent:@"mySuggestion"];
     
     //when
-    NSURL * actual = self.sut.downloadDestinationBlock(OCMOCK_ANY, mockResponse);
+    NSURL * actual = self.sut.downloadURLDestinationBlock(OCMOCK_ANY, mockResponse);
     
     //should
     XCTAssertEqualObjects(actual, expectedURL, @"download path should be expected dl path");
+}
+
+- (void) testDownloadTaskCompletionBlockFailedBecauseOfError
+{
+    //given
+    NSURL * filePath = OCMOCK_ANY;
+    NSError * error = OCMOCK_ANY;
+    __block BOOL ranWithFailure = NO;
+    CWMessageDownloadCompletionBlock messageCompletionBlock = ^void(BOOL success, NSURL *url)
+    {
+        if(!success)
+        {
+            ranWithFailure = YES;
+        }
+    };
+    
+    //when
+    self.sut.downloadTaskCompletionBlock(OCMOCK_ANY, filePath, error, messageCompletionBlock);
+    
+    //should
+    XCTAssertTrue(ranWithFailure, @"expecting to run with failure");
+}
+
+- (void) testDownloadTaskCompletionBlockFailedBecauseOfStatusCode
+{
+    //given
+    NSHTTPURLResponse * response = [[NSHTTPURLResponse alloc] initWithURL:nil statusCode:404 HTTPVersion:nil headerFields:nil];
+    NSURL * filePath = OCMOCK_ANY;
+    NSError * error = nil;
+    __block BOOL ranWithFailure = NO;
+    CWMessageDownloadCompletionBlock messageCompletionBlock = ^void(BOOL success, NSURL *url)
+    {
+        if(!success)
+        {
+            ranWithFailure = YES;
+        }
+    };
+    
+    //when
+    self.sut.downloadTaskCompletionBlock(response, filePath, error, messageCompletionBlock);
+    
+    //should
+    XCTAssertTrue(ranWithFailure, @"expecting to run with failure");
+}
+
+- (void) testDownloadTaskCompletionBlockSucceeds
+{
+    //given
+    NSHTTPURLResponse * response = [[NSHTTPURLResponse alloc] initWithURL:nil statusCode:200 HTTPVersion:nil headerFields:nil];
+    NSURL * filePath = OCMOCK_ANY;
+    NSError * error = nil;
+    __block BOOL ranWithSuccess = NO;
+    __block NSURL *actual = nil;
+    CWMessageDownloadCompletionBlock messageCompletionBlock = ^void(BOOL success, NSURL *url)
+    {
+        if(success)
+        {
+            ranWithSuccess = YES;
+        }
+        actual = url;
+    };
+    
+    //when
+    self.sut.downloadTaskCompletionBlock(response, filePath, error, messageCompletionBlock);
+    
+    //should
+    XCTAssertTrue(ranWithSuccess, @"expecting to run with Success");
+    XCTAssertTrue([actual isEqual:filePath], @"expecting url to be pass throug");
 }
 
 

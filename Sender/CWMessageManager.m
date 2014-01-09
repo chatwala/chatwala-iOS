@@ -103,7 +103,7 @@
     return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
 }
 
-- (AFDownloadTaskDestinationBlock) downloadDestinationBlock
+- (AFDownloadTaskDestinationBlock) downloadURLDestinationBlock
 {
     return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
         NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
@@ -111,7 +111,44 @@
     });
 }
 
-- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(void (^)(BOOL success, NSURL *url))completionBlock
+- (CWDownloadTaskCompletionBlock) downloadTaskCompletionBlock
+{
+    return (^ void(NSURLResponse *response, NSURL *filePath, NSError *error, CWMessageDownloadCompletionBlock  messageDownloadCompletionBlock){
+        
+        if(error)
+        {
+            NSLog(@"error %@", error);
+            if (messageDownloadCompletionBlock) {
+                messageDownloadCompletionBlock(NO,filePath);//if we need to pass error/response adjust function callback
+            }
+        }
+        else
+        {
+            NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
+            switch (httpResponse.statusCode) {
+                case 200:
+                    // success
+                    NSLog(@"File downloaded to: %@", filePath);
+                    if (messageDownloadCompletionBlock) {
+                        messageDownloadCompletionBlock(YES,filePath);
+                    }
+                    break;
+                    
+                default:
+                    // fail
+                    NSLog(@"failed to load message file. with code:%i",httpResponse.statusCode);
+                    if (messageDownloadCompletionBlock) {
+                        messageDownloadCompletionBlock(NO,nil);
+                    }
+                    break;
+            }
+        }
+
+        
+    });
+}
+
+- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(CWMessageDownloadCompletionBlock )completionBlock
 {
     // check if file exists locally
     NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
@@ -136,36 +173,8 @@
         
         [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
         
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:self.downloadDestinationBlock completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            if(error)
-            {
-                NSLog(@"error %@", error);
-                if (completionBlock) {
-                    completionBlock(NO,filePath);//if we need to pass error/response adjust function callback
-                }
-            }
-            else
-            {
-                
-                NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
-                switch (httpResponse.statusCode) {
-                    case 200:
-                        // success
-                        NSLog(@"File downloaded to: %@", filePath);
-                        if (completionBlock) {
-                            completionBlock(YES,filePath);
-                        }
-                        break;
-                        
-                    default:
-                        // fail
-                        NSLog(@"failed to load message file. with code:%i",httpResponse.statusCode);
-                        if (completionBlock) {
-                            completionBlock(NO,nil);
-                        }
-                        break;
-                }
-            }
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:self.downloadURLDestinationBlock completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            self.downloadTaskCompletionBlock(response,filePath,error,completionBlock);
         }];
         
         [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
