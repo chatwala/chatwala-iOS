@@ -231,6 +231,23 @@
     XCTAssertTrue([actual isEqual:filePath], @"expecting url to be pass throug");
 }
 
+- (void) testUploadMessage
+{
+    //given
+    CWMessageItem * item = [[CWMessageItem alloc] init];
+    id mockManager = [OCMockObject mockForClass:[AFURLSessionManager class]];
+    [[[mockManager stub] andReturn:mockManager] alloc];
+    id toMakeWarningGoAway = [[[mockManager stub] andReturn:mockManager] initWithSessionConfiguration:OCMOCK_ANY];
+    NSLog(@"%@",toMakeWarningGoAway);
+    [[mockManager expect] uploadTaskWithRequest:OCMOCK_ANY fromFile:item.zipURL progress:nil completionHandler:OCMOCK_ANY];
+
+    //when
+    [self.sut uploadMessage:item isReply:NO];
+    
+    //should
+    [mockManager verify];
+    
+}
 
 
 @end
