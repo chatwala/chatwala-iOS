@@ -11,7 +11,7 @@
         <attribute name="viewedState" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="recipient" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="messagesReceived" inverseEntity="User" syncable="YES"/>
         <relationship name="sender" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="messagesSent" inverseEntity="User" syncable="YES"/>
-        <relationship name="thread" maxCount="1" deletionRule="Nullify" destinationEntity="Thread" inverseName="messages" inverseEntity="Thread" syncable="YES"/>
+        <relationship name="thread" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Thread" inverseName="messages" inverseEntity="Thread" syncable="YES"/>
     </entity>
     <entity name="Thread" representedClassName="Thread" syncable="YES">
         <attribute name="threadID" optional="YES" attributeType="String" syncable="YES"/>
