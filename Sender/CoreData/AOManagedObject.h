@@ -48,4 +48,8 @@
  */
 -(AOManagedObject *)fromDictionary:(NSDictionary *)dictionary withDateFormatter:(NSDateFormatter *)dateFormatter error:(NSError **)error;
 
+//for when the keys on the sever change
++ (NSDictionary *) keyLookupTable;
+
+
 @end

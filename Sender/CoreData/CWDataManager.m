@@ -9,6 +9,7 @@
 #import "CWDataManager.h"
 #import "AOCoreDataStackUtilities.h"
 #import "Message.h"
+#import "NSDictionary+LookUpTable.h"
 
 @interface CWDataManager ()
 {
@@ -133,14 +134,14 @@
     [item fromDictionary:sourceDictionary withDateFormatter:[CWDataManager dateFormatter] error:error] ;
     
     //add users
-    NSString * senderID = [sourceDictionary objectForKey:MessageRelationships.sender];
+    NSString * senderID = [sourceDictionary objectForKey:MessageRelationships.sender withLUT:[Message keyLookupTable]];
     item.sender = [self createUserWithID:senderID];
     
-    NSString * receiverID = [sourceDictionary objectForKey:MessageRelationships.recipient];
+    NSString * receiverID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
     item.recipient = [self createUserWithID:receiverID];
     
     //add thread
-    NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread];
+    NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
     item.thread = [self createThreadWithID:threadID];
 }
 

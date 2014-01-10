@@ -7,6 +7,7 @@
 //
 
 #import "AOManagedObject.h"
+#import "NSDictionary+LookUpTable.h"
 
 @implementation AOManagedObjectID : NSManagedObjectID
 @end
@@ -53,7 +54,7 @@
     NSDictionary *attributes = [[self entity] attributesByName];
     
     for (NSString *attribute in attributes) {
-        id value = [dictionary objectForKey:attribute];
+        id value = [dictionary objectForKey:attribute withLUT:[self.class keyLookupTable]];
         
         if (value == nil) {
             continue;
@@ -93,6 +94,10 @@
     return jsonObj;
 }
 
++ (NSDictionary *) keyLookupTable
+{
+    return @{};
+}
 
 
 

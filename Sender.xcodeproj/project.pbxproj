@@ -13,6 +13,7 @@
 		206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 206CDF8E18808F59007F3532 /* CoreData.framework */; };
 		366035E31873394800EE9233 /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 366035E21873394800EE9233 /* CWUtility.m */; };
 		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
+		367439F11880921D00613FD6 /* NSDictionary+LookUpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
 		36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36ACC922187F557B00314C40 /* CWDataManagerTests.m */; };
 		36AF5820187DD97000C5C13F /* human.h.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581C187DD97000C5C13F /* human.h.motemplate */; };
@@ -227,6 +228,8 @@
 		366035E21873394800EE9233 /* CWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUtility.m; sourceTree = "<group>"; };
 		367439E9187F5C6200613FD6 /* MocForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MocForTests.h; sourceTree = "<group>"; };
 		367439EA187F5C6200613FD6 /* MocForTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MocForTests.m; sourceTree = "<group>"; };
+		367439EF1880921D00613FD6 /* NSDictionary+LookUpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+LookUpTable.h"; sourceTree = "<group>"; };
+		367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+LookUpTable.m"; sourceTree = "<group>"; };
 		36781C9118760591005AE1C6 /* CWMessageCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCellTest.m; sourceTree = "<group>"; };
 		36ACC922187F557B00314C40 /* CWDataManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWDataManagerTests.m; sourceTree = "<group>"; };
 		36AF581C187DD97000C5C13F /* human.h.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.h.motemplate; sourceTree = "<group>"; };
@@ -524,12 +527,12 @@
 		36AF5818187DD91300C5C13F /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				206CDF8A18808F27007F3532 /* AOCoreDataStackUtilities.h */,
 				206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */,
 				206CDF8618808F27007F3532 /* AOFetchUtilities.h */,
 				206CDF8718808F27007F3532 /* AOFetchUtilities.m */,
 				206CDF8818808F27007F3532 /* AOManagedObject.h */,
 				206CDF8918808F27007F3532 /* AOManagedObject.m */,
-				206CDF8A18808F27007F3532 /* AOCoreDataStackUtilities.h */,
 				36AF5819187DD91300C5C13F /* ModelHuman */,
 				36AF581A187DD91300C5C13F /* ModelMachine */,
 				36AF581B187DD91300C5C13F /* ModelTemplates */,
@@ -1029,6 +1032,8 @@
 		E98B168A184F848E0021A611 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				367439EF1880921D00613FD6 /* NSDictionary+LookUpTable.h */,
+				367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */,
 				E98B1694184F84B90021A611 /* DCControl */,
 			);
 			name = "Third Party";
@@ -1478,6 +1483,7 @@
 				E9AF03351868B423006CB546 /* CWMenuViewController.m in Sources */,
 				E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
+				367439F11880921D00613FD6 /* NSDictionary+LookUpTable.m in Sources */,
 				36AF5836187DF0A200C5C13F /* User.m in Sources */,
 				366035E31873394800EE9233 /* CWUtility.m in Sources */,
 				E90B7D10186CED9C00B94DCC /* CWTermsViewController.m in Sources */,
