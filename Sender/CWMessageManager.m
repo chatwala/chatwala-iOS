@@ -273,7 +273,7 @@
 {
     CWMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
     User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSArray * inboxMessages = [localUser inboxMessages];
+    NSOrderedSet * inboxMessages = [localUser inboxMessages];
     Message * message = [inboxMessages objectAtIndex:indexPath.row];
     [cell setMessage:message];
     return cell;
@@ -283,7 +283,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSArray * inboxMessages = [localUser inboxMessages];
+    NSOrderedSet * inboxMessages = [localUser inboxMessages];
     return inboxMessages.count;
 }
 

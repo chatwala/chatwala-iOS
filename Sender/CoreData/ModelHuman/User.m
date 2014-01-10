@@ -12,7 +12,7 @@
 
 // Custom logic goes here.
 
-- (NSArray *) inboxMessages
+- (NSOrderedSet *) inboxMessages
 {
     return self.messagesReceived;
 }

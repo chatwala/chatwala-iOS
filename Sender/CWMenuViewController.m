@@ -68,7 +68,7 @@
         [self.refreshControl endRefreshing];
     }
     User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSArray * inboxMessages = [localUser inboxMessages];
+    NSOrderedSet * inboxMessages = [localUser inboxMessages];
 
     [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
 //    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWMessageManager sharedInstance]messages] count]];
@@ -99,7 +99,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSArray * inboxMessages = [localUser inboxMessages];
+    NSOrderedSet * inboxMessages = [localUser inboxMessages];
     Message * message = [inboxMessages objectAtIndex:indexPath.row];
     
     NSString* messageId = message.messageID;

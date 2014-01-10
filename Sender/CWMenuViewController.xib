@@ -55,7 +55,7 @@
                         <action selector="onButtonSelect:" destination="-1" eventType="touchUpInside" id="X9h-Uv-chM"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gec-wb-qMK">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gec-wb-qMK">
                     <rect key="frame" x="-23" y="-92" width="200" height="21"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
@@ -76,6 +76,7 @@
             </subviews>
             <color key="backgroundColor" red="0.098039215686274508" green="0.14509803921568626" blue="0.27450980392156865" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstItem="Vm6-LA-vr8" firstAttribute="top" secondItem="gec-wb-qMK" secondAttribute="bottom" constant="71" id="17E-8m-ntx"/>
                 <constraint firstItem="fbv-Bi-UKC" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="18J-ED-XbL"/>
                 <constraint firstAttribute="bottom" secondItem="Vm6-LA-vr8" secondAttribute="bottom" id="5zn-P5-Ilq"/>
                 <constraint firstItem="Vm6-LA-vr8" firstAttribute="top" secondItem="1" secondAttribute="top" id="DZ3-Ze-VFh"/>
@@ -87,6 +88,7 @@
                 <constraint firstAttribute="trailing" secondItem="fbv-Bi-UKC" secondAttribute="trailing" id="Yyr-7Z-OL0"/>
                 <constraint firstAttribute="trailing" secondItem="Vm6-LA-vr8" secondAttribute="trailing" id="aAd-ID-FxA"/>
                 <constraint firstItem="tLm-Gt-sZC" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="oYB-tN-v3z"/>
+                <constraint firstItem="gec-wb-qMK" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="-23" id="p1x-yf-5Zl"/>
                 <constraint firstItem="tLm-Gt-sZC" firstAttribute="top" secondItem="sQW-Ez-6aI" secondAttribute="bottom" id="tfU-Ec-hPF"/>
                 <constraint firstItem="fbv-Bi-UKC" firstAttribute="top" secondItem="1" secondAttribute="top" id="xhp-wf-5PD"/>
             </constraints>
