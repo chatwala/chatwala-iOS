@@ -19,5 +19,6 @@
 - (NSError *) importMessages:(NSArray *) messages;
 
 - (Message *) findMessageByMessageID:(NSString*) messageID;
-
+- (User *) findUserByUserID:(NSString *) userID;
+- (User *) createUserWithID:(NSString *) userID;
 @end

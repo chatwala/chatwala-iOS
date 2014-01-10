@@ -42,6 +42,16 @@
     return item;
 }
 
+- (User *) findUserByUserID:(NSString *) userID
+{
+    User * item = (User *)[self findObject:[User class] byAttribute:UserAttributes.userID withValue:userID];
+    if(item)
+    {
+        NSAssert([item isKindOfClass:[User class]], @"expecting to get a User object. found :%@", item);
+    }
+    return item;
+}
+
 - (AOManagedObject *) findObject:(Class) aClass byAttribute:(NSString *) attribute withValue:(NSString*) value
 {
     NSString * format = [NSString stringWithFormat:@"%@ == %%@", attribute];
@@ -64,6 +74,17 @@
 }
 
 #pragma mark - import data
+
+- (User *) createUserWithID:(NSString *) userID
+{
+    User * user = [self findUserByUserID:userID];
+    if(!user)
+    {
+        user = [User insertInManagedObjectContext:self.moc];
+        user.userID = userID;
+    }
+    return user;
+}
 
 - (NSError *) importMessages:(NSArray *)messages
 {
