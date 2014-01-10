@@ -18,4 +18,6 @@
 - (void) setupCoreData;
 - (NSError *) importMessages:(NSArray *) messages;
 
+- (Message *) findMessageByMessageID:(NSString*) messageID;
+
 @end

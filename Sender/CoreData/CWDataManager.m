@@ -32,24 +32,35 @@
 
 #pragma mark - find functions
 
-- (Message *) findMessageWithID:(NSString*) messageID
+- (Message *) findMessageByMessageID:(NSString*) messageID
 {
-    NSString * format = [NSString stringWithFormat:@"%@ == %%@", MessageAttributes.messageID];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:format,  messageID];
+    Message * item = (Message *)[self findObject:[Message class] byAttribute:MessageAttributes.messageID withValue:messageID];
+    if(item)
+    {
+        NSAssert([item isKindOfClass:[Message class]], @"expecting to get a Message object. found :%@", item);
+    }
+    return item;
+}
+
+- (AOManagedObject *) findObject:(Class) aClass byAttribute:(NSString *) attribute withValue:(NSString*) value
+{
+    NSString * format = [NSString stringWithFormat:@"%@ == %%@", attribute];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:format,  value];
     NSArray * results = nil;
     
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setPredicate:predicate];
-    [request setEntity:[NSEntityDescription entityForName:[Message entityName] inManagedObjectContext:self.moc]];
+    [request setEntity:[NSEntityDescription entityForName:[aClass entityName] inManagedObjectContext:self.moc]];
     [request setFetchLimit:1];
     
     NSError *error = nil;
     results = [self.moc executeFetchRequest:request error:&error];
     
     NSAssert(!error, @"expecting no error:%@",error);
-    NSAssert(results.count <= 1, @"should only have one or less messages: %@", results);
-    Message * item = [results lastObject];
+    NSAssert(results.count <= 1, @"should only have one or less object: %@", results);
+    AOManagedObject * item = [results lastObject];
     return item;
+    
 }
 
 #pragma mark - import data
@@ -67,7 +78,12 @@
         {
             return [NSError errorWithDomain:@"com.chatwala" code:6003 userInfo:@{@"Failed import":@"import messages expects an array of dictionaries", @"found":messageDictionary}];//failed to import
         }
-        Message * item = [Message insertInManagedObjectContext:self.moc];
+        NSString * messageID = [messageDictionary objectForKey:MessageAttributes.messageID];
+        Message * item = [self findMessageByMessageID:messageID];
+        if(!item)
+        {
+            item = [Message insertInManagedObjectContext:self.moc];
+        }
         
         [item fromDictionary:messageDictionary withDateFormatter:[CWDataManager dateFormatter] error:&error] ;
         
