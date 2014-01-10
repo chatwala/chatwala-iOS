@@ -33,7 +33,7 @@
     MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
     self.sut.moc = mocFactory.moc;
 
-    self.validMessageImport = @[@{@"messageID":@"foo", @"messageURL": @"someURL", @"timeStamp": @"2013-09-29T18:46:19"}];
+    self.validMessageImport = @[@{@"messageID":@"foo", @"messageURL": @"someURL", @"timeStamp": @"2013-09-29T18:46:19",  @"sender": @"senderID_io433ni2o4nsdnvc"}];
 }
 
 - (void)tearDown
@@ -106,6 +106,18 @@
     
 }
 
+- (void) testImportMessagesShouldCallCreateUsers
+{
+    //given
+    [[self.mockSut expect] createUserWithID:OCMOCK_ANY];
+    
+    //when
+    [self.sut importMessages:self.validMessageImport];
+    
+    //should
+    [self.mockSut verify];
+}
+
 - (void) testFindMessageByMessageID
 {
     //given
@@ -120,6 +132,7 @@
     XCTAssertEqualObjects(@"someURL", actual.messageURL, @"expecting messageURL to match");
     
 }
+
 
 - (void) testFindMessageByMessageIDShouldNotFindMessageWhenNoneExists
 {
@@ -181,5 +194,7 @@
     XCTAssertNotEqualObjects(actual, expected, @"expecting users to match");
     
 }
+
+
 
 @end

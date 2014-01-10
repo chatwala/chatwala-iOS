@@ -77,6 +77,10 @@
 
 - (User *) createUserWithID:(NSString *) userID
 {
+    if(nil == userID)
+    {
+        return nil;
+    }
     User * user = [self findUserByUserID:userID];
     if(!user)
     {
@@ -84,6 +88,33 @@
         user.userID = userID;
     }
     return user;
+}
+
+- (void) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error
+{
+    if(![sourceDictionary isKindOfClass:[NSDictionary class]])
+    {
+        *error = [NSError errorWithDomain:@"com.chatwala" code:6003 userInfo:@{@"Failed import":@"import messages expects an array of dictionaries", @"found":sourceDictionary}];//failed to import
+        return;
+    }
+    NSString * messageID = [sourceDictionary objectForKey:MessageAttributes.messageID];
+    Message * item = [self findMessageByMessageID:messageID];
+    if(!item)
+    {
+        item = [Message insertInManagedObjectContext:self.moc];
+    }
+    
+    [item fromDictionary:sourceDictionary withDateFormatter:[CWDataManager dateFormatter] error:error] ;
+    
+    //add users
+    NSString * senderID = [sourceDictionary objectForKey:MessageRelationships.sender];
+    item.sender = [self createUserWithID:senderID];
+    
+    NSString * receiverID = [sourceDictionary objectForKey:MessageRelationships.recipient];
+    item.recipient = [self createUserWithID:receiverID];
+    
+    //add thread
+    
 }
 
 - (NSError *) importMessages:(NSArray *)messages
@@ -95,19 +126,7 @@
     
     NSError * error = nil;
     for (NSDictionary * messageDictionary in messages) {
-        if(![messageDictionary isKindOfClass:[NSDictionary class]])
-        {
-            return [NSError errorWithDomain:@"com.chatwala" code:6003 userInfo:@{@"Failed import":@"import messages expects an array of dictionaries", @"found":messageDictionary}];//failed to import
-        }
-        NSString * messageID = [messageDictionary objectForKey:MessageAttributes.messageID];
-        Message * item = [self findMessageByMessageID:messageID];
-        if(!item)
-        {
-            item = [Message insertInManagedObjectContext:self.moc];
-        }
-        
-        [item fromDictionary:messageDictionary withDateFormatter:[CWDataManager dateFormatter] error:&error] ;
-        
+        [self createMessageWithDictionary:messageDictionary error:&error];
         if(error)
         {
             return error;
