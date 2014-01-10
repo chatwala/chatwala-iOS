@@ -77,11 +77,6 @@ const struct MessageUserInfo MessageUserInfo = {
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
 		return keyPaths;
 	}
-	if ([key isEqualToString:@"messageIDValue"]) {
-		NSSet *affectingKey = [NSSet setWithObject:@"messageID"];
-		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
-		return keyPaths;
-	}
 	if ([key isEqualToString:@"startRecordingValue"]) {
 		NSSet *affectingKey = [NSSet setWithObject:@"startRecording"];
 		keyPaths = [keyPaths setByAddingObjectsFromSet:affectingKey];
@@ -134,27 +129,6 @@ const struct MessageUserInfo MessageUserInfo = {
 
 @dynamic messageID;
 
-
-
-- (double)messageIDValue {
-	NSNumber *result = [self messageID];
-	return [result doubleValue];
-}
-
-
-- (void)setMessageIDValue:(double)value_ {
-	[self setMessageID:[NSNumber numberWithDouble:value_]];
-}
-
-
-- (double)primitiveMessageIDValue {
-	NSNumber *result = [self primitiveMessageID];
-	return [result doubleValue];
-}
-
-- (void)setPrimitiveMessageIDValue:(double)value_ {
-	[self setPrimitiveMessageID:[NSNumber numberWithDouble:value_]];
-}
 
 
 

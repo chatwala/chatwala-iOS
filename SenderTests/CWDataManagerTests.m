@@ -59,5 +59,16 @@
     XCTAssertNotNil(error, @"expecting an error");
 }
 
+- (void) testImportMessagesShouldNotReturnErrorWithValidData
+{
+    //given
+    NSArray * messagesImport = @[@{@"messageID":@"foo", @"messageURL": @"someURL", @"timeStamp": @"2013-09-29T18:46:19"}];
+    
+    //when
+    NSError * error = [self.sut importMessages:messagesImport];
+    
+    //should
+    XCTAssertNil(error, @"not expecting an error");
+}
 
 @end

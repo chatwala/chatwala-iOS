@@ -29,12 +29,8 @@
 
 
 
-@property (nonatomic, strong) NSNumber* messageID;
+@property (nonatomic, strong) NSString* messageID;
 
-
-
-
-@property (atomic) double messageIDValue;
 
 
 
@@ -205,14 +201,8 @@ extern const struct MessageUserInfo {
 
 
 
-@property (nonatomic, strong) NSNumber* messageID;
+@property (nonatomic, strong) NSString* messageID;
 
-
-
-
-@property (atomic) double messageIDValue;
-- (double)messageIDValue;
-- (void)setMessageIDValue:(double)value_;
 
 
 
@@ -327,11 +317,8 @@ extern const struct MessageUserInfo {
 
 
 
-- (NSNumber*)primitiveMessageID;
-- (void)setPrimitiveMessageID:(NSNumber*)value;
-
-- (double)primitiveMessageIDValue;
-- (void)setPrimitiveMessageIDValue:(double)value_;
+- (NSString*)primitiveMessageID;
+- (void)setPrimitiveMessageID:(NSString*)value;
 
 
 

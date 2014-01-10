@@ -30,6 +30,28 @@
     return sharedInstance;
 }
 
+#pragma mark - find functions
+
+- (Message *) findMessageWithID:(NSString*) messageID
+{
+    NSString * format = [NSString stringWithFormat:@"%@ == %%@", MessageAttributes.messageID];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:format,  messageID];
+    NSArray * results = nil;
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setPredicate:predicate];
+    [request setEntity:[NSEntityDescription entityForName:[Message entityName] inManagedObjectContext:self.moc]];
+    [request setFetchLimit:1];
+    
+    NSError *error = nil;
+    results = [self.moc executeFetchRequest:request error:&error];
+    
+    NSAssert(!error, @"expecting no error:%@",error);
+    NSAssert(results.count <= 1, @"should only have one or less messages: %@", results);
+    Message * item = [results lastObject];
+    return item;
+}
+
 #pragma mark - import data
 
 - (NSError *) importMessages:(NSArray *)messages
@@ -47,7 +69,7 @@
         }
         Message * item = [Message insertInManagedObjectContext:self.moc];
         
-        [item fromDictionary:messageDictionary withDateFormatter:nil error:&error];
+        [item fromDictionary:messageDictionary withDateFormatter:[CWDataManager dateFormatter] error:&error] ;
         
         if(error)
         {
@@ -59,6 +81,14 @@
     
     
     return error;
+}
+
+#pragma mark - dateformater
++ (NSDateFormatter *)dateFormatter {
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+    dateFormatter.dateFormat = @"yyyy-MM-dd'T'HH:mm:ss'Z'";
+    return dateFormatter;
 }
 
 #pragma mark - Core Data stack
