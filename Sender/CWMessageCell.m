@@ -59,15 +59,14 @@
     [self.spinner stopAnimating];
 }
 
-- (void)setMessageData:(NSDictionary*)data
+- (void) setMessage:(Message *) message
 {
-    NSAssert([data isKindOfClass:[NSDictionary class]], @"expecting dictionary argument, found:%@",data);
-    NSURL * imageURL = [NSURL URLWithString:[data objectForKey:@"thumbnail"]];
+    NSURL * imageURL = [NSURL URLWithString:message.thumbnailPictureURL];
     if(([imageURL isEqual:self.imageURL]) && (self.imageURL != nil))
     {
         return;//exit early because we are already there.
     }
-       
+    
     [self.spinner startAnimating];
     
     UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];
@@ -76,8 +75,6 @@
     [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
     
     [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
-
-
 }
 
 - (AFNetworkingSuccessBlock) successImageDownloadBlock

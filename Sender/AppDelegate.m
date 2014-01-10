@@ -55,7 +55,8 @@
 {
     // Override point for customization after application launch.
     [application setStatusBarHidden:YES];
-    
+    [[CWDataManager sharedInstance] setupCoreData];
+
     [CWUserManager sharedInstance];
     
     
@@ -127,7 +128,6 @@
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
     */
     
-    [[CWDataManager sharedInstance] setupCoreData];
     
     return YES;
 }

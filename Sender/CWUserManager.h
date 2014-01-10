@@ -7,13 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "User.h"
 
 @interface CWUserManager : NSObject
 + (id)sharedInstance;
 
 @property (nonatomic) AFHTTPRequestSerializer * requestHeaderSerializer;
+@property (nonatomic, readonly) User * localUser;
 
 - (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request;
 
 - (NSString *) userId;
+
 @end

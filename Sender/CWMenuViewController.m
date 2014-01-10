@@ -9,6 +9,8 @@
 #import "CWMenuViewController.h"
 #import "CWMessageManager.h"
 #import "CWMessageCell.h"
+#import "CWUserManager.h"
+
 
 @interface CWMenuViewController () <UITableViewDelegate>
 @property (nonatomic,strong) UIRefreshControl * refreshControl;
@@ -65,7 +67,10 @@
     if (self.refreshControl.isRefreshing) {
         [self.refreshControl endRefreshing];
     }
-    [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages",[[[CWMessageManager sharedInstance]messages] count]]];
+    User * localUser = [[CWUserManager sharedInstance] localUser];
+    NSArray * inboxMessages = [localUser inboxMessages];
+
+    [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
 //    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWMessageManager sharedInstance]messages] count]];
     
 }
@@ -93,7 +98,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString* messageId = [[[[CWMessageManager sharedInstance]messages]objectAtIndex:indexPath.row] valueForKey:@"message_id"];
+    User * localUser = [[CWUserManager sharedInstance] localUser];
+    NSArray * inboxMessages = [localUser inboxMessages];
+    Message * message = [inboxMessages objectAtIndex:indexPath.row];
+    
+    NSString* messageId = message.messageID;
   
     if ([self.delegate respondsToSelector:@selector(menuViewController:didSelectMessageWithID:)]) {
         [self.delegate menuViewController:self didSelectMessageWithID:messageId];

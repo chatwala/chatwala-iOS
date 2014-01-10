@@ -5,4 +5,7 @@
 
 @interface User : _User <User> {}
 // Custom logic goes here.
+
+- (NSArray *) inboxMessages;
+
 @end

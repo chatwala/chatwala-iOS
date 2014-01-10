@@ -33,7 +33,7 @@
     MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
     self.sut.moc = mocFactory.moc;
 
-    self.validMessageImport = @[@{@"messageID":@"foo", @"messageURL": @"someURL", @"timeStamp": @"2013-09-29T18:46:19",  @"sender": @"senderID_io433ni2o4nsdnvc", @"thread":@"somethread idb2idboiwdbsdf"}];
+    self.validMessageImport = @[@{@"messageID":@"foo", @"messageURL": @"someURL", @"timeStamp": @1389282510,  @"sender": @"senderID_io433ni2o4nsdnvc", @"thread":@"somethread idb2idboiwdbsdf"}];
 }
 
 - (void)tearDown

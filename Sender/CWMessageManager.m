@@ -11,6 +11,7 @@
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
 #import "CWUtility.h"
+#import "CWDataManager.h"
 
 
 @interface CWMessageManager ()
@@ -39,7 +40,6 @@
     if (self) {
         useLocalServer = NO;
         self.needsOriginalMessageID = YES;
-        [self loadCachedMessages];
     }
     return self;
 }
@@ -53,10 +53,7 @@
     return shared;
 }
 
-- (void) loadCachedMessages
-{
-    self.messages = [NSArray arrayWithContentsOfURL:[self messageCacheURL]];
-}
+
 
 - (NSString *)baseEndPoint
 {
@@ -204,22 +201,22 @@
             //
             self.getMessagesSuccessBlock(operation, responseObject);
             
-            //badge adjustment hack logic below
-            if (completionBlock) {
-                
-                // Only perform badge update when we are fetching due to a background fetch
-                NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
-
-                int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
-                if (newMessageCount > 0) {
-                    int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
-                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
-                }
-                
-                completionBlock(UIBackgroundFetchResultNewData);
-            }
-            
-            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[self.messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
+//            //badge adjustment hack logic below
+//            if (completionBlock) {
+//                
+//                // Only perform badge update when we are fetching due to a background fetch
+//                NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
+//
+//                int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
+//                if (newMessageCount > 0) {
+//                    int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
+//                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
+//                }
+//                
+//                completionBlock(UIBackgroundFetchResultNewData);
+//            }
+//            
+//            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[self.messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
@@ -239,8 +236,9 @@
         
         NSArray *messages = [responseObject objectForKey:@"messages"];
         if([messages isKindOfClass:[NSArray class]]){
-            self.messages = messages;
-            [self.messages writeToURL:[self messageCacheURL] atomically:YES];
+            
+            [[CWDataManager sharedInstance] importMessages:messages];
+            
             [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
         }
         else{
@@ -274,15 +272,19 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CWMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
-    NSDictionary * dict = [self.messages objectAtIndex:indexPath.row];
-    [cell setMessageData:dict];
+    User * localUser = [[CWUserManager sharedInstance] localUser];
+    NSArray * inboxMessages = [localUser inboxMessages];
+    Message * message = [inboxMessages objectAtIndex:indexPath.row];
+    [cell setMessage:message];
     return cell;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.messages.count;
+    User * localUser = [[CWUserManager sharedInstance] localUser];
+    NSArray * inboxMessages = [localUser inboxMessages];
+    return inboxMessages.count;
 }
 
 #pragma mark - MessageID Server Fetches

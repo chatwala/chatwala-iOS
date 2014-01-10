@@ -13,9 +13,9 @@
 
 + (void)addPersistentStoreWithLocation:(NSURL *)storeLocation andPersistentStoreCoordinator:(NSPersistentStoreCoordinator *)storeCoordinator andStoreType:(NSString *)storeType andConfiguration:(NSString *)configuration andOptions:(NSDictionary *)options andCompletionHandler:(void (^)(NSError *))completionHandler
 {
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     
-    dispatch_async(queue, ^{
+//    dispatch_async(queue, ^{
         NSError *error = nil;
         [storeCoordinator addPersistentStoreWithType:storeType
                                   configuration:configuration
@@ -23,10 +23,10 @@
                                         options:options
                                           error:&error];
         
-        dispatch_sync(dispatch_get_main_queue(), ^{
+//        dispatch_sync(dispatch_get_main_queue(), ^{
             completionHandler(error);
-        });
-    });
+//        });
+//    });
 }
 
 + (void)createCoreDataStackWithModelName:(NSString *)modelName andConcurrencyType:(NSManagedObjectContextConcurrencyType)concurrencyType andCompletionHandler:(void (^)(NSManagedObjectContext *, NSError *))completionHandler

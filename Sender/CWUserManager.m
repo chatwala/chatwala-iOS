@@ -8,10 +8,17 @@
 
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
+#import "CWDataManager.h"
 
 NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
 NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
+
+@interface CWUserManager()
+
+@property (nonatomic) User * localUser;
+
+@end
 
 @implementation CWUserManager
 + (id)sharedInstance
@@ -64,6 +71,7 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
     NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     if(user_id)
     {
+        self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
         return user_id;
     }
     [self getANewUserID];
@@ -85,6 +93,8 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
         NSLog(@"New user ID Fetched: %@",user_id);
         [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
         [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Operation: %@",operation);
         NSLog(@"Error: %@",error);

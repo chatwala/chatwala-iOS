@@ -12,4 +12,9 @@
 
 // Custom logic goes here.
 
+- (NSArray *) inboxMessages
+{
+    return self.messagesReceived;
+}
+
 @end

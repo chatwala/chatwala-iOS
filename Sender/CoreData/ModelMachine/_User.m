@@ -89,6 +89,15 @@ const struct UserUserInfo UserUserInfo = {
 @dynamic messagesReceived;
 
 	
+- (NSMutableOrderedSet*)messagesReceivedSet {
+	[self willAccessValueForKey:@"messagesReceived"];
+  
+	NSMutableOrderedSet *result = (NSMutableOrderedSet*)[self mutableOrderedSetValueForKey:@"messagesReceived"];
+  
+	[self didAccessValueForKey:@"messagesReceived"];
+	return result;
+}
+	
 
 @dynamic messagesSent;
 
@@ -101,6 +110,21 @@ const struct UserUserInfo UserUserInfo = {
 
 @end
 
+
+@implementation _User (MessagesReceivedCoreDataGeneratedAccessors)
+- (void)addMessagesReceived:(NSOrderedSet*)value_ {
+	[self.messagesReceivedSet unionOrderedSet:value_];
+}
+- (void)removeMessagesReceived:(NSOrderedSet*)value_ {
+	[self.messagesReceivedSet minusOrderedSet:value_];
+}
+- (void)addMessagesReceivedObject:(Message*)value_ {
+	[self.messagesReceivedSet addObject:value_];
+}
+- (void)removeMessagesReceivedObject:(Message*)value_ {
+	[self.messagesReceivedSet removeObject:value_];
+}
+@end
 
 
 

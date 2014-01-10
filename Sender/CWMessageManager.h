@@ -29,7 +29,7 @@ typedef void (^CWDownloadTaskCompletionBlock) (NSURLResponse *response, NSURL *f
 @property (nonatomic,readonly) NSString * getMessageEndPoint;
 @property (nonatomic,readonly) NSString * putUserProfileEndPoint;
 
-@property (nonatomic,strong) NSArray * messages;
+//@property (nonatomic,strong) NSArray * messages;
 
 +(instancetype) sharedInstance;
 - (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
@@ -37,6 +37,7 @@ typedef void (^CWDownloadTaskCompletionBlock) (NSURLResponse *response, NSURL *f
 - (void)fetchOriginalMessageIDWithCompletionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 - (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 - (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage;
+
 
 @property (strong, readonly) AFRequestOperationManagerSuccessBlock getMessagesSuccessBlock;
 @property (strong, readonly) AFRequestOperationManagerFailureBlock getMessagesFailureBlock;

@@ -34,7 +34,7 @@
 
 
 
-@property (nonatomic, strong) Message *messagesReceived;
+@property (nonatomic, strong) NSOrderedSet *messagesReceived;
 
 
 
@@ -108,8 +108,9 @@ extern const struct UserUserInfo {
 
 
 
-@property (nonatomic, strong) Message *messagesReceived;
+@property (nonatomic, strong) NSOrderedSet *messagesReceived;
 
+- (NSMutableOrderedSet*)messagesReceivedSet;
 
 
 
@@ -123,6 +124,13 @@ extern const struct UserUserInfo {
 
 @end
 
+
+@interface _User (MessagesReceivedCoreDataGeneratedAccessors)
+- (void)addMessagesReceived:(NSOrderedSet*)value_;
+- (void)removeMessagesReceived:(NSOrderedSet*)value_;
+- (void)addMessagesReceivedObject:(Message*)value_;
+- (void)removeMessagesReceivedObject:(Message*)value_;
+@end
 
 
 @interface _User (CoreDataGeneratedPrimitiveAccessors)
@@ -141,8 +149,8 @@ extern const struct UserUserInfo {
 
 
 
-- (Message*)primitiveMessagesReceived;
-- (void)setPrimitiveMessagesReceived:(Message*)value;
+- (NSMutableOrderedSet*)primitiveMessagesReceived;
+- (void)setPrimitiveMessagesReceived:(NSMutableOrderedSet*)value;
 
 
 
