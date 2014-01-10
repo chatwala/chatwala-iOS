@@ -32,6 +32,17 @@
 
 #pragma mark - find functions
 
+
+- (Thread *) findThreadByThreadID:(NSString*) threadID
+{
+    Thread * item = (Thread *)[self findObject:[Thread class] byAttribute:ThreadAttributes.threadID withValue:threadID];
+    if(item)
+    {
+        NSAssert([item isKindOfClass:[Thread class]], @"expecting to get a Thread object. found :%@", item);
+    }
+    return item;
+}
+
 - (Message *) findMessageByMessageID:(NSString*) messageID
 {
     Message * item = (Message *)[self findObject:[Message class] byAttribute:MessageAttributes.messageID withValue:messageID];
@@ -75,6 +86,21 @@
 
 #pragma mark - import data
 
+- (Thread *) createThreadWithID:(NSString *) threadID
+{
+    if(nil == threadID)
+    {
+        return nil;
+    }
+    Thread * thread = [self findThreadByThreadID:threadID];
+    if(!thread)
+    {
+        thread = [Thread insertInManagedObjectContext:self.moc];
+        thread.threadID = threadID;
+    }
+    return thread;
+}
+
 - (User *) createUserWithID:(NSString *) userID
 {
     if(nil == userID)
@@ -114,7 +140,8 @@
     item.recipient = [self createUserWithID:receiverID];
     
     //add thread
-    
+    NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread];
+    item.thread = [self createThreadWithID:threadID];
 }
 
 - (NSError *) importMessages:(NSArray *)messages

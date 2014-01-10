@@ -33,7 +33,7 @@
     MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
     self.sut.moc = mocFactory.moc;
 
-    self.validMessageImport = @[@{@"messageID":@"foo", @"messageURL": @"someURL", @"timeStamp": @"2013-09-29T18:46:19",  @"sender": @"senderID_io433ni2o4nsdnvc"}];
+    self.validMessageImport = @[@{@"messageID":@"foo", @"messageURL": @"someURL", @"timeStamp": @"2013-09-29T18:46:19",  @"sender": @"senderID_io433ni2o4nsdnvc", @"thread":@"somethread idb2idboiwdbsdf"}];
 }
 
 - (void)tearDown
@@ -118,6 +118,18 @@
     [self.mockSut verify];
 }
 
+- (void) testImportMessagesShouldCallCreateThread
+{
+    //given
+    [[self.mockSut expect] createThreadWithID:OCMOCK_ANY];
+    
+    //when
+    [self.sut importMessages:self.validMessageImport];
+    
+    //should
+    [self.mockSut verify];
+}
+
 - (void) testFindMessageByMessageID
 {
     //given
@@ -146,6 +158,53 @@
     //should
     XCTAssertNil(actual, @"expecting to NOT find a message");
     [actual isKindOfClass:[Message class]];
+}
+
+
+- (void) testFindThreadByThreadID
+{
+    //given
+    NSString * threadID = @"wintoiewoiedsfdfio";
+    Thread * expected = [self.sut createThreadWithID:threadID];
+    NSError * error = nil;
+    [self.sut.moc save:&error];
+    
+    //when
+    Thread * actual = [self.sut findThreadByThreadID:threadID];
+    
+    //should
+    XCTAssertNil(error, @"not expecting erro on save");
+    XCTAssertEqualObjects(actual, expected, @"expecting threads to match");
+    
+}
+
+- (void) testFindThreadByThreadIDShouldNotFindThreadWhenNoneExists
+{
+    //given
+    NSString * threadID = @"wintoiewoiedsfdfio";
+    Thread * expected = [self.sut createThreadWithID:threadID];
+    NSError * error = nil;
+    [self.sut.moc save:&error];
+    
+    //when
+    Thread * actual = [self.sut findThreadByThreadID:@"Some other key"];
+    
+    //should
+    XCTAssertNil(error, @"not expecting error on save");
+    XCTAssertNotEqualObjects(actual, expected, @"expecting threads to match");
+    
+}
+
+- (void) testCreateThread
+{
+    //given
+    
+    //when
+    Thread * actual = [self.sut createThreadWithID:@";lndafn;aoi"];
+    
+    //should
+    XCTAssertNotNil(actual, @"expecting a thread to be created");
+    XCTAssertEqualObjects(actual.threadID, @";lndafn;aoi", @"expecting new thread to have matching userID");
 }
 
 - (void) testCreateUser

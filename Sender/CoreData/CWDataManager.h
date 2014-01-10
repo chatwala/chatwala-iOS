@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "User.h"
+#import "Thread.h"
 
 @interface CWDataManager : NSObject
 + (id)sharedInstance;
@@ -21,4 +22,7 @@
 - (Message *) findMessageByMessageID:(NSString*) messageID;
 - (User *) findUserByUserID:(NSString *) userID;
 - (User *) createUserWithID:(NSString *) userID;
+- (Thread *) findThreadByThreadID:(NSString*) threadID;
+- (Thread *) createThreadWithID:(NSString *) threadID;
+
 @end
