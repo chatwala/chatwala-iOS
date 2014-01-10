@@ -124,7 +124,7 @@
         *error = [NSError errorWithDomain:@"com.chatwala" code:6003 userInfo:@{@"Failed import":@"import messages expects an array of dictionaries", @"found":sourceDictionary}];//failed to import
         return;
     }
-    NSString * messageID = [sourceDictionary objectForKey:MessageAttributes.messageID];
+    NSString * messageID = [sourceDictionary objectForKey:MessageAttributes.messageID withLUT:[Message keyLookupTable]];
     Message * item = [self findMessageByMessageID:messageID];
     if(!item)
     {

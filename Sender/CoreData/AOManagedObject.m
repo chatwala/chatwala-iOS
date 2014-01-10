@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 AppOrchard, LLC. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
 #import "AOManagedObject.h"
 #import "NSDictionary+LookUpTable.h"
 
@@ -35,9 +36,26 @@
     {
         safeValue = [NSNumber numberWithDouble:[value doubleValue]];
     }
-    else if ((attributeType == NSDateAttributeType) && ([value isKindOfClass:[NSString class]]) && (dateFormatter != nil))
+    else if (attributeType == NSDateAttributeType)
     {
-        safeValue = [dateFormatter dateFromString:value];
+        if([value isKindOfClass:[NSNumber class]])
+        {
+            safeValue = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
+        }
+        else
+        {
+            NSNumberFormatter * numberFormatter = [[NSNumberFormatter alloc] init];
+            NSNumber * number = [numberFormatter numberFromString: value];
+            if(([number isKindOfClass:[NSString class]]) && (dateFormatter != nil))
+            {
+                safeValue = [dateFormatter dateFromString:value];
+            }
+            else if ([number isKindOfClass:[NSNumber class]])
+            {
+                safeValue = [NSDate dateWithTimeIntervalSince1970:[number doubleValue]];
+            }
+        }
+        
     }
     
     return safeValue;
