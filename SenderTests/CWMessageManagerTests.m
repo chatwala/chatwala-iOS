@@ -9,11 +9,13 @@
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
 #import "CWMessageManager.h"
+#import "CWDataManager.h"
 
 @interface CWMessageManagerTests : XCTestCase
 
 @property (nonatomic) CWMessageManager *sut;
 @property (nonatomic) id mockSut;
+@property (nonatomic) id mockDataManager;
 
 @end
 
@@ -25,10 +27,12 @@
     // Put setup code here; it will be run once, before the first test case.
     self.sut = [[CWMessageManager alloc] init];
     self.mockSut = [OCMockObject partialMockForObject:self.sut];
+    self.mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
 }
 
 - (void)tearDown
 {
+    [self.mockDataManager stopMocking];
     [self.mockSut stopMocking];
     // Put teardown code here; it will be run once, after the last test case.
     [super tearDown];
@@ -64,12 +68,13 @@
     id mockMessages = [OCMockObject partialMockForObject:messages];
     [[mockMessages stub] writeToURL:OCMOCK_ANY atomically:YES];
     NSDictionary * responseObject = @{@"messages": messages};
+    [[self.mockDataManager expect] importMessages:messages];
     
     // when
     self.sut.getMessagesSuccessBlock(mockOperation, responseObject);
     
     // should
-    XCTAssertEqual(messages, self.sut.messages, @"expecting messages to be set");
+    [self.mockDataManager verify];
     // cleanup
     [mockMessages stopMocking];
 }
@@ -95,22 +100,6 @@
     
 }
 
-- (void)testGetMessagesSuccessBlockShouldNotNilMessages
-{
-    // given
-    id messages = @[@"randomThingInHere"];
-    NSDictionary * responseObject = @{@"bad_key": messages};
-    self.sut.messages = messages;
-    
-    // when
-    self.sut.getMessagesSuccessBlock(OCMOCK_ANY, responseObject);
-    
-    // should
-    XCTAssertEqual(messages, self.sut.messages, @"expecting messages to be the same");
-    
-    // cleanup
-
-}
 
 
 - (void)testGetMessagesFailureBlock
