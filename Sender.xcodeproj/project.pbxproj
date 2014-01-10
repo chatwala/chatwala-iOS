@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */; };
+		206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8718808F27007F3532 /* AOFetchUtilities.m */; };
+		206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8918808F27007F3532 /* AOManagedObject.m */; };
+		206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 206CDF8E18808F59007F3532 /* CoreData.framework */; };
 		366035E31873394800EE9233 /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 366035E21873394800EE9233 /* CWUtility.m */; };
 		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
@@ -212,6 +216,13 @@
 
 /* Begin PBXFileReference section */
 		021C04FCE95441C395C53215 /* Pods-test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.xcconfig"; path = "Pods/Pods-test.xcconfig"; sourceTree = "<group>"; };
+		206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOCoreDataStackUtilities.m; sourceTree = "<group>"; };
+		206CDF8618808F27007F3532 /* AOFetchUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOFetchUtilities.h; sourceTree = "<group>"; };
+		206CDF8718808F27007F3532 /* AOFetchUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOFetchUtilities.m; sourceTree = "<group>"; };
+		206CDF8818808F27007F3532 /* AOManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOManagedObject.h; sourceTree = "<group>"; };
+		206CDF8918808F27007F3532 /* AOManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOManagedObject.m; sourceTree = "<group>"; };
+		206CDF8A18808F27007F3532 /* AOCoreDataStackUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOCoreDataStackUtilities.h; sourceTree = "<group>"; };
+		206CDF8E18808F59007F3532 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		366035E11873394800EE9233 /* CWUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUtility.h; sourceTree = "<group>"; };
 		366035E21873394800EE9233 /* CWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUtility.m; sourceTree = "<group>"; };
 		367439E9187F5C6200613FD6 /* MocForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MocForTests.h; sourceTree = "<group>"; };
@@ -478,6 +489,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */,
 				E9ABCFB3183E609E0098E530 /* Security.framework in Frameworks */,
 				E94439D418294E990088A381 /* MessageUI.framework in Frameworks */,
 				E94439CC182945000088A381 /* AssetsLibrary.framework in Frameworks */,
@@ -512,6 +524,12 @@
 		36AF5818187DD91300C5C13F /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */,
+				206CDF8618808F27007F3532 /* AOFetchUtilities.h */,
+				206CDF8718808F27007F3532 /* AOFetchUtilities.m */,
+				206CDF8818808F27007F3532 /* AOManagedObject.h */,
+				206CDF8918808F27007F3532 /* AOManagedObject.m */,
+				206CDF8A18808F27007F3532 /* AOCoreDataStackUtilities.h */,
 				36AF5819187DD91300C5C13F /* ModelHuman */,
 				36AF581A187DD91300C5C13F /* ModelMachine */,
 				36AF581B187DD91300C5C13F /* ModelTemplates */,
@@ -835,6 +853,7 @@
 		E9443985182940AF0088A381 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				206CDF8E18808F59007F3532 /* CoreData.framework */,
 				E9ABCFB2183E609E0098E530 /* Security.framework */,
 				E94439D318294E990088A381 /* MessageUI.framework */,
 				E94439CB182945000088A381 /* AssetsLibrary.framework */,
@@ -1412,6 +1431,7 @@
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
 				36AF583F187DF0AB00C5C13F /* _Message.m in Sources */,
+				206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */,
 				36AF5834187DF0A200C5C13F /* Message.m in Sources */,
 				E90B7D01186CD2DE00B94DCC /* CWSettingsViewController.m in Sources */,
 				E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */,
@@ -1422,6 +1442,7 @@
 				E96C1501183FABB200DA9B85 /* CWAuthRequestViewController.m in Sources */,
 				E9909464186231BF0050695F /* CWMessageManager.m in Sources */,
 				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
+				206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */,
 				E90B7D0B186CED8300B94DCC /* CWPrivacyViewController.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
 				36AF583E187DF0AB00C5C13F /* _User.m in Sources */,
@@ -1446,6 +1467,7 @@
 				E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */,
 				36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
+				206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */,
 				36AF5835187DF0A200C5C13F /* Thread.m in Sources */,
 				E9AF033B1868B450006CB546 /* CWMessageCell.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,

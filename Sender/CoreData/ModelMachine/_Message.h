@@ -2,7 +2,7 @@
 // Make changes to Message.h instead.
 
 #import <CoreData/CoreData.h>
-#import <AOFetchUtilities.h>
+#import "AOFetchUtilities.h"
 #import "AOManagedObject.h"
 
 

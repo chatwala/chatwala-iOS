@@ -2,7 +2,7 @@
 // Make changes to <$managedObjectClassName$>.h instead.
 
 #import <CoreData/CoreData.h>
-#import <AOFetchUtilities.h>
+#import "AOFetchUtilities.h"
 <$if hasCustomSuperentity$><$if hasSuperentity$>#import "<$customSuperentity$>.h"
 <$else$><$if hasCustomBaseCaseImport$>#import <$baseClassImport$><$else$>#import "<$customSuperentity$>.h"<$endif$><$endif$><$endif$>
 

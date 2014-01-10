@@ -2,7 +2,7 @@
 // Make changes to Thread.h instead.
 
 #import <CoreData/CoreData.h>
-#import <AOFetchUtilities.h>
+#import "AOFetchUtilities.h"
 #import "AOManagedObject.h"
 
 

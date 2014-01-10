@@ -7,7 +7,7 @@
 //
 
 #import "CWDataManager.h"
-#import <AOFrameworks/AOCoreDataStackUtilities.h>
+#import "AOCoreDataStackUtilities.h"
 #import "Message.h"
 
 @interface CWDataManager ()
