@@ -17,7 +17,6 @@
 @interface MessageTests : XCTestCase
 
 @property (nonatomic) Message * sut;
-@property (nonatomic) id mockSut;
 
 @end
 
@@ -32,13 +31,11 @@
     
     self.sut.messageID = @"Some message ID";
 
-//    self.mockSut = [OCMockObject partialMockForObject:self.sut];
 }
 
 - (void)tearDown
 {
     // Put teardown code here; it will be run once, after the last test case.
-    [self.mockSut  stopMocking];
     [super tearDown];
 }
 
@@ -50,6 +47,8 @@
     id mockImageView = [OCMockObject mockForClass:[UIImageView class]];
     [[mockImageView expect] setImageWithURLRequest:OCMOCK_ANY placeholderImage:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
     messageCell.thumbView = mockImageView;
+    id messageManagerMock = [OCMockObject partialMockForObject:[CWMessageManager sharedInstance]];
+    [[messageManagerMock stub] downloadMessageWithID:@"Some message ID" progress:nil completion:nil];
 
     //when
     [self.sut downloadChatwalaDataWithMessageCell:messageCell];
@@ -59,6 +58,7 @@
     
     //cleanup
     [mockImageView stopMocking];
+    [messageManagerMock stopMocking];
     
 }
 
