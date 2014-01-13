@@ -11,6 +11,7 @@
 #import "CWDataManager.h"
 #import "MocForTests.h"
 #import "Message.h"
+#import "CWMessageManager.h"
 
 @interface CWDataManagerTests : XCTestCase
 
@@ -34,6 +35,7 @@
     self.sut.moc = mocFactory.moc;
 
     self.validMessageImport = @[@{@"messageID":@"foo", @"messageURL": @"someURL", @"timeStamp": @1389282510,  @"sender": @"senderID_io433ni2o4nsdnvc", @"thread":@"somethread idb2idboiwdbsdf"}];
+    
 }
 
 - (void)tearDown
@@ -252,6 +254,26 @@
     XCTAssertNil(error, @"not expecting error on save");
     XCTAssertNotEqualObjects(actual, expected, @"expecting users to match");
     
+}
+
+- (void) testDownloadAllMessageData
+{
+    //given
+    self.sut.localUser = [User insertInManagedObjectContext:self.sut.moc];
+    Message * item = [Message insertInManagedObjectContext:self.sut.moc];
+    id mockItem = [OCMockObject partialMockForObject:item];
+    [[mockItem expect] downloadChatwalaData];
+    
+    [self.sut.localUser addMessagesReceivedObject:item];
+    
+    //when
+    [self.sut downloadAllMessageChatwalaData];
+    
+    //should
+    [mockItem verify];
+    
+    //cleanup
+    [mockItem stopMocking];
 }
 
 

@@ -23,4 +23,17 @@
              };
 }
 
+- (eMessageDownloadState) eDownloadState
+{
+    NSInteger value = self.downloadStateValue;
+    NSAssert(value < eMessageDownloadStateTotal, @"expecting download state to be less than max enum value");
+    NSAssert(value >= eMessageDownloadStateInvalid, @"expecting download state to be less than max enum value");
+    return value;
+}
+
+- (void) downloadChatwalaData
+{
+    
+}
+
 @end

@@ -167,6 +167,15 @@
     return error;
 }
 
+- (void) downloadAllMessageChatwalaData
+{
+    NSOrderedSet * items = [self.localUser inboxMessages];
+    
+    for (Message * item in items) {
+        [item downloadChatwalaData];
+    }
+}
+
 #pragma mark - dateformater
 + (NSDateFormatter *)dateFormatter {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];

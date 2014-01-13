@@ -25,4 +25,6 @@
 - (Thread *) findThreadByThreadID:(NSString*) threadID;
 - (Thread *) createThreadWithID:(NSString *) threadID;
 
+- (void) downloadAllMessageChatwalaData;
+
 @end
