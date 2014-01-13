@@ -21,7 +21,7 @@
         Message * message1 = obj1;
         Message * message2 = obj2;
         
-        return [message1.timeStamp compare:message2.timeStamp];
+        return [message2.timeStamp compare:message1.timeStamp];
     }];
     
     return messages;
