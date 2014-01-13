@@ -46,13 +46,13 @@
         {
             NSNumberFormatter * numberFormatter = [[NSNumberFormatter alloc] init];
             NSNumber * number = [numberFormatter numberFromString: value];
-            if(([number isKindOfClass:[NSString class]]) && (dateFormatter != nil))
-            {
-                safeValue = [dateFormatter dateFromString:value];
-            }
-            else if ([number isKindOfClass:[NSNumber class]])
+            if ([number isKindOfClass:[NSNumber class]])
             {
                 safeValue = [NSDate dateWithTimeIntervalSince1970:[number doubleValue]];
+            }
+            else
+            {
+                safeValue = [dateFormatter dateFromString:value];
             }
         }
         

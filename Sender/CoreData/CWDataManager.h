@@ -18,6 +18,7 @@
 
 - (void) setupCoreData;
 - (NSError *) importMessages:(NSArray *) messages;
+- (NSError *) importMessageAtFilePath:(NSURL *) filePath;
 
 - (Message *) findMessageByMessageID:(NSString*) messageID;
 - (User *) findUserByUserID:(NSString *) userID;
@@ -27,4 +28,6 @@
 
 - (void) downloadAllMessageChatwalaData;
 
+
+- (void) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error;
 @end

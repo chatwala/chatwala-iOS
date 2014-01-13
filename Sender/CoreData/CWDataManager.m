@@ -167,6 +167,44 @@
     return error;
 }
 
+- (NSError *) importMessageAtFilePath:(NSURL *) filePath
+{
+    NSFileManager* fm = [NSFileManager defaultManager];
+    
+    if (![fm fileExistsAtPath:filePath.path]) {
+        NSLog(@"zip not found at path: %@",filePath.path);
+        return [NSError errorWithDomain:@"com.chatwala" code:6004 userInfo:@{@"reason":@"zip not found at path", @"path":filePath}];
+    }
+    NSString * destPath = [[self cacheDirectoryPath] stringByAppendingPathComponent:INCOMING_DIRECTORY_NAME];
+    [SSZipArchive unzipFileAtPath:filePath.path toDestination:destPath];
+    
+    NSString * metadataFileName = [destPath stringByAppendingPathComponent:METADATA_FILE_NAME];
+
+    if ([fm fileExistsAtPath:destPath]) {
+        if ([fm fileExistsAtPath:metadataFileName isDirectory:NO]) {
+            NSError * error = nil;
+            NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:metadataFileName] options:0 error:&error];
+            if (error) {
+                NSLog(@"failed to parse json metdata: %@",error.debugDescription);
+                return error;
+            }
+            
+            [self createMessageWithDictionary:jsonDict error:&error];
+            
+            if(error)
+            {
+                return error;
+            }
+        }
+    }
+    return nil;
+}
+- (NSString*)cacheDirectoryPath
+{
+    return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+}
+
+
 - (void) downloadAllMessageChatwalaData
 {
     NSOrderedSet * items = [self.localUser inboxMessages];

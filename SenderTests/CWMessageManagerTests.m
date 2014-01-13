@@ -201,6 +201,8 @@
     NSHTTPURLResponse * response = [[NSHTTPURLResponse alloc] initWithURL:nil statusCode:200 HTTPVersion:nil headerFields:nil];
     NSURL * filePath = OCMOCK_ANY;
     NSError * error = nil;
+    id dataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
+    [[dataManager stub] importMessageAtFilePath:filePath];
     __block BOOL ranWithSuccess = NO;
     __block NSURL *actual = nil;
     CWMessageDownloadCompletionBlock messageCompletionBlock = ^void(BOOL success, NSURL *url)
@@ -219,6 +221,29 @@
     XCTAssertTrue(ranWithSuccess, @"expecting to run with Success");
     XCTAssertTrue([actual isEqual:filePath], @"expecting url to be pass throug");
 }
+
+
+- (void) testDownloadTaskCompletionBlockSuccedsShouldInsertIntoCoreData
+{
+    //given
+    NSHTTPURLResponse * response = [[NSHTTPURLResponse alloc] initWithURL:nil statusCode:200 HTTPVersion:nil headerFields:nil];
+    NSURL * filePath = OCMOCK_ANY;
+    NSError * error = nil;
+    id dataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
+    [[dataManager expect] importMessageAtFilePath:filePath];
+    
+    
+    //when
+    self.sut.downloadTaskCompletionBlock(response, filePath, error, nil);
+    
+    //should
+    [dataManager verify];
+    
+    //cleanup
+    [dataManager stopMocking];
+}
+
+
 
 - (void) testUploadMessage
 {

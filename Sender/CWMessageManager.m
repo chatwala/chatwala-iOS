@@ -126,6 +126,7 @@
                 case 200:
                     // success
                     NSLog(@"File downloaded to: %@", filePath);
+                    [[CWDataManager sharedInstance] importMessageAtFilePath:filePath];
                     if (messageDownloadCompletionBlock) {
                         messageDownloadCompletionBlock(YES,filePath);
                     }

@@ -276,6 +276,21 @@
     [mockItem stopMocking];
 }
 
+- (void) testImportMessageAtFilePath
+{
+    //given
+    NSBundle * bundle = [NSBundle bundleForClass:[self class]];
+    NSURL * testMessageURL = [bundle URLForResource:@"testMessage" withExtension:@"zip"];
+    [[self.mockSut expect] createMessageWithDictionary:OCMOCK_ANY error:((NSError __autoreleasing **)[OCMArg anyPointer])];
+    
+    //when
+    [self.sut importMessageAtFilePath:testMessageURL];
+    
+    //should
+    [self.mockSut verify];
+    
+}
+
 
 
 @end
