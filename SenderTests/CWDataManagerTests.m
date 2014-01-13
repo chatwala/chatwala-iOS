@@ -262,7 +262,7 @@
     self.sut.localUser = [User insertInManagedObjectContext:self.sut.moc];
     Message * item = [Message insertInManagedObjectContext:self.sut.moc];
     id mockItem = [OCMockObject partialMockForObject:item];
-    [[mockItem expect] downloadChatwalaData];
+    [[mockItem expect] downloadChatwalaDataWithMessageCell:OCMOCK_ANY];
     
     [self.sut.localUser addMessagesReceivedObject:item];
     

@@ -1,4 +1,6 @@
 #import "_Message.h"
+#import "UIImageView+AFNetworking.h"
+#import "CWMessageCell.h"
 
 typedef enum eMessageDownloadState
 {
@@ -17,6 +19,6 @@ typedef enum eMessageDownloadState
 // Custom logic goes here.
 
 - (eMessageDownloadState) eDownloadState;
-- (void) downloadChatwalaData;
+- (void) downloadChatwalaDataWithMessageCell:(CWMessageCell *) messageCell;
 
 @end

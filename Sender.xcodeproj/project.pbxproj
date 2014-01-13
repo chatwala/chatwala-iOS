@@ -11,6 +11,7 @@
 		206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8718808F27007F3532 /* AOFetchUtilities.m */; };
 		206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8918808F27007F3532 /* AOManagedObject.m */; };
 		206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 206CDF8E18808F59007F3532 /* CoreData.framework */; };
+		3614539518844EC600400916 /* MessageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3614539418844EC600400916 /* MessageTests.m */; };
 		366035E31873394800EE9233 /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 366035E21873394800EE9233 /* CWUtility.m */; };
 		366EB58C18843E4200A7FF75 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 366EB58B18843E4200A7FF75 /* UserTests.m */; };
 		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
@@ -223,6 +224,7 @@
 		206CDF8918808F27007F3532 /* AOManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOManagedObject.m; sourceTree = "<group>"; };
 		206CDF8A18808F27007F3532 /* AOCoreDataStackUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOCoreDataStackUtilities.h; sourceTree = "<group>"; };
 		206CDF8E18808F59007F3532 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3614539418844EC600400916 /* MessageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTests.m; sourceTree = "<group>"; };
 		366035E11873394800EE9233 /* CWUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUtility.h; sourceTree = "<group>"; };
 		366035E21873394800EE9233 /* CWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUtility.m; sourceTree = "<group>"; };
 		366EB58B18843E4200A7FF75 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
@@ -939,6 +941,7 @@
 				36AF5843187E034700C5C13F /* CWMessageManagerTests.m */,
 				36ACC922187F557B00314C40 /* CWDataManagerTests.m */,
 				366EB58B18843E4200A7FF75 /* UserTests.m */,
+				3614539418844EC600400916 /* MessageTests.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -1496,6 +1499,7 @@
 				E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */,
 				E96C150A183FB36800DA9B85 /* CWAuthenticationManagerTests.m in Sources */,
 				366EB58C18843E4200A7FF75 /* UserTests.m in Sources */,
+				3614539518844EC600400916 /* MessageTests.m in Sources */,
 				E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */,
 				E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */,
 				E9B214FF18464C6900E09DA8 /* CWAnalytics+Spec.m in Sources */,

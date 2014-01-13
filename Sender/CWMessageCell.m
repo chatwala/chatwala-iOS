@@ -9,6 +9,7 @@
 #import "CWMessageCell.h"
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import "CWUserManager.h"
+#import "Message.h"
 
 
 @interface CWMessageCell ()

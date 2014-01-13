@@ -10,6 +10,8 @@
 #import "CWMessageManager.h"
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
+#import "Message.h"
+
 
 
 @interface CWMenuViewController () <UITableViewDelegate>

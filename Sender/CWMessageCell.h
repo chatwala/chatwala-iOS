@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Message.h"
+@class Message;
 
 typedef void (^AFNetworkingSuccessBlock)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image);
 typedef void (^AFNetworkingFailureBlock)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error);

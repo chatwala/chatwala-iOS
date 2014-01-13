@@ -172,7 +172,7 @@
     NSOrderedSet * items = [self.localUser inboxMessages];
     
     for (Message * item in items) {
-        [item downloadChatwalaData];
+        [item downloadChatwalaDataWithMessageCell:nil];
     }
 }
 
