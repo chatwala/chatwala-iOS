@@ -55,6 +55,12 @@
 {
     // Override point for customization after application launch.
     [application setStatusBarHidden:YES];
+
+    NSURLCache *URLCache = [[NSURLCache alloc] initWithMemoryCapacity:4 * 1024 * 1024
+                                                         diskCapacity:20 * 1024 * 1024
+                                                             diskPath:nil];
+    [NSURLCache setSharedURLCache:URLCache];
+    
     [[CWDataManager sharedInstance] setupCoreData];
 
     [CWUserManager sharedInstance];
