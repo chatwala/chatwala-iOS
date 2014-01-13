@@ -1,5 +1,5 @@
 #import "User.h"
-
+#import "Message.h"
 
 @interface User ()
 
@@ -14,7 +14,17 @@
 
 - (NSOrderedSet *) inboxMessages
 {
-    return self.messagesReceived;
+    //
+    NSMutableOrderedSet * messages = [NSMutableOrderedSet orderedSetWithOrderedSet:self.messagesReceived];
+    
+    [messages sortWithOptions:NSSortStable usingComparator:^NSComparisonResult(id obj1, id obj2) {
+        Message * message1 = obj1;
+        Message * message2 = obj2;
+        
+        return [message1.timeStamp compare:message2.timeStamp];
+    }];
+    
+    return messages;
 }
 
 @end

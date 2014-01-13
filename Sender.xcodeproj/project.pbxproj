@@ -12,6 +12,7 @@
 		206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8918808F27007F3532 /* AOManagedObject.m */; };
 		206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 206CDF8E18808F59007F3532 /* CoreData.framework */; };
 		366035E31873394800EE9233 /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 366035E21873394800EE9233 /* CWUtility.m */; };
+		366EB58C18843E4200A7FF75 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 366EB58B18843E4200A7FF75 /* UserTests.m */; };
 		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
 		367439F11880921D00613FD6 /* NSDictionary+LookUpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
@@ -224,6 +225,7 @@
 		206CDF8E18808F59007F3532 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		366035E11873394800EE9233 /* CWUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUtility.h; sourceTree = "<group>"; };
 		366035E21873394800EE9233 /* CWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUtility.m; sourceTree = "<group>"; };
+		366EB58B18843E4200A7FF75 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
 		367439E9187F5C6200613FD6 /* MocForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MocForTests.h; sourceTree = "<group>"; };
 		367439EA187F5C6200613FD6 /* MocForTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MocForTests.m; sourceTree = "<group>"; };
 		367439EF1880921D00613FD6 /* NSDictionary+LookUpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+LookUpTable.h"; sourceTree = "<group>"; };
@@ -936,6 +938,7 @@
 				36F0EB83187DB96600DDE28B /* CWMenuViewControllerTests.m */,
 				36AF5843187E034700C5C13F /* CWMessageManagerTests.m */,
 				36ACC922187F557B00314C40 /* CWDataManagerTests.m */,
+				366EB58B18843E4200A7FF75 /* UserTests.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -1492,6 +1495,7 @@
 				36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */,
 				E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */,
 				E96C150A183FB36800DA9B85 /* CWAuthenticationManagerTests.m in Sources */,
+				366EB58C18843E4200A7FF75 /* UserTests.m in Sources */,
 				E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */,
 				E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */,
 				E9B214FF18464C6900E09DA8 /* CWAnalytics+Spec.m in Sources */,
