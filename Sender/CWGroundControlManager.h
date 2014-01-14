@@ -27,6 +27,9 @@ typedef void (^ RefreshGroundControlFailureBlock)(NSError * failure);
 - (NSString*)smsMessage;
 - (NSString *)emailSubject;
 - (NSString *)replyMessage;
+- (NSString *) feedbackEmailSubject;
+- (NSString *) feedbackEmailBody;
+
 - (void)refresh;
 
 - (BOOL) shouldShowKillScreen;
