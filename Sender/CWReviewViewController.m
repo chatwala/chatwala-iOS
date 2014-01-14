@@ -202,7 +202,6 @@
     [self.sendButton setButtonState:eButtonStateBusy];
     
     CWMessageItem * message = [self createMessageItem];
-    [message exportZip];
     
     if (self.incomingMessageItem) {
         // Responding to an incoming message
@@ -212,13 +211,21 @@
             if (messageID && messageURL) {
                 message.metadata.messageId = messageID;
                 
+                [message exportZip];
                 [[CWMessageManager sharedInstance] uploadMessage:message isReply:YES];
                 [self.sendButton setButtonState:eButtonStateShare];
                 [self didSendMessage];
                 [CWAnalytics event:@"SENT_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
             }
             else {
-                return;
+                if(!messageID)
+                {
+                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageID"];
+                }
+                else if(!messageID)
+                {
+                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageURL"];
+                }
             }
         }];
         
@@ -230,11 +237,20 @@
             
             if (messageID && messageURL) {
                 message.metadata.messageId = messageID;
+                
+                [message exportZip];
                 [[CWMessageManager sharedInstance] uploadMessage:message isReply:NO];
                 [self composeMessageWithMessageKey:messageURL];
             }
             else {
-                return;
+                if(!messageID)
+                {
+                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageID"];
+                }
+                else if(!messageID)
+                {
+                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageURL"];
+                }
             }
         }];
     }

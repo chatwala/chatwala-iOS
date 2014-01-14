@@ -65,20 +65,6 @@ The TestFlight SDK requires iOS 4.3 or above, the Apple LLVM compiler, and the l
     3. To report crashes to you we install our own uncaught exception handler. If you are not currently using an exception handler of your own then all you need to do is go to the next step. If you currently use an Exception Handler, or you use another framework that does please go to the section on advanced exception handling.
 
 
-## Setting the UDID
-
-For **BETA** apps only: In order for "In App Updates" to work and for user data not to be anonymized, you may provide the device's unique identifier. To send the device identifier call the following method **before** your call to `+[TestFlight takeOff:]` like so:
-
-    [TestFlight setDeviceIdentifier:[[UIDevice currentDevice] uniqueIdentifier]];
-    [TestFlight takeOff:@"Insert your Application Token here"];
-    
-Note: `[[UIDevice currentDevice] uniqueIdentifier]` is deprecated, which means it may be removed from iOS in the future and that it should not be used in production apps. We recommend using it **only** in beta apps. If using it makes you feel uncomfortable, you are not required to include it.
-
-**Note on iOS 7 and Xcode 5**: In iOS 7, `uniqueIdentifier` no longer returns the device's UDID, so iOS 7 users will show up anonymously on TestFlight. Also, when building with ARC, Xcode 5 will not allow you to call `uniqueIdentifier` because it has been removed in iOS 7 from `UIDevice`'s header. We are working on a workaround for this issue.
-
-**DO NOT USE THIS IN PRODUCTION APPS**. When it is time to submit to the App Store comment this line out. Apple will probably reject your app if you leave this line in.
-
-
 ## Uploading your build
     
 After you have integrated the SDK into your application you need to upload your build to TestFlight. You can upload your build on our [website](https://testflightapp.com/dashboard/builds/add/), using our [desktop app](https://testflightapp.com/desktop/), or by using our [upload API](https://testflightapp.com/api/doc/).
@@ -88,13 +74,13 @@ After you have integrated the SDK into your application you need to upload your 
 
 ### Session Information
 
-View anonymous information about how often users use your app, how long they use it for, and when they use it. You can see what type of device the user is using, which OS, which language, etc.
+View information about how often users use your app, how long they use it for, and when they use it. You can see what type of device the user is using, which OS, which language, etc.
 
 Sessions automatically start at when the app becomes active and end when the app resigns active. Sessions that start shortly after an end continue the session instead of starting a new one.
 
 NB: Sessions do not start when `takeOff:` is called, `takeOff:` registers callbacks to start sessions when the app is active.
 
-For **beta** users, you can see who the users are if you are **setting the UDID**, they have a TestFlight account, and their device is registered to TestFlight. (See Setting the UDID for more information).
+For **beta** users, you can see who the users are if they have a TestFlight account and their device is registered with TestFlight.
 
 
 ### Crash Reports
@@ -104,7 +90,7 @@ The TestFlight SDK automatically reports all crashes (beta and prod) to TestFlig
 
 ### Beta In App Updates  
 
-If a user is using a **beta** version of your app, you are **setting the UDID**, a new beta version is available, and that user has permission to install it; an in app popup will ask them if they would like to install the update. If they tap "Install", the new version is installed from inside the app.
+If a user is using a **beta** version of your app and that user has permission to install it; an in app popup will ask them if they would like to install the update. If they tap "Install", the new version is installed from inside the app.
 
 NB: For this to work, you must increment your build version before uploading. Otherwise the new and old builds will have the same version number and we won't know if the user needs to update or is already using the new version.
 

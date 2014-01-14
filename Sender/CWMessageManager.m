@@ -11,6 +11,8 @@
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
 #import "CWUtility.h"
+#import "CWDataManager.h"
+
 
 @interface CWMessageManager ()
 
@@ -38,7 +40,6 @@
     if (self) {
         useLocalServer = NO;
         self.needsOriginalMessageID = YES;
-        [self loadCachedMessages];
     }
     return self;
 }
@@ -52,10 +53,7 @@
     return shared;
 }
 
-- (void) loadCachedMessages
-{
-    self.messages = [NSArray arrayWithContentsOfURL:[self messageCacheURL]];
-}
+
 
 - (NSString *)baseEndPoint
 {
@@ -102,8 +100,56 @@
     return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
 }
 
+- (AFDownloadTaskDestinationBlock) downloadURLDestinationBlock
+{
+    return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
+        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+    });
+}
 
-- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(void (^)(BOOL success, NSURL *url))completionBlock
+- (CWDownloadTaskCompletionBlock) downloadTaskCompletionBlock
+{
+    return (^ void(NSURLResponse *response, NSURL *filePath, NSError *error, CWMessageDownloadCompletionBlock  messageDownloadCompletionBlock){
+        
+        if(error)
+        {
+            NSLog(@"error %@", error);
+            if (messageDownloadCompletionBlock) {
+                messageDownloadCompletionBlock(NO,filePath);//if we need to pass error/response adjust function callback
+            }
+        }
+        else
+        {
+            NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
+            switch (httpResponse.statusCode) {
+                case 200:
+                {
+                    // success
+                    NSLog(@"File downloaded to: %@", filePath);
+                    NSError * error = [[CWDataManager sharedInstance] importMessageAtFilePath:filePath];
+                    NSAssert(!error, @"not expecting an error, found:%@",error);
+                    if (messageDownloadCompletionBlock) {
+                        messageDownloadCompletionBlock(YES,filePath);
+                    }
+                    
+                    break;
+                }
+                default:
+                    // fail
+                    NSLog(@"failed to load message file. with code:%i",httpResponse.statusCode);
+                    if (messageDownloadCompletionBlock) {
+                        messageDownloadCompletionBlock(NO,nil);
+                    }
+                    break;
+            }
+        }
+
+        
+    });
+}
+
+- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(CWMessageDownloadCompletionBlock )completionBlock
 {
     // check if file exists locally
     NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
@@ -124,46 +170,12 @@
         NSURL *URL = [NSURL URLWithString:messagePath];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
 
-        NSProgress * progress;
+        NSProgress * progress = nil;
         
         [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
         
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:^NSURL *(NSURL *targetPath, NSURLResponse *response)
-        {
-                                                                          
-            NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
-            return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
-            
-        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            if(error)
-            {
-                NSLog(@"error %@", error);
-                if (completionBlock) {
-                    completionBlock(NO,filePath);//if we need to pass error/response adjust function callback
-                }
-            }
-            else
-            {
-                
-                NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
-                switch (httpResponse.statusCode) {
-                    case 200:
-                        // success
-                        NSLog(@"File downloaded to: %@", filePath);
-                        if (completionBlock) {
-                            completionBlock(YES,filePath);
-                        }
-                        break;
-                        
-                    default:
-                        // fail
-                        NSLog(@"failed to load message file. with code:%i",httpResponse.statusCode);
-                        if (completionBlock) {
-                            completionBlock(NO,nil);
-                        }
-                        break;
-                }
-            }
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:self.downloadURLDestinationBlock completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            self.downloadTaskCompletionBlock(response,filePath,error,completionBlock);
         }];
         
         [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
@@ -180,8 +192,6 @@
 
 - (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock
 {
-    
-    
     NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     
     if([user_id length])
@@ -193,42 +203,66 @@
         NSLog(@"fetching messages: %@",url);
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             //
-            NSLog(@"fetched user messages: %@",responseObject);
+            self.getMessagesSuccessBlock(operation, responseObject);
             
-            self.messages = [responseObject objectForKey:@"messages"];
-            
-            [self.messages writeToURL:[self messageCacheURL] atomically:YES];
-            
-            if (completionBlock) {
-                
-                // Only perform badge update when we are fetching due to a background fetch
-                NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
-
-                int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
-                if (newMessageCount > 0) {
-                    int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
-                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
-                }
-                
-                completionBlock(UIBackgroundFetchResultNewData);
-            }
-            
-            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[self.messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
-            [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+//            //badge adjustment hack logic below
+//            if (completionBlock) {
+//                
+//                // Only perform badge update when we are fetching due to a background fetch
+//                NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
+//
+//                int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
+//                if (newMessageCount > 0) {
+//                    int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
+//                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
+//                }
+//                
+//                completionBlock(UIBackgroundFetchResultNewData);
+//            }
+//            
+//            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[self.messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
-            NSLog(@"failed to fetch messages with error: %@",error);
-            NSLog(@"operation:%@",operation);
-
-//            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
-            [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
+            self.getMessagesFailureBlock(operation, error);
             
             if (completionBlock) {
                 completionBlock(UIBackgroundFetchResultNoData);
             }
         }];
     }
+}
+
+- (AFRequestOperationManagerSuccessBlock) getMessagesSuccessBlock
+{
+    return (^ void(AFHTTPRequestOperation *operation, id responseObject){
+        NSLog(@"fetched user messages: %@",responseObject);
+        
+        NSArray *messages = [responseObject objectForKey:@"messages"];
+        if([messages isKindOfClass:[NSArray class]]){
+            
+            [[CWDataManager sharedInstance] importMessages:messages];
+            
+            [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+        }
+        else{
+            NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
+            self.getMessagesFailureBlock(operation, error);
+        }
+
+    });
+}
+
+- (AFRequestOperationManagerFailureBlock) getMessagesFailureBlock
+{
+    return (^ void(AFHTTPRequestOperation *operation, NSError * error){
+        NSLog(@"failed to fetch messages with error: %@",error);
+        NSLog(@"operation:%@",operation);
+        
+        //            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
+        [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
+        
+    });
 }
 
 #pragma mark - table view datasource delegate functions
@@ -242,15 +276,19 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CWMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
-    NSDictionary * dict = [self.messages objectAtIndex:indexPath.row];
-    [cell setMessageData:dict];
+    User * localUser = [[CWUserManager sharedInstance] localUser];
+    NSOrderedSet * inboxMessages = [localUser inboxMessages];
+    Message * message = [inboxMessages objectAtIndex:indexPath.row];
+    [cell setMessage:message];
     return cell;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.messages.count;
+    User * localUser = [[CWUserManager sharedInstance] localUser];
+    NSOrderedSet * inboxMessages = [localUser inboxMessages];
+    return inboxMessages.count;
 }
 
 #pragma mark - MessageID Server Fetches

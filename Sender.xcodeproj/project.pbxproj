@@ -7,8 +7,32 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */; };
+		206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8718808F27007F3532 /* AOFetchUtilities.m */; };
+		206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8918808F27007F3532 /* AOManagedObject.m */; };
+		206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 206CDF8E18808F59007F3532 /* CoreData.framework */; };
+		3614539518844EC600400916 /* MessageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3614539418844EC600400916 /* MessageTests.m */; };
+		36145397188481FD00400916 /* testMessage.zip in Resources */ = {isa = PBXBuildFile; fileRef = 36145396188481FD00400916 /* testMessage.zip */; };
 		366035E31873394800EE9233 /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 366035E21873394800EE9233 /* CWUtility.m */; };
+		366EB58C18843E4200A7FF75 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 366EB58B18843E4200A7FF75 /* UserTests.m */; };
+		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
+		367439F11880921D00613FD6 /* NSDictionary+LookUpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
+		36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36ACC922187F557B00314C40 /* CWDataManagerTests.m */; };
+		36AF5820187DD97000C5C13F /* human.h.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581C187DD97000C5C13F /* human.h.motemplate */; };
+		36AF5821187DD97000C5C13F /* human.m.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581D187DD97000C5C13F /* human.m.motemplate */; };
+		36AF5822187DD97000C5C13F /* machine.h.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581E187DD97000C5C13F /* machine.h.motemplate */; };
+		36AF5823187DD97000C5C13F /* machine.m.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581F187DD97000C5C13F /* machine.m.motemplate */; };
+		36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */; };
+		36AF582A187DDBCF00C5C13F /* mogenerator in Resources */ = {isa = PBXBuildFile; fileRef = 36AF5829187DDBCF00C5C13F /* mogenerator */; };
+		36AF5834187DF0A200C5C13F /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF582F187DF0A200C5C13F /* Message.m */; };
+		36AF5835187DF0A200C5C13F /* Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5831187DF0A200C5C13F /* Thread.m */; };
+		36AF5836187DF0A200C5C13F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5833187DF0A200C5C13F /* User.m */; };
+		36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5838187DF0AB00C5C13F /* _Thread.m */; };
+		36AF583E187DF0AB00C5C13F /* _User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF583A187DF0AB00C5C13F /* _User.m */; };
+		36AF583F187DF0AB00C5C13F /* _Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF583C187DF0AB00C5C13F /* _Message.m */; };
+		36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5841187DF45F00C5C13F /* CWDataManager.m */; };
+		36AF5844187E034700C5C13F /* CWMessageManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5843187E034700C5C13F /* CWMessageManagerTests.m */; };
 		36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E814C9185FB78A002B1A12 /* CWUserManager.m */; };
 		36F0EB82187DB3B300DDE28B /* CWViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */; };
 		36F0EB84187DB96600DDE28B /* CWMenuViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0EB83187DB96600DDE28B /* CWMenuViewControllerTests.m */; };
@@ -85,8 +109,6 @@
 		E90B7D0C186CED8300B94DCC /* CWPrivacyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E90B7D0A186CED8300B94DCC /* CWPrivacyViewController.xib */; };
 		E90B7D10186CED9C00B94DCC /* CWTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90B7D0E186CED9C00B94DCC /* CWTermsViewController.m */; };
 		E90B7D11186CED9C00B94DCC /* CWTermsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E90B7D0F186CED9C00B94DCC /* CWTermsViewController.xib */; };
-		E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D3182AA41A004B8CCD /* AssetItem.m */; };
-		E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D6182AA430004B8CCD /* VideoLibrary.m */; };
 		E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04D9182BEA71004B8CCD /* CWMessageItem.m */; };
 		E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04DC182BF758004B8CCD /* CWMetadata.m */; };
 		E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */; };
@@ -196,9 +218,45 @@
 
 /* Begin PBXFileReference section */
 		021C04FCE95441C395C53215 /* Pods-test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.xcconfig"; path = "Pods/Pods-test.xcconfig"; sourceTree = "<group>"; };
+		206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOCoreDataStackUtilities.m; sourceTree = "<group>"; };
+		206CDF8618808F27007F3532 /* AOFetchUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOFetchUtilities.h; sourceTree = "<group>"; };
+		206CDF8718808F27007F3532 /* AOFetchUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOFetchUtilities.m; sourceTree = "<group>"; };
+		206CDF8818808F27007F3532 /* AOManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOManagedObject.h; sourceTree = "<group>"; };
+		206CDF8918808F27007F3532 /* AOManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOManagedObject.m; sourceTree = "<group>"; };
+		206CDF8A18808F27007F3532 /* AOCoreDataStackUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOCoreDataStackUtilities.h; sourceTree = "<group>"; };
+		206CDF8E18808F59007F3532 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		3614539418844EC600400916 /* MessageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTests.m; sourceTree = "<group>"; };
+		36145396188481FD00400916 /* testMessage.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = testMessage.zip; sourceTree = "<group>"; };
 		366035E11873394800EE9233 /* CWUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUtility.h; sourceTree = "<group>"; };
 		366035E21873394800EE9233 /* CWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUtility.m; sourceTree = "<group>"; };
+		366EB58B18843E4200A7FF75 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
+		367439E9187F5C6200613FD6 /* MocForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MocForTests.h; sourceTree = "<group>"; };
+		367439EA187F5C6200613FD6 /* MocForTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MocForTests.m; sourceTree = "<group>"; };
+		367439EF1880921D00613FD6 /* NSDictionary+LookUpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+LookUpTable.h"; sourceTree = "<group>"; };
+		367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+LookUpTable.m"; sourceTree = "<group>"; };
 		36781C9118760591005AE1C6 /* CWMessageCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCellTest.m; sourceTree = "<group>"; };
+		36ACC922187F557B00314C40 /* CWDataManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWDataManagerTests.m; sourceTree = "<group>"; };
+		36AF581C187DD97000C5C13F /* human.h.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.h.motemplate; sourceTree = "<group>"; };
+		36AF581D187DD97000C5C13F /* human.m.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.m.motemplate; sourceTree = "<group>"; };
+		36AF581E187DD97000C5C13F /* machine.h.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = machine.h.motemplate; sourceTree = "<group>"; };
+		36AF581F187DD97000C5C13F /* machine.m.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = machine.m.motemplate; sourceTree = "<group>"; };
+		36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ChatwalaModel.xcdatamodel; sourceTree = "<group>"; };
+		36AF5829187DDBCF00C5C13F /* mogenerator */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mogenerator; sourceTree = "<group>"; };
+		36AF582E187DF0A200C5C13F /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		36AF582F187DF0A200C5C13F /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		36AF5830187DF0A200C5C13F /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
+		36AF5831187DF0A200C5C13F /* Thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Thread.m; sourceTree = "<group>"; };
+		36AF5832187DF0A200C5C13F /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		36AF5833187DF0A200C5C13F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		36AF5837187DF0AB00C5C13F /* _Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Thread.h; sourceTree = "<group>"; };
+		36AF5838187DF0AB00C5C13F /* _Thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Thread.m; sourceTree = "<group>"; };
+		36AF5839187DF0AB00C5C13F /* _User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _User.h; sourceTree = "<group>"; };
+		36AF583A187DF0AB00C5C13F /* _User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _User.m; sourceTree = "<group>"; };
+		36AF583B187DF0AB00C5C13F /* _Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Message.h; sourceTree = "<group>"; };
+		36AF583C187DF0AB00C5C13F /* _Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Message.m; sourceTree = "<group>"; };
+		36AF5840187DF45F00C5C13F /* CWDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWDataManager.h; sourceTree = "<group>"; };
+		36AF5841187DF45F00C5C13F /* CWDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWDataManager.m; sourceTree = "<group>"; };
+		36AF5843187E034700C5C13F /* CWMessageManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageManagerTests.m; sourceTree = "<group>"; };
 		36E814C8185FB78A002B1A12 /* CWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserManager.h; sourceTree = "<group>"; };
 		36E814C9185FB78A002B1A12 /* CWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserManager.m; sourceTree = "<group>"; };
 		36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewControllerTests.m; sourceTree = "<group>"; };
@@ -282,10 +340,6 @@
 		E90B7D0D186CED9C00B94DCC /* CWTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTermsViewController.h; sourceTree = "<group>"; };
 		E90B7D0E186CED9C00B94DCC /* CWTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWTermsViewController.m; sourceTree = "<group>"; };
 		E90B7D0F186CED9C00B94DCC /* CWTermsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWTermsViewController.xib; sourceTree = "<group>"; };
-		E90F04D2182AA41A004B8CCD /* AssetItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AssetItem.h; sourceTree = "<group>"; };
-		E90F04D3182AA41A004B8CCD /* AssetItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AssetItem.m; sourceTree = "<group>"; };
-		E90F04D5182AA430004B8CCD /* VideoLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoLibrary.h; sourceTree = "<group>"; };
-		E90F04D6182AA430004B8CCD /* VideoLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VideoLibrary.m; sourceTree = "<group>"; };
 		E90F04D8182BEA71004B8CCD /* CWMessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageItem.h; sourceTree = "<group>"; };
 		E90F04D9182BEA71004B8CCD /* CWMessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageItem.m; sourceTree = "<group>"; };
 		E90F04DB182BF758004B8CCD /* CWMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMetadata.h; sourceTree = "<group>"; };
@@ -438,6 +492,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */,
 				E9ABCFB3183E609E0098E530 /* Security.framework in Frameworks */,
 				E94439D418294E990088A381 /* MessageUI.framework in Frameworks */,
 				E94439CC182945000088A381 /* AssetsLibrary.framework in Frameworks */,
@@ -469,6 +524,70 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		36AF5818187DD91300C5C13F /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				206CDF8A18808F27007F3532 /* AOCoreDataStackUtilities.h */,
+				206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */,
+				206CDF8618808F27007F3532 /* AOFetchUtilities.h */,
+				206CDF8718808F27007F3532 /* AOFetchUtilities.m */,
+				206CDF8818808F27007F3532 /* AOManagedObject.h */,
+				206CDF8918808F27007F3532 /* AOManagedObject.m */,
+				36AF5819187DD91300C5C13F /* ModelHuman */,
+				36AF581A187DD91300C5C13F /* ModelMachine */,
+				36AF581B187DD91300C5C13F /* ModelTemplates */,
+				36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */,
+				36AF5840187DF45F00C5C13F /* CWDataManager.h */,
+				36AF5841187DF45F00C5C13F /* CWDataManager.m */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		36AF5819187DD91300C5C13F /* ModelHuman */ = {
+			isa = PBXGroup;
+			children = (
+				36AF582E187DF0A200C5C13F /* Message.h */,
+				36AF582F187DF0A200C5C13F /* Message.m */,
+				36AF5830187DF0A200C5C13F /* Thread.h */,
+				36AF5831187DF0A200C5C13F /* Thread.m */,
+				36AF5832187DF0A200C5C13F /* User.h */,
+				36AF5833187DF0A200C5C13F /* User.m */,
+			);
+			path = ModelHuman;
+			sourceTree = "<group>";
+		};
+		36AF581A187DD91300C5C13F /* ModelMachine */ = {
+			isa = PBXGroup;
+			children = (
+				36AF5837187DF0AB00C5C13F /* _Thread.h */,
+				36AF5838187DF0AB00C5C13F /* _Thread.m */,
+				36AF5839187DF0AB00C5C13F /* _User.h */,
+				36AF583A187DF0AB00C5C13F /* _User.m */,
+				36AF583B187DF0AB00C5C13F /* _Message.h */,
+				36AF583C187DF0AB00C5C13F /* _Message.m */,
+			);
+			path = ModelMachine;
+			sourceTree = "<group>";
+		};
+		36AF581B187DD91300C5C13F /* ModelTemplates */ = {
+			isa = PBXGroup;
+			children = (
+				36AF581C187DD97000C5C13F /* human.h.motemplate */,
+				36AF581D187DD97000C5C13F /* human.m.motemplate */,
+				36AF581E187DD97000C5C13F /* machine.h.motemplate */,
+				36AF581F187DD97000C5C13F /* machine.m.motemplate */,
+			);
+			path = ModelTemplates;
+			sourceTree = "<group>";
+		};
+		36AF5828187DDBCF00C5C13F /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				36AF5829187DDBCF00C5C13F /* mogenerator */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
 		36E814C7185FB779002B1A12 /* User Manager */ = {
 			isa = PBXGroup;
 			children = (
@@ -603,10 +722,6 @@
 				E94439CE182946460088A381 /* AVCamCaptureManager.m */,
 				E94439CF182946460088A381 /* AVCamRecorder.h */,
 				E94439D0182946460088A381 /* AVCamRecorder.m */,
-				E90F04D2182AA41A004B8CCD /* AssetItem.h */,
-				E90F04D3182AA41A004B8CCD /* AssetItem.m */,
-				E90F04D5182AA430004B8CCD /* VideoLibrary.h */,
-				E90F04D6182AA430004B8CCD /* VideoLibrary.m */,
 			);
 			name = AVCam;
 			sourceTree = "<group>";
@@ -715,6 +830,7 @@
 		E944397A182940AF0088A381 = {
 			isa = PBXGroup;
 			children = (
+				36AF5828187DDBCF00C5C13F /* Tools */,
 				E944398C182940AF0088A381 /* Sender */,
 				E94439AB182940AF0088A381 /* SenderTests */,
 				E9443985182940AF0088A381 /* Frameworks */,
@@ -736,6 +852,7 @@
 		E9443985182940AF0088A381 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				206CDF8E18808F59007F3532 /* CoreData.framework */,
 				E9ABCFB2183E609E0098E530 /* Security.framework */,
 				E94439D318294E990088A381 /* MessageUI.framework */,
 				E94439CB182945000088A381 /* AssetsLibrary.framework */,
@@ -760,6 +877,7 @@
 		E944398C182940AF0088A381 /* Sender */ = {
 			isa = PBXGroup;
 			children = (
+				36AF5818187DD91300C5C13F /* CoreData */,
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
 				E9B214FA18464B9400E09DA8 /* CWAnalytics.h */,
@@ -795,6 +913,9 @@
 		E94439AB182940AF0088A381 /* SenderTests */ = {
 			isa = PBXGroup;
 			children = (
+				36145396188481FD00400916 /* testMessage.zip */,
+				367439E9187F5C6200613FD6 /* MocForTests.h */,
+				367439EA187F5C6200613FD6 /* MocForTests.m */,
 				E94439AC182940AF0088A381 /* Supporting Files */,
 				36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */,
 				E95E25DB1831425800E3950B /* CWMessageItemTests.m */,
@@ -820,6 +941,10 @@
 				36781C9118760591005AE1C6 /* CWMessageCellTest.m */,
 				36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */,
 				36F0EB83187DB96600DDE28B /* CWMenuViewControllerTests.m */,
+				36AF5843187E034700C5C13F /* CWMessageManagerTests.m */,
+				36ACC922187F557B00314C40 /* CWDataManagerTests.m */,
+				366EB58B18843E4200A7FF75 /* UserTests.m */,
+				3614539418844EC600400916 /* MessageTests.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -906,6 +1031,8 @@
 		E98B168A184F848E0021A611 /* Third Party */ = {
 			isa = PBXGroup;
 			children = (
+				367439EF1880921D00613FD6 /* NSDictionary+LookUpTable.h */,
+				367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */,
 				E98B1694184F84B90021A611 /* DCControl */,
 			);
 			name = "Third Party";
@@ -998,6 +1125,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E94439B5182940AF0088A381 /* Build configuration list for PBXNativeTarget "Sender" */;
 			buildPhases = (
+				36AF5824187DDA1F00C5C13F /* ShellScript */,
 				274586BD323E48CFADE59026 /* Check Pods Manifest.lock */,
 				E944397F182940AF0088A381 /* Sources */,
 				E9443980182940AF0088A381 /* Frameworks */,
@@ -1092,6 +1220,7 @@
 				E90B7CAE186CBE4A00B94DCC /* waves0010.png in Resources */,
 				E90B7CB6186CBE4A00B94DCC /* waves0018.png in Resources */,
 				E90B7CED186CC01800B94DCC /* waves0028@2x.png in Resources */,
+				36AF5822187DD97000C5C13F /* machine.h.motemplate in Resources */,
 				36F3F87A187C9573002CBB63 /* CWKillScreenViewController.xib in Resources */,
 				E90B7CB5186CBE4A00B94DCC /* waves0017.png in Resources */,
 				E90B7CB8186CBE4A00B94DCC /* waves0020.png in Resources */,
@@ -1108,11 +1237,13 @@
 				E90B7CA7186CBE4A00B94DCC /* waves0003.png in Resources */,
 				E90B7CE6186CC01800B94DCC /* waves0021@2x.png in Resources */,
 				E90B7CA4186CBE4A00B94DCC /* waves0000.png in Resources */,
+				36AF582A187DDBCF00C5C13F /* mogenerator in Resources */,
 				E90B7CBD186CBE4A00B94DCC /* waves0025.png in Resources */,
 				E90B7CA9186CBE4A00B94DCC /* waves0005.png in Resources */,
 				E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */,
 				E90B7CBE186CBE4A00B94DCC /* waves0026.png in Resources */,
 				E90B7CA5186CBE4A00B94DCC /* waves0001.png in Resources */,
+				36AF5823187DD97000C5C13F /* machine.m.motemplate in Resources */,
 				E90B7CF0186CC01800B94DCC /* waves0001@2x.png in Resources */,
 				E90B7CE7186CC01800B94DCC /* waves0022@2x.png in Resources */,
 				E90B7CFA186CC01800B94DCC /* waves0011@2x.png in Resources */,
@@ -1158,11 +1289,13 @@
 				E9AF03381868B433006CB546 /* CWMenuViewController.xib in Resources */,
 				E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */,
 				E96C1508183FAD1300DA9B85 /* CWEmailSignupViewController.xib in Resources */,
+				36AF5821187DD97000C5C13F /* human.m.motemplate in Resources */,
 				E90B7CB4186CBE4A00B94DCC /* waves0016.png in Resources */,
 				E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */,
 				E90B7CE1186CC01800B94DCC /* waves0016@2x.png in Resources */,
 				E90B7CEF186CC01800B94DCC /* waves0000@2x.png in Resources */,
 				E924AD2B183AB450009400DD /* CWSSComposerViewController.xib in Resources */,
+				36AF5820187DD97000C5C13F /* human.h.motemplate in Resources */,
 				E90B7CB1186CBE4A00B94DCC /* waves0013.png in Resources */,
 				E90B7D0C186CED8300B94DCC /* CWPrivacyViewController.xib in Resources */,
 				E924AD15183A9010009400DD /* CWSSOpenerViewController.xib in Resources */,
@@ -1176,6 +1309,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E94439B0182940AF0088A381 /* InfoPlist.strings in Resources */,
+				36145397188481FD00400916 /* testMessage.zip in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1211,6 +1345,19 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
+		};
+		36AF5824187DDA1F00C5C13F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
 		};
 		4B3DBD8706754EA0AB54D68F /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1280,7 +1427,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E90F04DA182BEA71004B8CCD /* CWMessageItem.m in Sources */,
-				E90F04D7182AA430004B8CCD /* VideoLibrary.m in Sources */,
 				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
 				E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */,
@@ -1288,6 +1434,9 @@
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
+				36AF583F187DF0AB00C5C13F /* _Message.m in Sources */,
+				206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */,
+				36AF5834187DF0A200C5C13F /* Message.m in Sources */,
 				E90B7D01186CD2DE00B94DCC /* CWSettingsViewController.m in Sources */,
 				E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */,
 				E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */,
@@ -1297,8 +1446,10 @@
 				E96C1501183FABB200DA9B85 /* CWAuthRequestViewController.m in Sources */,
 				E9909464186231BF0050695F /* CWMessageManager.m in Sources */,
 				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
+				206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */,
 				E90B7D0B186CED8300B94DCC /* CWPrivacyViewController.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
+				36AF583E187DF0AB00C5C13F /* _User.m in Sources */,
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
 				E98B1697184F85B80021A611 /* CWMiddleButton.m in Sources */,
@@ -1313,22 +1464,28 @@
 				E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */,
 				E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */,
 				E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */,
+				36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
 				E9B214FC18464B9400E09DA8 /* CWAnalytics.m in Sources */,
 				E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */,
 				36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
+				206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */,
+				36AF5835187DF0A200C5C13F /* Thread.m in Sources */,
 				E9AF033B1868B450006CB546 /* CWMessageCell.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
 				E96C1507183FAD1300DA9B85 /* CWEmailSignupViewController.m in Sources */,
+				36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */,
+				36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */,
 				E9AF03351868B423006CB546 /* CWMenuViewController.m in Sources */,
 				E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
+				367439F11880921D00613FD6 /* NSDictionary+LookUpTable.m in Sources */,
+				36AF5836187DF0A200C5C13F /* User.m in Sources */,
 				366035E31873394800EE9233 /* CWUtility.m in Sources */,
 				E90B7D10186CED9C00B94DCC /* CWTermsViewController.m in Sources */,
-				E90F04D4182AA41A004B8CCD /* AssetItem.m in Sources */,
 				E9ABCFB7183E61050098E530 /* CWAuthenticationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1342,16 +1499,21 @@
 				36F0EB82187DB3B300DDE28B /* CWViewControllerTests.m in Sources */,
 				E965255E18341963008987BD /* CWReviewVCTests.m in Sources */,
 				E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */,
+				36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */,
 				E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */,
 				E96C150A183FB36800DA9B85 /* CWAuthenticationManagerTests.m in Sources */,
+				366EB58C18843E4200A7FF75 /* UserTests.m in Sources */,
+				3614539518844EC600400916 /* MessageTests.m in Sources */,
 				E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */,
 				E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */,
 				E9B214FF18464C6900E09DA8 /* CWAnalytics+Spec.m in Sources */,
 				E9C115601832B9AD00DB67D2 /* AVURLAsset+Spec.m in Sources */,
 				E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */,
+				367439EB187F5C6200613FD6 /* MocForTests.m in Sources */,
 				E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */,
 				36F3F87C187C9C54002CBB63 /* CWGroundControlTests.m in Sources */,
 				E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */,
+				36AF5844187E034700C5C13F /* CWMessageManagerTests.m in Sources */,
 				36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */,
 				E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */,
 				E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */,
@@ -1574,6 +1736,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */,
+			);
+			currentVersion = 36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */;
+			path = ChatwalaModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = E944397B182940AF0088A381 /* Project object */;
 }

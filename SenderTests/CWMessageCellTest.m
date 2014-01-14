@@ -9,9 +9,13 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "CWMessageCell.h"
+#import "Message.h"
+#import "MocForTests.h"
 
 @interface CWMessageCellTest : XCTestCase
 @property (nonatomic, strong) CWMessageCell * sut;
+@property (nonatomic, strong) NSManagedObjectContext * moc;
+
 @end
 
 @implementation CWMessageCellTest
@@ -20,7 +24,9 @@
 {
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
-    
+    MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
+    self.moc = mocFactory.moc;
+   
     self.sut = [[CWMessageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"reuseID"];
 }
 
@@ -33,10 +39,11 @@
 - (void)testSetMessageDataWithBadData
 {
     //given
-    NSDictionary * data = @{};
+    Message * item = [Message insertInManagedObjectContext:self.moc];
+    item.thumbnailPictureURL = @"foo";
     
     //when
-    [self.sut setMessageData:data];
+    [self.sut setMessage:item];
     
     //should
     XCTAssertTrue((self.sut.thumbView.image != nil), @"image should not be nil");
@@ -45,10 +52,11 @@
 - (void)testSetMessageData
 {
     //given
-    NSDictionary * data = @{@"thumbnail": @"http://chatwala-prod.azurewebsites.net/images/message_thumb.png"};
+    Message * item = [Message insertInManagedObjectContext:self.moc];
+    item.thumbnailPictureURL = @"http://chatwala-prod.azurewebsites.net/images/message_thumb.png";
     
     //when
-    [self.sut setMessageData:data];
+    [self.sut setMessage:item];
     
     //should
     XCTAssertTrue((self.sut.thumbView.image != nil), @"image should not be nil");
@@ -60,9 +68,11 @@
     self.sut.imageURL = [NSURL URLWithString:@"www.google.com"];
     id mockSpinner = [OCMockObject partialMockForObject:self.sut.spinner];
     [[mockSpinner reject] startAnimating];
+    Message * item = [Message insertInManagedObjectContext:self.moc];
+    item.thumbnailPictureURL = self.sut.imageURL.path;
     
     //when
-    [self.sut setMessageData:@{@"thumbnail":self.sut.imageURL.path}];
+    [self.sut setMessage:item];
     
     //should
     [mockSpinner verify];
