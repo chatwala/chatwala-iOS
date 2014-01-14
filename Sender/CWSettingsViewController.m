@@ -9,8 +9,9 @@
 #import "CWSettingsViewController.h"
 #import "CWTermsViewController.h"
 #import "CWPrivacyViewController.h"
+#import "CWGroundControlManager.h"
 
-@interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate, MFMailComposeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
 @property (nonatomic,strong) NSArray * sectionHeaders;
 @property (nonatomic,strong) NSArray * section1Titles;
@@ -47,7 +48,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:att];
     
     
-    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy"]];
+    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback"]];
     
     
     
@@ -147,11 +148,23 @@
                     [self.navigationController pushViewController:tocVC animated:YES];
                 }
                     break;
-                    
-                default:
+                case 1:
                 {
                     CWPrivacyViewController* privVC = [[CWPrivacyViewController alloc]init];
                     [self.navigationController pushViewController:privVC animated:YES];
+                }
+                    break;
+                case 2:
+                default:
+                {
+                    if ([MFMailComposeViewController canSendMail]) {
+                        MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
+                        [mailComposer setMailComposeDelegate:self];
+                        [mailComposer setSubject:[[CWGroundControlManager sharedInstance] feedbackEmailSubject]];
+                        [mailComposer setMessageBody:[[CWGroundControlManager sharedInstance] feedbackEmailBody] isHTML:NO];
+                        [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
+                        [self presentViewController:mailComposer animated:YES completion:nil];
+                    }
                 }
                     break;
             }
@@ -169,5 +182,13 @@
             break;
     }
 }
+
+#pragma mark MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 @end

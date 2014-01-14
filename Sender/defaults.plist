@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>TAP_TO_PLAY_VIDEO</key>
+	<string>Tap To Play</string>
+	<key>FEEDBACK_RESPONSE_STRING</key>
+	<string>Recording Response 0:%02d</string>
+	<key>FEEDBACK_REACTION_STRING</key>
+	<string>Recording Reaction 0:%02d</string>
+	<key>FEEDBACK_REVIEW_STRING</key>
+	<string>Recording Reaction in 0:%02d</string>
+	<key>FEEDBACK_RECORDING_STRING</key>
+	<string>Rekording 0:%02d</string>
+	<key>REPLY_MESSAGE</key>
+	<string>Now reply!</string>
+	<key>START_SCREEN_MESSAGE</key>
+	<string>Tap to record and send a message. Your friend&apos;s reaction will appear here when they reply.</string>
+	<key>OPENER_SCREEN_MESSAGE</key>
+	<string>Play your friend&apos;s message and record your reaction. Then reply, preview and send it!</string>
+	<key>ERROR_SCREEN_MESSAGE_MIC_COMPOSER</key>
+	<string>Chatawala can&apos;t access your microphone. Go to your Settings → Privacy → Microphone to enable access.</string>
+	<key>ERROR_SCREEN_MESSAGE_MIC_OPENER</key>
+	<string>Chatawala can&apos;t access your microphone. Go to your Settings → Privacy → Microphone to enable access.</string>
+	<key>APP_DISABLED</key>
+	<false/>
+	<key>APP_DISABLED_TEXT</key>
+	<string>We are experiencing technical difficuulties. Be back soon!</string>
+	<key>EMAIL_MESSAGE</key>
+	<string>Chatwala message</string>
+	<key>FEEDBACK_EMAIL_SUBJECT</key>
+	<string>Feedback message</string>
+	<key>FEEDBACK_EMAIL_BODY</key>
+	<string>We liked your app but ...</string>
+</dict>
+</plist>

@@ -162,6 +162,21 @@
     return value ? value:@"";
 }
 
+// FEEDBACK_EMAIL_SUBJECT
+- (NSString *) feedbackEmailSubject
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_EMAIL_SUBJECT"];
+    return value ? value:@"Feedback message";
+}
+
+// FEEDBACK_EMAIL_BODY
+- (NSString *) feedbackEmailBody
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_EMAIL_BODY"];
+    return value ? value:@"We liked your app because ...";
+}
+
+
 // EMAIL_SUBJECT
 - (NSString *)emailSubject
 {
