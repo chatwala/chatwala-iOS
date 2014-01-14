@@ -130,6 +130,7 @@
                     if (messageDownloadCompletionBlock) {
                         messageDownloadCompletionBlock(YES,filePath);
                     }
+                    
                     break;
                     
                 default:

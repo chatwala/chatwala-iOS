@@ -29,5 +29,5 @@
 - (void) downloadAllMessageChatwalaData;
 
 
-- (void) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error;
+- (Message *) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error;
 @end

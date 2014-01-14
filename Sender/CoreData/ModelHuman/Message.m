@@ -32,6 +32,11 @@
     return value;
 }
 
+- (void) setEMessageDownloadState:(eMessageDownloadState ) eState
+{
+    self.downloadStateValue = eState;
+}
+
 - (void) downloadChatwalaDataWithMessageCell:(CWMessageCell *) messageCell
 {
     if(messageCell.thumbView)

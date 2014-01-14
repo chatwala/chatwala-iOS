@@ -117,12 +117,12 @@
     return user;
 }
 
-- (void) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error
+- (Message *) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error
 {
     if(![sourceDictionary isKindOfClass:[NSDictionary class]])
     {
         *error = [NSError errorWithDomain:@"com.chatwala" code:6003 userInfo:@{@"Failed import":@"import messages expects an array of dictionaries", @"found":sourceDictionary}];//failed to import
-        return;
+        return nil;
     }
     NSString * messageID = [sourceDictionary objectForKey:MessageAttributes.messageID withLUT:[Message keyLookupTable]];
     Message * item = [self findMessageByMessageID:messageID];
@@ -143,6 +143,8 @@
     //add thread
     NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
     item.thread = [self createThreadWithID:threadID];
+    
+    return item;
 }
 
 - (NSError *) importMessages:(NSArray *)messages
@@ -189,7 +191,9 @@
                 return error;
             }
             
-            [self createMessageWithDictionary:jsonDict error:&error];
+            Message * item = [self createMessageWithDictionary:jsonDict error:&error];
+            
+            [item setEMessageDownloadState:eMessageDownloadStateDownloaded];
             
             if(error)
             {

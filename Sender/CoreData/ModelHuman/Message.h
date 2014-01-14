@@ -19,6 +19,7 @@ typedef enum eMessageDownloadState
 // Custom logic goes here.
 
 - (eMessageDownloadState) eDownloadState;
+- (void) setEMessageDownloadState:(eMessageDownloadState ) eState;
 - (void) downloadChatwalaDataWithMessageCell:(CWMessageCell *) messageCell;
 
 @end
