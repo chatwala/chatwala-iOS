@@ -198,9 +198,13 @@
             }
             
             Message * item = [self createMessageWithDictionary:jsonDict error:&error];
+            if(error)
+            {
+                return error;
+            }
             
             [item setEMessageDownloadState:eMessageDownloadStateDownloaded];
-            
+            [item.managedObjectContext save:&error];
             if(error)
             {
                 return error;
