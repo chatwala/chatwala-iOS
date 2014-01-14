@@ -51,7 +51,9 @@
         [messageCell.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:messageCell.successImageDownloadBlock failure:messageCell.failureImageDownloadBlock];
     }
     
-    [[CWMessageManager sharedInstance] downloadMessageWithID:self.messageID progress:nil completion:nil];
+    [[CWMessageManager sharedInstance] downloadMessageWithID:self.messageID progress:nil completion:^(BOOL success, NSURL *url) {
+        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+    }];
     
 }
 

@@ -124,15 +124,17 @@
             NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
             switch (httpResponse.statusCode) {
                 case 200:
+                {
                     // success
                     NSLog(@"File downloaded to: %@", filePath);
-                    [[CWDataManager sharedInstance] importMessageAtFilePath:filePath];
+                    NSError * error = [[CWDataManager sharedInstance] importMessageAtFilePath:filePath];
+                    NSAssert(!error, @"not expecting an error, found:%@",error);
                     if (messageDownloadCompletionBlock) {
                         messageDownloadCompletionBlock(YES,filePath);
                     }
                     
                     break;
-                    
+                }
                 default:
                     // fail
                     NSLog(@"failed to load message file. with code:%i",httpResponse.statusCode);

@@ -10,6 +10,7 @@
 #import "AOCoreDataStackUtilities.h"
 #import "Message.h"
 #import "NSDictionary+LookUpTable.h"
+#import "CWUserManager.h"
 
 @interface CWDataManager ()
 {
@@ -165,6 +166,11 @@
     
     [self.moc save:&error];
     
+    if(!error)
+    {
+        [self downloadAllMessageChatwalaData];
+    }
+    NSAssert(!error, @"not expecting errors. found:%@",error);
     
     return error;
 }
@@ -211,7 +217,8 @@
 
 - (void) downloadAllMessageChatwalaData
 {
-    NSOrderedSet * items = [self.localUser inboxMessages];
+    User * localUser = [[CWUserManager sharedInstance] localUser];
+    NSOrderedSet * items = localUser.messagesReceived;
     
     for (Message * item in items) {
         [item downloadChatwalaDataWithMessageCell:nil];

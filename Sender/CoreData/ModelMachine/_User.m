@@ -102,6 +102,15 @@ const struct UserUserInfo UserUserInfo = {
 @dynamic messagesSent;
 
 	
+- (NSMutableSet*)messagesSentSet {
+	[self willAccessValueForKey:@"messagesSent"];
+  
+	NSMutableSet *result = (NSMutableSet*)[self mutableSetValueForKey:@"messagesSent"];
+  
+	[self didAccessValueForKey:@"messagesSent"];
+	return result;
+}
+	
 
 
 

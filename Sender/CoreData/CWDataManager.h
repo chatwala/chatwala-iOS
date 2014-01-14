@@ -13,7 +13,6 @@
 @interface CWDataManager : NSObject
 + (id)sharedInstance;
 
-@property (nonatomic, strong) User * localUser;
 @property (nonatomic, strong) NSManagedObjectContext * moc;
 
 - (void) setupCoreData;
