@@ -31,6 +31,6 @@
 	<key>FEEDBACK_EMAIL_SUBJECT</key>
 	<string>Feedback message</string>
 	<key>FEEDBACK_EMAIL_BODY</key>
-	<string>We liked your app but ...</string>
+	<string>We liked your app ...</string>
 </dict>
 </plist>

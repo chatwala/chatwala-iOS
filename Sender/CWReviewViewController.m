@@ -91,7 +91,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)composeMessageWithMessageKey:(NSString*)messageURL
+- (void)composeMessageWithMessageKey:(NSString*)messageURL withCompletion:(void (^)(void))completion
 {
     if([MFMessageComposeViewController canSendText])
     {
@@ -101,7 +101,7 @@
         [smsComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
         [smsComposer setBody:[NSString stringWithFormat:@"Hey, I sent you a video message on Chatwala: %@",messageURL]];
         
-        [self presentViewController:smsComposer  animated:YES completion:nil];
+        [self presentViewController:smsComposer  animated:YES completion:completion];
     }
     else
     {
@@ -238,9 +238,10 @@
             if (messageID && messageURL) {
                 message.metadata.messageId = messageID;
                 
-                [message exportZip];
-                [[CWMessageManager sharedInstance] uploadMessage:message isReply:NO];
-                [self composeMessageWithMessageKey:messageURL];
+                [self composeMessageWithMessageKey:messageURL withCompletion:^{
+                    [message exportZip];
+                    [[CWMessageManager sharedInstance] uploadMessage:message isReply:NO];
+                }];
             }
             else {
                 if(!messageID)
