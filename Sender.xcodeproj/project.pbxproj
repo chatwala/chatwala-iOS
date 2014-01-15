@@ -126,7 +126,6 @@
 		E924AD34183AB789009400DD /* CWSSReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E924AD33183AB789009400DD /* CWSSReviewViewController.xib */; };
 		E924AD37183AB7CA009400DD /* CWPIPReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD36183AB7CA009400DD /* CWPIPReviewViewController.m */; };
 		E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E924AD39183AB7D8009400DD /* CWSSReviewViewController.m */; };
-		E9344A23184CF4FB004281A9 /* CWGoogleAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9344A22184CF4FB004281A9 /* CWGoogleAuthViewController.m */; };
 		E9443987182940AF0088A381 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443986182940AF0088A381 /* Foundation.framework */; };
 		E9443989182940AF0088A381 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9443988182940AF0088A381 /* CoreGraphics.framework */; };
 		E944398B182940AF0088A381 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E944398A182940AF0088A381 /* UIKit.framework */; };
@@ -159,11 +158,6 @@
 		E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9652560183535C1008987BD /* CWOpenerViewController.m */; };
 		E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */; };
 		E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E96525641835367A008987BD /* CWOpenerVCTests.m */; };
-		E96C1501183FABB200DA9B85 /* CWAuthRequestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E96C14FF183FABB200DA9B85 /* CWAuthRequestViewController.m */; };
-		E96C1502183FABB200DA9B85 /* CWAuthRequestViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E96C1500183FABB200DA9B85 /* CWAuthRequestViewController.xib */; };
-		E96C1507183FAD1300DA9B85 /* CWEmailSignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E96C1505183FAD1300DA9B85 /* CWEmailSignupViewController.m */; };
-		E96C1508183FAD1300DA9B85 /* CWEmailSignupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E96C1506183FAD1300DA9B85 /* CWEmailSignupViewController.xib */; };
-		E96C150A183FB36800DA9B85 /* CWAuthenticationManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E96C1509183FB36800DA9B85 /* CWAuthenticationManagerTests.m */; };
 		E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E973B1A218453C3E007A8D51 /* CWAnalyticsTests.m */; };
 		E98B1689184F81F00021A611 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = E98B1688184F81F00021A611 /* UIColor+Additions.m */; };
 		E98B1691184F84B40021A611 /* DCControl.m in Sources */ = {isa = PBXBuildFile; fileRef = E98B168C184F84B40021A611 /* DCControl.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -176,7 +170,6 @@
 		E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9ABCF65183D45470098E530 /* CWErrorViewController.xib */; };
 		E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */; };
 		E9ABCFB3183E609E0098E530 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9ABCFB2183E609E0098E530 /* Security.framework */; };
-		E9ABCFB7183E61050098E530 /* CWAuthenticationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCFB6183E61050098E530 /* CWAuthenticationManager.m */; };
 		E9ABCFB9183E632A0098E530 /* google_oauth2.json in Resources */ = {isa = PBXBuildFile; fileRef = E9ABCFB8183E632A0098E530 /* google_oauth2.json */; };
 		E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9AF032E1868B40A006CB546 /* CWMainViewController.m */; };
 		E9AF03311868B40A006CB546 /* CWMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9AF032F1868B40A006CB546 /* CWMainViewController.xib */; };
@@ -368,8 +361,6 @@
 		E924AD36183AB7CA009400DD /* CWPIPReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPIPReviewViewController.m; sourceTree = "<group>"; };
 		E924AD38183AB7D8009400DD /* CWSSReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSSReviewViewController.h; sourceTree = "<group>"; };
 		E924AD39183AB7D8009400DD /* CWSSReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSSReviewViewController.m; sourceTree = "<group>"; };
-		E9344A21184CF4FB004281A9 /* CWGoogleAuthViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWGoogleAuthViewController.h; sourceTree = "<group>"; };
-		E9344A22184CF4FB004281A9 /* CWGoogleAuthViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWGoogleAuthViewController.m; sourceTree = "<group>"; };
 		E9443983182940AF0088A381 /* Sender.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sender.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9443986182940AF0088A381 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E9443988182940AF0088A381 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -412,13 +403,6 @@
 		E9652560183535C1008987BD /* CWOpenerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWOpenerViewController.m; sourceTree = "<group>"; };
 		E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPIPOpenerViewController.xib; sourceTree = "<group>"; };
 		E96525641835367A008987BD /* CWOpenerVCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWOpenerVCTests.m; sourceTree = "<group>"; };
-		E96C14FE183FABB200DA9B85 /* CWAuthRequestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAuthRequestViewController.h; sourceTree = "<group>"; };
-		E96C14FF183FABB200DA9B85 /* CWAuthRequestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAuthRequestViewController.m; sourceTree = "<group>"; };
-		E96C1500183FABB200DA9B85 /* CWAuthRequestViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWAuthRequestViewController.xib; sourceTree = "<group>"; };
-		E96C1504183FAD1300DA9B85 /* CWEmailSignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWEmailSignupViewController.h; sourceTree = "<group>"; };
-		E96C1505183FAD1300DA9B85 /* CWEmailSignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWEmailSignupViewController.m; sourceTree = "<group>"; };
-		E96C1506183FAD1300DA9B85 /* CWEmailSignupViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWEmailSignupViewController.xib; sourceTree = "<group>"; };
-		E96C1509183FB36800DA9B85 /* CWAuthenticationManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAuthenticationManagerTests.m; sourceTree = "<group>"; };
 		E973B1A218453C3E007A8D51 /* CWAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAnalyticsTests.m; sourceTree = "<group>"; };
 		E98B1687184F81F00021A611 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		E98B1688184F81F00021A611 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
@@ -440,8 +424,6 @@
 		E9ABCFAC183D5BA40098E530 /* CWGroundControlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWGroundControlManager.h; sourceTree = "<group>"; };
 		E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWGroundControlManager.m; sourceTree = "<group>"; };
 		E9ABCFB2183E609E0098E530 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		E9ABCFB5183E61050098E530 /* CWAuthenticationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAuthenticationManager.h; sourceTree = "<group>"; };
-		E9ABCFB6183E61050098E530 /* CWAuthenticationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAuthenticationManager.m; sourceTree = "<group>"; };
 		E9ABCFB8183E632A0098E530 /* google_oauth2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = google_oauth2.json; sourceTree = "<group>"; };
 		E9AF032D1868B40A006CB546 /* CWMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMainViewController.h; sourceTree = "<group>"; };
 		E9AF032E1868B40A006CB546 /* CWMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMainViewController.m; sourceTree = "<group>"; };
@@ -733,7 +715,6 @@
 				E9E003FF183FEF1A0087E909 /* Landing */,
 				E924AD26183AAD79009400DD /* Start Screen */,
 				E924AD3B183AC0F3009400DD /* Opener */,
-				E96C1503183FABB900DA9B85 /* AuthRequest */,
 				E924AD27183AB0A2009400DD /* Composer */,
 				E924AD32183AB718009400DD /* Review */,
 				E96C14FA183FAB7A00DA9B85 /* Feedback */,
@@ -926,7 +907,6 @@
 				E9C1155C1832AFEE00DB67D2 /* CWComposerVCTests.m */,
 				E965255D18341963008987BD /* CWReviewVCTests.m */,
 				E96525641835367A008987BD /* CWOpenerVCTests.m */,
-				E96C1509183FB36800DA9B85 /* CWAuthenticationManagerTests.m */,
 				E973B1A218453C3E007A8D51 /* CWAnalyticsTests.m */,
 				E9CE73E418316AEC00056FA9 /* TestUtils.h */,
 				E9CE73E518316AEC00056FA9 /* TestUtils.m */,
@@ -963,7 +943,6 @@
 			children = (
 				36E814C7185FB779002B1A12 /* User Manager */,
 				E946BD251844FC8D00C6A99D /* Flow Manager */,
-				E9ABCFB4183E60F00098E530 /* Auth Manager */,
 				E9ABCFB1183E5D960098E530 /* GroundControl Manager */,
 				E946BD241844FC2200C6A99D /* Video Manager */,
 				CC0C4BA31864EEFC0096D5B3 /* Message Manager */,
@@ -1011,21 +990,6 @@
 				E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */,
 			);
 			name = Feedback;
-			sourceTree = "<group>";
-		};
-		E96C1503183FABB900DA9B85 /* AuthRequest */ = {
-			isa = PBXGroup;
-			children = (
-				E96C14FE183FABB200DA9B85 /* CWAuthRequestViewController.h */,
-				E96C14FF183FABB200DA9B85 /* CWAuthRequestViewController.m */,
-				E96C1500183FABB200DA9B85 /* CWAuthRequestViewController.xib */,
-				E96C1504183FAD1300DA9B85 /* CWEmailSignupViewController.h */,
-				E96C1505183FAD1300DA9B85 /* CWEmailSignupViewController.m */,
-				E96C1506183FAD1300DA9B85 /* CWEmailSignupViewController.xib */,
-				E9344A21184CF4FB004281A9 /* CWGoogleAuthViewController.h */,
-				E9344A22184CF4FB004281A9 /* CWGoogleAuthViewController.m */,
-			);
-			name = AuthRequest;
 			sourceTree = "<group>";
 		};
 		E98B168A184F848E0021A611 /* Third Party */ = {
@@ -1077,15 +1041,6 @@
 				E9ABCFAD183D5BA40098E530 /* CWGroundControlManager.m */,
 			);
 			name = "GroundControl Manager";
-			sourceTree = "<group>";
-		};
-		E9ABCFB4183E60F00098E530 /* Auth Manager */ = {
-			isa = PBXGroup;
-			children = (
-				E9ABCFB5183E61050098E530 /* CWAuthenticationManager.h */,
-				E9ABCFB6183E61050098E530 /* CWAuthenticationManager.m */,
-			);
-			name = "Auth Manager";
 			sourceTree = "<group>";
 		};
 		E9C1154C1832803900DB67D2 /* Player */ = {
@@ -1174,7 +1129,7 @@
 				ORGANIZATIONNAME = pho;
 				TargetAttributes = {
 					E9443982182940AF0088A381 = {
-						DevelopmentTeam = HTV788WGFM;
+						DevelopmentTeam = G843P6Q6M4;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1252,7 +1207,6 @@
 				E90B7CEB186CC01800B94DCC /* waves0026@2x.png in Resources */,
 				E90B7CB9186CBE4A00B94DCC /* waves0021.png in Resources */,
 				E90B7CF6186CC01800B94DCC /* waves0007@2x.png in Resources */,
-				E96C1502183FABB200DA9B85 /* CWAuthRequestViewController.xib in Resources */,
 				E924AD34183AB789009400DD /* CWSSReviewViewController.xib in Resources */,
 				E90B7CA6186CBE4A00B94DCC /* waves0002.png in Resources */,
 				E90B7CAD186CBE4A00B94DCC /* waves0009.png in Resources */,
@@ -1288,7 +1242,6 @@
 				E90B7CFD186CC01800B94DCC /* waves0014@2x.png in Resources */,
 				E9AF03381868B433006CB546 /* CWMenuViewController.xib in Resources */,
 				E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */,
-				E96C1508183FAD1300DA9B85 /* CWEmailSignupViewController.xib in Resources */,
 				36AF5821187DD97000C5C13F /* human.m.motemplate in Resources */,
 				E90B7CB4186CBE4A00B94DCC /* waves0016.png in Resources */,
 				E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */,
@@ -1443,7 +1396,6 @@
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,
 				E98B1692184F84B40021A611 /* DCKnob.m in Sources */,
 				E98B1691184F84B40021A611 /* DCControl.m in Sources */,
-				E96C1501183FABB200DA9B85 /* CWAuthRequestViewController.m in Sources */,
 				E9909464186231BF0050695F /* CWMessageManager.m in Sources */,
 				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
 				206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */,
@@ -1457,7 +1409,6 @@
 				E990946118620AD70050695F /* CWViewController.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
 				E924AD37183AB7CA009400DD /* CWPIPReviewViewController.m in Sources */,
-				E9344A23184CF4FB004281A9 /* CWGoogleAuthViewController.m in Sources */,
 				E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */,
 				E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */,
 				E98B1693184F84B40021A611 /* DCSlider.m in Sources */,
@@ -1476,7 +1427,6 @@
 				E9AF033B1868B450006CB546 /* CWMessageCell.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
-				E96C1507183FAD1300DA9B85 /* CWEmailSignupViewController.m in Sources */,
 				36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */,
 				36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */,
 				E9AF03351868B423006CB546 /* CWMenuViewController.m in Sources */,
@@ -1486,7 +1436,6 @@
 				36AF5836187DF0A200C5C13F /* User.m in Sources */,
 				366035E31873394800EE9233 /* CWUtility.m in Sources */,
 				E90B7D10186CED9C00B94DCC /* CWTermsViewController.m in Sources */,
-				E9ABCFB7183E61050098E530 /* CWAuthenticationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1501,7 +1450,6 @@
 				E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */,
 				36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */,
 				E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */,
-				E96C150A183FB36800DA9B85 /* CWAuthenticationManagerTests.m in Sources */,
 				366EB58C18843E4200A7FF75 /* UserTests.m in Sources */,
 				3614539518844EC600400916 /* MessageTests.m in Sources */,
 				E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */,

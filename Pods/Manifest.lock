@@ -26,26 +26,9 @@ PODS:
     - BPXLUUIDHandler
     - TestFlightSDK
   - BPXLUUIDHandler (0.0.1)
-  - GoogleAnalytics-iOS-SDK (3.0.2)
+  - GoogleAnalytics-iOS-SDK (3.0.3)
   - GroundControl (2.0.0):
     - AFNetworking (~> 2.0)
-  - gtm-oauth2 (0.0.3):
-    - gtm-oauth2/Core
-    - GTMHTTPFetcher
-    - SBJson (~> 3.2)
-  - gtm-oauth2/Core (0.0.3):
-    - gtm-oauth2/Core/Mac
-    - gtm-oauth2/Core/Touch
-    - GTMHTTPFetcher
-    - SBJson (~> 3.2)
-  - gtm-oauth2/Core/Mac (0.0.3):
-    - GTMHTTPFetcher
-    - SBJson (~> 3.2)
-  - gtm-oauth2/Core/Touch (0.0.3):
-    - GTMHTTPFetcher
-    - SBJson (~> 3.2)
-  - GTMHTTPFetcher (0.0.2):
-    - SBJson (~> 3.2)
   - Mantle (1.3.1):
     - Mantle/extobjc
   - Mantle/extobjc (1.3.1)
@@ -62,7 +45,6 @@ PODS:
   - MMDrawerController/Subclass (0.5.1):
     - MMDrawerController/Core
   - OCMock (2.2.1)
-  - SBJson (3.2)
   - SSZipArchive (0.3.1)
   - SVProgressHUD (1.0)
   - TestFlightSDK (2.2.0-noadid-beta)
@@ -71,7 +53,6 @@ DEPENDENCIES:
   - ARAnalytics/GoogleAnalytics
   - ARAnalytics/TestFlight
   - GroundControl
-  - gtm-oauth2
   - Mantle
   - MMDrawerController
   - OCMock
@@ -82,14 +63,11 @@ SPEC CHECKSUMS:
   AFNetworking: e499052cbf3d743e9bb727bb37adb9dc2547ba15
   ARAnalytics: f60800ca195abcbb04393c2d2213ad172e9f5a47
   BPXLUUIDHandler: 227f5e8f11ed1bc443f73b43fedf1bf24b47be8d
-  GoogleAnalytics-iOS-SDK: 86393b99f7328ae8d8e975fcaa8632a39dafafe8
+  GoogleAnalytics-iOS-SDK: 7b0e55cfe5e70d60478a7b105f15ac71e8bc373e
   GroundControl: 7246542fbddc789a448c7a60e4f4df94881972f9
-  gtm-oauth2: 6528b10a61eb9b6710f6277341e2926371a12c15
-  GTMHTTPFetcher: df09cf49e95d471d9f321a8eea3d1c22bc45547e
   Mantle: abc3b0c81bc66eb624cf9cebb8640e377d5a44ae
   MMDrawerController: 3e22aec684dbee5307ff9d1e76523003a3303a2d
   OCMock: 80e4cfbc71a0e1bd28caf10a9fda27da7c4c8402
-  SBJson: abc2bf2baef456d5dae213f9826fe2b6fdf19861
   SSZipArchive: 47d0589a15452311749a4eeecb97e12800d127de
   SVProgressHUD: 5e10939a296debf5fe5a5895eda9539b8b2114f1
   TestFlightSDK: 64f333f91ab9d11985e6c4c188a71b22cc528097
