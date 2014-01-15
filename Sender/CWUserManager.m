@@ -17,7 +17,7 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 @interface CWUserManager()
 
 @property (nonatomic) User * localUser;
-
+@property (nonatomic) AFHTTPRequestOperation * fetchUserIDOperation;
 @end
 
 @implementation CWUserManager
