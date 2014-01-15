@@ -24,7 +24,6 @@
 		36AF5822187DD97000C5C13F /* machine.h.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581E187DD97000C5C13F /* machine.h.motemplate */; };
 		36AF5823187DD97000C5C13F /* machine.m.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581F187DD97000C5C13F /* machine.m.motemplate */; };
 		36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */; };
-		36AF582A187DDBCF00C5C13F /* mogenerator in Resources */ = {isa = PBXBuildFile; fileRef = 36AF5829187DDBCF00C5C13F /* mogenerator */; };
 		36AF5834187DF0A200C5C13F /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF582F187DF0A200C5C13F /* Message.m */; };
 		36AF5835187DF0A200C5C13F /* Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5831187DF0A200C5C13F /* Thread.m */; };
 		36AF5836187DF0A200C5C13F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5833187DF0A200C5C13F /* User.m */; };
@@ -1129,7 +1128,7 @@
 				ORGANIZATIONNAME = pho;
 				TargetAttributes = {
 					E9443982182940AF0088A381 = {
-						DevelopmentTeam = G843P6Q6M4;
+						DevelopmentTeam = HTV788WGFM;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1192,7 +1191,6 @@
 				E90B7CA7186CBE4A00B94DCC /* waves0003.png in Resources */,
 				E90B7CE6186CC01800B94DCC /* waves0021@2x.png in Resources */,
 				E90B7CA4186CBE4A00B94DCC /* waves0000.png in Resources */,
-				36AF582A187DDBCF00C5C13F /* mogenerator in Resources */,
 				E90B7CBD186CBE4A00B94DCC /* waves0025.png in Resources */,
 				E90B7CA9186CBE4A00B94DCC /* waves0005.png in Resources */,
 				E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */,
