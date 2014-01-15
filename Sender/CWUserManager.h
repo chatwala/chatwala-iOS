@@ -13,10 +13,13 @@
 + (id)sharedInstance;
 
 @property (nonatomic) AFHTTPRequestSerializer * requestHeaderSerializer;
-@property (nonatomic, readonly) User * localUser;
 
 - (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request;
 
-- (NSString *) userId;
+@property (nonatomic, readonly) User * localUser __attribute__((deprecated("use localUser:")));
+- (NSString *) userId __attribute__((deprecated("use localUser:")));
+
+- (void) localUser:(void (^)(User *localUser)) completion;
+
 
 @end
