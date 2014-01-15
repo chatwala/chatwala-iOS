@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "User.h"
 
+typedef void (^CWUserManagerLocalUserBlock)(User *localUser);
+typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operation, id responseObject, CWUserManagerLocalUserBlock completion);
+
 @interface CWUserManager : NSObject
 + (id)sharedInstance;
 
@@ -21,5 +24,9 @@
 
 - (void) localUser:(void (^)(User *localUser)) completion;
 
+
+#pragma mark - blocks for fetch results
+
+@property (strong, readonly) CWUserManagerGetUserIDFetchBlock getUserIDCompletionBlock;
 
 @end

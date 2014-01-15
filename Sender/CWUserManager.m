@@ -114,13 +114,14 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
             completion(self.localUser);
         }
     }
-    [self getANewUserID:completion];
+    else
+    {
+        [self getANewUserID:completion];
+    }
 }
 
-- (void)getANewUserID:(void (^)(User *localUser)) completion
+- (void)getANewUserID:(CWUserManagerLocalUserBlock) completion
 {
-    
-    
     NSLog(@"getting new user id: %@",[[CWMessageManager sharedInstance] registerEndPoint]);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
@@ -128,7 +129,22 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 
     [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
-        NSString * user_id =[[responseObject valueForKey:@"user_id"]objectAtIndex:0];
+        self.getUserIDCompletionBlock(operation, responseObject, completion);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Operation: %@",operation);
+        NSLog(@"Error: %@",error);
+    }];
+}
+
+- (CWUserManagerGetUserIDFetchBlock) getUserIDCompletionBlock
+{
+    return (^ void(AFHTTPRequestOperation *operation, id responseObject, CWUserManagerLocalUserBlock completion){
+        NSAssert([responseObject isKindOfClass:[NSArray class]], @"expecting an array. found %@",responseObject);
+        NSDictionary * dictionary = [responseObject objectAtIndex:0];
+        NSAssert([dictionary isKindOfClass:[NSDictionary class]], @"expecting a dictionary in the array. found %@", dictionary);
+        NSString * user_id =[dictionary objectForKey:@"user_id"];
+        NSAssert([user_id isKindOfClass:[NSString class]], @"expecting a string for the 'user_id' key. found %@", user_id);
         NSLog(@"New user ID Fetched: %@",user_id);
         [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
         [[NSUserDefaults standardUserDefaults]synchronize];
@@ -138,10 +154,10 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
         {
             completion(self.localUser);
         }
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Operation: %@",operation);
-        NSLog(@"Error: %@",error);
-    }];
+        
+    });
 }
+
+
 
 @end
