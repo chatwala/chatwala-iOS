@@ -11,8 +11,6 @@
 #import "CWFlowManager.h"
 #import "CWComposerViewController.h"
 #import "CWErrorViewController.h"
-#import "CWAuthenticationManager.h"
-#import "CWAuthRequestViewController.h"
 #import "CWGroundControlManager.h"
 #import "AppDelegate.h"
 #import "CWLandingViewController.h"
