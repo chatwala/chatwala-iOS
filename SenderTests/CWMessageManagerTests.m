@@ -16,6 +16,7 @@
 @property (nonatomic) CWMessageManager *sut;
 @property (nonatomic) id mockSut;
 @property (nonatomic) id mockDataManager;
+@property (nonatomic) id mockUser;
 
 @end
 
@@ -28,6 +29,7 @@
     self.sut = [[CWMessageManager alloc] init];
     self.mockSut = [OCMockObject partialMockForObject:self.sut];
     self.mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
+    self.mockUser = [OCMockObject niceMockForClass:[User class]];
 }
 
 - (void)tearDown
@@ -41,23 +43,21 @@
 - (void)testGetMessagesShouldRequestMessagesWithKey
 {
     //given
-    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:@"someUserId"] valueForKey:@"CHATWALA_USER_ID"];
-    
     id mockManager = [OCMockObject mockForClass:[AFHTTPRequestOperationManager class]];
     [[[mockManager stub] andReturn:mockManager] manager];
     [[mockManager expect] setRequestSerializer:OCMOCK_ANY];
     [[mockManager expect] GET:OCMOCK_ANY parameters:nil success:OCMOCK_ANY failure:OCMOCK_ANY];
+    id mockUser = [OCMockObject mockForClass:[User class]];
+    [[[mockUser stub] andReturn:@"someUserId"] userID];
     
     //when
-    [self.sut getMessagesWithCompletionOrNil:OCMOCK_ANY];
+    [self.sut getMessagesForUser:mockUser withCompletionOrNil:OCMOCK_ANY];
     
     //should
     [mockManager verify];
     
     //cleanup
     [mockManager stopMocking];
-    [mockUserDefaults stopMocking];
 }
 
 - (void)testGetMessagesSuccessBlock
@@ -248,7 +248,7 @@
 - (void) testUploadMessage
 {
     //given
-    CWMessageItem * item = [[CWMessageItem alloc] init];
+    CWMessageItem * item = [[CWMessageItem alloc] initWithSender:self.mockUser];
     id mockManager = [OCMockObject mockForClass:[AFURLSessionManager class]];
     [[[mockManager stub] andReturn:mockManager] alloc];
     id toMakeWarningGoAway = [[[mockManager stub] andReturn:mockManager] initWithSessionConfiguration:OCMOCK_ANY];

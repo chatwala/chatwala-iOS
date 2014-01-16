@@ -13,11 +13,13 @@
 NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
 NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
+NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
+
 
 @interface CWUserManager()
 
 @property (nonatomic) User * localUser;
-
+@property (nonatomic) AFHTTPRequestOperation * fetchUserIDOperation;
 @end
 
 @implementation CWUserManager
@@ -48,9 +50,9 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
     self.requestHeaderSerializer = [AFHTTPRequestSerializer serializer];
     [self.requestHeaderSerializer setValue:keyAndSecret forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
     
-    NSString * user_id = [self userId];
-    NSLog(@"User: %@",user_id);
-    
+    [self localUser:^(User *localUser) {
+        NSLog(@"User: %@",localUser.userID);
+    }];
 }
 
 - (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request
@@ -66,39 +68,75 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 
 }
 
-- (NSString *) userId
+- (BOOL) hasLocalUser
 {
-    NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
-    if(user_id)
+    if(self.localUser)
     {
-        self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
-        return user_id;
+        return YES;
     }
-    [self getANewUserID];
-    return @"unknown_user";
+    return NO;
 }
 
 
-- (void)getANewUserID
+- (void) localUser:(void (^)(User *localUser)) completion
 {
     
+    NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:kUserDefultsIDKey];
+    if(user_id)
+    {
+        self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
+        if(completion)
+        {
+            completion(self.localUser);
+        }
+    }
+    else
+    {
+        [self getANewUserID:completion];
+    }
+}
+
+- (void)getANewUserID:(CWUserManagerLocalUserBlock) completion
+{
     NSLog(@"getting new user id: %@",[[CWMessageManager sharedInstance] registerEndPoint]);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
     [manager setRequestSerializer:self.requestHeaderSerializer];
 
-    [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.fetchUserIDOperation setCompletionBlockWithSuccess:nil failure:nil];
+    [self.fetchUserIDOperation cancel];
+    
+    self.fetchUserIDOperation = [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
-        NSString * user_id =[[responseObject valueForKey:@"user_id"]objectAtIndex:0];
-        NSLog(@"New user ID Fetched: %@",user_id);
-        [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
-        [[NSUserDefaults standardUserDefaults]synchronize];
+        self.getUserIDCompletionBlock(operation, responseObject, completion);
         
-        self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Operation: %@",operation);
         NSLog(@"Error: %@",error);
     }];
 }
+
+- (CWUserManagerGetUserIDFetchBlock) getUserIDCompletionBlock
+{
+    return (^ void(AFHTTPRequestOperation *operation, id responseObject, CWUserManagerLocalUserBlock completion){
+        NSAssert([responseObject isKindOfClass:[NSArray class]], @"expecting an array. found %@",responseObject);
+        NSDictionary * dictionary = [responseObject objectAtIndex:0];
+        NSAssert([dictionary isKindOfClass:[NSDictionary class]], @"expecting a dictionary in the array. found %@", dictionary);
+        NSString * user_id =[dictionary objectForKey:@"user_id"];
+        NSAssert([user_id isKindOfClass:[NSString class]], @"expecting a string for the 'user_id' key. found %@", user_id);
+        NSLog(@"New user ID Fetched: %@",user_id);
+        [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:kUserDefultsIDKey];
+        [[NSUserDefaults standardUserDefaults]synchronize];
+        
+        self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
+        if(completion)
+        {
+            completion(self.localUser);
+        }
+        
+    });
+}
+
+
 
 @end

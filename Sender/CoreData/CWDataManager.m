@@ -136,7 +136,8 @@
     
     //add users
     NSString * senderID = [sourceDictionary objectForKey:MessageRelationships.sender withLUT:[Message keyLookupTable]];
-    item.sender = [self createUserWithID:senderID];
+    User * sender = [self createUserWithID:senderID];
+    [item setSender:sender];
     
     NSString * receiverID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
     item.recipient = [self createUserWithID:receiverID];
@@ -170,7 +171,7 @@
     {
         [self downloadAllMessageChatwalaData];
     }
-    NSAssert(!error, @"not expecting errors. found:%@",error);
+//    NSAssert(!error, @"not expecting errors. found:%@",error);
     
     return error;
 }
@@ -221,12 +222,13 @@
 
 - (void) downloadAllMessageChatwalaData
 {
-    User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSOrderedSet * items = localUser.messagesReceived;
-    
-    for (Message * item in items) {
-        [item downloadChatwalaDataWithMessageCell:nil];
-    }
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        NSOrderedSet * items = localUser.messagesReceived;
+        
+        for (Message * item in items) {
+            [item downloadChatwalaDataWithMessageCell:nil];
+        }
+    }];
 }
 
 #pragma mark - dateformater

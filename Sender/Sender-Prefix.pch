@@ -51,9 +51,6 @@
 // google analytics token
 #define GOOGLE_ANALYTICS_ID         @"UA-46207837-1"
 
-//
-#define CHATWALA_USER_ID            @"CHATWALA_USER_ID"
-
 // max record time in seconds
 #define MAX_RECORD_TIME             10
 // version of the chatwala file

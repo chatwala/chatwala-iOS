@@ -257,7 +257,7 @@
 - (void)setZipURL:(NSURL *)zipURL
 {
     _zipURL = zipURL;
-    self.messageItem = [[CWMessageItem alloc]init];
+    self.messageItem = [[CWMessageItem alloc]initWithSender:nil];
     [self.messageItem setZipURL:self.zipURL];
     [self.messageItem extractZip];
     startRecordTime = self.messageItem.metadata.startRecording;

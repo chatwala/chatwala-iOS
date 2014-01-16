@@ -12,6 +12,7 @@
 #import "MocForTests.h"
 #import "Message.h"
 #import "CWMessageManager.h"
+#import "CWUserManager.h"
 
 @interface CWDataManagerTests : XCTestCase
 
@@ -259,12 +260,14 @@
 - (void) testDownloadAllMessageData
 {
     //given
-    self.sut.localUser = [User insertInManagedObjectContext:self.sut.moc];
+    id mockUserManger = [OCMockObject partialMockForObject:[CWUserManager sharedInstance]];
+    User * localUser = [User insertInManagedObjectContext:self.sut.moc];
+    [[[mockUserManger stub] andReturn:localUser] localUser];
+    
     Message * item = [Message insertInManagedObjectContext:self.sut.moc];
     id mockItem = [OCMockObject partialMockForObject:item];
     [[mockItem expect] downloadChatwalaDataWithMessageCell:OCMOCK_ANY];
-    
-    [self.sut.localUser addMessagesReceivedObject:item];
+    [localUser addMessagesReceivedObject:item];
     
     //when
     [self.sut downloadAllMessageChatwalaData];

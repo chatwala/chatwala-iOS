@@ -72,17 +72,11 @@
 #define COCOAPODS_VERSION_MINOR_BPXLUUIDHandler 0
 #define COCOAPODS_VERSION_PATCH_BPXLUUIDHandler 1
 
-// GTMHTTPFetcher
-#define COCOAPODS_POD_AVAILABLE_GTMHTTPFetcher
-#define COCOAPODS_VERSION_MAJOR_GTMHTTPFetcher 0
-#define COCOAPODS_VERSION_MINOR_GTMHTTPFetcher 0
-#define COCOAPODS_VERSION_PATCH_GTMHTTPFetcher 2
-
 // GoogleAnalytics-iOS-SDK
 #define COCOAPODS_POD_AVAILABLE_GoogleAnalytics_iOS_SDK
 #define COCOAPODS_VERSION_MAJOR_GoogleAnalytics_iOS_SDK 3
 #define COCOAPODS_VERSION_MINOR_GoogleAnalytics_iOS_SDK 0
-#define COCOAPODS_VERSION_PATCH_GoogleAnalytics_iOS_SDK 2
+#define COCOAPODS_VERSION_PATCH_GoogleAnalytics_iOS_SDK 3
 
 // GroundControl
 #define COCOAPODS_POD_AVAILABLE_GroundControl
@@ -132,12 +126,6 @@
 #define COCOAPODS_VERSION_MINOR_Mantle_extobjc 3
 #define COCOAPODS_VERSION_PATCH_Mantle_extobjc 1
 
-// SBJson
-#define COCOAPODS_POD_AVAILABLE_SBJson
-#define COCOAPODS_VERSION_MAJOR_SBJson 3
-#define COCOAPODS_VERSION_MINOR_SBJson 2
-#define COCOAPODS_VERSION_PATCH_SBJson 0
-
 // SSZipArchive
 #define COCOAPODS_POD_AVAILABLE_SSZipArchive
 #define COCOAPODS_VERSION_MAJOR_SSZipArchive 0
@@ -155,28 +143,4 @@
 #define COCOAPODS_VERSION_MAJOR_TestFlightSDK 2
 #define COCOAPODS_VERSION_MINOR_TestFlightSDK 2
 #define COCOAPODS_VERSION_PATCH_TestFlightSDK 0
-
-// gtm-oauth2
-#define COCOAPODS_POD_AVAILABLE_gtm_oauth2
-#define COCOAPODS_VERSION_MAJOR_gtm_oauth2 0
-#define COCOAPODS_VERSION_MINOR_gtm_oauth2 0
-#define COCOAPODS_VERSION_PATCH_gtm_oauth2 3
-
-// gtm-oauth2/Core
-#define COCOAPODS_POD_AVAILABLE_gtm_oauth2_Core
-#define COCOAPODS_VERSION_MAJOR_gtm_oauth2_Core 0
-#define COCOAPODS_VERSION_MINOR_gtm_oauth2_Core 0
-#define COCOAPODS_VERSION_PATCH_gtm_oauth2_Core 3
-
-// gtm-oauth2/Core/Mac
-#define COCOAPODS_POD_AVAILABLE_gtm_oauth2_Core_Mac
-#define COCOAPODS_VERSION_MAJOR_gtm_oauth2_Core_Mac 0
-#define COCOAPODS_VERSION_MINOR_gtm_oauth2_Core_Mac 0
-#define COCOAPODS_VERSION_PATCH_gtm_oauth2_Core_Mac 3
-
-// gtm-oauth2/Core/Touch
-#define COCOAPODS_POD_AVAILABLE_gtm_oauth2_Core_Touch
-#define COCOAPODS_VERSION_MAJOR_gtm_oauth2_Core_Touch 0
-#define COCOAPODS_VERSION_MINOR_gtm_oauth2_Core_Touch 0
-#define COCOAPODS_VERSION_PATCH_gtm_oauth2_Core_Touch 3
 

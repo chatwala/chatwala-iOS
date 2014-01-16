@@ -14,7 +14,6 @@
 #import "CWPIPStartScreenViewController.h"
 #import "CWErrorViewController.h"
 #import "CWGroundControlManager.h"
-#import "CWAuthenticationManager.h"
 #import "CWLandingViewController.h"
 #import "CWUserManager.h"
 #import "CWMenuViewController.h"
@@ -65,14 +64,18 @@
 
     [CWUserManager sharedInstance];
     
-    
-    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
-    if(![user_id length]) {
-        [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
+    if([[CWUserManager sharedInstance] hasLocalUser])
+    {
+        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+            NSString *user_id = localUser.userID;
+            if(![user_id length]) {
+                [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
+            }
+        }];
     }
 
     [CWGroundControlManager sharedInstance];
-    [CWAuthenticationManager sharedInstance];
+//    [CWAuthenticationManager sharedInstance];
     
 
     
@@ -140,7 +143,9 @@
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:completionHandler];
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:completionHandler];
+    }];
 }
 
 
@@ -193,7 +198,7 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
+//    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
@@ -234,13 +239,12 @@
                 break;
         }
     }];
-
-    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
     
     // Fetch a new message upload ID from server
-    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"] length]) {
-        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:nil];
-    }
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:nil];
+        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:nil];
+    }];
 
     
 }

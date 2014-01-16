@@ -32,9 +32,9 @@ typedef void (^CWDownloadTaskCompletionBlock) (NSURLResponse *response, NSURL *f
 //@property (nonatomic,strong) NSArray * messages;
 
 +(instancetype) sharedInstance;
-- (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
+- (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
 - (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(CWMessageDownloadCompletionBlock)completionBlock;
-- (void)fetchOriginalMessageIDWithCompletionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
+- (void)fetchOriginalMessageIDWithSender:(User *) localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 - (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 - (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage;
 

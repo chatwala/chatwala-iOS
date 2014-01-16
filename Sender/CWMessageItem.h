@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CWMetadata.h"
+#import "User.h"
 @interface CWMessageItem : NSObject
 @property (nonatomic,strong) CWMetadata * metadata;
 @property (nonatomic,strong) NSURL * zipURL;
@@ -16,6 +17,9 @@
 
 //- (id)initWithVideoURL:(NSURL*)videoURL; // for creating new message
 //- (id)initWithZipURL:(NSURL*)zipURL; // for opening message
+
+- (id)initWithSender:(User *) user;
+
 - (void)exportZip;
 - (void)extractZip;
 @end
