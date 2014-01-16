@@ -127,7 +127,10 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
     
     [manager setRequestSerializer:self.requestHeaderSerializer];
 
-    [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [self.fetchUserIDOperation setCompletionBlockWithSuccess:nil failure:nil];
+    [self.fetchUserIDOperation cancel];
+    
+    self.fetchUserIDOperation = [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         //
         self.getUserIDCompletionBlock(operation, responseObject, completion);
         

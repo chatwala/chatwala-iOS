@@ -13,6 +13,11 @@
 #import "MocForTests.h"
 
 
+@interface CWUserManager (exposingForTest)
+@property (nonatomic) AFHTTPRequestOperation * fetchUserIDOperation;
+
+@end
+
 @interface CWUserManagerTests : XCTestCase
 
 @property (nonatomic) CWUserManager * sut;
@@ -121,6 +126,33 @@
     XCTAssertEqualObjects(actual, expected, @"expecting users to match");
     
     [mockDataManager stopMocking];
+}
+
+- (void) testLocalUserRequestShouldCancelOldOperation
+{
+    //given
+    id mockOperation = [OCMockObject niceMockForClass:[AFHTTPRequestOperation class]];
+    self.sut.fetchUserIDOperation = mockOperation;
+    [[mockOperation expect] cancel];
+    
+    //flow control
+    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
+    [[[mockUserDefaults stub] andReturn:nil] valueForKey:@"CHATWALA_USER_ID"];
+    id mockAFOpertaionManager = [OCMockObject mockForClass:[AFHTTPRequestOperationManager class]];
+    [[[mockAFOpertaionManager stub] andReturn:mockAFOpertaionManager] manager];
+    [[mockAFOpertaionManager stub] GET:OCMOCK_ANY parameters:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
+    [[mockAFOpertaionManager stub] setRequestSerializer:OCMOCK_ANY];
+    
+    //when
+    [self.sut localUser:nil];
+    
+    //should
+    XCTAssertNotEqual(self.sut.fetchUserIDOperation, mockOperation, @"expecting operation to be reset");
+    [mockOperation verify];
+    
+    //cleanup
+    [mockAFOpertaionManager stopMocking];
+    [mockUserDefaults stopMocking];
 }
 
 @end
