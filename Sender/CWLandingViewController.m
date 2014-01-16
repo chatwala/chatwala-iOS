@@ -7,8 +7,8 @@
 //
 
 #import "CWLandingViewController.h"
-#import "CWAuthenticationManager.h"
-#import "CWAuthRequestViewController.h"
+//#import "CWAuthenticationManager.h"
+//#import "CWAuthRequestViewController.h"
 
 @interface CWLandingViewController ()
 
@@ -42,13 +42,13 @@
         case eFlowToStartScreen:
             // start
             
-            if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
-                // show auth
-                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[[CWAuthRequestViewController alloc] init]] animated:YES completion:^{
-                    //
-                }];
-            }
-            else
+//            if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
+//                // show auth
+//                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[[CWAuthRequestViewController alloc] init]] animated:YES completion:^{
+//                    //
+//                }];
+//            }
+//            else
             {
                 // show start
                 CWStartScreenViewController * startScreen = [[CWFlowManager sharedInstance] startScreenVC];
@@ -59,13 +59,13 @@
         case eFlowToStartScreenSent:
             // start
             
-            if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
-                // show auth
-                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[[CWAuthRequestViewController alloc] init]] animated:YES completion:^{
-                    //
-                }];
-            }
-            else
+//            if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
+//                // show auth
+//                [self presentViewController:[[UINavigationController alloc] initWithRootViewController:[[CWAuthRequestViewController alloc] init]] animated:YES completion:^{
+//                    //
+//                }];
+//            }
+//            else
             {
                 // show start
                 CWStartScreenViewController * startScreen = [[CWFlowManager sharedInstance] startScreenVC];

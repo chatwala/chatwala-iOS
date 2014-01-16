@@ -8,9 +8,7 @@
 
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
-#import "CWAuthenticationManager.h"
 #import "CWFlowManager.h"
-#import "CWAuthenticationManager.h"
 #import "AppDelegate.h"
 #import "CWLandingViewController.h"
 #import "CWGroundControlManager.h"
@@ -137,9 +135,9 @@
     message.metadata.startRecording = self.startRecordingTime;
     
     
-    if ([[CWAuthenticationManager sharedInstance]isAuthenticated]) {
-        [message.metadata setSenderId:[[CWAuthenticationManager sharedInstance] userEmail]];
-    }
+//    if ([[CWAuthenticationManager sharedInstance]isAuthenticated]) {
+//        [message.metadata setSenderId:[[CWAuthenticationManager sharedInstance] userEmail]];
+//    }
     
     if (self.incomingMessageItem) {
         [message.metadata setRecipientId:self.incomingMessageItem.metadata.senderId];
@@ -321,7 +319,7 @@
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
-    [[CWAuthenticationManager sharedInstance]didSkipAuth];
+//    [[CWAuthenticationManager sharedInstance]didSkipAuth];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
