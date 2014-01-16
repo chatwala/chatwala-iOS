@@ -17,6 +17,7 @@
 #import "CWReviewViewController.h"
 #import "CWSSComposerViewController.h"
 #import "CWStartScreenViewController.h"
+#import "User.h"
 
 @interface CWAuthenticationManager ()
 - (void)setAuth:(GTMOAuth2Authentication *)auth;
@@ -41,6 +42,7 @@
 @end
 
 @interface CWAnalyticsTests : XCTestCase
+@property (nonatomic, strong) id mockUser;
 @end
 
 @implementation CWAnalyticsTests
@@ -50,6 +52,7 @@
     [super setUp];
     [CWAnalytics resetFlag];
 
+    self.mockUser = [OCMockObject niceMockForClass:[User class]];
 }
 
 - (void)tearDown
@@ -140,7 +143,7 @@
 {
     //given
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
-    CWMessageItem * msg = [[CWMessageItem alloc] init];
+    CWMessageItem * msg = [[CWMessageItem alloc] initWithSender:nil];
     msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
     [reviewVC setIncomingMessageItem:msg];
     
@@ -162,13 +165,14 @@
 - (void)testShouldSendEventWhenSendIsSelectedWithIncomingMessage
 {
     //given
+    id mockUser = [OCMockObject niceMockForClass:[User class]];
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
     id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
 
-    CWMessageItem * msg = [[CWMessageItem alloc] init];
+    CWMessageItem * msg = [[CWMessageItem alloc] initWithSender:mockUser];
     msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
     
-    [[[mockReviewVC stub] andReturn:msg] createMessageItem];
+    [[[mockReviewVC stub] andReturn:msg] createMessageItemWithSender:self.mockUser];
     
     //when
     [reviewVC onSend:nil];
@@ -185,9 +189,9 @@
     //given
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
     id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-    CWMessageItem * msg = [[CWMessageItem alloc] init];
+    CWMessageItem * msg = [[CWMessageItem alloc] initWithSender:self.mockUser];
     msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
-    [[[mockReviewVC stub] andReturn:msg] createMessageItem];
+    [[[mockReviewVC stub] andReturn:msg] createMessageItemWithSender:self.mockUser];
 
     //when
     [reviewVC onSend:nil];

@@ -41,9 +41,11 @@
     //given
     Message * message1 = [Message insertInManagedObjectContext:self.sut.managedObjectContext];
     message1.timeStamp = [NSDate date];
+    [message1 setEMessageDownloadState:eMessageDownloadStateDownloaded];
     [self.sut addMessagesReceivedObject:message1];
     Message * message2 = [Message insertInManagedObjectContext:self.sut.managedObjectContext];
     message2.timeStamp = [NSDate dateWithTimeIntervalSinceNow:10];
+    [message2 setEMessageDownloadState:eMessageDownloadStateDownloaded];
     [self.sut addMessagesReceivedObject:message2];
     NSOrderedSet * expected = [NSOrderedSet orderedSetWithObjects:message2, message1, nil];
     
@@ -61,9 +63,11 @@
     //given
     Message * message2 = [Message insertInManagedObjectContext:self.sut.managedObjectContext];
     message2.timeStamp = [NSDate dateWithTimeIntervalSinceNow:10];
+    [message2 setEMessageDownloadState:eMessageDownloadStateDownloaded];
     [self.sut addMessagesReceivedObject:message2];
     Message * message1 = [Message insertInManagedObjectContext:self.sut.managedObjectContext];
     message1.timeStamp = [NSDate date];
+    [message1 setEMessageDownloadState:eMessageDownloadStateDownloaded];
     [self.sut addMessagesReceivedObject:message1];
     NSOrderedSet * expected = [NSOrderedSet orderedSetWithObjects:message2, message1, nil];
     

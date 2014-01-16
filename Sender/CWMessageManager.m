@@ -190,9 +190,9 @@
     
 }
 
-- (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock
+- (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock
 {
-    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    NSString *user_id = user.userID;
     
     if([user_id length])
     {
@@ -326,7 +326,7 @@
     }];
 }
 
-- (void)fetchOriginalMessageIDWithCompletionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
+- (void)fetchOriginalMessageIDWithSender:(User *) localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
     
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
 
@@ -347,23 +347,24 @@
     self.originalMessageURL = nil;
     self.messageIDOperation = nil;
     
-    NSDictionary *params = @{@"sender_id" : [[CWUserManager sharedInstance] userId],
+    
+    NSDictionary *params = @{@"sender_id" : localUser.userID,
                              @"recipient_id" : @"unknown_recipient"};
     
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-
+    
     self.messageIDOperation = [manager POST:self.messagesEndPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // Nothing needed here
         // Should we change this to not use multipart then?
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-
+        
         self.needsOriginalMessageID = NO;
         self.originalMessageID = [responseObject valueForKey:@"message_id"];
         self.originalMessageURL = [responseObject valueForKey:@"url"];
-
+        
         NSLog(@"Fetched new message upload ID: %@: and URL: %@",self.originalMessageID, self.originalMessageURL);
         
         if (completionBlock) {
@@ -371,7 +372,7 @@
         }
         
         self.messageIDOperation = nil;
-    
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.needsOriginalMessageID = YES;
         NSLog(@"Error retrieving message ID or URL from the server");
@@ -386,6 +387,7 @@
         
         self.messageIDOperation = nil;
     }];
+
 }
 
 - (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage {

@@ -48,7 +48,7 @@
     [[mockImageView expect] setImageWithURLRequest:OCMOCK_ANY placeholderImage:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
     messageCell.thumbView = mockImageView;
     id messageManagerMock = [OCMockObject partialMockForObject:[CWMessageManager sharedInstance]];
-    [[messageManagerMock stub] downloadMessageWithID:@"Some message ID" progress:nil completion:nil];
+    [[messageManagerMock stub] downloadMessageWithID:@"Some message ID" progress:OCMOCK_ANY completion:OCMOCK_ANY];
 
     //when
     [self.sut downloadChatwalaDataWithMessageCell:messageCell];
@@ -66,7 +66,7 @@
 {
     //given
     id messageManagerMock = [OCMockObject partialMockForObject:[CWMessageManager sharedInstance]];
-    [[messageManagerMock expect] downloadMessageWithID:@"Some message ID" progress:nil completion:nil];
+    [[messageManagerMock expect] downloadMessageWithID:OCMOCK_ANY progress:OCMOCK_ANY completion:OCMOCK_ANY];
     //when
     [self.sut downloadChatwalaDataWithMessageCell:nil];
     

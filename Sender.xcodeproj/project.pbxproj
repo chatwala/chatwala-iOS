@@ -24,7 +24,6 @@
 		36AF5822187DD97000C5C13F /* machine.h.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581E187DD97000C5C13F /* machine.h.motemplate */; };
 		36AF5823187DD97000C5C13F /* machine.m.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581F187DD97000C5C13F /* machine.m.motemplate */; };
 		36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */; };
-		36AF582A187DDBCF00C5C13F /* mogenerator in Resources */ = {isa = PBXBuildFile; fileRef = 36AF5829187DDBCF00C5C13F /* mogenerator */; };
 		36AF5834187DF0A200C5C13F /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF582F187DF0A200C5C13F /* Message.m */; };
 		36AF5835187DF0A200C5C13F /* Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5831187DF0A200C5C13F /* Thread.m */; };
 		36AF5836187DF0A200C5C13F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5833187DF0A200C5C13F /* User.m */; };
@@ -34,6 +33,7 @@
 		36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5841187DF45F00C5C13F /* CWDataManager.m */; };
 		36AF5844187E034700C5C13F /* CWMessageManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5843187E034700C5C13F /* CWMessageManagerTests.m */; };
 		36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36E814C9185FB78A002B1A12 /* CWUserManager.m */; };
+		36F02B3D188724F600D3C55B /* CWUserManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F02B3C188724F600D3C55B /* CWUserManagerTests.m */; };
 		36F0EB82187DB3B300DDE28B /* CWViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */; };
 		36F0EB84187DB96600DDE28B /* CWMenuViewControllerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F0EB83187DB96600DDE28B /* CWMenuViewControllerTests.m */; };
 		36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F3F877187C9573002CBB63 /* CWKillScreenViewController.m */; };
@@ -252,6 +252,7 @@
 		36AF5843187E034700C5C13F /* CWMessageManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageManagerTests.m; sourceTree = "<group>"; };
 		36E814C8185FB78A002B1A12 /* CWUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserManager.h; sourceTree = "<group>"; };
 		36E814C9185FB78A002B1A12 /* CWUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserManager.m; sourceTree = "<group>"; };
+		36F02B3C188724F600D3C55B /* CWUserManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserManagerTests.m; sourceTree = "<group>"; };
 		36F0EB81187DB3B300DDE28B /* CWViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewControllerTests.m; sourceTree = "<group>"; };
 		36F0EB83187DB96600DDE28B /* CWMenuViewControllerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMenuViewControllerTests.m; sourceTree = "<group>"; };
 		36F3F876187C9573002CBB63 /* CWKillScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWKillScreenViewController.h; sourceTree = "<group>"; };
@@ -925,6 +926,7 @@
 				36ACC922187F557B00314C40 /* CWDataManagerTests.m */,
 				366EB58B18843E4200A7FF75 /* UserTests.m */,
 				3614539418844EC600400916 /* MessageTests.m */,
+				36F02B3C188724F600D3C55B /* CWUserManagerTests.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -1129,7 +1131,7 @@
 				ORGANIZATIONNAME = pho;
 				TargetAttributes = {
 					E9443982182940AF0088A381 = {
-						DevelopmentTeam = G843P6Q6M4;
+						DevelopmentTeam = HTV788WGFM;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1192,7 +1194,6 @@
 				E90B7CA7186CBE4A00B94DCC /* waves0003.png in Resources */,
 				E90B7CE6186CC01800B94DCC /* waves0021@2x.png in Resources */,
 				E90B7CA4186CBE4A00B94DCC /* waves0000.png in Resources */,
-				36AF582A187DDBCF00C5C13F /* mogenerator in Resources */,
 				E90B7CBD186CBE4A00B94DCC /* waves0025.png in Resources */,
 				E90B7CA9186CBE4A00B94DCC /* waves0005.png in Resources */,
 				E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */,
@@ -1463,6 +1464,7 @@
 				E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */,
 				36AF5844187E034700C5C13F /* CWMessageManagerTests.m in Sources */,
 				36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */,
+				36F02B3D188724F600D3C55B /* CWUserManagerTests.m in Sources */,
 				E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */,
 				E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */,
 				36F0EB84187DB96600DDE28B /* CWMenuViewControllerTests.m in Sources */,
@@ -1518,7 +1520,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 2.4.8;
+				CURRENT_PROJECT_VERSION = 2.5.1;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1558,7 +1560,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 2.4.8;
+				CURRENT_PROJECT_VERSION = 2.5.1;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;

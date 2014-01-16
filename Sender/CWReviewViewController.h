@@ -10,7 +10,7 @@
 #import "CWViewController.h"
 @class CWMessageItem;
 @class CWMiddleButton;
-
+@class User;
 
 @interface CWReviewViewController : CWViewController
 @property (weak, nonatomic) IBOutlet UIView *previewView;
@@ -22,5 +22,6 @@
 - (IBAction)onSend:(id)sender;
 - (void)showVideoPreview;
 
-- (CWMessageItem*)createMessageItem;
+- (CWMessageItem*)createMessageItemWithSender:(User*) localUser;
+
 @end
