@@ -17,6 +17,7 @@
 #import "CWMessageManager.h"
 #import "CWUserManager.h"
 #import "CWUtility.h"
+#import "User.h"
 
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
@@ -129,9 +130,9 @@
 }
 
 
-- (CWMessageItem*)createMessageItem
+- (CWMessageItem*)createMessageItemWithSender:(User*) localUser
 {
-    CWMessageItem * message = [[CWMessageItem alloc]init];
+    CWMessageItem * message = [[CWMessageItem alloc]initWithUser:localUser];
     [message setVideoURL:recorder.outputFileURL];
     message.metadata.startRecording = self.startRecordingTime;
     
@@ -201,7 +202,14 @@
     //    [self composeMessageWithData:[self createMessageData]];
     [self.sendButton setButtonState:eButtonStateBusy];
     
-    CWMessageItem * message = [self createMessageItem];
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        [self sendMessageFromUser:localUser];
+    }];
+}
+
+- (void) sendMessageFromUser:(User *) localUser
+{
+    CWMessageItem * message = [self createMessageItemWithSender:localUser];
     
     if (self.incomingMessageItem) {
         // Responding to an incoming message
@@ -233,7 +241,7 @@
         // Original message send
         
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
-        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
+        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
             
             if (messageID && messageURL) {
                 message.metadata.messageId = messageID;

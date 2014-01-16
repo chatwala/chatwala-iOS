@@ -17,6 +17,8 @@
 #import "AppDelegate.h"
 #import "CWLandingViewController.h"
 #import "CWMessageManager.h"
+#import "CWUserManager.h"
+#import "User.h"
 
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
@@ -137,7 +139,9 @@
     }
     
 
-    [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithCompletionBlockOrNil:nil];
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:nil];
+    }];
     
     [CWAnalytics event:@"START_RECORDING" withCategory:@"CONVERSATION_STARTER" withLabel:@"TAP_BUTTON" withValue:nil];
     CWComposerViewController * composerVC = [[CWFlowManager sharedInstance]composeVC];

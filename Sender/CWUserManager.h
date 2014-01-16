@@ -20,7 +20,6 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 - (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request;
 
 @property (nonatomic, readonly) User * localUser __attribute__((deprecated("use localUser:")));
-- (NSString *) userId __attribute__((deprecated("use localUser:")));
 
 - (void) localUser:(void (^)(User *localUser)) completion;
 
