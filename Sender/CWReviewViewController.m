@@ -132,7 +132,7 @@
 
 - (CWMessageItem*)createMessageItemWithSender:(User*) localUser
 {
-    CWMessageItem * message = [[CWMessageItem alloc]initWithUser:localUser];
+    CWMessageItem * message = [[CWMessageItem alloc]initWithSender:localUser];
     [message setVideoURL:recorder.outputFileURL];
     message.metadata.startRecording = self.startRecordingTime;
     

@@ -21,7 +21,7 @@
     return self;
 }
 
-- (id)initWithUser:(User *) user
+- (id)initWithSender:(User *) user
 {
     self=[super init];
     if (self) {

@@ -18,7 +18,7 @@
 //- (id)initWithVideoURL:(NSURL*)videoURL; // for creating new message
 //- (id)initWithZipURL:(NSURL*)zipURL; // for opening message
 
-- (id)initWithUser:(User *) user;
+- (id)initWithSender:(User *) user;
 
 - (void)exportZip;
 - (void)extractZip;
