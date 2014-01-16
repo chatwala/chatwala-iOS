@@ -36,7 +36,7 @@
 {
     //given
     id mockMessageManager = [OCMockObject partialMockForObject:[CWMessageManager sharedInstance]];
-    [[mockMessageManager expect] getMessagesWithCompletionOrNil:OCMOCK_ANY];
+    [[mockMessageManager expect] getMessagesForUser:OCMOCK_ANY withCompletionOrNil:OCMOCK_ANY];
     
     //when
     [self.sut viewDidAppear:YES];

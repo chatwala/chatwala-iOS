@@ -53,8 +53,10 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
-    [self.messagesTable reloadData];
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:nil];
+        [self.messagesTable reloadData];
+    }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -69,10 +71,11 @@
     if (self.refreshControl.isRefreshing) {
         [self.refreshControl endRefreshing];
     }
-    User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSOrderedSet * inboxMessages = [localUser inboxMessages];
-
-    [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        NSOrderedSet * inboxMessages = [localUser inboxMessages];
+        
+        [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
+    }];
 //    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWMessageManager sharedInstance]messages] count]];
     
 }
@@ -87,8 +90,9 @@
 
 - (void)handleRefresh:(UIRefreshControl*)r
 {
-    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
-    
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:nil];
+    }];
 }
 
 - (IBAction)onButtonSelect:(id)sender {

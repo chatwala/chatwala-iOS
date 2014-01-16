@@ -65,10 +65,14 @@
 
     [CWUserManager sharedInstance];
     
-    
-    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
-    if(![user_id length]) {
-        [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
+    if([[CWUserManager sharedInstance] hasLocalUser])
+    {
+        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+            NSString *user_id = localUser.userID;
+            if(![user_id length]) {
+                [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
+            }
+        }];
     }
 
     [CWGroundControlManager sharedInstance];
@@ -140,7 +144,9 @@
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:completionHandler];
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:completionHandler];
+    }];
 }
 
 
@@ -234,11 +240,10 @@
                 break;
         }
     }];
-
-    [[CWMessageManager sharedInstance] getMessagesWithCompletionOrNil:nil];
     
     // Fetch a new message upload ID from server
     [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:nil];
         [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:nil];
     }];
 

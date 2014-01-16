@@ -43,23 +43,21 @@
 - (void)testGetMessagesShouldRequestMessagesWithKey
 {
     //given
-    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:@"someUserId"] valueForKey:@"CHATWALA_USER_ID"];
-    
     id mockManager = [OCMockObject mockForClass:[AFHTTPRequestOperationManager class]];
     [[[mockManager stub] andReturn:mockManager] manager];
     [[mockManager expect] setRequestSerializer:OCMOCK_ANY];
     [[mockManager expect] GET:OCMOCK_ANY parameters:nil success:OCMOCK_ANY failure:OCMOCK_ANY];
+    id mockUser = [OCMockObject mockForClass:[User class]];
+    [[[mockUser stub] andReturn:@"someUserId"] userID];
     
     //when
-    [self.sut getMessagesWithCompletionOrNil:OCMOCK_ANY];
+    [self.sut getMessagesForUser:mockUser withCompletionOrNil:OCMOCK_ANY];
     
     //should
     [mockManager verify];
     
     //cleanup
     [mockManager stopMocking];
-    [mockUserDefaults stopMocking];
 }
 
 - (void)testGetMessagesSuccessBlock

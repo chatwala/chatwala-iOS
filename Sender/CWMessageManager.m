@@ -190,9 +190,9 @@
     
 }
 
-- (void)getMessagesWithCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock
+- (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock
 {
-    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    NSString *user_id = user.userID;
     
     if([user_id length])
     {

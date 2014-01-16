@@ -222,12 +222,13 @@
 
 - (void) downloadAllMessageChatwalaData
 {
-    User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSOrderedSet * items = localUser.messagesReceived;
-    
-    for (Message * item in items) {
-        [item downloadChatwalaDataWithMessageCell:nil];
-    }
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        NSOrderedSet * items = localUser.messagesReceived;
+        
+        for (Message * item in items) {
+            [item downloadChatwalaDataWithMessageCell:nil];
+        }
+    }];
 }
 
 #pragma mark - dateformater
