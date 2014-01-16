@@ -7,8 +7,13 @@
 //
 
 #import "CWProfilePictureViewController.h"
+#import "CWUserManager.h"
+#import "User.h"
 
 @interface CWProfilePictureViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;
+@property (weak, nonatomic) IBOutlet UIButton *middleButton;
+@property (weak, nonatomic) IBOutlet UILabel *bottomDescription;
 
 @end
 
@@ -34,6 +39,8 @@
     [backBtn setImage:backImg forState:UIControlStateNormal];
     UIBarButtonItem* backBtnItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     [self.navigationItem setLeftBarButtonItem:backBtnItem];
+    
+    
 }
 
 - (void)onBack
@@ -45,6 +52,37 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (BOOL) isTakingNewPicture
+{
+    return self.pictureImageView.isHidden;
+}
+
+- (void) takePicture
+{
+    [self.middleButton setTitle:@"SNAP!" forState:UIControlStateNormal];
+    self.bottomDescription.text = @"Tap SNAP! to take a picture.";
+    
+    self.pictureImageView.hidden = NO;
+}
+
+- (void) startCamera
+{
+    [self.middleButton setTitle:@"Change!" forState:UIControlStateNormal];
+    self.bottomDescription.text = @"Tap Change! to update your profile pic.";
+    self.pictureImageView.hidden = YES;
+}
+
+- (IBAction)onMiddleButtonTap:(id)sender {
+    if([self isTakingNewPicture])
+    {
+        [self takePicture];
+    }
+    else
+    {
+        [self startCamera];
+    }
 }
 
 @end
