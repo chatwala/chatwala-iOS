@@ -65,40 +65,8 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
     }
 
 }
-- (NSString *) userId
-{
-    NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
-    if(user_id)
-    {
-        self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
-        return user_id;
-    }
-    [self getANewUserID];
-    return @"unknown_user";
-}
 
 
-- (void)getANewUserID __attribute__((deprecated("use localUser:")))
-{
-    
-    NSLog(@"getting new user id: %@",[[CWMessageManager sharedInstance] registerEndPoint]);
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
-    [manager setRequestSerializer:self.requestHeaderSerializer];
-    
-    [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //
-        NSString * user_id =[[responseObject valueForKey:@"user_id"]objectAtIndex:0];
-        NSLog(@"New user ID Fetched: %@",user_id);
-        [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
-        [[NSUserDefaults standardUserDefaults]synchronize];
-        
-        self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Operation: %@",operation);
-        NSLog(@"Error: %@",error);
-    }];
-}
 
 
 - (void) localUser:(void (^)(User *localUser)) completion
