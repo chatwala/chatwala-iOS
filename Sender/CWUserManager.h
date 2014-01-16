@@ -21,6 +21,7 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 
 @property (nonatomic, readonly) User * localUser __attribute__((deprecated("use localUser:")));
 
+- (BOOL) hasLocalUser;
 - (void) localUser:(void (^)(User *localUser)) completion;
 
 

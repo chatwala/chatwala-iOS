@@ -13,6 +13,8 @@
 NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
 NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
+NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
+
 
 @interface CWUserManager()
 
@@ -66,14 +68,20 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 
 }
 
-
+- (BOOL) hasLocalUser
+{
+    if(self.localUser)
+    {
+        return YES;
+    }
+    return NO;
+}
 
 
 - (void) localUser:(void (^)(User *localUser)) completion
 {
-    NSString * const kUserIDKey = @"CHATWALA_USER_ID";
     
-    NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:kUserIDKey];
+    NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:kUserDefultsIDKey];
     if(user_id)
     {
         self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
@@ -117,7 +125,7 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
         NSString * user_id =[dictionary objectForKey:@"user_id"];
         NSAssert([user_id isKindOfClass:[NSString class]], @"expecting a string for the 'user_id' key. found %@", user_id);
         NSLog(@"New user ID Fetched: %@",user_id);
-        [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:@"CHATWALA_USER_ID"];
+        [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:kUserDefultsIDKey];
         [[NSUserDefaults standardUserDefaults]synchronize];
         
         self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];

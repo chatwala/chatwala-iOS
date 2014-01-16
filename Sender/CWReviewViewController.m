@@ -265,7 +265,7 @@
     }
 }
 
-- (void) uploadProfilePicture
+- (void) uploadProfilePictureForUser:(User *) user
 {
     NSString * const uploadedProfilePicture = @"profilePictureKey";
     
@@ -280,7 +280,7 @@
         NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"thumbnailImage.png"];
         [UIImagePNGRepresentation(thumbnail) writeToURL:thumbnailURL atomically:YES];
 
-        NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+        NSString * user_id = user.userID;
 
         NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
         NSLog(@"uploading profile image: %@",endPoint);
@@ -312,7 +312,11 @@
 
 - (void) didSendMessage
 {
-    [self uploadProfilePicture];
+    
+    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+        [self uploadProfilePictureForUser:localUser];
+    }];
+
 //    [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
