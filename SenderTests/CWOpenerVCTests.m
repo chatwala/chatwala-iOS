@@ -105,7 +105,7 @@
     id mockUrl = [OCMockObject mockForClass:[NSURL class]];
     [[self.mockPlayer stub]setVideoURL:mockUrl];
     
-    [self.sut setMessageItem:[[CWMessageItem alloc] init]];
+    [self.sut setMessageItem:[[CWMessageItem alloc] initWithSender:[OCMockObject niceMockForClass:[User class]]]];
     [self.sut.messageItem setVideoURL:mockUrl];
 }
 

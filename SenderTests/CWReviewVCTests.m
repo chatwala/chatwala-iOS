@@ -12,7 +12,8 @@
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
-
+#import "User.h"
+#import "CWUserManager.h"
 
 
 
@@ -21,7 +22,8 @@
 @property (nonatomic,strong) CWVideoRecorder * recorder;
 - (void)composeMessageWithData:(NSData*)messageData;
 - (NSData*)createMessageData;
-- (CWMessageItem*)createMessageItem;
+- (CWMessageItem*)createMessageItemWithSender:(User*) localUser;
+
 @end
 
 @interface CWReviewVCTests : XCTestCase
@@ -29,6 +31,7 @@
 @property (nonatomic,strong) id mockSUT;
 @property (nonatomic,strong) id mockRecorder;
 @property (nonatomic,strong) id mockPlayer;
+@property (nonatomic,strong) id mockUser;
 @property (nonatomic,strong) CWMessageItem *messageItem;
 @end
 
@@ -43,7 +46,8 @@
     self.mockSUT = [OCMockObject partialMockForObject:self.sut];
     self.mockPlayer = [OCMockObject partialMockForObject:self.sut.player];
     self.mockRecorder = [OCMockObject partialMockForObject:self.sut.recorder];
-    self.messageItem = [[CWMessageItem alloc] init];
+    self.messageItem = [[CWMessageItem alloc] initWithSender:self.mockUser];
+    self.mockUser = [OCMockObject niceMockForClass:[User class]];
     NSURL * videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
     [self.messageItem setVideoURL:videoURL];
 }
@@ -179,25 +183,25 @@
 
 - (void)testShouldInvokeComposeMessageWithDataWhenOnSendIsInvoked {
     //given
-    CWMessageItem * msg = [[CWMessageItem alloc] init];
+    CWMessageItem * msg = [[CWMessageItem alloc] initWithSender:self.mockUser];
     msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
-    [[[self.mockSUT expect] andReturn:msg] createMessageItem];
-    id mockMsg = [OCMockObject partialMockForObject:msg];
-    [[mockMsg expect] extractZip];
+    id mockUserManager = [OCMockObject partialMockForObject:[CWUserManager sharedInstance]];
+    [[mockUserManager expect] localUser:OCMOCK_ANY];
+    
+    [[[self.mockSUT expect] andReturn:msg] createMessageItemWithSender:self.mockUser];
     
     //when
     [self.sut onSend:nil];
     
     //should
-    [self.mockSUT verify];
+    [mockUserManager verify];
     
-    //cleanup
-    [mockMsg stopMocking];
 }
 
 
+
 - (void) testShouldStopPlayerWhenOnSendIsInvoked {
-    [[[self.mockSUT stub]andReturn:self.messageItem]createMessageItem];
+    [[[self.mockSUT stub]andReturn:self.messageItem]createMessageItemWithSender:self.mockUser];
     [[self.mockPlayer expect]stop];
     [self.sut onSend:nil];
     [self.mockPlayer verify];
@@ -234,15 +238,15 @@
 {
     NSURL  * expected = [NSURL URLWithString:@"blah"];
     [self.sut.recorder setOutputFileURL:expected];
-    [self.sut createMessageItem];
-    NSURL * actual = [[self.sut createMessageItem]videoURL];
+    [self.sut createMessageItemWithSender:self.mockUser];
+    NSURL * actual = [[self.sut createMessageItemWithSender:self.mockUser]videoURL];
     XCTAssertEqualObjects(expected, actual, @"urls should match");
 }
 - (void)testShouldProperlySetupMessageItemMetatDataWhenCreateMessageItemIsInvoked
 {
     [self.sut setStartRecordingTime:5];
   
-    CWMessageItem * msgItem = [self.sut createMessageItem];
+    CWMessageItem * msgItem = [self.sut createMessageItemWithSender:self.mockUser];
     XCTAssertTrue( msgItem.metadata.startRecording == 5, @"recording start time should match");
 }
 

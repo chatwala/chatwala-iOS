@@ -8,10 +8,11 @@
 
 #import <XCTest/XCTest.h>
 #import "CWMessageItem.h"
-
+#import "OCMock.h"
 
 @interface CWMessageItemTests : XCTestCase
 @property (nonatomic,strong) CWMessageItem * sut;
+@property (nonatomic, strong) id mockUser;
 @end
 
 @implementation CWMessageItemTests
@@ -20,7 +21,8 @@
 {
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
-    self.sut = [[CWMessageItem alloc]init];
+    self.mockUser =[OCMockObject niceMockForClass:[User class]];
+    self.sut = [[CWMessageItem alloc]initWithSender:self.mockUser];
     
 }
 
@@ -49,7 +51,7 @@
     NSURL * videoURL = [[NSBundle mainBundle] URLForResource:@"video" withExtension:@"mp4"];
     
     
-    CWMessageItem * zippedMessageItem = [[CWMessageItem alloc] init];
+    CWMessageItem * zippedMessageItem = [[CWMessageItem alloc] initWithSender:nil];
     
     zippedMessageItem.zipURL = [[zippedMessageItem.zipURL URLByDeletingLastPathComponent] URLByAppendingPathComponent:@"testingZip.zip"];
     

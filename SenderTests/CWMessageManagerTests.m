@@ -16,6 +16,7 @@
 @property (nonatomic) CWMessageManager *sut;
 @property (nonatomic) id mockSut;
 @property (nonatomic) id mockDataManager;
+@property (nonatomic) id mockUser;
 
 @end
 
@@ -28,6 +29,7 @@
     self.sut = [[CWMessageManager alloc] init];
     self.mockSut = [OCMockObject partialMockForObject:self.sut];
     self.mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
+    self.mockUser = [OCMockObject niceMockForClass:[User class]];
 }
 
 - (void)tearDown
@@ -248,7 +250,7 @@
 - (void) testUploadMessage
 {
     //given
-    CWMessageItem * item = [[CWMessageItem alloc] init];
+    CWMessageItem * item = [[CWMessageItem alloc] initWithSender:self.mockUser];
     id mockManager = [OCMockObject mockForClass:[AFURLSessionManager class]];
     [[[mockManager stub] andReturn:mockManager] alloc];
     id toMakeWarningGoAway = [[[mockManager stub] andReturn:mockManager] initWithSessionConfiguration:OCMOCK_ANY];
