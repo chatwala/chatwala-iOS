@@ -10,6 +10,7 @@
 #import "CWTermsViewController.h"
 #import "CWPrivacyViewController.h"
 #import "CWGroundControlManager.h"
+#import "CWProfilePictureViewController.h"
 
 @interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate, MFMailComposeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
@@ -48,7 +49,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:att];
     
     
-    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback"]];
+    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback", @"Profile Pic"]];
     
     
     
@@ -155,7 +156,6 @@
                 }
                     break;
                 case 2:
-                default:
                 {
                     if ([MFMailComposeViewController canSendMail]) {
                         MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
@@ -165,6 +165,16 @@
                         [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
                         [self presentViewController:mailComposer animated:YES completion:nil];
                     }
+                }
+                    break;
+                case 3:
+                {
+                    UIViewController * viewController = [[CWProfilePictureViewController alloc] init];
+                    [self.navigationController pushViewController:viewController animated:YES];
+                }
+                default:
+                {
+                    
                 }
                     break;
             }
