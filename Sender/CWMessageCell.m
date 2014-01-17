@@ -41,6 +41,11 @@
         boarder.backgroundColor = [UIColor chatwalaBlueDark];
         [self addSubview:boarder];
         
+        UIImageView * gradient = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient"]];
+        gradient.frame = CGRectMake(CGRectGetMaxX(self.thumbView.bounds) - gradient.bounds.size.width, 0, gradient.bounds.size.width, CGRectGetHeight(self.thumbView.bounds));
+        [gradient setContentMode:UIViewContentModeScaleToFill];
+        [self addSubview:gradient];
+        
         
         self.statusImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"redDot"]];
         self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 20 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds));
