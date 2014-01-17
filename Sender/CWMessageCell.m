@@ -14,6 +14,7 @@
 
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIView * cellView;
+@property (nonatomic, strong) UIImageView * statusImage;
 @end
 
 
@@ -39,6 +40,12 @@
         UIView * boarder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 131, 2)];
         boarder.backgroundColor = [UIColor chatwalaBlueDark];
         [self addSubview:boarder];
+        
+        
+        self.statusImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"redDot"]];
+        self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 20 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds));
+        [self addSubview:self.statusImage];
+        
         
     }
     return self;
