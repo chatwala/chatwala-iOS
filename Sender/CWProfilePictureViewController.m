@@ -57,7 +57,11 @@
     [super viewDidAppear:animated];
     
     [self.pictureImageView.superview insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.pictureImageView];
+    [CATransaction begin];
+    [CATransaction setValue:[NSNumber numberWithFloat:0.00] forKey:kCATransactionAnimationDuration];
+    //Perform CALayer actions, such as changing the layer contents, position, whatever.
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.pictureImageView.frame];
+    [CATransaction commit];
 
     
     if([[CWUserManager sharedInstance] hasLocalUser])
