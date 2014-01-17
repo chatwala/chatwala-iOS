@@ -20,6 +20,7 @@
 @property (nonatomic,strong) AVCaptureSession *session;
 @property (nonatomic,strong) AVCaptureDeviceInput *videoInput;
 @property (nonatomic,strong) AVCaptureDeviceInput *audioInput;
+@property (nonatomic,strong) AVCaptureStillImageOutput *stillImageOutput;
 @property (nonatomic,strong) AVCamRecorder *recorder;
 @property (nonatomic,strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;
 
@@ -136,6 +137,14 @@
         [self presentErrorScreen];
     }
     
+    // Setup the still image file output
+    AVCaptureStillImageOutput *newStillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+    NSDictionary *outputSettings = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    AVVideoCodecJPEG, AVVideoCodecKey,
+                                    nil];
+    [newStillImageOutput setOutputSettings:outputSettings];
+    outputSettings = nil;
+    
     AVCaptureSession * session = [[AVCaptureSession alloc]init];
     [session setSessionPreset:AVCaptureSessionPresetMedium];
 
@@ -147,6 +156,12 @@
         [session addInput:audioInput];
     }
     
+    if([session canAddOutput:newStillImageOutput])
+    {
+        [session addOutput:newStillImageOutput];
+    }
+    
+    [self setStillImageOutput:newStillImageOutput];
     [self setAudioInput:audioInput];
     [self setVideoInput:videoInput];
     [self setSession:session];
@@ -230,7 +245,23 @@
     [[self recorder] stopRecording];
 }
 
+- (void) captureStillImageWithCallback:(void (^)(UIImage * image, NSError * error))completionBlock
+{
+    AVCaptureConnection *stillImageConnection = [[self stillImageOutput] connectionWithMediaType:AVMediaTypeVideo];
+    if ([stillImageConnection isVideoOrientationSupported])
+        [stillImageConnection setVideoOrientation:AVCaptureVideoOrientationPortrait];
+    
+    [[self stillImageOutput] captureStillImageAsynchronouslyFromConnection:stillImageConnection
+                                                         completionHandler:^(CMSampleBufferRef imageDataSampleBuffer, NSError *error) {
+															 
+                                                             NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageDataSampleBuffer];
+                                                             UIImage *image = [[UIImage alloc] initWithData:imageData];
+                                                             
+                                                             completionBlock(image, error);
+                                                             
+                                                         }];
 
+}
 
 
 - (AVCaptureDevice *) frontFacingCamera

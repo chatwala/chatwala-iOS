@@ -9,6 +9,7 @@
 #import "CWProfilePictureViewController.h"
 #import "CWUserManager.h"
 #import "User.h"
+#import "CWVideoManager.h"
 
 @interface CWProfilePictureViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;
@@ -40,7 +41,18 @@
     UIBarButtonItem* backBtnItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
     [self.navigationItem setLeftBarButtonItem:backBtnItem];
     
+    [[[CWVideoManager sharedManager]recorder]setupSession];
+
+    self.pictureImageView.contentMode = UIViewContentModeScaleAspectFill;
+}
+
+- (void) viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
     
+    [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.pictureImageView];
+    [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5)];
+
 }
 
 - (void)onBack
@@ -64,7 +76,24 @@
     [self.middleButton setTitle:@"SNAP!" forState:UIControlStateNormal];
     self.bottomDescription.text = @"Tap SNAP! to take a picture.";
     
+    [[[CWVideoManager sharedManager] recorder] captureStillImageWithCallback:^(UIImage *image, NSError *error) {
+        if(error)
+        {
+            NSLog(@"failed to capture image %@", error);
+            [SVProgressHUD showErrorWithStatus:@"failed to capture image"];
+        }
+        else
+        {
+            [self didCaptureStillImage:image];
+        }
+    }];
+    
     self.pictureImageView.hidden = NO;
+}
+
+- (void) didCaptureStillImage:(UIImage *) image
+{
+    self.pictureImageView.image = image;
 }
 
 - (void) startCamera

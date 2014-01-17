@@ -69,6 +69,7 @@
 
 - (BOOL) shouldShowKillScreen
 {
+    return NO;
     NSString * const kKillScreenFlagKey = @"APP_DISABLED";
     if([[NSUserDefaults standardUserDefaults] boolForKey:kKillScreenFlagKey])
     {

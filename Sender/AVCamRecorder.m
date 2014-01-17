@@ -135,6 +135,16 @@ static void *AVCamRecorderConnectionsObserverContext = &AVCamRecorderConnections
     [[self movieFileOutput] stopRecording];
 }
 
+- (void) captureStill
+{
+//    AVCaptureConnection *videoConnection = [[self movieFileOutput] connectionWithMediaType:AVMediaTypeVideo];
+//    if ([videoConnection isVideoOrientationSupported])
+//    {
+//        [videoConnection setVideoOrientation:videoOrientation];
+//    }
+//    vid
+}
+
 @end
 
 @implementation AVCamRecorder (FileOutputDelegate)
