@@ -10,11 +10,14 @@
 #import "CWUserManager.h"
 #import "User.h"
 #import "CWVideoManager.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface CWProfilePictureViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;
 @property (weak, nonatomic) IBOutlet UIButton *middleButton;
 @property (weak, nonatomic) IBOutlet UILabel *bottomDescription;
+@property (weak, nonatomic) IBOutlet UIView *flash;
+
 
 @end
 
@@ -43,6 +46,8 @@
     
     [[[CWVideoManager sharedManager]recorder]setupSession];
 
+    self.pictureImageView.image = [UIImage imageNamed:@"LaunchImage"];
+    [self.pictureImageView setClipsToBounds:YES];
     self.pictureImageView.contentMode = UIViewContentModeScaleAspectFill;
 }
 
@@ -52,6 +57,9 @@
     
     [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.pictureImageView];
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5)];
+
+    
+//    self.pictureImageView setImageWithURLRequest:<#(NSURLRequest *)#> placeholderImage:<#(UIImage *)#> success:<#^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)success#> failure:<#^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error)failure#>
 
 }
 
@@ -73,8 +81,6 @@
 
 - (void) takePicture
 {
-    [self.middleButton setTitle:@"SNAP!" forState:UIControlStateNormal];
-    self.bottomDescription.text = @"Tap SNAP! to take a picture.";
     
     [[[CWVideoManager sharedManager] recorder] captureStillImageWithCallback:^(UIImage *image, NSError *error) {
         if(error)
@@ -89,19 +95,30 @@
     }];
     
     self.pictureImageView.hidden = NO;
+    [self.middleButton setTitle:@"Change!" forState:UIControlStateNormal];
+    self.bottomDescription.text = @"Tap Change! to update your profile pic.";
 }
 
 - (void) didCaptureStillImage:(UIImage *) image
 {
     self.pictureImageView.image = image;
-    
+    if([[CWUserManager sharedInstance] hasLocalUser])
+    {
+        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+            [[CWUserManager sharedInstance] uploadProfilePicture:image forUser:localUser];
+        }];
+    }
+    else
+    {
+        [SVProgressHUD showErrorWithStatus:@"no user id yet"];
+    }
 }
 
 - (void) startCamera
 {
-    [self.middleButton setTitle:@"Change!" forState:UIControlStateNormal];
-    self.bottomDescription.text = @"Tap Change! to update your profile pic.";
     self.pictureImageView.hidden = YES;
+    [self.middleButton setTitle:@"SNAP!" forState:UIControlStateNormal];
+    self.bottomDescription.text = @"Tap SNAP! to take a picture.";
 }
 
 - (IBAction)onMiddleButtonTap:(id)sender {
