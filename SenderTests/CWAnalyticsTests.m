@@ -10,8 +10,8 @@
 #import <OCMock/OCMock.h>
 #import "CWAnalytics+Spec.h"
 #import "AppDelegate.h"
-#import "CWAuthenticationManager.h"
-#import "CWAuthRequestViewController.h"
+//#import "CWAuthenticationManager.h"
+//#import "CWAuthRequestViewController.h"
 #import "CWErrorViewController.h"
 #import "CWSSOpenerViewController.h"
 #import "CWReviewViewController.h"
@@ -19,13 +19,13 @@
 #import "CWStartScreenViewController.h"
 #import "User.h"
 
-@interface CWAuthenticationManager ()
-- (void)setAuth:(GTMOAuth2Authentication *)auth;
-@end
-
-@interface CWAuthRequestViewController ()
-- (void)handleBack:(id)sender;
-@end
+//@interface CWAuthenticationManager ()
+//- (void)setAuth:(GTMOAuth2Authentication *)auth;
+//@end
+//
+//@interface CWAuthRequestViewController ()
+//- (void)handleBack:(id)sender;
+//@end
 
 @interface CWOpenerViewController ()<CWVideoPlayerDelegate,CWVideoRecorderDelegate>
 - (void)onReviewCountdownTick:(NSTimer*)timer;

@@ -62,24 +62,6 @@
     XCTAssertTrue((self.sut.thumbView.image != nil), @"image should not be nil");
 }
 
-- (void) testSetMessageDataShouldNothingWhenImageURLMatchesAlready
-{
-    //given
-    self.sut.imageURL = [NSURL URLWithString:@"www.google.com"];
-    id mockSpinner = [OCMockObject partialMockForObject:self.sut.spinner];
-    [[mockSpinner reject] startAnimating];
-    Message * item = [Message insertInManagedObjectContext:self.moc];
-    item.thumbnailPictureURL = self.sut.imageURL.path;
-    
-    //when
-    [self.sut setMessage:item];
-    
-    //should
-    [mockSpinner verify];
-    
-    //cleanup
-    [mockSpinner stopMocking];
-}
 
 - (void)testSuccessImageDownloadBlockShouldStopSpinner
 {
@@ -117,21 +99,6 @@
     [mockThumbView stopMocking];
 }
 
-- (void)testSuccessImageDownloadBlockShouldSetImageURL
-{
-    //given
-    id mockURL = [NSURL URLWithString:@"www.google.com"];
-    NSURLRequest * request = [NSURLRequest requestWithURL:mockURL];
-    
-    AFNetworkingSuccessBlock block = self.sut.successImageDownloadBlock;
-    //when
-    block(request, nil, nil);
-    
-    //should
-    XCTAssertEqualObjects(self.sut.imageURL, mockURL, @"image url should be set");
-    
-    //cleanup
-}
 
 - (void)testFailureImageDownloadBlockShouldStopSpinner
 {
