@@ -94,6 +94,7 @@
 - (void) didCaptureStillImage:(UIImage *) image
 {
     self.pictureImageView.image = image;
+    
 }
 
 - (void) startCamera

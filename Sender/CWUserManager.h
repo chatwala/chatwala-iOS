@@ -24,6 +24,8 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 - (BOOL) hasLocalUser;
 - (void) localUser:(void (^)(User *localUser)) completion;
 
+- (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user;
+- (BOOL) hasProfilePicture:(User *) user;
 
 #pragma mark - blocks for fetch results
 

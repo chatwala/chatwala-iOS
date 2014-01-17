@@ -265,45 +265,14 @@
 
 - (void) uploadProfilePictureForUser:(User *) user
 {
-    NSString * const uploadedProfilePicture = @"profilePictureKey";
     
-    if([[[NSUserDefaults standardUserDefaults] objectForKey:uploadedProfilePicture] boolValue])
+    if([[CWUserManager sharedInstance] hasProfilePicture:user])
     {
         return;//already did this
     }
     
     [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        NSLog(@"thumbnail created:%@", thumbnail);
-        
-        NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"thumbnailImage.png"];
-        [UIImagePNGRepresentation(thumbnail) writeToURL:thumbnailURL atomically:YES];
-
-        NSString * user_id = user.userID;
-
-        NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
-        NSLog(@"uploading profile image: %@",endPoint);
-        NSURL *URL = [NSURL URLWithString:endPoint];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-        [request setHTTPMethod:@"PUT"];
-
-        [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
-        
-        AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-        
-        NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-            //
-            if (error) {
-                NSLog(@"Error: %@", error);
-                [SVProgressHUD showErrorWithStatus:error.localizedDescription];
-            } else {
-                NSLog(@"Successfully upload profile picture: %@ %@", response, responseObject);
-                [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:uploadedProfilePicture];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-            }
-        }];
-        
-        [task resume];
-        
+        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user];
     }];
     
 }

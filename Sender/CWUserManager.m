@@ -9,6 +9,7 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
+#import "CWUtility.h"
 
 NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
@@ -135,6 +136,53 @@ NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
         }
         
     });
+}
+
+- (BOOL) hasProfilePicture:(User *) user
+{
+    NSString * const uploadedProfilePicture = @"profilePictureKey";
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:uploadedProfilePicture] boolValue])
+    {
+        return YES;
+    }
+    return NO;
+}
+
+- (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user
+{
+    NSString * const uploadedProfilePicture = @"profilePictureKey";
+
+    NSLog(@"thumbnail created:%@", thumbnail);
+    
+    NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"thumbnailImage.png"];
+    [UIImagePNGRepresentation(thumbnail) writeToURL:thumbnailURL atomically:YES];
+    
+    NSString * user_id = user.userID;
+    
+    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
+    NSLog(@"uploading profile image: %@",endPoint);
+    NSURL *URL = [NSURL URLWithString:endPoint];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    [request setHTTPMethod:@"PUT"];
+    
+    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
+    
+    AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        //
+        if (error) {
+            NSLog(@"Error: %@", error);
+            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+        } else {
+            NSLog(@"Successfully upload profile picture: %@ %@", response, responseObject);
+            [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:uploadedProfilePicture];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+    }];
+    
+    [task resume];
+
 }
 
 
