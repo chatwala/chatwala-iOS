@@ -59,7 +59,19 @@
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5)];
 
     
-//    self.pictureImageView setImageWithURLRequest:<#(NSURLRequest *)#> placeholderImage:<#(UIImage *)#> success:<#^(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image)success#> failure:<#^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error)failure#>
+    if([[CWUserManager sharedInstance] hasLocalUser])
+    {
+        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+            NSURL * url = [NSURL URLWithString:[[CWUserManager sharedInstance] getProfilePictureEndPointForUser:localUser]];
+            NSMutableURLRequest * imageURLRequest = [NSMutableURLRequest requestWithURL:url];
+            
+            [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
+            [imageURLRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+
+            [self.pictureImageView setImageWithURLRequest:imageURLRequest placeholderImage:[UIImage imageNamed:@"LaunchImage"] success:nil failure:nil];
+
+        }];
+    }
 
 }
 
@@ -105,6 +117,7 @@
 
 - (void) didCaptureStillImage:(UIImage *) image
 {
+    [self.pictureImageView cancelImageRequestOperation];
     self.pictureImageView.image = image;
     if([[CWUserManager sharedInstance] hasLocalUser])
     {

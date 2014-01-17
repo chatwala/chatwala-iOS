@@ -148,6 +148,14 @@ NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
     return NO;
 }
 
+- (NSString *) getProfilePictureEndPointForUser:(User *) user
+{
+    NSString * user_id = user.userID;
+    
+    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
+    return endPoint;
+}
+
 - (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user
 {
     NSString * const uploadedProfilePicture = @"profilePictureKey";
