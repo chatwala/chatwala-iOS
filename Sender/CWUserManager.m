@@ -163,7 +163,7 @@ NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
     NSLog(@"thumbnail created:%@", thumbnail);
     
     NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"thumbnailImage.png"];
-    [UIImagePNGRepresentation(thumbnail) writeToURL:thumbnailURL atomically:YES];
+    [UIImageJPEGRepresentation(thumbnail, 1.0) writeToURL:thumbnailURL atomically:YES];
     
     NSString * user_id = user.userID;
     
