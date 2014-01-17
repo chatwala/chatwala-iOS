@@ -14,7 +14,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="1">
+        <view contentMode="scaleToFill" id="1" userLabel="root">
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
@@ -22,17 +22,33 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8aI-7d-EIA" userLabel="profile pic">
-                    <rect key="frame" x="0.0" y="64" width="320" height="171"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lhw-2L-0Da" userLabel="profilePictureContainer">
+                    <rect key="frame" x="0.0" y="64" width="320" height="220"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8aI-7d-EIA" userLabel="profile pic">
+                            <rect key="frame" x="0.0" y="25" width="320" height="171"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="320" id="Hmo-LG-JKm"/>
+                                <constraint firstAttribute="height" constant="171" id="pUd-mX-GVB"/>
+                            </constraints>
+                        </imageView>
+                        <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YhE-9m-5I4" userLabel="flash">
+                            <rect key="frame" x="0.0" y="25" width="320" height="171"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="171" id="DMq-5Q-zET"/>
+                        <constraint firstItem="YhE-9m-5I4" firstAttribute="width" secondItem="8aI-7d-EIA" secondAttribute="width" id="FHI-vf-SXt"/>
+                        <constraint firstItem="YhE-9m-5I4" firstAttribute="leading" secondItem="8aI-7d-EIA" secondAttribute="leading" id="JaD-9B-Sih"/>
+                        <constraint firstItem="YhE-9m-5I4" firstAttribute="height" secondItem="8aI-7d-EIA" secondAttribute="height" id="KNP-ek-cwq"/>
+                        <constraint firstAttribute="centerX" secondItem="8aI-7d-EIA" secondAttribute="centerX" id="Y3L-D5-8GB"/>
+                        <constraint firstItem="YhE-9m-5I4" firstAttribute="top" secondItem="8aI-7d-EIA" secondAttribute="top" id="gKl-YJ-X81"/>
+                        <constraint firstAttribute="centerY" secondItem="8aI-7d-EIA" secondAttribute="centerY" id="sQJ-ot-ZDc"/>
                     </constraints>
-                </imageView>
-                <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YhE-9m-5I4" userLabel="flash">
-                    <rect key="frame" x="0.0" y="64" width="320" height="171"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Change! to update your profile pic." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="247" translatesAutoresizingMaskIntoConstraints="NO" id="OrQ-h6-F29">
                     <rect key="frame" x="37" y="306" width="247" height="218"/>
@@ -46,7 +62,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZs-UV-ltH">
-                    <rect key="frame" x="120" y="195" width="80" height="80"/>
+                    <rect key="frame" x="120" y="244" width="80" height="80"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="13I-8s-b4p"/>
@@ -64,19 +80,16 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="8aI-7d-EIA" firstAttribute="height" secondItem="YhE-9m-5I4" secondAttribute="height" id="1IJ-Kl-zwZ"/>
-                <constraint firstItem="8aI-7d-EIA" firstAttribute="top" secondItem="1" secondAttribute="top" constant="64" id="1x9-vg-9WA"/>
                 <constraint firstItem="OrQ-h6-F29" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="37" id="7UK-0o-oEP"/>
-                <constraint firstItem="8aI-7d-EIA" firstAttribute="leading" secondItem="YhE-9m-5I4" secondAttribute="leading" id="8yg-41-fGt"/>
-                <constraint firstAttribute="trailing" secondItem="8aI-7d-EIA" secondAttribute="trailing" id="BdZ-Tm-KqG"/>
-                <constraint firstItem="8aI-7d-EIA" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="IwZ-nz-bIs"/>
                 <constraint firstAttribute="centerX" secondItem="3yw-QH-XM4" secondAttribute="centerX" id="LL4-Ja-tnX"/>
                 <constraint firstAttribute="centerX" secondItem="VZs-UV-ltH" secondAttribute="centerX" id="M9X-re-Itn"/>
-                <constraint firstItem="8aI-7d-EIA" firstAttribute="width" secondItem="YhE-9m-5I4" secondAttribute="width" id="TwT-2x-eFc"/>
-                <constraint firstItem="8aI-7d-EIA" firstAttribute="bottom" secondItem="VZs-UV-ltH" secondAttribute="bottom" constant="-40" id="f4V-qQ-Wyv"/>
+                <constraint firstItem="lhw-2L-0Da" firstAttribute="top" secondItem="1" secondAttribute="top" constant="64" id="OSv-33-XtH"/>
+                <constraint firstItem="lhw-2L-0Da" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="dct-kK-fiw"/>
+                <constraint firstItem="VZs-UV-ltH" firstAttribute="bottom" secondItem="lhw-2L-0Da" secondAttribute="bottom" constant="40" id="gVY-PV-eTh"/>
                 <constraint firstAttribute="trailing" secondItem="OrQ-h6-F29" secondAttribute="trailing" constant="36" id="nLT-Xi-8cT"/>
+                <constraint firstAttribute="centerY" secondItem="VZs-UV-ltH" secondAttribute="centerY" id="nc9-QQ-K5B"/>
                 <constraint firstAttribute="bottom" secondItem="OrQ-h6-F29" secondAttribute="bottom" constant="44" id="s27-nS-Xvp"/>
-                <constraint firstItem="8aI-7d-EIA" firstAttribute="top" secondItem="YhE-9m-5I4" secondAttribute="top" id="tiB-I1-yeC"/>
+                <constraint firstAttribute="trailing" secondItem="lhw-2L-0Da" secondAttribute="trailing" id="vR6-4H-7sQ"/>
                 <constraint firstAttribute="centerY" secondItem="3yw-QH-XM4" secondAttribute="centerY" id="vY3-96-gTn"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>

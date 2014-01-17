@@ -56,7 +56,7 @@
 {
     [super viewDidAppear:animated];
     
-    [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.pictureImageView];
+    [self.pictureImageView.superview insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.pictureImageView];
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.pictureImageView.frame];
 
     
