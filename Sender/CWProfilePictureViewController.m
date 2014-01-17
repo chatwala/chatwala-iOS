@@ -11,6 +11,7 @@
 #import "User.h"
 #import "CWVideoManager.h"
 #import "UIImageView+AFNetworking.h"
+#import <AFNetworking/AFNetworking.h>
 
 @interface CWProfilePictureViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;
@@ -66,7 +67,11 @@
             NSMutableURLRequest * imageURLRequest = [NSMutableURLRequest requestWithURL:url];
             
             [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
-            [imageURLRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+            
+            if([[AFNetworkReachabilityManager sharedManager] isReachable])
+            {
+                [imageURLRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+            }
 
             [self.pictureImageView setImageWithURLRequest:imageURLRequest placeholderImage:[UIImage imageNamed:@"LaunchImage"] success:nil failure:nil];
 
