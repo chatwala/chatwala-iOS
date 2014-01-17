@@ -81,6 +81,7 @@
 
 - (void) takePicture
 {
+    self.flash.alpha = 1;
     
     [[[CWVideoManager sharedManager] recorder] captureStillImageWithCallback:^(UIImage *image, NSError *error) {
         if(error)
@@ -92,6 +93,9 @@
         {
             [self didCaptureStillImage:image];
         }
+        [UIView animateWithDuration:.2 animations:^{
+            self.flash.alpha = 0;
+        }];
     }];
     
     self.pictureImageView.hidden = NO;
