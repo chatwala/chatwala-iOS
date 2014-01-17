@@ -24,6 +24,20 @@
              };
 }
 
+- (eMessageViewedState) eMessageViewedState
+{
+    NSInteger value = self.viewedStateValue;
+    NSAssert(value < eMessageViewedStateTotal, @"expecting viewed state to be less than max enum value");
+    NSAssert(value >= eMessageViewedStateInvalid, @"expecting viewed state to be less than max enum value");
+    return value;
+    
+}
+- (void) setEMessageViewedState:(eMessageViewedState) eViewedState
+{
+    self.viewedStateValue = eViewedState;
+}
+
+
 - (eMessageDownloadState) eDownloadState
 {
     NSInteger value = self.downloadStateValue;
