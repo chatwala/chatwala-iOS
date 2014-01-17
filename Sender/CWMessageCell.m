@@ -63,11 +63,6 @@
 - (void) setMessage:(Message *) message
 {
     NSURL * imageURL = [NSURL URLWithString:message.thumbnailPictureURL];
-    if(([imageURL isEqual:self.imageURL]) && (self.imageURL != nil))
-    {
-        return;//exit early because we are already there.
-    }
-    
     [self.spinner startAnimating];
     
     UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];
@@ -83,7 +78,6 @@
     return (^ void(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image) {
         NSLog(@"message thumbnail Response: %@", response);
         self.thumbView.image = image;
-        self.imageURL = request.URL;
         [self.spinner stopAnimating];
     });
 }
