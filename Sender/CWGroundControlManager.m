@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "CWKillScreenViewController.h"
 
+#define DEBUG_BYPASS_KILLSWITCH 0
 
 
 @implementation CWGroundControlManager
@@ -69,6 +70,12 @@
 
 - (BOOL) shouldShowKillScreen
 {
+#if DEBUG
+    if(DEBUG_BYPASS_KILLSWITCH)
+    {
+        return NO;
+    }
+#endif
     NSString * const kKillScreenFlagKey = @"APP_DISABLED";
     if([[NSUserDefaults standardUserDefaults] boolForKey:kKillScreenFlagKey])
     {
