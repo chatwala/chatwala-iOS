@@ -44,7 +44,7 @@
         
         self.statusImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"redDot"]];
         self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 20 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds));
-        [self addSubview:self.statusImage];
+//        [self addSubview:self.statusImage];
         
         
     }
