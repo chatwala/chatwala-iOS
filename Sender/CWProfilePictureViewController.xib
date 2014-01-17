@@ -22,12 +22,15 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8aI-7d-EIA">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8aI-7d-EIA" userLabel="profile pic">
+                    <rect key="frame" x="0.0" y="64" width="320" height="171"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="171" id="DMq-5Q-zET"/>
+                    </constraints>
                 </imageView>
                 <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YhE-9m-5I4" userLabel="flash">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
+                    <rect key="frame" x="0.0" y="64" width="320" height="171"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                 </view>
@@ -43,7 +46,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VZs-UV-ltH">
-                    <rect key="frame" x="120" y="244" width="80" height="80"/>
+                    <rect key="frame" x="120" y="195" width="80" height="80"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="13I-8s-b4p"/>
@@ -62,12 +65,11 @@
             <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="8aI-7d-EIA" firstAttribute="height" secondItem="YhE-9m-5I4" secondAttribute="height" id="1IJ-Kl-zwZ"/>
-                <constraint firstItem="8aI-7d-EIA" firstAttribute="top" secondItem="1" secondAttribute="top" id="1x9-vg-9WA"/>
+                <constraint firstItem="8aI-7d-EIA" firstAttribute="top" secondItem="1" secondAttribute="top" constant="64" id="1x9-vg-9WA"/>
                 <constraint firstItem="OrQ-h6-F29" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="37" id="7UK-0o-oEP"/>
                 <constraint firstItem="8aI-7d-EIA" firstAttribute="leading" secondItem="YhE-9m-5I4" secondAttribute="leading" id="8yg-41-fGt"/>
                 <constraint firstAttribute="trailing" secondItem="8aI-7d-EIA" secondAttribute="trailing" id="BdZ-Tm-KqG"/>
                 <constraint firstItem="8aI-7d-EIA" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="IwZ-nz-bIs"/>
-                <constraint firstAttribute="centerY" secondItem="VZs-UV-ltH" secondAttribute="centerY" id="KXf-xV-kGN"/>
                 <constraint firstAttribute="centerX" secondItem="3yw-QH-XM4" secondAttribute="centerX" id="LL4-Ja-tnX"/>
                 <constraint firstAttribute="centerX" secondItem="VZs-UV-ltH" secondAttribute="centerX" id="M9X-re-Itn"/>
                 <constraint firstItem="8aI-7d-EIA" firstAttribute="width" secondItem="YhE-9m-5I4" secondAttribute="width" id="TwT-2x-eFc"/>
@@ -78,6 +80,7 @@
                 <constraint firstAttribute="centerY" secondItem="3yw-QH-XM4" secondAttribute="centerY" id="vY3-96-gTn"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
     </objects>

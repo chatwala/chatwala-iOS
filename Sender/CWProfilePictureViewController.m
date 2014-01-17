@@ -57,7 +57,7 @@
     [super viewDidAppear:animated];
     
     [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.pictureImageView];
-    [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5)];
+    [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.pictureImageView.frame];
 
     
     if([[CWUserManager sharedInstance] hasLocalUser])
