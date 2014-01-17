@@ -78,6 +78,18 @@
     [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
     
     [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
+    
+    switch ([message eMessageViewedState]) {
+        case eMessageViewedStateRead:
+            self.statusImage.hidden = YES;
+            break;
+        case eMessageViewedStateOpened:
+        case eMessageViewedStateUnOpened:
+        case eMessageViewedStateReplied:
+        default:
+            self.statusImage.hidden = NO;
+            break;
+    }
 }
 
 - (AFNetworkingSuccessBlock) successImageDownloadBlock
