@@ -21,7 +21,6 @@
 {
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
-    NSTimeInterval startRecordTime;
     CGRect smallFrame;
     CGRect largeFrame;
     
@@ -53,7 +52,6 @@
 @implementation CWOpenerViewController
 @synthesize player;
 @synthesize recorder;
-@synthesize startRecordTime;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -267,7 +265,6 @@
     self.messageItem = [[CWMessageItem alloc]initWithSender:nil];
     [self.messageItem setZipURL:zipURL];
     [self.messageItem extractZip];
-    startRecordTime = self.messageItem.metadata.startRecording;
     @try {
         [self.player setVideoURL:self.messageItem.videoURL];
     }
