@@ -117,7 +117,7 @@
 //    {
 //        self.playbackView.frame = largeFrame;
 //    }
-    NSAssert(self.activeMessage, @"expecting activeMessage to be set");
+//    NSAssert(self.activeMessage, @"expecting activeMessage to be set");
     
     NSAssert(self.messageItem, @"message item must be non-nil");
     
@@ -266,7 +266,7 @@
     [self.messageItem setZipURL:zipURL];
     [self.messageItem extractZip];
     @try {
-        [self.player setVideoURL:self.messageItem.videoURL];
+        [self.player setVideoURL:self.activeMessage.videoURL];
     }
     @catch (NSException *exception) {
         NSLog(@"%@",exception);

@@ -18,6 +18,7 @@
 #import "CWSSComposerViewController.h"
 #import "CWStartScreenViewController.h"
 #import "User.h"
+#import "CWDataManager.h"
 
 //@interface CWAuthenticationManager ()
 //- (void)setAuth:(GTMOAuth2Authentication *)auth;
@@ -82,11 +83,20 @@
 
 - (void)testShouldSendEventWhenApplicationRecievesMessage
 {
-
+    //given
+    id mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
+    NSError * error = nil;
+    [[mockDataManager expect] importMessageAtFilePath:OCMOCK_ANY withError:((NSError __autoreleasing **)[OCMArg setTo:error])];
     AppDelegate * appdel = [[AppDelegate alloc]init];
+    
+    //when
     [appdel application:OCMOCK_ANY openURL:[OCMockObject niceMockForClass:[NSURL class]] sourceApplication:OCMOCK_ANY annotation:OCMOCK_ANY];
     
+    //should
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
+    
+    //cleanup
+    [mockDataManager stopMocking];
 }
 //
 //- (void) testShouldSendEventWhenUserSelectsActivateWithGoogleButtonInAuthVC  {

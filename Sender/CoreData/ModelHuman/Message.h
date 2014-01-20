@@ -30,6 +30,8 @@ typedef enum eMessageViewedState
 @interface Message : _Message <Message> {}
 // Custom logic goes here.
 
+@property (nonatomic, strong)  NSURL * videoURL;//not core data backed.
+
 - (eMessageViewedState) eMessageViewedState;
 - (void) setEMessageViewedState:(eMessageViewedState) eViewedState;
 

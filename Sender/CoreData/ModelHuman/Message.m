@@ -10,6 +10,7 @@
 
 
 @implementation Message
+@synthesize videoURL;
 
 // Custom logic goes here.
 

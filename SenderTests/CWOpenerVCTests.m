@@ -13,6 +13,8 @@
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
 #import "CWGroundControlManager.h"
+#import "CWDataManager.h"
+#import "Message.h"
 
 @interface CWOpenerViewController () <AVAudioPlayerDelegate,CWVideoPlayerDelegate,CWVideoRecorderDelegate>
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
@@ -112,9 +114,14 @@
 
 - (void)testShouldSetPlayerDelegateWhenViewWillAppear
 {
+    //given
     [self prepMessageItem];
     [[self.mockPlayer expect]setDelegate:self.sut];
+
+    //when
     [self.sut viewWillAppear:NO];
+    
+    //should
     [self.mockPlayer verify];
 }
 
@@ -188,10 +195,23 @@
 
 - (void)testShouldCreateMessageItemWhenZipUrlIsSet
 {
+    //given
+    id mockMessage = [OCMockObject niceMockForClass:[Message class]];
     id mockUrl = [OCMockObject mockForClass:[NSURL class]];
     [[self.mockSUT expect]setMessageItem:OCMOCK_ANY];
+    id mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
+    NSError * error = nil;
+    [[[mockDataManager expect] andReturn:mockMessage] importMessageAtFilePath:mockUrl withError:((NSError __autoreleasing **)[OCMArg setTo:error])];
+    
+    //when
     [self.sut setZipURL:mockUrl];
+    
+    //should
     [self.mockSUT verify];
+    [mockDataManager verify];
+    
+    //cleanup
+    [mockDataManager stopMocking];
 }
 
 

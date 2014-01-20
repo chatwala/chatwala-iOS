@@ -211,6 +211,20 @@
                 return nil;
             }
         }
+        else
+        {
+            *error = [NSError errorWithDomain:@"chatwala.com"
+                                         code:6006
+                                     userInfo:@{
+                                                @"reason":@"could not find json file",
+                                                @"file":metadataFileName}];
+            NSLog(@"could not find json file at %@",metadataFileName);
+            return nil;
+        }
+        
+        
+        // set video url
+        [item setVideoURL:[NSURL fileURLWithPath:[destPath stringByAppendingPathComponent:VIDEO_FILE_NAME]]];
     }
     return item;
 }
