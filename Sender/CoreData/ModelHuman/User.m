@@ -38,4 +38,21 @@
     return messages;
 }
 
+- (NSInteger) numberOfUnreadMessages
+{
+    NSInteger count = 0;
+    for (Message * item in self.messagesReceived) {
+        switch (item.eMessageViewedState) {
+            case eMessageViewedStateUnOpened:
+                count++;
+                break;
+            default:
+                break;
+        }
+    }
+    return count;
+}
+
+
+
 @end

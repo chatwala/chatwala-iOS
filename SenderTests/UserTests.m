@@ -79,4 +79,45 @@
     
 }
 
+- (void) testNumberOfUnreadMessages
+{
+    //given
+    NSInteger expected = 4;
+    for (NSInteger ii = 0; ii < expected; ++ii) {
+        Message * message = [Message insertInManagedObjectContext:self.sut.managedObjectContext];
+        [self.sut addMessagesReceivedObject:message];
+    }
+    
+    //when
+    NSInteger actual = [self.sut numberOfUnreadMessages];
+    
+    //should
+    XCTAssertEqual(actual, expected, @"unread messages should match the expected");
+}
+
+
+- (void) testNumberOfUnreadMessagesWithExtraReadMessages
+{
+    //given
+    NSInteger expected = 4;
+    for (NSInteger ii = 0; ii < expected; ++ii) {
+        Message * message = [Message insertInManagedObjectContext:self.sut.managedObjectContext];
+        [self.sut addMessagesReceivedObject:message];
+    }
+    NSInteger others = arc4random_uniform(4);
+    for (NSInteger ii = 0; ii < others; ++ii) {
+        Message * message = [Message insertInManagedObjectContext:self.sut.managedObjectContext];
+        message.eMessageViewedState = eMessageViewedStateRead;
+        [self.sut addMessagesReceivedObject:message];
+    }
+    
+    //when
+    NSInteger actual = [self.sut numberOfUnreadMessages];
+    
+    //should
+    XCTAssertEqual(actual, expected, @"unread messages should match the expected");
+}
+
+
+
 @end

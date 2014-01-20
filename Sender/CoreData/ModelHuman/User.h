@@ -7,5 +7,6 @@
 // Custom logic goes here.
 
 - (NSOrderedSet *) inboxMessages;
+- (NSInteger) numberOfUnreadMessages;
 
 @end
