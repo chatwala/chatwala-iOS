@@ -11,13 +11,14 @@
 @class CWMessageItem;
 @class CWMiddleButton;
 @class User;
+@class Message;
 
 @interface CWReviewViewController : CWViewController
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 
 @property (weak, nonatomic) IBOutlet CWMiddleButton *sendButton;
 @property (nonatomic,assign) NSTimeInterval startRecordingTime;
-@property (nonatomic,strong) CWMessageItem * incomingMessageItem;
+@property (nonatomic) Message * incomingMessage;
 - (IBAction)onRecordAgain:(id)sender;
 - (IBAction)onSend:(id)sender;
 - (void)showVideoPreview;

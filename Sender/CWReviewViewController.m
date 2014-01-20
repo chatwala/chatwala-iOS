@@ -16,6 +16,8 @@
 #import "CWUserManager.h"
 #import "CWUtility.h"
 #import "User.h"
+#import "Message.h"
+#import "Thread.h"
 
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
@@ -139,10 +141,11 @@
 //        [message.metadata setSenderId:[[CWAuthenticationManager sharedInstance] userEmail]];
 //    }
     
-    if (self.incomingMessageItem) {
-        [message.metadata setRecipientId:self.incomingMessageItem.metadata.senderId];
-        [message.metadata setThreadId:self.incomingMessageItem.metadata.threadId];
-        [message.metadata setThreadIndex:self.incomingMessageItem.metadata.threadIndex+1];
+    if (self.incomingMessage) {
+        
+        [message.metadata setRecipientId:self.incomingMessage.sender.userID];
+        [message.metadata setThreadId:self.incomingMessage.thread.threadID];
+        [message.metadata setThreadIndex:self.incomingMessage.threadIndexValue + 1];
     }
     return message;
 }
@@ -154,7 +157,7 @@
     [player setDelegate:nil];
     [player stop];
     
-    if (self.incomingMessageItem) {
+    if (self.incomingMessage) {
         // responding
         
         [CWAnalytics event:@"REDO_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
@@ -172,7 +175,7 @@
     [player setDelegate:nil];
     [player stop];
     
-    if (self.incomingMessageItem) {
+    if (self.incomingMessage) {
         // responding
         
         [CWAnalytics event:@"REDO_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
@@ -209,7 +212,7 @@
 {
     CWMessageItem * message = [self createMessageItemWithSender:localUser];
     
-    if (self.incomingMessageItem) {
+    if (self.incomingMessage) {
         // Responding to an incoming message
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
         
@@ -330,7 +333,7 @@
     switch (result) {
         case MFMailComposeResultSent:
             {
-                if (self.incomingMessageItem) {
+                if (self.incomingMessage) {
                     [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
                 }else{
                     [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Message" withLabel:@"" withValue:nil];
@@ -340,7 +343,7 @@
             break;
     
         case MFMailComposeResultCancelled:
-            if (self.incomingMessageItem) {
+            if (self.incomingMessage) {
                 [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
             }else{
                 [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Message" withLabel:@"" withValue:nil];
@@ -365,7 +368,7 @@
     switch (result) {
         case MessageComposeResultSent:
         {
-            if (self.incomingMessageItem) {
+            if (self.incomingMessage) {
                 [CWAnalytics event:@"MESSAGE_SENT" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             }else{
                 [CWAnalytics event:@"MESSAGE_SENT" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:nil];
@@ -376,7 +379,7 @@
             break;
             
         case MessageComposeResultCancelled:
-            if (self.incomingMessageItem) {
+            if (self.incomingMessage) {
                 [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             }else{
                 [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:nil];
