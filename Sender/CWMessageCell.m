@@ -86,9 +86,9 @@
     
     switch ([message eMessageViewedState]) {
         case eMessageViewedStateRead:
+        case eMessageViewedStateOpened:
             self.statusImage.hidden = YES;
             break;
-        case eMessageViewedStateOpened:
         case eMessageViewedStateUnOpened:
         case eMessageViewedStateReplied:
         default:
