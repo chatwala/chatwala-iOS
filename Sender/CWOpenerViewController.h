@@ -30,11 +30,13 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
 @property (weak, nonatomic) IBOutlet CWMiddleButton *middleButton;
-@property (nonatomic,strong) NSURL * zipURL;
 @property (nonatomic,assign) CWOpenerState openerState;
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
 @property (nonatomic,strong) CWMessageItem * messageItem;
+@property (nonatomic, strong) Message * activeMessage;
 @property (nonatomic,assign) NSTimeInterval startRecordTime;
+
+- (void) setZipURL:(NSURL *) zipURL;
 - (void)onMiddleButtonTap;
 @end

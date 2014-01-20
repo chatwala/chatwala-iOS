@@ -119,6 +119,7 @@
 //    {
 //        self.playbackView.frame = largeFrame;
 //    }
+    NSAssert(self.activeMessage, @"expecting activeMessage to be set");
     
     NSAssert(self.messageItem, @"message item must be non-nil");
     
@@ -260,13 +261,11 @@
 {
     NSError * error = nil;
     
-    Message * item = [[CWDataManager sharedInstance] importMessageAtFilePath:zipURL withError:&error];
+    self.activeMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:zipURL withError:&error];
+    [self.activeMessage setEMessageViewedState:eMessageViewedStateOpened];
     
-    [item setEMessageViewedState:eMessageViewedStateOpened];
-    
-    _zipURL = zipURL;
     self.messageItem = [[CWMessageItem alloc]initWithSender:nil];
-    [self.messageItem setZipURL:self.zipURL];
+    [self.messageItem setZipURL:zipURL];
     [self.messageItem extractZip];
     startRecordTime = self.messageItem.metadata.startRecording;
     @try {
