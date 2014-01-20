@@ -200,7 +200,7 @@
             [self.middleButton setMaxValue:MAX_RECORD_TIME];
             [self.middleButton setValue:0];
             
-            if (self.messageItem.metadata.startRecording == 0) {
+            if (self.activeMessage.startRecordingValue == 0) {
                 [self setOpenerState:CWOpenerReact];
             }else{
                 [self startReviewCountDown];
@@ -301,7 +301,7 @@
 - (void)startReviewCountDown
 {
     [self killTimers];
-    self.reviewCountdownTickCount = self.messageItem.metadata.startRecording;
+    self.reviewCountdownTickCount = self.activeMessage.startRecordingValue;
     self.reviewCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReviewCountdownTick:) userInfo:nil repeats:YES];
     NSLog(@"started review countdown from %d",self.reviewCountdownTickCount);
     
@@ -315,7 +315,7 @@
     self.reactionCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1/30 target:self selector:@selector(onReactionCountdownTick:) userInfo:nil repeats:YES];
    
     
-    NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
+    NSTimeInterval reactionTime=self.player.videoLength - self.activeMessage.startRecordingValue;
     CGFloat startValue = reactionTime+MAX_RECORD_TIME;
     [self.middleButton setMaxValue:startValue];
     [self.middleButton setValue:0];
@@ -340,7 +340,7 @@
         self.reviewCountdownTimer = nil;
         
         // start reaction state
-        [CWAnalytics event:@"COMPLETE_REVIEW" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(self.messageItem.metadata.startRecording)];
+        [CWAnalytics event:@"COMPLETE_REVIEW" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(self.activeMessage.startRecordingValue)];
         [self setOpenerState:CWOpenerReact];
         
     }
@@ -358,7 +358,7 @@
 {
     NSTimeInterval recordTickCount = -[self.startTime timeIntervalSinceNow];
     [self.middleButton setValue:recordTickCount];
-    NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
+    NSTimeInterval reactionTime=self.player.videoLength - self.activeMessage.startRecordingValue;
     
     CGFloat maxRecordTime = reactionTime+MAX_RECORD_TIME;
 
@@ -397,7 +397,7 @@
 
 - (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
 {
-    [CWAnalytics event:@"COMPLETE_REACTION" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(self.player.videoLength - self.messageItem.metadata.startRecording)];
+    [CWAnalytics event:@"COMPLETE_REACTION" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(self.player.videoLength - self.activeMessage.startRecordingValue)];
 
     [self setOpenerState:CWOpenerRespond];
 }
@@ -420,7 +420,7 @@
     if(self.openerState == CWOpenerRespond)
     {
 
-        NSTimeInterval reactionTime=self.player.videoLength - self.messageItem.metadata.startRecording;
+        NSTimeInterval reactionTime=self.player.videoLength - self.activeMessage.startRecordingValue;
         [CWAnalytics event:@"COMPLETE_REPLY" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
         
 //        [self killTimers];

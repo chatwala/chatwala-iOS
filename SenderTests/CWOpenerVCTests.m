@@ -15,6 +15,7 @@
 #import "CWGroundControlManager.h"
 #import "CWDataManager.h"
 #import "Message.h"
+#import "MocForTests.h"
 
 @interface CWOpenerViewController () <AVAudioPlayerDelegate,CWVideoPlayerDelegate,CWVideoRecorderDelegate>
 @property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
@@ -39,6 +40,7 @@
 @property (nonatomic,strong) id mockReviewTimer;
 @property (nonatomic,strong) id mockReactionTimer;
 @property (nonatomic,strong) id mockResponseTimer;
+@property (nonatomic) NSManagedObjectContext * moc;
 
 @end
 
@@ -58,6 +60,8 @@
     self.mockResponseTimer = [OCMockObject mockForClass:[NSTimer class]];
     self.mockReviewTimer = [OCMockObject mockForClass:[NSTimer class]];
     
+    MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
+    self.moc = mocFactory.moc;
     
 }
 
@@ -104,9 +108,12 @@
 
 - (void)prepMessageItem
 {
+    Message * message = [Message insertInManagedObjectContext:self.moc];
     id mockUrl = [OCMockObject mockForClass:[NSURL class]];
     [[self.mockPlayer stub]setVideoURL:mockUrl];
     
+    [self.sut setActiveMessage:message];
+
     [self.sut setMessageItem:[[CWMessageItem alloc] initWithSender:[OCMockObject niceMockForClass:[User class]]]];
     [self.sut.messageItem setVideoURL:mockUrl];
 }
@@ -310,10 +317,13 @@
 
 - (void)testShouldStartResponseCountDownWhenOpenerStateIsSetToReview
 {
+    //given
     [self prepMessageItem];
-    self.sut.messageItem.metadata.startRecording = 2;
+    self.sut.activeMessage.startRecordingValue = 2;
     [[self.mockSUT expect] startReviewCountDown];
+    //when
     [self.sut setOpenerState:CWOpenerReview];
+    //should
     [self.mockSUT verify];
 }
 
