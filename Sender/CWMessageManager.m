@@ -244,6 +244,9 @@
             
             [[CWDataManager sharedInstance] importMessages:messages];
             
+            [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[localUser numberOfUnreadMessages]];
+            }];
             [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
         }
         else{
