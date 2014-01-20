@@ -262,9 +262,6 @@
     self.activeMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:zipURL withError:&error];
     [self.activeMessage setEMessageViewedState:eMessageViewedStateOpened];
     
-    self.messageItem = [[CWMessageItem alloc]initWithSender:nil];
-    [self.messageItem setZipURL:zipURL];
-    [self.messageItem extractZip];
     @try {
         [self.player setVideoURL:self.activeMessage.videoURL];
     }

@@ -113,9 +113,7 @@
     [[self.mockPlayer stub]setVideoURL:mockUrl];
     
     [self.sut setActiveMessage:message];
-
-    [self.sut setMessageItem:[[CWMessageItem alloc] initWithSender:[OCMockObject niceMockForClass:[User class]]]];
-    [self.sut.messageItem setVideoURL:mockUrl];
+    message.videoURL = mockUrl;
 }
 
 
@@ -205,7 +203,6 @@
     //given
     id mockMessage = [OCMockObject niceMockForClass:[Message class]];
     id mockUrl = [OCMockObject mockForClass:[NSURL class]];
-    [[self.mockSUT expect]setMessageItem:OCMOCK_ANY];
     id mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
     NSError * error = nil;
     [[[mockDataManager expect] andReturn:mockMessage] importMessageAtFilePath:mockUrl withError:((NSError __autoreleasing **)[OCMArg setTo:error])];
@@ -329,10 +326,12 @@
 
 - (void)testShouldSetStateToReviewWhenOpenerStateIsSetToReview
 {
+    //given
     [self prepMessageItem];
-    self.sut.messageItem.metadata.startRecording = 0;
     [[self.mockSUT expect] setOpenerState:CWOpenerReview];
+    //when
     [self.sut setOpenerState:CWOpenerReview];
+    //should
     [self.mockSUT verify];
 }
 

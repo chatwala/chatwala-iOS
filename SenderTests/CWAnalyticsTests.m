@@ -19,6 +19,8 @@
 #import "CWStartScreenViewController.h"
 #import "User.h"
 #import "CWDataManager.h"
+#import "MocForTests.h"
+#import "Message.h"
 
 //@interface CWAuthenticationManager ()
 //- (void)setAuth:(GTMOAuth2Authentication *)auth;
@@ -44,6 +46,7 @@
 
 @interface CWAnalyticsTests : XCTestCase
 @property (nonatomic, strong) id mockUser;
+@property (nonatomic) NSManagedObjectContext * moc;
 @end
 
 @implementation CWAnalyticsTests
@@ -54,6 +57,10 @@
     [CWAnalytics resetFlag];
 
     self.mockUser = [OCMockObject niceMockForClass:[User class]];
+
+    MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
+    self.moc = mocFactory.moc;
+
 }
 
 - (void)tearDown
@@ -152,10 +159,11 @@
 - (void)testShouldSendEventWhenRecordAgainIsSelectedWithIncomingMessage
 {
     //given
+    Message * item = [Message insertInManagedObjectContext:self.moc];
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
-    CWMessageItem * msg = [[CWMessageItem alloc] initWithSender:nil];
-    msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
-    [reviewVC setIncomingMessageItem:msg];
+
+    item.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
+    [reviewVC setIncomingMessage:item];
     
     //when
     [reviewVC onRecordAgain:nil];
