@@ -14,6 +14,8 @@
 #import "CWMessageItem.h"
 #import "CWGroundControlManager.h"
 #import "CWMessageManager.h"
+#import "CWDataManager.h"
+#import "Message.h"
 
 @interface CWOpenerViewController () 
 {
@@ -256,6 +258,12 @@
 
 - (void)setZipURL:(NSURL *)zipURL
 {
+    NSError * error = nil;
+    
+    Message * item = [[CWDataManager sharedInstance] importMessageAtFilePath:zipURL withError:&error];
+    
+    [item setEMessageViewedState:eMessageViewedStateOpened];
+    
     _zipURL = zipURL;
     self.messageItem = [[CWMessageItem alloc]initWithSender:nil];
     [self.messageItem setZipURL:self.zipURL];
