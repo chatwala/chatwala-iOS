@@ -17,7 +17,7 @@
 
 - (void) setupCoreData;
 - (NSError *) importMessages:(NSArray *) messages;
-- (NSError *) importMessageAtFilePath:(NSURL *) filePath;
+- (Message *) importMessageAtFilePath:(NSURL *) filePath withError:(NSError **)error;
 
 - (Message *) findMessageByMessageID:(NSString*) messageID;
 - (User *) findUserByUserID:(NSString *) userID;

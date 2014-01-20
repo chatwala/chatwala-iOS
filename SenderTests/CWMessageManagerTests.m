@@ -202,7 +202,7 @@
     NSURL * filePath = OCMOCK_ANY;
     NSError * error = nil;
     id dataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
-    [[dataManager stub] importMessageAtFilePath:filePath];
+    [[dataManager stub] importMessageAtFilePath:filePath withError:((NSError __autoreleasing **)[OCMArg setTo:error])];
     __block BOOL ranWithSuccess = NO;
     __block NSURL *actual = nil;
     CWMessageDownloadCompletionBlock messageCompletionBlock = ^void(BOOL success, NSURL *url)
@@ -230,7 +230,7 @@
     NSURL * filePath = OCMOCK_ANY;
     NSError * error = nil;
     id dataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
-    [[dataManager expect] importMessageAtFilePath:filePath];
+    [[dataManager expect] importMessageAtFilePath:filePath withError:((NSError __autoreleasing **)[OCMArg setTo:error])];
     
     
     //when

@@ -176,7 +176,7 @@
     return error;
 }
 
-- (NSError *) importMessageAtFilePath:(NSURL *) filePath
+- (Message *) importMessageAtFilePath:(NSURL *) filePath withError:(NSError **)error
 {
     NSFileManager* fm = [NSFileManager defaultManager];
     
@@ -189,30 +189,30 @@
     
     NSString * metadataFileName = [destPath stringByAppendingPathComponent:METADATA_FILE_NAME];
 
+    Message * item = nil;
     if ([fm fileExistsAtPath:destPath]) {
         if ([fm fileExistsAtPath:metadataFileName isDirectory:NO]) {
-            NSError * error = nil;
-            NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:metadataFileName] options:0 error:&error];
-            if (error) {
-                NSLog(@"failed to parse json metdata: %@",error.debugDescription);
-                return error;
+            NSDictionary * jsonDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:metadataFileName] options:0 error:error];
+            if (*error) {
+                NSLog(@"failed to parse json metdata: %@",(*error).debugDescription);
+                return nil;
             }
             
-            Message * item = [self createMessageWithDictionary:jsonDict error:&error];
-            if(error)
+            item = [self createMessageWithDictionary:jsonDict error:error];
+            if(*error)
             {
-                return error;
+                return nil;
             }
             
             [item setEMessageDownloadState:eMessageDownloadStateDownloaded];
-            [item.managedObjectContext save:&error];
-            if(error)
+            [item.managedObjectContext save:error];
+            if(*error)
             {
-                return error;
+                return nil;
             }
         }
     }
-    return nil;
+    return item;
 }
 - (NSString*)cacheDirectoryPath
 {

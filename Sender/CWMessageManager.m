@@ -127,7 +127,8 @@
                 {
                     // success
                     NSLog(@"File downloaded to: %@", filePath);
-                    NSError * error = [[CWDataManager sharedInstance] importMessageAtFilePath:filePath];
+                    NSError * error = nil;
+                    [[CWDataManager sharedInstance] importMessageAtFilePath:filePath withError:&error];
                     NSAssert(!error, @"not expecting an error, found:%@",error);
                     if (messageDownloadCompletionBlock) {
                         messageDownloadCompletionBlock(YES,filePath);
