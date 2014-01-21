@@ -120,7 +120,7 @@
 {
     CGFloat h;
     if (section==0) {
-        h= 60;
+        h= 64;
     }
     if (section==1) {
         h= 40;
