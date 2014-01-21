@@ -62,11 +62,11 @@
     }
     
     
-    NSInteger serverEnv = 0;
+    NSInteger serverEnv = 1;
     //[[[NSUserDefaults standardUserDefaults] valueForKey:@"ServerEnvironment"]integerValue];
     if (serverEnv) {
         // development
-        return @"http://chatwala-dev.azurewebsites.net";
+        return @"http://chatwala-deveast.azurewebsites.net";
     } else{
         // production
         return @"http://chatwala-prodeast.azurewebsites.net";
