@@ -27,7 +27,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8aI-7d-EIA" userLabel="profile pic">
-                            <rect key="frame" x="0.0" y="25" width="320" height="171"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="171"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="320" id="Hmo-LG-JKm"/>
@@ -35,7 +35,7 @@
                             </constraints>
                         </imageView>
                         <view alpha="0.0" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YhE-9m-5I4" userLabel="flash">
-                            <rect key="frame" x="0.0" y="25" width="320" height="171"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="171"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         </view>
@@ -46,8 +46,8 @@
                         <constraint firstItem="YhE-9m-5I4" firstAttribute="leading" secondItem="8aI-7d-EIA" secondAttribute="leading" id="JaD-9B-Sih"/>
                         <constraint firstItem="YhE-9m-5I4" firstAttribute="height" secondItem="8aI-7d-EIA" secondAttribute="height" id="KNP-ek-cwq"/>
                         <constraint firstAttribute="centerX" secondItem="8aI-7d-EIA" secondAttribute="centerX" id="Y3L-D5-8GB"/>
+                        <constraint firstItem="8aI-7d-EIA" firstAttribute="top" secondItem="lhw-2L-0Da" secondAttribute="top" id="Zwj-aP-UDv"/>
                         <constraint firstItem="YhE-9m-5I4" firstAttribute="top" secondItem="8aI-7d-EIA" secondAttribute="top" id="gKl-YJ-X81"/>
-                        <constraint firstAttribute="centerY" secondItem="8aI-7d-EIA" secondAttribute="centerY" id="sQJ-ot-ZDc"/>
                     </constraints>
                 </view>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tap Change! to update your profile pic." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="247" translatesAutoresizingMaskIntoConstraints="NO" id="OrQ-h6-F29">
