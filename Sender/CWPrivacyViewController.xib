@@ -14,12 +14,12 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="bm2-K5-zaD">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="bm2-K5-zaD">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BpZ-a7-q15">
-                    <rect key="frame" x="16" y="44" width="288" height="504"/>
+                    <rect key="frame" x="16" y="64" width="288" height="484"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <string key="text">Please visit:
 http://www.chatwala.com/privacy</string>
@@ -31,12 +31,14 @@ http://www.chatwala.com/privacy</string>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="BpZ-a7-q15" secondAttribute="bottom" constant="20" symbolic="YES" id="IRx-lC-2bw"/>
-                <constraint firstItem="BpZ-a7-q15" firstAttribute="centerX" secondItem="bm2-K5-zaD" secondAttribute="centerX" id="fc5-Et-kcH"/>
-                <constraint firstItem="BpZ-a7-q15" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="ogD-pN-ucM"/>
-                <constraint firstItem="BpZ-a7-q15" firstAttribute="top" secondItem="1" secondAttribute="top" constant="44" id="pOV-8l-oIs"/>
-                <constraint firstItem="BpZ-a7-q15" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="16" id="sK5-Ef-FMt"/>
-                <constraint firstItem="bm2-K5-zaD" firstAttribute="top" secondItem="1" secondAttribute="top" id="yCP-72-Jh1"/>
+                <constraint firstAttribute="bottom" secondItem="bm2-K5-zaD" secondAttribute="bottom" id="CJz-1P-tSu"/>
+                <constraint firstAttribute="trailing" secondItem="BpZ-a7-q15" secondAttribute="trailing" constant="16" id="VPH-Zj-qYR"/>
+                <constraint firstItem="bm2-K5-zaD" firstAttribute="top" secondItem="1" secondAttribute="top" id="fI7-sx-2ea"/>
+                <constraint firstAttribute="trailing" secondItem="bm2-K5-zaD" secondAttribute="trailing" id="rnN-EX-QyD"/>
+                <constraint firstAttribute="bottom" secondItem="BpZ-a7-q15" secondAttribute="bottom" constant="20" id="tgb-Fa-KZu"/>
+                <constraint firstItem="bm2-K5-zaD" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="uHe-48-eLu"/>
+                <constraint firstItem="BpZ-a7-q15" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="16" id="wzI-Lt-9ik"/>
+                <constraint firstItem="BpZ-a7-q15" firstAttribute="top" secondItem="1" secondAttribute="top" constant="64" id="zaM-vw-KNa"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

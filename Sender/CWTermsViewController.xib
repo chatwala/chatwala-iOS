@@ -14,12 +14,12 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="B39-kP-Huk">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="B39-kP-Huk">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTJ-QW-LjP">
-                    <rect key="frame" x="12" y="44" width="288" height="504"/>
+                    <rect key="frame" x="12" y="64" width="288" height="484"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <string key="text">Please visit:
 http://www.chatwala.com/tos</string>
@@ -31,12 +31,14 @@ http://www.chatwala.com/tos</string>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="JTJ-QW-LjP" firstAttribute="top" secondItem="1" secondAttribute="top" constant="44" id="5jI-ni-Zi7"/>
-                <constraint firstItem="JTJ-QW-LjP" firstAttribute="centerY" secondItem="B39-kP-Huk" secondAttribute="centerY" constant="12" id="7KX-y2-z8z"/>
-                <constraint firstAttribute="trailing" secondItem="JTJ-QW-LjP" secondAttribute="trailing" constant="20" symbolic="YES" id="W3C-G2-kxN"/>
-                <constraint firstAttribute="bottom" secondItem="JTJ-QW-LjP" secondAttribute="bottom" constant="20" symbolic="YES" id="aiE-Jt-vZb"/>
-                <constraint firstItem="B39-kP-Huk" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="bCg-Ot-7Ef"/>
-                <constraint firstItem="JTJ-QW-LjP" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="12" id="y19-AD-uWS"/>
+                <constraint firstItem="B39-kP-Huk" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="06g-2e-i00"/>
+                <constraint firstAttribute="bottom" secondItem="JTJ-QW-LjP" secondAttribute="bottom" constant="20" id="9he-aZ-k3S"/>
+                <constraint firstItem="JTJ-QW-LjP" firstAttribute="top" secondItem="1" secondAttribute="top" constant="64" id="NDS-q5-D2U"/>
+                <constraint firstAttribute="trailing" secondItem="JTJ-QW-LjP" secondAttribute="trailing" constant="20" id="OuD-Ot-4Ln"/>
+                <constraint firstItem="JTJ-QW-LjP" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="12" id="WtI-24-pW8"/>
+                <constraint firstAttribute="trailing" secondItem="B39-kP-Huk" secondAttribute="trailing" id="hAs-vb-alm"/>
+                <constraint firstAttribute="bottom" secondItem="B39-kP-Huk" secondAttribute="bottom" id="pdC-Xx-oE1"/>
+                <constraint firstItem="B39-kP-Huk" firstAttribute="top" secondItem="1" secondAttribute="top" id="tv4-J5-Y1h"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
