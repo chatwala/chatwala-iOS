@@ -378,7 +378,7 @@
     
     
     [self.playbackView addSubview:player.playbackView];
-    self.playbackView.frame = CGRectMake(0, self.view.bounds.size.height*0.5, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
+//    self.playbackView.frame = CGRectMake(0, self.view.bounds.size.height*0.5, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
     [player.playbackView setFrame:self.playbackView.bounds];
     [UIView animateWithDuration:0.3 animations:^{
         [self.playbackView setAlpha:1];

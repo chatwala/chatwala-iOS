@@ -23,7 +23,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </view>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SWe-f5-RDK" userLabel="Lower View">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SWe-f5-RDK" userLabel="Lower View">
                     <rect key="frame" x="0.0" y="284" width="320" height="284"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -65,9 +65,13 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="3aD-y9-TRI" secondAttribute="bottom" constant="59" id="4Au-Ie-iXN"/>
+                <constraint firstItem="SWe-f5-RDK" firstAttribute="top" secondItem="W9i-5Z-Xxb" secondAttribute="bottom" constant="-45" id="5Bf-7J-pAd"/>
                 <constraint firstAttribute="centerX" secondItem="W9i-5Z-Xxb" secondAttribute="centerX" id="6fo-I3-axf"/>
                 <constraint firstItem="c1c-Vc-IFS" firstAttribute="top" secondItem="1" secondAttribute="top" constant="56" id="Clx-Ih-Wrv"/>
+                <constraint firstItem="SWe-f5-RDK" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="N8D-3j-u4D"/>
+                <constraint firstAttribute="bottom" secondItem="SWe-f5-RDK" secondAttribute="bottom" id="Pa3-5g-LNy"/>
                 <constraint firstAttribute="centerY" secondItem="W9i-5Z-Xxb" secondAttribute="centerY" id="dfV-4Z-4TG"/>
+                <constraint firstAttribute="trailing" secondItem="SWe-f5-RDK" secondAttribute="trailing" id="t93-hX-XrU"/>
                 <constraint firstAttribute="centerX" secondItem="3aD-y9-TRI" secondAttribute="centerX" id="ult-1C-B8O"/>
                 <constraint firstAttribute="centerX" secondItem="c1c-Vc-IFS" secondAttribute="centerX" id="vWh-7m-iYl"/>
             </constraints>
