@@ -521,12 +521,12 @@
 				206CDF8718808F27007F3532 /* AOFetchUtilities.m */,
 				206CDF8818808F27007F3532 /* AOManagedObject.h */,
 				206CDF8918808F27007F3532 /* AOManagedObject.m */,
-				36AF5819187DD91300C5C13F /* ModelHuman */,
-				36AF581A187DD91300C5C13F /* ModelMachine */,
-				36AF581B187DD91300C5C13F /* ModelTemplates */,
 				36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */,
 				36AF5840187DF45F00C5C13F /* CWDataManager.h */,
 				36AF5841187DF45F00C5C13F /* CWDataManager.m */,
+				36AF5819187DD91300C5C13F /* ModelHuman */,
+				36AF581A187DD91300C5C13F /* ModelMachine */,
+				36AF581B187DD91300C5C13F /* ModelTemplates */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -828,9 +828,9 @@
 		E944397A182940AF0088A381 = {
 			isa = PBXGroup;
 			children = (
-				36AF5828187DDBCF00C5C13F /* Tools */,
 				E944398C182940AF0088A381 /* Sender */,
 				E94439AB182940AF0088A381 /* SenderTests */,
+				36AF5828187DDBCF00C5C13F /* Tools */,
 				E9443985182940AF0088A381 /* Frameworks */,
 				E9443984182940AF0088A381 /* Products */,
 				810134A78491415EBDC34438 /* Pods.xcconfig */,
@@ -875,24 +875,24 @@
 		E944398C182940AF0088A381 /* Sender */ = {
 			isa = PBXGroup;
 			children = (
-				36AF5818187DD91300C5C13F /* CoreData */,
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
 				E9B214FA18464B9400E09DA8 /* CWAnalytics.h */,
 				E9B214FB18464B9400E09DA8 /* CWAnalytics.m */,
+				366035E11873394800EE9233 /* CWUtility.h */,
+				366035E21873394800EE9233 /* CWUtility.m */,
 				E98B1687184F81F00021A611 /* UIColor+Additions.h */,
 				E98B1688184F81F00021A611 /* UIColor+Additions.m */,
-				E99094581861F69E0050695F /* Buttons */,
-				E98B168A184F848E0021A611 /* Third Party */,
-				E946BD231844FC0E00C6A99D /* Managers */,
-				E90F04E3182D2A53004B8CCD /* ViewControllers */,
-				E90F04E4182D2A5D004B8CCD /* Model */,
 				E90F04D1182A9078004B8CCD /* AVCam */,
+				E99094581861F69E0050695F /* Buttons */,
+				36AF5818187DD91300C5C13F /* CoreData */,
+				E946BD231844FC0E00C6A99D /* Managers */,
+				E90F04E4182D2A5D004B8CCD /* Model */,
+				E98B168A184F848E0021A611 /* Third Party */,
+				E90F04E3182D2A53004B8CCD /* ViewControllers */,
 				E944399E182940AF0088A381 /* Images.xcassets */,
 				E946BD261844FCA700C6A99D /* Resources */,
 				E944398D182940AF0088A381 /* Supporting Files */,
-				366035E11873394800EE9233 /* CWUtility.h */,
-				366035E21873394800EE9233 /* CWUtility.m */,
 			);
 			path = Sender;
 			sourceTree = "<group>";
