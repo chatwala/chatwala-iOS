@@ -11,6 +11,7 @@
 #import "CWPrivacyViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWProfilePictureViewController.h"
+#import "UIColor+Additions.h"
 
 @interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate, MFMailComposeViewControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
