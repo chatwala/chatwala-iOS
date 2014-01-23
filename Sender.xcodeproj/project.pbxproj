@@ -895,16 +895,16 @@
 			isa = PBXGroup;
 			children = (
 				E9443995182940AF0088A381 /* AppDelegate.h */,
-				0D1DAE9E18917F960051D7AE /* Helpers */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
 				E98B1687184F81F00021A611 /* UIColor+Additions.h */,
 				E98B1688184F81F00021A611 /* UIColor+Additions.m */,
 				E90F04D1182A9078004B8CCD /* AVCam */,
 				E99094581861F69E0050695F /* Buttons */,
 				36AF5818187DD91300C5C13F /* CoreData */,
+				E98B168A184F848E0021A611 /* External */,
+				0D1DAE9E18917F960051D7AE /* Helpers */,
 				E946BD231844FC0E00C6A99D /* Managers */,
 				E90F04E4182D2A5D004B8CCD /* Model */,
-				E98B168A184F848E0021A611 /* Third Party */,
 				E90F04E3182D2A53004B8CCD /* ViewControllers */,
 				E944399E182940AF0088A381 /* Images.xcassets */,
 				E946BD261844FCA700C6A99D /* Resources */,
@@ -1026,14 +1026,14 @@
 			name = Feedback;
 			sourceTree = "<group>";
 		};
-		E98B168A184F848E0021A611 /* Third Party */ = {
+		E98B168A184F848E0021A611 /* External */ = {
 			isa = PBXGroup;
 			children = (
 				367439EF1880921D00613FD6 /* NSDictionary+LookUpTable.h */,
 				367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */,
 				E98B1694184F84B90021A611 /* DCControl */,
 			);
-			name = "Third Party";
+			name = External;
 			sourceTree = "<group>";
 		};
 		E98B1694184F84B90021A611 /* DCControl */ = {
