@@ -26,7 +26,10 @@
     
     self.closeButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Close-Button"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
 
-    
+    __weak CWViewController* weakSelf = self;
+    [self.mm_drawerController  setGestureCompletionBlock:^(MMDrawerController *drawerController, UIGestureRecognizer *gesture) {
+        [weakSelf rotateBurgerBarAfterDrawAnimation:YES];
+    }];
     UIView * spacer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:spacer]];
 }
@@ -60,8 +63,8 @@
 {
      if ([sender isEqual:self.burgerButton])
     {
+        [self rotateBurgerBarAfterDrawAnimation:NO];
         [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
-        [self rotateBurgerBar];
     }
     
     if ([sender isEqual:self.closeButton]) {
@@ -69,7 +72,7 @@
     }
 }
 
--(void)rotateBurgerBar
+-(void)rotateBurgerBarAfterDrawAnimation:(BOOL) isAfterAnimation
 {
     MMDrawerController* drawer = self.mm_drawerController;
     CGFloat duration = (drawer.maximumLeftDrawerWidth) / drawer.animationVelocity;
@@ -80,9 +83,8 @@
         //Bar Button Items have padding on the right and left sides. this will make it square
         burgerView.bounds = CGRectMake(0, 0, burgerView.bounds.size.width, burgerView.bounds.size.width);
         burgerView.layer.anchorPoint = CGPointMake(0.5, 0.5);
-        if(drawer.openSide == MMDrawerSideNone)
+        if(isAfterAnimation ^ (drawer.openSide == MMDrawerSideNone))
         {
-            //current state is closed so we are switching it over to the "opened" state
             burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(90));
         }
         else

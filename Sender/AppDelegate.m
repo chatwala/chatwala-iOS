@@ -107,8 +107,7 @@
      
     self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.menuVC];
     [self.drawController setMaximumLeftDrawerWidth:MAX_LEFT_DRAWER_WIDTH];
-//    [self.drawController setAnimationVelocity:DRAWER_OPENING_VELOCITY];
-    [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModePanningCenterView|MMCloseDrawerGestureModeTapCenterView];
+    [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeTapCenterView];
 
     self.loadingVC = [[CWLoadingViewController alloc]init];
     [self.loadingVC.view setAlpha:0];
