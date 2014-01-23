@@ -8,12 +8,12 @@
 
 #import <XCTest/XCTest.h>
 #import <OCMock.h>
-#import "CWMenuViewController.h"
+#import "CWInboxViewController.h"
 #import "CWMessageManager.h"
 
 @interface CWMenuViewControllerTests : XCTestCase
 
-@property (nonatomic) CWMenuViewController * sut;
+@property (nonatomic) CWInboxViewController * sut;
 
 @end
 
@@ -23,7 +23,7 @@
 {
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
-    self.sut = [[CWMenuViewController alloc] init];
+    self.sut = [[CWInboxViewController alloc] init];
 }
 
 - (void)tearDown

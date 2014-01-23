@@ -16,7 +16,7 @@
 #import "CWGroundControlManager.h"
 #import "CWLandingViewController.h"
 #import "CWUserManager.h"
-#import "CWMenuViewController.h"
+#import "CWInboxViewController.h"
 #import "CWMainViewController.h"
 #import "CWMessageManager.h"
 #import "CWLoadingViewController.h"
@@ -41,7 +41,7 @@
 }
 //void (^)(BOOL success, NSURL *url)completionBlock;
 
-@property (nonatomic,strong) CWMenuViewController * menuVC;
+@property (nonatomic,strong) CWInboxViewController * menuVC;
 @property (nonatomic,strong) CWMainViewController * mainVC;
 @property (nonatomic,strong) CWLoadingViewController * loadingVC;
 @property (nonatomic,strong) UINavigationController * settingsNavController;
@@ -86,7 +86,7 @@
     [[NSUserDefaults standardUserDefaults]synchronize];
     
     
-    self.menuVC = [[CWMenuViewController alloc]init];
+    self.menuVC = [[CWInboxViewController alloc]init];
     self.mainVC = [[CWMainViewController alloc]init];
     
 //    self.landingVC = [[CWLandingViewController alloc]init];
@@ -419,7 +419,7 @@
 
 #pragma mark CWMenuDelegate
 
-- (void)menuViewController:(CWMenuViewController *)menuVC didSelectButton:(UIButton *)button
+- (void)menuViewController:(CWInboxViewController *)menuVC didSelectButton:(UIButton *)button
 {
     [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
         if ([button isEqual:menuVC.plusButton]) {
@@ -441,7 +441,7 @@
 }
 
 
-- (void)menuViewController:(CWMenuViewController *)menuVC didSelectMessageWithID:(NSString *)messageId
+- (void)menuViewController:(CWInboxViewController *)menuVC didSelectMessageWithID:(NSString *)messageId
 {
     
     AppDelegate * appdel = self;

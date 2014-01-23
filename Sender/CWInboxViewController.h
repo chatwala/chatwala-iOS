@@ -10,7 +10,7 @@
 
 @protocol CWMenuDelegate;
 
-@interface CWMenuViewController : UIViewController
+@interface CWInboxViewController : UIViewController
 @property (nonatomic,weak) IBOutlet UITableView * messagesTable;
 @property (nonatomic,weak) IBOutlet UILabel * messagesLabel;
 @property (nonatomic,weak) IBOutlet UIButton * plusButton;
@@ -22,6 +22,6 @@
 
 
 @protocol CWMenuDelegate <NSObject>
-- (void)menuViewController:(CWMenuViewController*)menuVC didSelectButton:(UIButton*)button;
-- (void)menuViewController:(CWMenuViewController*)menuVC didSelectMessageWithID:(NSString*)messageId;
+- (void)menuViewController:(CWInboxViewController*)menuVC didSelectButton:(UIButton*)button;
+- (void)menuViewController:(CWInboxViewController*)menuVC didSelectMessageWithID:(NSString*)messageId;
 @end

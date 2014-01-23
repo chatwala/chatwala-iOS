@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import "CWMenuViewController.h"
+#import "CWInboxViewController.h"
 #import "CWMessageManager.h"
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
@@ -14,11 +14,11 @@
 
 
 
-@interface CWMenuViewController () <UITableViewDelegate>
+@interface CWInboxViewController () <UITableViewDelegate>
 @property (nonatomic,strong) UIRefreshControl * refreshControl;
 @end
 
-@implementation CWMenuViewController
+@implementation CWInboxViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
