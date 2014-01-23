@@ -515,6 +515,7 @@
 		0D1DAE9E18917F960051D7AE /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				36AF5818187DD91300C5C13F /* CoreData */,
 				0D1DAEA218917FD30051D7AE /* CWUtility.h */,
 				0D1DAEA318917FD30051D7AE /* CWUtility.m */,
 				0D1DAE9F18917F960051D7AE /* CWAnalytics.h */,
@@ -591,7 +592,8 @@
 				36AF5840187DF45F00C5C13F /* CWDataManager.h */,
 				36AF5841187DF45F00C5C13F /* CWDataManager.m */,
 			);
-			path = CoreData;
+			name = CoreData;
+			path = ../CoreData;
 			sourceTree = "<group>";
 		};
 		36AF5819187DD91300C5C13F /* ModelHuman */ = {
@@ -924,7 +926,6 @@
 				E9443996182940AF0088A381 /* AppDelegate.m */,
 				E90F04D1182A9078004B8CCD /* AVCam */,
 				E99094581861F69E0050695F /* Buttons */,
-				36AF5818187DD91300C5C13F /* CoreData */,
 				0D200AB31891852F008C2238 /* External */,
 				0D1DAE9E18917F960051D7AE /* Helpers */,
 				E946BD231844FC0E00C6A99D /* Managers */,
