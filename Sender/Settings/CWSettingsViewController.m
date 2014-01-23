@@ -49,7 +49,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:att];
     
     
-    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback", @"Profile Pic"]];
+    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback", @"Edit Your Profile Picture"]];
     
     
     
