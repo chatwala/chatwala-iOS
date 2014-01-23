@@ -1,5 +1,5 @@
 //
-//  CWMenuViewController.m
+//  CWInboxViewController.m
 //  Sender
 //
 //  Created by Khalid on 12/17/13.

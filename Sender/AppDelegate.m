@@ -34,7 +34,7 @@
 }
 @end
 
-@interface AppDelegate () <CWMenuDelegate>
+@interface AppDelegate () <CWInboxDelegate>
 {
     BOOL isSplitScreen;
     
