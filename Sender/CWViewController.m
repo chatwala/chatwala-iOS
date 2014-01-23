@@ -10,7 +10,6 @@
 #import "UIViewController+MMDrawerController.h"
 
 #define degreesToRadians( degrees ) ( ( degrees ) / 180.0 * M_PI )
-static int rotation = -1;
 
 @interface CWViewController ()
 
@@ -61,8 +60,9 @@ static int rotation = -1;
 {
      if ([sender isEqual:self.burgerButton])
     {
-        [self rotateBurgerBar];
-        [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+        [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:^(BOOL finished) {
+            [self rotateBurgerBar];
+        }];
     }
     
     if ([sender isEqual:self.closeButton]) {
@@ -78,18 +78,15 @@ static int rotation = -1;
     [UIView animateWithDuration:duration animations:^{
 
         UIView* burgerView = [self.burgerButton valueForKey:@"view"];
-    burgerView.layer.anchorPoint = CGPointMake(0.5, 0.5);
-        switch (rotation) {
-            case 1:
-                burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(0));
-                break;
-            case -1:
-                burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(90));
-                break;
-            default:
-                break;
+        burgerView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+        if(drawer.openSide == MMDrawerSideNone)
+        {
+            burgerView.transform = CGAffineTransformIdentity;
         }
-        rotation = rotation * -1;
+        else
+        {
+            burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(90));
+        }
     }];
 }
 @end
