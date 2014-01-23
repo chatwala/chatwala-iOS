@@ -77,7 +77,8 @@
     [UIView animateWithDuration:duration animations:^{
 
         UIView* burgerView = [self.burgerButton valueForKey:@"view"];
-        burgerView.backgroundColor = [UIColor orangeColor];
+        //Bar Button Items have padding on the right and left sides. this will make it square
+        burgerView.bounds = CGRectMake(0, 0, burgerView.bounds.size.width, burgerView.bounds.size.width);
         burgerView.layer.anchorPoint = CGPointMake(0.5, 0.5);
         if(drawer.openSide == MMDrawerSideNone)
         {
