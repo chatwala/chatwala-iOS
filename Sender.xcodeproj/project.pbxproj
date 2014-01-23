@@ -15,6 +15,10 @@
 		0D1DAEB21891809D0051D7AE /* CWSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1DAEAB1891809D0051D7AE /* CWSettingsViewController.xib */; };
 		0D1DAEB31891809D0051D7AE /* CWTermsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEAD1891809D0051D7AE /* CWTermsViewController.m */; };
 		0D1DAEB41891809D0051D7AE /* CWTermsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1DAEAE1891809D0051D7AE /* CWTermsViewController.xib */; };
+		0D200ABD1891852F008C2238 /* DCControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AB61891852F008C2238 /* DCControl.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0D200ABE1891852F008C2238 /* DCKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AB81891852F008C2238 /* DCKnob.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0D200ABF1891852F008C2238 /* DCSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ABA1891852F008C2238 /* DCSlider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		0D200AC01891852F008C2238 /* NSDictionary+LookUpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ABC1891852F008C2238 /* NSDictionary+LookUpTable.m */; };
 		206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */; };
 		206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8718808F27007F3532 /* AOFetchUtilities.m */; };
 		206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8918808F27007F3532 /* AOManagedObject.m */; };
@@ -23,7 +27,6 @@
 		36145397188481FD00400916 /* testMessage.zip in Resources */ = {isa = PBXBuildFile; fileRef = 36145396188481FD00400916 /* testMessage.zip */; };
 		366EB58C18843E4200A7FF75 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 366EB58B18843E4200A7FF75 /* UserTests.m */; };
 		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
-		367439F11880921D00613FD6 /* NSDictionary+LookUpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
 		36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36ACC922187F557B00314C40 /* CWDataManagerTests.m */; };
 		36AF5820187DD97000C5C13F /* human.h.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581C187DD97000C5C13F /* human.h.motemplate */; };
@@ -163,9 +166,6 @@
 		E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E96525641835367A008987BD /* CWOpenerVCTests.m */; };
 		E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E973B1A218453C3E007A8D51 /* CWAnalyticsTests.m */; };
 		E98B1689184F81F00021A611 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = E98B1688184F81F00021A611 /* UIColor+Additions.m */; };
-		E98B1691184F84B40021A611 /* DCControl.m in Sources */ = {isa = PBXBuildFile; fileRef = E98B168C184F84B40021A611 /* DCControl.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		E98B1692184F84B40021A611 /* DCKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = E98B168E184F84B40021A611 /* DCKnob.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		E98B1693184F84B40021A611 /* DCSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = E98B1690184F84B40021A611 /* DCSlider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E98B1697184F85B80021A611 /* CWMiddleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E98B1696184F85B80021A611 /* CWMiddleButton.m */; };
 		E990946118620AD70050695F /* CWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E990946018620AD70050695F /* CWViewController.m */; };
 		E9909464186231BF0050695F /* CWMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9909463186231BF0050695F /* CWMessageManager.m */; };
@@ -226,6 +226,14 @@
 		0D1DAEAC1891809D0051D7AE /* CWTermsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTermsViewController.h; sourceTree = "<group>"; };
 		0D1DAEAD1891809D0051D7AE /* CWTermsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWTermsViewController.m; sourceTree = "<group>"; };
 		0D1DAEAE1891809D0051D7AE /* CWTermsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWTermsViewController.xib; sourceTree = "<group>"; };
+		0D200AB51891852F008C2238 /* DCControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCControl.h; sourceTree = "<group>"; };
+		0D200AB61891852F008C2238 /* DCControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCControl.m; sourceTree = "<group>"; };
+		0D200AB71891852F008C2238 /* DCKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCKnob.h; sourceTree = "<group>"; };
+		0D200AB81891852F008C2238 /* DCKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCKnob.m; sourceTree = "<group>"; };
+		0D200AB91891852F008C2238 /* DCSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSlider.h; sourceTree = "<group>"; };
+		0D200ABA1891852F008C2238 /* DCSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSlider.m; sourceTree = "<group>"; };
+		0D200ABB1891852F008C2238 /* NSDictionary+LookUpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+LookUpTable.h"; sourceTree = "<group>"; };
+		0D200ABC1891852F008C2238 /* NSDictionary+LookUpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+LookUpTable.m"; sourceTree = "<group>"; };
 		206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOCoreDataStackUtilities.m; sourceTree = "<group>"; };
 		206CDF8618808F27007F3532 /* AOFetchUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOFetchUtilities.h; sourceTree = "<group>"; };
 		206CDF8718808F27007F3532 /* AOFetchUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOFetchUtilities.m; sourceTree = "<group>"; };
@@ -238,8 +246,6 @@
 		366EB58B18843E4200A7FF75 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
 		367439E9187F5C6200613FD6 /* MocForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MocForTests.h; sourceTree = "<group>"; };
 		367439EA187F5C6200613FD6 /* MocForTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MocForTests.m; sourceTree = "<group>"; };
-		367439EF1880921D00613FD6 /* NSDictionary+LookUpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+LookUpTable.h"; sourceTree = "<group>"; };
-		367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+LookUpTable.m"; sourceTree = "<group>"; };
 		36781C9118760591005AE1C6 /* CWMessageCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCellTest.m; sourceTree = "<group>"; };
 		36ACC922187F557B00314C40 /* CWDataManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWDataManagerTests.m; sourceTree = "<group>"; };
 		36AF581C187DD97000C5C13F /* human.h.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.h.motemplate; sourceTree = "<group>"; };
@@ -414,12 +420,6 @@
 		E973B1A218453C3E007A8D51 /* CWAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAnalyticsTests.m; sourceTree = "<group>"; };
 		E98B1687184F81F00021A611 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		E98B1688184F81F00021A611 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
-		E98B168B184F84B40021A611 /* DCControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCControl.h; sourceTree = "<group>"; };
-		E98B168C184F84B40021A611 /* DCControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCControl.m; sourceTree = "<group>"; };
-		E98B168D184F84B40021A611 /* DCKnob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCKnob.h; sourceTree = "<group>"; };
-		E98B168E184F84B40021A611 /* DCKnob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCKnob.m; sourceTree = "<group>"; };
-		E98B168F184F84B40021A611 /* DCSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DCSlider.h; sourceTree = "<group>"; };
-		E98B1690184F84B40021A611 /* DCSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSlider.m; sourceTree = "<group>"; };
 		E98B1695184F85B80021A611 /* CWMiddleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMiddleButton.h; sourceTree = "<group>"; };
 		E98B1696184F85B80021A611 /* CWMiddleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMiddleButton.m; sourceTree = "<group>"; };
 		E990945F18620AD70050695F /* CWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWViewController.h; sourceTree = "<group>"; };
@@ -537,6 +537,29 @@
 				0D1DAEAE1891809D0051D7AE /* CWTermsViewController.xib */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		0D200AB31891852F008C2238 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				0D200AB41891852F008C2238 /* DCControl */,
+				0D200ABB1891852F008C2238 /* NSDictionary+LookUpTable.h */,
+				0D200ABC1891852F008C2238 /* NSDictionary+LookUpTable.m */,
+			);
+			path = External;
+			sourceTree = "<group>";
+		};
+		0D200AB41891852F008C2238 /* DCControl */ = {
+			isa = PBXGroup;
+			children = (
+				0D200AB51891852F008C2238 /* DCControl.h */,
+				0D200AB61891852F008C2238 /* DCControl.m */,
+				0D200AB71891852F008C2238 /* DCKnob.h */,
+				0D200AB81891852F008C2238 /* DCKnob.m */,
+				0D200AB91891852F008C2238 /* DCSlider.h */,
+				0D200ABA1891852F008C2238 /* DCSlider.m */,
+			);
+			path = DCControl;
 			sourceTree = "<group>";
 		};
 		36AF5818187DD91300C5C13F /* CoreData */ = {
@@ -901,7 +924,7 @@
 				E90F04D1182A9078004B8CCD /* AVCam */,
 				E99094581861F69E0050695F /* Buttons */,
 				36AF5818187DD91300C5C13F /* CoreData */,
-				E98B168A184F848E0021A611 /* External */,
+				0D200AB31891852F008C2238 /* External */,
 				0D1DAE9E18917F960051D7AE /* Helpers */,
 				E946BD231844FC0E00C6A99D /* Managers */,
 				E90F04E4182D2A5D004B8CCD /* Model */,
@@ -1024,29 +1047,6 @@
 				E9C115591832987700DB67D2 /* CWFeedbackViewController.xib */,
 			);
 			name = Feedback;
-			sourceTree = "<group>";
-		};
-		E98B168A184F848E0021A611 /* External */ = {
-			isa = PBXGroup;
-			children = (
-				367439EF1880921D00613FD6 /* NSDictionary+LookUpTable.h */,
-				367439F01880921D00613FD6 /* NSDictionary+LookUpTable.m */,
-				E98B1694184F84B90021A611 /* DCControl */,
-			);
-			name = External;
-			sourceTree = "<group>";
-		};
-		E98B1694184F84B90021A611 /* DCControl */ = {
-			isa = PBXGroup;
-			children = (
-				E98B168B184F84B40021A611 /* DCControl.h */,
-				E98B168C184F84B40021A611 /* DCControl.m */,
-				E98B168D184F84B40021A611 /* DCKnob.h */,
-				E98B168E184F84B40021A611 /* DCKnob.m */,
-				E98B168F184F84B40021A611 /* DCSlider.h */,
-				E98B1690184F84B40021A611 /* DCSlider.m */,
-			);
-			name = DCControl;
 			sourceTree = "<group>";
 		};
 		E99094581861F69E0050695F /* Buttons */ = {
@@ -1428,13 +1428,12 @@
 				E90F04DD182BF758004B8CCD /* CWMetadata.m in Sources */,
 				E9C1155A1832987700DB67D2 /* CWFeedbackViewController.m in Sources */,
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,
-				E98B1692184F84B40021A611 /* DCKnob.m in Sources */,
-				E98B1691184F84B40021A611 /* DCControl.m in Sources */,
 				E9909464186231BF0050695F /* CWMessageManager.m in Sources */,
 				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
 				206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
 				36AF583E187DF0AB00C5C13F /* _User.m in Sources */,
+				0D200ABE1891852F008C2238 /* DCKnob.m in Sources */,
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
 				0D1DAEA418917FD30051D7AE /* CWUtility.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
@@ -1443,9 +1442,9 @@
 				E990946118620AD70050695F /* CWViewController.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
 				E924AD37183AB7CA009400DD /* CWPIPReviewViewController.m in Sources */,
+				0D200ABD1891852F008C2238 /* DCControl.m in Sources */,
 				E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */,
 				E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */,
-				E98B1693184F84B40021A611 /* DCSlider.m in Sources */,
 				E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */,
 				E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */,
 				E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */,
@@ -1456,12 +1455,14 @@
 				36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */,
+				0D200ABF1891852F008C2238 /* DCSlider.m in Sources */,
 				36AF5835187DF0A200C5C13F /* Thread.m in Sources */,
 				E9AF033B1868B450006CB546 /* CWMessageCell.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
 				36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */,
 				0D1DAEA118917F960051D7AE /* CWAnalytics.m in Sources */,
+				0D200AC01891852F008C2238 /* NSDictionary+LookUpTable.m in Sources */,
 				36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */,
 				0D1DAEB31891809D0051D7AE /* CWTermsViewController.m in Sources */,
 				E9AF03351868B423006CB546 /* CWMenuViewController.m in Sources */,
@@ -1469,7 +1470,6 @@
 				36EB6DCD1888841B005B81B4 /* CWProfilePictureViewController.m in Sources */,
 				0D1DAEB11891809D0051D7AE /* CWSettingsViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
-				367439F11880921D00613FD6 /* NSDictionary+LookUpTable.m in Sources */,
 				36AF5836187DF0A200C5C13F /* User.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
