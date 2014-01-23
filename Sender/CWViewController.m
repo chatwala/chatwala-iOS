@@ -7,7 +7,10 @@
 //
 
 #import "CWViewController.h"
-#import "AppDelegate.h"
+#import "UIViewController+MMDrawerController.h"
+
+#define degreesToRadians( degrees ) ( ( degrees ) / 180.0 * M_PI )
+static int rotation = -1;
 
 @interface CWViewController ()
 
@@ -15,16 +18,6 @@
 @end
 
 @implementation CWViewController
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        
-    }
-    return self;
-}
 
 - (void)viewDidLoad
 {
@@ -37,7 +30,6 @@
     UIView * spacer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:spacer]];
 }
-
 
 
 - (void)setNavMode:(NavMode)mode
@@ -64,14 +56,12 @@
     }
 }
 
-
-
-
 - (void)onTap:(id)sender
 {
-    if ([sender isEqual:self.burgerButton]) {
-        AppDelegate * appDel = (AppDelegate *) APPDEL;
-        [appDel.drawController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+     if ([sender isEqual:self.burgerButton])
+    {
+        [self rotateBurgerBar];
+        [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
     }
     
     if ([sender isEqual:self.closeButton]) {
@@ -79,4 +69,25 @@
     }
 }
 
+-(void)rotateBurgerBar
+{
+    MMDrawerController* drawer = self.mm_drawerController;
+    CGFloat duration = drawer.animationVelocity / (2.5 * drawer.maximumLeftDrawerWidth);
+
+    [UIView animateWithDuration:duration animations:^{
+
+        UIView* burgerView = [self.burgerButton valueForKey:@"view"];
+        switch (rotation) {
+            case 1:
+                burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(0));
+                break;
+            case -1:
+                burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(90));
+                break;
+            default:
+                break;
+        }
+        rotation = rotation * -1;
+    }];
+}
 @end

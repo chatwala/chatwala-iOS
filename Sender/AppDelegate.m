@@ -23,6 +23,8 @@
 #import "CWSettingsViewController.h"
 #import "CWDataManager.h"
 
+#define MAX_LEFT_DRAWER_WIDTH 131
+#define DRAWER_OPENING_VELOCITY 250.0
 
 @interface UINavigationBar (customNav)
 @end
@@ -104,10 +106,10 @@
 
      
     self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.menuVC];
-    [self.drawController setMaximumLeftDrawerWidth:131];
+    [self.drawController setMaximumLeftDrawerWidth:MAX_LEFT_DRAWER_WIDTH];
+    [self.drawController setAnimationVelocity:DRAWER_OPENING_VELOCITY];
     [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModePanningCenterView|MMCloseDrawerGestureModeTapCenterView];
-    
-    
+
     self.loadingVC = [[CWLoadingViewController alloc]init];
     [self.loadingVC.view setAlpha:0];
 //    [self.loadingVC restartAnimation];
