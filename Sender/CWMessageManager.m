@@ -62,7 +62,7 @@
     }
     
     
-    NSInteger serverEnv = 1;
+    NSInteger serverEnv = 0;
     //[[[NSUserDefaults standardUserDefaults] valueForKey:@"ServerEnvironment"]integerValue];
     if (serverEnv) {
         // development
