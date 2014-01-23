@@ -24,6 +24,7 @@ static int rotation = -1;
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.burgerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu_btn"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
+    
     self.closeButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Close-Button"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
 
     
@@ -72,11 +73,12 @@ static int rotation = -1;
 -(void)rotateBurgerBar
 {
     MMDrawerController* drawer = self.mm_drawerController;
-    CGFloat duration = drawer.animationVelocity / (2.5 * drawer.maximumLeftDrawerWidth);
+    CGFloat duration = (drawer.maximumLeftDrawerWidth) / drawer.animationVelocity;
 
     [UIView animateWithDuration:duration animations:^{
 
         UIView* burgerView = [self.burgerButton valueForKey:@"view"];
+    burgerView.layer.anchorPoint = CGPointMake(0.5, 0.5);
         switch (rotation) {
             case 1:
                 burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(0));
