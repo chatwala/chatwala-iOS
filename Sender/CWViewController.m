@@ -60,9 +60,8 @@
 {
      if ([sender isEqual:self.burgerButton])
     {
-        [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:^(BOOL finished) {
-            [self rotateBurgerBar];
-        }];
+        [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+        [self rotateBurgerBar];
     }
     
     if ([sender isEqual:self.closeButton]) {
@@ -78,14 +77,16 @@
     [UIView animateWithDuration:duration animations:^{
 
         UIView* burgerView = [self.burgerButton valueForKey:@"view"];
+        burgerView.backgroundColor = [UIColor orangeColor];
         burgerView.layer.anchorPoint = CGPointMake(0.5, 0.5);
         if(drawer.openSide == MMDrawerSideNone)
         {
-            burgerView.transform = CGAffineTransformIdentity;
+            //current state is closed so we are switching it over to the "opened" state
+            burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(90));
         }
         else
         {
-            burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(90));
+            burgerView.transform = CGAffineTransformIdentity;
         }
     }];
 }
