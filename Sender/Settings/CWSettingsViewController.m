@@ -14,7 +14,8 @@
 #import "CWProfilePictureViewController.h"
 #import "UIColor+Additions.h"
 
-@interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate, MFMailComposeViewControllerDelegate>
+@interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
 @property (nonatomic,strong) NSArray * sectionHeaders;
 @property (nonatomic,strong) NSArray * section1Titles;
@@ -53,17 +54,12 @@
     
     [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback", @"Edit Your Profile Picture"]];
     
-    
-    
     [self.settingsTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"settingsCell"];
     [self.settingsTable setDelegate:self];
     [self.settingsTable setDataSource:self];
     [self.settingsTable setBackgroundColor:[UIColor clearColor]];
     [self.settingsTable setSeparatorColor:[UIColor chatwalaBlueLight]];
     [self.settingsTable setScrollEnabled:NO];
-    
-    
-    
 }
 
 
@@ -76,9 +72,6 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -197,12 +190,12 @@
     }
 }
 
-#pragma mark MFMailComposeViewControllerDelegate
-
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-{
-    [controller dismissViewControllerAnimated:YES completion:nil];
-}
+//#pragma mark MFMailComposeViewControllerDelegate
+//
+//- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+//{
+//    [controller dismissViewControllerAnimated:YES completion:nil];
+//}
 
 
 @end

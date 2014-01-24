@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWFeedBackViewController">
             <connections>
+                <outlet property="label" destination="0TE-cH-Doy" id="qb6-m5-NIV"/>
                 <outlet property="noButton" destination="ZVR-lf-8cq" id="15m-t9-la1"/>
                 <outlet property="view" destination="1" id="3"/>
                 <outlet property="yesButton" destination="5N9-W3-fWx" id="DdY-H3-l00"/>
@@ -20,10 +21,10 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are you happy with Chatwala?" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="155" translatesAutoresizingMaskIntoConstraints="NO" id="0TE-cH-Doy">
-                    <rect key="frame" x="83" y="107" width="155" height="53"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are you happy with Chatwala?" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="168" translatesAutoresizingMaskIntoConstraints="NO" id="0TE-cH-Doy">
+                    <rect key="frame" x="76" y="93" width="168" height="67"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -64,12 +65,12 @@
                 <constraint firstItem="5N9-W3-fWx" firstAttribute="top" secondItem="0TE-cH-Doy" secondAttribute="bottom" constant="84" id="4jb-5t-tLn"/>
                 <constraint firstItem="ZVR-lf-8cq" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="50" id="FEr-IH-V3Q"/>
                 <constraint firstItem="5N9-W3-fWx" firstAttribute="width" secondItem="ZVR-lf-8cq" secondAttribute="width" id="FpI-fT-m1e"/>
-                <constraint firstAttribute="trailing" secondItem="0TE-cH-Doy" secondAttribute="trailing" constant="82" id="T8Z-b0-9Z3"/>
+                <constraint firstAttribute="trailing" secondItem="0TE-cH-Doy" secondAttribute="trailing" constant="76" id="T8Z-b0-9Z3"/>
                 <constraint firstAttribute="bottom" secondItem="ZVR-lf-8cq" secondAttribute="bottom" constant="244" id="UPG-VP-W1U"/>
                 <constraint firstItem="5N9-W3-fWx" firstAttribute="height" secondItem="ZVR-lf-8cq" secondAttribute="height" id="WTv-Rh-jw4"/>
-                <constraint firstItem="0TE-cH-Doy" firstAttribute="top" secondItem="1" secondAttribute="top" constant="107" id="YSA-Qz-5Ew"/>
+                <constraint firstItem="0TE-cH-Doy" firstAttribute="top" secondItem="1" secondAttribute="top" constant="93" id="YSA-Qz-5Ew"/>
                 <constraint firstItem="ZVR-lf-8cq" firstAttribute="top" secondItem="0TE-cH-Doy" secondAttribute="bottom" constant="84" id="cbT-qL-C4L"/>
-                <constraint firstItem="0TE-cH-Doy" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="83" id="poP-xo-VjW"/>
+                <constraint firstItem="0TE-cH-Doy" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="76" id="poP-xo-VjW"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

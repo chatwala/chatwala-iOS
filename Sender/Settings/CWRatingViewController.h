@@ -11,5 +11,7 @@
 
 @interface CWRatingViewController : CWSettingsBaseViewController
 @property (strong, nonatomic) IBOutlet UILabel *label;
+@property (strong, nonatomic) IBOutlet UIButton *sureButton;
 
+- (IBAction)sureButtonTapped:(id)sender;
 @end

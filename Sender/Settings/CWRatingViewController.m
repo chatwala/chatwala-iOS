@@ -33,4 +33,7 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)sureButtonTapped:(id)sender {
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString: @"https://itunes.apple.com/us/app/chatwala-video-messenger/id775982711?mt=8"]];
+}
 @end

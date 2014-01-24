@@ -11,6 +11,7 @@
 
 @interface CWFeedBackViewController : CWSettingsBaseViewController
 
+@property (strong, nonatomic) IBOutlet UILabel *label;
 @property (strong, nonatomic) IBOutlet UIButton *yesButton;
 @property (strong, nonatomic) IBOutlet UIButton *noButton;
 

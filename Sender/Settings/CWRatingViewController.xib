@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWRatingViewController">
             <connections>
                 <outlet property="label" destination="T8S-Mq-JG8" id="cwb-8N-13F"/>
+                <outlet property="sureButton" destination="OdY-N2-fb2" id="Yzp-Br-dgp"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -19,7 +20,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OdY-N2-fb2">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OdY-N2-fb2">
                     <rect key="frame" x="120" y="244" width="80" height="80"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
@@ -30,8 +31,11 @@
                     <state key="normal" image="Button-Icon-Sure" backgroundImage="Button-Inner">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
+                    <connections>
+                        <action selector="sureButtonTapped:" destination="-1" eventType="touchUpInside" id="33A-dX-UEL"/>
+                    </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Great!                  How about rating us in the App Store?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="197" translatesAutoresizingMaskIntoConstraints="NO" id="T8S-Mq-JG8">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Great!                  How about rating us in the App Store?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="197" translatesAutoresizingMaskIntoConstraints="NO" id="T8S-Mq-JG8">
                     <rect key="frame" x="62" y="107" width="197" height="100"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
@@ -41,10 +45,14 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstItem="OdY-N2-fb2" firstAttribute="centerX" secondItem="fD3-Cc-Sfo" secondAttribute="centerX" id="Dt1-oO-vVL"/>
                 <constraint firstItem="fD3-Cc-Sfo" firstAttribute="top" secondItem="1" secondAttribute="top" id="QGn-Th-T9k"/>
                 <constraint firstAttribute="trailing" secondItem="fD3-Cc-Sfo" secondAttribute="trailing" id="ToH-WS-u4u"/>
                 <constraint firstAttribute="bottom" secondItem="fD3-Cc-Sfo" secondAttribute="bottom" id="W02-nB-guh"/>
                 <constraint firstItem="fD3-Cc-Sfo" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="bt6-ZY-VYJ"/>
+                <constraint firstItem="OdY-N2-fb2" firstAttribute="top" secondItem="T8S-Mq-JG8" secondAttribute="bottom" constant="37" id="o19-aC-D1l"/>
+                <constraint firstItem="OdY-N2-fb2" firstAttribute="centerX" secondItem="T8S-Mq-JG8" secondAttribute="centerX" id="rCP-Zb-xQV"/>
+                <constraint firstItem="OdY-N2-fb2" firstAttribute="centerY" secondItem="fD3-Cc-Sfo" secondAttribute="centerY" id="vxT-Hl-JZO"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
