@@ -59,6 +59,13 @@
 		36F3F87C187C9C54002CBB63 /* CWGroundControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */; };
 		5A22DD32AA184288BEC932AA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8B4EC8D342465796C4A37E /* libPods.a */; };
 		82380876CA9D496387191727 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5043C247C54257A2FCABFE /* libPods-test.a */; };
+		9AC88A8F189297F90006EE61 /* CWFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A8D189297F90006EE61 /* CWFeedBackViewController.m */; };
+		9AC88A90189297F90006EE61 /* CWFeedBackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AC88A8E189297F90006EE61 /* CWFeedBackViewController.xib */; };
+		9AC88A941892D57B0006EE61 /* CWRatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A921892D57B0006EE61 /* CWRatingViewController.m */; };
+		9AC88A951892D57B0006EE61 /* CWRatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AC88A931892D57B0006EE61 /* CWRatingViewController.xib */; };
+		9AC88A991892E7790006EE61 /* CWAskForImprovementMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A971892E7790006EE61 /* CWAskForImprovementMsgViewController.m */; };
+		9AC88A9A1892E7790006EE61 /* CWAskForImprovementMsgViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AC88A981892E7790006EE61 /* CWAskForImprovementMsgViewController.xib */; };
+		9AC88A9D1892EA250006EE61 /* CWSettingsBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A9C1892EA250006EE61 /* CWSettingsBaseViewController.m */; };
 		E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90B7C80186C958D00B94DCC /* CWLoadingViewController.m */; };
 		E90B7C83186C958D00B94DCC /* CWLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C81186C958D00B94DCC /* CWLoadingViewController.xib */; };
 		E90B7CA4186CBE4A00B94DCC /* waves0000.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C86186CBE4A00B94DCC /* waves0000.png */; };
@@ -293,6 +300,17 @@
 		36F3F878187C9573002CBB63 /* CWKillScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWKillScreenViewController.xib; sourceTree = "<group>"; };
 		36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWGroundControlTests.m; sourceTree = "<group>"; };
 		810134A78491415EBDC34438 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
+		9AC88A8C189297F90006EE61 /* CWFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWFeedBackViewController.h; sourceTree = "<group>"; };
+		9AC88A8D189297F90006EE61 /* CWFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWFeedBackViewController.m; sourceTree = "<group>"; };
+		9AC88A8E189297F90006EE61 /* CWFeedBackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWFeedBackViewController.xib; sourceTree = "<group>"; };
+		9AC88A911892D57B0006EE61 /* CWRatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWRatingViewController.h; sourceTree = "<group>"; };
+		9AC88A921892D57B0006EE61 /* CWRatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWRatingViewController.m; sourceTree = "<group>"; };
+		9AC88A931892D57B0006EE61 /* CWRatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWRatingViewController.xib; sourceTree = "<group>"; };
+		9AC88A961892E7790006EE61 /* CWAskForImprovementMsgViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAskForImprovementMsgViewController.h; sourceTree = "<group>"; };
+		9AC88A971892E7790006EE61 /* CWAskForImprovementMsgViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAskForImprovementMsgViewController.m; sourceTree = "<group>"; };
+		9AC88A981892E7790006EE61 /* CWAskForImprovementMsgViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWAskForImprovementMsgViewController.xib; sourceTree = "<group>"; };
+		9AC88A9B1892EA250006EE61 /* CWSettingsBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSettingsBaseViewController.h; sourceTree = "<group>"; };
+		9AC88A9C1892EA250006EE61 /* CWSettingsBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSettingsBaseViewController.m; sourceTree = "<group>"; };
 		BC8B4EC8D342465796C4A37E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5043C247C54257A2FCABFE /* libPods-test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90B7C7F186C958D00B94DCC /* CWLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLoadingViewController.h; sourceTree = "<group>"; };
@@ -538,6 +556,17 @@
 				0D1DAEAC1891809D0051D7AE /* CWTermsViewController.h */,
 				0D1DAEAD1891809D0051D7AE /* CWTermsViewController.m */,
 				0D1DAEAE1891809D0051D7AE /* CWTermsViewController.xib */,
+				9AC88A9B1892EA250006EE61 /* CWSettingsBaseViewController.h */,
+				9AC88A9C1892EA250006EE61 /* CWSettingsBaseViewController.m */,
+				9AC88A8C189297F90006EE61 /* CWFeedBackViewController.h */,
+				9AC88A8D189297F90006EE61 /* CWFeedBackViewController.m */,
+				9AC88A8E189297F90006EE61 /* CWFeedBackViewController.xib */,
+				9AC88A911892D57B0006EE61 /* CWRatingViewController.h */,
+				9AC88A921892D57B0006EE61 /* CWRatingViewController.m */,
+				9AC88A931892D57B0006EE61 /* CWRatingViewController.xib */,
+				9AC88A961892E7790006EE61 /* CWAskForImprovementMsgViewController.h */,
+				9AC88A971892E7790006EE61 /* CWAskForImprovementMsgViewController.m */,
+				9AC88A981892E7790006EE61 /* CWAskForImprovementMsgViewController.xib */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1210,6 +1239,7 @@
 				E90B7CB6186CBE4A00B94DCC /* waves0018.png in Resources */,
 				E90B7CED186CC01800B94DCC /* waves0028@2x.png in Resources */,
 				36AF5822187DD97000C5C13F /* machine.h.motemplate in Resources */,
+				9AC88A951892D57B0006EE61 /* CWRatingViewController.xib in Resources */,
 				36F3F87A187C9573002CBB63 /* CWKillScreenViewController.xib in Resources */,
 				E90B7CB5186CBE4A00B94DCC /* waves0017.png in Resources */,
 				E90B7CB8186CBE4A00B94DCC /* waves0020.png in Resources */,
@@ -1237,6 +1267,7 @@
 				E90B7CE7186CC01800B94DCC /* waves0022@2x.png in Resources */,
 				E90B7CFA186CC01800B94DCC /* waves0011@2x.png in Resources */,
 				E90B7CE3186CC01800B94DCC /* waves0018@2x.png in Resources */,
+				9AC88A90189297F90006EE61 /* CWFeedBackViewController.xib in Resources */,
 				E924AD1D183AA902009400DD /* CWPIPStartScreenViewController.xib in Resources */,
 				E90B7CEB186CC01800B94DCC /* waves0026@2x.png in Resources */,
 				E90B7CB9186CBE4A00B94DCC /* waves0021.png in Resources */,
@@ -1279,6 +1310,7 @@
 				E90B7CFD186CC01800B94DCC /* waves0014@2x.png in Resources */,
 				E9ABCF67183D45470098E530 /* CWErrorViewController.xib in Resources */,
 				36AF5821187DD97000C5C13F /* human.m.motemplate in Resources */,
+				9AC88A9A1892E7790006EE61 /* CWAskForImprovementMsgViewController.xib in Resources */,
 				E90B7CB4186CBE4A00B94DCC /* waves0016.png in Resources */,
 				E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */,
 				E90B7CE1186CC01800B94DCC /* waves0016@2x.png in Resources */,
@@ -1429,6 +1461,7 @@
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,
 				E9909464186231BF0050695F /* CWMessageManager.m in Sources */,
 				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
+				9AC88A991892E7790006EE61 /* CWAskForImprovementMsgViewController.m in Sources */,
 				206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
 				36AF583E187DF0AB00C5C13F /* _User.m in Sources */,
@@ -1439,6 +1472,7 @@
 				E98B1697184F85B80021A611 /* CWMiddleButton.m in Sources */,
 				E990946118620AD70050695F /* CWViewController.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
+				9AC88A8F189297F90006EE61 /* CWFeedBackViewController.m in Sources */,
 				E924AD37183AB7CA009400DD /* CWPIPReviewViewController.m in Sources */,
 				0D200ABD1891852F008C2238 /* DCControl.m in Sources */,
 				E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */,
@@ -1454,6 +1488,7 @@
 				36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */,
+				9AC88A9D1892EA250006EE61 /* CWSettingsBaseViewController.m in Sources */,
 				0D200ABF1891852F008C2238 /* DCSlider.m in Sources */,
 				36AF5835187DF0A200C5C13F /* Thread.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
@@ -1462,6 +1497,7 @@
 				0D200AC3189186A0008C2238 /* UIColor+Additions.m in Sources */,
 				0D1DAEA118917F960051D7AE /* CWAnalytics.m in Sources */,
 				0D200AC01891852F008C2238 /* NSDictionary+LookUpTable.m in Sources */,
+				9AC88A941892D57B0006EE61 /* CWRatingViewController.m in Sources */,
 				36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */,
 				0D1DAEB31891809D0051D7AE /* CWTermsViewController.m in Sources */,
 				0D200ACA1891879F008C2238 /* CWMetadata.m in Sources */,

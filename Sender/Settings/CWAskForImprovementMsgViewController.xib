@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWAskForImprovementMsgViewController">
+            <connections>
+                <outlet property="sureButton" destination="Hrk-Si-Ix3" id="a23-qz-SwC"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="NhM-uM-E5M">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hrk-Si-Ix3">
+                    <rect key="frame" x="120" y="223" width="80" height="80"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="3ml-N9-V36"/>
+                        <constraint firstAttribute="height" constant="80" id="uvE-ZH-War"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" image="Button-Icon-Sure" backgroundImage="Button-Inner">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onSureTapped:" destination="-1" eventType="touchUpInside" id="RIU-cX-drb"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry about that.           We want to improve.      Send us a message?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="241" translatesAutoresizingMaskIntoConstraints="NO" id="gLe-5z-RUB">
+                    <rect key="frame" x="40" y="85" width="241" height="79"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="gLe-5z-RUB" firstAttribute="top" secondItem="1" secondAttribute="top" constant="85" id="5Qo-Fa-ff0"/>
+                <constraint firstItem="Hrk-Si-Ix3" firstAttribute="top" secondItem="gLe-5z-RUB" secondAttribute="bottom" constant="59" id="CZ6-4f-HVu"/>
+                <constraint firstAttribute="bottom" secondItem="NhM-uM-E5M" secondAttribute="bottom" id="Cit-ga-uOr"/>
+                <constraint firstItem="gLe-5z-RUB" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="40" id="DiY-6V-rHR"/>
+                <constraint firstAttribute="centerX" secondItem="Hrk-Si-Ix3" secondAttribute="centerX" id="Fra-zI-Mm8"/>
+                <constraint firstItem="NhM-uM-E5M" firstAttribute="top" secondItem="1" secondAttribute="top" id="Gau-LB-zPU"/>
+                <constraint firstAttribute="trailing" secondItem="gLe-5z-RUB" secondAttribute="trailing" constant="39" id="PTf-gJ-9Cf"/>
+                <constraint firstAttribute="trailing" secondItem="NhM-uM-E5M" secondAttribute="trailing" id="Qfr-Xo-7U7"/>
+                <constraint firstItem="NhM-uM-E5M" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="qAg-DU-ZX0"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Blue-Background" width="320" height="568"/>
+        <image name="Button-Icon-Sure" width="80" height="80"/>
+        <image name="Button-Inner" width="80" height="80"/>
+    </resources>
+</document>

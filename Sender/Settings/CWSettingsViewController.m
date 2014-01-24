@@ -9,6 +9,7 @@
 #import "CWSettingsViewController.h"
 #import "CWTermsViewController.h"
 #import "CWPrivacyViewController.h"
+#import "CWFeedBackViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWProfilePictureViewController.h"
 #import "UIColor+Additions.h"
@@ -146,26 +147,28 @@
             switch (indexPath.row) {
                 case 0:
                 {
-                    CWTermsViewController* tocVC = [[CWTermsViewController alloc]init];
+                    CWTermsViewController* tocVC = [[CWTermsViewController alloc] init];
                     [self.navigationController pushViewController:tocVC animated:YES];
                 }
                     break;
                 case 1:
                 {
-                    CWPrivacyViewController* privVC = [[CWPrivacyViewController alloc]init];
+                    CWPrivacyViewController* privVC = [[CWPrivacyViewController alloc] init];
                     [self.navigationController pushViewController:privVC animated:YES];
                 }
                     break;
                 case 2:
                 {
-                    if ([MFMailComposeViewController canSendMail]) {
-                        MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
-                        [mailComposer setMailComposeDelegate:self];
-                        [mailComposer setSubject:[[CWGroundControlManager sharedInstance] feedbackEmailSubject]];
-                        [mailComposer setMessageBody:[[CWGroundControlManager sharedInstance] feedbackEmailBody] isHTML:NO];
-                        [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
-                        [self presentViewController:mailComposer animated:YES completion:nil];
-                    }
+                    CWFeedBackViewController* tocVC = [[CWFeedBackViewController alloc] init];
+                    [self.navigationController pushViewController:tocVC animated:YES];
+//                    if ([MFMailComposeViewController canSendMail]) {
+//                        MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
+//                        [mailComposer setMailComposeDelegate:self];
+//                        [mailComposer setSubject:[[CWGroundControlManager sharedInstance] feedbackEmailSubject]];
+//                        [mailComposer setMessageBody:[[CWGroundControlManager sharedInstance] feedbackEmailBody] isHTML:NO];
+//                        [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
+//                        [self presentViewController:mailComposer animated:YES completion:nil];
+//                    }
                 }
                     break;
                 case 3:
