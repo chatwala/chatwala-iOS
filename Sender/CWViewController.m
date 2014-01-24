@@ -12,7 +12,6 @@
 #define degreesToRadians( degrees ) ( ( degrees ) / 180.0 * M_PI )
 
 @interface CWViewController ()
-
 //@property (nonatomic,strong) UIImageView * messageSentView;
 @end
 
@@ -26,9 +25,9 @@
     
     self.closeButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Close-Button"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
 
-    __weak CWViewController* weakSelf = self;
     [self.mm_drawerController  setGestureCompletionBlock:^(MMDrawerController *drawerController, UIGestureRecognizer *gesture) {
-        [weakSelf rotateBurgerBarAfterDrawAnimation:YES];
+        //was losing reference to weak self. posting notification instead
+        [NC postNotificationName:(NSString*)CWMMDrawerCloseNotification object:nil];
     }];
     UIView * spacer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:spacer]];
