@@ -21,7 +21,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+
     self.burgerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu_btn"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
     
     self.closeButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Close-Button"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
@@ -32,8 +32,18 @@
     }];
     UIView * spacer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:spacer]];
+    [NC addObserver:self selector:@selector(handleCWMMDrawerCloseNotification) name:(NSString*)CWMMDrawerCloseNotification object:nil];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self rotateBurgerBarAfterDrawAnimation:YES];
+}
+
+-(void)dealloc
+{
+    [NC removeObserver:self name:(NSString*)CWMMDrawerCloseNotification object:nil];
+}
 
 - (void)setNavMode:(NavMode)mode
 {
@@ -70,6 +80,11 @@
     if ([sender isEqual:self.closeButton]) {
         [self.navigationController popViewControllerAnimated:YES];
     }
+}
+
+-(void)handleCWMMDrawerCloseNotification
+{
+    [self rotateBurgerBarAfterDrawAnimation:YES];
 }
 
 -(void)rotateBurgerBarAfterDrawAnimation:(BOOL) isAfterAnimation

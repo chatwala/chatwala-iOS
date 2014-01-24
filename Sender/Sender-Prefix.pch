@@ -75,6 +75,8 @@
 #define NC [NSNotificationCenter defaultCenter]
 #define APPDEL [[UIApplication sharedApplication]delegate]
 
+extern NSString* const CWMMDrawerCloseNotification;
+
 
 
 

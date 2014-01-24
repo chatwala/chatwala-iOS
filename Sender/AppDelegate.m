@@ -26,6 +26,8 @@
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
 
+NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
+
 @interface UINavigationBar (customNav)
 @end
 
@@ -437,16 +439,23 @@
                 // Do nothing
             }];
         }
+        [self sendDrawerCloseNotification];
     }];
-    
 }
 
+-(void)sendDrawerCloseNotification
+{
+   [NC postNotificationName:(NSString*)CWMMDrawerCloseNotification object:nil];
+}
 
 - (void)menuViewController:(CWInboxViewController *)menuVC didSelectMessageWithID:(NSString *)messageId
 {
     
     AppDelegate * appdel = self;
-    [self.drawController closeDrawerAnimated:YES completion:nil];
+    __weak AppDelegate* weakSelf = self;
+    [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished){
+        [weakSelf sendDrawerCloseNotification];
+    }];
     [self.loadingVC restartAnimation];
     [self.loadingVC.view setAlpha:1];
     
