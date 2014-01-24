@@ -40,5 +40,8 @@
     return [UIColor colorFromHexString:@"#3a4c69"];
 }
 
-
++ (UIColor *)chatwalaFeedbackLabel
+{
+    return [UIColor colorFromHexString:@"#ede8e2"];
+}
 @end
