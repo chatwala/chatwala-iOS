@@ -10,5 +10,6 @@
 #import "CWSettingsBaseViewController.h"
 
 @interface CWRatingViewController : CWSettingsBaseViewController
+@property (strong, nonatomic) IBOutlet UILabel *label;
 
 @end

@@ -6,6 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWAskForImprovementMsgViewController">
             <connections>
+                <outlet property="label" destination="gLe-5z-RUB" id="vHk-Jk-J1H"/>
                 <outlet property="sureButton" destination="Hrk-Si-Ix3" id="a23-qz-SwC"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -20,7 +21,7 @@
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hrk-Si-Ix3">
-                    <rect key="frame" x="120" y="223" width="80" height="80"/>
+                    <rect key="frame" x="120" y="220" width="80" height="80"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="3ml-N9-V36"/>
@@ -34,10 +35,10 @@
                         <action selector="onSureTapped:" destination="-1" eventType="touchUpInside" id="RIU-cX-drb"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry about that.           We want to improve.      Send us a message?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="241" translatesAutoresizingMaskIntoConstraints="NO" id="gLe-5z-RUB">
-                    <rect key="frame" x="40" y="85" width="241" height="79"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry about that.       We want to improve.      Send us a message?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="241" translatesAutoresizingMaskIntoConstraints="NO" id="gLe-5z-RUB">
+                    <rect key="frame" x="40" y="85" width="241" height="99"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -45,7 +46,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="gLe-5z-RUB" firstAttribute="top" secondItem="1" secondAttribute="top" constant="85" id="5Qo-Fa-ff0"/>
-                <constraint firstItem="Hrk-Si-Ix3" firstAttribute="top" secondItem="gLe-5z-RUB" secondAttribute="bottom" constant="59" id="CZ6-4f-HVu"/>
+                <constraint firstItem="Hrk-Si-Ix3" firstAttribute="top" secondItem="gLe-5z-RUB" secondAttribute="bottom" constant="36" id="CZ6-4f-HVu"/>
                 <constraint firstAttribute="bottom" secondItem="NhM-uM-E5M" secondAttribute="bottom" id="Cit-ga-uOr"/>
                 <constraint firstItem="gLe-5z-RUB" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="40" id="DiY-6V-rHR"/>
                 <constraint firstAttribute="centerX" secondItem="Hrk-Si-Ix3" secondAttribute="centerX" id="Fra-zI-Mm8"/>

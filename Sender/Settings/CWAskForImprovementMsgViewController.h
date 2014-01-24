@@ -11,7 +11,9 @@
 
 @interface CWAskForImprovementMsgViewController : CWSettingsBaseViewController
 
+@property (strong, nonatomic) IBOutlet UILabel *label;
 @property (strong, nonatomic) IBOutlet UIButton *sureButton;
+
 - (IBAction)onSureTapped:(id)sender;
 
 @end

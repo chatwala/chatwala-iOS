@@ -8,10 +8,6 @@
 
 #import "CWAskForImprovementMsgViewController.h"
 
-@interface CWAskForImprovementMsgViewController ()
-
-@end
-
 @implementation CWAskForImprovementMsgViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -27,13 +23,12 @@
 {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"FEEDBACK"];
-
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self.label setTextColor:[UIColor chatwalaFeedbackLabel]];
 }
 
 - (IBAction)onSureTapped:(id)sender {

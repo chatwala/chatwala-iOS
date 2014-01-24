@@ -8,10 +8,6 @@
 
 #import "CWRatingViewController.h"
 
-@interface CWRatingViewController ()
-
-@end
-
 @implementation CWRatingViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -27,6 +23,7 @@
 {
     [super viewDidLoad];
     [self.navigationItem setTitle:@"FEEDBACK"];
+    [self.label setTextColor:[UIColor chatwalaFeedbackLabel]];
 
 }
 
