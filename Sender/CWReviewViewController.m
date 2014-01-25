@@ -208,8 +208,7 @@
     }];
 }
 
-- (void) sendMessageFromUser:(User *) localUser
-{
+- (void)sendMessageFromUser:(User *)localUser {
     CWMessageItem * message = [self createMessageItemWithSender:localUser];
     
     if (self.incomingMessage) {
