@@ -9,12 +9,10 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "CWSSComposerViewController.h"
-#import "CWFeedbackViewController.h"
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 
 @interface CWComposerViewController (tests) <AVAudioPlayerDelegate>
-@property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) CWReviewViewController * reviewVC;
 @property (nonatomic, strong) NSDate * startTime;
 
