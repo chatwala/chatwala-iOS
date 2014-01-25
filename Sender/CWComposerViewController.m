@@ -10,11 +10,11 @@
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWGroundControlManager.h"
-#import "CWFeedBackViewController.h"
+#import "CWAppFeedBackViewController.h"
 
 @interface CWComposerViewController ()
 
-@property (nonatomic) CWFeedBackViewController *feedbackVC;
+@property (nonatomic) CWAppFeedBackViewController *feedbackVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
 //@property (nonatomic,assign) NSInteger tickCount;
 @property (nonatomic, strong) NSDate * startTime;
@@ -36,7 +36,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [[[CWVideoManager sharedManager]recorder]setDelegate:self];
-    self.feedbackVC = [[CWFeedBackViewController alloc]initWithNibName:@"CWFeedBackViewController" bundle:[NSBundle mainBundle]];
+    self.feedbackVC = [[CWAppFeedBackViewController alloc]initWithNibName:@"CWAppFeedBackViewController" bundle:[NSBundle mainBundle]];
     [self addChildViewController:self.feedbackVC];
     [self.view addSubview:self.feedbackVC.view];
     self.feedbackVC.view.frame = self.view.bounds;
