@@ -371,7 +371,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }];
 }
 
-# pragma mark - Push Notification Registration delegate methods
+#pragma mark - Push Notification Registration delegate methods
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
     [CWPushNotificationsAPI sendProviderDeviceToken:devToken];
