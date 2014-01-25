@@ -18,7 +18,7 @@
 #import "User.h"
 #import "Message.h"
 #import "Thread.h"
-
+#import "CWPushNotificationsAPI.h"
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
@@ -287,7 +287,8 @@
         [self uploadProfilePictureForUser:localUser];
     }];
 
-//    [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
+    [CWPushNotificationsAPI registerForPushNotifications];
+    
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];

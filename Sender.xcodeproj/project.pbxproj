@@ -221,6 +221,7 @@
 		021C04FCE95441C395C53215 /* Pods-test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.xcconfig"; path = "Pods/Pods-test.xcconfig"; sourceTree = "<group>"; };
 		0D1979AE18936E9F00379DD5 /* CWPushNotificationsAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWPushNotificationsAPI.h; sourceTree = "<group>"; };
 		0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPushNotificationsAPI.m; sourceTree = "<group>"; };
+		0D1979B218939FB000379DD5 /* CWMacroOverrides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMacroOverrides.h; sourceTree = "<group>"; };
 		0D1DAE9F18917F960051D7AE /* CWAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAnalytics.h; sourceTree = "<group>"; };
 		0D1DAEA018917F960051D7AE /* CWAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAnalytics.m; sourceTree = "<group>"; };
 		0D1DAEA218917FD30051D7AE /* CWUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUtility.h; sourceTree = "<group>"; };
@@ -952,6 +953,7 @@
 				E944399E182940AF0088A381 /* Images.xcassets */,
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
+				0D1979B218939FB000379DD5 /* CWMacroOverrides.h */,
 				E90F04D1182A9078004B8CCD /* AVCam */,
 				E99094581861F69E0050695F /* Buttons */,
 				0D200AB31891852F008C2238 /* External */,
@@ -1039,10 +1041,10 @@
 		E946BD241844FC2200C6A99D /* Video Manager */ = {
 			isa = PBXGroup;
 			children = (
+				E9C1154C1832803900DB67D2 /* Player */,
+				E9C1154D1832804000DB67D2 /* Recorder */,
 				E95E25E118314B8300E3950B /* CWVideoManager.h */,
 				E95E25E218314B8300E3950B /* CWVideoManager.m */,
-				E9C1154D1832804000DB67D2 /* Recorder */,
-				E9C1154C1832803900DB67D2 /* Player */,
 			);
 			name = "Video Manager";
 			sourceTree = "<group>";
