@@ -34,8 +34,7 @@
 
 @implementation CWMessageManager
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         useLocalServer = NO;
@@ -53,18 +52,15 @@
     return shared;
 }
 
-
-
-- (NSString *)baseEndPoint
-{
+- (NSString *)baseEndPoint {
     if (useLocalServer) {
         return @"http://192.168.0.102:1337";
     }
     
     
-    NSInteger serverEnv = 1;
-    //[[[NSUserDefaults standardUserDefaults] valueForKey:@"ServerEnvironment"]integerValue];
-    if (serverEnv) {
+    BOOL shouldUseDevelopmentEnv = YES;
+
+    if (shouldUseDevelopmentEnv) {
         // development
         return @"http://chatwala-deveast.azurewebsites.net";
     } else{
@@ -72,59 +68,50 @@
         return @"http://chatwala-prodeast.azurewebsites.net";
     }
 }
-#warning Need to update these names to better describe roles
 
-- (NSString *)registerEndPoint
-{
+- (NSString *)registerEndPoint {
     return [[self baseEndPoint]stringByAppendingPathComponent:@"register"];
 }
 
 
-- (NSString *)messagesEndPoint
-{
+- (NSString *)messagesEndPoint {
     return [[self baseEndPoint]stringByAppendingPathComponent:@"messages"];
 }
 
-- (NSString *)getUserMessagesEndPoint
-{
+- (NSString *)getUserMessagesEndPoint {
     return [[self baseEndPoint]stringByAppendingString:@"/users/%@/messages"];
 }
 
-- (NSString *)getMessageEndPoint
-{
+- (NSString *)getMessageEndPoint {
     return [[self baseEndPoint]stringByAppendingString:@"/messages/%@"];
 }
 
-- (NSString *)putUserProfileEndPoint
-{
+- (NSString *)putUserProfileEndPoint {
     return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
 }
 
-- (AFDownloadTaskDestinationBlock) downloadURLDestinationBlock
-{
+- (AFDownloadTaskDestinationBlock) downloadURLDestinationBlock {
+    
     return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
         NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
         return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     });
 }
 
-- (CWDownloadTaskCompletionBlock) downloadTaskCompletionBlock
-{
+- (CWDownloadTaskCompletionBlock) downloadTaskCompletionBlock {
+    
     return (^ void(NSURLResponse *response, NSURL *filePath, NSError *error, CWMessageDownloadCompletionBlock  messageDownloadCompletionBlock){
         
-        if(error)
-        {
+        if(error) {
             NSLog(@"error %@", error);
             if (messageDownloadCompletionBlock) {
                 messageDownloadCompletionBlock(NO,filePath);//if we need to pass error/response adjust function callback
             }
         }
-        else
-        {
+        else {
             NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
             switch (httpResponse.statusCode) {
-                case 200:
-                {
+                case 200: {
                     // success
                     NSLog(@"File downloaded to: %@", filePath);
                     NSError * error = nil;
@@ -145,8 +132,6 @@
                     break;
             }
         }
-
-        
     });
 }
 
@@ -160,7 +145,8 @@
         if (completionBlock) {
             completionBlock(YES,localURL);
         }
-    }else{
+    }
+    else {
         
         // do download
         NSString * messagePath =[NSString stringWithFormat:[self getMessageEndPoint],messageID];
@@ -170,33 +156,28 @@
         AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
         NSURL *URL = [NSURL URLWithString:messagePath];
         NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-
-        NSProgress * progress = nil;
         
         [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
         
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:&progress destination:self.downloadURLDestinationBlock completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:self.downloadURLDestinationBlock completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
             self.downloadTaskCompletionBlock(response,filePath,error,completionBlock);
         }];
         
-        [progress addObserver:self forKeyPath:@"fractionCompleted" options:NSKeyValueObservingOptionNew context:NULL];
+
         [downloadTask resume];
     }
 }
 
-- (NSURL *) messageCacheURL
-{
+- (NSURL *)messageCacheURL {
     NSString * const messagesCacheFile = @"messages";
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
-    
 }
 
-- (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock
-{
+- (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
     NSString *user_id = user.userID;
     
-    if([user_id length])
-    {
+    if([user_id length]) {
+        
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
 
@@ -206,22 +187,9 @@
             //
             self.getMessagesSuccessBlock(operation, responseObject);
             
-//            //badge adjustment hack logic below
-//            if (completionBlock) {
-//                
-//                // Only perform badge update when we are fetching due to a background fetch
-//                NSNumber *previousTotalMessages = [[NSUserDefaults standardUserDefaults] valueForKey:@"MESSAGE_INBOX_COUNT"];
-//
-//                int newMessageCount = [self.messages count] - [previousTotalMessages intValue];
-//                if (newMessageCount > 0) {
-//                    int existingBadgeNumber = [[UIApplication sharedApplication] applicationIconBadgeNumber];
-//                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:existingBadgeNumber + newMessageCount];
-//                }
-//                
-//                completionBlock(UIBackgroundFetchResultNewData);
-//            }
-//            
-//            [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:[self.messages count]] forKey:@"MESSAGE_INBOX_COUNT"];
+            if (completionBlock) {
+                completionBlock(UIBackgroundFetchResultNewData);
+            }
             
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
@@ -234,8 +202,8 @@
     }
 }
 
-- (AFRequestOperationManagerSuccessBlock) getMessagesSuccessBlock
-{
+- (AFRequestOperationManagerSuccessBlock) getMessagesSuccessBlock {
+    
     return (^ void(AFHTTPRequestOperation *operation, id responseObject){
         NSLog(@"fetched user messages: %@",responseObject);
         
@@ -436,25 +404,5 @@
     CWMessageCell *cell = (CWMessageCell *)[messageTable cellForRowAtIndexPath:selectedIndexPath];
     [cell setProgress:p.floatValue];
 }
-
-- (void)completedDownload
-{
-//    [SVProgressHUD showSuccessWithStatus:@"message loaded"];
-}
-
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    NSProgress *progress = (NSProgress *)object;
-    CGFloat p = progress.fractionCompleted;
-    if (p < 1.0) {
-        [self performSelectorOnMainThread:@selector(updateProgressView:) withObject:@(p) waitUntilDone:NO];
-    }else{
-        [self performSelectorOnMainThread:@selector(completedDownload) withObject:nil waitUntilDone:NO];
-    }
-}
-
-
-
 
 @end

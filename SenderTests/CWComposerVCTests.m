@@ -9,12 +9,10 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "CWSSComposerViewController.h"
-#import "CWFeedbackViewController.h"
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 
 @interface CWComposerViewController (tests) <AVAudioPlayerDelegate>
-@property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) CWReviewViewController * reviewVC;
 @property (nonatomic, strong) NSDate * startTime;
 
@@ -68,9 +66,9 @@
 
 - (void)testShouldCreateFeedbackVConViewDidLoad
 {
-    XCTAssertNil(self.sut.feedbackVC, @"should be nil");
-    [self.sut view];
-    XCTAssertNotNil(self.sut.feedbackVC, @"should not be nil");
+//    XCTAssertNil(self.sut.feedbackVC, @"should be nil");
+//    [self.sut view];
+//    XCTAssertNotNil(self.sut.feedbackVC, @"should not be nil");
 }
 
 - (void)testShouldStartRecordingWhenViewDidAppear

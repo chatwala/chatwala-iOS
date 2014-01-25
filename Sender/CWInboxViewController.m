@@ -1,5 +1,5 @@
 //
-//  CWInboxViewController.m
+//  CWMenuViewController.m
 //  Sender
 //
 //  Created by Khalid on 12/17/13.
@@ -96,27 +96,28 @@
 }
 
 - (IBAction)onButtonSelect:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectButton:)]) {
+    if ([self.delegate respondsToSelector:@selector(menuViewController:didSelectButton:)]) {
         [self.delegate inboxViewController:self didSelectButton:sender];
     }
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    User * localUser = [[CWUserManager sharedInstance] localUser];
+    NSOrderedSet * inboxMessages = [localUser inboxMessages];
+    Message * message = [inboxMessages objectAtIndex:indexPath.row];
     
-    User *localUser = [[CWUserManager sharedInstance] localUser];
-    NSOrderedSet *inboxMessages = [localUser inboxMessages];
-    Message *message = [inboxMessages objectAtIndex:indexPath.row];
-    
-    NSString *messageId = message.messageID;
+    NSString* messageId = message.messageID;
   
-    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessageWithID:)]) {
+    if ([self.delegate respondsToSelector:@selector(menuViewController:didSelectMessageWithID:)]) {
         [self.delegate inboxViewController:self didSelectMessageWithID:messageId];
     }
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     return 72;
 }
 

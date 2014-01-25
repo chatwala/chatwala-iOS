@@ -36,6 +36,6 @@ typedef enum {
 @property (nonatomic, strong) Message * activeMessage;
 @property (nonatomic,assign) NSTimeInterval startRecordTime;
 
-- (void) setZipURL:(NSURL *) zipURL;
+- (void)setZipURL:(NSURL *) zipURL;
 - (void)onMiddleButtonTap;
 @end

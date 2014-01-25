@@ -9,7 +9,6 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import "CWSSOpenerViewController.h"
-#import "CWFeedbackViewController.h"
 #import "CWVideoManager.h"
 #import "CWMessageItem.h"
 #import "CWGroundControlManager.h"

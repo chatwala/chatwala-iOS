@@ -18,7 +18,7 @@
 #import "User.h"
 #import "Message.h"
 #import "Thread.h"
-
+#import "CWPushNotificationsAPI.h"
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
@@ -30,6 +30,8 @@
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
 @property (nonatomic,strong) MFMailComposeViewController *mailComposer;
+@property (nonatomic,strong) MFMessageComposeViewController *messageComposer;
+
 @end
 
 @implementation CWReviewViewController
@@ -86,26 +88,18 @@
     }
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-- (void)composeMessageWithMessageKey:(NSString*)messageURL withCompletion:(void (^)(void))completion
-{
-    if([MFMessageComposeViewController canSendText])
-    {
-        // SMS
-        MFMessageComposeViewController  * smsComposer = [[MFMessageComposeViewController alloc] init];
-        [smsComposer setMessageComposeDelegate:self];
-        [smsComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
-        [smsComposer setBody:[NSString stringWithFormat:@"Hey, I sent you a video message on Chatwala: %@",messageURL]];
+- (void)composeMessageWithMessageKey:(NSString*)messageURL withCompletion:(void (^)(void))completion {
+    
+    if([MFMessageComposeViewController canSendText]) {
+        self.messageComposer = [[MFMessageComposeViewController alloc] init];
+        [self.messageComposer  setMessageComposeDelegate:self];
+        [self.messageComposer  setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
+        [self.messageComposer  setBody:[NSString stringWithFormat:@"Hey, I sent you a video message on Chatwala: %@",messageURL]];
         
-        [self presentViewController:smsComposer  animated:YES completion:completion];
+        [self presentViewController:self.messageComposer   animated:YES completion:completion];
     }
-    else
-    {
+    else {
         [SVProgressHUD showErrorWithStatus:@"SMS/iMessage currently unavailable"];
     }
     
@@ -208,8 +202,7 @@
     }];
 }
 
-- (void) sendMessageFromUser:(User *) localUser
-{
+- (void)sendMessageFromUser:(User *)localUser {
     CWMessageItem * message = [self createMessageItemWithSender:localUser];
     
     if (self.incomingMessage) {
@@ -286,13 +279,12 @@
     [[CWUserManager sharedInstance] localUser:^(User *localUser) {
         [self uploadProfilePictureForUser:localUser];
     }];
-
-//    [NC postNotificationName:@"message_sent" object:nil userInfo:nil];
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
-//    [[CWAuthenticationManager sharedInstance]didSkipAuth];
+
     [self.navigationController popToRootViewControllerAnimated:YES];
+    [CWPushNotificationsAPI registerForPushNotifications];
 }
 
 #pragma mark CWVideoPlayerDelegate
@@ -367,23 +359,25 @@
     
     switch (result) {
         case MessageComposeResultSent:
-        {
+            
             if (self.incomingMessage) {
                 [CWAnalytics event:@"MESSAGE_SENT" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
-            }else{
+            }
+            else {
                 [CWAnalytics event:@"MESSAGE_SENT" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:nil];
             }
             
             [self didSendMessage];
-        }
             break;
             
         case MessageComposeResultCancelled:
             if (self.incomingMessage) {
                 [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
-            }else{
+            }
+            else {
                 [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:nil];
             }
+            
             [self.player replayVideo];
             break;
         default:
@@ -392,5 +386,6 @@
     }
     
     [controller dismissViewControllerAnimated:YES completion:nil];
+    self.messageComposer = nil;
 }
 @end
