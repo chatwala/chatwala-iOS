@@ -9,7 +9,7 @@
 #import "CWSettingsViewController.h"
 #import "CWTermsViewController.h"
 #import "CWPrivacyViewController.h"
-#import "CWFeedBackViewController.h"
+#import "CWAppFeedBackViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWProfilePictureViewController.h"
 #import "UIColor+Additions.h"
@@ -152,7 +152,7 @@
                     break;
                 case 2:
                 {
-                    CWFeedBackViewController* tocVC = [[CWFeedBackViewController alloc] init];
+                    CWAppFeedBackViewController* tocVC = [[CWAppFeedBackViewController alloc] init];
                     [self.navigationController pushViewController:tocVC animated:YES];
 //                    if ([MFMailComposeViewController canSendMail]) {
 //                        MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];

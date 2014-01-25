@@ -59,8 +59,8 @@
 		36F3F87C187C9C54002CBB63 /* CWGroundControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */; };
 		5A22DD32AA184288BEC932AA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8B4EC8D342465796C4A37E /* libPods.a */; };
 		82380876CA9D496387191727 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5043C247C54257A2FCABFE /* libPods-test.a */; };
-		9AC88A8F189297F90006EE61 /* CWFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A8D189297F90006EE61 /* CWFeedBackViewController.m */; };
-		9AC88A90189297F90006EE61 /* CWFeedBackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AC88A8E189297F90006EE61 /* CWFeedBackViewController.xib */; };
+		9AC88A8F189297F90006EE61 /* CWAppFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A8D189297F90006EE61 /* CWAppFeedBackViewController.m */; };
+		9AC88A90189297F90006EE61 /* CWAppFeedBackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AC88A8E189297F90006EE61 /* CWAppFeedBackViewController.xib */; };
 		9AC88A941892D57B0006EE61 /* CWRatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A921892D57B0006EE61 /* CWRatingViewController.m */; };
 		9AC88A951892D57B0006EE61 /* CWRatingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AC88A931892D57B0006EE61 /* CWRatingViewController.xib */; };
 		9AC88A991892E7790006EE61 /* CWAskForImprovementMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A971892E7790006EE61 /* CWAskForImprovementMsgViewController.m */; };
@@ -300,9 +300,9 @@
 		36F3F878187C9573002CBB63 /* CWKillScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWKillScreenViewController.xib; sourceTree = "<group>"; };
 		36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWGroundControlTests.m; sourceTree = "<group>"; };
 		810134A78491415EBDC34438 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
-		9AC88A8C189297F90006EE61 /* CWFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWFeedBackViewController.h; sourceTree = "<group>"; };
-		9AC88A8D189297F90006EE61 /* CWFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWFeedBackViewController.m; sourceTree = "<group>"; };
-		9AC88A8E189297F90006EE61 /* CWFeedBackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWFeedBackViewController.xib; sourceTree = "<group>"; };
+		9AC88A8C189297F90006EE61 /* CWAppFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAppFeedBackViewController.h; sourceTree = "<group>"; };
+		9AC88A8D189297F90006EE61 /* CWAppFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAppFeedBackViewController.m; sourceTree = "<group>"; };
+		9AC88A8E189297F90006EE61 /* CWAppFeedBackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWAppFeedBackViewController.xib; sourceTree = "<group>"; };
 		9AC88A911892D57B0006EE61 /* CWRatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWRatingViewController.h; sourceTree = "<group>"; };
 		9AC88A921892D57B0006EE61 /* CWRatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWRatingViewController.m; sourceTree = "<group>"; };
 		9AC88A931892D57B0006EE61 /* CWRatingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWRatingViewController.xib; sourceTree = "<group>"; };
@@ -558,9 +558,9 @@
 				0D1DAEAE1891809D0051D7AE /* CWTermsViewController.xib */,
 				9AC88A9B1892EA250006EE61 /* CWSettingsBaseViewController.h */,
 				9AC88A9C1892EA250006EE61 /* CWSettingsBaseViewController.m */,
-				9AC88A8C189297F90006EE61 /* CWFeedBackViewController.h */,
-				9AC88A8D189297F90006EE61 /* CWFeedBackViewController.m */,
-				9AC88A8E189297F90006EE61 /* CWFeedBackViewController.xib */,
+				9AC88A8C189297F90006EE61 /* CWAppFeedBackViewController.h */,
+				9AC88A8D189297F90006EE61 /* CWAppFeedBackViewController.m */,
+				9AC88A8E189297F90006EE61 /* CWAppFeedBackViewController.xib */,
 				9AC88A911892D57B0006EE61 /* CWRatingViewController.h */,
 				9AC88A921892D57B0006EE61 /* CWRatingViewController.m */,
 				9AC88A931892D57B0006EE61 /* CWRatingViewController.xib */,
@@ -1267,7 +1267,7 @@
 				E90B7CE7186CC01800B94DCC /* waves0022@2x.png in Resources */,
 				E90B7CFA186CC01800B94DCC /* waves0011@2x.png in Resources */,
 				E90B7CE3186CC01800B94DCC /* waves0018@2x.png in Resources */,
-				9AC88A90189297F90006EE61 /* CWFeedBackViewController.xib in Resources */,
+				9AC88A90189297F90006EE61 /* CWAppFeedBackViewController.xib in Resources */,
 				E924AD1D183AA902009400DD /* CWPIPStartScreenViewController.xib in Resources */,
 				E90B7CEB186CC01800B94DCC /* waves0026@2x.png in Resources */,
 				E90B7CB9186CBE4A00B94DCC /* waves0021.png in Resources */,
@@ -1472,7 +1472,7 @@
 				E98B1697184F85B80021A611 /* CWMiddleButton.m in Sources */,
 				E990946118620AD70050695F /* CWViewController.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
-				9AC88A8F189297F90006EE61 /* CWFeedBackViewController.m in Sources */,
+				9AC88A8F189297F90006EE61 /* CWAppFeedBackViewController.m in Sources */,
 				E924AD37183AB7CA009400DD /* CWPIPReviewViewController.m in Sources */,
 				0D200ABD1891852F008C2238 /* DCControl.m in Sources */,
 				E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */,

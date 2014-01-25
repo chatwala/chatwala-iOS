@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWFeedBackViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWAppFeedBackViewController">
             <connections>
                 <outlet property="label" destination="0TE-cH-Doy" id="qb6-m5-NIV"/>
                 <outlet property="noButton" destination="ZVR-lf-8cq" id="15m-t9-la1"/>

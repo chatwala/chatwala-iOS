@@ -1,5 +1,5 @@
 //
-//  CWFeedBackViewController.h
+//  CWAppFeedBackViewController.h
 //  Sender
 //
 //  Created by Susan Cudmore on 1/24/14.
@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "CWSettingsBaseViewController.h"
 
-@interface CWFeedBackViewController : CWSettingsBaseViewController
+@interface CWAppFeedBackViewController : CWSettingsBaseViewController
 
 @property (strong, nonatomic) IBOutlet UILabel *label;
 @property (strong, nonatomic) IBOutlet UIButton *yesButton;
