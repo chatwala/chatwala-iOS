@@ -17,12 +17,20 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="N0C-O6-d9I">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jEe-Yu-xlV">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="N0C-O6-d9I">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Are you happy with Chatwala?" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="168" translatesAutoresizingMaskIntoConstraints="NO" id="0TE-cH-Doy">
-                    <rect key="frame" x="76" y="93" width="168" height="67"/>
+                <imageView opaque="NO" userInteractionEnabled="NO" alpha="0.10000000149011612" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bottom-Half-overlay" translatesAutoresizingMaskIntoConstraints="NO" id="fo6-b2-uu8">
+                    <rect key="frame" x="0.0" y="280" width="320" height="288"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Are you happy with Chatwala?" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="168" translatesAutoresizingMaskIntoConstraints="NO" id="0TE-cH-Doy">
+                    <rect key="frame" x="76" y="119" width="168" height="67"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -47,7 +55,6 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="80" id="nPc-9M-aDq"/>
-                        <constraint firstAttribute="height" constant="80" id="pno-lA-klb"/>
                     </constraints>
                     <state key="normal" image="Button-Icon-No" backgroundImage="Button-Inner">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -60,17 +67,20 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="5N9-W3-fWx" firstAttribute="leading" secondItem="ZVR-lf-8cq" secondAttribute="trailing" constant="60" id="2m9-cz-3hm"/>
-                <constraint firstItem="ZVR-lf-8cq" firstAttribute="top" secondItem="0TE-cH-Doy" secondAttribute="bottom" constant="84" id="33P-Ee-2EZ"/>
-                <constraint firstAttribute="bottom" secondItem="5N9-W3-fWx" secondAttribute="bottom" constant="244" id="4Db-Jc-Rlt"/>
-                <constraint firstItem="5N9-W3-fWx" firstAttribute="top" secondItem="0TE-cH-Doy" secondAttribute="bottom" constant="84" id="4jb-5t-tLn"/>
-                <constraint firstItem="ZVR-lf-8cq" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="50" id="FEr-IH-V3Q"/>
+                <constraint firstItem="jEe-Yu-xlV" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="4vJ-5h-nNO"/>
                 <constraint firstItem="5N9-W3-fWx" firstAttribute="width" secondItem="ZVR-lf-8cq" secondAttribute="width" id="FpI-fT-m1e"/>
-                <constraint firstAttribute="trailing" secondItem="0TE-cH-Doy" secondAttribute="trailing" constant="76" id="T8Z-b0-9Z3"/>
-                <constraint firstAttribute="bottom" secondItem="ZVR-lf-8cq" secondAttribute="bottom" constant="244" id="UPG-VP-W1U"/>
+                <constraint firstItem="0TE-cH-Doy" firstAttribute="bottom" secondItem="5N9-W3-fWx" secondAttribute="bottom" constant="-138" id="Ii2-el-0Md"/>
+                <constraint firstItem="ZVR-lf-8cq" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="50" id="NN1-39-XiZ"/>
+                <constraint firstAttribute="centerY" secondItem="ZVR-lf-8cq" secondAttribute="centerY" id="VLf-Xg-LcE"/>
                 <constraint firstItem="5N9-W3-fWx" firstAttribute="height" secondItem="ZVR-lf-8cq" secondAttribute="height" id="WTv-Rh-jw4"/>
-                <constraint firstItem="0TE-cH-Doy" firstAttribute="top" secondItem="1" secondAttribute="top" constant="93" id="YSA-Qz-5Ew"/>
-                <constraint firstItem="ZVR-lf-8cq" firstAttribute="top" secondItem="0TE-cH-Doy" secondAttribute="bottom" constant="84" id="cbT-qL-C4L"/>
-                <constraint firstItem="0TE-cH-Doy" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="76" id="poP-xo-VjW"/>
+                <constraint firstAttribute="trailing" secondItem="jEe-Yu-xlV" secondAttribute="trailing" id="X6E-5l-Tow"/>
+                <constraint firstAttribute="bottom" secondItem="fo6-b2-uu8" secondAttribute="bottom" id="au7-vx-3k8"/>
+                <constraint firstItem="fo6-b2-uu8" firstAttribute="top" secondItem="0TE-cH-Doy" secondAttribute="bottom" constant="94" id="dNB-KQ-p4u"/>
+                <constraint firstItem="fo6-b2-uu8" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="i30-6A-t47"/>
+                <constraint firstAttribute="trailing" secondItem="fo6-b2-uu8" secondAttribute="trailing" id="kdY-vP-zc4"/>
+                <constraint firstAttribute="centerY" secondItem="5N9-W3-fWx" secondAttribute="centerY" id="lkM-aQ-MFO"/>
+                <constraint firstItem="0TE-cH-Doy" firstAttribute="centerX" secondItem="N0C-O6-d9I" secondAttribute="centerX" id="ttl-qi-I72"/>
+                <constraint firstItem="jEe-Yu-xlV" firstAttribute="top" secondItem="1" secondAttribute="top" id="vjb-XK-dIx"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
@@ -78,6 +88,7 @@
     </objects>
     <resources>
         <image name="Blue-Background" width="320" height="568"/>
+        <image name="Bottom-Half-overlay" width="640" height="568"/>
         <image name="Button-Icon-No" width="80" height="80"/>
         <image name="Button-Icon-Yes" width="80" height="80"/>
         <image name="Button-Inner" width="80" height="80"/>

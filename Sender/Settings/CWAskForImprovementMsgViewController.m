@@ -42,7 +42,7 @@
         MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
        [mailComposer setMailComposeDelegate:self];
        [mailComposer setSubject:[[CWGroundControlManager sharedInstance] feedbackEmailSubject]];
-       [mailComposer setMessageBody:[[CWGroundControlManager sharedInstance] feedbackEmailBody] isHTML:NO];
+//       [mailComposer setMessageBody:[[CWGroundControlManager sharedInstance] feedbackEmailBody] isHTML:NO];
        [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
        [self presentViewController:mailComposer animated:YES completion:nil];
     }
