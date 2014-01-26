@@ -41,9 +41,7 @@ static BOOL didRegisterForPushNotifications = NO;
     
     __block NSString *userId = nil;
     
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        userId = localUser.userID;
-    }];
+    
     
     NSDictionary *params = @{@"user_id" : userId,
                              @"push_token" : deviceToken,
@@ -62,10 +60,7 @@ static BOOL didRegisterForPushNotifications = NO;
 
 + (void)handleRemotePushNotification:(NSDictionary *)userInfo completionBlock:(void (^)(UIBackgroundFetchResult))completionHandler {
     if ([userInfo count]) {
-        // Kick off message fetch call
-        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-            [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:completionHandler];
-        }];
+        [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:completionHandler];
     }
     else {
 

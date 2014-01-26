@@ -191,15 +191,11 @@
         return;
     }
     
-    
     [player stop];
 
     //    [self composeMessageWithData:[self createMessageData]];
     [self.sendButton setButtonState:eButtonStateBusy];
-    
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [self sendMessageFromUser:localUser];
-    }];
+    [self sendMessageFromUser:[[CWUserManager sharedInstance] localUser]];
 }
 
 - (void)sendMessageFromUser:(User *)localUser {
@@ -273,12 +269,9 @@
     
 }
 
-- (void) didSendMessage
-{
+- (void) didSendMessage {
     
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [self uploadProfilePictureForUser:localUser];
-    }];
+    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];

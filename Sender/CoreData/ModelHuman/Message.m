@@ -67,9 +67,7 @@
     }
     
     [[CWMessageManager sharedInstance] downloadMessageWithID:self.messageID progress:nil completion:^(BOOL success, NSURL *url) {
-        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[localUser numberOfUnreadMessages]];
-        }];
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
         [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
     }];
     

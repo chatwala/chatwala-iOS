@@ -62,27 +62,21 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
     [CWUserManager sharedInstance];
     
-    if([[CWUserManager sharedInstance] hasLocalUser])
-    {
-        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-            NSString *user_id = localUser.userID;
-            if(![user_id length]) {
-                [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
-            }
-        }];
+    if([[CWUserManager sharedInstance] hasLocalUser]) {
+
+        NSString *user_id = [[CWUserManager sharedInstance] localUser].userID;
+        if(![user_id length]) {
+            [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
+        }
     }
 
     [CWGroundControlManager sharedInstance];
-//    [CWAuthenticationManager sharedInstance];
-    
-
     
     [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
     [CWAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
     
     [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
-    
     
     self.inboxController = [[CWInboxViewController alloc]init];
     self.mainVC = [[CWMainViewController alloc]init];
@@ -138,9 +132,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:completionHandler];
-    }];
+
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:completionHandler];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -180,14 +173,10 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    if( [[CWUserManager sharedInstance] hasLocalUser])
-    {
-        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[localUser numberOfUnreadMessages]];
-        }];
+    if( [[CWUserManager sharedInstance] hasLocalUser]) {
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
     }
-    else
-    {
+    else {
         [application setApplicationIconBadgeNumber:0];
     }
     
@@ -218,12 +207,9 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }];
     
     // Fetch a new message upload ID from server
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:nil];
-        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:nil];
-    }];
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:nil];
+    [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:[[CWUserManager sharedInstance] localUser] completionBlockOrNil:nil];
 }
-
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
    

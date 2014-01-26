@@ -64,22 +64,19 @@
     [CATransaction commit];
 
     
-    if([[CWUserManager sharedInstance] hasLocalUser])
-    {
-        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-            NSURL * url = [NSURL URLWithString:[[CWUserManager sharedInstance] getProfilePictureEndPointForUser:localUser]];
-            NSMutableURLRequest * imageURLRequest = [NSMutableURLRequest requestWithURL:url];
-            
-            [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
-            
-            if([[AFNetworkReachabilityManager sharedManager] isReachable])
-            {
-                [imageURLRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
-            }
+    if([[CWUserManager sharedInstance] hasLocalUser]) {
 
-            [self.pictureImageView setImageWithURLRequest:imageURLRequest placeholderImage:[UIImage imageNamed:@"LaunchImage"] success:nil failure:nil];
+        NSURL * url = [NSURL URLWithString:[[CWUserManager sharedInstance] getProfilePictureEndPointForUser:[[CWUserManager sharedInstance] localUser]]];
+        NSMutableURLRequest * imageURLRequest = [NSMutableURLRequest requestWithURL:url];
+        
+        [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
+        
+        if([[AFNetworkReachabilityManager sharedManager] isReachable])
+        {
+            [imageURLRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+        }
 
-        }];
+        [self.pictureImageView setImageWithURLRequest:imageURLRequest placeholderImage:[UIImage imageNamed:@"LaunchImage"] success:nil failure:nil];
     }
 
 }
@@ -124,36 +121,30 @@
     self.bottomDescription.text = @"Tap Change! to update your profile pic.";
 }
 
-- (void) didCaptureStillImage:(UIImage *) image
-{
+- (void)didCaptureStillImage:(UIImage *) image {
+    
     [self.pictureImageView cancelImageRequestOperation];
     self.pictureImageView.image = image;
-    if([[CWUserManager sharedInstance] hasLocalUser])
-    {
-        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-            [[CWUserManager sharedInstance] uploadProfilePicture:image forUser:localUser];
-        }];
+    
+    if([[CWUserManager sharedInstance] hasLocalUser]) {
+        [[CWUserManager sharedInstance] uploadProfilePicture:image forUser:[[CWUserManager sharedInstance] localUser]];
     }
-    else
-    {
+    else {
         [SVProgressHUD showErrorWithStatus:@"no user id yet"];
     }
 }
 
-- (void) startCamera
-{
+- (void) startCamera {
     self.pictureImageView.hidden = YES;
     [self.middleButton setTitle:@"SNAP!" forState:UIControlStateNormal];
     self.bottomDescription.text = @"Tap SNAP! to take a picture.";
 }
 
 - (IBAction)onMiddleButtonTap:(id)sender {
-    if([self isTakingNewPicture])
-    {
+    if([self isTakingNewPicture]) {
         [self takePicture];
     }
-    else
-    {
+    else {
         [self startCamera];
     }
 }

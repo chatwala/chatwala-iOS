@@ -209,24 +209,18 @@
         
         NSArray *messages = [responseObject objectForKey:@"messages"];
         if([messages isKindOfClass:[NSArray class]]){
-            
             [[CWDataManager sharedInstance] importMessages:messages];
-            
-            [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-                [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[localUser numberOfUnreadMessages]];
-            }];
+            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
             [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
         }
         else{
             NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
             self.getMessagesFailureBlock(operation, error);
         }
-
     });
 }
 
-- (AFRequestOperationManagerFailureBlock) getMessagesFailureBlock
-{
+- (AFRequestOperationManagerFailureBlock) getMessagesFailureBlock {
     return (^ void(AFHTTPRequestOperation *operation, NSError * error){
         NSLog(@"failed to fetch messages with error: %@",error);
         NSLog(@"operation:%@",operation);
@@ -360,6 +354,12 @@
         self.messageIDOperation = nil;
     }];
 
+}
+
+- (void)fetchUploadDetailsWithCompletionBlock:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
+
+    // POST to /messagse/:id:/getUploadURL
+    // expects a SAS URL which can be used to upload
 }
 
 - (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage {

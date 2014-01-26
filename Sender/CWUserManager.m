@@ -10,16 +10,17 @@
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
 #import "CWUtility.h"
+#import "NSString+UUID.h"
 
 NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
 NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
-NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
+NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
 
 
 @interface CWUserManager()
 
-@property (nonatomic) User * localUser;
+@property (nonatomic) User *localUser;
 @property (nonatomic) AFHTTPRequestOperation * fetchUserIDOperation;
 @end
 
@@ -43,7 +44,7 @@ NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
     return self;
 }
 
-- (void) setupAuthentication
+- (void)setupAuthentication
 {
     
     NSString * keyAndSecret = [NSString stringWithFormat:@"%@:%@", kChatwalaAPIKey, kChatwalaAPISecret];
@@ -51,9 +52,7 @@ NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
     self.requestHeaderSerializer = [AFHTTPRequestSerializer serializer];
     [self.requestHeaderSerializer setValue:keyAndSecret forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
     
-    [self localUser:^(User *localUser) {
-        NSLog(@"User: %@",localUser.userID);
-    }];
+    NSLog(@"User: %@",self.localUser.userID);
 }
 
 - (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request
@@ -69,77 +68,41 @@ NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
 
 }
 
-- (BOOL) hasLocalUser
-{
-    if(self.localUser)
-    {
-        return YES;
-    }
-    return NO;
+- (BOOL)hasLocalUser {
+    return (self.localUser ? YES : NO);
 }
 
-
-- (void) localUser:(void (^)(User *localUser)) completion
-{
+- (User *)localUser {
     
-    NSString * user_id = [[NSUserDefaults standardUserDefaults] valueForKey:kUserDefultsIDKey];
-    if(user_id)
-    {
+    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:UserIdDefaultsKey];
+
+    if([user_id length]) {
         self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
-        if(completion)
-        {
-            completion(self.localUser);
-        }
     }
-    else
-    {
-        [self getANewUserID:completion];
+    else {
+        self.localUser = [self createNewUser];
     }
+    
+    return self.localUser;
 }
 
-- (void)getANewUserID:(CWUserManagerLocalUserBlock) completion
-{
-    NSLog(@"getting new user id: %@",[[CWMessageManager sharedInstance] registerEndPoint]);
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+- (User *)createNewUser {
     
-    [manager setRequestSerializer:self.requestHeaderSerializer];
-
-    [self.fetchUserIDOperation setCompletionBlockWithSuccess:nil failure:nil];
-    [self.fetchUserIDOperation cancel];
+    NSString *newUserID = [NSString cw_UUID];
+    NSLog(@"Generated new user id: %@",newUserID);
     
-    self.fetchUserIDOperation = [manager GET:[[CWMessageManager sharedInstance] registerEndPoint]  parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        //
-        self.getUserIDCompletionBlock(operation, responseObject, completion);
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Operation: %@",operation);
-        NSLog(@"Error: %@",error);
-    }];
-}
-
-- (CWUserManagerGetUserIDFetchBlock) getUserIDCompletionBlock
-{
-    return (^ void(AFHTTPRequestOperation *operation, id responseObject, CWUserManagerLocalUserBlock completion){
-        NSAssert([responseObject isKindOfClass:[NSArray class]], @"expecting an array. found %@",responseObject);
-        NSDictionary * dictionary = [responseObject objectAtIndex:0];
-        NSAssert([dictionary isKindOfClass:[NSDictionary class]], @"expecting a dictionary in the array. found %@", dictionary);
-        NSString * user_id =[dictionary objectForKey:@"user_id"];
-        NSAssert([user_id isKindOfClass:[NSString class]], @"expecting a string for the 'user_id' key. found %@", user_id);
-        NSLog(@"New user ID Fetched: %@",user_id);
-        [[NSUserDefaults standardUserDefaults]setValue:user_id forKey:kUserDefultsIDKey];
+    User *user = [[CWDataManager sharedInstance] createUserWithID:newUserID];
+    
+    if (user) {
+        [[NSUserDefaults standardUserDefaults]setValue:newUserID forKey:UserIdDefaultsKey];
         [[NSUserDefaults standardUserDefaults]synchronize];
-        
-        self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
-        if(completion)
-        {
-            completion(self.localUser);
-        }
-        
-    });
+    }
+    
+    return user;
 }
 
-- (BOOL) hasProfilePicture:(User *) user
-{
+- (BOOL)hasProfilePicture:(User *) user {
+
     NSString * const uploadedProfilePicture = @"profilePictureKey";
     if([[[NSUserDefaults standardUserDefaults] objectForKey:uploadedProfilePicture] boolValue])
     {
@@ -192,7 +155,5 @@ NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
     [task resume];
 
 }
-
-
 
 @end
