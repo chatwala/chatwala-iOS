@@ -40,8 +40,12 @@ NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
     self = [super init];
     if (self) {
         [self setupHttpAuthHeaders];
+
         if (!self.localUser) {
             [self createNewLocalUser];
+        }
+        else {
+            [self registerUserWithCompletionBlock:nil];
         }
     }
     return self;
