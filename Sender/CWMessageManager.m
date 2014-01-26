@@ -62,7 +62,7 @@
 
     if (shouldUseDevelopmentEnv) {
         // development
-        return @"http://chatwala-deveast.azurewebsites.net";
+        return @"http://chatwala-sandbox.azurewebsites.net";
     } else{
         // production
         return @"http://chatwala-prodeast.azurewebsites.net";

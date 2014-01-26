@@ -35,23 +35,15 @@ static BOOL didRegisterForPushNotifications = NO;
         didRegisterForPushNotifications = YES;
     }
     
-    // Create new request
-    AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
-    requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-    
-    __block NSString *userId = nil;
-    
-    
-    
-    NSDictionary *params = @{@"user_id" : userId,
-                             @"push_token" : deviceToken,
-                             @"platform_type" : @"ios"};
-    
-    [requestManager POST:[[CWMessageManager sharedInstance] registerEndPoint] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Successfully registered push notification token with chatwala server");
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failed to register push notification, error:  %@",error.localizedDescription);
+    [[CWUserManager sharedInstance] registerUserWithPushToken:deviceToken withCompletionBlock:^(NSError *error) {
+        if (error) {
+            NSLog(@"Failed to register push notification, error:  %@",error.localizedDescription);
+        }
+        else {
+            NSLog(@"Successfully registered push notification token with chatwala server");
+        }
     }];
+    
 }
 
 + (void)handleLocalPushNotification:(UILocalNotification *)notification {
@@ -63,7 +55,7 @@ static BOOL didRegisterForPushNotifications = NO;
         [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:completionHandler];
     }
     else {
-
+        NSLog(@"Remote notification does not contain user info.");
     }
 }
 

@@ -64,7 +64,7 @@
     [CATransaction commit];
 
     
-    if([[CWUserManager sharedInstance] hasLocalUser]) {
+    if([[CWUserManager sharedInstance] localUser]) {
 
         NSURL * url = [NSURL URLWithString:[[CWUserManager sharedInstance] getProfilePictureEndPointForUser:[[CWUserManager sharedInstance] localUser]]];
         NSMutableURLRequest * imageURLRequest = [NSMutableURLRequest requestWithURL:url];
@@ -126,7 +126,7 @@
     [self.pictureImageView cancelImageRequestOperation];
     self.pictureImageView.image = image;
     
-    if([[CWUserManager sharedInstance] hasLocalUser]) {
+    if([[CWUserManager sharedInstance] localUser]) {
         [[CWUserManager sharedInstance] uploadProfilePicture:image forUser:[[CWUserManager sharedInstance] localUser]];
     }
     else {

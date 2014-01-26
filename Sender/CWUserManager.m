@@ -21,12 +21,12 @@ NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
 @interface CWUserManager()
 
 @property (nonatomic) User *localUser;
-@property (nonatomic) AFHTTPRequestOperation * fetchUserIDOperation;
+
 @end
 
 @implementation CWUserManager
-+ (id)sharedInstance
-{
+
++ (id)sharedInstance {
     static dispatch_once_t once;
     static id sharedInstance;
     dispatch_once(&once, ^{
@@ -35,28 +35,26 @@ NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
     return sharedInstance;
 }
 
-- (id)init
-{
+- (id)init {
+
     self = [super init];
     if (self) {
-        [self setupAuthentication];
+        [self setupHttpAuthHeaders];
+        [self createNewLocalUser];
     }
     return self;
 }
 
-- (void)setupAuthentication
-{
+- (void)setupHttpAuthHeaders {
     
     NSString * keyAndSecret = [NSString stringWithFormat:@"%@:%@", kChatwalaAPIKey, kChatwalaAPISecret];
 
     self.requestHeaderSerializer = [AFHTTPRequestSerializer serializer];
     [self.requestHeaderSerializer setValue:keyAndSecret forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
-    
-    NSLog(@"User: %@",self.localUser.userID);
 }
 
-- (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request
-{
+- (void)addRequestHeadersToURLRequest:(NSMutableURLRequest *) request {
+
     NSDictionary * headerDictionary = [[[CWUserManager sharedInstance] requestHeaderSerializer] HTTPRequestHeaders];
     for (NSString * key in headerDictionary) {
         NSAssert([key isKindOfClass:[NSString class]], @"expecting strings for the keys of the request header. found: %@", key);
@@ -68,37 +66,17 @@ NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
 
 }
 
-- (BOOL)hasLocalUser {
-    return (self.localUser ? YES : NO);
-}
-
-- (User *)localUser {
-    
-    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:UserIdDefaultsKey];
-
-    if([user_id length]) {
-        self.localUser = [[CWDataManager sharedInstance] createUserWithID:user_id];
-    }
-    else {
-        self.localUser = [self createNewUser];
-    }
-    
-    return self.localUser;
-}
-
-- (User *)createNewUser {
+- (void)createNewLocalUser {
     
     NSString *newUserID = [NSString cw_UUID];
     NSLog(@"Generated new user id: %@",newUserID);
     
-    User *user = [[CWDataManager sharedInstance] createUserWithID:newUserID];
+    self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
+    [[NSUserDefaults standardUserDefaults]setValue:newUserID forKey:UserIdDefaultsKey];
+    [[NSUserDefaults standardUserDefaults]synchronize];
     
-    if (user) {
-        [[NSUserDefaults standardUserDefaults]setValue:newUserID forKey:UserIdDefaultsKey];
-        [[NSUserDefaults standardUserDefaults]synchronize];
-    }
-    
-    return user;
+    [self registerUserWithCompletionBlock:nil];
+
 }
 
 - (BOOL)hasProfilePicture:(User *) user {
@@ -154,6 +132,45 @@ NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
     
     [task resume];
 
+}
+
+- (void)registerUserWithCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock {
+    [self registerUserWithPushToken:nil withCompletionBlock:completionBlock];
+}
+
+
+- (void)registerUserWithPushToken:(NSString *)pushToken withCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock {
+
+    AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
+    requestManager.requestSerializer = self.requestHeaderSerializer;
+    
+    NSString *userId = self.localUser.userID;
+    NSDictionary *params = nil;
+    
+    if ([pushToken length]) {
+        params =   @{@"user_id" : userId,
+                     @"push_token" : pushToken,
+                     @"platform_type" : @"ios"};
+    }
+    else {
+        params =   @{@"user_id" : userId};
+    }
+    
+    [requestManager POST:[[CWMessageManager sharedInstance] registerEndPoint] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"Successfully registered local user with chatwala server");
+        
+        if (completionBlock) {
+            completionBlock(nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failed to register user. Error:  %@",error.localizedDescription);
+        
+        if (completionBlock) {
+            completionBlock(error);
+        }
+    }];
 }
 
 @end

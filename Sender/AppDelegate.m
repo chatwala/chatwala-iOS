@@ -62,7 +62,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
     [CWUserManager sharedInstance];
     
-    if([[CWUserManager sharedInstance] hasLocalUser]) {
+    if([[CWUserManager sharedInstance] localUser]) {
 
         NSString *user_id = [[CWUserManager sharedInstance] localUser].userID;
         if(![user_id length]) {
@@ -173,7 +173,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    if( [[CWUserManager sharedInstance] hasLocalUser]) {
+    if( [[CWUserManager sharedInstance] localUser]) {
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
     }
     else {
