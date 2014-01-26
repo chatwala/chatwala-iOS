@@ -77,8 +77,8 @@ NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
     NSString *existingUserId = [[NSUserDefaults standardUserDefaults] valueForKey:UserIdDefaultsKey];
     
     if ([existingUserId length]) {
-        self.localUser = [[CWDataManager sharedInstance] createUserWithID:existingUserId];
-        return self.localUser;
+        _localUser = [[CWDataManager sharedInstance] createUserWithID:existingUserId];
+        return _localUser;
     }
     else {
         return nil;
