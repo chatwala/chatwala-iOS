@@ -18,8 +18,6 @@ typedef void (^CWUserManagerRegisterUserCompletionBlock)(NSError *error);
 
 - (void)addRequestHeadersToURLRequest:(NSMutableURLRequest *) request;
 
-- (void)createNewLocalUser;
-
 - (void)registerUserWithCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock;
 - (void)registerUserWithPushToken:(NSString *)pushToken withCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock;
 

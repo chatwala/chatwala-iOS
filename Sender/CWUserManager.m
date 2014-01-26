@@ -40,7 +40,9 @@ NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
     self = [super init];
     if (self) {
         [self setupHttpAuthHeaders];
-        [self createNewLocalUser];
+        if (!self.localUser) {
+            [self createNewLocalUser];
+        }
     }
     return self;
 }
@@ -63,7 +65,20 @@ NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
         
         [request addValue:value forHTTPHeaderField:key];
     }
+}
 
+
+- (User *)localUser {
+    
+    NSString *existingUserId = [[NSUserDefaults standardUserDefaults] valueForKey:UserIdDefaultsKey];
+    
+    if ([existingUserId length]) {
+        self.localUser = [[CWDataManager sharedInstance] createUserWithID:existingUserId];
+        return self.localUser;
+    }
+    else {
+        return nil;
+    }
 }
 
 - (void)createNewLocalUser {
@@ -72,11 +87,11 @@ NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
     NSLog(@"Generated new user id: %@",newUserID);
     
     self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
+
     [[NSUserDefaults standardUserDefaults]setValue:newUserID forKey:UserIdDefaultsKey];
     [[NSUserDefaults standardUserDefaults]synchronize];
     
     [self registerUserWithCompletionBlock:nil];
-
 }
 
 - (BOOL)hasProfilePicture:(User *) user {
