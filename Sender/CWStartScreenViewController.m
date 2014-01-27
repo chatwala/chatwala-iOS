@@ -154,6 +154,11 @@
 
     UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWAppFeedBackViewController alloc] init]];
 
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    [navController.navigationBar setTintColor:[UIColor whiteColor]];
+
     [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
 
 
