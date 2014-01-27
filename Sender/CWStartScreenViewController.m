@@ -120,7 +120,13 @@
             //
             [self.messageSentView setAlpha:0];
         } completion:^(BOOL finished) {
-            [weakSelf showAppFeedback];
+            [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+                NSInteger outBoxCount = localUser.messagesSent.count;
+                if(outBoxCount == 5)
+                {
+                    [weakSelf showAppFeedback];
+                }
+            }];
         }];
     }else{
         [self.messageSentView setAlpha:0];
