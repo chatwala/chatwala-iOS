@@ -35,6 +35,12 @@
         UIBarButtonItem* backBtnItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
         [self.navigationItem setLeftBarButtonItem:backBtnItem];
     }
+    else
+    {
+        UIBarButtonItem * doneBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onFeedbackDone:)];
+
+        [self.navigationItem setRightBarButtonItem:doneBtn];
+    }
 
     [self.navigationItem.titleView setTintColor:[UIColor chatwalaFeedbackLabel]];
 }
@@ -69,4 +75,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)onFeedbackDone:(id)sender
+{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
 @end
