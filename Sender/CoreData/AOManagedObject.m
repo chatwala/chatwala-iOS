@@ -96,6 +96,7 @@
         
         if (value == nil) {
             value = [NSNull null];
+            continue;
         }
         
         NSAttributeType attributeType = [[attributes objectForKey:attribute] attributeType];
