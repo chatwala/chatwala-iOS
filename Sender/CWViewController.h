@@ -19,4 +19,7 @@ typedef enum {
 @property (nonatomic,strong) UIBarButtonItem * burgerButton;
 @property (nonatomic,strong) UIBarButtonItem * closeButton;
 
+
+-(void)rotateBurgerBarAfterDrawAnimation:(BOOL) isAfterAnimation;
+
 @end
