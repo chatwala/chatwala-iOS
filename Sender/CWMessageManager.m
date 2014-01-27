@@ -265,14 +265,14 @@
 
 #pragma mark - MessageID Server Fetches
 
-- (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
-    
+- (void) fetchMessageIDForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock
+{
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-
-    NSDictionary *params = @{@"sender_id" : message.metadata.senderId,
-                             @"recipient_id" : message.metadata.recipientId};
+    
+    NSDictionary *params = @{@"sender_id" : message.sender.userID,
+                             @"recipient_id" : message.recipient.userID};
     
     [manager POST:self.messagesEndPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         // Nothing needed here
@@ -286,7 +286,7 @@
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-
+        
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
         NSLog(@"Failed to fetch message ID from the server for a reply with error:%@",error);
@@ -296,6 +296,7 @@
             completionBlock(nil, nil);
         }
     }];
+    
 }
 
 - (void)fetchOriginalMessageIDWithSender:(User *) localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
@@ -362,11 +363,12 @@
 
 }
 
-- (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage {
+- (void)uploadMessage:(Message *) messageToUpload isReply:(BOOL)isReplyMessage
+{
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
     
     
-    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint] ,messageToUpload.metadata.messageId];
+    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint] ,messageToUpload.messageID];
     NSLog(@"uploading message: %@",endPoint);
     NSURL *URL = [NSURL URLWithString:endPoint];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];

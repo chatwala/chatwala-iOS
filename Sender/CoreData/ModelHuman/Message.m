@@ -1,6 +1,7 @@
 #import "Message.h"
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
+#import "CWDataManager.h"
 
 @interface Message ()
 
@@ -73,6 +74,56 @@
         [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
     }];
     
+}
+
+- (void) exportZip
+{
+    NSString * newDirectoryPath = [[CWDataManager cacheDirectoryPath] stringByAppendingPathComponent:OUTGOING_DIRECTORY_NAME];
+    
+    NSError * err = nil;
+    if([[NSFileManager defaultManager] fileExistsAtPath:newDirectoryPath])
+    {
+        [[NSFileManager defaultManager]removeItemAtPath:newDirectoryPath error:&err];
+    }
+    if (err) {
+        NSLog(@"error removing new file directory: %@",err.debugDescription);
+        return;
+    }
+    
+    
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:newDirectoryPath withIntermediateDirectories:YES attributes:nil error:&err];
+    if (err) {
+        NSLog(@"error creating new file directory: %@",err.debugDescription);
+        return;
+    }
+    
+    
+    NSAssert(self.videoURL.path, @"video path must not be nil");
+    // copy video to folder
+    [[NSFileManager defaultManager]copyItemAtPath:self.videoURL.path toPath:[newDirectoryPath stringByAppendingPathComponent:VIDEO_FILE_NAME] error:&err];
+    if (err) {
+        NSLog(@"failed to copy video to new directory: %@",err.debugDescription);
+        return;
+    }
+    
+    // create json file
+    
+//    NSDictionary * jsonDict = [MTLJSONAdapter JSONDictionaryFromModel:self.metadata];
+    NSError * error = nil;
+    NSData * jsonData = [self toJSONWithDateFormatter:[CWDataManager dateFormatter] error:&error];
+    
+    if (err) {
+        NSLog(@"faild to create JSON metadata: %@",err.debugDescription);
+        return;
+    }
+    
+    [jsonData writeToFile:[newDirectoryPath stringByAppendingPathComponent:METADATA_FILE_NAME] atomically:YES];
+    
+    NSLog(@"ready!");
+    // zip it up
+    NSAssert(self.zipURL, @"expecting zip URL to be set");
+    [SSZipArchive createZipFileAtPath:self.zipURL.path withContentsOfDirectory:newDirectoryPath];
 }
 
 @end
