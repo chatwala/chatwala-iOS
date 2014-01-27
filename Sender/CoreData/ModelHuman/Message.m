@@ -12,6 +12,7 @@
 
 @implementation Message
 @synthesize videoURL;
+@synthesize zipURL;
 
 // Custom logic goes here.
 

@@ -185,6 +185,7 @@
     Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.incomingMessage];
     
     message.videoURL = recorder.outputFileURL;
+    message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
     
     if (self.incomingMessage) {
         // Responding to an incoming message
@@ -193,6 +194,7 @@
         [[CWMessageManager sharedInstance] fetchMessageIDForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
             if (messageID && messageURL) {
                 message.messageID = messageID;
+                message.messageURL = messageURL;
                 
                 [message exportZip];
                 [[CWMessageManager sharedInstance] uploadMessage:message isReply:YES];
@@ -220,6 +222,7 @@
             
             if (messageID && messageURL) {
                 message.messageID = messageID;
+                message.messageURL = messageURL;
                 
                 [self composeMessageWithMessageKey:messageURL withCompletion:^{
                     [message exportZip];
