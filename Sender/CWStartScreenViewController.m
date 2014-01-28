@@ -17,6 +17,8 @@
 #import "CWMessageManager.h"
 #import "CWUserManager.h"
 #import "User.h"
+#import <UIViewController+MMDrawerController.h>
+#import "CWAppFeedBackViewController.h"
 
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
@@ -113,11 +115,18 @@
         [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
         [[NSUserDefaults standardUserDefaults]synchronize];
         [self.messageSentView setAlpha:1];
+        __weak CWStartScreenViewController* weakSelf    = self;
         [UIView animateKeyframesWithDuration:0.5 delay:2 options:kNilOptions animations:^{
             //
             [self.messageSentView setAlpha:0];
         } completion:^(BOOL finished) {
-            //
+
+            NSInteger outBoxCount = [[CWUserManager sharedInstance] localUser].messagesSent.count;
+            if(outBoxCount == 5)
+            {
+                [weakSelf showAppFeedback];
+            }
+
         }];
     }else{
         [self.messageSentView setAlpha:0];
@@ -143,5 +152,19 @@
     [self.navigationController pushViewController:composerVC animated:NO];
 }
 
+-(void)showAppFeedback
+{
 
+    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWAppFeedBackViewController alloc] init]];
+
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    [navController.navigationBar setTintColor:[UIColor whiteColor]];
+
+    [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
+
+
+
+}
 @end

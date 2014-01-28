@@ -10,7 +10,6 @@
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWFlowManager.h"
-#import "CWMessageItem.h"
 #import "CWGroundControlManager.h"
 #import "CWMessageManager.h"
 #import "CWDataManager.h"

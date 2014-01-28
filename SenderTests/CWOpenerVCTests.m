@@ -17,7 +17,6 @@
 #import "MocForTests.h"
 
 @interface CWOpenerViewController () <AVAudioPlayerDelegate,CWVideoPlayerDelegate,CWVideoRecorderDelegate>
-@property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
 @property (nonatomic,strong) NSTimer * reviewCountdownTimer;
 @property (nonatomic,strong) NSTimer * reactionCountdownTimer;
 @property (nonatomic,strong) NSTimer * responseCountdownTimer;

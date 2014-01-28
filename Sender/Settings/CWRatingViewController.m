@@ -22,7 +22,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self.navigationItem setTitle:@"FEEDBACK"];
+    [self setTitle:@"FEEDBACK"];
     [self.label setTextColor:[UIColor chatwalaFeedbackLabel]];
 
 }

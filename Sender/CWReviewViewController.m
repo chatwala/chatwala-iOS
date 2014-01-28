@@ -19,6 +19,7 @@
 #import "Message.h"
 #import "Thread.h"
 #import "CWPushNotificationsAPI.h"
+#import "CWDataManager.h"
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
@@ -123,28 +124,6 @@
     */
 }
 
-
-- (CWMessageItem*)createMessageItemWithSender:(User*) localUser
-{
-    CWMessageItem * message = [[CWMessageItem alloc]initWithSender:localUser];
-    [message setVideoURL:recorder.outputFileURL];
-    message.metadata.startRecording = self.startRecordingTime;
-    
-    
-//    if ([[CWAuthenticationManager sharedInstance]isAuthenticated]) {
-//        [message.metadata setSenderId:[[CWAuthenticationManager sharedInstance] userEmail]];
-//    }
-    
-    if (self.incomingMessage) {
-        
-        [message.metadata setRecipientId:self.incomingMessage.sender.userID];
-        [message.metadata setThreadId:self.incomingMessage.thread.threadID];
-        [message.metadata setThreadIndex:self.incomingMessage.threadIndexValue + 1];
-    }
-    return message;
-}
-
-
 - (void)onTap:(id)sender
 {
     [player.playbackView removeFromSuperview];
@@ -199,7 +178,10 @@
 }
 
 - (void)sendMessageFromUser:(User *)localUser {
-    CWMessageItem * message = [self createMessageItemWithSender:localUser];
+    Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.incomingMessage];
+    
+    message.videoURL = recorder.outputFileURL;
+    message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
     
     if (self.incomingMessage) {
         // Responding to an incoming message
@@ -207,7 +189,8 @@
         
         [[CWMessageManager sharedInstance] fetchMessageIDForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
             if (messageID && messageURL) {
-                message.metadata.messageId = messageID;
+                message.messageID = messageID;
+                message.messageURL = messageURL;
                 
                 [message exportZip];
                 [[CWMessageManager sharedInstance] uploadMessage:message isReply:YES];
@@ -234,7 +217,8 @@
         [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
             
             if (messageID && messageURL) {
-                message.metadata.messageId = messageID;
+                message.messageID = messageID;
+                message.messageURL = messageURL;
                 
                 [self composeMessageWithMessageKey:messageURL withCompletion:^{
                     [message exportZip];

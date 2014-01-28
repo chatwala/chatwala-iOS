@@ -28,5 +28,10 @@
 - (void) downloadAllMessageChatwalaData;
 
 
+- (Message *) createMessageWithSender:(User *) sender inResponseToIncomingMessage:(Message *) incomingMessage;
 - (Message *) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error;
+
+
++ (NSString*)cacheDirectoryPath;
++ (NSDateFormatter *)dateFormatter;
 @end

@@ -48,6 +48,15 @@
  */
 -(AOManagedObject *)fromDictionary:(NSDictionary *)dictionary withDateFormatter:(NSDateFormatter *)dateFormatter error:(NSError **)error;
 
+/*!
+ Returns a NSDictionary representation of the managed object.
+ 
+ @param dateFormatter An NSDateFormatter used when transforming NSDate objects to a string for NSDictionary. Since there is no standard String date representation the caller needs to pass in the date formatter itself.
+ 
+ @return JSON representation of the managed object
+ */
+- (NSDictionary *) toDictionaryWithDataFormatter:(NSDateFormatter *) dateFormatter error:(NSError **) error;
+
 //for when the keys on the sever change
 + (NSDictionary *) keyLookupTable;
 

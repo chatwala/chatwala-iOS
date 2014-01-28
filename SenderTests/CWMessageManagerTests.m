@@ -10,6 +10,8 @@
 #import <OCMock.h>
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
+#import "Message.h"
+#import "MocForTests.h"
 
 @interface CWMessageManagerTests : XCTestCase
 
@@ -17,6 +19,7 @@
 @property (nonatomic) id mockSut;
 @property (nonatomic) id mockDataManager;
 @property (nonatomic) id mockUser;
+@property (nonatomic) NSManagedObjectContext * moc;
 
 @end
 
@@ -30,6 +33,9 @@
     self.mockSut = [OCMockObject partialMockForObject:self.sut];
     self.mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
     self.mockUser = [OCMockObject niceMockForClass:[User class]];
+    
+    MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
+    self.moc = mocFactory.moc;
 }
 
 - (void)tearDown
@@ -121,13 +127,13 @@
 {
     //given
     NSString * messageID = @"someMessageID";
-    NSProgress * progress = OCMOCK_ANY;
+//    NSProgress * progress = OCMOCK_ANY;
     id mockManager = [OCMockObject mockForClass:[AFURLSessionManager class]];
     [[[mockManager stub] andReturn:mockManager] alloc];
     id toMakeWarningGoAway = [[[mockManager stub] andReturn:mockManager] initWithSessionConfiguration:OCMOCK_ANY];
     NSLog(@"%@",toMakeWarningGoAway);
-    [[mockManager expect] downloadTaskWithRequest:OCMOCK_ANY progress:[OCMArg setTo:progress] destination:OCMOCK_ANY completionHandler:OCMOCK_ANY];
-    
+//    [[mockManager expect] downloadTaskWithRequest:OCMOCK_ANY progress:[OCMArg setTo:progress] destination:OCMOCK_ANY completionHandler:OCMOCK_ANY];
+    [[mockManager expect] downloadTaskWithRequest:OCMOCK_ANY progress:nil destination:OCMOCK_ANY completionHandler:OCMOCK_ANY];
     //when
     [self.sut downloadMessageWithID:messageID progress:OCMOCK_ANY completion:OCMOCK_ANY];
     
@@ -248,7 +254,7 @@
 - (void) testUploadMessage
 {
     //given
-    CWMessageItem * item = [[CWMessageItem alloc] initWithSender:self.mockUser];
+    Message * item = [Message insertInManagedObjectContext:self.moc];
     id mockManager = [OCMockObject mockForClass:[AFURLSessionManager class]];
     [[[mockManager stub] andReturn:mockManager] alloc];
     id toMakeWarningGoAway = [[[mockManager stub] andReturn:mockManager] initWithSessionConfiguration:OCMOCK_ANY];

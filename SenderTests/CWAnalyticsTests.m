@@ -183,14 +183,7 @@
 - (void)testShouldSendEventWhenSendIsSelectedWithIncomingMessage
 {
     //given
-    id mockUser = [OCMockObject niceMockForClass:[User class]];
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
-    id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-
-    CWMessageItem * msg = [[CWMessageItem alloc] initWithSender:mockUser];
-    msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
-    
-    [[[mockReviewVC stub] andReturn:msg] createMessageItemWithSender:self.mockUser];
     
     //when
     [reviewVC onSend:nil];
@@ -199,17 +192,12 @@
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
     
     //cleanup
-    [mockReviewVC stopMocking];
 }
 
 - (void)testShouldSendEventWhenSendIsSelectedWithoutIncomingMessage
 {
     //given
     CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
-    id mockReviewVC = [OCMockObject partialMockForObject:reviewVC];
-    CWMessageItem * msg = [[CWMessageItem alloc] initWithSender:self.mockUser];
-    msg.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
-    [[[mockReviewVC stub] andReturn:msg] createMessageItemWithSender:self.mockUser];
 
     //when
     [reviewVC onSend:nil];
@@ -218,7 +206,6 @@
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
     
     //cleanup
-    [mockReviewVC stopMocking];
 }
 
 - (void)testShouldSendEventWhenMessageIsSent
