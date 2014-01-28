@@ -61,6 +61,11 @@
                                                  name:UIApplicationWillResignActiveNotification object:nil];
     
     [self setNavMode:NavModeClose];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appHasGoneInBackground:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
 }
 
 - (void)dealloc
@@ -73,7 +78,12 @@
         player.delegate = nil;
         player = nil;
     }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
+- (void) appHasGoneInBackground:(NSNotification*)notification
+{
+    [self.messageComposer dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
