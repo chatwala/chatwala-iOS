@@ -23,6 +23,5 @@
 - (IBAction)onSend:(id)sender;
 - (void)showVideoPreview;
 
-- (CWMessageItem*)createMessageItemWithSender:(User*) localUser;
 
 @end
