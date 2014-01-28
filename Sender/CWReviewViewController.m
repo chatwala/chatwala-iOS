@@ -66,6 +66,14 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+
+    if ([player.delegate isEqual:self])
+    {
+        [player cleanUp];
+        player.delegate = nil;
+        player = nil;
+    }
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -85,14 +93,7 @@
 {
     [super viewWillDisappear:animated];
 
-    if ([player.delegate isEqual:self])
-    {
-        [player cleanUp];
-        player.delegate = nil;
-        player = nil;
-    }
 }
-
 
 - (void)goToBackground
 {
