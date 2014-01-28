@@ -81,6 +81,18 @@
     [player setVideoURL:recorder.tempFileURL];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+    if ([player.delegate isEqual:self])
+    {
+        [player cleanUp];
+        player.delegate = nil;
+        player = nil;
+    }
+}
+
 
 - (void)goToBackground
 {

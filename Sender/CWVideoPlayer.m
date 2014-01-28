@@ -181,10 +181,10 @@ NSString * const kCurrentItemKey	= @"currentItem";
 
 - (void)setupPlayerWithAsset:(AVAsset*)asset
 {
-    if (self.player) {
-        self.player = nil;
-    }
-    
+//    if (self.player) {
+//        self.player = nil;
+//    }
+//    
     // setup player
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
     [self.player setActionAtItemEnd:AVPlayerActionAtItemEndNone];
@@ -199,6 +199,12 @@ NSString * const kCurrentItemKey	= @"currentItem";
     if ([self.delegate respondsToSelector:@selector(videoPlayerPlayToEnd:)]) {
         [self.delegate videoPlayerPlayToEnd:self];
     }
+}
+
+-(void)cleanUp
+{
+    self.player = nil;
+    self.playerItem = nil;
 }
 
 #pragma mark - generate thumbnail
