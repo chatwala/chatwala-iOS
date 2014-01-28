@@ -86,7 +86,7 @@
     return self;
 }
 
--(NSData *)toJSONWithDateFormatter:(NSDateFormatter *)dateFormatter error:(NSError **)error
+- (NSDictionary *) toDictionaryWithDataFormatter:(NSDateFormatter *) dateFormatter error:(NSError **) error
 {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
     NSDictionary *attributes = [[self entity] attributesByName];
@@ -107,6 +107,12 @@
         
         [jsonDict setValue:value forKey:attribute];
     }
+    return jsonDict;
+}
+
+-(NSData *)toJSONWithDateFormatter:(NSDateFormatter *)dateFormatter error:(NSError **)error
+{
+    NSDictionary * jsonDict = [self toDictionaryWithDataFormatter:dateFormatter error:error];
     
     NSData *jsonObj = [NSJSONSerialization dataWithJSONObject:jsonDict options:NSJSONWritingPrettyPrinted error:error];
     
