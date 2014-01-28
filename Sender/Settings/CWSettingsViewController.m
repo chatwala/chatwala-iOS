@@ -9,10 +9,13 @@
 #import "CWSettingsViewController.h"
 #import "CWTermsViewController.h"
 #import "CWPrivacyViewController.h"
+#import "CWAppFeedBackViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWProfilePictureViewController.h"
+#import "UIColor+Additions.h"
 
-@interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate, MFMailComposeViewControllerDelegate>
+@interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate>
+
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
 @property (nonatomic,strong) NSArray * sectionHeaders;
 @property (nonatomic,strong) NSArray * section1Titles;
@@ -49,9 +52,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:att];
     
     
-    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback", @"Profile Pic"]];
-    
-    
+    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback", @"Edit Your Profile Picture"]];
     
     [self.settingsTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"settingsCell"];
     [self.settingsTable setDelegate:self];
@@ -59,9 +60,6 @@
     [self.settingsTable setBackgroundColor:[UIColor clearColor]];
     [self.settingsTable setSeparatorColor:[UIColor chatwalaBlueLight]];
     [self.settingsTable setScrollEnabled:NO];
-    
-    
-    
 }
 
 
@@ -74,9 +72,6 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
-
-
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -145,26 +140,28 @@
             switch (indexPath.row) {
                 case 0:
                 {
-                    CWTermsViewController* tocVC = [[CWTermsViewController alloc]init];
+                    CWTermsViewController* tocVC = [[CWTermsViewController alloc] init];
                     [self.navigationController pushViewController:tocVC animated:YES];
                 }
                     break;
                 case 1:
                 {
-                    CWPrivacyViewController* privVC = [[CWPrivacyViewController alloc]init];
+                    CWPrivacyViewController* privVC = [[CWPrivacyViewController alloc] init];
                     [self.navigationController pushViewController:privVC animated:YES];
                 }
                     break;
                 case 2:
                 {
-                    if ([MFMailComposeViewController canSendMail]) {
-                        MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
-                        [mailComposer setMailComposeDelegate:self];
-                        [mailComposer setSubject:[[CWGroundControlManager sharedInstance] feedbackEmailSubject]];
-                        [mailComposer setMessageBody:[[CWGroundControlManager sharedInstance] feedbackEmailBody] isHTML:NO];
-                        [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
-                        [self presentViewController:mailComposer animated:YES completion:nil];
-                    }
+                    CWAppFeedBackViewController* tocVC = [[CWAppFeedBackViewController alloc] init];
+                    [self.navigationController pushViewController:tocVC animated:YES];
+//                    if ([MFMailComposeViewController canSendMail]) {
+//                        MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
+//                        [mailComposer setMailComposeDelegate:self];
+//                        [mailComposer setSubject:[[CWGroundControlManager sharedInstance] feedbackEmailSubject]];
+//                        [mailComposer setMessageBody:[[CWGroundControlManager sharedInstance] feedbackEmailBody] isHTML:NO];
+//                        [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
+//                        [self presentViewController:mailComposer animated:YES completion:nil];
+//                    }
                 }
                     break;
                 case 3:
@@ -193,12 +190,12 @@
     }
 }
 
-#pragma mark MFMailComposeViewControllerDelegate
-
-- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-{
-    [controller dismissViewControllerAnimated:YES completion:nil];
-}
+//#pragma mark MFMailComposeViewControllerDelegate
+//
+//- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+//{
+//    [controller dismissViewControllerAnimated:YES completion:nil];
+//}
 
 
 @end

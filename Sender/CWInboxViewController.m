@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import "CWMenuViewController.h"
+#import "CWInboxViewController.h"
 #import "CWMessageManager.h"
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
@@ -14,11 +14,11 @@
 
 
 
-@interface CWMenuViewController () <UITableViewDelegate>
+@interface CWInboxViewController () <UITableViewDelegate>
 @property (nonatomic,strong) UIRefreshControl * refreshControl;
 @end
 
-@implementation CWMenuViewController
+@implementation CWInboxViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -97,7 +97,7 @@
 
 - (IBAction)onButtonSelect:(id)sender {
     if ([self.delegate respondsToSelector:@selector(menuViewController:didSelectButton:)]) {
-        [self.delegate menuViewController:self didSelectButton:sender];
+        [self.delegate inboxViewController:self didSelectButton:sender];
     }
 }
 
@@ -111,7 +111,7 @@
     NSString* messageId = message.messageID;
   
     if ([self.delegate respondsToSelector:@selector(menuViewController:didSelectMessageWithID:)]) {
-        [self.delegate menuViewController:self didSelectMessageWithID:messageId];
+        [self.delegate inboxViewController:self didSelectMessageWithID:messageId];
     }
     
 }

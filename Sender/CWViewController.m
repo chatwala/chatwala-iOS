@@ -7,38 +7,42 @@
 //
 
 #import "CWViewController.h"
-#import "AppDelegate.h"
+#import "UIViewController+MMDrawerController.h"
+
+#define degreesToRadians( degrees ) ( ( degrees ) / 180.0 * M_PI )
 
 @interface CWViewController ()
-
 //@property (nonatomic,strong) UIImageView * messageSentView;
 @end
 
 @implementation CWViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+
     self.burgerButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"menu_btn"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
+    
     self.closeButton = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"Close-Button"] style:UIBarButtonItemStylePlain target:self action:@selector(onTap:)];
 
-    
+    [self.mm_drawerController  setGestureCompletionBlock:^(MMDrawerController *drawerController, UIGestureRecognizer *gesture) {
+        //was losing reference to weak self. posting notification instead
+        [NC postNotificationName:(NSString*)CWMMDrawerCloseNotification object:nil];
+    }];
     UIView * spacer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:spacer]];
+    [NC addObserver:self selector:@selector(handleCWMMDrawerCloseNotification) name:(NSString*)CWMMDrawerCloseNotification object:nil];
 }
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [self rotateBurgerBarAfterDrawAnimation:YES];
+}
 
+-(void)dealloc
+{
+    [NC removeObserver:self name:(NSString*)CWMMDrawerCloseNotification object:nil];
+}
 
 - (void)setNavMode:(NavMode)mode
 {
@@ -64,14 +68,12 @@
     }
 }
 
-
-
-
 - (void)onTap:(id)sender
 {
-    if ([sender isEqual:self.burgerButton]) {
-        AppDelegate * appDel = (AppDelegate *) APPDEL;
-        [appDel.drawController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+     if ([sender isEqual:self.burgerButton])
+    {
+        [self rotateBurgerBarAfterDrawAnimation:NO];
+        [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
     }
     
     if ([sender isEqual:self.closeButton]) {
@@ -79,4 +81,30 @@
     }
 }
 
+-(void)handleCWMMDrawerCloseNotification
+{
+    [self rotateBurgerBarAfterDrawAnimation:YES];
+}
+
+-(void)rotateBurgerBarAfterDrawAnimation:(BOOL) isAfterAnimation
+{
+    MMDrawerController* drawer = self.mm_drawerController;
+    CGFloat duration = (drawer.maximumLeftDrawerWidth) / drawer.animationVelocity;
+
+    [UIView animateWithDuration:duration animations:^{
+
+        UIView* burgerView = [self.burgerButton valueForKey:@"view"];
+        //Bar Button Items have padding on the right and left sides. this will make it square
+        burgerView.bounds = CGRectMake(0, 0, burgerView.bounds.size.width, burgerView.bounds.size.width);
+        burgerView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+        if(isAfterAnimation ^ (drawer.openSide == MMDrawerSideNone))
+        {
+            burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(90));
+        }
+        else
+        {
+            burgerView.transform = CGAffineTransformIdentity;
+        }
+    }];
+}
 @end

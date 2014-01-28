@@ -38,7 +38,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0.5</string>
+	<string>1.0.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -55,11 +55,12 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.5.8</string>
+	<string>2.5.11</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>remote-notification</string>
 		<string>fetch</string>
 	</array>
 	<key>UIRequiredDeviceCapabilities</key>

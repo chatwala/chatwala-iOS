@@ -7,22 +7,21 @@
 //
 
 #import "AppDelegate.h"
-#import "CWPIPOpenerViewController.h"
-#import "CWSSOpenerViewController.h"
-#import "CWStartScreenViewController.h"
-#import "CWSSStartScreenViewController.h"
-#import "CWPIPStartScreenViewController.h"
-#import "CWErrorViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWLandingViewController.h"
 #import "CWUserManager.h"
-#import "CWMenuViewController.h"
+#import "CWInboxViewController.h"
 #import "CWMainViewController.h"
 #import "CWMessageManager.h"
 #import "CWLoadingViewController.h"
 #import "CWSettingsViewController.h"
 #import "CWDataManager.h"
+#import "CWPushNotificationsAPI.h"
 
+#define MAX_LEFT_DRAWER_WIDTH 131
+#define DRAWER_OPENING_VELOCITY 250.0
+
+NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 @interface UINavigationBar (customNav)
 @end
@@ -34,21 +33,20 @@
 }
 @end
 
-@interface AppDelegate () <CWMenuDelegate>
-{
-    BOOL isSplitScreen;
-    
-}
-//void (^)(BOOL success, NSURL *url)completionBlock;
+@interface AppDelegate () <CWInboxDelegate>
 
-@property (nonatomic,strong) CWMenuViewController * menuVC;
+
+@property (nonatomic,strong) CWInboxViewController * inboxController;
 @property (nonatomic,strong) CWMainViewController * mainVC;
 @property (nonatomic,strong) CWLoadingViewController * loadingVC;
 @property (nonatomic,strong) UINavigationController * settingsNavController;
+
 @end
 
 
 @implementation AppDelegate
+
+#pragma mark - Application lifecycle methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -86,14 +84,14 @@
     [[NSUserDefaults standardUserDefaults]synchronize];
     
     
-    self.menuVC = [[CWMenuViewController alloc]init];
+    self.inboxController = [[CWInboxViewController alloc]init];
     self.mainVC = [[CWMainViewController alloc]init];
     
 //    self.landingVC = [[CWLandingViewController alloc]init];
 //    [self.landingVC setFlowDirection:eFlowToStartScreen];
 //
     
-    [self.menuVC setDelegate:self];
+    [self.inboxController setDelegate:self];
     
     
     self.navController = [[UINavigationController alloc]initWithRootViewController:self.mainVC];
@@ -103,11 +101,10 @@
     [self.navController.navigationBar setTintColor:[UIColor whiteColor]];
 
      
-    self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.menuVC];
-    [self.drawController setMaximumLeftDrawerWidth:131];
-    [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModePanningCenterView|MMCloseDrawerGestureModeTapCenterView];
-    
-    
+    self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.inboxController];
+    [self.drawController setMaximumLeftDrawerWidth:MAX_LEFT_DRAWER_WIDTH];
+    [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeTapCenterView];
+
     self.loadingVC = [[CWLoadingViewController alloc]init];
     [self.loadingVC.view setAlpha:0];
 //    [self.loadingVC restartAnimation];
@@ -137,33 +134,16 @@
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
     */
     
-    
     return YES;
 }
 
-- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
-{
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     [[CWUserManager sharedInstance] localUser:^(User *localUser) {
         [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:completionHandler];
     }];
 }
 
-
-
-- (void)activateSession
-{
-    [[[CWVideoManager sharedManager]recorder]resumeSession];
-}
-
-
-- (void)deactivateSession
-{
-    [[[CWVideoManager sharedManager]recorder]stopSession];
-}
-
-
-- (void)applicationWillResignActive:(UIApplication *)application
-{
+- (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
     [[[CWVideoManager sharedManager]player] stop];
@@ -191,26 +171,15 @@
     
     [self deactivateSession];
     [[AFNetworkReachabilityManager sharedManager]stopMonitoring];
-    
 }
 
-- (void)applicationDidEnterBackground:(UIApplication *)application
-{
+- (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 //    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
 }
 
-- (void)applicationWillEnterForeground:(UIApplication *)application
-{
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-    
-}
-
-
-
-- (void)applicationDidBecomeActive:(UIApplication *)application
-{
+- (void)applicationDidBecomeActive:(UIApplication *)application {
     if( [[CWUserManager sharedInstance] hasLocalUser])
     {
         [[CWUserManager sharedInstance] localUser:^(User *localUser) {
@@ -253,19 +222,10 @@
         [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:nil];
         [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:nil];
     }];
-
-    
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application
-{
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    
 }
 
 
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
-{
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
    
     NSString * scheme = [url scheme];
     NSString * messageId = [[url pathComponents]lastObject];
@@ -276,7 +236,6 @@
         [self.loadingVC restartAnimation];
         [self.loadingVC.view setAlpha:1];
     }
-    
 
     
     if ([scheme isEqualToString:@"chatwala"]) {
@@ -289,13 +248,16 @@
                 [self.openerVC setZipURL:url];
                 if ([self.navController.topViewController isEqual:self.openerVC]) {
                     // already showing opener
-                }else{
+                }
+                else {
                     [self.navController pushViewController:self.openerVC animated:NO];
                 }
+                
                 [UIView animateWithDuration:0.5 animations:^{
                     [self.loadingVC.view setAlpha:0];
                 }];
-            }else{
+            }
+            else {
                 // failed to load message
                 [self.navController popToRootViewControllerAnimated:NO];
                 [UIView animateWithDuration:0.5 animations:^{
@@ -306,89 +268,35 @@
             }
         }];
     }
-    else{
+    else {
         [self.openerVC setZipURL:url];
+        
         if ([self.navController.topViewController isEqual:self.openerVC]) {
             // already showing opener
-        }else{
+        }
+        else {
             [self.navController pushViewController:self.openerVC animated:NO];
         }
+        
         [self.loadingVC.view setAlpha:0];
     }
+
     [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
-    
-    
-    /*
-    if ([scheme isEqualToString:@"chatwala"]) {
-        // open remote message
-        
-        NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[[[url pathComponents] objectAtIndex:1] stringByAppendingString:@".zip"]];
-    
-        if ([[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
-            // already downloaded
-            
-            [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
-                [self application:[UIApplication sharedApplication] openURL:[NSURL URLWithString:localPath] sourceApplication:nil annotation:nil];
-            }];
-            
-        }else{
-        
-            NSString * messagePath =[NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint],[[url pathComponents] objectAtIndex:1]];
-    //        [SUBMIT_MESSAGE_ENDPOINT stringByAppendingPathComponent:[[url pathComponents] objectAtIndex:1]];
-            
-            NSLog(@"downloading file at: %@",messagePath);
-            NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-            AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-            
-            NSURL *URL = [NSURL URLWithString:messagePath];
-            NSURLRequest *request = [NSURLRequest requestWithURL:URL];
-            
-            NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-                NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
-                return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
-                
-            } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-                if(error)
-                {
-                    NSLog(@"error %@", error);
-                }
-                else
-                {
-                    NSLog(@"File downloaded to: %@", filePath);
-                    [self.openerVC setZipURL:filePath];
-                    [self.navController pushViewController:self.openerVC animated:NO];
-                    
-    //                [self.landingVC setIncomingMessageZipURL:filePath];
-    //                [self.landingVC setFlowDirection:eFlowToOpener];
-    //                [self.navController popToRootViewControllerAnimated:NO];
-                }
-            }];
-            [downloadTask resume];
-        
-        }
-    }else{
-        [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
-//        [self.landingVC setIncomingMessageZipURL:url];
-//        [self.landingVC setFlowDirection:eFlowToOpener];
-        [self.openerVC setZipURL:url];
-        if ([self.navController.topViewController isEqual:self.openerVC]) {
-            // already showing opener
-        }else{
-            [self.navController pushViewController:self.openerVC animated:NO];
-        }
-        
-    }
-    
-    
-    */
-    
-    
     return YES;
 }
 
+#pragma mark - Video recorder session management
 
-- (CWSSOpenerViewController *)openerVC
-{
+- (void)activateSession {
+    [[[CWVideoManager sharedManager]recorder]resumeSession];
+}
+
+- (void)deactivateSession {
+    [[[CWVideoManager sharedManager]recorder]stopSession];
+}
+
+
+- (CWSSOpenerViewController *)openerVC {
     if (_openerVC == nil) {
         _openerVC = [[CWSSOpenerViewController alloc]init];
     }
@@ -396,14 +304,8 @@
     return _openerVC;
 }
 
-//
-//- (void)onMessageSent
-//{
-//    [self.navController.navigationItem setTitleView:[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]]];
-//}
-
-- (UINavigationController *)settingsNavController
-{
+- (UINavigationController *)settingsNavController {
+    
     if (_settingsNavController==nil) {
         CWSettingsViewController * settings = [[CWSettingsViewController alloc]init];
         _settingsNavController = [[UINavigationController alloc]initWithRootViewController:settings];
@@ -416,13 +318,15 @@
     return _settingsNavController;
 }
 
+-(void)sendDrawerCloseNotification {
+    [NC postNotificationName:(NSString*)CWMMDrawerCloseNotification object:nil];
+}
 
-#pragma mark CWMenuDelegate
+#pragma mark CWInboxDelegate
 
-- (void)menuViewController:(CWMenuViewController *)menuVC didSelectButton:(UIButton *)button
-{
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectButton:(UIButton *)button {
     [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
-        if ([button isEqual:menuVC.plusButton]) {
+        if ([button isEqual:inboxVC.plusButton]) {
             // check if showing start screen
             if ([self.mainVC.navigationController.visibleViewController isKindOfClass:[CWStartScreenViewController class]]) {
                 // do nothing
@@ -430,25 +334,25 @@
                 [self.mainVC.navigationController popToRootViewControllerAnimated:NO];
             }
         }
-        else if ([button isEqual:menuVC.settingsButton])
+        else if ([button isEqual:inboxVC.settingsButton])
         {
             [self.drawController presentViewController:self.settingsNavController animated:YES completion:^{
                 // Do nothing
             }];
         }
+        [self sendDrawerCloseNotification];
     }];
-    
 }
 
-
-- (void)menuViewController:(CWMenuViewController *)menuVC didSelectMessageWithID:(NSString *)messageId
-{
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectMessageWithID:(NSString *)messageId {
     
     AppDelegate * appdel = self;
-    [self.drawController closeDrawerAnimated:YES completion:nil];
+    __weak AppDelegate* weakSelf = self;
+    [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished){
+        [weakSelf sendDrawerCloseNotification];
+    }];
     [self.loadingVC restartAnimation];
     [self.loadingVC.view setAlpha:1];
-    
     
     
     [[CWMessageManager sharedInstance]downloadMessageWithID:messageId  progress:nil completion:^(BOOL success, NSURL *url) {
@@ -464,9 +368,29 @@
             [SVProgressHUD showErrorWithStatus:@"Message Unavailable"];
             NSLog(@"failed to download message");
         }
-        
-
     }];
+}
+
+#pragma mark - Push Notification Registration delegate methods
+
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
+    [CWPushNotificationsAPI sendProviderDeviceToken:devToken];
+}
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
+    NSLog(@"Error in notifications registration. Error: %@", err);
+}
+
+#pragma mark - Push Notification Receive delegate
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    [CWPushNotificationsAPI handleLocalPushNotification:notification];
+    
+}
+
+// This called whenever a remote-push notification is received - even if the app is not running
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
+    [CWPushNotificationsAPI handleRemotePushNotification:userInfo completionBlock:completionHandler];
 }
 
 @end

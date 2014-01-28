@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWAskForImprovementMsgViewController">
+            <connections>
+                <outlet property="label" destination="gLe-5z-RUB" id="vHk-Jk-J1H"/>
+                <outlet property="sureButton" destination="Hrk-Si-Ix3" id="a23-qz-SwC"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PvM-lj-A9F">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="314"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="NhM-uM-E5M">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <imageView opaque="NO" userInteractionEnabled="NO" alpha="0.10000000000000002" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bottom-Half-overlay" translatesAutoresizingMaskIntoConstraints="NO" id="bw7-bv-3hz">
+                    <rect key="frame" x="0.0" y="285" width="320" height="283"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hrk-Si-Ix3">
+                    <rect key="frame" x="120" y="244" width="80" height="80"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="Czn-DQ-bBp"/>
+                        <constraint firstAttribute="height" constant="80" id="uEf-sZ-x9m"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" image="Button-Icon-Sure" backgroundImage="Button-Inner">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="onSureTapped:" destination="-1" eventType="touchUpInside" id="RIU-cX-drb"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Sorry about that.       We want to improve.      Send us a message?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="241" translatesAutoresizingMaskIntoConstraints="NO" id="gLe-5z-RUB">
+                    <rect key="frame" x="40" y="115" width="241" height="99"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="NhM-uM-E5M" firstAttribute="leading" secondItem="bw7-bv-3hz" secondAttribute="leading" id="2De-CF-m3x"/>
+                <constraint firstItem="Hrk-Si-Ix3" firstAttribute="centerX" secondItem="gLe-5z-RUB" secondAttribute="centerX" id="3yd-8j-xnL"/>
+                <constraint firstAttribute="trailing" secondItem="PvM-lj-A9F" secondAttribute="trailing" id="6s0-qE-Anl"/>
+                <constraint firstItem="bw7-bv-3hz" firstAttribute="bottom" secondItem="NhM-uM-E5M" secondAttribute="bottom" id="9bH-vG-EN2"/>
+                <constraint firstAttribute="bottom" secondItem="NhM-uM-E5M" secondAttribute="bottom" id="Cit-ga-uOr"/>
+                <constraint firstItem="NhM-uM-E5M" firstAttribute="top" secondItem="1" secondAttribute="top" id="Gau-LB-zPU"/>
+                <constraint firstItem="Hrk-Si-Ix3" firstAttribute="centerY" secondItem="NhM-uM-E5M" secondAttribute="centerY" id="IwH-kB-muM"/>
+                <constraint firstItem="PvM-lj-A9F" firstAttribute="top" secondItem="1" secondAttribute="top" id="MJU-Rg-UYZ"/>
+                <constraint firstItem="PvM-lj-A9F" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="Phf-DF-6Z7"/>
+                <constraint firstAttribute="trailing" secondItem="NhM-uM-E5M" secondAttribute="trailing" id="Qfr-Xo-7U7"/>
+                <constraint firstItem="NhM-uM-E5M" firstAttribute="trailing" secondItem="bw7-bv-3hz" secondAttribute="trailing" id="fi1-dB-P5E"/>
+                <constraint firstItem="Hrk-Si-Ix3" firstAttribute="top" secondItem="gLe-5z-RUB" secondAttribute="bottom" constant="30" id="jdH-ix-YT0"/>
+                <constraint firstItem="NhM-uM-E5M" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="qAg-DU-ZX0"/>
+                <constraint firstItem="bw7-bv-3hz" firstAttribute="top" secondItem="PvM-lj-A9F" secondAttribute="bottom" constant="-29" id="r8M-Vs-FVl"/>
+                <constraint firstItem="bw7-bv-3hz" firstAttribute="top" secondItem="gLe-5z-RUB" secondAttribute="bottom" constant="71" id="rCp-sQ-uTK"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Blue-Background" width="320" height="568"/>
+        <image name="Bottom-Half-overlay" width="640" height="568"/>
+        <image name="Button-Icon-Sure" width="80" height="80"/>
+        <image name="Button-Inner" width="80" height="80"/>
+    </resources>
+</document>

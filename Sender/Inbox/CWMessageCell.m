@@ -57,8 +57,7 @@
 }
 
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     if (selected) {
         [self.spinner startAnimating];
@@ -67,13 +66,13 @@
     }
 }
 
-- (void)prepareForReuse
-{
+- (void)prepareForReuse {
+    [super prepareForReuse];
     [self.spinner stopAnimating];
 }
 
-- (void) setMessage:(Message *) message
-{
+- (void) setMessage:(Message *) message {
+
     NSURL * imageURL = [NSURL URLWithString:message.thumbnailPictureURL];
     [self.spinner startAnimating];
     

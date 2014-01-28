@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWRatingViewController">
+            <connections>
+                <outlet property="label" destination="T8S-Mq-JG8" id="cwb-8N-13F"/>
+                <outlet property="sureButton" destination="OdY-N2-fb2" id="Yzp-Br-dgp"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mSv-LU-FH6">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="fD3-Cc-Sfo">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                </imageView>
+                <imageView opaque="NO" userInteractionEnabled="NO" alpha="0.10000000000000001" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Bottom-Half-overlay" translatesAutoresizingMaskIntoConstraints="NO" id="xzo-vw-M1c">
+                    <rect key="frame" x="0.0" y="284" width="320" height="284"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OdY-N2-fb2">
+                    <rect key="frame" x="120" y="244" width="80" height="80"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="80" id="NAf-Vr-ro7"/>
+                        <constraint firstAttribute="height" constant="80" id="afu-Yg-d5p"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <state key="normal" image="Button-Icon-Sure" backgroundImage="Button-Inner">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="sureButtonTapped:" destination="-1" eventType="touchUpInside" id="33A-dX-UEL"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Great!                  How about rating us in the App Store?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="197" translatesAutoresizingMaskIntoConstraints="NO" id="T8S-Mq-JG8">
+                    <rect key="frame" x="62" y="108" width="197" height="99"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="mSv-LU-FH6" secondAttribute="trailing" id="3nW-k8-DCU"/>
+                <constraint firstItem="mSv-LU-FH6" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="5Wc-Dx-sMD"/>
+                <constraint firstItem="xzo-vw-M1c" firstAttribute="leading" secondItem="fD3-Cc-Sfo" secondAttribute="leading" id="6fQ-S8-gcN"/>
+                <constraint firstItem="xzo-vw-M1c" firstAttribute="top" secondItem="mSv-LU-FH6" secondAttribute="bottom" id="BTE-Ut-0EW"/>
+                <constraint firstItem="OdY-N2-fb2" firstAttribute="centerX" secondItem="fD3-Cc-Sfo" secondAttribute="centerX" id="Dt1-oO-vVL"/>
+                <constraint firstItem="xzo-vw-M1c" firstAttribute="bottom" secondItem="fD3-Cc-Sfo" secondAttribute="bottom" id="EYJ-YE-PmM"/>
+                <constraint firstItem="xzo-vw-M1c" firstAttribute="top" secondItem="T8S-Mq-JG8" secondAttribute="bottom" constant="77" id="QET-G9-A7R"/>
+                <constraint firstItem="fD3-Cc-Sfo" firstAttribute="top" secondItem="1" secondAttribute="top" id="QGn-Th-T9k"/>
+                <constraint firstItem="xzo-vw-M1c" firstAttribute="trailing" secondItem="fD3-Cc-Sfo" secondAttribute="trailing" id="S45-6N-TEx"/>
+                <constraint firstAttribute="trailing" secondItem="fD3-Cc-Sfo" secondAttribute="trailing" id="ToH-WS-u4u"/>
+                <constraint firstAttribute="bottom" secondItem="fD3-Cc-Sfo" secondAttribute="bottom" id="W02-nB-guh"/>
+                <constraint firstItem="fD3-Cc-Sfo" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="bt6-ZY-VYJ"/>
+                <constraint firstItem="OdY-N2-fb2" firstAttribute="top" secondItem="T8S-Mq-JG8" secondAttribute="bottom" constant="37" id="o19-aC-D1l"/>
+                <constraint firstItem="OdY-N2-fb2" firstAttribute="centerX" secondItem="T8S-Mq-JG8" secondAttribute="centerX" id="rCP-Zb-xQV"/>
+                <constraint firstItem="mSv-LU-FH6" firstAttribute="top" secondItem="1" secondAttribute="top" id="uKP-H9-BWn"/>
+                <constraint firstItem="OdY-N2-fb2" firstAttribute="centerY" secondItem="fD3-Cc-Sfo" secondAttribute="centerY" id="vxT-Hl-JZO"/>
+            </constraints>
+            <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="Blue-Background" width="320" height="568"/>
+        <image name="Bottom-Half-overlay" width="640" height="568"/>
+        <image name="Button-Icon-Sure" width="80" height="80"/>
+        <image name="Button-Inner" width="80" height="80"/>
+    </resources>
+</document>

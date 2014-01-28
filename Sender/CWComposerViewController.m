@@ -7,13 +7,14 @@
 //
 
 #import "CWComposerViewController.h"
-#import "CWFeedbackViewController.h"
 #import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWGroundControlManager.h"
+#import "CWAppFeedBackViewController.h"
 
 @interface CWComposerViewController ()
-@property (nonatomic,strong) CWFeedbackViewController * feedbackVC;
+
+@property (nonatomic) CWAppFeedBackViewController *feedbackVC;
 @property (nonatomic,strong) NSTimer * recordTimer;
 //@property (nonatomic,assign) NSInteger tickCount;
 @property (nonatomic, strong) NSDate * startTime;
@@ -35,7 +36,7 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [[[CWVideoManager sharedManager]recorder]setDelegate:self];
-    self.feedbackVC = [[CWFeedbackViewController alloc]initWithNibName:@"CWFeedbackViewController" bundle:[NSBundle mainBundle]];
+    self.feedbackVC = [[CWAppFeedBackViewController alloc]initWithNibName:@"CWAppFeedBackViewController" bundle:[NSBundle mainBundle]];
     [self addChildViewController:self.feedbackVC];
     [self.view addSubview:self.feedbackVC.view];
     self.feedbackVC.view.frame = self.view.bounds;
@@ -75,12 +76,12 @@
         [self stopRecording];
     }
     [self.middleButton setValue:tickCount];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString], (int)tickCount]];
+    //[self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString], (int)tickCount]];
 }
 
 - (void)startRecording
 {
-    [self.feedbackVC.feedbackLabel setText:@""];
+    //[self.feedbackVC.feedbackLabel setText:@""];
     [self.middleButton setButtonState:eButtonStateStop];
     [[[CWVideoManager sharedManager]recorder] startVideoRecording];
 }
@@ -108,7 +109,7 @@
         self.recordTimer = nil;
     }
     [self.middleButton setMaxValue:MAX_RECORD_TIME];
-    [self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString],MAX_RECORD_TIME]];
+    //[self.feedbackVC.feedbackLabel setText:[NSString stringWithFormat:[[CWGroundControlManager sharedInstance] feedbackRecordingString],MAX_RECORD_TIME]];
     self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1 / 30.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
     self.startTime = [NSDate date];
 }

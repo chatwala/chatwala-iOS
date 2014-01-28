@@ -14,4 +14,5 @@
 + (UIColor *)chatwalaBlueDark;
 + (UIColor *)chatwalaBlueMedium;
 + (UIColor *)chatwalaBlueLight;
++ (UIColor *)chatwalaFeedbackLabel;
 @end

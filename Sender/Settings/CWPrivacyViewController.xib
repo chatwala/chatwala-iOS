@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWTermsViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWPrivacyViewController">
             <connections>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -14,15 +14,15 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="B39-kP-Huk">
+                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blue-Background" translatesAutoresizingMaskIntoConstraints="NO" id="bm2-K5-zaD">
                     <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 </imageView>
-                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JTJ-QW-LjP">
-                    <rect key="frame" x="12" y="64" width="288" height="484"/>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BpZ-a7-q15">
+                    <rect key="frame" x="16" y="64" width="288" height="484"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <string key="text">Please visit:
-http://www.chatwala.com/tos</string>
+http://www.chatwala.com/privacy</string>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -31,14 +31,14 @@ http://www.chatwala.com/tos</string>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="B39-kP-Huk" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="06g-2e-i00"/>
-                <constraint firstAttribute="bottom" secondItem="JTJ-QW-LjP" secondAttribute="bottom" constant="20" id="9he-aZ-k3S"/>
-                <constraint firstItem="JTJ-QW-LjP" firstAttribute="top" secondItem="1" secondAttribute="top" constant="64" id="NDS-q5-D2U"/>
-                <constraint firstAttribute="trailing" secondItem="JTJ-QW-LjP" secondAttribute="trailing" constant="20" id="OuD-Ot-4Ln"/>
-                <constraint firstItem="JTJ-QW-LjP" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="12" id="WtI-24-pW8"/>
-                <constraint firstAttribute="trailing" secondItem="B39-kP-Huk" secondAttribute="trailing" id="hAs-vb-alm"/>
-                <constraint firstAttribute="bottom" secondItem="B39-kP-Huk" secondAttribute="bottom" id="pdC-Xx-oE1"/>
-                <constraint firstItem="B39-kP-Huk" firstAttribute="top" secondItem="1" secondAttribute="top" id="tv4-J5-Y1h"/>
+                <constraint firstAttribute="bottom" secondItem="bm2-K5-zaD" secondAttribute="bottom" id="CJz-1P-tSu"/>
+                <constraint firstAttribute="trailing" secondItem="BpZ-a7-q15" secondAttribute="trailing" constant="16" id="VPH-Zj-qYR"/>
+                <constraint firstItem="bm2-K5-zaD" firstAttribute="top" secondItem="1" secondAttribute="top" id="fI7-sx-2ea"/>
+                <constraint firstAttribute="trailing" secondItem="bm2-K5-zaD" secondAttribute="trailing" id="rnN-EX-QyD"/>
+                <constraint firstAttribute="bottom" secondItem="BpZ-a7-q15" secondAttribute="bottom" constant="20" id="tgb-Fa-KZu"/>
+                <constraint firstItem="bm2-K5-zaD" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="uHe-48-eLu"/>
+                <constraint firstItem="BpZ-a7-q15" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="16" id="wzI-Lt-9ik"/>
+                <constraint firstItem="BpZ-a7-q15" firstAttribute="top" secondItem="1" secondAttribute="top" constant="64" id="zaM-vw-KNa"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
