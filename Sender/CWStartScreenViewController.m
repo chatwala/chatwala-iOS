@@ -120,15 +120,15 @@
         [UIView animateKeyframesWithDuration:0.5 delay:2 options:kNilOptions animations:^{
             //
             [self.messageSentView setAlpha:0];
-        } completion:^(BOOL finished) {
-            [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-                if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
-                {
-                    [weakSelf showAppFeedback];
-                    [[CWUserManager sharedInstance] didRequestAppFeedback];
-                }
-            }];
+        } completion:nil];
+        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+            if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
+            {
+                [weakSelf showAppFeedback];
+                [[CWUserManager sharedInstance] didRequestAppFeedback];
+            }
         }];
+
     }else{
         [self.messageSentView setAlpha:0];
     }

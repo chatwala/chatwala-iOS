@@ -44,4 +44,9 @@
 {
     return [UIColor colorFromHexString:@"#ede8e2"];
 }
+
++ (UIColor *)chatwalaSentTimeText
+{
+    return [UIColor colorFromHexString:@"#e8f2fa"];
+}
 @end

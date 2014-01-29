@@ -21,4 +21,6 @@ typedef void (^AFNetworkingFailureBlock)(NSURLRequest *request, NSHTTPURLRespons
 
 @property (strong, readonly) AFNetworkingSuccessBlock successImageDownloadBlock;
 @property (strong, readonly) AFNetworkingFailureBlock failureImageDownloadBlock;
+
+- (NSString *) timeStringFromDate:(NSDate *) timeStamp;
 @end

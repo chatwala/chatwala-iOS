@@ -63,6 +63,12 @@ build() {
   provisioningProfileName=$5
   otherOptions=$6
 
+  #archive
+  rm -rf ~/DEsktop/Builds/$buildType/$appVersion/$internalVersion/
+  #ipa
+  rm -f ~/Desktop/Builds/IPA/Sender.$buildType.$appVersion.$internalVersion.ipa
+  echo Cleaned up directory structure
+
   echo Starting xcodebuild for $scheme $configuration $buildSuffix $buildType
 
   # Touch the app plists so it gets reprocessed
@@ -73,15 +79,16 @@ build() {
   
   # Make App Store version
   if [ "$buildType" == "AppStore" ] ; then
-	
-    xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration CODE_SIGN_IDENTITY="iPhone Distribution: Chatwala Inc" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
-	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Distribution: Chatwala Inc" -o $ipaLocation --embed "/Users/rahulksharma/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
+	#archiving
+  xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration CODE_SIGN_IDENTITY="iPhone Distribution: Chatwala Inc" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
+	#packaging
+  xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Distribution: Chatwala Inc" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
 
   # Make Debug certificate version for testing
   else
 
-    xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration CODE_SIGN_IDENTITY="iPhone Developer: Rahul Kumar (59L7REF9QB)" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName"dev" CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
-	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Rahul Kumar (59L7REF9QB)" -o $ipaLocation --embed "/Users/rahulksharma/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
+  xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration CODE_SIGN_IDENTITY="iPhone Developer: Kevin Miller (K4K3WC48B2)" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName"dev" CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
+	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Kevin Miller (K4K3WC48B2)" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
   fi
   
   
