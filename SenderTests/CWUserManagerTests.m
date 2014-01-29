@@ -13,7 +13,7 @@
 #import "MocForTests.h"
 #import "User.h"
 #import "Message.h"
-
+#import "CWGroundControlManager.h"
 
 @interface CWUserManager (exposingForTest)
 @property (nonatomic) AFHTTPRequestOperation * fetchUserIDOperation;
@@ -219,7 +219,10 @@
     //given
     [[[self.mockSut stub] andReturn:nil] appFeedbackHasBeenRequested];
     self.sut.localUser = [User insertInManagedObjectContext:self.moc];
-    const NSInteger numberOfSentMessages = arc4random_uniform(5);
+    const NSInteger numberOfSentMessagesThreshold = 15;
+    const NSInteger numberOfSentMessages = arc4random_uniform(numberOfSentMessagesThreshold);
+    id mockGroundControl = [OCMockObject partialMockForObject:[CWGroundControlManager sharedInstance]];
+    [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] showAppFeedbackAfterThisNumberOfResponses];
     for(int ii = 0; ii < numberOfSentMessages; ++ii)
     {
         [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:self.moc]];
@@ -232,6 +235,7 @@
     XCTAssertFalse(actual, @"expecting the function to return NO");
     
     //cleanup
+    [mockGroundControl stopMocking];
 }
 
 
@@ -240,7 +244,10 @@
     //given
     [[[self.mockSut stub] andReturn:nil] appFeedbackHasBeenRequested];
     self.sut.localUser = [User insertInManagedObjectContext:self.moc];
-    const NSInteger numberOfSentMessages = 5;
+    const NSInteger numberOfSentMessagesThreshold = 15;
+    const NSInteger numberOfSentMessages = numberOfSentMessagesThreshold + arc4random_uniform(5);
+    id mockGroundControl = [OCMockObject partialMockForObject:[CWGroundControlManager sharedInstance]];
+    [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] showAppFeedbackAfterThisNumberOfResponses];
     for(int ii = 0; ii < numberOfSentMessages; ++ii)
     {
         [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:self.moc]];
@@ -253,6 +260,8 @@
     XCTAssertTrue(actual, @"expecting the function to return YES");
     
     //cleanup
+    [mockGroundControl stopMocking];
 }
+
 
 @end

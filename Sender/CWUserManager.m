@@ -10,6 +10,7 @@
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
 #import "CWUtility.h"
+#import "CWGroundControlManager.h"
 
 NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
@@ -201,7 +202,8 @@ NSString * const kAppVersionWhenFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDB
     {
         return NO;
     }
-    if(self.localUser.messagesSent.count < 5)
+    NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] showAppFeedbackAfterThisNumberOfResponses] integerValue];
+    if(self.localUser.messagesSent.count < requestAppFeedbackThreshold)
     {
         return NO;
     }
