@@ -36,7 +36,12 @@ NSInteger const defaultFeedbackTrigger = 5;
 
 - (void)refresh
 {
-    NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/chatwala.groundcontrol/defaults.plist"];
+#if DEBUG
+    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/DEVdefaults.plist";
+#else
+    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/defaults.plist";
+#endif
+    NSURL *URL = [NSURL URLWithString:endpoint];
     [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL success:self.refreshSuccessBlock failure:self.refreshFailureBlock];
 }
 
