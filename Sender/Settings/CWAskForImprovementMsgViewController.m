@@ -8,6 +8,7 @@
 
 #import "CWAskForImprovementMsgViewController.h"
 #import "CWGroundControlManager.h"
+#import "UIColor+Additions.h"
 
 @interface CWAskForImprovementMsgViewController () <MFMailComposeViewControllerDelegate>
 
@@ -58,8 +59,9 @@
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [controller dismissViewControllerAnimated:YES completion:^{
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 @end
