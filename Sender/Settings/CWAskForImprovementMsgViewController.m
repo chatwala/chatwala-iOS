@@ -46,6 +46,12 @@
        [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
        [self presentViewController:mailComposer animated:YES completion:nil];
     }
+    else
+    {
+        UIAlertView * cantSendEmail = [[UIAlertView alloc] initWithTitle:@"Email not setup" message:@"In order to send us a message you need to setup your email" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+        
+        [cantSendEmail show];
+    }
 }
 
 #pragma mark MFMailComposeViewControllerDelegate
