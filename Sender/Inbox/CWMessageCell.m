@@ -53,9 +53,10 @@
         [self addSubview:self.statusImage];
 
         const CGFloat fontSize = 14;
-        CGRect labelFrame =CGRectMake(0, CGRectGetMinY(self.statusImage.frame), CGRectGetMinX(self.statusImage.frame) - 13, fontSize);
+        CGRect labelFrame =CGRectMake(0, CGRectGetMaxY(self.statusImage.frame) - fontSize + 2, CGRectGetMinX(self.statusImage.frame) - 6, fontSize);
         self.sentTimeLabel = [[UILabel alloc] initWithFrame:labelFrame];
 
+//        self.sentTimeLabel.backgroundColor = [UIColor redColor];
         self.sentTimeLabel.font = [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
         self.sentTimeLabel.textAlignment = NSTextAlignmentRight;
         self.sentTimeLabel.text = @"3w";
