@@ -14,7 +14,7 @@ echo $buildNotes
 buildsFolder="../Builds"
 
 appVersion="1.0.6"
-internalVersion="2.5.13"
+internalVersion="2.5.14"
 displayName="chatwala"
 cwDebugIdentity="\"iPhone Developer: Rahul Kumar (59L7REF9QB)\""
 cwAppStoreIdentity="\"iPhone Distribution: Chatwala Inc\""
@@ -66,26 +66,21 @@ build() {
   echo Starting xcodebuild for $scheme $configuration $buildSuffix $buildType
 
   # Touch the app plists so it gets reprocessed
-  touch Sender/*.plist
+  touch ../Sender/*.plist
+
+  mkdir -p ~/Desktop/Builds/IPA	
+  ipaLocation=~/Desktop/Builds/IPA/Sender.$buildType.$appVersion.$internalVersion.ipa  
   
   # Make App Store version
   if [ "$buildType" == "AppStore" ] ; then
-    mkdir -p ~/Desktop/Builds/IPA	
-	ipaLocation=~/Desktop/Builds/IPA/SenderAppStore.ipa
 	
-    #Only difference from above is that we don't set the bundle identifier, we use what is in the project
-    #Don't worry that its being initially signed with the in house cert, we will resign it appropriately
-    xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration CODE_SIGN_IDENTITY="iPhone Distribution: Chatwala Inc" APP_VERSION=$appVersion $BUILD_VERSION=$internalVersion $DISPLAY_NAME=$displayName CONFIGURATION_BUILD_DIR=~/Desktop/$buildType/$appVersion/$internalVersion || exit 1
+    xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration CODE_SIGN_IDENTITY="iPhone Distribution: Chatwala Inc" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
 	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Distribution: Chatwala Inc" -o $ipaLocation --embed "/Users/rahulksharma/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
 
   # Make Debug certificate version for testing
   else
-    mkdir -p ~/Desktop/Builds/IPA
-	ipaLocation=~/Desktop/Builds/IPA/SenderDev.ipa
-	
-    #Only difference from above is that we don't set the bundle identifier, we use what is in the project
-    #Don't worry that its being initially signed with the in house cert, we will resign it appropriately
-    xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration CODE_SIGN_IDENTITY="iPhone Developer: Rahul Kumar (59L7REF9QB)" APP_VERSION=$appVersion BUILD_VERSION=$internalVersion DISPLAY_NAME=$displayName"dev" CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
+
+    xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration CODE_SIGN_IDENTITY="iPhone Developer: Rahul Kumar (59L7REF9QB)" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName"dev" CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
 	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Rahul Kumar (59L7REF9QB)" -o $ipaLocation --embed "/Users/rahulksharma/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
   fi
   
@@ -102,5 +97,5 @@ build() {
 xcodebuild -workspace ../Sender.xcworkspace -scheme Sender -configuration Release clean
 
 # build (Project-Scheme, BuildType, CodeSigningIdentity, Profile name, other build flags)
-#build 'Sender' 'AppStore' 'Release' $cwAppStoreIdentity 'B7AD3FC8-E51A-4236-9465-BFA74A6E6C7F.mobileprovision' ''
+build 'Sender' 'AppStore' 'Release' "$cwAppStoreIdentity" 'B7AD3FC8-E51A-4236-9465-BFA74A6E6C7F.mobileprovision' ''
 build 'Sender' 'Dev' 'Release' "$cwDebugIdentity" '89CDDA38-8825-40E3-BBF8-17EEFD0526AF.mobileprovision' ''
