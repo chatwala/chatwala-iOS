@@ -15,6 +15,8 @@ NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
 NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
+NSString * const kAppVersionWhenFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBACK_REQUESTED";
+
 
 
 @interface CWUserManager()
@@ -193,6 +195,16 @@ NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
 
 }
 
+- (void) didRequstAppFeedback
+{
+    NSString * buildVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [[NSUserDefaults standardUserDefaults] setObject:buildVersion forKey:kAppVersionWhenFeedbackRequestedKey];
+}
 
 
+- (BOOL)appFeedbackHasBeenRequested
+{
+    NSString* appVersionWhenFeedbackRequested = [[NSUserDefaults standardUserDefaults] valueForKey:kAppVersionWhenFeedbackRequestedKey];
+    return (appVersionWhenFeedbackRequested != nil);
+}
 @end

@@ -17,6 +17,7 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 
 @property (nonatomic) AFHTTPRequestSerializer * requestHeaderSerializer;
 
+
 - (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request;
 
 @property (nonatomic, readonly) User * localUser __attribute__((deprecated("use localUser:")));
@@ -27,6 +28,7 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 - (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user;
 - (BOOL) hasProfilePicture:(User *) user;
 - (NSString *) getProfilePictureEndPointForUser:(User *) user;
+- (BOOL)appFeedbackHasBeenRequested;
 
 #pragma mark - blocks for fetch results
 

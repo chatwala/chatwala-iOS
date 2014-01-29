@@ -11,7 +11,7 @@
 #import "CWKillScreenViewController.h"
 
 #define DEBUG_BYPASS_KILLSWITCH 0
-
+NSString* const kAppFeedbackTriggerKey  = @"APP_FEEDBACK_TRIGGER";
 
 @implementation CWGroundControlManager
 +(instancetype) sharedInstance {
@@ -181,6 +181,13 @@
 {
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_EMAIL_BODY"];
     return value ? value:@"We liked your app because ...";
+}
+
+// APP_FEEDBACK_TRIGGER
+- (NSNumber *) showAppFeedbackAfterThisNumberOfResponses
+{
+    NSNumber * value = [[NSUserDefaults standardUserDefaults] valueForKey:kAppFeedbackTriggerKey];
+    return value ? value:[NSNumber numberWithInteger:1];
 }
 
 

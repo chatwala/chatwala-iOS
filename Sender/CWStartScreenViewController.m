@@ -122,7 +122,8 @@
         } completion:^(BOOL finished) {
             [[CWUserManager sharedInstance] localUser:^(User *localUser) {
                 NSInteger outBoxCount = localUser.messagesSent.count;
-                if(outBoxCount == 5)
+                NSInteger feedbackTrigger = [[CWGroundControlManager sharedInstance] showAppFeedbackAfterThisNumberOfResponses].integerValue;
+                if(![[CWUserManager sharedInstance] appFeedbackHasBeenRequested] && (outBoxCount >= feedbackTrigger))
                 {
                     [weakSelf showAppFeedback];
                 }
@@ -132,12 +133,6 @@
         [self.messageSentView setAlpha:0];
     }
 }
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
 
 - (void)onMiddleButtonTap {
     if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
