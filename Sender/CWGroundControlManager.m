@@ -11,7 +11,7 @@
 #import "CWKillScreenViewController.h"
 
 #define DEBUG_BYPASS_KILLSWITCH 0
-NSString* const kAppFeedbackTriggerKey  = @"APP_FEEDBACK_SENT_MESSAGE_THRESHOLD";
+NSString* const kAppFeedbackSentMessageThresholdKey  = @"APP_FEEDBACK_SENT_MESSAGE_THRESHOLD";
 NSInteger const defaultFeedbackTrigger = 5;
 
 @implementation CWGroundControlManager
@@ -192,7 +192,7 @@ NSInteger const defaultFeedbackTrigger = 5;
 // APP_FEEDBACK_TRIGGER
 - (NSNumber *) appFeedbackSentMessageThreshold
 {
-    NSNumber * value = [[NSUserDefaults standardUserDefaults] valueForKey:kAppFeedbackTriggerKey];
+    NSNumber * value = [[NSUserDefaults standardUserDefaults] valueForKey:kAppFeedbackSentMessageThresholdKey];
     return value ? value:[NSNumber numberWithInteger:defaultFeedbackTrigger];
 }
 
