@@ -10,7 +10,7 @@
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import "CWUserManager.h"
 #import "Message.h"
-
+#import "UIColor+Additions.h"
 
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIView * cellView;
@@ -84,13 +84,17 @@
     [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
     
     switch ([message eMessageViewedState]) {
+        default:
         case eMessageViewedStateRead:
         case eMessageViewedStateOpened:
             self.statusImage.hidden = YES;
             break;
         case eMessageViewedStateUnOpened:
+            self.statusImage.image = [UIImage imageNamed:@"redDot"];
+            self.statusImage.hidden = NO;
+            break;
         case eMessageViewedStateReplied:
-        default:
+            self.statusImage.image = [UIImage imageNamed:@"cw_share"];
             self.statusImage.hidden = NO;
             break;
     }

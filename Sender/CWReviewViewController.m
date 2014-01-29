@@ -288,6 +288,8 @@
         [self uploadProfilePictureForUser:localUser];
     }];
     
+    self.incomingMessage.eMessageViewedState = eMessageViewedStateReplied;
+    
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
 
