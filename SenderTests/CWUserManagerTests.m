@@ -167,7 +167,7 @@
 {
     //given
     id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[mockUserDefaults expect] setObject:OCMOCK_ANY forKey:kAppVersionWhenFeedbackRequestedKey];
+    [[mockUserDefaults expect] setObject:OCMOCK_ANY forKey:kAppVersionOfFeedbackRequestedKey];
     
     //when
     [self.sut didRequestAppFeedback];
@@ -186,7 +186,7 @@
     //given
     NSString * expected = @"Somewin3intbtibgd";
     id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:expected] stringForKey:kAppVersionWhenFeedbackRequestedKey];
+    [[[mockUserDefaults stub] andReturn:expected] stringForKey:kAppVersionOfFeedbackRequestedKey];
     
     //when
     NSString* actual = [self.sut appVersionOfAppFeedbackRequest];

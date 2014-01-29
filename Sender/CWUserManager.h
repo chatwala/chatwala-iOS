@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "User.h"
 
-extern NSString * const kAppVersionWhenFeedbackRequestedKey;
+extern NSString * const kAppVersionOfFeedbackRequestedKey;
 
 typedef void (^CWUserManagerLocalUserBlock)(User *localUser);
 typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operation, id responseObject, CWUserManagerLocalUserBlock completion);
