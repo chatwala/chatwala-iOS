@@ -49,7 +49,7 @@
         
         
         self.statusImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"redDot"]];
-        self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 9 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds));
+        self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 9 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds) - 1);
         [self addSubview:self.statusImage];
 
         const CGFloat fontSize = 14;
@@ -110,6 +110,43 @@
             self.statusImage.hidden = NO;
             break;
     }
+    NSString * timeValue = [self timeStringFromDate:message.timeStamp];
+    self.sentTimeLabel.text = timeValue;
+}
+
+- (NSString *) timeStringFromDate:(NSDate *) timeStamp
+{
+    
+    NSTimeInterval timeThatHasPassed = -[timeStamp timeIntervalSinceNow];
+    NSInteger wholeSeconds = timeThatHasPassed;
+    
+    const NSInteger kSecondsPerMinute = 60;
+    const NSInteger kSecondsPerHour = 60 * kSecondsPerMinute;
+    const NSInteger kSecondsPerDay = 24 * kSecondsPerHour;
+    const NSInteger kSecondsPerWeek = 7 * kSecondsPerDay;
+    const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
+    
+    if(wholeSeconds < kSecondsPerMinute)
+    {
+        return [NSString stringWithFormat:@"%is", wholeSeconds];
+    }
+    if(wholeSeconds < kSecondsPerHour)
+    {
+        return [NSString stringWithFormat:@"%im", wholeSeconds/kSecondsPerMinute];
+    }
+    if(wholeSeconds < kSecondsPerDay)
+    {
+        return [NSString stringWithFormat:@"%ih", wholeSeconds/kSecondsPerHour];
+    }
+    if(wholeSeconds < kSecondsPerWeek)
+    {
+        return [NSString stringWithFormat:@"%id", wholeSeconds/kSecondsPerDay];
+    }
+    if(wholeSeconds < kSecondsPerYear)
+    {
+        return [NSString stringWithFormat:@"%iw", wholeSeconds/kSecondsPerWeek];
+    }
+    return [NSString stringWithFormat:@"%iy", wholeSeconds/kSecondsPerYear];
 }
 
 - (AFNetworkingSuccessBlock) successImageDownloadBlock
