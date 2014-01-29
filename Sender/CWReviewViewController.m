@@ -20,6 +20,7 @@
 #import "Thread.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWDataManager.h"
+#import "CWAnalytics.h"
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {

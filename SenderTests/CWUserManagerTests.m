@@ -11,10 +11,14 @@
 #import "CWUserManager.h"
 #import "CWDataManager.h"
 #import "MocForTests.h"
-
+#import "User.h"
+#import "Message.h"
+#import "CWGroundControlManager.h"
 
 @interface CWUserManager (exposingForTest)
 @property (nonatomic) AFHTTPRequestOperation * fetchUserIDOperation;
+@property (nonatomic) User * localUser;
+
 
 @end
 
@@ -22,6 +26,7 @@
 
 @property (nonatomic) CWUserManager * sut;
 @property (nonatomic) NSManagedObjectContext * moc;
+@property (nonatomic) id mockSut;
 
 @end
 
@@ -35,11 +40,14 @@
     
     MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
     self.moc = mocFactory.moc;
+    
+    self.mockSut = [OCMockObject partialMockForObject:self.sut];
 }
 
 - (void)tearDown
 {
     // Put teardown code here; it will be run once, after the last test case.
+    [self.mockSut stopMocking];
     [super tearDown];
 }
 
@@ -154,5 +162,106 @@
     [mockAFOpertaionManager stopMocking];
     [mockUserDefaults stopMocking];
 }
+
+- (void)testRequestAppFeedbackReturnsAppVersion
+{
+    //given
+    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
+    [[mockUserDefaults expect] setObject:OCMOCK_ANY forKey:kAppVersionOfFeedbackRequestedKey];
+    
+    //when
+    [self.sut didRequestAppFeedback];
+    
+    //should
+    [mockUserDefaults verify];
+    
+    //cleanup
+    [mockUserDefaults stopMocking];
+    
+}
+
+- (void)testAppFeedbackHasBeenRequestedReturnsVersionString
+{
+    
+    //given
+    NSString * expected = @"Somewin3intbtibgd";
+    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
+    [[[mockUserDefaults stub] andReturn:expected] stringForKey:kAppVersionOfFeedbackRequestedKey];
+    
+    //when
+    NSString* actual = [self.sut appVersionOfAppFeedbackRequest];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"expecting version to be the one found in NSUserDefaults");
+    
+    //cleanup
+    [mockUserDefaults stopMocking];
+}
+
+- (void) testShouldRequestAppFeecbackShouldReturnNOWhenVersionStringExists
+{
+    //given
+   
+    [[[self.mockSut stub] andReturn:@"SOMEversionNumber"] appVersionOfAppFeedbackRequest];
+    
+    //when
+    BOOL actual = [self.sut shouldRequestAppFeedback];
+    
+    //should
+    XCTAssertFalse(actual, @"expecting the function to return NO");
+    
+    //cleanup
+}
+
+
+- (void) testShouldRequestAppFeecbackShouldReturnNOWhenUserHasNotSentMoreThan5Messages
+{
+    //given
+    [[[self.mockSut stub] andReturn:nil] appVersionOfAppFeedbackRequest];
+    self.sut.localUser = [User insertInManagedObjectContext:self.moc];
+    const NSInteger numberOfSentMessagesThreshold = 15;
+    const NSInteger numberOfSentMessages = arc4random_uniform(numberOfSentMessagesThreshold);
+    id mockGroundControl = [OCMockObject partialMockForObject:[CWGroundControlManager sharedInstance]];
+    [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] appFeedbackSentMessageThreshold];
+    for(int ii = 0; ii < numberOfSentMessages; ++ii)
+    {
+        [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:self.moc]];
+    }
+    
+    //when
+    BOOL actual = [self.sut shouldRequestAppFeedback];
+    
+    //should
+    XCTAssertFalse(actual, @"expecting the function to return NO");
+    
+    //cleanup
+    [mockGroundControl stopMocking];
+}
+
+
+- (void) testShouldRequestAppFeecbackShouldReturnYESWhenUserHasSentMoreThan5MessagesAndHasNotRequestedFeedback
+{
+    //given
+    [[[self.mockSut stub] andReturn:nil] appVersionOfAppFeedbackRequest];
+    self.sut.localUser = [User insertInManagedObjectContext:self.moc];
+    const NSInteger numberOfSentMessagesThreshold = 15;
+    const NSInteger numberOfSentMessages = numberOfSentMessagesThreshold + arc4random_uniform(5);
+    id mockGroundControl = [OCMockObject partialMockForObject:[CWGroundControlManager sharedInstance]];
+    [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] appFeedbackSentMessageThreshold];
+    for(int ii = 0; ii < numberOfSentMessages; ++ii)
+    {
+        [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:self.moc]];
+    }
+    
+    //when
+    BOOL actual = [self.sut shouldRequestAppFeedback];
+    
+    //should
+    XCTAssertTrue(actual, @"expecting the function to return YES");
+    
+    //cleanup
+    [mockGroundControl stopMocking];
+}
+
 
 @end

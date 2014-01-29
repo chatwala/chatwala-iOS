@@ -19,6 +19,7 @@
 #import "User.h"
 #import <UIViewController+MMDrawerController.h>
 #import "CWAppFeedBackViewController.h"
+#import "CWAnalytics.h"
 
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
@@ -121,10 +122,10 @@
             [self.messageSentView setAlpha:0];
         } completion:^(BOOL finished) {
             [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-                NSInteger outBoxCount = localUser.messagesSent.count;
-                if(outBoxCount == 5)
+                if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
                 {
                     [weakSelf showAppFeedback];
+                    [[CWUserManager sharedInstance] didRequestAppFeedback];
                 }
             }];
         }];
@@ -132,12 +133,6 @@
         [self.messageSentView setAlpha:0];
     }
 }
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
 
 - (void)onMiddleButtonTap {
     if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
