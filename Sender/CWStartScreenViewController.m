@@ -126,6 +126,7 @@
                 if(![[CWUserManager sharedInstance] appFeedbackHasBeenRequested] && (outBoxCount >= feedbackTrigger))
                 {
                     [weakSelf showAppFeedback];
+                    [[CWUserManager sharedInstance] didRequestAppFeedback];
                 }
             }];
         }];

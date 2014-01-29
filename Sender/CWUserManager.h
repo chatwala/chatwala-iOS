@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "User.h"
 
+extern NSString * const kAppVersionWhenFeedbackRequestedKey;
+
 typedef void (^CWUserManagerLocalUserBlock)(User *localUser);
 typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operation, id responseObject, CWUserManagerLocalUserBlock completion);
 
@@ -28,7 +30,8 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 - (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user;
 - (BOOL) hasProfilePicture:(User *) user;
 - (NSString *) getProfilePictureEndPointForUser:(User *) user;
-- (BOOL)appFeedbackHasBeenRequested;
+- (NSString *)appFeedbackHasBeenRequested;
+- (void) didRequestAppFeedback;
 
 #pragma mark - blocks for fetch results
 

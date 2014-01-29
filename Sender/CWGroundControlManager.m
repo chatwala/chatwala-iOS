@@ -12,6 +12,7 @@
 
 #define DEBUG_BYPASS_KILLSWITCH 0
 NSString* const kAppFeedbackTriggerKey  = @"APP_FEEDBACK_TRIGGER";
+NSInteger const defaultFeedbackTrigger = 5;
 
 @implementation CWGroundControlManager
 +(instancetype) sharedInstance {
@@ -187,7 +188,7 @@ NSString* const kAppFeedbackTriggerKey  = @"APP_FEEDBACK_TRIGGER";
 - (NSNumber *) showAppFeedbackAfterThisNumberOfResponses
 {
     NSNumber * value = [[NSUserDefaults standardUserDefaults] valueForKey:kAppFeedbackTriggerKey];
-    return value ? value:[NSNumber numberWithInteger:1];
+    return value ? value:[NSNumber numberWithInteger:defaultFeedbackTrigger];
 }
 
 

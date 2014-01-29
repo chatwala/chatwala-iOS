@@ -16,6 +16,7 @@
 @interface CWUserManager (exposingForTest)
 @property (nonatomic) AFHTTPRequestOperation * fetchUserIDOperation;
 
+
 @end
 
 @interface CWUserManagerTests : XCTestCase
@@ -155,5 +156,38 @@
     [mockUserDefaults stopMocking];
 }
 
+- (void)testRequestAppFeedbackReturnsAppVersion
+{
+    //given
+    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
+    [[mockUserDefaults expect] setObject:OCMOCK_ANY forKey:kAppVersionWhenFeedbackRequestedKey];
+    
+    //when
+    [self.sut didRequestAppFeedback];
+    
+    //should
+    [mockUserDefaults verify];
+    
+    //cleanup
+    [mockUserDefaults stopMocking];
+    
+}
 
+- (void)testAppFeedbackHasBeenRequestedReturnsVersionString
+{
+    
+    //given
+    NSString * expected = @"Somewin3intbtibgd";
+    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
+    [[[mockUserDefaults stub] andReturn:expected] stringForKey:kAppVersionWhenFeedbackRequestedKey];
+    
+    //when
+    NSString* actual = [self.sut appFeedbackHasBeenRequested];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"expecting version to be the one found in NSUserDefaults");
+    
+    //cleanup
+    [mockUserDefaults stopMocking];
+}
 @end

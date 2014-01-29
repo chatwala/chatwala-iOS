@@ -195,16 +195,16 @@ NSString * const kAppVersionWhenFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDB
 
 }
 
-- (void) didRequstAppFeedback
+- (void) didRequestAppFeedback
 {
     NSString * buildVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     [[NSUserDefaults standardUserDefaults] setObject:buildVersion forKey:kAppVersionWhenFeedbackRequestedKey];
 }
 
 
-- (BOOL)appFeedbackHasBeenRequested
+- (NSString*) appFeedbackHasBeenRequested
 {
-    NSString* appVersionWhenFeedbackRequested = [[NSUserDefaults standardUserDefaults] valueForKey:kAppVersionWhenFeedbackRequestedKey];
-    return (appVersionWhenFeedbackRequested != nil);
+    NSString* appVersionWhenFeedbackRequested = [[NSUserDefaults standardUserDefaults] stringForKey:kAppVersionWhenFeedbackRequestedKey];
+    return appVersionWhenFeedbackRequested;
 }
 @end
