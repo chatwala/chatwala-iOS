@@ -15,6 +15,7 @@
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIView * cellView;
 @property (nonatomic, strong) UIImageView * statusImage;
+@property (nonatomic, strong) UILabel * sentTimeLabel;
 @end
 
 
@@ -48,9 +49,19 @@
         
         
         self.statusImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"redDot"]];
-        self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 10 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds));
+        self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 9 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds));
         [self addSubview:self.statusImage];
+
+        const CGFloat fontSize = 14;
+        CGRect labelFrame =CGRectMake(0, CGRectGetMinY(self.statusImage.frame), CGRectGetMinX(self.statusImage.frame) - 13, fontSize);
+        self.sentTimeLabel = [[UILabel alloc] initWithFrame:labelFrame];
+
+        self.sentTimeLabel.font = [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
+        self.sentTimeLabel.textAlignment = NSTextAlignmentRight;
+        self.sentTimeLabel.text = @"3w";
+        self.sentTimeLabel.textColor = [UIColor chatwalaSentTimeText];
         
+        [self addSubview:self.sentTimeLabel];
         
     }
     return self;
@@ -94,7 +105,7 @@
             self.statusImage.hidden = NO;
             break;
         case eMessageViewedStateReplied:
-            self.statusImage.image = [UIImage imageNamed:@"cw_share"];
+            self.statusImage.image = [UIImage imageNamed:@"Icon-Replied"];
             self.statusImage.hidden = NO;
             break;
     }
