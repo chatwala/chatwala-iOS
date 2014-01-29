@@ -122,7 +122,7 @@
         } completion:^(BOOL finished) {
             [[CWUserManager sharedInstance] localUser:^(User *localUser) {
                 NSInteger outBoxCount = localUser.messagesSent.count;
-                NSInteger feedbackTrigger = [[CWGroundControlManager sharedInstance] showAppFeedbackAfterThisNumberOfResponses].integerValue;
+                NSInteger feedbackTrigger = [[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold].integerValue;
                 if(![[CWUserManager sharedInstance] appFeedbackHasBeenRequested] && (outBoxCount >= feedbackTrigger))
                 {
                     [weakSelf showAppFeedback];

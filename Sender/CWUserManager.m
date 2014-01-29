@@ -202,7 +202,7 @@ NSString * const kAppVersionWhenFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDB
     {
         return NO;
     }
-    NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] showAppFeedbackAfterThisNumberOfResponses] integerValue];
+    NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold] integerValue];
     if(self.localUser.messagesSent.count < requestAppFeedbackThreshold)
     {
         return NO;

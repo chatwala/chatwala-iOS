@@ -185,7 +185,7 @@ NSInteger const defaultFeedbackTrigger = 5;
 }
 
 // APP_FEEDBACK_TRIGGER
-- (NSNumber *) showAppFeedbackAfterThisNumberOfResponses
+- (NSNumber *) appFeedbackSentMessageThreshold
 {
     NSNumber * value = [[NSUserDefaults standardUserDefaults] valueForKey:kAppFeedbackTriggerKey];
     return value ? value:[NSNumber numberWithInteger:defaultFeedbackTrigger];

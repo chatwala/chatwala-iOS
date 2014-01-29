@@ -222,7 +222,7 @@
     const NSInteger numberOfSentMessagesThreshold = 15;
     const NSInteger numberOfSentMessages = arc4random_uniform(numberOfSentMessagesThreshold);
     id mockGroundControl = [OCMockObject partialMockForObject:[CWGroundControlManager sharedInstance]];
-    [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] showAppFeedbackAfterThisNumberOfResponses];
+    [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] appFeedbackSentMessageThreshold];
     for(int ii = 0; ii < numberOfSentMessages; ++ii)
     {
         [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:self.moc]];
@@ -247,7 +247,7 @@
     const NSInteger numberOfSentMessagesThreshold = 15;
     const NSInteger numberOfSentMessages = numberOfSentMessagesThreshold + arc4random_uniform(5);
     id mockGroundControl = [OCMockObject partialMockForObject:[CWGroundControlManager sharedInstance]];
-    [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] showAppFeedbackAfterThisNumberOfResponses];
+    [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] appFeedbackSentMessageThreshold];
     for(int ii = 0; ii < numberOfSentMessages; ++ii)
     {
         [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:self.moc]];

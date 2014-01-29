@@ -29,7 +29,7 @@ typedef void (^ RefreshGroundControlFailureBlock)(NSError * failure);
 - (NSString *)replyMessage;
 - (NSString *) feedbackEmailSubject;
 - (NSString *) feedbackEmailBody;
-- (NSNumber*) showAppFeedbackAfterThisNumberOfResponses;
+- (NSNumber*) appFeedbackSentMessageThreshold;
 
 - (void)refresh;
 
