@@ -11,10 +11,13 @@
 #import "CWUserManager.h"
 #import "CWDataManager.h"
 #import "MocForTests.h"
+#import "User.h"
+#import "Message.h"
 
 
 @interface CWUserManager (exposingForTest)
 @property (nonatomic) AFHTTPRequestOperation * fetchUserIDOperation;
+@property (nonatomic) User * localUser;
 
 
 @end
@@ -23,6 +26,7 @@
 
 @property (nonatomic) CWUserManager * sut;
 @property (nonatomic) NSManagedObjectContext * moc;
+@property (nonatomic) id mockSut;
 
 @end
 
@@ -36,11 +40,14 @@
     
     MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
     self.moc = mocFactory.moc;
+    
+    self.mockSut = [OCMockObject partialMockForObject:self.sut];
 }
 
 - (void)tearDown
 {
     // Put teardown code here; it will be run once, after the last test case.
+    [self.mockSut stopMocking];
     [super tearDown];
 }
 
@@ -190,4 +197,62 @@
     //cleanup
     [mockUserDefaults stopMocking];
 }
+
+- (void) testShouldRequestAppFeecbackShouldReturnNOWhenVersionStringExists
+{
+    //given
+   
+    [[[self.mockSut stub] andReturn:@"SOMEversionNumber"] appFeedbackHasBeenRequested];
+    
+    //when
+    BOOL actual = [self.sut shouldRequestAppFeedback];
+    
+    //should
+    XCTAssertFalse(actual, @"expecting the function to return NO");
+    
+    //cleanup
+}
+
+
+- (void) testShouldRequestAppFeecbackShouldReturnNOWhenUserHasNotSentMoreThan5Messages
+{
+    //given
+    [[[self.mockSut stub] andReturn:nil] appFeedbackHasBeenRequested];
+    self.sut.localUser = [User insertInManagedObjectContext:self.moc];
+    const NSInteger numberOfSentMessages = arc4random_uniform(5);
+    for(int ii = 0; ii < numberOfSentMessages; ++ii)
+    {
+        [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:self.moc]];
+    }
+    
+    //when
+    BOOL actual = [self.sut shouldRequestAppFeedback];
+    
+    //should
+    XCTAssertFalse(actual, @"expecting the function to return NO");
+    
+    //cleanup
+}
+
+
+- (void) testShouldRequestAppFeecbackShouldReturnYESWhenUserHasSentMoreThan5MessagesAndHasNotRequestedFeedback
+{
+    //given
+    [[[self.mockSut stub] andReturn:nil] appFeedbackHasBeenRequested];
+    self.sut.localUser = [User insertInManagedObjectContext:self.moc];
+    const NSInteger numberOfSentMessages = 5;
+    for(int ii = 0; ii < numberOfSentMessages; ++ii)
+    {
+        [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:self.moc]];
+    }
+    
+    //when
+    BOOL actual = [self.sut shouldRequestAppFeedback];
+    
+    //should
+    XCTAssertTrue(actual, @"expecting the function to return YES");
+    
+    //cleanup
+}
+
 @end

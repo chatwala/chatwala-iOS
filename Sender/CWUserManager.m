@@ -195,6 +195,20 @@ NSString * const kAppVersionWhenFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDB
 
 }
 
+- (BOOL) shouldRequestAppFeedback
+{
+    if([self appFeedbackHasBeenRequested])
+    {
+        return NO;
+    }
+    if(self.localUser.messagesSent.count < 5)
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (void) didRequestAppFeedback
 {
     NSString * buildVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];

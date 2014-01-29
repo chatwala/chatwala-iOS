@@ -32,6 +32,7 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 - (NSString *) getProfilePictureEndPointForUser:(User *) user;
 - (NSString *)appFeedbackHasBeenRequested;
 - (void) didRequestAppFeedback;
+- (BOOL) shouldRequestAppFeedback;
 
 #pragma mark - blocks for fetch results
 
