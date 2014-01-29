@@ -11,7 +11,7 @@
 #import "CWKillScreenViewController.h"
 
 #define DEBUG_BYPASS_KILLSWITCH 0
-NSString* const kAppFeedbackTriggerKey  = @"APP_FEEDBACK_TRIGGER";
+NSString* const kAppFeedbackTriggerKey  = @"APP_FEEDBACK_SENT_MESSAGE_THRESHOLD";
 NSInteger const defaultFeedbackTrigger = 5;
 
 @implementation CWGroundControlManager
