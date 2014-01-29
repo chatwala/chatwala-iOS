@@ -198,7 +198,7 @@ NSString * const kAppVersionWhenFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDB
 
 - (BOOL) shouldRequestAppFeedback
 {
-    if([self appFeedbackHasBeenRequested])
+    if([self appVersionOfAppFeedbackRequest])
     {
         return NO;
     }
@@ -218,7 +218,7 @@ NSString * const kAppVersionWhenFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDB
 }
 
 
-- (NSString*) appFeedbackHasBeenRequested
+- (NSString*) appVersionOfAppFeedbackRequest
 {
     NSString* appVersionWhenFeedbackRequested = [[NSUserDefaults standardUserDefaults] stringForKey:kAppVersionWhenFeedbackRequestedKey];
     return appVersionWhenFeedbackRequested;

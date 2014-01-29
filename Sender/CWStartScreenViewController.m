@@ -123,7 +123,7 @@
             [[CWUserManager sharedInstance] localUser:^(User *localUser) {
                 NSInteger outBoxCount = localUser.messagesSent.count;
                 NSInteger feedbackTrigger = [[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold].integerValue;
-                if(![[CWUserManager sharedInstance] appFeedbackHasBeenRequested] && (outBoxCount >= feedbackTrigger))
+                if(![[CWUserManager sharedInstance] appVersionOfAppFeedbackRequest] && (outBoxCount >= feedbackTrigger))
                 {
                     [weakSelf showAppFeedback];
                     [[CWUserManager sharedInstance] didRequestAppFeedback];

@@ -189,7 +189,7 @@
     [[[mockUserDefaults stub] andReturn:expected] stringForKey:kAppVersionWhenFeedbackRequestedKey];
     
     //when
-    NSString* actual = [self.sut appFeedbackHasBeenRequested];
+    NSString* actual = [self.sut appVersionOfAppFeedbackRequest];
     
     //should
     XCTAssertEqualObjects(actual, expected, @"expecting version to be the one found in NSUserDefaults");
@@ -202,7 +202,7 @@
 {
     //given
    
-    [[[self.mockSut stub] andReturn:@"SOMEversionNumber"] appFeedbackHasBeenRequested];
+    [[[self.mockSut stub] andReturn:@"SOMEversionNumber"] appVersionOfAppFeedbackRequest];
     
     //when
     BOOL actual = [self.sut shouldRequestAppFeedback];
@@ -217,7 +217,7 @@
 - (void) testShouldRequestAppFeecbackShouldReturnNOWhenUserHasNotSentMoreThan5Messages
 {
     //given
-    [[[self.mockSut stub] andReturn:nil] appFeedbackHasBeenRequested];
+    [[[self.mockSut stub] andReturn:nil] appVersionOfAppFeedbackRequest];
     self.sut.localUser = [User insertInManagedObjectContext:self.moc];
     const NSInteger numberOfSentMessagesThreshold = 15;
     const NSInteger numberOfSentMessages = arc4random_uniform(numberOfSentMessagesThreshold);
@@ -242,7 +242,7 @@
 - (void) testShouldRequestAppFeecbackShouldReturnYESWhenUserHasSentMoreThan5MessagesAndHasNotRequestedFeedback
 {
     //given
-    [[[self.mockSut stub] andReturn:nil] appFeedbackHasBeenRequested];
+    [[[self.mockSut stub] andReturn:nil] appVersionOfAppFeedbackRequest];
     self.sut.localUser = [User insertInManagedObjectContext:self.moc];
     const NSInteger numberOfSentMessagesThreshold = 15;
     const NSInteger numberOfSentMessages = numberOfSentMessagesThreshold + arc4random_uniform(5);
