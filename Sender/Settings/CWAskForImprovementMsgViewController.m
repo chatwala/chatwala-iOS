@@ -8,6 +8,7 @@
 
 #import "CWAskForImprovementMsgViewController.h"
 #import "CWGroundControlManager.h"
+#import "UIColor+Additions.h"
 
 @interface CWAskForImprovementMsgViewController () <MFMailComposeViewControllerDelegate>
 
@@ -46,14 +47,21 @@
        [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
        [self presentViewController:mailComposer animated:YES completion:nil];
     }
+    else
+    {
+        UIAlertView * cantSendEmail = [[UIAlertView alloc] initWithTitle:@"Email not setup" message:@"In order to send us a message you need to setup your email" delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+        
+        [cantSendEmail show];
+    }
 }
 
 #pragma mark MFMailComposeViewControllerDelegate
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [controller dismissViewControllerAnimated:YES completion:^{
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    }];
 }
 
 @end

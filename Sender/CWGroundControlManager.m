@@ -11,7 +11,8 @@
 #import "CWKillScreenViewController.h"
 
 #define DEBUG_BYPASS_KILLSWITCH 0
-
+NSString* const kAppFeedbackSentMessageThresholdKey  = @"APP_FEEDBACK_SENT_MESSAGE_THRESHOLD";
+NSInteger const defaultFeedbackTrigger = 5;
 
 @implementation CWGroundControlManager
 +(instancetype) sharedInstance {
@@ -35,7 +36,12 @@
 
 - (void)refresh
 {
-    NSURL *URL = [NSURL URLWithString:@"https://s3.amazonaws.com/chatwala.groundcontrol/defaults.plist"];
+#if DEBUG
+    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/DEVdefaults.plist";
+#else
+    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/defaults.plist";
+#endif
+    NSURL *URL = [NSURL URLWithString:endpoint];
     [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL success:self.refreshSuccessBlock failure:self.refreshFailureBlock];
 }
 
@@ -181,6 +187,13 @@
 {
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"FEEDBACK_EMAIL_BODY"];
     return value ? value:@"We liked your app because ...";
+}
+
+// APP_FEEDBACK_TRIGGER
+- (NSNumber *) appFeedbackSentMessageThreshold
+{
+    NSNumber * value = [[NSUserDefaults standardUserDefaults] valueForKey:kAppFeedbackSentMessageThresholdKey];
+    return value ? value:[NSNumber numberWithInteger:defaultFeedbackTrigger];
 }
 
 

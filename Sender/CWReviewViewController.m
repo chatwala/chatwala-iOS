@@ -20,6 +20,7 @@
 #import "Thread.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWDataManager.h"
+#import "CWAnalytics.h"
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
@@ -286,6 +287,8 @@
     [[CWUserManager sharedInstance] localUser:^(User *localUser) {
         [self uploadProfilePictureForUser:localUser];
     }];
+    
+    self.incomingMessage.eMessageViewedState = eMessageViewedStateReplied;
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];

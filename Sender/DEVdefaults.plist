@@ -32,5 +32,7 @@
 	<string>Tap to record and send a message. Your friend&apos;s reaction will appear here when they reply.</string>
 	<key>TAP_TO_PLAY_VIDEO</key>
 	<string>Tap To Play</string>
+	<key>APP_FEEDBACK_SENT_MESSAGE_THRESHOLD</key>
+	<integer>3</integer>
 </dict>
 </plist>
