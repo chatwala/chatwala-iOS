@@ -121,6 +121,11 @@
             //
             [self.messageSentView setAlpha:0];
         } completion:nil];
+        
+        //show the profile picture
+        
+        
+        //ask for app feedback
         [[CWUserManager sharedInstance] localUser:^(User *localUser) {
             if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
             {
@@ -148,6 +153,19 @@
     [CWAnalytics event:@"START_RECORDING" withCategory:@"CONVERSATION_STARTER" withLabel:@"TAP_BUTTON" withValue:nil];
     CWComposerViewController * composerVC = [[CWFlowManager sharedInstance]composeVC];
     [self.navigationController pushViewController:composerVC animated:NO];
+}
+
+- (void) showProfilePictureWasUploaded
+{
+    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWAppFeedBackViewController alloc] init]];
+    
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    [navController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
+    
 }
 
 -(void)showAppFeedback
