@@ -38,7 +38,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery Method" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TH3-fC-ajp">
-                        <rect key="frame" x="20" y="16" width="125" height="21"/>
+                        <rect key="frame" x="16" y="16" width="125" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -61,7 +61,7 @@
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="TH3-fC-ajp" secondAttribute="centerY" id="ODT-qv-Kag"/>
                     <constraint firstAttribute="trailing" secondItem="cO3-Mp-PX9" secondAttribute="trailing" constant="20" id="UXB-B4-akk"/>
-                    <constraint firstItem="TH3-fC-ajp" firstAttribute="leading" secondItem="kgB-eJ-t66" secondAttribute="leading" constant="20" id="oaG-0q-mVh"/>
+                    <constraint firstItem="TH3-fC-ajp" firstAttribute="leading" secondItem="kgB-eJ-t66" secondAttribute="leading" constant="16" id="oaG-0q-mVh"/>
                     <constraint firstAttribute="centerY" secondItem="cO3-Mp-PX9" secondAttribute="centerY" constant="-0.5" id="qzh-Tq-BOh"/>
                 </constraints>
             </tableViewCellContentView>
