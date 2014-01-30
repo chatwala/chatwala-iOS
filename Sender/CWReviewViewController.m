@@ -143,7 +143,7 @@
             [[self mailComposer]  setMessageBody:messageBody isHTML:NO];
 
             //    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
-            [self presentViewController:[self mailComposer]  animated:YES completion:nil];
+            [self presentViewController:[self mailComposer]  animated:YES completion:completion];
         }
         else
         {
