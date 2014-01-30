@@ -20,6 +20,7 @@
 #import <UIViewController+MMDrawerController.h>
 #import "CWAppFeedBackViewController.h"
 #import "CWAnalytics.h"
+#import "CWProfilePictureViewController.h"
 
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
@@ -123,7 +124,7 @@
         } completion:nil];
         
         //show the profile picture
-        
+        [self showProfilePictureWasUploaded];
         
         //ask for app feedback
         [[CWUserManager sharedInstance] localUser:^(User *localUser) {
@@ -157,7 +158,7 @@
 
 - (void) showProfilePictureWasUploaded
 {
-    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWAppFeedBackViewController alloc] init]];
+    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWProfilePictureViewController alloc] init]];
     
     [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
     navController.navigationBar.shadowImage = [UIImage new];
