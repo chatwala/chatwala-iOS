@@ -21,6 +21,9 @@ NSString * const kNewMessageDeliveryMethodKey = @"kNewMessageDeliveryMethodKey";
 NSString * const kNewMessageDeliveryMethodValueSMS = @"SMS";
 NSString * const kNewMessageDeliveryMethodValueEmail = @"email";
 
+NSString * const kUploadedProfilePictureKey = @"profilePictureKey";
+NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
+
 
 @interface CWUserManager()
 
@@ -145,8 +148,7 @@ NSString * const kNewMessageDeliveryMethodValueEmail = @"email";
 
 - (BOOL) hasProfilePicture:(User *) user
 {
-    NSString * const uploadedProfilePicture = @"profilePictureKey";
-    if([[[NSUserDefaults standardUserDefaults] objectForKey:uploadedProfilePicture] boolValue])
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:kUploadedProfilePictureKey] boolValue])
     {
         return YES;
     }
@@ -163,7 +165,6 @@ NSString * const kNewMessageDeliveryMethodValueEmail = @"email";
 
 - (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user
 {
-    NSString * const uploadedProfilePicture = @"profilePictureKey";
 
     NSLog(@"thumbnail created:%@", thumbnail);
     
@@ -189,7 +190,7 @@ NSString * const kNewMessageDeliveryMethodValueEmail = @"email";
             [SVProgressHUD showErrorWithStatus:error.localizedDescription];
         } else {
             NSLog(@"Successfully upload profile picture: %@ %@", response, responseObject);
-            [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:uploadedProfilePicture];
+            [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:kUploadedProfilePictureKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }];
