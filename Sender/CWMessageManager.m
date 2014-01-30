@@ -57,16 +57,16 @@
         return @"http://192.168.0.102:1337";
     }
     
+#ifdef USE_QA_SERVER
+    return @"http://chatwala-deveast.azurewebsites.net";
+#elif USE_DEV_SERVER
+    return @"http://chatwala-deveast.azurewebsites.net";
+#elif SANDBOX
+    return @"http://chatwala-sandbox.azurewebsites.net";
+#else
+    return @"http://chatwala-prodeast.azurewebsites.net";
+#endif
     
-    BOOL shouldUseDevelopmentEnv = YES;
-
-    if (shouldUseDevelopmentEnv) {
-        // development
-        return @"http://chatwala-deveast.azurewebsites.net";
-    } else{
-        // production
-        return @"http://chatwala-prodeast.azurewebsites.net";
-    }
 }
 
 - (NSString *)registerEndPoint {
