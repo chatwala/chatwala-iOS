@@ -107,4 +107,6 @@ xcodebuild -workspace ../Sender.xcworkspace -scheme Sender -configuration Releas
 
 # build (Project-Scheme, BuildType, CodeSigningIdentity, Profile name, other build flags)
 #build 'Sender' 'AppStore' 'Release' "$cwAppStoreIdentity" 'B7AD3FC8-E51A-4236-9465-BFA74A6E6C7F.mobileprovision' ''
-build 'Sender' 'Dev' 'Release' "$cwDebugIdentity" '89CDDA38-8825-40E3-BBF8-17EEFD0526AF.mobileprovision' "USE_DEV_SERVER=1"
+#build 'Sender' 'Dev' 'Release' "$cwDebugIdentity" '89CDDA38-8825-40E3-BBF8-17EEFD0526AF.mobileprovision' "USE_DEV_SERVER=1"
+build 'Sender' 'QA' 'Release' "$cwDebugIdentity" 'E76211A6-F5AD-4BE4-8A01-3E45B9E9B034.mobileprovision' "USE_QA_SERVER=1"
+
