@@ -114,6 +114,9 @@
         self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
     }
     
+    [self.deliveryMethodCell setBackgroundColor:[UIColor chatwalaBlueMedium]];
+
+
     return self.deliveryMethodCell;
     
 }

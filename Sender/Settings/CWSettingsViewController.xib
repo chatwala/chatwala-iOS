@@ -30,32 +30,34 @@
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="deliveryMethod" rowHeight="23" id="gcx-0G-P2R" customClass="CWTableViewCellNewMessageDeliveryMethodCell">
-            <rect key="frame" x="0.0" y="0.0" width="274" height="23"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="deliveryMethod" rowHeight="97" id="gcx-0G-P2R" customClass="CWTableViewCellNewMessageDeliveryMethodCell">
+            <rect key="frame" x="0.0" y="0.0" width="279" height="54"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gcx-0G-P2R" id="kgB-eJ-t66">
-                <rect key="frame" x="0.0" y="0.0" width="274" height="22"/>
+                <rect key="frame" x="0.0" y="0.0" width="279" height="53"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Delivery Method" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TH3-fC-ajp">
-                        <rect key="frame" x="20" y="1" width="125" height="21"/>
+                        <rect key="frame" x="20" y="16" width="125" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="cO3-Mp-PX9">
-                        <rect key="frame" x="159" y="-2" width="95" height="29"/>
+                        <rect key="frame" x="164" y="13" width="95" height="29"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <segments>
                             <segment title="SMS"/>
                             <segment title="Email"/>
                         </segments>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <connections>
                             <action selector="deliveryMethodChanged:" destination="gcx-0G-P2R" eventType="valueChanged" id="b6M-th-V2r"/>
                         </connections>
                     </segmentedControl>
                 </subviews>
+                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
                     <constraint firstAttribute="centerY" secondItem="TH3-fC-ajp" secondAttribute="centerY" id="ODT-qv-Kag"/>
                     <constraint firstAttribute="trailing" secondItem="cO3-Mp-PX9" secondAttribute="trailing" constant="20" id="UXB-B4-akk"/>
@@ -63,6 +65,7 @@
                     <constraint firstAttribute="centerY" secondItem="cO3-Mp-PX9" secondAttribute="centerY" constant="-0.5" id="qzh-Tq-BOh"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="deliveryMethodSegmentedControl" destination="cO3-Mp-PX9" id="4qB-BV-14i"/>
             </connections>
