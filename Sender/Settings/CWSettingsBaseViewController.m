@@ -75,7 +75,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)onFeedbackDone:(id)sender
+-(void)onSettingsDone:(id)sender
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }

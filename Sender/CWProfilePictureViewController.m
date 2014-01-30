@@ -151,4 +151,16 @@
     }
 }
 
+- (void) onSettingsDone:(id)sender
+{
+    [super onSettingsDone:sender];
+    if([[CWUserManager sharedInstance] hasLocalUser])
+    {
+        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
+            [[CWUserManager sharedInstance] approveProfilePicture:localUser];
+        }];
+    }
+    
+}
+
 @end
