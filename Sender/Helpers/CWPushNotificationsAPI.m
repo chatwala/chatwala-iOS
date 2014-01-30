@@ -9,6 +9,7 @@
 #import "CWPushNotificationsAPI.h"
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
+#import "CWServerAPI.h"
 
 @implementation CWPushNotificationsAPI
 
@@ -22,7 +23,6 @@ static BOOL didRegisterForPushNotifications = NO;
         // TODO: Use notifications mask
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge];
     }
-    
 }
 
 + (void)sendProviderDeviceToken:(NSData *)tokenData {
@@ -35,7 +35,7 @@ static BOOL didRegisterForPushNotifications = NO;
         didRegisterForPushNotifications = YES;
     }
     
-    [[CWUserManager sharedInstance] registerUserWithPushToken:deviceToken withCompletionBlock:^(NSError *error) {
+    [CWServerAPI registerPushForUserID:[[CWUserManager sharedInstance] localUser].userID withPushToken:deviceToken withCompletionBlock:^(NSError *error) {
         if (error) {
             NSLog(@"Failed to register push notification, error:  %@",error.localizedDescription);
         }
@@ -43,7 +43,6 @@ static BOOL didRegisterForPushNotifications = NO;
             NSLog(@"Successfully registered push notification token with chatwala server");
         }
     }];
-    
 }
 
 + (void)handleLocalPushNotification:(UILocalNotification *)notification {

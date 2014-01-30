@@ -374,6 +374,9 @@
         }
         else {
             NSLog(@"Successful message upload - messageID: %@", messageToUpload.messageID);
+            
+            // Call finalize
+            [CWServerAPI finalizeMessage:messageToUpload];
         }
     }];
     

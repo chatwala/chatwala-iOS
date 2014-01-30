@@ -131,44 +131,6 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
 }
 
 
-- (void)registerUserWithPushToken:(NSString *)pushToken withCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock {
-
-    AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
-    requestManager.requestSerializer = self.requestHeaderSerializer;
-    
-    NSString *userId = self.localUser.userID;
-    NSDictionary *params = nil;
-    
-    if ([pushToken length]) {
-        params =   @{@"user_id" : userId,
-                     @"push_token" : pushToken,
-                     @"platform_type" : @"ios"};
-    }
-    else {
-        params =   @{@"user_id" : userId};
-    }
-    
-    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:@"/registerPushToken"];
-    
-    [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        NSLog(@"Successfully registered local user with chatwala server");
-        
-        if (completionBlock) {
-            completionBlock(nil);
-        }
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failed to register user. Error:  %@",error.localizedDescription);
-        
-        if (completionBlock) {
-            completionBlock(error);
-        }
-    }];
-}
-
-
-
 - (BOOL) shouldRequestAppFeedback
 {
     if([self appVersionOfAppFeedbackRequest])

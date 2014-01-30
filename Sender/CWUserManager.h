@@ -26,8 +26,6 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 
 - (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request;
 
-- (void)registerUserWithCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock;
-- (void)registerUserWithPushToken:(NSString *)pushToken withCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock;
 
 - (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user;
 - (BOOL)hasProfilePicture:(User *) user;

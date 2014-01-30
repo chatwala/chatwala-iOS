@@ -10,8 +10,11 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 #import "CWUtility.h"
+#import "CWUserManager.h"
 
 typedef void (^CWPictureUploadEndpointRequestCompletionBlock)(NSError *error, NSString *tempUploadUrl);
+
+NSString *const pushRegisterEndpoint = @"/registerPushToken";
 
 @implementation CWServerAPI
 
@@ -54,6 +57,7 @@ typedef void (^CWPictureUploadEndpointRequestCompletionBlock)(NSError *error, NS
 }
 
 + (void)uploadProfilePicture:(UIImage *)thumbnail forUserID:(NSString *)userID withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock {
+    
     [CWServerAPI getPictureUploadURLForUser:userID withCompletionBlock:^(NSError *error, NSString *tempUploadUrl) {
         if (error || !tempUploadUrl) {
             // Failure
@@ -145,4 +149,64 @@ typedef void (^CWPictureUploadEndpointRequestCompletionBlock)(NSError *error, NS
     
 }
 
++ (void)registerPushForUserID:(NSString *)userID withPushToken:(NSString *)pushToken withCompletionBlock:(CWServerPushRegisterCompletionBlock)completionBlock {
+    
+
+    NSDictionary *params = nil;
+    
+    if (![pushToken length] || ![userID length]) {
+        if (completionBlock) {
+            NSError *error = [NSError errorWithDomain:@"" code:0 userInfo:nil];
+            completionBlock(error);
+        }
+        
+        return;
+    }
+    else {
+        params =   @{@"user_id" : userID,
+                     @"push_token" : pushToken,
+                     @"platform_type" : @"ios"};
+    }
+    
+    AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
+    requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    
+    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:pushRegisterEndpoint];
+    [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"Successfully registered local user with chatwala server");
+        
+        if (completionBlock) {
+            completionBlock(nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failed to register user. Error:  %@",error.localizedDescription);
+        
+        if (completionBlock) {
+            completionBlock(error);
+        }
+    }];
+}
+
++ (void)finalizeMessage:(Message *)uploadedMessage {
+    
+    NSDictionary *params = nil;
+    params =   @{@"sender_id" : uploadedMessage.sender.userID,
+                 @"recipient_id" : uploadedMessage.recipient.userID};
+
+
+    AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
+    requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    
+    NSString *endPoint = [NSString stringWithFormat:@"%@/messages/%@/finalize", [[CWMessageManager sharedInstance] baseEndPoint], uploadedMessage.messageID];
+    
+    [requestManager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"Successfully finalized message upload");
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failed to finalize message upload. Error:  %@",error.localizedDescription);
+    }];
+}
 @end
