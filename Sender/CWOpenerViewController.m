@@ -14,6 +14,7 @@
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
 #import "Message.h"
+#import "CWAnalytics.h"
 
 @interface CWOpenerViewController () 
 {

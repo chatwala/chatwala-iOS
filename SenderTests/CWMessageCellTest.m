@@ -12,6 +12,12 @@
 #import "Message.h"
 #import "MocForTests.h"
 
+const NSInteger kSecondsPerMinute = 60;
+const NSInteger kSecondsPerHour = 60 * kSecondsPerMinute;
+const NSInteger kSecondsPerDay = 24 * kSecondsPerHour;
+const NSInteger kSecondsPerWeek = 7 * kSecondsPerDay;
+const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
+
 @interface CWMessageCellTest : XCTestCase
 @property (nonatomic, strong) CWMessageCell * sut;
 @property (nonatomic, strong) NSManagedObjectContext * moc;
@@ -115,6 +121,97 @@
     
     //cleanup
     [mockSpinner stopMocking];
+}
+
+- (void)testTimeStringFromDateWithSeconds
+{
+    //given
+    NSInteger wholeSeconds = arc4random_uniform(59) + 1;
+    NSTimeInterval time = wholeSeconds;
+    NSString * expected = [NSString stringWithFormat:@"%is",wholeSeconds];
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
+    
+    //when
+    NSString * actual = [self.sut timeStringFromDate:timeStamp];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"should be the same");
+}
+
+- (void)testTimeStringFromDateWithMinutes
+{
+    //given
+    NSInteger wholeMinutes = arc4random_uniform(59) + 1;
+    NSTimeInterval time = wholeMinutes * kSecondsPerMinute;
+    NSString * expected = [NSString stringWithFormat:@"%im", wholeMinutes];
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
+    
+    //when
+    NSString * actual = [self.sut timeStringFromDate:timeStamp];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"should be the same");
+}
+
+- (void)testTimeStringFromDateWithHours
+{
+    //given
+    NSInteger wholeHours = arc4random_uniform(23) + 1;
+    NSTimeInterval time = wholeHours * kSecondsPerHour;
+    NSString * expected = [NSString stringWithFormat:@"%ih", wholeHours];
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
+    
+    //when
+    NSString * actual = [self.sut timeStringFromDate:timeStamp];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"should be the same");
+}
+
+- (void)testTimeStringFromDateWithDays
+{
+    //given
+    NSInteger wholeDays = arc4random_uniform(6) + 1;
+    NSTimeInterval time = wholeDays * kSecondsPerDay;
+    NSString * expected = [NSString stringWithFormat:@"%id", wholeDays];
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
+    
+    //when
+    NSString * actual = [self.sut timeStringFromDate:timeStamp];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"should be the same");
+}
+
+
+- (void)testTimeStringFromDateWithWeeks
+{
+    //given
+    NSInteger wholeWeeks = arc4random_uniform(52) + 1;
+    NSTimeInterval time = wholeWeeks * kSecondsPerWeek;
+    NSString * expected = [NSString stringWithFormat:@"%iw", wholeWeeks];
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
+    
+    //when
+    NSString * actual = [self.sut timeStringFromDate:timeStamp];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"should be the same");
+}
+
+- (void)testTimeStringFromDateWithYears
+{
+    //given
+    NSInteger wholeYears = arc4random_uniform(3) + 1;
+    NSTimeInterval time = wholeYears * kSecondsPerYear;
+    NSString * expected = [NSString stringWithFormat:@"%iy", wholeYears];
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
+    
+    //when
+    NSString * actual = [self.sut timeStringFromDate:timeStamp];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"should be the same");
 }
 
 @end

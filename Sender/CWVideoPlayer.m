@@ -84,10 +84,15 @@ NSString * const kCurrentItemKey	= @"currentItem";
     self.asset = [AVURLAsset URLAssetWithURL:_videoURL options:nil];
     
     NSArray *requestedKeys = [NSArray arrayWithObjects:kTracksKey, kPlayableKey, nil];
-    
+
+    AVURLAsset * loadedAsset = self.asset;
     [self.asset loadValuesAsynchronouslyForKeys:requestedKeys completionHandler:
      ^{
+         NSLog(@"loading asset %@",loadedAsset);
+         if([self.asset isEqual:loadedAsset])
+         {
             [self prepareToPlayAsset:self.asset withKeys:requestedKeys];
+         }
      }];
 }
 
@@ -181,11 +186,12 @@ NSString * const kCurrentItemKey	= @"currentItem";
 
 - (void)setupPlayerWithAsset:(AVAsset*)asset
 {
-    if (self.player) {
-        self.player = nil;
-    }
-    
+//    if (self.player) {
+//        self.player = nil;
+//    }
+//    
     // setup player
+
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
     [self.player setActionAtItemEnd:AVPlayerActionAtItemEndNone];
     [self.player addObserver:self forKeyPath:kCurrentItemKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerStatusObservationContext];
@@ -199,6 +205,14 @@ NSString * const kCurrentItemKey	= @"currentItem";
     if ([self.delegate respondsToSelector:@selector(videoPlayerPlayToEnd:)]) {
         [self.delegate videoPlayerPlayToEnd:self];
     }
+}
+
+-(void)cleanUp
+{
+    [self.player removeObserver:self forKeyPath:kCurrentItemKey];
+    [self.playerItem removeObserver:self forKeyPath:kStatusKey];
+    self.player = nil;
+    self.playerItem = nil;
 }
 
 #pragma mark - generate thumbnail

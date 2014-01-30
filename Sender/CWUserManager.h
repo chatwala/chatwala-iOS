@@ -8,7 +8,14 @@
 
 #import "User.h"
 
+
 typedef void (^CWUserManagerRegisterUserCompletionBlock)(NSError *error);
+
+extern NSString * const kAppVersionOfFeedbackRequestedKey;
+
+typedef void (^CWUserManagerLocalUserBlock)(User *localUser);
+typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operation, id responseObject, CWUserManagerLocalUserBlock completion);
+
 
 @interface CWUserManager : NSObject
 + (id)sharedInstance;
@@ -16,7 +23,8 @@ typedef void (^CWUserManagerRegisterUserCompletionBlock)(NSError *error);
 @property (nonatomic) AFHTTPRequestSerializer * requestHeaderSerializer;
 @property (nonatomic,readonly) User *localUser;
 
-- (void)addRequestHeadersToURLRequest:(NSMutableURLRequest *) request;
+
+- (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request;
 
 - (void)registerUserWithCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock;
 - (void)registerUserWithPushToken:(NSString *)pushToken withCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock;
@@ -24,5 +32,8 @@ typedef void (^CWUserManagerRegisterUserCompletionBlock)(NSError *error);
 - (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user;
 - (BOOL)hasProfilePicture:(User *) user;
 - (NSString *) getProfilePictureEndPointForUser:(User *) user;
+- (NSString *)appVersionOfAppFeedbackRequest;
+- (void) didRequestAppFeedback;
+- (BOOL) shouldRequestAppFeedback;
 
 @end

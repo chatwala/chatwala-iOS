@@ -20,6 +20,7 @@
 #import "Thread.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWDataManager.h"
+#import "CWAnalytics.h"
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
@@ -61,11 +62,29 @@
                                                  name:UIApplicationWillResignActiveNotification object:nil];
     
     [self setNavMode:NavModeClose];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appHasGoneInBackground:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+
+    if ([player.delegate isEqual:self])
+    {
+        [player cleanUp];
+        player.delegate = nil;
+        player = nil;
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) appHasGoneInBackground:(NSNotification*)notification
+{
+    [self.messageComposer dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -81,6 +100,11 @@
     [player setVideoURL:recorder.tempFileURL];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+}
 
 - (void)goToBackground
 {
@@ -256,6 +280,8 @@
 - (void) didSendMessage {
     
     [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
+    
+    self.incomingMessage.eMessageViewedState = eMessageViewedStateReplied;
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];

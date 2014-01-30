@@ -10,12 +10,20 @@
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
 #import "CWUtility.h"
+
 #import "NSString+UUID.h"
+
+#import "CWGroundControlManager.h"
+
 
 NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
 NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
+
 NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
+NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBACK_REQUESTED";
+
+
 
 
 @interface CWUserManager()
@@ -192,4 +200,35 @@ NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
     }];
 }
 
+
+
+- (BOOL) shouldRequestAppFeedback
+{
+    if([self appVersionOfAppFeedbackRequest])
+    {
+        return NO;
+    }
+    NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold] integerValue];
+    if(self.localUser.messagesSent.count <= requestAppFeedbackThreshold)
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void) didRequestAppFeedback
+{
+    NSString * buildVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+    [[NSUserDefaults standardUserDefaults] setObject:buildVersion forKey:kAppVersionOfFeedbackRequestedKey];
+}
+
+
+- (NSString*) appVersionOfAppFeedbackRequest
+{
+    NSString* appVersionWhenFeedbackRequested = [[NSUserDefaults standardUserDefaults] stringForKey:kAppVersionOfFeedbackRequestedKey];
+    return appVersionWhenFeedbackRequested;
+}
+
 @end
+
