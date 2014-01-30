@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-
-#import "CWMessageItem.h"
+#import "Message.h"
 
 typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(NSString *messageID, NSString *messageURL);
 typedef void (^CWMessageManagerFetchMessageUploadURLCompletionBlock)(NSString *messageID, NSString *uploadURLString);
@@ -37,15 +36,15 @@ typedef void (^CWDownloadTaskCompletionBlock) (NSURLResponse *response, NSURL *f
 - (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(CWMessageDownloadCompletionBlock)completionBlock;
 
 // There are about to be removed
-- (void)fetchOriginalMessageIDWithSender:(User *) localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
+- (void)fetchOriginalUploadURLWithSender:(User *)localUser messageID:(NSString *)messageID completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 
-- (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
+- (void)fetchMessageIDForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 
 // Replaced with
 - (void)fetchUploadDetailsWithCompletionBlock:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
 
-- (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage;
-
+- (void)uploadMessage:(Message *)messageToUpload isReply:(BOOL)isReplyMessage;
+- (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString isReply:(BOOL)isReplyMessage;
 
 #pragma mark - callbacks for test
 

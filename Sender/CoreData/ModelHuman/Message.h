@@ -30,6 +30,8 @@ typedef enum eMessageViewedState
 @interface Message : _Message <Message> {}
 // Custom logic goes here.
 
+
+@property (nonatomic, strong) NSString *localMessageID;//not core data backed.
 @property (nonatomic, strong) NSURL * videoURL;//not core data backed.
 @property (nonatomic, strong) NSURL * zipURL;//not saved in core data
 

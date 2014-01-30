@@ -238,25 +238,22 @@
         // Original message send
         
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
-        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
-            
-            if (messageID && messageURL) {
-                message.messageID = messageID;
+//        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser messcompletionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
+        [[CWMessageManager sharedInstance] fetchOriginalUploadURLWithSender:localUser messageID:message.localMessageID completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
+           
+            if (sasURL && messageURL) {
+
                 message.messageURL = messageURL;
                 
                 [self composeMessageWithMessageKey:messageURL withCompletion:^{
                     [message exportZip];
-                    [[CWMessageManager sharedInstance] uploadMessage:message isReply:NO];
+                    [[CWMessageManager sharedInstance] uploadMessage:message toURL:sasURL isReply:NO];
                 }];
             }
             else {
-                if(!messageID)
+                if(!sasURL)
                 {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageID"];
-                }
-                else if(!messageID)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageURL"];
+                    [SVProgressHUD showErrorWithStatus:@"Message upload link not recieved."];
                 }
             }
         }];

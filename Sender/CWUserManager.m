@@ -11,8 +11,6 @@
 #import "CWDataManager.h"
 #import "CWUtility.h"
 
-#import "NSString+UUID.h"
-
 #import "CWGroundControlManager.h"
 
 
@@ -22,8 +20,6 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 
 NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
 NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBACK_REQUESTED";
-
-
 
 
 @interface CWUserManager()
@@ -53,7 +49,7 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
             [self createNewLocalUser];
         }
         else {
-            [self registerUserWithCompletionBlock:nil];
+            //[self registerUserWithCompletionBlock:nil];
         }
     }
     return self;
@@ -69,7 +65,7 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
 
 - (void)addRequestHeadersToURLRequest:(NSMutableURLRequest *) request {
 
-    NSDictionary * headerDictionary = [[[CWUserManager sharedInstance] requestHeaderSerializer] HTTPRequestHeaders];
+    NSDictionary * headerDictionary = [self.requestHeaderSerializer HTTPRequestHeaders];
     for (NSString * key in headerDictionary) {
         NSAssert([key isKindOfClass:[NSString class]], @"expecting strings for the keys of the request header. found: %@", key);
         NSString* value = [headerDictionary objectForKey:key];
@@ -95,7 +91,7 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
 
 - (void)createNewLocalUser {
     
-    NSString *newUserID = [NSString cw_UUID];
+    NSString *newUserID = [[NSUUID UUID] UUIDString];
     NSLog(@"Generated new user id: %@",newUserID);
     
     self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
@@ -103,7 +99,7 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
     [[NSUserDefaults standardUserDefaults]setValue:newUserID forKey:UserIdDefaultsKey];
     [[NSUserDefaults standardUserDefaults]synchronize];
     
-    [self registerUserWithCompletionBlock:nil];
+    //[self registerUserWithCompletionBlock:nil];
 }
 
 - (BOOL)hasProfilePicture:(User *) user {
@@ -162,7 +158,10 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
 }
 
 - (void)registerUserWithCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock {
-    [self registerUserWithPushToken:nil withCompletionBlock:completionBlock];
+    
+    
+    //[self registerUserWithPushToken:nil withCompletionBlock:completionBlock];
+    
 }
 
 
@@ -183,7 +182,9 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
         params =   @{@"user_id" : userId};
     }
     
-    [requestManager POST:[[CWMessageManager sharedInstance] registerEndPoint] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:@"/registerPushToken"];
+    
+    [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSLog(@"Successfully registered local user with chatwala server");
         

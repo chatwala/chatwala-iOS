@@ -94,7 +94,7 @@
     NSOrderedSet *inboxMessages = [localUser inboxMessages];
     Message *message = [inboxMessages objectAtIndex:indexPath.row];
     
-    NSString *messageId = message.messageID;
+    NSString *messageId = message.localMessageID;
   
     if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessageWithID:)]) {
         [self.delegate inboxViewController:self didSelectMessageWithID:messageId];

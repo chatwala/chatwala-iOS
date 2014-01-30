@@ -5,12 +5,11 @@
 
 @interface Message ()
 
-// Private interface goes here.
-
 @end
 
 
 @implementation Message
+@synthesize localMessageID;
 @synthesize videoURL;
 @synthesize zipURL;
 

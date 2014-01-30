@@ -17,7 +17,7 @@
 @interface CWMessageManager ()
 
 @property (nonatomic,assign) BOOL needsOriginalMessageID;
-@property (nonatomic,strong) NSString *originalMessageID;
+@property (nonatomic,strong) NSString *tempUploadURLString;
 @property (nonatomic,strong) NSString *originalMessageURL;
 @property (nonatomic,strong) AFHTTPRequestOperation *messageIDOperation;
 
@@ -176,7 +176,10 @@
 - (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
     NSString *user_id = user.userID;
     
-    if([user_id length]) {
+    if (![user_id length]) {
+        return;
+    }
+    else {
         
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
@@ -273,7 +276,7 @@
         // Should we change this to not use multipart then?
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSLog(@"Fetched new message upload ID: %@: and URL: %@",self.originalMessageID, self.originalMessageURL);
+        NSLog(@"Fetched new message upload ID: %@: and URL: %@",self.tempUploadURLString, self.originalMessageURL);
         
         if (completionBlock) {
             completionBlock([responseObject valueForKey:@"message_id"], [responseObject valueForKey:@"url"]);
@@ -293,14 +296,14 @@
     
 }
 
-- (void)fetchOriginalMessageIDWithSender:(User *) localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
+- (void)fetchOriginalUploadURLWithSender:(User *)localUser messageID:(NSString *)messageID completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
     
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
 
     // Check if we already have unused messageID we fetched earlier - return that
-    if (!self.needsOriginalMessageID && [self.originalMessageID length] && [self.originalMessageURL length]) {
+    if (!self.needsOriginalMessageID && [self.tempUploadURLString length] && [self.originalMessageURL length]) {
         if (completionBlock) {
-            completionBlock(self.originalMessageID, self.originalMessageURL);
+            completionBlock(self.tempUploadURLString, self.originalMessageURL);
         }
         
         return;
@@ -310,7 +313,7 @@
     [self.messageIDOperation setCompletionBlockWithSuccess:nil failure:nil];
     [self.messageIDOperation cancel];
     
-    self.originalMessageID = nil;
+    self.tempUploadURLString = nil;
     self.originalMessageURL = nil;
     self.messageIDOperation = nil;
     
@@ -322,20 +325,18 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
-    self.messageIDOperation = [manager POST:self.messagesEndPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        // Nothing needed here
-        // Should we change this to not use multipart then?
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
+    NSString *endPoint = [NSString stringWithFormat:@"%@/%@", self.messagesEndPoint, messageID];
+    
+    self.messageIDOperation = [manager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         self.needsOriginalMessageID = NO;
-        self.originalMessageID = [responseObject valueForKey:@"message_id"];
-        self.originalMessageURL = [responseObject valueForKey:@"url"];
+        self.tempUploadURLString = [responseObject valueForKey:@"sasUrl"];
+        self.originalMessageURL = [NSString stringWithFormat:@"http://chatwala.com/?%@",messageID];
         
-        NSLog(@"Fetched new message upload ID: %@: and URL: %@",self.originalMessageID, self.originalMessageURL);
+        NSLog(@"Fetched new message upload ID: %@: and URL: %@",self.tempUploadURLString, self.originalMessageURL);
         
         if (completionBlock) {
-            completionBlock(self.originalMessageID, self.originalMessageURL);
+            completionBlock(self.tempUploadURLString, self.originalMessageURL);
         }
         
         self.messageIDOperation = nil;
@@ -353,8 +354,8 @@
         }
         
         self.messageIDOperation = nil;
-    }];
 
+    }];
 }
 
 - (void)fetchUploadDetailsWithCompletionBlock:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
@@ -363,11 +364,54 @@
     // expects a SAS URL which can be used to upload
 }
 
-- (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage {
+- (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString isReply:(BOOL)isReplyMessage {
 
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
     
-    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint], messageToUpload.metadata.messageId];
+    NSString * endPoint = uploadURLString;
+    NSLog(@"uploading message: %@",endPoint);
+    NSURL *URL = [NSURL URLWithString:endPoint];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    [request setHTTPMethod:@"PUT"];
+    
+    //NSDictionary *fileDictionary = [[NSFileManager defaultManager] fileAttributesAtPath:messageToUpload.zipURL.path traverseLink:YES];
+    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:messageToUpload.zipURL.path error:nil] fileSize];
+    
+    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
+    [request addValue:@"BlockBlob" forHTTPHeaderField:@"x-ms-blob-type"];
+    [request addValue:[NSString stringWithFormat:@"%llu",fileSize] forHTTPHeaderField:@"content-length"];
+    
+    
+    AFURLSessionManager *mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    
+    
+    NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        if ([httpResponse statusCode] != 201) {
+            NSLog(@"Error during message upload: %@", error);
+            NSLog(@"Response : %@", response);
+            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+        } else {
+            NSLog(@"Successful message upload: %@ %@", response, responseObject);
+        }
+    }];
+    
+    // After this we'll need a different endpoint for upload if we cancel or kill the app
+    
+    if (!isReplyMessage) {
+        self.needsOriginalMessageID = YES;
+    }
+    
+    
+    [task resume];
+}
+
+- (void)uploadMessage:(Message *)messageToUpload isReply:(BOOL)isReplyMessage {
+
+    NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
+    
+    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint], messageToUpload.messageID];
     NSLog(@"uploading message: %@",endPoint);
     NSURL *URL = [NSURL URLWithString:endPoint];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];

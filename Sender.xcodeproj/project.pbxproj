@@ -21,12 +21,10 @@
 		0D200ABF1891852F008C2238 /* DCSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ABA1891852F008C2238 /* DCSlider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0D200AC01891852F008C2238 /* NSDictionary+LookUpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ABC1891852F008C2238 /* NSDictionary+LookUpTable.m */; };
 		0D200AC3189186A0008C2238 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AC2189186A0008C2238 /* UIColor+Additions.m */; };
-		0D200AC91891879F008C2238 /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AC61891879F008C2238 /* CWMessageItem.m */; };
 		0D200ACA1891879F008C2238 /* CWMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AC81891879F008C2238 /* CWMetadata.m */; };
 		0D200AD318918C4D008C2238 /* CWInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ACF18918C4D008C2238 /* CWInboxViewController.m */; };
 		0D200AD418918C4D008C2238 /* CWInboxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D200AD018918C4D008C2238 /* CWInboxViewController.xib */; };
 		0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AD218918C4D008C2238 /* CWMessageCell.m */; };
-		0D72370018948A2100C8FE59 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D7236FF18948A2100C8FE59 /* NSString+UUID.m */; };
 		206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */; };
 		206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8718808F27007F3532 /* AOFetchUtilities.m */; };
 		206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8918808F27007F3532 /* AOManagedObject.m */; };
@@ -168,7 +166,6 @@
 		E94439D2182946460088A381 /* AVCamRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439D0182946460088A381 /* AVCamRecorder.m */; };
 		E94439D418294E990088A381 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94439D318294E990088A381 /* MessageUI.framework */; };
 		E953F5CD186384EB00663E7D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E953F5CC186384EB00663E7D /* Settings.bundle */; };
-		E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25DB1831425800E3950B /* CWMessageItemTests.m */; };
 		E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */; };
 		E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E218314B8300E3950B /* CWVideoManager.m */; };
 		E95E25E818314DC500E3950B /* CWVideoPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */; };
@@ -246,8 +243,6 @@
 		0D200ABC1891852F008C2238 /* NSDictionary+LookUpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+LookUpTable.m"; sourceTree = "<group>"; };
 		0D200AC1189186A0008C2238 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		0D200AC2189186A0008C2238 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
-		0D200AC51891879F008C2238 /* CWMessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageItem.h; sourceTree = "<group>"; };
-		0D200AC61891879F008C2238 /* CWMessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageItem.m; sourceTree = "<group>"; };
 		0D200AC71891879F008C2238 /* CWMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMetadata.h; sourceTree = "<group>"; };
 		0D200AC81891879F008C2238 /* CWMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMetadata.m; sourceTree = "<group>"; };
 		0D200ACE18918C4D008C2238 /* CWInboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWInboxViewController.h; sourceTree = "<group>"; };
@@ -255,8 +250,6 @@
 		0D200AD018918C4D008C2238 /* CWInboxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWInboxViewController.xib; sourceTree = "<group>"; };
 		0D200AD118918C4D008C2238 /* CWMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageCell.h; sourceTree = "<group>"; };
 		0D200AD218918C4D008C2238 /* CWMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCell.m; sourceTree = "<group>"; };
-		0D7236FE18948A2100C8FE59 /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
-		0D7236FF18948A2100C8FE59 /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
 		206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOCoreDataStackUtilities.m; sourceTree = "<group>"; };
 		206CDF8618808F27007F3532 /* AOFetchUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOFetchUtilities.h; sourceTree = "<group>"; };
 		206CDF8718808F27007F3532 /* AOFetchUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOFetchUtilities.m; sourceTree = "<group>"; };
@@ -435,7 +428,6 @@
 		E94439D0182946460088A381 /* AVCamRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamRecorder.m; sourceTree = "<group>"; };
 		E94439D318294E990088A381 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		E953F5CC186384EB00663E7D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../Settings.bundle; sourceTree = "<group>"; };
-		E95E25DB1831425800E3950B /* CWMessageItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageItemTests.m; sourceTree = "<group>"; };
 		E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoManagerTests.m; sourceTree = "<group>"; };
 		E95E25E118314B8300E3950B /* CWVideoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoManager.h; sourceTree = "<group>"; };
 		E95E25E218314B8300E3950B /* CWVideoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoManager.m; sourceTree = "<group>"; };
@@ -601,8 +593,6 @@
 		0D200AC41891879F008C2238 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0D200AC51891879F008C2238 /* CWMessageItem.h */,
-				0D200AC61891879F008C2238 /* CWMessageItem.m */,
 				0D200AC71891879F008C2238 /* CWMetadata.h */,
 				0D200AC81891879F008C2238 /* CWMetadata.m */,
 			);
@@ -619,15 +609,6 @@
 				0D200AD218918C4D008C2238 /* CWMessageCell.m */,
 			);
 			path = Inbox;
-			sourceTree = "<group>";
-		};
-		0D7236FD18948A2100C8FE59 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				0D7236FE18948A2100C8FE59 /* NSString+UUID.h */,
-				0D7236FF18948A2100C8FE59 /* NSString+UUID.m */,
-			);
-			path = Categories;
 			sourceTree = "<group>";
 		};
 		36AF5818187DD91300C5C13F /* CoreData */ = {
@@ -968,7 +949,6 @@
 				0D1979B218939FB000379DD5 /* CWMacroOverrides.h */,
 				E90F04D1182A9078004B8CCD /* AVCam */,
 				E99094581861F69E0050695F /* Buttons */,
-				0D7236FD18948A2100C8FE59 /* Categories */,
 				0D200AB31891852F008C2238 /* External */,
 				0D1DAE9E18917F960051D7AE /* Helpers */,
 				E946BD231844FC0E00C6A99D /* Managers */,
@@ -999,7 +979,6 @@
 				367439EA187F5C6200613FD6 /* MocForTests.m */,
 				E94439AC182940AF0088A381 /* Supporting Files */,
 				36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */,
-				E95E25DB1831425800E3950B /* CWMessageItemTests.m */,
 				E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */,
 				E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */,
 				E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */,
@@ -1471,7 +1450,6 @@
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
 				0D1DAEA418917FD30051D7AE /* CWUtility.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
-				0D72370018948A2100C8FE59 /* NSString+UUID.m in Sources */,
 				E98B1697184F85B80021A611 /* CWMiddleButton.m in Sources */,
 				E990946118620AD70050695F /* CWViewController.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
@@ -1482,7 +1460,6 @@
 				E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */,
 				E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */,
 				E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */,
-				0D200AC91891879F008C2238 /* CWMessageItem.m in Sources */,
 				E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */,
 				E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */,
 				36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */,
@@ -1523,7 +1500,6 @@
 				E9C1155D1832AFEE00DB67D2 /* CWComposerVCTests.m in Sources */,
 				36F0EB82187DB3B300DDE28B /* CWViewControllerTests.m in Sources */,
 				E965255E18341963008987BD /* CWReviewVCTests.m in Sources */,
-				E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */,
 				36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */,
 				E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */,
 				366EB58C18843E4200A7FF75 /* UserTests.m in Sources */,
@@ -1667,7 +1643,7 @@
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "89CDDA38-8825-40E3-BBF8-17EEFD0526AF";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1689,7 +1665,7 @@
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "89CDDA38-8825-40E3-BBF8-17EEFD0526AF";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

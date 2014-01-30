@@ -123,6 +123,7 @@
     Message * message = [Message insertInManagedObjectContext:self.moc];
     message.sender = sender;
     message.timeStamp = [NSDate date];
+    message.localMessageID = [[NSUUID UUID] UUIDString];
     
     if(incomingMessage)
     {
