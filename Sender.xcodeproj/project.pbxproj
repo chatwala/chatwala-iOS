@@ -551,6 +551,7 @@
 		0D1DAEA51891809D0051D7AE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				36EB6DC9188883A4005B81B4 /* ProfilePicture */,
 				0D1DAEA61891809D0051D7AE /* CWPrivacyViewController.h */,
 				0D1DAEA71891809D0051D7AE /* CWPrivacyViewController.m */,
 				0D1DAEA81891809D0051D7AE /* CWPrivacyViewController.xib */,
@@ -705,6 +706,7 @@
 				36EB6DCC1888841B005B81B4 /* CWProfilePictureViewController.xib */,
 			);
 			name = ProfilePicture;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		36F3F875187C9530002CBB63 /* KillScreen */ = {
@@ -837,7 +839,6 @@
 				0D200ACD18918C4D008C2238 /* Inbox */,
 				36F3F875187C9530002CBB63 /* KillScreen */,
 				CC0C4B9D1864D3570096D5B3 /* Main */,
-				36EB6DC9188883A4005B81B4 /* ProfilePicture */,
 				0D1DAEA51891809D0051D7AE /* Settings */,
 				E990945F18620AD70050695F /* CWViewController.h */,
 				E990946018620AD70050695F /* CWViewController.m */,
