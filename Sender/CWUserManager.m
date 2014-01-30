@@ -17,7 +17,9 @@ NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
 NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 NSString * const kUserDefultsIDKey = @"CHATWALA_USER_ID";
 NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBACK_REQUESTED";
-
+NSString * const kNewMessageDeliveryMethodKey = @"kNewMessageDeliveryMethodKey";
+NSString * const kNewMessageDeliveryMethodValueSMS = @"SMS";
+NSString * const kNewMessageDeliveryMethodValueEmail = @"email";
 
 
 @interface CWUserManager()
@@ -223,4 +225,22 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
     NSString* appVersionWhenFeedbackRequested = [[NSUserDefaults standardUserDefaults] stringForKey:kAppVersionOfFeedbackRequestedKey];
     return appVersionWhenFeedbackRequested;
 }
+
+- (NSString *) newMessageDeliveryMethod
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] objectForKey:kNewMessageDeliveryMethodKey];
+    return value ? value:kNewMessageDeliveryMethodValueSMS;
+}
+
+- (void) setNewMessageDeliveryMethod:(NSString *)newMessageDeliveryMethod
+{
+    [[NSUserDefaults standardUserDefaults] setObject:newMessageDeliveryMethod forKey:kNewMessageDeliveryMethodKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL) newMessageDeliveryMethodIsSMS
+{
+    return [[self newMessageDeliveryMethod] isEqualToString:kNewMessageDeliveryMethodValueSMS];
+}
+
 @end

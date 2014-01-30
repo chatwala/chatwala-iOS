@@ -116,13 +116,8 @@
 
 - (void)composeMessageWithMessageKey:(NSString*)messageURL withCompletion:(void (^)(void))completion {
     
-    if([MFMessageComposeViewController canSendText]) {
-        self.messageComposer = [[MFMessageComposeViewController alloc] init];
-        [self.messageComposer  setMessageComposeDelegate:self];
-        [self.messageComposer  setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
-        
-        NSString *messagePrefix = nil;
-        
+    
+    NSString *messagePrefix = nil;
 #ifdef USE_QA_SERVER
         messagePrefix = @"This is a QA message";
 #elif USE_DEV_SERVER
@@ -132,33 +127,42 @@
 #else
         messagePrefix = @"Hey, I sent you a video message on Chatwala";
 #endif
-        
-        [self.messageComposer  setBody:[NSString stringWithFormat:@"%@: %@", messagePrefix, messageURL]];
-        
-        [self presentViewController:self.messageComposer   animated:YES completion:completion];
+
+    NSString *messageBody = [NSString stringWithFormat:@"%@: %@", messagePrefix, messageURL];
+    
+    if ([[CWUserManager sharedInstance] newMessageDeliveryMethodIsSMS])
+    {
+        if([MFMessageComposeViewController canSendText] ) {
+            self.messageComposer = [[MFMessageComposeViewController alloc] init];
+            [self.messageComposer  setMessageComposeDelegate:self];
+            [self.messageComposer  setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
+            [self.messageComposer  setBody:messageBody];
+
+            [self presentViewController:self.messageComposer   animated:YES completion:completion];
+        }
+        else {
+            [SVProgressHUD showErrorWithStatus:@"SMS/iMessage currently unavailable"];
+        }
     }
-    else {
-        [SVProgressHUD showErrorWithStatus:@"SMS/iMessage currently unavailable"];
+    else
+    {
+        if ([MFMailComposeViewController canSendMail]) {
+            // MAIL
+            self.mailComposer = [[MFMailComposeViewController alloc] init];
+            [self.mailComposer setMailComposeDelegate:self];
+            [self.mailComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
+
+            [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
+            [[self mailComposer]  setMessageBody:messageBody isHTML:NO];
+
+            //    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
+            [self presentViewController:[self mailComposer]  animated:YES completion:completion];
+        }
+        else
+        {
+            [SVProgressHUD showErrorWithStatus:@"Email currently unavailable"];
+        }
     }
-    
-    /*
-    // MAIL
-    self.mailComposer = [[MFMailComposeViewController alloc] init];
-    [self.mailComposer setMailComposeDelegate:self];
-    [self.mailComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
-    
-    
-    if (self.incomingMessageItem.metadata.senderId) {
-        [[self mailComposer] setToRecipients:@[self.incomingMessageItem.metadata.senderId]];
-    }
-    
-//    [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
-    [[self mailComposer]  setMessageBody:messageURL isHTML:NO];
-    
-//    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
-    [self presentViewController:[self mailComposer]  animated:YES completion:nil];
-    
-    */
 }
 
 - (void)onTap:(id)sender

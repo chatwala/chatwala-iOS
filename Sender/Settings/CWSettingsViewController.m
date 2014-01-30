@@ -13,8 +13,11 @@
 #import "CWGroundControlManager.h"
 #import "CWProfilePictureViewController.h"
 #import "UIColor+Additions.h"
+#import "CWTableViewCellNewMessageDeliveryMethodCell.h"
+#import "CWUserManager.h"
 
 @interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate>
+@property (strong, nonatomic) IBOutlet CWTableViewCellNewMessageDeliveryMethodCell *deliveryMethodCell;
 
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
 @property (nonatomic,strong) NSArray * sectionHeaders;
@@ -37,6 +40,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    [self.settingsTable registerClass:[CWTableViewCellNewMessageDeliveryMethodCell class] forCellReuseIdentifier:@"deliveryMethod"];
+
     UIBarButtonItem * doneBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onSettingsDone)];
     
     [self.navigationItem setRightBarButtonItem:doneBtn];
@@ -80,6 +85,10 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if(indexPath.row == self.section1Titles.count)
+    {
+        return [self tableViewDeliveryMethod:tableView];
+    }
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell"];
     [cell setBackgroundColor:[UIColor chatwalaBlueMedium]];
     [cell.textLabel setTextColor:[UIColor whiteColor]];
@@ -93,6 +102,25 @@
     return cell;
 }
 
+- (UITableViewCell *) tableViewDeliveryMethod:(UITableView *) tableView
+{
+    NSString * deliveryMethod = [[CWUserManager sharedInstance] newMessageDeliveryMethod];
+    if([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueSMS])
+    {
+        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 0;
+    }
+    else if ([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueEmail])
+    {
+        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
+    }
+    
+    [self.deliveryMethodCell setBackgroundColor:[UIColor chatwalaBlueMedium]];
+
+
+    return self.deliveryMethodCell;
+    
+}
+
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -103,7 +131,7 @@
 {
     NSInteger count = 0;
     if (section == 0) {
-        count = [self.section1Titles count];
+        count = [self.section1Titles count] + 1;
     }else if (section == 1)
     {
         count = 4;
@@ -169,6 +197,9 @@
                     UIViewController * viewController = [[CWProfilePictureViewController alloc] init];
                     [self.navigationController pushViewController:viewController animated:YES];
                 }
+                case 4:
+                    //do nothing
+                    break;
                 default:
                 {
                     
