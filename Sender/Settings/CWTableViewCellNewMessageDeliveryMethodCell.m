@@ -7,6 +7,7 @@
 //
 
 #import "CWTableViewCellNewMessageDeliveryMethodCell.h"
+#import "CWUserManager.h"
 
 @implementation CWTableViewCellNewMessageDeliveryMethodCell
 
@@ -24,6 +25,20 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+- (IBAction)deliveryMethodChanged:(id)sender {
+    
+    switch (self.deliveryMethodSegmentedControl.selectedSegmentIndex) {
+        case 0:
+            [[CWUserManager sharedInstance] setNewMessageDeliveryMethod:kNewMessageDeliveryMethodValueSMS];
+            break;
+        case 1:
+            [[CWUserManager sharedInstance] setNewMessageDeliveryMethod:kNewMessageDeliveryMethodValueEmail];
+            break;
+        default:
+            break;
+    }
 }
 
 @end

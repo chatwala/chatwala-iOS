@@ -13,9 +13,11 @@
 #import "CWGroundControlManager.h"
 #import "CWProfilePictureViewController.h"
 #import "UIColor+Additions.h"
+#import "CWTableViewCellNewMessageDeliveryMethodCell.h"
+#import "CWUserManager.h"
 
 @interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate>
-@property (strong, nonatomic) IBOutlet UITableViewCell *deliveryMethodCell;
+@property (strong, nonatomic) IBOutlet CWTableViewCellNewMessageDeliveryMethodCell *deliveryMethodCell;
 
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
 @property (nonatomic,strong) NSArray * sectionHeaders;
@@ -38,7 +40,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    [self.settingsTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"deliveryMethod"];
+    [self.settingsTable registerClass:[CWTableViewCellNewMessageDeliveryMethodCell class] forCellReuseIdentifier:@"deliveryMethod"];
 
     UIBarButtonItem * doneBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onSettingsDone)];
     
@@ -102,9 +104,17 @@
 
 - (UITableViewCell *) tableViewDeliveryMethod:(UITableView *) tableView
 {
-    UITableViewCell * cell = self.deliveryMethodCell;
+    NSString * deliveryMethod = [[CWUserManager sharedInstance] newMessageDeliveryMethod];
+    if([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueSMS])
+    {
+        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 0;
+    }
+    else if ([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueEmail])
+    {
+        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
+    }
     
-    return cell;
+    return self.deliveryMethodCell;
     
 }
 

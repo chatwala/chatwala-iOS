@@ -10,6 +10,8 @@
 #import "User.h"
 
 extern NSString * const kAppVersionOfFeedbackRequestedKey;
+extern NSString * const kNewMessageDeliveryMethodValueSMS;
+extern NSString * const kNewMessageDeliveryMethodValueEmail;
 
 typedef void (^CWUserManagerLocalUserBlock)(User *localUser);
 typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operation, id responseObject, CWUserManagerLocalUserBlock completion);
@@ -24,6 +26,8 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 
 @property (nonatomic, readonly) User * localUser __attribute__((deprecated("use localUser:")));
 
+@property (nonatomic) NSString * newMessageDeliveryMethod;
+
 - (BOOL) hasLocalUser;
 - (void) localUser:(void (^)(User *localUser)) completion;
 
@@ -33,6 +37,7 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 - (NSString *)appVersionOfAppFeedbackRequest;
 - (void) didRequestAppFeedback;
 - (BOOL) shouldRequestAppFeedback;
+
 
 #pragma mark - blocks for fetch results
 

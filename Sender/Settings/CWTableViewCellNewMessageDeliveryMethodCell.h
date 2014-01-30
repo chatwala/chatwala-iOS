@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface CWTableViewCellNewMessageDeliveryMethodCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UISegmentedControl *deliveryMethodSegmentedControl;
 
 @end

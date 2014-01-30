@@ -557,6 +557,8 @@
 				0D1DAEA91891809D0051D7AE /* CWSettingsViewController.h */,
 				0D1DAEAA1891809D0051D7AE /* CWSettingsViewController.m */,
 				0D1DAEAB1891809D0051D7AE /* CWSettingsViewController.xib */,
+				368BE276189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.h */,
+				368BE277189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m */,
 				0D1DAEAC1891809D0051D7AE /* CWTermsViewController.h */,
 				0D1DAEAD1891809D0051D7AE /* CWTermsViewController.m */,
 				0D1DAEAE1891809D0051D7AE /* CWTermsViewController.xib */,
@@ -571,8 +573,6 @@
 				9AC88A961892E7790006EE61 /* CWAskForImprovementMsgViewController.h */,
 				9AC88A971892E7790006EE61 /* CWAskForImprovementMsgViewController.m */,
 				9AC88A981892E7790006EE61 /* CWAskForImprovementMsgViewController.xib */,
-				368BE276189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.h */,
-				368BE277189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
