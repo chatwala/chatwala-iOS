@@ -238,4 +238,9 @@ NSString * const kNewMessageDeliveryMethodValueEmail = @"email";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (BOOL) newMessageDeliveryMethodIsSMS
+{
+    return [[self newMessageDeliveryMethod] isEqualToString:kNewMessageDeliveryMethodValueSMS];
+}
+
 @end

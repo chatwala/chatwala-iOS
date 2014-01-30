@@ -37,6 +37,7 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 - (NSString *)appVersionOfAppFeedbackRequest;
 - (void) didRequestAppFeedback;
 - (BOOL) shouldRequestAppFeedback;
+- (BOOL) newMessageDeliveryMethodIsSMS;
 
 
 #pragma mark - blocks for fetch results
