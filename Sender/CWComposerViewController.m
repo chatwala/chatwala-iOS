@@ -73,6 +73,7 @@
 - (void)startRecording
 {
     [self.middleButton setButtonState:eButtonStateStop];
+    [[[CWVideoManager sharedManager] recorder] resumeSession];
     [[[CWVideoManager sharedManager]recorder] startVideoRecording];
 }
 

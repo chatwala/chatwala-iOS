@@ -63,6 +63,7 @@
     
     
     [[[CWVideoManager sharedManager]recorder]setupSession];
+    [[[CWVideoManager sharedManager] recorder] resumeSession];
    
 }
 

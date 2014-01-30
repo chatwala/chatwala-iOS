@@ -103,7 +103,8 @@
 
 - (void) resumeSession
 {
-    if (self.session) {
+    if (self.session && !self.session
+        .isRunning) {
         //
         [self.session startRunning];
         
