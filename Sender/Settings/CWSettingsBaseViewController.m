@@ -37,7 +37,7 @@
     }
     else
     {
-        UIBarButtonItem * doneBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onFeedbackDone:)];
+        UIBarButtonItem * doneBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onSettingsDone:)];
 
         [self.navigationItem setRightBarButtonItem:doneBtn];
     }

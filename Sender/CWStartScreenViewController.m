@@ -24,6 +24,7 @@
 
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
+@property (nonatomic) UIViewController * popupModal;
 @end
 
 @implementation CWStartScreenViewController
@@ -35,6 +36,11 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void) dealloc
+{
+    [self.popupModal dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)viewDidLoad
@@ -169,6 +175,7 @@
     
     [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
     
+    self.popupModal = navController;
 }
 
 -(void)showAppFeedback
@@ -183,7 +190,7 @@
 
     [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
 
-
+    self.popupModal = navController;
 
 }
 @end

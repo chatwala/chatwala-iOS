@@ -280,7 +280,7 @@
     }
     
     [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user];
+        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
     }];
     
 }

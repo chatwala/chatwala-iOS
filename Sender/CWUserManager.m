@@ -175,7 +175,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return endPoint;
 }
 
-- (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user
+- (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user completion:(void (^)(User * user, NSError * error))completion
 {
 
     NSLog(@"thumbnail created:%@", thumbnail);
@@ -204,6 +204,10 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
             NSLog(@"Successfully upload profile picture: %@ %@", response, responseObject);
             [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:kUploadedProfilePictureKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
+        }
+        if(completion)
+        {
+            completion(user, error);
         }
     }];
     

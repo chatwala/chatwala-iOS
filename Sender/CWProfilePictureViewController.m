@@ -124,7 +124,12 @@
     if([[CWUserManager sharedInstance] hasLocalUser])
     {
         [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-            [[CWUserManager sharedInstance] uploadProfilePicture:image forUser:localUser];
+            [[CWUserManager sharedInstance] uploadProfilePicture:image forUser:localUser completion:^(User *user, NSError *error) {
+                if(!error)
+                {
+                    [[CWUserManager sharedInstance] approveProfilePicture:user];
+                }
+            }];
         }];
     }
     else
