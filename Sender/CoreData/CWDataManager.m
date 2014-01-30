@@ -124,6 +124,7 @@
     message.sender = sender;
     message.timeStamp = [NSDate date];
     message.localMessageID = [[NSUUID UUID] UUIDString];
+    message.messageID = message.localMessageID;
     
     if(incomingMessage)
     {

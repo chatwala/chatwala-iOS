@@ -12,11 +12,11 @@
 #import "CWUserManager.h"
 #import "CWUtility.h"
 #import "CWDataManager.h"
-
+#import "CWServerAPI.h"
 
 @interface CWMessageManager ()
 
-@property (nonatomic,assign) BOOL needsOriginalMessageID;
+@property (nonatomic,assign) BOOL needsMessageUploadURL;
 @property (nonatomic,strong) NSString *tempUploadURLString;
 @property (nonatomic,strong) NSString *originalMessageURL;
 @property (nonatomic,strong) AFHTTPRequestOperation *messageIDOperation;
@@ -38,7 +38,7 @@
     self = [super init];
     if (self) {
         useLocalServer = NO;
-        self.needsOriginalMessageID = YES;
+        self.needsMessageUploadURL = YES;
     }
     return self;
 }
@@ -89,6 +89,8 @@
 - (NSString *)putUserProfileEndPoint {
     return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
 }
+
+
 
 - (AFDownloadTaskDestinationBlock) downloadURLDestinationBlock {
     
@@ -262,8 +264,8 @@
 
 #pragma mark - MessageID Server Fetches
 
-- (void) fetchMessageIDForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock
-{
+- (void)fetchMessageIDForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock
+ {
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
@@ -271,19 +273,15 @@
     NSDictionary *params = @{@"sender_id" : message.sender.userID,
                              @"recipient_id" : message.recipient.userID};
     
-    [manager POST:self.messagesEndPoint parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        // Nothing needed here
-        // Should we change this to not use multipart then?
-    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
+    NSString *endPoint = [NSString stringWithFormat:@"%@/%@", self.messagesEndPoint, message.messageID];
+     
+    [manager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Fetched new message upload ID: %@: and URL: %@",self.tempUploadURLString, self.originalMessageURL);
         
         if (completionBlock) {
-            completionBlock([responseObject valueForKey:@"message_id"], [responseObject valueForKey:@"url"]);
+            completionBlock([responseObject valueForKey:@"sasUrl"], [NSString stringWithFormat:@"http://chatwala.com/?%@",message.messageID]);
         }
-        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
         NSLog(@"Failed to fetch message ID from the server for a reply with error:%@",error);
@@ -293,7 +291,6 @@
             completionBlock(nil, nil);
         }
     }];
-    
 }
 
 - (void)fetchOriginalUploadURLWithSender:(User *)localUser messageID:(NSString *)messageID completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
@@ -301,7 +298,7 @@
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
 
     // Check if we already have unused messageID we fetched earlier - return that
-    if (!self.needsOriginalMessageID && [self.tempUploadURLString length] && [self.originalMessageURL length]) {
+    if (!self.needsMessageUploadURL && [self.tempUploadURLString length] && [self.originalMessageURL length]) {
         if (completionBlock) {
             completionBlock(self.tempUploadURLString, self.originalMessageURL);
         }
@@ -329,7 +326,7 @@
     
     self.messageIDOperation = [manager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        self.needsOriginalMessageID = NO;
+        self.needsMessageUploadURL = NO;
         self.tempUploadURLString = [responseObject valueForKey:@"sasUrl"];
         self.originalMessageURL = [NSString stringWithFormat:@"http://chatwala.com/?%@",messageID];
         
@@ -342,7 +339,7 @@
         self.messageIDOperation = nil;
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        self.needsOriginalMessageID = YES;
+        self.needsMessageUploadURL = YES;
         NSLog(@"Error retrieving message ID or URL from the server");
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
@@ -370,84 +367,20 @@
     
     NSString * endPoint = uploadURLString;
     NSLog(@"uploading message: %@",endPoint);
-    NSURL *URL = [NSURL URLWithString:endPoint];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    [request setHTTPMethod:@"PUT"];
     
-    //NSDictionary *fileDictionary = [[NSFileManager defaultManager] fileAttributesAtPath:messageToUpload.zipURL.path traverseLink:YES];
-    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:messageToUpload.zipURL.path error:nil] fileSize];
-    
-    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
-    [request addValue:@"BlockBlob" forHTTPHeaderField:@"x-ms-blob-type"];
-    [request addValue:[NSString stringWithFormat:@"%llu",fileSize] forHTTPHeaderField:@"content-length"];
-    
-    
-    AFURLSessionManager *mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    
-    NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        
-        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        if ([httpResponse statusCode] != 201) {
-            NSLog(@"Error during message upload: %@", error);
-            NSLog(@"Response : %@", response);
-            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
-        } else {
-            NSLog(@"Successful message upload: %@ %@", response, responseObject);
-        }
-    }];
-    
-    // After this we'll need a different endpoint for upload if we cancel or kill the app
-    
-    if (!isReplyMessage) {
-        self.needsOriginalMessageID = YES;
-    }
-    
-    
-    [task resume];
-}
-
-- (void)uploadMessage:(Message *)messageToUpload isReply:(BOOL)isReplyMessage {
-
-    NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
-    
-    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] getMessageEndPoint], messageToUpload.messageID];
-    NSLog(@"uploading message: %@",endPoint);
-    NSURL *URL = [NSURL URLWithString:endPoint];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    [request setHTTPMethod:@"PUT"];
-
-    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
-    
-    AFURLSessionManager *mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    
-    NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        
+    [CWServerAPI uploadMessage:messageToUpload toURL:endPoint withCompletionBlock:^(NSError *error) {
         if (error) {
             NSLog(@"Error during message upload: %@", error);
-            NSLog(@"Response : %@", response);
-            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
-        } else {
-            NSLog(@"Successful message upload: %@ %@", response, responseObject);
+        }
+        else {
+            NSLog(@"Successful message upload - messageID: %@", messageToUpload.messageID);
         }
     }];
     
     // After this we'll need a different endpoint for upload if we cancel or kill the app
     
     if (!isReplyMessage) {
-        self.needsOriginalMessageID = YES;
+        self.needsMessageUploadURL = YES;
     }
-    
-    
-    [task resume];
 }
-
-- (void)updateProgressView:(NSNumber*)p
-{
-//    [SVProgressHUD showProgress:p.floatValue status:@"loading message"];
-    CWMessageCell *cell = (CWMessageCell *)[messageTable cellForRowAtIndexPath:selectedIndexPath];
-    [cell setProgress:p.floatValue];
-}
-
 @end

@@ -7,4 +7,4 @@
 //
 
 
-#define USE_DEV_SERVER    1
+#define USE_SANDBOX_SERVER    1

@@ -211,34 +211,29 @@
         // Responding to an incoming message
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
         
-        [[CWMessageManager sharedInstance] fetchMessageIDForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
-            if (messageID && messageURL) {
-                message.messageID = messageID;
+        [[CWMessageManager sharedInstance] fetchMessageIDForReplyToMessage:message completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
+            if (sasURL && messageURL) {
                 message.messageURL = messageURL;
-                
                 [message exportZip];
-                [[CWMessageManager sharedInstance] uploadMessage:message isReply:YES];
+                
+                [[CWMessageManager sharedInstance] uploadMessage:message toURL:sasURL isReply:YES];
                 [self.sendButton setButtonState:eButtonStateShare];
                 [self didSendMessage];
                 [CWAnalytics event:@"SENT_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
             }
             else {
-                if(!messageID)
+                if(!sasURL)
                 {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageID"];
-                }
-                else if(!messageID)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageURL"];
+                    [SVProgressHUD showErrorWithStatus:@"Message upload link not recieved."];
                 }
             }
         }];
         
     }else{
-        // Original message send
+        // New conversation starter message
         
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
-//        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser messcompletionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
+
         [[CWMessageManager sharedInstance] fetchOriginalUploadURLWithSender:localUser messageID:message.localMessageID completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
            
             if (sasURL && messageURL) {

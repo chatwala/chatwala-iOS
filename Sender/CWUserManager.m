@@ -10,7 +10,7 @@
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
 #import "CWUtility.h"
-
+#import "CWServerAPI.h"
 #import "CWGroundControlManager.h"
 
 
@@ -47,9 +47,6 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
 
         if (!self.localUser) {
             [self createNewLocalUser];
-        }
-        else {
-            //[self registerUserWithCompletionBlock:nil];
         }
     }
     return self;
@@ -98,8 +95,6 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
 
     [[NSUserDefaults standardUserDefaults]setValue:newUserID forKey:UserIdDefaultsKey];
     [[NSUserDefaults standardUserDefaults]synchronize];
-    
-    //[self registerUserWithCompletionBlock:nil];
 }
 
 - (BOOL)hasProfilePicture:(User *) user {
@@ -120,48 +115,19 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
     return endPoint;
 }
 
-- (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user
-{
-    NSString * const uploadedProfilePicture = @"profilePictureKey";
-
-    NSLog(@"thumbnail created:%@", thumbnail);
-    
-    NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"thumbnailImage.png"];
-    [UIImageJPEGRepresentation(thumbnail, 1.0) writeToURL:thumbnailURL atomically:YES];
-    
-    NSString * user_id = user.userID;
-    
-    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
-    NSLog(@"uploading profile image: %@",endPoint);
-    NSURL *URL = [NSURL URLWithString:endPoint];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    [request setHTTPMethod:@"PUT"];
-    
-    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
-    
-    AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
-    
-    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
-        //
+- (void)uploadProfilePicture:(UIImage *)thumbnail forUser:(User *) user {
+    [CWServerAPI uploadProfilePicture:thumbnail forUserID:user.userID withCompletionBlock:^(NSError *error) {
         if (error) {
             NSLog(@"Error: %@", error);
             [SVProgressHUD showErrorWithStatus:error.localizedDescription];
         } else {
-            NSLog(@"Successfully upload profile picture: %@ %@", response, responseObject);
+            NSLog(@"Successfully upload profile picture for userID: %@", user.userID);
+            NSString * const uploadedProfilePicture = @"profilePictureKey";
+
             [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:uploadedProfilePicture];
             [[NSUserDefaults standardUserDefaults] synchronize];
         }
     }];
-    
-    [task resume];
-
-}
-
-- (void)registerUserWithCompletionBlock:(CWUserManagerRegisterUserCompletionBlock)completionBlock {
-    
-    
-    //[self registerUserWithPushToken:nil withCompletionBlock:completionBlock];
-    
 }
 
 

@@ -25,6 +25,7 @@
 		0D200AD318918C4D008C2238 /* CWInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ACF18918C4D008C2238 /* CWInboxViewController.m */; };
 		0D200AD418918C4D008C2238 /* CWInboxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D200AD018918C4D008C2238 /* CWInboxViewController.xib */; };
 		0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AD218918C4D008C2238 /* CWMessageCell.m */; };
+		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
 		206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */; };
 		206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8718808F27007F3532 /* AOFetchUtilities.m */; };
 		206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8918808F27007F3532 /* AOManagedObject.m */; };
@@ -250,6 +251,8 @@
 		0D200AD018918C4D008C2238 /* CWInboxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWInboxViewController.xib; sourceTree = "<group>"; };
 		0D200AD118918C4D008C2238 /* CWMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageCell.h; sourceTree = "<group>"; };
 		0D200AD218918C4D008C2238 /* CWMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCell.m; sourceTree = "<group>"; };
+		0D4586E2189AC591006BB737 /* CWServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWServerAPI.h; sourceTree = "<group>"; };
+		0D4586E3189AC591006BB737 /* CWServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWServerAPI.m; sourceTree = "<group>"; };
 		206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOCoreDataStackUtilities.m; sourceTree = "<group>"; };
 		206CDF8618808F27007F3532 /* AOFetchUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOFetchUtilities.h; sourceTree = "<group>"; };
 		206CDF8718808F27007F3532 /* AOFetchUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOFetchUtilities.m; sourceTree = "<group>"; };
@@ -536,6 +539,8 @@
 				0D200AC2189186A0008C2238 /* UIColor+Additions.m */,
 				0D1979AE18936E9F00379DD5 /* CWPushNotificationsAPI.h */,
 				0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */,
+				0D4586E2189AC591006BB737 /* CWServerAPI.h */,
+				0D4586E3189AC591006BB737 /* CWServerAPI.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1437,6 +1442,7 @@
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
 				36AF583F187DF0AB00C5C13F /* _Message.m in Sources */,
 				206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */,
+				0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */,
 				36AF5834187DF0A200C5C13F /* Message.m in Sources */,
 				0D1DAEAF1891809D0051D7AE /* CWPrivacyViewController.m in Sources */,
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,
