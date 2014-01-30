@@ -61,7 +61,7 @@
     return @"http://chatwala-deveast.azurewebsites.net";
 #elif USE_DEV_SERVER
     return @"http://chatwala-deveast.azurewebsites.net";
-#elif SANDBOX
+#elif USE_SANDBOX_SERVER
     return @"http://chatwala-sandbox.azurewebsites.net";
 #else
     return @"http://chatwala-prodeast.azurewebsites.net";
