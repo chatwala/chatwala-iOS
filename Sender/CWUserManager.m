@@ -146,7 +146,19 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     });
 }
 
-- (BOOL) hasProfilePicture:(User *) user
+- (BOOL) hasApprovedProfilePicture:(User *) user
+{
+    BOOL approved = [[NSUserDefaults standardUserDefaults] boolForKey:kApprovedProfilePictureKey];
+    return approved;
+}
+
+- (void) approveProfilePicture:(User *) user
+{
+    [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:kApprovedProfilePictureKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL) hasUploadedProfilePicture:(User *) user
 {
     if([[[NSUserDefaults standardUserDefaults] objectForKey:kUploadedProfilePictureKey] boolValue])
     {

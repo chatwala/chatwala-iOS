@@ -123,13 +123,15 @@
             [self.messageSentView setAlpha:0];
         } completion:nil];
         
-        //show the profile picture
-        [self showProfilePictureWasUploaded];
-        
-        //ask for app feedback
         [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-            if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
+            if(![[CWUserManager sharedInstance] hasApprovedProfilePicture:localUser])
             {
+                //show the profile picture
+                [self showProfilePictureWasUploaded];
+            }
+            else if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
+            {
+                //ask for app feedback
                 [weakSelf showAppFeedback];
                 [[CWUserManager sharedInstance] didRequestAppFeedback];
             }

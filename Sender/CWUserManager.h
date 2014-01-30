@@ -31,8 +31,10 @@ typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operati
 - (BOOL) hasLocalUser;
 - (void) localUser:(void (^)(User *localUser)) completion;
 
+- (BOOL) hasApprovedProfilePicture:(User *) user;
+- (void) approveProfilePicture:(User *) user;
 - (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user;
-- (BOOL) hasProfilePicture:(User *) user;
+- (BOOL) hasUploadedProfilePicture:(User *) user;
 - (NSString *) getProfilePictureEndPointForUser:(User *) user;
 - (NSString *)appVersionOfAppFeedbackRequest;
 - (void) didRequestAppFeedback;

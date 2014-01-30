@@ -274,7 +274,7 @@
 - (void) uploadProfilePictureForUser:(User *) user
 {
     
-    if([[CWUserManager sharedInstance] hasProfilePicture:user])
+    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user])
     {
         return;//already did this
     }
