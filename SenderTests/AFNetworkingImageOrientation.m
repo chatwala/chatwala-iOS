@@ -45,6 +45,7 @@
 
     id mockResponse = [OCMockObject niceMockForClass:[NSHTTPURLResponse class]];
     [[[self.mockSUT stub] andReturnValue:@YES] validateResponse:OCMOCK_ANY data:OCMOCK_ANY error:nil];
+    [[[mockResponse stub] andReturn:@"image/jpeg"] MIMEType];
     
     //when
     UIImage * actual = [self.sut responseObjectForResponse:mockResponse data:imageData error:nil];
