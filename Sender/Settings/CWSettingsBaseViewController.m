@@ -7,6 +7,7 @@
 //
 
 #import "CWSettingsBaseViewController.h"
+#import "UIColor+Additions.h"
 
 @interface CWSettingsBaseViewController ()
 
