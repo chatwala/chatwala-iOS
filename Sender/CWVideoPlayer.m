@@ -29,7 +29,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVURLAsset *asset;
 
-@property (nonatomic, strong) UIImage * thumbnail;
+@property (nonatomic, strong) UIImage * profilePicture;
 @end
 
 
@@ -65,7 +65,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
 - (void)setVideoURL:(NSURL *)URL
 {
     _videoURL = URL;
-    self.thumbnail = nil;
+    self.profilePicture = nil;
     // check if video file exists
     BOOL videoFileExists = [[NSFileManager defaultManager] fileExistsAtPath:URL.path];
     if (!videoFileExists) {
@@ -219,11 +219,11 @@ NSString * const kCurrentItemKey	= @"currentItem";
 
 - (void) createThumbnailWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
 {
-    if(self.thumbnail)
+    if(self.profilePicture)
     {
         if(completionHandler)
         {
-            completionHandler(self.thumbnail);
+            completionHandler(self.profilePicture);
         }
         return;
     }
@@ -235,8 +235,8 @@ NSString * const kCurrentItemKey	= @"currentItem";
                                          completionHandler:^(CMTime requestedTime, CGImageRef image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error) {
                                                       if(result == AVAssetImageGeneratorSucceeded)
                                                       {
-                                                          self.thumbnail = [UIImage imageWithCGImage:image scale:1.0 orientation:UIImageOrientationUp];
-                                                          completionHandler(self.thumbnail);
+                                                          self.profilePicture = [UIImage imageWithCGImage:image scale:1.0 orientation:UIImageOrientationUp];
+                                                          completionHandler(self.profilePicture);
                                                       }
                                                   }];
     
