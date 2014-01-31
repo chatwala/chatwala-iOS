@@ -67,6 +67,8 @@
                                              selector:@selector(appHasGoneInBackground:)
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
+    
+    self.incomingMessageStillImageView.image = self.incomingMessage.lastFrameImage;
 }
 
 - (void)dealloc

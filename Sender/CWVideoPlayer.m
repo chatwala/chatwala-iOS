@@ -227,11 +227,21 @@ NSString * const kCurrentItemKey	= @"currentItem";
         }
         return;
     }
-    
-    
+    [self createStillsForTime:kCMTimeZero withCompletionHandler:completionHandler];
+}
+
+- (void) createStillForLastFrameWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
+{
+    NSAssert(self.asset, @"expecting asset to be set");
+    CMTime lastFrame = self.asset.duration;
+    [self createStillsForTime:lastFrame withCompletionHandler:completionHandler];
+}
+
+- (void) createStillsForTime:(CMTime) time withCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
+{
     AVAssetImageGenerator * imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:self.asset];
     imageGenerator.appliesPreferredTrackTransform = YES;
-    [imageGenerator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:kCMTimeZero]]
+    [imageGenerator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:time]]
                                          completionHandler:^(CMTime requestedTime, CGImageRef image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error) {
                                                       if(result == AVAssetImageGeneratorSucceeded)
                                                       {

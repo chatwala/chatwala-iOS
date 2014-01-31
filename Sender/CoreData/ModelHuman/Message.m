@@ -13,6 +13,7 @@
 @implementation Message
 @synthesize videoURL;
 @synthesize zipURL;
+@synthesize lastFrameImage;
 
 // Custom logic goes here.
 

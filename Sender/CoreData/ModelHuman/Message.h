@@ -32,6 +32,7 @@ typedef enum eMessageViewedState
 
 @property (nonatomic, strong) NSURL * videoURL;//not core data backed.
 @property (nonatomic, strong) NSURL * zipURL;//not saved in core data
+@property (nonatomic, strong) UIImage * lastFrameImage; //not saved in core data
 
 - (eMessageViewedState) eMessageViewedState;
 - (void) setEMessageViewedState:(eMessageViewedState) eViewedState;
