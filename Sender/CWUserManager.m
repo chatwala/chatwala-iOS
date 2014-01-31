@@ -222,7 +222,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
         return NO;
     }
     NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold] integerValue];
-    if(self.localUser.messagesSent.count <= requestAppFeedbackThreshold)
+    if(self.localUser.messagesSent.count < requestAppFeedbackThreshold)
     {
         return NO;
     }
