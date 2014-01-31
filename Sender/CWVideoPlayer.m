@@ -217,7 +217,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
 
 #pragma mark - generate thumbnail
 
-- (void) createThumbnailWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
+- (void) createProfilePictureThumbnailWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
 {
     if(self.profilePicture)
     {
@@ -241,6 +241,8 @@ NSString * const kCurrentItemKey	= @"currentItem";
                                                   }];
     
 }
+
+
 
 
 #pragma mark - Key Valye Observing

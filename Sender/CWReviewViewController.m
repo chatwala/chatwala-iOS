@@ -279,7 +279,7 @@
         return;//already did this
     }
     
-    [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
         [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
     }];
     
