@@ -59,8 +59,9 @@
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
+    __weak CWAskForImprovementMsgViewController* weakSelf = self;
     [controller dismissViewControllerAnimated:YES completion:^{
-        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+        [weakSelf.navigationController popToRootViewControllerAnimated:YES];
     }];
 }
 
