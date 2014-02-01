@@ -217,21 +217,18 @@
         // Responding to an incoming message
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
         
-        [[CWMessageManager sharedInstance] fetchUploadURLForReplyToMessage:message completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
-            if (sasURL && messageURL) {
-                message.messageURL = messageURL;
+        [[CWMessageManager sharedInstance] fetchUploadURLForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString) {
+            if (messageID && uploadURLString ) {
+                message.messageID = messageID;
                 [message exportZip];
                 
-                [[CWMessageManager sharedInstance] uploadMessage:message toURL:sasURL isReply:YES];
+                [[CWMessageManager sharedInstance] uploadMessage:message toURL:uploadURLString isReply:YES];
                 [self.sendButton setButtonState:eButtonStateShare];
                 [self didSendMessage];
                 [CWAnalytics event:@"SENT_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
             }
             else {
-                if(!sasURL)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"Message upload link not recieved."];
-                }
+                [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
             }
         }];
         
@@ -240,22 +237,18 @@
         
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
 
-        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:localUser messageID:message.messageID completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
-           
-            if (sasURL && messageURL) {
-
-                message.messageURL = messageURL;
+        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:localUser completionBlockOrNil:^(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString) {
+            if (uploadURLString && messageID && downloadURLString) {
                 
-                [self composeMessageWithMessageKey:messageURL withCompletion:^{
+                message.messageID = messageID;
+                
+                [self composeMessageWithMessageKey:downloadURLString withCompletion:^{
                     [message exportZip];
-                    [[CWMessageManager sharedInstance] uploadMessage:message toURL:sasURL isReply:NO];
+                    [[CWMessageManager sharedInstance] uploadMessage:message toURL:uploadURLString isReply:NO];
                 }];
             }
             else {
-                if(!sasURL)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"Message upload link not recieved."];
-                }
+                [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
             }
         }];
     }

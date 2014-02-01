@@ -18,7 +18,8 @@
 
 @property (nonatomic,assign) BOOL needsMessageUploadURL;
 @property (nonatomic,strong) NSString *tempUploadURLString;
-@property (nonatomic,strong) NSString *originalMessageURL;
+@property (nonatomic,strong) NSString *tempMessageID;
+@property (nonatomic,strong) NSString *tempDownloadURLString;
 @property (nonatomic,strong) AFHTTPRequestOperation *messageIDOperation;
 
 @end
@@ -263,8 +264,8 @@
 }
 
 #pragma mark - MessageID Server Fetches
-
-- (void)fetchUploadURLForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock
+//, [NSString stringWithFormat:@"http://chatwala.com/?%@",message.messageID]
+- (void)fetchUploadURLForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock
  {
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -273,13 +274,16 @@
     NSDictionary *params = @{@"sender_id" : message.sender.userID,
                              @"recipient_id" : message.recipient.userID};
     
-    NSString *endPoint = [NSString stringWithFormat:@"%@/%@", self.messagesEndPoint, message.messageID];
+    NSString *newMessageID = [self generateMessageID];
+    NSString *endPoint = [NSString stringWithFormat:@"%@/%@", self.messagesEndPoint, newMessageID];
      
     [manager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Fetched new message upload ID: %@: and URL: %@",self.tempUploadURLString, self.originalMessageURL);
+
+        NSString *sasUploadUrl = [responseObject valueForKey:@"sasUrl"];
         
+        NSLog(@"Fetched new message upload URL: %@ for messageID: %@", sasUploadUrl, newMessageID);
         if (completionBlock) {
-            completionBlock([responseObject valueForKey:@"sasUrl"], [NSString stringWithFormat:@"http://chatwala.com/?%@",message.messageID]);
+            completionBlock(newMessageID, sasUploadUrl, [responseObject valueForKey:@"url"]);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
@@ -288,19 +292,23 @@
         NSLog(@"operation:%@",operation);
         
         if (completionBlock) {
-            completionBlock(nil, nil);
+            completionBlock(nil, nil, nil);
         }
     }];
 }
 
-- (void)fetchUploadURLForOriginalMessage:(User *)localUser messageID:(NSString *)messageID completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
+- (NSString *)generateMessageID {
+    return [[NSUUID UUID] UUIDString];
+}
+
+- (void)fetchUploadURLForOriginalMessage:(User *)localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
     
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
 
     // Check if we already have unused messageID we fetched earlier - return that
-    if (!self.needsMessageUploadURL && [self.tempUploadURLString length] && [self.originalMessageURL length]) {
+    if (!self.needsMessageUploadURL && [self.tempUploadURLString length] && [self.tempMessageID length] && self.tempDownloadURLString) {
         if (completionBlock) {
-            completionBlock(self.tempUploadURLString, self.originalMessageURL);
+            completionBlock(self.tempMessageID, self.tempUploadURLString, self.tempDownloadURLString);
         }
         
         return;
@@ -311,7 +319,8 @@
     [self.messageIDOperation cancel];
     
     self.tempUploadURLString = nil;
-    self.originalMessageURL = nil;
+    self.tempMessageID = nil;
+    self.tempDownloadURLString = nil;
     self.messageIDOperation = nil;
     
     
@@ -322,18 +331,20 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
-    NSString *endPoint = [NSString stringWithFormat:@"%@/%@", self.messagesEndPoint, messageID];
+    NSString *newMessageID = [self generateMessageID];
+    NSString *endPoint = [NSString stringWithFormat:@"%@/%@", self.messagesEndPoint, newMessageID];
     
     self.messageIDOperation = [manager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         self.needsMessageUploadURL = NO;
         self.tempUploadURLString = [responseObject valueForKey:@"sasUrl"];
-        self.originalMessageURL = [NSString stringWithFormat:@"http://chatwala.com/?%@",messageID];
+        self.tempDownloadURLString = [responseObject valueForKey:@"url"];
+        self.tempMessageID = newMessageID;
         
-        NSLog(@"Fetched new message upload ID: %@: and URL: %@",self.tempUploadURLString, self.originalMessageURL);
+        NSLog(@"Fetched new message upload URL: %@: for new original message ID: %@",self.tempUploadURLString, self.tempMessageID);
         
         if (completionBlock) {
-            completionBlock(self.tempUploadURLString, self.originalMessageURL);
+            completionBlock(self.tempMessageID, self.tempUploadURLString, self.tempDownloadURLString);
         }
         
         self.messageIDOperation = nil;
@@ -347,18 +358,11 @@
         NSLog(@"operation:%@",operation);
         
         if (completionBlock) {
-            completionBlock(nil,nil);
+            completionBlock(nil,nil,nil);
         }
         
         self.messageIDOperation = nil;
-
     }];
-}
-
-- (void)fetchUploadDetailsWithCompletionBlock:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
-
-    // POST to /messagse/:id:/getUploadURL
-    // expects a SAS URL which can be used to upload
 }
 
 - (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString isReply:(BOOL)isReplyMessage {
@@ -386,4 +390,8 @@
         self.needsMessageUploadURL = YES;
     }
 }
+
+#pragma mark - Helpers
+
+
 @end

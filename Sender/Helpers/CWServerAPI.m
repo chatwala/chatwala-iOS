@@ -18,6 +18,8 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
 
 @implementation CWServerAPI
 
+#pragma mark - Upload API methods
+
 + (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock {
 
     NSString * endPoint = uploadURLString;
@@ -148,6 +150,8 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
     }];
     
 }
+
+#pragma mark - Push Notification & finalization calls 
 
 + (void)registerPushForUserID:(NSString *)userID withPushToken:(NSString *)pushToken withCompletionBlock:(CWServerPushRegisterCompletionBlock)completionBlock {
     
