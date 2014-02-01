@@ -20,6 +20,12 @@ NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 
 NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
 NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBACK_REQUESTED";
+NSString * const kNewMessageDeliveryMethodKey = @"kNewMessageDeliveryMethodKey";
+NSString * const kNewMessageDeliveryMethodValueSMS = @"SMS";
+NSString * const kNewMessageDeliveryMethodValueEmail = @"email";
+
+NSString * const kUploadedProfilePictureKey = @"profilePictureKey";
+NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 
 @interface CWUserManager()
@@ -97,10 +103,26 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
     [[NSUserDefaults standardUserDefaults]synchronize];
 }
 
-- (BOOL)hasProfilePicture:(User *) user {
+- (BOOL) hasApprovedProfilePicture:(User *) user
+{
+    BOOL approved = [[NSUserDefaults standardUserDefaults] boolForKey:kApprovedProfilePictureKey];
+    return approved;
+}
 
-    NSString * const uploadedProfilePicture = @"profilePictureKey";
-    if([[[NSUserDefaults standardUserDefaults] objectForKey:uploadedProfilePicture] boolValue])
+- (void) approveProfilePicture:(User *) user {
+    
+    if (!user) {
+        return;
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:kApprovedProfilePictureKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL) hasUploadedProfilePicture:(User *) user
+{
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:kUploadedProfilePictureKey] boolValue])
+
     {
         return YES;
     }
@@ -115,17 +137,33 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
     return endPoint;
 }
 
-- (void)uploadProfilePicture:(UIImage *)thumbnail forUser:(User *) user {
+
+
+
+- (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user completion:(void (^)(NSError * error))completionBlock {
+    
+    if (![user.userID length]) {
+        return;
+    }
+    
     [CWServerAPI uploadProfilePicture:thumbnail forUserID:user.userID withCompletionBlock:^(NSError *error) {
+
         if (error) {
             NSLog(@"Error: %@", error);
+            
             [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+            if (completionBlock) {
+                completionBlock(error);
+            }
         } else {
-            NSLog(@"Successfully upload profile picture for userID: %@", user.userID);
-            NSString * const uploadedProfilePicture = @"profilePictureKey";
 
-            [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:uploadedProfilePicture];
+            NSLog(@"Successfully upload profile picture for user: %@", user.userID);
+            [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:kUploadedProfilePictureKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
+            
+            if (completionBlock) {
+                completionBlock(nil);
+            }
         }
     }];
 }
@@ -138,7 +176,7 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
         return NO;
     }
     NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold] integerValue];
-    if(self.localUser.messagesSent.count <= requestAppFeedbackThreshold)
+    if(self.localUser.messagesSent.count < requestAppFeedbackThreshold)
     {
         return NO;
     }
@@ -157,6 +195,23 @@ NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBAC
 {
     NSString* appVersionWhenFeedbackRequested = [[NSUserDefaults standardUserDefaults] stringForKey:kAppVersionOfFeedbackRequestedKey];
     return appVersionWhenFeedbackRequested;
+}
+
+- (NSString *) newMessageDeliveryMethod
+{
+    NSString * value = [[NSUserDefaults standardUserDefaults] objectForKey:kNewMessageDeliveryMethodKey];
+    return value ? value:kNewMessageDeliveryMethodValueSMS;
+}
+
+- (void) setNewMessageDeliveryMethod:(NSString *)newMessageDeliveryMethod
+{
+    [[NSUserDefaults standardUserDefaults] setObject:newMessageDeliveryMethod forKey:kNewMessageDeliveryMethodKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (BOOL) newMessageDeliveryMethodIsSMS
+{
+    return [[self newMessageDeliveryMethod] isEqualToString:kNewMessageDeliveryMethodValueSMS];
 }
 
 @end

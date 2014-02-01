@@ -7,6 +7,7 @@
 //
 
 #import "CWSettingsBaseViewController.h"
+#import "UIColor+Additions.h"
 
 @interface CWSettingsBaseViewController ()
 
@@ -37,7 +38,7 @@
     }
     else
     {
-        UIBarButtonItem * doneBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onFeedbackDone:)];
+        UIBarButtonItem * doneBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onSettingsDone:)];
 
         [self.navigationItem setRightBarButtonItem:doneBtn];
     }
@@ -75,7 +76,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)onFeedbackDone:(id)sender
+-(void)onSettingsDone:(id)sender
 {
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }

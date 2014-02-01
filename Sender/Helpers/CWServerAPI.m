@@ -191,9 +191,9 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
 
 + (void)finalizeMessage:(Message *)uploadedMessage {
     
-    NSDictionary *params = nil;
-    params =   @{@"sender_id" : uploadedMessage.sender.userID,
-                 @"recipient_id" : uploadedMessage.recipient.userID};
+    NSString *recipientID = (uploadedMessage.recipient.userID ? uploadedMessage.recipient.userID : @"unknown_recipient");
+    NSDictionary *params = @{@"sender_id" : uploadedMessage.sender.userID,
+                 @"recipient_id" : recipientID};
 
 
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];

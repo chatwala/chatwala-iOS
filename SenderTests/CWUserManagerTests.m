@@ -257,7 +257,7 @@
     BOOL actual = [self.sut shouldRequestAppFeedback];
     
     //should
-    XCTAssertTrue(actual, @"expecting the function to return YES");
+    XCTAssertTrue(actual, @"expecting the function to return YES when you have %i sent messages and the threshold is %i", numberOfSentMessages, numberOfSentMessagesThreshold);
     
     //cleanup
     [mockGroundControl stopMocking];

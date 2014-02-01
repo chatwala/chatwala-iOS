@@ -67,6 +67,8 @@
                                              selector:@selector(appHasGoneInBackground:)
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
+    
+    self.incomingMessageStillImageView.image = self.incomingMessage.lastFrameImage;
 }
 
 - (void)dealloc
@@ -115,37 +117,41 @@
 
 
 - (void)composeMessageWithMessageKey:(NSString*)messageURL withCompletion:(void (^)(void))completion {
-    
-    if([MFMessageComposeViewController canSendText]) {
-        self.messageComposer = [[MFMessageComposeViewController alloc] init];
-        [self.messageComposer  setMessageComposeDelegate:self];
-        [self.messageComposer  setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
-        [self.messageComposer  setBody:[NSString stringWithFormat:@"Hey, I sent you a video message on Chatwala: %@",messageURL]];
-        
-        [self presentViewController:self.messageComposer   animated:YES completion:completion];
+
+    NSString* messageBody = [NSString stringWithFormat:@"Hey, I sent you a video message on Chatwala: %@",messageURL];
+    if ([[CWUserManager sharedInstance] newMessageDeliveryMethodIsSMS])
+    {
+        if([MFMessageComposeViewController canSendText] ) {
+            self.messageComposer = [[MFMessageComposeViewController alloc] init];
+            [self.messageComposer  setMessageComposeDelegate:self];
+            [self.messageComposer  setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
+            [self.messageComposer  setBody:messageBody];
+
+            [self presentViewController:self.messageComposer   animated:YES completion:completion];
+        }
+        else {
+            [SVProgressHUD showErrorWithStatus:@"SMS/iMessage currently unavailable"];
+        }
     }
-    else {
-        [SVProgressHUD showErrorWithStatus:@"SMS/iMessage currently unavailable"];
+    else
+    {
+        if ([MFMailComposeViewController canSendMail]) {
+            // MAIL
+            self.mailComposer = [[MFMailComposeViewController alloc] init];
+            [self.mailComposer setMailComposeDelegate:self];
+            [self.mailComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
+
+            [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
+            [[self mailComposer]  setMessageBody:messageBody isHTML:NO];
+
+            //    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
+            [self presentViewController:[self mailComposer]  animated:YES completion:completion];
+        }
+        else
+        {
+            [SVProgressHUD showErrorWithStatus:@"Email currently unavailable"];
+        }
     }
-    
-    /*
-    // MAIL
-    self.mailComposer = [[MFMailComposeViewController alloc] init];
-    [self.mailComposer setMailComposeDelegate:self];
-    [self.mailComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
-    
-    
-    if (self.incomingMessageItem.metadata.senderId) {
-        [[self mailComposer] setToRecipients:@[self.incomingMessageItem.metadata.senderId]];
-    }
-    
-//    [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
-    [[self mailComposer]  setMessageBody:messageURL isHTML:NO];
-    
-//    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
-    [self presentViewController:[self mailComposer]  animated:YES completion:nil];
-    
-    */
 }
 
 - (void)onTap:(id)sender
@@ -211,7 +217,7 @@
         // Responding to an incoming message
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
         
-        [[CWMessageManager sharedInstance] fetchMessageIDForReplyToMessage:message completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
+        [[CWMessageManager sharedInstance] fetchUploadURLForReplyToMessage:message completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
             if (sasURL && messageURL) {
                 message.messageURL = messageURL;
                 [message exportZip];
@@ -234,7 +240,7 @@
         
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
 
-        [[CWMessageManager sharedInstance] fetchOriginalUploadURLWithSender:localUser messageID:message.localMessageID completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
+        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:localUser messageID:message.messageID completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
            
             if (sasURL && messageURL) {
 
@@ -255,16 +261,14 @@
     }
 }
 
-- (void) uploadProfilePictureForUser:(User *) user
-{
+- (void)uploadProfilePictureForUser:(User *) user {
     
-    if([[CWUserManager sharedInstance] hasProfilePicture:user])
-    {
+    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user]) {
         return;//already did this
     }
     
-    [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user];
+    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
     }];
     
 }

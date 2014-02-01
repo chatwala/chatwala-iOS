@@ -9,9 +9,9 @@
 
 
 @implementation Message
-@synthesize localMessageID;
 @synthesize videoURL;
 @synthesize zipURL;
+@synthesize lastFrameImage;
 
 // Custom logic goes here.
 

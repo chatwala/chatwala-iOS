@@ -62,7 +62,7 @@
 
     if (shouldUseDevelopmentEnv) {
         // development
-        return @"http://chatwala-sandbox.azurewebsites.net";
+        return @"http://chatwala-deveast-13.azurewebsites.net";
     } else{
         // production
         return @"http://chatwala-prodeast.azurewebsites.net";
@@ -264,7 +264,7 @@
 
 #pragma mark - MessageID Server Fetches
 
-- (void)fetchMessageIDForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock
+- (void)fetchUploadURLForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock
  {
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -284,7 +284,7 @@
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
-        NSLog(@"Failed to fetch message ID from the server for a reply with error:%@",error);
+        NSLog(@"Failed to fetch SAS upload URL from server for reply messageID: %@ with error:%@", message.messageID, error);
         NSLog(@"operation:%@",operation);
         
         if (completionBlock) {
@@ -293,7 +293,7 @@
     }];
 }
 
-- (void)fetchOriginalUploadURLWithSender:(User *)localUser messageID:(NSString *)messageID completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
+- (void)fetchUploadURLForOriginalMessage:(User *)localUser messageID:(NSString *)messageID completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock {
     
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
 

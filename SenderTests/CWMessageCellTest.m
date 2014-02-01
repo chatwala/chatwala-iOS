@@ -187,7 +187,7 @@ const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
 - (void)testTimeStringFromDateWithWeeks
 {
     //given
-    NSInteger wholeWeeks = arc4random_uniform(52) + 1;
+    NSInteger wholeWeeks = arc4random_uniform(51) + 1;
     NSTimeInterval time = wholeWeeks * kSecondsPerWeek;
     NSString * expected = [NSString stringWithFormat:@"%iw", wholeWeeks];
     NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];

@@ -36,9 +36,9 @@ typedef void (^CWDownloadTaskCompletionBlock) (NSURLResponse *response, NSURL *f
 - (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(CWMessageDownloadCompletionBlock)completionBlock;
 
 // There are about to be removed
-- (void)fetchOriginalUploadURLWithSender:(User *)localUser messageID:(NSString *)messageID completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
+- (void)fetchUploadURLForOriginalMessage:(User *)localUser messageID:(NSString *)messageID completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 
-- (void)fetchMessageIDForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
+- (void)fetchUploadURLForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
 
 // Replaced with
 - (void)fetchUploadDetailsWithCompletionBlock:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;

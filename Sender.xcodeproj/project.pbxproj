@@ -35,6 +35,7 @@
 		366EB58C18843E4200A7FF75 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 366EB58B18843E4200A7FF75 /* UserTests.m */; };
 		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
+		368BE278189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 368BE277189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m */; };
 		36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36ACC922187F557B00314C40 /* CWDataManagerTests.m */; };
 		36AF5820187DD97000C5C13F /* human.h.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581C187DD97000C5C13F /* human.h.motemplate */; };
 		36AF5821187DD97000C5C13F /* human.m.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581D187DD97000C5C13F /* human.m.motemplate */; };
@@ -266,6 +267,8 @@
 		367439E9187F5C6200613FD6 /* MocForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MocForTests.h; sourceTree = "<group>"; };
 		367439EA187F5C6200613FD6 /* MocForTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MocForTests.m; sourceTree = "<group>"; };
 		36781C9118760591005AE1C6 /* CWMessageCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCellTest.m; sourceTree = "<group>"; };
+		368BE276189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTableViewCellNewMessageDeliveryMethodCell.h; sourceTree = "<group>"; };
+		368BE277189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWTableViewCellNewMessageDeliveryMethodCell.m; sourceTree = "<group>"; };
 		36ACC922187F557B00314C40 /* CWDataManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWDataManagerTests.m; sourceTree = "<group>"; };
 		36AF581C187DD97000C5C13F /* human.h.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.h.motemplate; sourceTree = "<group>"; };
 		36AF581D187DD97000C5C13F /* human.m.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.m.motemplate; sourceTree = "<group>"; };
@@ -548,12 +551,15 @@
 		0D1DAEA51891809D0051D7AE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				36EB6DC9188883A4005B81B4 /* ProfilePicture */,
 				0D1DAEA61891809D0051D7AE /* CWPrivacyViewController.h */,
 				0D1DAEA71891809D0051D7AE /* CWPrivacyViewController.m */,
 				0D1DAEA81891809D0051D7AE /* CWPrivacyViewController.xib */,
 				0D1DAEA91891809D0051D7AE /* CWSettingsViewController.h */,
 				0D1DAEAA1891809D0051D7AE /* CWSettingsViewController.m */,
 				0D1DAEAB1891809D0051D7AE /* CWSettingsViewController.xib */,
+				368BE276189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.h */,
+				368BE277189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m */,
 				0D1DAEAC1891809D0051D7AE /* CWTermsViewController.h */,
 				0D1DAEAD1891809D0051D7AE /* CWTermsViewController.m */,
 				0D1DAEAE1891809D0051D7AE /* CWTermsViewController.xib */,
@@ -698,6 +704,7 @@
 				36EB6DCC1888841B005B81B4 /* CWProfilePictureViewController.xib */,
 			);
 			name = ProfilePicture;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		36F3F875187C9530002CBB63 /* KillScreen */ = {
@@ -830,7 +837,6 @@
 				0D200ACD18918C4D008C2238 /* Inbox */,
 				36F3F875187C9530002CBB63 /* KillScreen */,
 				CC0C4B9D1864D3570096D5B3 /* Main */,
-				36EB6DC9188883A4005B81B4 /* ProfilePicture */,
 				0D1DAEA51891809D0051D7AE /* Settings */,
 				E990945F18620AD70050695F /* CWViewController.h */,
 				E990946018620AD70050695F /* CWViewController.m */,
@@ -1436,6 +1442,7 @@
 				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
 				E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */,
+				368BE278189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
@@ -1643,13 +1650,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CW_APP_VERSION = 1.0.6;
 				CW_BUILD_VERSION = 2.5.13;
-				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
+				CW_BUNDLE_IDENTIFIER = com.chatwala.dev;
 				CW_DISPLAY_NAME = chatwala;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "89CDDA38-8825-40E3-BBF8-17EEFD0526AF";
+				PROVISIONING_PROFILE = "E489AE05-0480-4426-A66B-DA7468310AA5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1665,13 +1672,13 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CW_APP_VERSION = 1.0.6;
 				CW_BUILD_VERSION = 2.5.13;
-				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
+				CW_BUNDLE_IDENTIFIER = com.chatwala.dev;
 				CW_DISPLAY_NAME = chatwala;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "89CDDA38-8825-40E3-BBF8-17EEFD0526AF";
+				PROVISIONING_PROFILE = "E489AE05-0480-4426-A66B-DA7468310AA5";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

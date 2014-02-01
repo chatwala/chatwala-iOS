@@ -93,11 +93,9 @@
     User *localUser = [[CWUserManager sharedInstance] localUser];
     NSOrderedSet *inboxMessages = [localUser inboxMessages];
     Message *message = [inboxMessages objectAtIndex:indexPath.row];
-    
-    NSString *messageId = message.localMessageID;
   
     if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessageWithID:)]) {
-        [self.delegate inboxViewController:self didSelectMessageWithID:messageId];
+        [self.delegate inboxViewController:self didSelectMessageWithID:message.messageID];
     }
     
 }

@@ -20,9 +20,11 @@
 #import <UIViewController+MMDrawerController.h>
 #import "CWAppFeedBackViewController.h"
 #import "CWAnalytics.h"
+#import "CWProfilePictureViewController.h"
 
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
+@property (nonatomic) UIViewController * popupModal;
 @end
 
 @implementation CWStartScreenViewController
@@ -34,6 +36,11 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void) dealloc
+{
+    [self.popupModal dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)viewDidLoad
@@ -123,8 +130,15 @@
 
         } completion:nil];
         
-        if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
+
+        if(![[CWUserManager sharedInstance] hasApprovedProfilePicture:[[CWUserManager sharedInstance] localUser]])
         {
+            //show the profile picture
+            [self showProfilePictureWasUploaded];
+        }
+        else if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
+        {
+            //ask for app feedback
             [weakSelf showAppFeedback];
             [[CWUserManager sharedInstance] didRequestAppFeedback];
         }
@@ -147,6 +161,20 @@
     [self.navigationController pushViewController:composerVC animated:NO];
 }
 
+- (void) showProfilePictureWasUploaded
+{
+    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWProfilePictureViewController alloc] init]];
+    
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    [navController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
+    
+    self.popupModal = navController;
+}
+
 -(void)showAppFeedback
 {
 
@@ -159,7 +187,7 @@
 
     [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
 
-
+    self.popupModal = navController;
 
 }
 @end
