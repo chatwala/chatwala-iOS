@@ -67,6 +67,8 @@
                                              selector:@selector(appHasGoneInBackground:)
                                                  name:UIApplicationWillResignActiveNotification
                                                object:nil];
+    
+    self.incomingMessageStillImageView.image = self.incomingMessage.lastFrameImage;
 }
 
 - (void)dealloc
@@ -211,15 +213,11 @@
         return;
     }
     
-    
     [player stop];
 
     //    [self composeMessageWithData:[self createMessageData]];
     [self.sendButton setButtonState:eButtonStateBusy];
-    
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [self sendMessageFromUser:localUser];
-    }];
+    [self sendMessageFromUser:[[CWUserManager sharedInstance] localUser]];
 }
 
 - (void)sendMessageFromUser:(User *)localUser {
@@ -232,78 +230,65 @@
         // Responding to an incoming message
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
         
-        [[CWMessageManager sharedInstance] fetchMessageIDForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
-            if (messageID && messageURL) {
-                message.messageID = messageID;
+        [[CWMessageManager sharedInstance] fetchUploadURLForReplyToMessage:message completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
+            if (sasURL && messageURL) {
                 message.messageURL = messageURL;
-                
                 [message exportZip];
-                [[CWMessageManager sharedInstance] uploadMessage:message isReply:YES];
+                
+                [[CWMessageManager sharedInstance] uploadMessage:message toURL:sasURL isReply:YES];
                 [self.sendButton setButtonState:eButtonStateShare];
                 [self didSendMessage];
                 [CWAnalytics event:@"SENT_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
             }
             else {
-                if(!messageID)
+                if(!sasURL)
                 {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageID"];
-                }
-                else if(!messageID)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageURL"];
+                    [SVProgressHUD showErrorWithStatus:@"Message upload link not recieved."];
                 }
             }
         }];
         
     }else{
-        // Original message send
+        // New conversation starter message
         
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
-        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
-            
-            if (messageID && messageURL) {
-                message.messageID = messageID;
+
+        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:localUser messageID:message.messageID completionBlockOrNil:^(NSString *sasURL, NSString *messageURL) {
+           
+            if (sasURL && messageURL) {
+
                 message.messageURL = messageURL;
                 
                 [self composeMessageWithMessageKey:messageURL withCompletion:^{
                     [message exportZip];
-                    [[CWMessageManager sharedInstance] uploadMessage:message isReply:NO];
+                    [[CWMessageManager sharedInstance] uploadMessage:message toURL:sasURL isReply:NO];
                 }];
             }
             else {
-                if(!messageID)
+                if(!sasURL)
                 {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageID"];
-                }
-                else if(!messageID)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageURL"];
+                    [SVProgressHUD showErrorWithStatus:@"Message upload link not recieved."];
                 }
             }
         }];
     }
 }
 
-- (void) uploadProfilePictureForUser:(User *) user
-{
+- (void)uploadProfilePictureForUser:(User *) user {
     
-    if([[CWUserManager sharedInstance] hasProfilePicture:user])
-    {
+    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user]) {
         return;//already did this
     }
     
-    [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user];
+    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
     }];
     
 }
 
-- (void) didSendMessage
-{
+- (void) didSendMessage {
     
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [self uploadProfilePictureForUser:localUser];
-    }];
+    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
     
     self.incomingMessage.eMessageViewedState = eMessageViewedStateReplied;
     

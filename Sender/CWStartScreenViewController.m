@@ -20,9 +20,11 @@
 #import <UIViewController+MMDrawerController.h>
 #import "CWAppFeedBackViewController.h"
 #import "CWAnalytics.h"
+#import "CWProfilePictureViewController.h"
 
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
+@property (nonatomic) UIViewController * popupModal;
 @end
 
 @implementation CWStartScreenViewController
@@ -34,6 +36,11 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void) dealloc
+{
+    [self.popupModal dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)viewDidLoad
@@ -120,14 +127,21 @@
         [UIView animateKeyframesWithDuration:0.5 delay:2 options:kNilOptions animations:^{
             //
             [self.messageSentView setAlpha:0];
+
         } completion:nil];
-        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-            if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
-            {
-                [weakSelf showAppFeedback];
-                [[CWUserManager sharedInstance] didRequestAppFeedback];
-            }
-        }];
+        
+
+        if(![[CWUserManager sharedInstance] hasApprovedProfilePicture:[[CWUserManager sharedInstance] localUser]])
+        {
+            //show the profile picture
+            [self showProfilePictureWasUploaded];
+        }
+        else if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
+        {
+            //ask for app feedback
+            [weakSelf showAppFeedback];
+            [[CWUserManager sharedInstance] didRequestAppFeedback];
+        }
 
     }else{
         [self.messageSentView setAlpha:0];
@@ -140,14 +154,25 @@
         return;
     }
     
-
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:nil];
-    }];
+    //[[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:[[CWUserManager sharedInstance] localUser] completionBlockOrNil:nil];
     
     [CWAnalytics event:@"START_RECORDING" withCategory:@"CONVERSATION_STARTER" withLabel:@"TAP_BUTTON" withValue:nil];
     CWComposerViewController * composerVC = [[CWFlowManager sharedInstance]composeVC];
     [self.navigationController pushViewController:composerVC animated:NO];
+}
+
+- (void) showProfilePictureWasUploaded
+{
+    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWProfilePictureViewController alloc] init]];
+    
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    [navController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
+    
+    self.popupModal = navController;
 }
 
 -(void)showAppFeedback
@@ -162,7 +187,7 @@
 
     [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
 
-
+    self.popupModal = navController;
 
 }
 @end

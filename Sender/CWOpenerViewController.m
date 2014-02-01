@@ -157,6 +157,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void) grabLastFrameOfVideo
+{
+    NSAssert(self.activeMessage, @"expecting active message to be set");
+    NSAssert(self.player, @"expecting player to be set");
+    if(!self.activeMessage.lastFrameImage)
+    {
+        [self.player createStillForLastFrameWithCompletionHandler:^(UIImage *thumbnail) {
+            self.activeMessage.lastFrameImage = thumbnail;
+        }];
+    }
+}
 
 - (void)setOpenerState:(CWOpenerState)openerState
 {
@@ -177,6 +188,7 @@
             [self.middleButton setMaxValue:MAX_RECORD_TIME];
             [self.middleButton setValue:0];
             [self setNavMode:NavModeBurger];
+            [self grabLastFrameOfVideo];
             break;
             
             

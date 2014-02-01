@@ -33,6 +33,7 @@
     [self.sendButton.button addTarget:self action:@selector(onMiddleButtonTap) forControlEvents:UIControlEventTouchUpInside];
     
     
+    
 }
 
 - (void)didReceiveMemoryWarning

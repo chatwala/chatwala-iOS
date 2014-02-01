@@ -123,6 +123,7 @@
     Message * message = [Message insertInManagedObjectContext:self.moc];
     message.sender = sender;
     message.timeStamp = [NSDate date];
+    message.messageID = [[NSUUID UUID] UUIDString];;
     
     if(incomingMessage)
     {
@@ -253,18 +254,17 @@
 }
 
 
-- (void) downloadAllMessageChatwalaData
-{
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        NSOrderedSet * items = localUser.messagesReceived;
+- (void) downloadAllMessageChatwalaData {
+
+    NSOrderedSet * items = [[CWUserManager sharedInstance] localUser].messagesReceived;
         
-        for (Message * item in items) {
-            [item downloadChatwalaDataWithMessageCell:nil];
-        }
-    }];
+    for (Message * item in items) {
+        [item downloadChatwalaDataWithMessageCell:nil];
+    }
 }
 
 #pragma mark - dateformater
+
 + (NSDateFormatter *)dateFormatter {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];

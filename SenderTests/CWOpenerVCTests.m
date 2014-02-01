@@ -183,6 +183,7 @@
     id mockPlaybackView = [OCMockObject partialMockForObject:dummyView];
     [[[self.mockSUT stub]andReturn:mockPlaybackView]playbackView];
     [[mockPlaybackView expect]addSubview:OCMOCK_ANY];
+    [[self.mockPlayer expect] createStillForLastFrameWithCompletionHandler:OCMOCK_ANY];
     
     //when
     [self.sut videoPlayerDidLoadVideo:self.sut.player];
@@ -232,15 +233,16 @@
     
 }
 
-- (void)testShouldStartPlaybackWhenVideoLoads
+- (void)testShouldStartSetOpenerStateToPreviewWhenVideoLoads
 {
-    [[self.mockPlayer expect]playVideo];
+    //given
+    [[self.mockSUT expect] setOpenerState:CWOpenerPreview];
+    
+    //when
     [self.sut videoPlayerDidLoadVideo:self.sut.player];
-}
-
-- (void)testShouldStartReviewTimerWhenVideoLoads {
-    [[self.mockSUT expect]startReviewCountDown];
-    [self.sut videoPlayerDidLoadVideo:self.sut.player];
+    
+    //should
+    [self.mockSUT verify];
 }
 
 - (void)testShouldCreateReviewTimerWhenStartReviewCountdownInvoked

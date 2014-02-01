@@ -50,34 +50,22 @@
     
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:nil];
-        [self.messagesTable reloadData];
-    }];
+
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:nil];
+    [self.messagesTable reloadData];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)onMessagesLoaded:(NSNotification*)note
-{
+- (void)onMessagesLoaded:(NSNotification*)note {
+    
     [self.messagesTable reloadData];
     if (self.refreshControl.isRefreshing) {
         [self.refreshControl endRefreshing];
     }
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        NSOrderedSet * inboxMessages = [localUser inboxMessages];
-        
-        [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
-    }];
-//    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWMessageManager sharedInstance]messages] count]];
-    
+
+    NSOrderedSet * inboxMessages = [[[CWUserManager sharedInstance] localUser] inboxMessages];
+    [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
 }
 
 - (void)onMessagLoadedFailed:(NSNotification*)note
@@ -88,11 +76,9 @@
     [self.refreshControl endRefreshing];
 }
 
-- (void)handleRefresh:(UIRefreshControl*)r
-{
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:nil];
-    }];
+- (void)handleRefresh:(UIRefreshControl*)r {
+
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:nil];
 }
 
 - (IBAction)onButtonSelect:(id)sender {
@@ -107,11 +93,9 @@
     User *localUser = [[CWUserManager sharedInstance] localUser];
     NSOrderedSet *inboxMessages = [localUser inboxMessages];
     Message *message = [inboxMessages objectAtIndex:indexPath.row];
-    
-    NSString *messageId = message.messageID;
   
     if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessageWithID:)]) {
-        [self.delegate inboxViewController:self didSelectMessageWithID:messageId];
+        [self.delegate inboxViewController:self didSelectMessageWithID:message.messageID];
     }
     
 }

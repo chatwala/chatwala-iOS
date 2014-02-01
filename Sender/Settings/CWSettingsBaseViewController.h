@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface CWSettingsBaseViewController : UIViewController
-
+-(void)onSettingsDone:(id)sender;
 @end
