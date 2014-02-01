@@ -25,6 +25,7 @@
              @"sender_id":@"sender",
              @"thumbnail":@"thumbnailPictureURL",
              @"timestamp":@"timeStamp",
+             @"start_recording":@"startRecording"
              };
 }
 

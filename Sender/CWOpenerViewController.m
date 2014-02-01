@@ -282,9 +282,7 @@
     @finally {
         
     }
-    
 }
-
 
 - (void)killTimers
 {

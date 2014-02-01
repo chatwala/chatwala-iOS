@@ -151,6 +151,16 @@
         item = [Message insertInManagedObjectContext:self.moc];
     }
     
+    //add start recording
+    NSNumber *startRecording = [sourceDictionary objectForKey:@"start_recording" withLUT:[Message keyLookupTable]];
+    
+    if (!startRecording) {
+        item.startRecording = [NSNumber numberWithInt:0];
+    }
+    else {
+        item.startRecording = startRecording;
+    }
+    
     [item fromDictionary:sourceDictionary withDateFormatter:[CWDataManager dateFormatter] error:error] ;
     
     //add users
@@ -164,6 +174,8 @@
     //add thread
     NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
     item.thread = [self createThreadWithID:threadID];
+    
+
     
     return item;
 }
