@@ -216,6 +216,7 @@
     
     message.videoURL = recorder.outputFileURL;
     message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
+    message.startRecording = [NSNumber numberWithDouble:self.startRecordingTime];
     
     if (self.incomingMessage) {
         // Responding to an incoming message
