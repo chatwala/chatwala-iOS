@@ -87,8 +87,8 @@
     NSDateFormatter * dateFormatter = [CWDataManager dateFormatter];
     NSError * error = nil;
     NSDictionary * expected= @{
-                               @"download_state" : @0,
-                               @"viewed_state" : @0,
+//                               @"download_state" : @0,
+//                               @"viewed_state" : @0,
                                @"thread_index" : @1,
                                @"thread_id" : @"B515825C-F722-427A-AC01-044D9B739D17",
                                @"message_id" : @"9C545455-BBE7-4DE5-9208-AADEFB8EF674",
@@ -117,7 +117,7 @@
     
     //should
     XCTAssertEqualObjects([expected objectForKey:@"sender_id"], [actual objectForKey:@"sender_id"], @"expecting the sender Id to be formated correctly");
-    XCTAssertEqualObjects(actual, expected, @"expeting ditionary to match");
+    XCTAssertEqualObjects(actual, expected, @"expecting dictionary to match");
     
     //cleanup
 }

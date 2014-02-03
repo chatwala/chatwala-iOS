@@ -165,8 +165,25 @@
         
         [jsonDict setValue:value forKey:relation];
     }
+    NSArray * whiteList = [self.class attributesAndRelationshipsToArchive];
+    NSMutableArray * objectKeysToRemove = [jsonDict.allKeys mutableCopy];
+    [objectKeysToRemove removeObjectsInArray:whiteList];
+    [jsonDict removeObjectsForKeys:objectKeysToRemove];
     
     return [NSDictionary dictionaryByReassignKeysOfDictionary:jsonDict withKeys:[Message reverseKeyLookupTable]];
+}
+
++ (NSArray *) attributesAndRelationshipsToArchive
+{
+    return @[
+             MessageAttributes.messageID,
+             MessageAttributes.threadIndex,
+             MessageAttributes.startRecording,
+             MessageAttributes.timeStamp,
+             MessageRelationships.thread,
+             MessageRelationships.recipient,
+             MessageRelationships.sender,
+             ];
 }
 
 
