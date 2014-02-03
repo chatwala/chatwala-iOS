@@ -40,7 +40,10 @@
 }
 - (void) setEMessageViewedState:(eMessageViewedState) eViewedState
 {
-    self.viewedStateValue = eViewedState;
+    if(self.eMessageViewedState <= eViewedState)
+    {
+        self.viewedStateValue = eViewedState;
+    }
 }
 
 
