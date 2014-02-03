@@ -18,7 +18,7 @@
 
 @property (nonatomic) CWDataManager * sut;
 @property (nonatomic) id mockSut;
-@property (nonatomic) NSArray * validMessageImport;
+@property (nonatomic) NSArray * validMessagesImport;
 
 @end
 
@@ -35,7 +35,7 @@
     MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
     self.sut.moc = mocFactory.moc;
 
-    self.validMessageImport = @[@{@"messageID":@"foo", @"messageURL": @"someURL", @"timeStamp": @1389282510,  @"sender": @"senderID_io433ni2o4nsdnvc", @"thread":@"somethread idb2idboiwdbsdf"}];
+    self.validMessagesImport = @[@{@"messageID":@"foo", @"messageURL": @"someURL", @"timeStamp": @1389282510,  @"sender": @"senderID_io433ni2o4nsdnvc", @"thread":@"somethread idb2idboiwdbsdf"}];
     
 }
 
@@ -75,7 +75,7 @@
     //given
     
     //when
-    NSError * error = [self.sut importMessages:self.validMessageImport];
+    NSError * error = [self.sut importMessages:self.validMessagesImport];
     
     //should
     XCTAssertNil(error, @"not expecting an error");
@@ -87,7 +87,7 @@
     [[self.mockSut expect] findMessageByMessageID:OCMOCK_ANY];
     
     //when
-    NSError * error = [self.sut importMessages:self.validMessageImport];
+    NSError * error = [self.sut importMessages:self.validMessagesImport];
     
     //should
     [self.mockSut verify];
@@ -100,7 +100,7 @@
     //given
     
     //when
-    NSError * error = [self.sut importMessages:self.validMessageImport];
+    NSError * error = [self.sut importMessages:self.validMessagesImport];
     
     //should
     XCTAssertNil(error, @"not expecting an error");
@@ -115,7 +115,7 @@
     [[self.mockSut expect] createUserWithID:OCMOCK_ANY];
     
     //when
-    [self.sut importMessages:self.validMessageImport];
+    [self.sut importMessages:self.validMessagesImport];
     
     //should
     [self.mockSut verify];
@@ -127,7 +127,7 @@
     [[self.mockSut expect] createThreadWithID:OCMOCK_ANY];
     
     //when
-    [self.sut importMessages:self.validMessageImport];
+    [self.sut importMessages:self.validMessagesImport];
     
     //should
     [self.mockSut verify];
@@ -136,7 +136,7 @@
 - (void) testFindMessageByMessageID
 {
     //given
-    [self.sut importMessages:self.validMessageImport];
+    [self.sut importMessages:self.validMessagesImport];
     
     
     //when
@@ -152,7 +152,7 @@
 - (void) testFindMessageByMessageIDShouldNotFindMessageWhenNoneExists
 {
     //given
-    [self.sut importMessages:self.validMessageImport];
+    [self.sut importMessages:self.validMessagesImport];
     
     
     //when
@@ -279,6 +279,55 @@
     [mockItem stopMocking];
 }
 
+- (void) testCreateMessageWithDictionaryStartTime
+{
+    //given
+    NSError * error = nil;
+    NSNumber * startRecordingTime = @(arc4random_uniform(10));
+    NSDictionary * jsonDictionary = @{
+        @"thread_index" : @1,
+        @"thread_id" : @"B515825C-F722-427A-AC01-044D9B739D17",
+        @"message_id" : @"9C545455-BBE7-4DE5-9208-AADEFB8EF674",
+        @"sender_id" : @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f",
+        @"version_id" : @"1.0",
+        @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
+        @"timestamp" : @"2014-01-13T10:20:14Z",
+        @"start_recording" : startRecordingTime
+    };
+    
+    //when
+    Message * actual = [self.sut createMessageWithDictionary:jsonDictionary error:&error];
+    
+    
+    //should
+    XCTAssertEqualObjects(startRecordingTime, actual.startRecording, @"expecting start recording time to be the same");
+}
+
+//- (void) testCreateMessageWithDictionaryTimeStamp
+//{
+//    //given
+//    NSError * error = nil;
+//    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:10];
+//    NSString * timeStampString = [NSString stringWithFormat:@"%f", [timeStamp timeIntervalSince1970]];
+//    NSDictionary * jsonDictionary = @{
+//                                      @"thread_index" : @1,
+//                                      @"thread_id" : @"B515825C-F722-427A-AC01-044D9B739D17",
+//                                      @"message_id" : @"9C545455-BBE7-4DE5-9208-AADEFB8EF674",
+//                                      @"sender_id" : @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f",
+//                                      @"version_id" : @"1.0",
+//                                      @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
+//                                      @"timestamp" : timeStampString,
+//                                      @"start_recording" : @2.648333
+//                                      };
+//    //when
+//    Message * actual = [self.sut createMessageWithDictionary:jsonDictionary error:&error];
+//    
+//    
+//    //should
+//    XCTAssertEqualObjects(timeStamp, actual.timeStamp, @"expecting time stamp to be the same");
+//    
+//    
+//}
 
 
 

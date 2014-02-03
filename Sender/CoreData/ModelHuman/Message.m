@@ -2,6 +2,7 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
+#import "NSDictionary+LookUpTable.h"
 
 @interface Message ()
 
@@ -39,7 +40,10 @@
 }
 - (void) setEMessageViewedState:(eMessageViewedState) eViewedState
 {
-    self.viewedStateValue = eViewedState;
+    if(self.eMessageViewedState <= eViewedState)
+    {
+        self.viewedStateValue = eViewedState;
+    }
 }
 
 
@@ -164,8 +168,41 @@
         
         [jsonDict setValue:value forKey:relation];
     }
+    NSArray * whiteList = [self.class attributesAndRelationshipsToArchive];
+    NSMutableArray * objectKeysToRemove = [jsonDict.allKeys mutableCopy];
+    [objectKeysToRemove removeObjectsInArray:whiteList];
+    [jsonDict removeObjectsForKeys:objectKeysToRemove];
     
-    return jsonDict;
+    return [NSDictionary dictionaryByReassignKeysOfDictionary:jsonDict withKeys:[Message reverseKeyLookupTable]];
+}
+
++ (NSArray *) attributesAndRelationshipsToArchive
+{
+    return @[
+             MessageAttributes.messageID,
+             MessageAttributes.threadIndex,
+             MessageAttributes.startRecording,
+             MessageAttributes.timeStamp,
+             MessageRelationships.thread,
+             MessageRelationships.recipient,
+             MessageRelationships.sender,
+             ];
+}
+
+
++ (NSDictionary *) reverseKeyLookupTable
+{
+    return @{
+             MessageAttributes.messageID : @"message_id",
+             MessageAttributes.timeStamp : @"timestamp",
+             MessageAttributes.startRecording : @"start_recording",
+             MessageAttributes.threadIndex : @"thread_index",
+             MessageAttributes.viewedState : @"viewed_state",
+             MessageAttributes.downloadState : @"download_state",
+             MessageRelationships.recipient : @"recipient_id",
+             MessageRelationships.sender : @"sender_id",
+             MessageRelationships.thread : @"thread_id",
+             };
 }
 
 

@@ -10,4 +10,7 @@
 
 @interface NSDictionary (LookUpTable)
 - (id) objectForKey:(NSString *)key withLUT:(NSDictionary *) lut;
+
++ (NSDictionary *) dictionaryByReassignKeysOfDictionary:(NSDictionary *) sourceDictionary withKeys:(NSDictionary *) lutForKeys;
+
 @end
