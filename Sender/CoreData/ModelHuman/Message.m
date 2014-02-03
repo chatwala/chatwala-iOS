@@ -2,6 +2,7 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
+#import "NSDictionary+LookUpTable.h"
 
 @interface Message ()
 
@@ -165,27 +166,9 @@
         [jsonDict setValue:value forKey:relation];
     }
     
-    return [Message dictionaryByReassignKeysOfDictionary:jsonDict withKeys:[Message reverseKeyLookupTable]];
+    return [NSDictionary dictionaryByReassignKeysOfDictionary:jsonDict withKeys:[Message reverseKeyLookupTable]];
 }
 
-+ (NSDictionary *) dictionaryByReassignKeysOfDictionary:(NSDictionary *) sourceDictionary withKeys:(NSDictionary *) lutForKeys
-{
-    NSMutableDictionary * destinationDictionary = [NSMutableDictionary dictionaryWithCapacity:sourceDictionary.count];
-    for (id key in sourceDictionary.allKeys) {
-        id value = [sourceDictionary objectForKey:key];
-        id newKey = [lutForKeys objectForKey:key];
-        if(newKey)
-        {
-            [destinationDictionary setObject:value forKey:newKey];
-        }
-        else
-        {
-            [destinationDictionary setObject:value forKey:key];
-        }
-    }
-    
-    return destinationDictionary;
-}
 
 + (NSDictionary *) reverseKeyLookupTable
 {

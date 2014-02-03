@@ -27,4 +27,24 @@
     return value;
 }
 
++ (NSDictionary *) dictionaryByReassignKeysOfDictionary:(NSDictionary *) sourceDictionary withKeys:(NSDictionary *) lutForKeys
+{
+    NSMutableDictionary * destinationDictionary = [NSMutableDictionary dictionaryWithCapacity:sourceDictionary.count];
+    for (id key in sourceDictionary.allKeys) {
+        id value = [sourceDictionary objectForKey:key];
+        id newKey = [lutForKeys objectForKey:key];
+        if(newKey)
+        {
+            [destinationDictionary setObject:value forKey:newKey];
+        }
+        else
+        {
+            [destinationDictionary setObject:value forKey:key];
+        }
+    }
+    
+    return destinationDictionary;
+}
+
+
 @end
