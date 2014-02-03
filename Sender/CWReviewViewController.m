@@ -204,6 +204,7 @@
 
 - (void)sendMessageFromUser:(User *)localUser {
     CWMessageItem * message = [self createMessageItemWithSender:localUser];
+    message.metadata.startRecording = self.startRecordingTime;
     
     if (self.incomingMessage) {
         // Responding to an incoming message

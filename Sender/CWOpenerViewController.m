@@ -14,7 +14,6 @@
 #import "CWGroundControlManager.h"
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
-#import "Message.h"
 
 @interface CWOpenerViewController () 
 {
