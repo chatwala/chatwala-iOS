@@ -307,6 +307,32 @@
 {
     //given
     NSError * error = nil;
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSince1970:1391467364];
+    NSString * timeStampString = [NSString stringWithFormat:@"%f", [timeStamp timeIntervalSince1970]];
+    NSDictionary * jsonDictionary = @{
+                                      @"thread_index" : @1,
+                                      @"thread_id" : @"B515825C-F722-427A-AC01-044D9B739D17",
+                                      @"message_id" : @"9C545455-BBE7-4DE5-9208-AADEFB8EF674",
+                                      @"sender_id" : @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f",
+                                      @"version_id" : @"1.0",
+                                      @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
+                                      @"timestamp" : timeStampString,
+                                      @"start_recording" : @2.648333
+                                      };
+    //when
+    Message * actual = [self.sut createMessageWithDictionary:jsonDictionary error:&error];
+    
+    
+    //should
+    XCTAssertTrue([actual.timeStamp isEqualToDate:timeStamp], @"expecting time stamp to be the same");
+}
+
+
+
+- (void) testCreateMessageWithDictionary
+{
+    //given
+    NSError * error = nil;
     NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:10];
     NSString * timeStampString = [NSString stringWithFormat:@"%f", [timeStamp timeIntervalSince1970]];
     NSDictionary * jsonDictionary = @{
@@ -324,9 +350,12 @@
     
     
     //should
-    XCTAssertEqual(timeStamp.timeIntervalSinceReferenceDate, actual.timeStamp.timeIntervalSinceReferenceDate, @"expecting time stamp to be the same");
-    
-    
+    XCTAssertEqualObjects(actual.messageID, @"9C545455-BBE7-4DE5-9208-AADEFB8EF674", @"expecting the message ID to be set");
+    XCTAssertEqualObjects(actual.threadIndex, @1, @"expecting the thread index to tbe set");
+    XCTAssertEqualObjects(actual.thread.threadID, @"B515825C-F722-427A-AC01-044D9B739D17", @"expecting the thread to be set");
+    XCTAssertEqualObjects(actual.sender.userID, @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f", @"expecting the sender to be set");
+    XCTAssertEqualObjects(actual.recipient.userID, @"b838aef1-c804-b5b0-29ef-41b579350756", @"expecting the receiver to be set");
+    XCTAssertEqualObjects(actual.startRecording, @2.648333, @"expecting start recording to be set");
 }
 
 
