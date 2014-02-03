@@ -358,6 +358,40 @@
     XCTAssertEqualObjects(actual.startRecording, @2.648333, @"expecting start recording to be set");
 }
 
+- (void) testCreateMessageWithSender
+{
+    //given
+    User * sender = [User insertInManagedObjectContext:self.sut.moc];
+    
+    //when
+    Message * actual = [self.sut createMessageWithSender:sender inResponseToIncomingMessage:nil];
+    
+    //should
+    XCTAssertNotNil(actual.thread, @"expecting the thread to be something");
+    XCTAssertNotNil(actual.timeStamp, @"expecting the time stamp to be set");
+    XCTAssertEqualObjects(actual.threadIndex, @0, @"expecting the thread index to be 0");
+    XCTAssertEqualObjects(actual.sender, sender, @"expecting the sender to be set");
+    
+}
 
+- (void) testCreateMessageWithSenderWithIncomingMessage
+{
+    //given
+    User * sender = [User insertInManagedObjectContext:self.sut.moc];
+    User * recipient = [User insertInManagedObjectContext:self.sut.moc];
+    Message * incomingMessage = [Message insertInManagedObjectContext:self.sut.moc];
+    incomingMessage.threadIndex = @8;
+    incomingMessage.sender = recipient;
+    
+    //when
+    Message * actual = [self.sut createMessageWithSender:sender inResponseToIncomingMessage:incomingMessage];
+    
+    //should
+    XCTAssertEqualObjects(actual.thread, incomingMessage.thread, @"expecting the thread to be something");
+    XCTAssertNotNil(actual.timeStamp, @"expecting the time stamp to be set");
+    XCTAssertEqualObjects(actual.threadIndex, @9, @"expecting the thread index to be 0");
+    XCTAssertEqualObjects(actual.sender, sender, @"expecting the sender to be set");
+    XCTAssertEqualObjects(actual.recipient, recipient, @"expecting the recipient to be set");
+}
 
 @end
