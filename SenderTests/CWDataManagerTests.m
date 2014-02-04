@@ -303,32 +303,95 @@
     XCTAssertEqualObjects(startRecordingTime, actual.startRecording, @"expecting start recording time to be the same");
 }
 
-//- (void) testCreateMessageWithDictionaryTimeStamp
-//{
-//    //given
-//    NSError * error = nil;
-//    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:10];
-//    NSString * timeStampString = [NSString stringWithFormat:@"%f", [timeStamp timeIntervalSince1970]];
-//    NSDictionary * jsonDictionary = @{
-//                                      @"thread_index" : @1,
-//                                      @"thread_id" : @"B515825C-F722-427A-AC01-044D9B739D17",
-//                                      @"message_id" : @"9C545455-BBE7-4DE5-9208-AADEFB8EF674",
-//                                      @"sender_id" : @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f",
-//                                      @"version_id" : @"1.0",
-//                                      @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
-//                                      @"timestamp" : timeStampString,
-//                                      @"start_recording" : @2.648333
-//                                      };
-//    //when
-//    Message * actual = [self.sut createMessageWithDictionary:jsonDictionary error:&error];
-//    
-//    
-//    //should
-//    XCTAssertEqualObjects(timeStamp, actual.timeStamp, @"expecting time stamp to be the same");
-//    
-//    
-//}
+- (void) testCreateMessageWithDictionaryTimeStamp
+{
+    //given
+    NSError * error = nil;
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSince1970:1391467364];
+    NSString * timeStampString = [NSString stringWithFormat:@"%f", [timeStamp timeIntervalSince1970]];
+    NSDictionary * jsonDictionary = @{
+                                      @"thread_index" : @1,
+                                      @"thread_id" : @"B515825C-F722-427A-AC01-044D9B739D17",
+                                      @"message_id" : @"9C545455-BBE7-4DE5-9208-AADEFB8EF674",
+                                      @"sender_id" : @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f",
+                                      @"version_id" : @"1.0",
+                                      @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
+                                      @"timestamp" : timeStampString,
+                                      @"start_recording" : @2.648333,
+                                      };
+    //when
+    Message * actual = [self.sut createMessageWithDictionary:jsonDictionary error:&error];
+    
+    
+    //should
+    XCTAssertTrue([actual.timeStamp isEqualToDate:timeStamp], @"expecting time stamp to be the same");
+}
 
 
+
+- (void) testCreateMessageWithDictionary
+{
+    //given
+    NSError * error = nil;
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:10];
+    NSString * timeStampString = [NSString stringWithFormat:@"%f", [timeStamp timeIntervalSince1970]];
+    NSDictionary * jsonDictionary = @{
+                                      @"thread_index" : @1,
+                                      @"thread_id" : @"B515825C-F722-427A-AC01-044D9B739D17",
+                                      @"message_id" : @"9C545455-BBE7-4DE5-9208-AADEFB8EF674",
+                                      @"sender_id" : @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f",
+                                      @"version_id" : @"1.0",
+                                      @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
+                                      @"timestamp" : timeStampString,
+                                      @"start_recording" : @2.648333,
+                                      };
+    //when
+    Message * actual = [self.sut createMessageWithDictionary:jsonDictionary error:&error];
+    
+    
+    //should
+    XCTAssertEqualObjects(actual.messageID, @"9C545455-BBE7-4DE5-9208-AADEFB8EF674", @"expecting the message ID to be set");
+    XCTAssertEqualObjects(actual.threadIndex, @1, @"expecting the thread index to tbe set");
+    XCTAssertEqualObjects(actual.thread.threadID, @"B515825C-F722-427A-AC01-044D9B739D17", @"expecting the thread to be set");
+    XCTAssertEqualObjects(actual.sender.userID, @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f", @"expecting the sender to be set");
+    XCTAssertEqualObjects(actual.recipient.userID, @"b838aef1-c804-b5b0-29ef-41b579350756", @"expecting the receiver to be set");
+    XCTAssertEqualObjects(actual.startRecording, @2.648333, @"expecting start recording to be set");
+}
+
+- (void) testCreateMessageWithSender
+{
+    //given
+    User * sender = [User insertInManagedObjectContext:self.sut.moc];
+    
+    //when
+    Message * actual = [self.sut createMessageWithSender:sender inResponseToIncomingMessage:nil];
+    
+    //should
+    XCTAssertNotNil(actual.thread, @"expecting the thread to be something");
+    XCTAssertNotNil(actual.timeStamp, @"expecting the time stamp to be set");
+    XCTAssertEqualObjects(actual.threadIndex, @0, @"expecting the thread index to be 0");
+    XCTAssertEqualObjects(actual.sender, sender, @"expecting the sender to be set");
+    
+}
+
+- (void) testCreateMessageWithSenderWithIncomingMessage
+{
+    //given
+    User * sender = [User insertInManagedObjectContext:self.sut.moc];
+    User * recipient = [User insertInManagedObjectContext:self.sut.moc];
+    Message * incomingMessage = [Message insertInManagedObjectContext:self.sut.moc];
+    incomingMessage.threadIndex = @8;
+    incomingMessage.sender = recipient;
+    
+    //when
+    Message * actual = [self.sut createMessageWithSender:sender inResponseToIncomingMessage:incomingMessage];
+    
+    //should
+    XCTAssertEqualObjects(actual.thread, incomingMessage.thread, @"expecting the thread to be something");
+    XCTAssertNotNil(actual.timeStamp, @"expecting the time stamp to be set");
+    XCTAssertEqualObjects(actual.threadIndex, @9, @"expecting the thread index to be 0");
+    XCTAssertEqualObjects(actual.sender, sender, @"expecting the sender to be set");
+    XCTAssertEqualObjects(actual.recipient, recipient, @"expecting the recipient to be set");
+}
 
 @end

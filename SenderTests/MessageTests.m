@@ -86,6 +86,8 @@
     //given
     NSDateFormatter * dateFormatter = [CWDataManager dateFormatter];
     NSError * error = nil;
+    NSString * appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    
     NSDictionary * expected= @{
 //                               @"download_state" : @0,
 //                               @"viewed_state" : @0,
@@ -95,7 +97,8 @@
                                @"sender_id" : @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f",
                                @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
                                @"timestamp" : @"2014-01-13T10:20:14Z",
-                               @"start_recording" : @2.648333
+                               @"start_recording" : @2.648333,
+                               @"version_id" : appVersion,
                                };
     
     self.sut.messageID = @"9C545455-BBE7-4DE5-9208-AADEFB8EF674";

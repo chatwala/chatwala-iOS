@@ -19,12 +19,14 @@
 + (NSDictionary *) keyLookupTable
 {
     return @{
-             @"message_id":@"messageID",
-             @"recipient_id":@"recipient",
-             @"sender_id":@"sender",
-             @"thumbnail":@"thumbnailPictureURL",
-             @"timestamp":@"timeStamp",
-             @"start_recording":@"startRecording"
+             @"thread_id" : MessageRelationships.thread,
+             @"thread_index" : MessageAttributes.threadIndex,
+             @"message_id" : MessageAttributes.messageID,
+             @"recipient_id" : MessageRelationships.recipient,
+             @"sender_id" : MessageRelationships.sender,
+             @"thumbnail" : MessageAttributes.thumbnailPictureURL,
+             @"timestamp" : MessageAttributes.timeStamp,
+             @"start_recording" : MessageAttributes.startRecording,
              };
 }
 
@@ -168,6 +170,9 @@
     NSMutableArray * objectKeysToRemove = [jsonDict.allKeys mutableCopy];
     [objectKeysToRemove removeObjectsInArray:whiteList];
     [jsonDict removeObjectsForKeys:objectKeysToRemove];
+    
+    NSString * appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [jsonDict setObject:appVersion forKey:@"version_id"];
     
     return [NSDictionary dictionaryByReassignKeysOfDictionary:jsonDict withKeys:[Message reverseKeyLookupTable]];
 }
