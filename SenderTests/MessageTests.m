@@ -13,6 +13,9 @@
 #import "Message.h"
 #import "CWMessageCell.h"
 #import "CWMessageManager.h"
+#import "CWDataManager.h"
+#import "User.h"
+#import "Thread.h"
 
 @interface MessageTests : XCTestCase
 
@@ -76,6 +79,47 @@
     //cleanup
     [messageManagerMock stopMocking];
     
+}
+
+- (void)testToDictionaryWithDataFormatter
+{
+    //given
+    NSDateFormatter * dateFormatter = [CWDataManager dateFormatter];
+    NSError * error = nil;
+    NSDictionary * expected= @{
+//                               @"download_state" : @0,
+//                               @"viewed_state" : @0,
+                               @"thread_index" : @1,
+                               @"thread_id" : @"B515825C-F722-427A-AC01-044D9B739D17",
+                               @"message_id" : @"9C545455-BBE7-4DE5-9208-AADEFB8EF674",
+                               @"sender_id" : @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f",
+                               @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
+                               @"timestamp" : @"2014-01-13T10:20:14Z",
+                               @"start_recording" : @2.648333
+                               };
+    
+    self.sut.messageID = @"9C545455-BBE7-4DE5-9208-AADEFB8EF674";
+    self.sut.threadIndex = @1;
+    self.sut.startRecording = @2.648333;
+    self.sut.timeStamp = [dateFormatter dateFromString:@"2014-01-13T10:20:14Z"];
+    User * sender = [User insertInManagedObjectContext:self.sut.managedObjectContext];
+    sender.userID = @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f";
+    self.sut.sender = sender;
+    User * receiver = [User insertInManagedObjectContext:self.sut.managedObjectContext];
+    receiver.userID = @"b838aef1-c804-b5b0-29ef-41b579350756";
+    self.sut.recipient = receiver;
+    Thread * thread = [Thread insertInManagedObjectContext:self.sut.managedObjectContext];
+    thread.threadID = @"B515825C-F722-427A-AC01-044D9B739D17";
+    self.sut.thread = thread;
+    
+    //when
+    NSDictionary * actual = [self.sut toDictionaryWithDataFormatter:dateFormatter error:&error];
+    
+    //should
+    XCTAssertEqualObjects([expected objectForKey:@"sender_id"], [actual objectForKey:@"sender_id"], @"expecting the sender Id to be formated correctly");
+    XCTAssertEqualObjects(actual, expected, @"expecting dictionary to match");
+    
+    //cleanup
 }
 
 
