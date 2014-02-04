@@ -12,6 +12,7 @@
 #import "CWDataManager.h"
 #import "Message.h"
 #import "MocForTests.h"
+#import "CWServerAPI.h"
 
 @interface CWMessageManagerTests : XCTestCase
 
@@ -256,17 +257,14 @@
 {
     //given
     Message * item = [Message insertInManagedObjectContext:self.moc];
-    id mockManager = [OCMockObject mockForClass:[AFURLSessionManager class]];
-    [[[mockManager stub] andReturn:mockManager] alloc];
-    id toMakeWarningGoAway = [[[mockManager stub] andReturn:mockManager] initWithSessionConfiguration:OCMOCK_ANY];
-    NSLog(@"%@",toMakeWarningGoAway);
-    [[mockManager expect] uploadTaskWithRequest:OCMOCK_ANY fromFile:item.zipURL progress:nil completionHandler:OCMOCK_ANY];
+    id mockServerAPI = [OCMockObject mockForClass:[CWServerAPI class]];
+    [[mockServerAPI expect] uploadMessage:item toURL:OCMOCK_ANY withCompletionBlock:OCMOCK_ANY];
 
     //when
-    [self.sut uploadMessage:item isReply:NO];
+    [self.sut uploadMessage:item toURL:OCMOCK_ANY isReply:NO];
     
     //should
-    [mockManager verify];
+    [mockServerAPI verify];
     
 }
 

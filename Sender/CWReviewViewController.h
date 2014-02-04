@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CWViewController.h"
-@class CWMessageItem;
 @class CWMiddleButton;
 @class User;
 @class Message;
