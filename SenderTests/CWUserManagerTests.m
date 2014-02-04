@@ -140,7 +140,7 @@
 }
 
 
-- (void) testShouldRequestAppFeecbackShouldReturnNOWhenUserHasNotSentMoreThan5Messages
+- (void) testShouldRequestAppFeedbackShouldReturnNOWhenUserHasNotSentMoreThan5Messages
 {
     //given
     [[[self.mockSut stub] andReturn:nil] appVersionOfAppFeedbackRequest];
@@ -151,7 +151,7 @@
     [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] appFeedbackSentMessageThreshold];
     for(int ii = 0; ii < numberOfSentMessages; ++ii)
     {
-        [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:self.moc]];
+        [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:[self.sut.localUser managedObjectContext]]];
     }
     
     //when
@@ -165,7 +165,7 @@
 }
 
 
-- (void) testShouldRequestAppFeecbackShouldReturnYESWhenUserHasSentMoreThan5MessagesAndHasNotRequestedFeedback
+- (void) testShouldRequestAppFeedbackShouldReturnYESWhenUserHasSentMoreThan5MessagesAndHasNotRequestedFeedback
 {
     //given
     [[[self.mockSut stub] andReturn:nil] appVersionOfAppFeedbackRequest];
@@ -176,7 +176,7 @@
     [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] appFeedbackSentMessageThreshold];
     for(int ii = 0; ii < numberOfSentMessages; ++ii)
     {
-        [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:self.moc]];
+        [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:[self.sut.localUser managedObjectContext]]];
     }
     
     //when
