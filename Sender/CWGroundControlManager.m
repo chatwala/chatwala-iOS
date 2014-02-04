@@ -36,11 +36,17 @@ NSInteger const defaultFeedbackTrigger = 5;
 
 - (void)refresh
 {
-#if DEBUG
-    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/DEVdefaults.plist";
+    
+#ifdef USE_QA_SERVER
+    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/DEVdefaults1_3.plist";
+#elif USE_DEV_SERVER
+    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/DEVdefaults1_3.plist";
+#elif USE_SANDBOX_SERVER
+    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/DEVdefaults1_3.plist";
 #else
-    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/defaults.plist";
+    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/defaults1_3.plist";
 #endif
+    
     NSURL *URL = [NSURL URLWithString:endpoint];
     [[NSUserDefaults standardUserDefaults] registerDefaultsWithURL:URL success:self.refreshSuccessBlock failure:self.refreshFailureBlock];
 }
