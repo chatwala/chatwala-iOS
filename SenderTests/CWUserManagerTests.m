@@ -27,6 +27,7 @@
 @property (nonatomic) CWUserManager * sut;
 @property (nonatomic) NSManagedObjectContext * moc;
 @property (nonatomic) id mockSut;
+@property (nonatomic) id mockUserDefaults;
 
 @end
 
@@ -36,6 +37,10 @@
 {
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
+
+    self.mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
+    [[[self.mockUserDefaults stub] andReturn:@"myuserID"] valueForKey:@"CHATWALA_USER_ID"];
+
     self.sut = [[CWUserManager alloc] init];
     
     MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
@@ -48,119 +53,40 @@
 {
     // Put teardown code here; it will be run once, after the last test case.
     [self.mockSut stopMocking];
+    [self.mockUserDefaults stopMocking];
     [super tearDown];
 }
 
-- (void)testLocalUserShouldCallCompletionWhenWeAlreadyHaveUserID
+- (void)testLocalUserShouldUseIDInUserDefaults
 {
     //given
-    __block BOOL callbackRan = NO;
-    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:@"myuserID"] valueForKey:@"CHATWALA_USER_ID"];
-    id mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
-    [[mockDataManager  expect] createUserWithID:@"myuserID"];
     
     //when
-    [self.sut localUser:^(User *localUser) {
-        callbackRan = YES;
-    }];
+    User * actual = [self.sut localUser];
     
     //should
-    XCTAssertTrue(callbackRan, @"callback should have run");
+    XCTAssertEqualObjects(actual.userID, @"myuserID", @"expecting same user ID");
     
     //cleanup
-    [mockUserDefaults stopMocking];
-    [mockDataManager stopMocking];
 }
-- (void) testLocalUserShouldNotRequestNewUserIDWhenAlreadyHasUserID
-{
-    //given
-    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:@"something"] valueForKey:@"CHATWALA_USER_ID"];
-    id mockAFOpertaionManager = [OCMockObject mockForClass:[AFHTTPRequestOperationManager class]];
-    [[[mockAFOpertaionManager stub] andReturn:mockAFOpertaionManager] manager];
-    [[mockAFOpertaionManager reject] GET:OCMOCK_ANY parameters:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
-    
-    //when
-    [self.sut localUser:nil];
-    
-    //should
-    [mockAFOpertaionManager verify];
-    
-    
-    //cleanup
-    [mockUserDefaults stopMocking];
-}
-
 
 - (void) testLocalUserShouldRequestNewUserID
 {
     //given
-    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:nil] valueForKey:@"CHATWALA_USER_ID"];
-    id mockAFOpertaionManager = [OCMockObject mockForClass:[AFHTTPRequestOperationManager class]];
-    [[[mockAFOpertaionManager stub] andReturn:mockAFOpertaionManager] manager];
-    [[mockAFOpertaionManager expect] GET:OCMOCK_ANY parameters:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
-    [[mockAFOpertaionManager expect] setRequestSerializer:OCMOCK_ANY];
-    
-    //when
-    [self.sut localUser:nil];
-
-    //should
-    [mockAFOpertaionManager verify];
-    
-    
-    //cleanup
-    [mockUserDefaults stopMocking];
-}
-
-- (void) testUserIDCompletionBlock
-{
-    //given
-    NSString * userID = @"my_USER_IDBIEOB";
-    User * expected = [User insertInManagedObjectContext:self.moc];
+    User *expected = [User insertInManagedObjectContext:self.moc];
     id mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
-    [[[mockDataManager expect] andReturn:expected] createUserWithID:userID];
-    
-    __block User * actual = nil;
-    CWUserManagerLocalUserBlock completionBlock = ^(User * user){
-        actual = user;
-    };
+    [[[mockDataManager expect] andReturn:expected] createUserWithID:@"myuserID"];
+    [[[self.mockUserDefaults stub] andReturn:nil] valueForKey:@"CHATWALA_USER_ID"];
     
     //when
-    self.sut.getUserIDCompletionBlock(OCMOCK_ANY, @[@{@"user_id":userID}], completionBlock);
-    
-    //should
-    XCTAssertEqualObjects(actual, expected, @"expecting users to match");
-    
-    [mockDataManager stopMocking];
-}
+    User *actual = [self.sut localUser];
 
-- (void) testLocalUserRequestShouldCancelOldOperation
-{
-    //given
-    id mockOperation = [OCMockObject niceMockForClass:[AFHTTPRequestOperation class]];
-    self.sut.fetchUserIDOperation = mockOperation;
-    [[mockOperation expect] cancel];
-    
-    //flow control
-    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:nil] valueForKey:@"CHATWALA_USER_ID"];
-    id mockAFOpertaionManager = [OCMockObject mockForClass:[AFHTTPRequestOperationManager class]];
-    [[[mockAFOpertaionManager stub] andReturn:mockAFOpertaionManager] manager];
-    [[mockAFOpertaionManager stub] GET:OCMOCK_ANY parameters:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
-    [[mockAFOpertaionManager stub] setRequestSerializer:OCMOCK_ANY];
-    
-    //when
-    [self.sut localUser:nil];
-    
     //should
-    XCTAssertNotEqual(self.sut.fetchUserIDOperation, mockOperation, @"expecting operation to be reset");
-    [mockOperation verify];
+    XCTAssertEqualObjects(actual, expected, @"user should be new");
+    [mockDataManager verify];
     
     //cleanup
-    [mockAFOpertaionManager stopMocking];
-    [mockUserDefaults stopMocking];
+    [mockDataManager stopMocking];
 }
 
 - (void)testRequestAppFeedbackReturnsAppVersion

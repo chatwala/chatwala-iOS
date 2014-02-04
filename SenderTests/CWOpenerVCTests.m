@@ -10,7 +10,6 @@
 #import <OCMock/OCMock.h>
 #import "CWSSOpenerViewController.h"
 #import "CWVideoManager.h"
-#import "CWMessageItem.h"
 #import "CWGroundControlManager.h"
 #import "CWDataManager.h"
 #import "Message.h"
