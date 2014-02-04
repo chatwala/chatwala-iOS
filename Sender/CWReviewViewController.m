@@ -167,11 +167,15 @@
     }
 }
 
+// TODO: Poorly named - this is the 'X' button firing when user is discarding their message.
 - (void)onTap:(id)sender
 {
     [player.playbackView removeFromSuperview];
     [player setDelegate:nil];
     [player stop];
+    
+    // We are throwing away this message - we should clear upload details in the event this was a original message
+    [[CWMessageManager sharedInstance] clearUploadURLForOriginalMessage];
     
     if (self.incomingMessage) {
         // responding
@@ -200,9 +204,6 @@
         [CWAnalytics event:@"REDO_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
         [self.navigationController popToRootViewControllerAnimated:NO];
     }
-    
-    
-    
 }
 
 #pragma mark - Message Sending

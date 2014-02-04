@@ -16,7 +16,7 @@
 
 @interface CWMessageManager ()
 
-@property (nonatomic,assign) BOOL needsMessageUploadURL;
+@property (nonatomic,assign) BOOL needsOriginalMessageUploadURL;
 @property (nonatomic,strong) NSString *tempUploadURLString;
 @property (nonatomic,strong) NSString *tempMessageID;
 @property (nonatomic,strong) NSString *tempDownloadURLString;
@@ -39,7 +39,7 @@
     self = [super init];
     if (self) {
         useLocalServer = NO;
-        self.needsMessageUploadURL = YES;
+        self.needsOriginalMessageUploadURL = YES;
     }
     return self;
 }
@@ -296,16 +296,12 @@
     }];
 }
 
-- (NSString *)generateMessageID {
-    return [[NSUUID UUID] UUIDString];
-}
-
 - (void)fetchUploadURLForOriginalMessage:(User *)localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
     
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
 
     // Check if we already have unused messageID we fetched earlier - return that
-    if (!self.needsMessageUploadURL && [self.tempUploadURLString length] && [self.tempMessageID length] && self.tempDownloadURLString) {
+    if (!self.needsOriginalMessageUploadURL && [self.tempUploadURLString length] && [self.tempMessageID length] && self.tempDownloadURLString) {
         if (completionBlock) {
             completionBlock(self.tempMessageID, self.tempUploadURLString, self.tempDownloadURLString);
         }
@@ -335,7 +331,7 @@
     
     self.messageIDOperation = [manager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        self.needsMessageUploadURL = NO;
+        self.needsOriginalMessageUploadURL = NO;
         self.tempUploadURLString = [responseObject valueForKey:@"sasUrl"];
         self.tempDownloadURLString = [responseObject valueForKey:@"url"];
         self.tempMessageID = newMessageID;
@@ -349,7 +345,7 @@
         self.messageIDOperation = nil;
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        self.needsMessageUploadURL = YES;
+        self.needsOriginalMessageUploadURL = YES;
         NSLog(@"Error retrieving message ID or URL from the server");
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
@@ -362,6 +358,20 @@
         
         self.messageIDOperation = nil;
     }];
+}
+
+- (void)clearUploadURLForOriginalMessage {
+
+    // Cancel & cleanup previous requests
+    [self.messageIDOperation setCompletionBlockWithSuccess:nil failure:nil];
+    [self.messageIDOperation cancel];
+    
+    self.tempUploadURLString = nil;
+    self.tempMessageID = nil;
+    self.tempDownloadURLString = nil;
+    self.messageIDOperation = nil;
+    
+    self.needsOriginalMessageUploadURL = YES;
 }
 
 - (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString isReply:(BOOL)isReplyMessage {
@@ -386,11 +396,14 @@
     // After this we'll need a different endpoint for upload if we cancel or kill the app
     
     if (!isReplyMessage) {
-        self.needsMessageUploadURL = YES;
+        self.needsOriginalMessageUploadURL = YES;
     }
 }
 
 #pragma mark - Helpers
 
+- (NSString *)generateMessageID {
+    return [[NSUUID UUID] UUIDString];
+}
 
 @end
