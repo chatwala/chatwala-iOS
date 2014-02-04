@@ -59,13 +59,13 @@
     }
     
 #ifdef USE_QA_SERVER
-    return @"http://chatwala-deveast.azurewebsites.net";
+    return @"https://chatwala-deveast-13.azurewebsites.net";
 #elif USE_DEV_SERVER
-    return @"http://chatwala-deveast.azurewebsites.net";
+    return @"https://chatwala-deveast-13.azurewebsites.net";
 #elif USE_SANDBOX_SERVER
-    return @"http://chatwala-sandbox.azurewebsites.net";
+    return @"https://chatwala-sandbox-13.azurewebsites.net";
 #else
-    return @"http://chatwala-prodeast.azurewebsites.net";
+    return @"https://chatwala-prodeast-13.azurewebsites.net";
 #endif
 }
 
