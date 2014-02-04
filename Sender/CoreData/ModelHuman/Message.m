@@ -171,6 +171,9 @@
     [objectKeysToRemove removeObjectsInArray:whiteList];
     [jsonDict removeObjectsForKeys:objectKeysToRemove];
     
+    NSString * appVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    [jsonDict setObject:appVersion forKey:@"version_id"];
+    
     return [NSDictionary dictionaryByReassignKeysOfDictionary:jsonDict withKeys:[Message reverseKeyLookupTable]];
 }
 

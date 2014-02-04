@@ -317,7 +317,7 @@
                                       @"version_id" : @"1.0",
                                       @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
                                       @"timestamp" : timeStampString,
-                                      @"start_recording" : @2.648333
+                                      @"start_recording" : @2.648333,
                                       };
     //when
     Message * actual = [self.sut createMessageWithDictionary:jsonDictionary error:&error];
@@ -343,7 +343,7 @@
                                       @"version_id" : @"1.0",
                                       @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
                                       @"timestamp" : timeStampString,
-                                      @"start_recording" : @2.648333
+                                      @"start_recording" : @2.648333,
                                       };
     //when
     Message * actual = [self.sut createMessageWithDictionary:jsonDictionary error:&error];
