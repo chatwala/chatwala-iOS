@@ -117,8 +117,21 @@
 
 
 - (void)composeMessageWithMessageKey:(NSString*)messageURL withCompletion:(void (^)(void))completion {
+    
+    
+    NSString *messagePrefix = nil;
+#ifdef USE_QA_SERVER
+        messagePrefix = @"This is a QA message";
+#elif USE_DEV_SERVER
+        messagePrefix = @"This is a DEV message";
+#elif USE_SANDBOX_SERVER
+        messagePrefix = @"This is a Sandbox message";
+#else
+        messagePrefix = @"Hey, I sent you a video message on Chatwala";
+#endif
 
-    NSString* messageBody = [NSString stringWithFormat:@"Hey, I sent you a video message on Chatwala: %@",messageURL];
+    NSString *messageBody = [NSString stringWithFormat:@"%@: %@", messagePrefix, messageURL];
+    
     if ([[CWUserManager sharedInstance] newMessageDeliveryMethodIsSMS])
     {
         if([MFMessageComposeViewController canSendText] ) {

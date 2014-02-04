@@ -1661,6 +1661,10 @@
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				USE_DEV_SERVER = 0;
+				USE_QA_SERVER = 0;
+				USE_SANDBOX_SERVER = 0;
+
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1683,6 +1687,9 @@
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				USE_DEV_SERVER = 0;
+				USE_QA_SERVER = 0;
+				USE_SANDBOX_SERVER = 0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
