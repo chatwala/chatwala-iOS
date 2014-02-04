@@ -140,44 +140,49 @@
 
 - (Message *) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error
 {
-    if(![sourceDictionary isKindOfClass:[NSDictionary class]])
-    {
-        *error = [NSError errorWithDomain:@"com.chatwala" code:6003 userInfo:@{@"Failed import":@"import messages expects an array of dictionaries", @"found":sourceDictionary}];//failed to import
-        return nil;
-    }
-    NSString * messageID = [sourceDictionary objectForKey:MessageAttributes.messageID withLUT:[Message keyLookupTable]];
-    Message * item = [self findMessageByMessageID:messageID];
-    if(!item)
-    {
-        item = [Message insertInManagedObjectContext:self.moc];
-    }
-    
-    //add start recording
-    NSNumber *startRecording = [sourceDictionary objectForKey:@"start_recording" withLUT:[Message keyLookupTable]];
-    
-    if (!startRecording) {
-        item.startRecording = [NSNumber numberWithInt:0];
-    }
-    else {
-        item.startRecording = startRecording;
-    }
-    
-    [item fromDictionary:sourceDictionary withDateFormatter:[CWDataManager dateFormatter] error:error] ;
-    
-    //add users
-    NSString * senderID = [sourceDictionary objectForKey:MessageRelationships.sender withLUT:[Message keyLookupTable]];
-    User * sender = [self createUserWithID:senderID];
-    [item setSender:sender];
-    
-    NSString * receiverID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
-    item.recipient = [self createUserWithID:receiverID];
-    
-    //add thread
-    NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
-    item.thread = [self createThreadWithID:threadID];
-    
+    Message* item;
 
-    
+    if ([sourceDictionary isKindOfClass:[NSDictionary class]]) {
+
+        NSString * messageID = [sourceDictionary objectForKey:MessageAttributes.messageID withLUT:[Message keyLookupTable]];
+        item = [self findMessageByMessageID:messageID];
+        if(!item)
+        {
+            item = [Message insertInManagedObjectContext:self.moc];
+        }
+
+        //add start recording
+        NSNumber *startRecording = [sourceDictionary objectForKey:@"start_recording" withLUT:[Message keyLookupTable]];
+
+        if (!startRecording) {
+            item.startRecording = [NSNumber numberWithInt:0];
+        }
+        else {
+            item.startRecording = startRecording;
+        }
+
+        [item fromDictionary:sourceDictionary withDateFormatter:[CWDataManager dateFormatter] error:error] ;
+
+        //add users
+        NSString * senderID = [sourceDictionary objectForKey:MessageRelationships.sender withLUT:[Message keyLookupTable]];
+        User * sender = [self createUserWithID:senderID];
+        [item setSender:sender];
+
+        NSString * receiverID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
+        item.recipient = [self createUserWithID:receiverID];
+
+        //add thread
+        NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
+        item.thread = [self createThreadWithID:threadID];
+    }
+    else
+    {
+        if (error != NULL) {
+            *error = [NSError errorWithDomain:@"com.chatwala" code:6003 userInfo:@{@"Failed import":@"import messages expects an array of dictionaries", @"found":sourceDictionary}];//failed to import
+            return nil;
+        }
+    }
+
     return item;
 }
 
@@ -245,15 +250,16 @@
         }
         else
         {
-            *error = [NSError errorWithDomain:@"chatwala.com"
-                                         code:6006
-                                     userInfo:@{
-                                                @"reason":@"could not find json file",
-                                                @"file":metadataFileName}];
+            if (error != NULL) {
+                *error = [NSError errorWithDomain:@"chatwala.com"
+                                             code:6006
+                                         userInfo:@{
+                                                    @"reason":@"could not find json file",
+                                                    @"file":metadataFileName}];
+            }
             NSLog(@"could not find json file at %@",metadataFileName);
             return nil;
         }
-        
         
         // set video url
         [item setVideoURL:[NSURL fileURLWithPath:[destPath stringByAppendingPathComponent:VIDEO_FILE_NAME]]];
