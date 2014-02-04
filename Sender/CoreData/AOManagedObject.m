@@ -40,7 +40,7 @@
     {
         if([value isKindOfClass:[NSNumber class]])
         {
-            safeValue = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
+            safeValue = [NSDate dateWithTimeIntervalSince1970:[value doubleValue] / 1000];
         }
         else
         {
@@ -48,7 +48,7 @@
             NSNumber * number = [numberFormatter numberFromString: value];
             if ([number isKindOfClass:[NSNumber class]])
             {
-                safeValue = [NSDate dateWithTimeIntervalSince1970:[number doubleValue]];
+                safeValue = [NSDate dateWithTimeIntervalSince1970:[number doubleValue] / 1000];
             }
             else
             {

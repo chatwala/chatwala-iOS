@@ -307,8 +307,8 @@
 {
     //given
     NSError * error = nil;
-    NSDate * timeStamp = [NSDate dateWithTimeIntervalSince1970:1391467364];
-    NSString * timeStampString = [NSString stringWithFormat:@"%f", [timeStamp timeIntervalSince1970]];
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSince1970:1391467364.3861];
+    NSString * timeStampString = [NSString stringWithFormat:@"%f", [timeStamp timeIntervalSince1970] * 1000];
     NSDictionary * jsonDictionary = @{
                                       @"thread_index" : @1,
                                       @"thread_id" : @"B515825C-F722-427A-AC01-044D9B739D17",
