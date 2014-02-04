@@ -142,7 +142,6 @@
         id value = [self valueForKey:relation];
         
         if (value == nil) {
-            value = [NSNull null];
             continue;
         }
         NSRelationshipDescription * relationDescription = [relationships objectForKey:relation];

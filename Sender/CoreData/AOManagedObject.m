@@ -95,7 +95,6 @@
         id value = [self valueForKey:attribute];
         
         if (value == nil) {
-            value = [NSNull null];
             continue;
         }
         
