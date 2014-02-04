@@ -78,7 +78,7 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
             [request setHTTPMethod:@"PUT"];
             [request addValue:@"BlockBlob" forHTTPHeaderField:@"x-ms-blob-type"];
-            [request addValue:@"image/png" forHTTPHeaderField:@"Content-Type"];
+            [request addValue:@"image/jpeg" forHTTPHeaderField:@"Content-Type"];
             
             [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
             AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
