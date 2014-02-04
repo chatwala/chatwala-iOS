@@ -121,7 +121,7 @@ build() {
 #build 'Sender' 'AppStore' 'Release' "$cwAppStoreIdentity" 'B7AD3FC8-E51A-4236-9465-BFA74A6E6C7F.mobileprovision' ''
 
 #development signed builds
-#build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '89CDDA38-8825-40E3-BBF8-17EEFD0526AF.mobileprovision' ''
+#build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '3602CF16-C1C5-4A38-ADA0-1D23786253BD.mobileprovision' ''
 #build 'Sender' 'dev' 'Release' "$cwDebugIdentity" 'D0D8C84D-6B9B-4F38-B796-D0C7BD3A73E5.mobileprovision' 'USE_DEV_SERVER=1'
 build 'Sender' 'qa' 'Release' "$cwDebugIdentity" '4C1B17DF-6CFA-4C05-A1FE-B7590EB1524B.mobileprovision' 'USE_QA_SERVER=1'
 
