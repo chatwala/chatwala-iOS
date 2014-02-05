@@ -13,8 +13,8 @@ echo $buildNotes
 
 buildsFolder="../Builds"
 
-appVersion="1.0.7"
-internalVersion="2.5.16"
+appVersion="1.3.0"
+internalVersion="2.6.2"
 displayName="chatwala"
 cwDebugIdentity="\"iPhone Developer: Rahul Kumar (59L7REF9QB)\""
 cwAppStoreIdentity="\"iPhone Distribution: Chatwala Inc\""
@@ -64,7 +64,7 @@ build() {
   otherOptions=$6
 
   #archive
-  rm -rf ~/DEsktop/Builds/$buildType/$appVersion/$internalVersion/
+  rm -rf ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/
   #ipa
   rm -f ~/Desktop/Builds/IPA/Sender.$buildType.$appVersion.$internalVersion.ipa
   echo Cleaned up directory structure

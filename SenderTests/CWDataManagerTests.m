@@ -327,6 +327,29 @@
     XCTAssertTrue([actual.timeStamp isEqualToDate:timeStamp], @"expecting time stamp to be the same");
 }
 
+- (void) testCreateMessageWithDictionaryTimeStampInMiliseconds
+{
+    //given
+    NSError * error = nil;
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSince1970:1391467364.156];
+    NSString * timeStampString = @"1391467364156";
+    NSDictionary * jsonDictionary = @{
+                                      @"thread_index" : @1,
+                                      @"thread_id" : @"B515825C-F722-427A-AC01-044D9B739D17",
+                                      @"message_id" : @"9C545455-BBE7-4DE5-9208-AADEFB8EF674",
+                                      @"sender_id" : @"0b47ffe0-a491-3599-6ef2-e4cc4b03b22f",
+                                      @"version_id" : @"1.0",
+                                      @"recipient_id" : @"b838aef1-c804-b5b0-29ef-41b579350756",
+                                      @"timestamp" : timeStampString,
+                                      @"start_recording" : @2.648333,
+                                      };
+    //when
+    Message * actual = [self.sut createMessageWithDictionary:jsonDictionary error:&error];
+    
+    
+    //should
+    XCTAssertTrue([actual.timeStamp isEqualToDate:timeStamp], @"expecting time stamp to be the same");
+}
 
 
 - (void) testCreateMessageWithDictionary
