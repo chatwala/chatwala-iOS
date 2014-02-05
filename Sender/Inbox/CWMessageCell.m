@@ -116,6 +116,13 @@
 
 - (NSString *) timeStringFromDate:(NSDate *) timeStamp
 {
+    //january 1 2014
+    NSDate * launchDateOfApp = [NSDate dateWithTimeIntervalSince1970:1388534400];
+    
+    if([timeStamp isEqual:[timeStamp earlierDate:launchDateOfApp]])
+    {
+        return @"";//do not display sent date if its earlier than launch date
+    }
     
     NSTimeInterval timeThatHasPassed = -[timeStamp timeIntervalSinceNow];
     NSInteger wholeSeconds = timeThatHasPassed;
