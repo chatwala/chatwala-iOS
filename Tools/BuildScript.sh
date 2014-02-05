@@ -14,7 +14,7 @@ echo $buildNotes
 buildsFolder="../Builds"
 
 appVersion="1.3.0"
-internalVersion="2.6.4"
+internalVersion="2.6.5"
 displayName="chatwala"
 cwDebugIdentity="\"iPhone Developer: Rahul Kumar (59L7REF9QB)\""
 cwAppStoreIdentity="\"iPhone Distribution: Chatwala Inc\""
@@ -102,8 +102,8 @@ build() {
 	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Chatwala Master (4NGCTASJ2H)" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
   elif [ "$buildType" == "prod" ] ; then
 
-    xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration GCC_PREPROCESSOR_DEFINITIONS=$otherOptions CODE_SIGN_IDENTITY="iPhone Developer: Chatwala Master (4NGCTASJ2H)" CW_BUNDLE_IDENTIFIER="com.chatwala.chatwala" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
-	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Chatwala Master (4NGCTASJ2H)" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
+    xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration GCC_PREPROCESSOR_DEFINITIONS=$otherOptions CODE_SIGN_IDENTITY="iPhone Distribution: Chatwala Inc" CW_BUNDLE_IDENTIFIER="com.chatwala.chatwala" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
+	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Distribution: Chatwala Inc" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
   
   fi
   
@@ -121,7 +121,7 @@ build() {
 #build 'Sender' 'AppStore' 'Release' "$cwAppStoreIdentity" 'B7AD3FC8-E51A-4236-9465-BFA74A6E6C7F.mobileprovision' ''
 
 #development signed builds
-#build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '3602CF16-C1C5-4A38-ADA0-1D23786253BD.mobileprovision' 'USE_STAGING_SERVER=1'
+build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '68D670EB-0A45-433B-9EF5-CA94D0B7197A.mobileprovision' 'USE_STAGING_SERVER=1'
 #build 'Sender' 'dev' 'Release' "$cwDebugIdentity" 'D0D8C84D-6B9B-4F38-B796-D0C7BD3A73E5.mobileprovision' 'USE_DEV_SERVER=1'
-build 'Sender' 'qa' 'Release' "$cwDebugIdentity" '7A16570A-50AB-4FD7-8BA1-D259DF7654FE.mobileprovision' 'USE_QA_SERVER=1'
+#build 'Sender' 'qa' 'Release' "$cwDebugIdentity" '7A16570A-50AB-4FD7-8BA1-D259DF7654FE.mobileprovision' 'USE_QA_SERVER=1'
 
