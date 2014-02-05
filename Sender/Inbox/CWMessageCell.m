@@ -124,6 +124,12 @@
     }
     
     NSTimeInterval timeThatHasPassed = -[timeStamp timeIntervalSinceNow];
+    
+    if(timeThatHasPassed < 0)
+    {
+        return @"";//do not display sent date if it is in the future
+    }
+    
     NSInteger wholeSeconds = timeThatHasPassed;
     
     const NSInteger kSecondsPerMinute = 60;

@@ -226,4 +226,40 @@ const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
     [mockConstants stopMocking];
 }
 
+
+- (void)testTimeStringFromDateWithTimeEarlierThanLaunchDate
+{
+    //given
+    NSInteger wholeYears = arc4random_uniform(3) + 1;
+    NSTimeInterval time = wholeYears * kSecondsPerYear;
+    NSString * expected = @"";
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
+    id mockConstants = [OCMockObject mockForClass:[CWConstants class]];
+    [[[mockConstants stub] andReturn:[NSDate date]] launchDate];
+    
+    //when
+    NSString * actual = [self.sut timeStringFromDate:timeStamp];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"should be the same");
+    
+    //cleanup
+    [mockConstants stopMocking];
+}
+
+- (void)testTimeStringFromDateWithFutureTime
+{
+    //given
+    NSTimeInterval time = arc4random_uniform(kSecondsPerYear) + 1;
+    NSString * expected = @"";
+    NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:time];
+    
+    //when
+    NSString * actual = [self.sut timeStringFromDate:timeStamp];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"should be the same");
+    
+    //cleanup
+}
 @end
