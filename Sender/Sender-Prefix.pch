@@ -49,9 +49,6 @@
 // testflight app token
 #define TESTFLIGHT_APP_TOKEN        @"73919668-dae2-4921-997a-71f27ac19678"
 
-// google analytics token
-#define GOOGLE_ANALYTICS_ID         @"UA-46207837-1"
-
 // max record time in seconds
 #define MAX_RECORD_TIME             10
 // version of the chatwala file
