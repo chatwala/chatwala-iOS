@@ -43,6 +43,8 @@ NSInteger const defaultFeedbackTrigger = 5;
     NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/DEVdefaults1_3.plist";
 #elif USE_SANDBOX_SERVER
     NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/DEVdefaults1_3.plist";
+#elif USE_STAGING_SERVER
+    NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/defaults1_3.plist";
 #else
     NSString * endpoint = @"https://s3.amazonaws.com/chatwala.groundcontrol/defaults1_3.plist";
 #endif
