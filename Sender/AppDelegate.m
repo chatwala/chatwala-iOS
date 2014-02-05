@@ -73,7 +73,21 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [CWGroundControlManager sharedInstance];
     
     [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
-    [CWAnalytics setupGoogleAnalyticsWithID:GOOGLE_ANALYTICS_ID];
+    
+    
+#ifdef USE_QA_SERVER
+    NSString *analyticsID = @"UA-46207837-4";
+#elif USE_DEV_SERVER
+    NSString *analyticsID = @"UA-46207837-3";
+#elif USE_SANDBOX_SERVER
+    NSString *analyticsID = @"UA-46207837-3";
+#elif USE_STAGING_SERVER
+    NSString *analyticsID = @"UA-46207837-5";
+#else
+    NSString *analyticsID = @"UA-46207837-1";
+#endif
+    
+    [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
     
     [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
