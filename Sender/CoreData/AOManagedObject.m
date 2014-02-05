@@ -116,18 +116,8 @@
         
         NSAttributeType attributeType = [[attributes objectForKey:attribute] attributeType];
         
-        if (attributeType == NSDateAttributeType)
-        {
-            if(dateFormatter != nil)
-            {
-                value = [dateFormatter stringFromDate:value];
-            }
-            else
-            {
-                NSTimeInterval timeSinceEpoch = [value timeIntervalSince1970];
-                value = [NSString stringWithFormat:@"%lli",(long long)(timeSinceEpoch * 1000)];
-//                value = [NSNumber numberWithLongLong:(timeSinceEpoch * 1000)];//if the value needs to be a number instead of a string
-            }
+        if ((attributeType == NSDateAttributeType) && (dateFormatter != nil)) {
+            value = [dateFormatter stringFromDate:value];
         }
         
         [jsonDict setValue:value forKey:attribute];

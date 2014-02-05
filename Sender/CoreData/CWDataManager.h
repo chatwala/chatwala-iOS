@@ -34,6 +34,4 @@
 
 + (NSString*)cacheDirectoryPath;
 + (NSDateFormatter *)dateFormatter;
-+ (NSDateFormatter *) outboundDateFormatter;
-
 @end
