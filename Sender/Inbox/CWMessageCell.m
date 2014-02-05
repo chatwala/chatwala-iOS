@@ -116,6 +116,15 @@
 
 - (NSString *) timeStringFromDate:(NSDate *) timeStamp
 {
+    if(nil == timeStamp)
+    {
+        return @"";
+    }
+    
+//    if([timeStamp isEqual:[timeStamp earlierDate:[CWConstants launchDate]]])
+//    {
+//        return @"";//do not display sent date if its earlier than launch date
+//    }
     
     NSTimeInterval timeThatHasPassed = -[timeStamp timeIntervalSinceNow];
     NSInteger wholeSeconds = timeThatHasPassed;
