@@ -32,6 +32,7 @@
 		206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 206CDF8E18808F59007F3532 /* CoreData.framework */; };
 		3614539518844EC600400916 /* MessageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3614539418844EC600400916 /* MessageTests.m */; };
 		36145397188481FD00400916 /* testMessage.zip in Resources */ = {isa = PBXBuildFile; fileRef = 36145396188481FD00400916 /* testMessage.zip */; };
+		3629AB1018A2A178007F8D02 /* CWConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 3629AB0F18A2A178007F8D02 /* CWConstants.m */; };
 		366EB58C18843E4200A7FF75 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 366EB58B18843E4200A7FF75 /* UserTests.m */; };
 		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
@@ -264,6 +265,8 @@
 		206CDF8E18808F59007F3532 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3614539418844EC600400916 /* MessageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTests.m; sourceTree = "<group>"; };
 		36145396188481FD00400916 /* testMessage.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = testMessage.zip; sourceTree = "<group>"; };
+		3629AB0E18A2A178007F8D02 /* CWConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWConstants.h; sourceTree = "<group>"; };
+		3629AB0F18A2A178007F8D02 /* CWConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWConstants.m; sourceTree = "<group>"; };
 		366EB58B18843E4200A7FF75 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
 		367439E9187F5C6200613FD6 /* MocForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MocForTests.h; sourceTree = "<group>"; };
 		367439EA187F5C6200613FD6 /* MocForTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MocForTests.m; sourceTree = "<group>"; };
@@ -546,6 +549,8 @@
 				0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */,
 				0D4586E2189AC591006BB737 /* CWServerAPI.h */,
 				0D4586E3189AC591006BB737 /* CWServerAPI.m */,
+				3629AB0E18A2A178007F8D02 /* CWConstants.h */,
+				3629AB0F18A2A178007F8D02 /* CWConstants.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1505,6 +1510,7 @@
 				0D1DAEB11891809D0051D7AE /* CWSettingsViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
 				36AF5836187DF0A200C5C13F /* User.m in Sources */,
+				3629AB1018A2A178007F8D02 /* CWConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1664,7 +1670,6 @@
 				USE_DEV_SERVER = 0;
 				USE_QA_SERVER = 0;
 				USE_SANDBOX_SERVER = 0;
-
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
