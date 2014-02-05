@@ -116,7 +116,7 @@
     
 //    NSDictionary * jsonDict = [MTLJSONAdapter JSONDictionaryFromModel:self.metadata];
     NSError * error = nil;
-    NSData * jsonData = [self toJSONWithDateFormatter:[CWDataManager dateFormatter] error:&error];
+    NSData * jsonData = [self toJSONWithDateFormatter:[CWDataManager outboundDateFormatter] error:&error];
     
     if (err) {
         NSLog(@"faild to create JSON metadata: %@",err.debugDescription);
