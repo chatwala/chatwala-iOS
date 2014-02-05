@@ -43,8 +43,8 @@
                         <action selector="sureButtonTapped:" destination="-1" eventType="touchUpInside" id="33A-dX-UEL"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Great!                  How about rating us in the App Store?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="197" translatesAutoresizingMaskIntoConstraints="NO" id="T8S-Mq-JG8">
-                    <rect key="frame" x="62" y="108" width="197" height="99"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Great!                  How about rating us on the App Store?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="T8S-Mq-JG8">
+                    <rect key="frame" x="50" y="90" width="220" height="99"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -59,13 +59,13 @@
                 <constraint firstItem="xzo-vw-M1c" firstAttribute="top" secondItem="mSv-LU-FH6" secondAttribute="bottom" id="BTE-Ut-0EW"/>
                 <constraint firstItem="OdY-N2-fb2" firstAttribute="centerX" secondItem="fD3-Cc-Sfo" secondAttribute="centerX" id="Dt1-oO-vVL"/>
                 <constraint firstItem="xzo-vw-M1c" firstAttribute="bottom" secondItem="fD3-Cc-Sfo" secondAttribute="bottom" id="EYJ-YE-PmM"/>
-                <constraint firstItem="xzo-vw-M1c" firstAttribute="top" secondItem="T8S-Mq-JG8" secondAttribute="bottom" constant="77" id="QET-G9-A7R"/>
+                <constraint firstItem="xzo-vw-M1c" firstAttribute="top" secondItem="T8S-Mq-JG8" secondAttribute="bottom" constant="95" id="QET-G9-A7R"/>
                 <constraint firstItem="fD3-Cc-Sfo" firstAttribute="top" secondItem="1" secondAttribute="top" id="QGn-Th-T9k"/>
                 <constraint firstItem="xzo-vw-M1c" firstAttribute="trailing" secondItem="fD3-Cc-Sfo" secondAttribute="trailing" id="S45-6N-TEx"/>
                 <constraint firstAttribute="trailing" secondItem="fD3-Cc-Sfo" secondAttribute="trailing" id="ToH-WS-u4u"/>
                 <constraint firstAttribute="bottom" secondItem="fD3-Cc-Sfo" secondAttribute="bottom" id="W02-nB-guh"/>
                 <constraint firstItem="fD3-Cc-Sfo" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="bt6-ZY-VYJ"/>
-                <constraint firstItem="OdY-N2-fb2" firstAttribute="top" secondItem="T8S-Mq-JG8" secondAttribute="bottom" constant="37" id="o19-aC-D1l"/>
+                <constraint firstItem="OdY-N2-fb2" firstAttribute="top" secondItem="T8S-Mq-JG8" secondAttribute="bottom" constant="55" id="o19-aC-D1l"/>
                 <constraint firstItem="OdY-N2-fb2" firstAttribute="centerX" secondItem="T8S-Mq-JG8" secondAttribute="centerX" id="rCP-Zb-xQV"/>
                 <constraint firstItem="mSv-LU-FH6" firstAttribute="top" secondItem="1" secondAttribute="top" id="uKP-H9-BWn"/>
                 <constraint firstItem="OdY-N2-fb2" firstAttribute="centerY" secondItem="fD3-Cc-Sfo" secondAttribute="centerY" id="vxT-Hl-JZO"/>

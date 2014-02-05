@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CWVideoManager.h"
-#import "CWMessageItem.h"
 #import "CWMiddleButton.h"
 #import "CWViewController.h"
 #import "Message.h"

@@ -7,6 +7,7 @@
 //
 
 #import "CWSettingsBaseViewController.h"
+#import "UIColor+Additions.h"
 
 @interface CWSettingsBaseViewController ()
 
@@ -26,12 +27,42 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	UIImage * backImg = [UIImage imageNamed:@"back_button"];
-    UIButton * backBtn =[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
-    [backBtn addTarget:self action:@selector(onBack) forControlEvents:UIControlEventTouchUpInside];
-    [backBtn setImage:backImg forState:UIControlStateNormal];
-    UIBarButtonItem* backBtnItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
-    [self.navigationItem setLeftBarButtonItem:backBtnItem];
+    if (![[self.navigationController.viewControllers objectAtIndex:0] isEqual:self])
+    {
+        UIImage * backImg = [UIImage imageNamed:@"back_button"];
+        UIButton * backBtn =[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 40, 30)];
+        [backBtn addTarget:self action:@selector(onBack) forControlEvents:UIControlEventTouchUpInside];
+        [backBtn setImage:backImg forState:UIControlStateNormal];
+        UIBarButtonItem* backBtnItem = [[UIBarButtonItem alloc] initWithCustomView:backBtn];
+        [self.navigationItem setLeftBarButtonItem:backBtnItem];
+    }
+    else
+    {
+        UIBarButtonItem * doneBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onSettingsDone:)];
+
+        [self.navigationItem setRightBarButtonItem:doneBtn];
+    }
+
+    [self.navigationItem.titleView setTintColor:[UIColor chatwalaFeedbackLabel]];
+}
+
+- (void)setTitle:(NSString *)title
+{
+    [super setTitle:title];
+    UILabel *titleView = (UILabel *)self.navigationItem.titleView;
+    if (!titleView) {
+        titleView = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleView.backgroundColor = [UIColor clearColor];
+        titleView.font = [UIFont fontWithName:@"Avenir" size:16.0];
+        titleView.shadowColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+
+        titleView.textColor = [UIColor chatwalaFeedbackLabel]; // Change to desired color
+
+        self.navigationItem.titleView = titleView;
+     
+    }
+    titleView.text = title;
+    [titleView sizeToFit];
 }
 
 - (void)onBack
@@ -45,4 +76,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)onSettingsDone:(id)sender
+{
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+}
 @end

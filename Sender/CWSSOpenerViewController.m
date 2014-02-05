@@ -115,7 +115,8 @@
     {
         // push to review
         CWSSReviewViewController * reviewVC = [[CWSSReviewViewController alloc]init];
-       [reviewVC setStartRecordingTime:[self.player videoLength] - self.activeMessage.startRecordingValue];
+        [reviewVC setStartRecordingTime:[self.player videoLength] - self.activeMessage.startRecordingValue];
+
         [reviewVC setIncomingMessage:self.activeMessage];
         [self.navigationController pushViewController:reviewVC animated:NO];
     }

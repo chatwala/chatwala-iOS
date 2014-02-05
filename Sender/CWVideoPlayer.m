@@ -29,7 +29,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVURLAsset *asset;
 
-@property (nonatomic, strong) UIImage * thumbnail;
+@property (nonatomic, strong) UIImage * profilePicture;
 @end
 
 
@@ -65,7 +65,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
 - (void)setVideoURL:(NSURL *)URL
 {
     _videoURL = URL;
-    self.thumbnail = nil;
+    self.profilePicture = nil;
     // check if video file exists
     BOOL videoFileExists = [[NSFileManager defaultManager] fileExistsAtPath:URL.path];
     if (!videoFileExists) {
@@ -84,10 +84,15 @@ NSString * const kCurrentItemKey	= @"currentItem";
     self.asset = [AVURLAsset URLAssetWithURL:_videoURL options:nil];
     
     NSArray *requestedKeys = [NSArray arrayWithObjects:kTracksKey, kPlayableKey, nil];
-    
+
+    AVURLAsset * loadedAsset = self.asset;
     [self.asset loadValuesAsynchronouslyForKeys:requestedKeys completionHandler:
      ^{
+         NSLog(@"loading asset %@",loadedAsset);
+         if([self.asset isEqual:loadedAsset])
+         {
             [self prepareToPlayAsset:self.asset withKeys:requestedKeys];
+         }
      }];
 }
 
@@ -181,11 +186,12 @@ NSString * const kCurrentItemKey	= @"currentItem";
 
 - (void)setupPlayerWithAsset:(AVAsset*)asset
 {
-    if (self.player) {
-        self.player = nil;
-    }
-    
+//    if (self.player) {
+//        self.player = nil;
+//    }
+//    
     // setup player
+
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
     [self.player setActionAtItemEnd:AVPlayerActionAtItemEndNone];
     [self.player addObserver:self forKeyPath:kCurrentItemKey options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew context:CWVideoPlayerPlaybackViewControllerStatusObservationContext];
@@ -201,32 +207,52 @@ NSString * const kCurrentItemKey	= @"currentItem";
     }
 }
 
+-(void)cleanUp
+{
+    [self.player removeObserver:self forKeyPath:kCurrentItemKey];
+    [self.playerItem removeObserver:self forKeyPath:kStatusKey];
+    self.player = nil;
+    self.playerItem = nil;
+}
+
 #pragma mark - generate thumbnail
 
-- (void) createThumbnailWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
+- (void) createProfilePictureThumbnailWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
 {
-    if(self.thumbnail)
+    if(self.profilePicture)
     {
         if(completionHandler)
         {
-            completionHandler(self.thumbnail);
+            completionHandler(self.profilePicture);
         }
         return;
     }
-    
-    
+    [self createStillsForTime:kCMTimeZero withCompletionHandler:completionHandler];
+}
+
+- (void) createStillForLastFrameWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
+{
+    NSAssert(self.asset, @"expecting asset to be set");
+    CMTime lastFrame = self.asset.duration;
+    [self createStillsForTime:lastFrame withCompletionHandler:completionHandler];
+}
+
+- (void) createStillsForTime:(CMTime) time withCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
+{
     AVAssetImageGenerator * imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:self.asset];
     imageGenerator.appliesPreferredTrackTransform = YES;
-    [imageGenerator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:kCMTimeZero]]
+    [imageGenerator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:time]]
                                          completionHandler:^(CMTime requestedTime, CGImageRef image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error) {
                                                       if(result == AVAssetImageGeneratorSucceeded)
                                                       {
-                                                          self.thumbnail = [UIImage imageWithCGImage:image scale:1.0 orientation:UIImageOrientationUp];
-                                                          completionHandler(self.thumbnail);
+                                                          self.profilePicture = [UIImage imageWithCGImage:image scale:1.0 orientation:UIImageOrientationUp];
+                                                          completionHandler(self.profilePicture);
                                                       }
                                                   }];
     
 }
+
+
 
 
 #pragma mark - Key Valye Observing

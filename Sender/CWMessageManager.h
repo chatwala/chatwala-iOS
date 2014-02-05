@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
+#import "Message.h"
 
-#import "CWMessageItem.h"
 
-typedef void (^CWMessageManagerFetchMessageUploadIDCompletionBlock)(NSString *messageID, NSString *messageURL);
+typedef void (^CWMessageManagerFetchMessageUploadURLCompletionBlock)(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString);
 
 typedef void (^AFRequestOperationManagerSuccessBlock) (AFHTTPRequestOperation *operation, id responseObject);
 typedef void (^AFRequestOperationManagerFailureBlock) (AFHTTPRequestOperation *operation, NSError *error);
@@ -34,9 +34,13 @@ typedef void (^CWDownloadTaskCompletionBlock) (NSURLResponse *response, NSURL *f
 +(instancetype) sharedInstance;
 - (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
 - (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(CWMessageDownloadCompletionBlock)completionBlock;
-- (void)fetchOriginalMessageIDWithSender:(User *) localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
-- (void)fetchMessageIDForReplyToMessage:(CWMessageItem *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadIDCompletionBlock)completionBlock;
-- (void)uploadMessage:(CWMessageItem *)messageToUpload isReply:(BOOL)isReplyMessage;
+
+
+- (void)fetchUploadURLForOriginalMessage:(User *)localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
+- (void)clearUploadURLForOriginalMessage;
+
+- (void)fetchUploadURLForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
+- (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString isReply:(BOOL)isReplyMessage;
 
 #pragma mark - callbacks for test
 

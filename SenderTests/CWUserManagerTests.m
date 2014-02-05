@@ -11,10 +11,14 @@
 #import "CWUserManager.h"
 #import "CWDataManager.h"
 #import "MocForTests.h"
-
+#import "User.h"
+#import "Message.h"
+#import "CWGroundControlManager.h"
 
 @interface CWUserManager (exposingForTest)
 @property (nonatomic) AFHTTPRequestOperation * fetchUserIDOperation;
+@property (nonatomic) User * localUser;
+
 
 @end
 
@@ -22,6 +26,8 @@
 
 @property (nonatomic) CWUserManager * sut;
 @property (nonatomic) NSManagedObjectContext * moc;
+@property (nonatomic) id mockSut;
+@property (nonatomic) id mockUserDefaults;
 
 @end
 
@@ -31,128 +37,157 @@
 {
     [super setUp];
     // Put setup code here; it will be run once, before the first test case.
+
+    self.mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
+    [[[self.mockUserDefaults stub] andReturn:@"myuserID"] valueForKey:@"CHATWALA_USER_ID"];
+
     self.sut = [[CWUserManager alloc] init];
     
     MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
     self.moc = mocFactory.moc;
+    
+    self.mockSut = [OCMockObject partialMockForObject:self.sut];
 }
 
 - (void)tearDown
 {
     // Put teardown code here; it will be run once, after the last test case.
+    [self.mockSut stopMocking];
+    [self.mockUserDefaults stopMocking];
     [super tearDown];
 }
 
-- (void)testLocalUserShouldCallCompletionWhenWeAlreadyHaveUserID
+- (void)testLocalUserShouldUseIDInUserDefaults
 {
     //given
-    __block BOOL callbackRan = NO;
-    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:@"myuserID"] valueForKey:@"CHATWALA_USER_ID"];
-    id mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
-    [[mockDataManager  expect] createUserWithID:@"myuserID"];
     
     //when
-    [self.sut localUser:^(User *localUser) {
-        callbackRan = YES;
-    }];
+    User * actual = [self.sut localUser];
     
     //should
-    XCTAssertTrue(callbackRan, @"callback should have run");
+    XCTAssertEqualObjects(actual.userID, @"myuserID", @"expecting same user ID");
     
     //cleanup
-    [mockUserDefaults stopMocking];
-    [mockDataManager stopMocking];
 }
-- (void) testLocalUserShouldNotRequestNewUserIDWhenAlreadyHasUserID
-{
-    //given
-    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:@"something"] valueForKey:@"CHATWALA_USER_ID"];
-    id mockAFOpertaionManager = [OCMockObject mockForClass:[AFHTTPRequestOperationManager class]];
-    [[[mockAFOpertaionManager stub] andReturn:mockAFOpertaionManager] manager];
-    [[mockAFOpertaionManager reject] GET:OCMOCK_ANY parameters:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
-    
-    //when
-    [self.sut localUser:nil];
-    
-    //should
-    [mockAFOpertaionManager verify];
-    
-    
-    //cleanup
-    [mockUserDefaults stopMocking];
-}
-
 
 - (void) testLocalUserShouldRequestNewUserID
 {
     //given
-    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:nil] valueForKey:@"CHATWALA_USER_ID"];
-    id mockAFOpertaionManager = [OCMockObject mockForClass:[AFHTTPRequestOperationManager class]];
-    [[[mockAFOpertaionManager stub] andReturn:mockAFOpertaionManager] manager];
-    [[mockAFOpertaionManager expect] GET:OCMOCK_ANY parameters:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
-    [[mockAFOpertaionManager expect] setRequestSerializer:OCMOCK_ANY];
+    User *expected = [User insertInManagedObjectContext:self.moc];
+    id mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
+    [[[mockDataManager expect] andReturn:expected] createUserWithID:@"myuserID"];
+    [[[self.mockUserDefaults stub] andReturn:nil] valueForKey:@"CHATWALA_USER_ID"];
     
     //when
-    [self.sut localUser:nil];
+    User *actual = [self.sut localUser];
 
     //should
-    [mockAFOpertaionManager verify];
-    
+    XCTAssertEqualObjects(actual, expected, @"user should be new");
+    [mockDataManager verify];
     
     //cleanup
-    [mockUserDefaults stopMocking];
-}
-
-- (void) testUserIDCompletionBlock
-{
-    //given
-    NSString * userID = @"my_USER_IDBIEOB";
-    User * expected = [User insertInManagedObjectContext:self.moc];
-    id mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
-    [[[mockDataManager expect] andReturn:expected] createUserWithID:userID];
-    
-    __block User * actual = nil;
-    CWUserManagerLocalUserBlock completionBlock = ^(User * user){
-        actual = user;
-    };
-    
-    //when
-    self.sut.getUserIDCompletionBlock(OCMOCK_ANY, @[@{@"user_id":userID}], completionBlock);
-    
-    //should
-    XCTAssertEqualObjects(actual, expected, @"expecting users to match");
-    
     [mockDataManager stopMocking];
 }
 
-- (void) testLocalUserRequestShouldCancelOldOperation
+- (void)testRequestAppFeedbackReturnsAppVersion
 {
     //given
-    id mockOperation = [OCMockObject niceMockForClass:[AFHTTPRequestOperation class]];
-    self.sut.fetchUserIDOperation = mockOperation;
-    [[mockOperation expect] cancel];
-    
-    //flow control
     id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
-    [[[mockUserDefaults stub] andReturn:nil] valueForKey:@"CHATWALA_USER_ID"];
-    id mockAFOpertaionManager = [OCMockObject mockForClass:[AFHTTPRequestOperationManager class]];
-    [[[mockAFOpertaionManager stub] andReturn:mockAFOpertaionManager] manager];
-    [[mockAFOpertaionManager stub] GET:OCMOCK_ANY parameters:OCMOCK_ANY success:OCMOCK_ANY failure:OCMOCK_ANY];
-    [[mockAFOpertaionManager stub] setRequestSerializer:OCMOCK_ANY];
+    [[mockUserDefaults expect] setObject:OCMOCK_ANY forKey:kAppVersionOfFeedbackRequestedKey];
     
     //when
-    [self.sut localUser:nil];
+    [self.sut didRequestAppFeedback];
     
     //should
-    XCTAssertNotEqual(self.sut.fetchUserIDOperation, mockOperation, @"expecting operation to be reset");
-    [mockOperation verify];
+    [mockUserDefaults verify];
     
     //cleanup
-    [mockAFOpertaionManager stopMocking];
+    [mockUserDefaults stopMocking];
+    
+}
+
+- (void)testAppFeedbackHasBeenRequestedReturnsVersionString
+{
+    
+    //given
+    NSString * expected = @"Somewin3intbtibgd";
+    id mockUserDefaults = [OCMockObject partialMockForObject:[NSUserDefaults standardUserDefaults]];
+    [[[mockUserDefaults stub] andReturn:expected] stringForKey:kAppVersionOfFeedbackRequestedKey];
+    
+    //when
+    NSString* actual = [self.sut appVersionOfAppFeedbackRequest];
+    
+    //should
+    XCTAssertEqualObjects(actual, expected, @"expecting version to be the one found in NSUserDefaults");
+    
+    //cleanup
     [mockUserDefaults stopMocking];
 }
+
+- (void) testShouldRequestAppFeecbackShouldReturnNOWhenVersionStringExists
+{
+    //given
+   
+    [[[self.mockSut stub] andReturn:@"SOMEversionNumber"] appVersionOfAppFeedbackRequest];
+    
+    //when
+    BOOL actual = [self.sut shouldRequestAppFeedback];
+    
+    //should
+    XCTAssertFalse(actual, @"expecting the function to return NO");
+    
+    //cleanup
+}
+
+
+- (void) testShouldRequestAppFeedbackShouldReturnNOWhenUserHasNotSentMoreThan5Messages
+{
+    //given
+    [[[self.mockSut stub] andReturn:nil] appVersionOfAppFeedbackRequest];
+    self.sut.localUser = [User insertInManagedObjectContext:self.moc];
+    const NSInteger numberOfSentMessagesThreshold = 15;
+    const NSInteger numberOfSentMessages = arc4random_uniform(numberOfSentMessagesThreshold);
+    id mockGroundControl = [OCMockObject partialMockForObject:[CWGroundControlManager sharedInstance]];
+    [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] appFeedbackSentMessageThreshold];
+    for(int ii = 0; ii < numberOfSentMessages; ++ii)
+    {
+        [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:[self.sut.localUser managedObjectContext]]];
+    }
+    
+    //when
+    BOOL actual = [self.sut shouldRequestAppFeedback];
+    
+    //should
+    XCTAssertFalse(actual, @"expecting the function to return NO");
+    
+    //cleanup
+    [mockGroundControl stopMocking];
+}
+
+
+- (void) testShouldRequestAppFeedbackShouldReturnYESWhenUserHasSentMoreThan5MessagesAndHasNotRequestedFeedback
+{
+    //given
+    [[[self.mockSut stub] andReturn:nil] appVersionOfAppFeedbackRequest];
+    self.sut.localUser = [User insertInManagedObjectContext:self.moc];
+    const NSInteger numberOfSentMessagesThreshold = 15;
+    const NSInteger numberOfSentMessages = numberOfSentMessagesThreshold + arc4random_uniform(5);
+    id mockGroundControl = [OCMockObject partialMockForObject:[CWGroundControlManager sharedInstance]];
+    [[[mockGroundControl stub] andReturn:@(numberOfSentMessagesThreshold)] appFeedbackSentMessageThreshold];
+    for(int ii = 0; ii < numberOfSentMessages; ++ii)
+    {
+        [self.sut.localUser addMessagesSentObject:[Message insertInManagedObjectContext:[self.sut.localUser managedObjectContext]]];
+    }
+    
+    //when
+    BOOL actual = [self.sut shouldRequestAppFeedback];
+    
+    //should
+    XCTAssertTrue(actual, @"expecting the function to return YES when you have %i sent messages and the threshold is %i", numberOfSentMessages, numberOfSentMessagesThreshold);
+    
+    //cleanup
+    [mockGroundControl stopMocking];
+}
+
 
 @end

@@ -48,6 +48,7 @@
             NSNumber * number = [numberFormatter numberFromString: value];
             if ([number isKindOfClass:[NSNumber class]])
             {
+                //the string value is actually a number so treat it as such
                 safeValue = [NSDate dateWithTimeIntervalSince1970:[number doubleValue]];
             }
             else
@@ -55,7 +56,21 @@
                 safeValue = [dateFormatter dateFromString:value];
             }
         }
-        
+        NSDate * now = [NSDate date];
+        if([safeValue isEqual:[now laterDate:safeValue]])
+        {
+            //assumes that the time came in at milliseconds
+            NSDate * dateAfterSecondsConversion = [NSDate dateWithTimeIntervalSince1970:[safeValue timeIntervalSince1970]/1000];
+            if([dateAfterSecondsConversion isEqual:[now earlierDate:dateAfterSecondsConversion]])
+            {
+                safeValue = dateAfterSecondsConversion;
+            }
+            else
+            {
+                safeValue = nil;
+            }
+            
+        }
     }
     
     return safeValue;
@@ -86,7 +101,7 @@
     return self;
 }
 
--(NSData *)toJSONWithDateFormatter:(NSDateFormatter *)dateFormatter error:(NSError **)error
+- (NSDictionary *) toDictionaryWithDataFormatter:(NSDateFormatter *) dateFormatter error:(NSError **) error
 {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionary];
     NSDictionary *attributes = [[self entity] attributesByName];
@@ -96,6 +111,7 @@
         
         if (value == nil) {
             value = [NSNull null];
+            continue;
         }
         
         NSAttributeType attributeType = [[attributes objectForKey:attribute] attributeType];
@@ -103,9 +119,28 @@
         if ((attributeType == NSDateAttributeType) && (dateFormatter != nil)) {
             value = [dateFormatter stringFromDate:value];
         }
+//        if (attributeType == NSDateAttributeType)
+//        {
+//            if(dateFormatter != nil)
+//            {
+//                value = [dateFormatter stringFromDate:value];
+//            }
+//            else
+//            {
+//                NSTimeInterval timeSinceEpoch = [value timeIntervalSince1970];
+//                value = [NSString stringWithFormat:@"%lli",(long long)(timeSinceEpoch * 1000)];
+//                //                value = [NSNumber numberWithLongLong:(timeSinceEpoch * 1000)];//if the value needs to be a number instead of a string
+//            }
+//        }
         
         [jsonDict setValue:value forKey:attribute];
     }
+    return jsonDict;
+}
+
+-(NSData *)toJSONWithDateFormatter:(NSDateFormatter *)dateFormatter error:(NSError **)error
+{
+    NSDictionary * jsonDict = [self toDictionaryWithDataFormatter:dateFormatter error:error];
     
     NSData *jsonObj = [NSJSONSerialization dataWithJSONObject:jsonDict options:NSJSONWritingPrettyPrinted error:error];
     

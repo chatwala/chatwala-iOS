@@ -9,6 +9,7 @@
 #import "CWPushNotificationsAPI.h"
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
+#import "CWServerAPI.h"
 
 @implementation CWPushNotificationsAPI
 
@@ -22,7 +23,6 @@ static BOOL didRegisterForPushNotifications = NO;
         // TODO: Use notifications mask
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge];
     }
-    
 }
 
 + (void)sendProviderDeviceToken:(NSData *)tokenData {
@@ -35,24 +35,13 @@ static BOOL didRegisterForPushNotifications = NO;
         didRegisterForPushNotifications = YES;
     }
     
-    // Create new request
-    AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
-    requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-    
-    __block NSString *userId = nil;
-    
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        userId = localUser.userID;
-    }];
-    
-    NSDictionary *params = @{@"user_id" : userId,
-                             @"push_token" : deviceToken,
-                             @"platform_type" : @"ios"};
-    
-    [requestManager POST:[[CWMessageManager sharedInstance] registerEndPoint] parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Successfully registered push notification token with chatwala server");
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failed to register push notification, error:  %@",error.localizedDescription);
+    [CWServerAPI registerPushForUserID:[[CWUserManager sharedInstance] localUser].userID withPushToken:deviceToken withCompletionBlock:^(NSError *error) {
+        if (error) {
+            NSLog(@"Failed to register push notification, error:  %@",error.localizedDescription);
+        }
+        else {
+            NSLog(@"Successfully registered push notification token with chatwala server");
+        }
     }];
 }
 
@@ -62,13 +51,10 @@ static BOOL didRegisterForPushNotifications = NO;
 
 + (void)handleRemotePushNotification:(NSDictionary *)userInfo completionBlock:(void (^)(UIBackgroundFetchResult))completionHandler {
     if ([userInfo count]) {
-        // Kick off message fetch call
-        [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-            [[CWMessageManager sharedInstance] getMessagesForUser:localUser withCompletionOrNil:completionHandler];
-        }];
+        [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:completionHandler];
     }
     else {
-
+        NSLog(@"Remote notification does not contain user info.");
     }
 }
 

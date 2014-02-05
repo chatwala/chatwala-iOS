@@ -118,6 +118,26 @@
     return user;
 }
 
+- (Message *) createMessageWithSender:(User *) sender inResponseToIncomingMessage:(Message *) incomingMessage
+{
+    Message * message = [Message insertInManagedObjectContext:self.moc];
+    message.sender = sender;
+    message.timeStamp = [NSDate date];
+    message.messageID = [[NSUUID UUID] UUIDString];;
+    
+    if(incomingMessage)
+    {
+        message.recipient = incomingMessage.sender;
+        message.thread = incomingMessage.thread;
+        message.threadIndexValue = incomingMessage.threadIndexValue + 1;
+    }
+    else
+    {
+        message.thread = [self createThreadWithID:[[NSUUID UUID] UUIDString]];
+    }
+    return message;
+}
+
 - (Message *) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error
 {
     if(![sourceDictionary isKindOfClass:[NSDictionary class]])
@@ -155,6 +175,8 @@
     //add thread
     NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
     item.thread = [self createThreadWithID:threadID];
+    
+
     
     return item;
 }
@@ -194,7 +216,7 @@
         NSLog(@"zip not found at path: %@",filePath.path);
         return [NSError errorWithDomain:@"com.chatwala" code:6004 userInfo:@{@"reason":@"zip not found at path", @"path":filePath}];
     }
-    NSString * destPath = [[self cacheDirectoryPath] stringByAppendingPathComponent:INCOMING_DIRECTORY_NAME];
+    NSString * destPath = [[CWDataManager cacheDirectoryPath] stringByAppendingPathComponent:INCOMING_DIRECTORY_NAME];
     [SSZipArchive unzipFileAtPath:filePath.path toDestination:destPath];
     
     NSString * metadataFileName = [destPath stringByAppendingPathComponent:METADATA_FILE_NAME];
@@ -238,24 +260,23 @@
     }
     return item;
 }
-- (NSString*)cacheDirectoryPath
++ (NSString*)cacheDirectoryPath
 {
     return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
 
-- (void) downloadAllMessageChatwalaData
-{
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        NSOrderedSet * items = localUser.messagesReceived;
+- (void) downloadAllMessageChatwalaData {
+
+    NSOrderedSet * items = [[CWUserManager sharedInstance] localUser].messagesReceived;
         
-        for (Message * item in items) {
-            [item downloadChatwalaDataWithMessageCell:nil];
-        }
-    }];
+    for (Message * item in items) {
+        [item downloadChatwalaDataWithMessageCell:nil];
+    }
 }
 
 #pragma mark - dateformater
+
 + (NSDateFormatter *)dateFormatter {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];

@@ -6,30 +6,38 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "User.h"
+
+
+typedef void (^CWUserManagerRegisterUserCompletionBlock)(NSError *error);
+
+extern NSString * const kAppVersionOfFeedbackRequestedKey;
+extern NSString * const kNewMessageDeliveryMethodValueSMS;
+extern NSString * const kNewMessageDeliveryMethodValueEmail;
 
 typedef void (^CWUserManagerLocalUserBlock)(User *localUser);
 typedef void (^CWUserManagerGetUserIDFetchBlock)(AFHTTPRequestOperation *operation, id responseObject, CWUserManagerLocalUserBlock completion);
+
 
 @interface CWUserManager : NSObject
 + (id)sharedInstance;
 
 @property (nonatomic) AFHTTPRequestSerializer * requestHeaderSerializer;
+@property (nonatomic,readonly) User *localUser;
+@property (nonatomic) NSString * newMessageDeliveryMethod;
 
 - (void) addRequestHeadersToURLRequest:(NSMutableURLRequest *) request;
+//- (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user;
+- (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user completion:(void (^)(NSError * error))completionBlock;
 
-@property (nonatomic, readonly) User * localUser __attribute__((deprecated("use localUser:")));
+- (BOOL)hasApprovedProfilePicture:(User *) user;
+- (void)approveProfilePicture:(User *) user;
+- (BOOL)hasUploadedProfilePicture:(User *) user;
 
-- (BOOL) hasLocalUser;
-- (void) localUser:(void (^)(User *localUser)) completion;
-
-- (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user;
-- (BOOL) hasProfilePicture:(User *) user;
 - (NSString *) getProfilePictureEndPointForUser:(User *) user;
-
-#pragma mark - blocks for fetch results
-
-@property (strong, readonly) CWUserManagerGetUserIDFetchBlock getUserIDCompletionBlock;
+- (NSString *)appVersionOfAppFeedbackRequest;
+- (void) didRequestAppFeedback;
+- (BOOL) shouldRequestAppFeedback;
+- (BOOL) newMessageDeliveryMethodIsSMS;
 
 @end

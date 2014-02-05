@@ -64,13 +64,6 @@
     [self.sut view];
 }
 
-- (void)testShouldCreateFeedbackVConViewDidLoad
-{
-//    XCTAssertNil(self.sut.feedbackVC, @"should be nil");
-//    [self.sut view];
-//    XCTAssertNotNil(self.sut.feedbackVC, @"should not be nil");
-}
-
 - (void)testShouldStartRecordingWhenViewDidAppear
 {
     [[self.mockRecorder expect]startVideoRecording];

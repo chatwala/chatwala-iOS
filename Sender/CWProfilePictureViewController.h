@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CWSettingsBaseViewController.h"
 
-@interface CWProfilePictureViewController : UIViewController
+@interface CWProfilePictureViewController : CWSettingsBaseViewController
 
 @end

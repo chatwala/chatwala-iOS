@@ -10,11 +10,12 @@
 #import <AFNetworking/UIImageView+AFNetworking.h>
 #import "CWUserManager.h"
 #import "Message.h"
-
+#import "UIColor+Additions.h"
 
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIView * cellView;
 @property (nonatomic, strong) UIImageView * statusImage;
+@property (nonatomic, strong) UILabel * sentTimeLabel;
 @end
 
 
@@ -48,9 +49,20 @@
         
         
         self.statusImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"redDot"]];
-        self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 10 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds));
+        self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 9 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds) - 1);
         [self addSubview:self.statusImage];
+
+        const CGFloat fontSize = 14;
+        CGRect labelFrame =CGRectMake(0, CGRectGetMaxY(self.statusImage.frame) - fontSize + 2, CGRectGetMinX(self.statusImage.frame) - 6, fontSize);
+        self.sentTimeLabel = [[UILabel alloc] initWithFrame:labelFrame];
+
+//        self.sentTimeLabel.backgroundColor = [UIColor redColor];
+        self.sentTimeLabel.font = [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
+        self.sentTimeLabel.textAlignment = NSTextAlignmentRight;
+        self.sentTimeLabel.text = @"3w";
+        self.sentTimeLabel.textColor = [UIColor chatwalaSentTimeText];
         
+        [self addSubview:self.sentTimeLabel];
         
     }
     return self;
@@ -84,16 +96,66 @@
     [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
     
     switch ([message eMessageViewedState]) {
+        default:
         case eMessageViewedStateRead:
         case eMessageViewedStateOpened:
             self.statusImage.hidden = YES;
             break;
         case eMessageViewedStateUnOpened:
+            self.statusImage.image = [UIImage imageNamed:@"redDot"];
+            self.statusImage.hidden = NO;
+            break;
         case eMessageViewedStateReplied:
-        default:
+            self.statusImage.image = [UIImage imageNamed:@"Icon-Replied"];
             self.statusImage.hidden = NO;
             break;
     }
+    NSString * timeValue = [self timeStringFromDate:message.timeStamp];
+    self.sentTimeLabel.text = timeValue;
+}
+
+- (NSString *) timeStringFromDate:(NSDate *) timeStamp
+{
+    if(nil == timeStamp)
+    {
+        return @"";
+    }
+    
+//    if([timeStamp isEqual:[timeStamp earlierDate:[CWConstants launchDate]]])
+//    {
+//        return @"";//do not display sent date if its earlier than launch date
+//    }
+    
+    NSTimeInterval timeThatHasPassed = -[timeStamp timeIntervalSinceNow];
+    NSInteger wholeSeconds = timeThatHasPassed;
+    
+    const NSInteger kSecondsPerMinute = 60;
+    const NSInteger kSecondsPerHour = 60 * kSecondsPerMinute;
+    const NSInteger kSecondsPerDay = 24 * kSecondsPerHour;
+    const NSInteger kSecondsPerWeek = 7 * kSecondsPerDay;
+    const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
+    
+    if(wholeSeconds < kSecondsPerMinute)
+    {
+        return [NSString stringWithFormat:@"%is", wholeSeconds];
+    }
+    if(wholeSeconds < kSecondsPerHour)
+    {
+        return [NSString stringWithFormat:@"%im", wholeSeconds/kSecondsPerMinute];
+    }
+    if(wholeSeconds < kSecondsPerDay)
+    {
+        return [NSString stringWithFormat:@"%ih", wholeSeconds/kSecondsPerHour];
+    }
+    if(wholeSeconds < kSecondsPerWeek)
+    {
+        return [NSString stringWithFormat:@"%id", wholeSeconds/kSecondsPerDay];
+    }
+    if(wholeSeconds < kSecondsPerYear)
+    {
+        return [NSString stringWithFormat:@"%iw", wholeSeconds/kSecondsPerWeek];
+    }
+    return [NSString stringWithFormat:@"%iy", wholeSeconds/kSecondsPerYear];
 }
 
 - (AFNetworkingSuccessBlock) successImageDownloadBlock

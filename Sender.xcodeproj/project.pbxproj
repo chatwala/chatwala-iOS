@@ -21,20 +21,22 @@
 		0D200ABF1891852F008C2238 /* DCSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ABA1891852F008C2238 /* DCSlider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0D200AC01891852F008C2238 /* NSDictionary+LookUpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ABC1891852F008C2238 /* NSDictionary+LookUpTable.m */; };
 		0D200AC3189186A0008C2238 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AC2189186A0008C2238 /* UIColor+Additions.m */; };
-		0D200AC91891879F008C2238 /* CWMessageItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AC61891879F008C2238 /* CWMessageItem.m */; };
 		0D200ACA1891879F008C2238 /* CWMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AC81891879F008C2238 /* CWMetadata.m */; };
 		0D200AD318918C4D008C2238 /* CWInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ACF18918C4D008C2238 /* CWInboxViewController.m */; };
 		0D200AD418918C4D008C2238 /* CWInboxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D200AD018918C4D008C2238 /* CWInboxViewController.xib */; };
 		0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AD218918C4D008C2238 /* CWMessageCell.m */; };
+		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
 		206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */; };
 		206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8718808F27007F3532 /* AOFetchUtilities.m */; };
 		206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8918808F27007F3532 /* AOManagedObject.m */; };
 		206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 206CDF8E18808F59007F3532 /* CoreData.framework */; };
 		3614539518844EC600400916 /* MessageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3614539418844EC600400916 /* MessageTests.m */; };
 		36145397188481FD00400916 /* testMessage.zip in Resources */ = {isa = PBXBuildFile; fileRef = 36145396188481FD00400916 /* testMessage.zip */; };
+		3629AB1018A2A178007F8D02 /* CWConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 3629AB0F18A2A178007F8D02 /* CWConstants.m */; };
 		366EB58C18843E4200A7FF75 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 366EB58B18843E4200A7FF75 /* UserTests.m */; };
 		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
+		368BE278189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 368BE277189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m */; };
 		36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36ACC922187F557B00314C40 /* CWDataManagerTests.m */; };
 		36AF5820187DD97000C5C13F /* human.h.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581C187DD97000C5C13F /* human.h.motemplate */; };
 		36AF5821187DD97000C5C13F /* human.m.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581D187DD97000C5C13F /* human.m.motemplate */; };
@@ -58,6 +60,7 @@
 		36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F3F877187C9573002CBB63 /* CWKillScreenViewController.m */; };
 		36F3F87A187C9573002CBB63 /* CWKillScreenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 36F3F878187C9573002CBB63 /* CWKillScreenViewController.xib */; };
 		36F3F87C187C9C54002CBB63 /* CWGroundControlTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */; };
+		36F57A68189C518E00263484 /* AFNetworkingImageOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 36F57A67189C518E00263484 /* AFNetworkingImageOrientation.m */; };
 		5A22DD32AA184288BEC932AA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8B4EC8D342465796C4A37E /* libPods.a */; };
 		82380876CA9D496387191727 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5043C247C54257A2FCABFE /* libPods-test.a */; };
 		9AC88A8F189297F90006EE61 /* CWAppFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A8D189297F90006EE61 /* CWAppFeedBackViewController.m */; };
@@ -167,7 +170,6 @@
 		E94439D2182946460088A381 /* AVCamRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = E94439D0182946460088A381 /* AVCamRecorder.m */; };
 		E94439D418294E990088A381 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E94439D318294E990088A381 /* MessageUI.framework */; };
 		E953F5CD186384EB00663E7D /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = E953F5CC186384EB00663E7D /* Settings.bundle */; };
-		E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25DB1831425800E3950B /* CWMessageItemTests.m */; };
 		E95E25E018314B7300E3950B /* CWVideoManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */; };
 		E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E218314B8300E3950B /* CWVideoManager.m */; };
 		E95E25E818314DC500E3950B /* CWVideoPlayerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */; };
@@ -245,8 +247,6 @@
 		0D200ABC1891852F008C2238 /* NSDictionary+LookUpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+LookUpTable.m"; sourceTree = "<group>"; };
 		0D200AC1189186A0008C2238 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		0D200AC2189186A0008C2238 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
-		0D200AC51891879F008C2238 /* CWMessageItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageItem.h; sourceTree = "<group>"; };
-		0D200AC61891879F008C2238 /* CWMessageItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageItem.m; sourceTree = "<group>"; };
 		0D200AC71891879F008C2238 /* CWMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMetadata.h; sourceTree = "<group>"; };
 		0D200AC81891879F008C2238 /* CWMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMetadata.m; sourceTree = "<group>"; };
 		0D200ACE18918C4D008C2238 /* CWInboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWInboxViewController.h; sourceTree = "<group>"; };
@@ -254,6 +254,8 @@
 		0D200AD018918C4D008C2238 /* CWInboxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWInboxViewController.xib; sourceTree = "<group>"; };
 		0D200AD118918C4D008C2238 /* CWMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageCell.h; sourceTree = "<group>"; };
 		0D200AD218918C4D008C2238 /* CWMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCell.m; sourceTree = "<group>"; };
+		0D4586E2189AC591006BB737 /* CWServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWServerAPI.h; sourceTree = "<group>"; };
+		0D4586E3189AC591006BB737 /* CWServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWServerAPI.m; sourceTree = "<group>"; };
 		206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOCoreDataStackUtilities.m; sourceTree = "<group>"; };
 		206CDF8618808F27007F3532 /* AOFetchUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOFetchUtilities.h; sourceTree = "<group>"; };
 		206CDF8718808F27007F3532 /* AOFetchUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOFetchUtilities.m; sourceTree = "<group>"; };
@@ -263,10 +265,14 @@
 		206CDF8E18808F59007F3532 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		3614539418844EC600400916 /* MessageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessageTests.m; sourceTree = "<group>"; };
 		36145396188481FD00400916 /* testMessage.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = testMessage.zip; sourceTree = "<group>"; };
+		3629AB0E18A2A178007F8D02 /* CWConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWConstants.h; sourceTree = "<group>"; };
+		3629AB0F18A2A178007F8D02 /* CWConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWConstants.m; sourceTree = "<group>"; };
 		366EB58B18843E4200A7FF75 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
 		367439E9187F5C6200613FD6 /* MocForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MocForTests.h; sourceTree = "<group>"; };
 		367439EA187F5C6200613FD6 /* MocForTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MocForTests.m; sourceTree = "<group>"; };
 		36781C9118760591005AE1C6 /* CWMessageCellTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageCellTest.m; sourceTree = "<group>"; };
+		368BE276189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTableViewCellNewMessageDeliveryMethodCell.h; sourceTree = "<group>"; };
+		368BE277189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWTableViewCellNewMessageDeliveryMethodCell.m; sourceTree = "<group>"; };
 		36ACC922187F557B00314C40 /* CWDataManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWDataManagerTests.m; sourceTree = "<group>"; };
 		36AF581C187DD97000C5C13F /* human.h.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.h.motemplate; sourceTree = "<group>"; };
 		36AF581D187DD97000C5C13F /* human.m.motemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = human.m.motemplate; sourceTree = "<group>"; };
@@ -301,6 +307,7 @@
 		36F3F877187C9573002CBB63 /* CWKillScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWKillScreenViewController.m; sourceTree = "<group>"; };
 		36F3F878187C9573002CBB63 /* CWKillScreenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWKillScreenViewController.xib; sourceTree = "<group>"; };
 		36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWGroundControlTests.m; sourceTree = "<group>"; };
+		36F57A67189C518E00263484 /* AFNetworkingImageOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingImageOrientation.m; sourceTree = "<group>"; };
 		810134A78491415EBDC34438 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		9AC88A8C189297F90006EE61 /* CWAppFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAppFeedBackViewController.h; sourceTree = "<group>"; };
 		9AC88A8D189297F90006EE61 /* CWAppFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAppFeedBackViewController.m; sourceTree = "<group>"; };
@@ -432,7 +439,6 @@
 		E94439D0182946460088A381 /* AVCamRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AVCamRecorder.m; sourceTree = "<group>"; };
 		E94439D318294E990088A381 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		E953F5CC186384EB00663E7D /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Settings.bundle; path = ../Settings.bundle; sourceTree = "<group>"; };
-		E95E25DB1831425800E3950B /* CWMessageItemTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageItemTests.m; sourceTree = "<group>"; };
 		E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoManagerTests.m; sourceTree = "<group>"; };
 		E95E25E118314B8300E3950B /* CWVideoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoManager.h; sourceTree = "<group>"; };
 		E95E25E218314B8300E3950B /* CWVideoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoManager.m; sourceTree = "<group>"; };
@@ -541,6 +547,10 @@
 				0D200AC2189186A0008C2238 /* UIColor+Additions.m */,
 				0D1979AE18936E9F00379DD5 /* CWPushNotificationsAPI.h */,
 				0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */,
+				0D4586E2189AC591006BB737 /* CWServerAPI.h */,
+				0D4586E3189AC591006BB737 /* CWServerAPI.m */,
+				3629AB0E18A2A178007F8D02 /* CWConstants.h */,
+				3629AB0F18A2A178007F8D02 /* CWConstants.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -548,12 +558,15 @@
 		0D1DAEA51891809D0051D7AE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				36EB6DC9188883A4005B81B4 /* ProfilePicture */,
 				0D1DAEA61891809D0051D7AE /* CWPrivacyViewController.h */,
 				0D1DAEA71891809D0051D7AE /* CWPrivacyViewController.m */,
 				0D1DAEA81891809D0051D7AE /* CWPrivacyViewController.xib */,
 				0D1DAEA91891809D0051D7AE /* CWSettingsViewController.h */,
 				0D1DAEAA1891809D0051D7AE /* CWSettingsViewController.m */,
 				0D1DAEAB1891809D0051D7AE /* CWSettingsViewController.xib */,
+				368BE276189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.h */,
+				368BE277189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m */,
 				0D1DAEAC1891809D0051D7AE /* CWTermsViewController.h */,
 				0D1DAEAD1891809D0051D7AE /* CWTermsViewController.m */,
 				0D1DAEAE1891809D0051D7AE /* CWTermsViewController.xib */,
@@ -598,8 +611,6 @@
 		0D200AC41891879F008C2238 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0D200AC51891879F008C2238 /* CWMessageItem.h */,
-				0D200AC61891879F008C2238 /* CWMessageItem.m */,
 				0D200AC71891879F008C2238 /* CWMetadata.h */,
 				0D200AC81891879F008C2238 /* CWMetadata.m */,
 			);
@@ -700,6 +711,7 @@
 				36EB6DCC1888841B005B81B4 /* CWProfilePictureViewController.xib */,
 			);
 			name = ProfilePicture;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		36F3F875187C9530002CBB63 /* KillScreen */ = {
@@ -832,7 +844,6 @@
 				0D200ACD18918C4D008C2238 /* Inbox */,
 				36F3F875187C9530002CBB63 /* KillScreen */,
 				CC0C4B9D1864D3570096D5B3 /* Main */,
-				36EB6DC9188883A4005B81B4 /* ProfilePicture */,
 				0D1DAEA51891809D0051D7AE /* Settings */,
 				E990945F18620AD70050695F /* CWViewController.h */,
 				E990946018620AD70050695F /* CWViewController.m */,
@@ -986,7 +997,6 @@
 				367439EA187F5C6200613FD6 /* MocForTests.m */,
 				E94439AC182940AF0088A381 /* Supporting Files */,
 				36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */,
-				E95E25DB1831425800E3950B /* CWMessageItemTests.m */,
 				E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */,
 				E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */,
 				E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */,
@@ -1013,6 +1023,7 @@
 				366EB58B18843E4200A7FF75 /* UserTests.m */,
 				3614539418844EC600400916 /* MessageTests.m */,
 				36F02B3C188724F600D3C55B /* CWUserManagerTests.m */,
+				36F57A67189C518E00263484 /* AFNetworkingImageOrientation.m */,
 			);
 			path = SenderTests;
 			sourceTree = "<group>";
@@ -1439,12 +1450,14 @@
 				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
 				E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */,
+				368BE278189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
 				36AF583F187DF0AB00C5C13F /* _Message.m in Sources */,
 				206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */,
+				0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */,
 				36AF5834187DF0A200C5C13F /* Message.m in Sources */,
 				0D1DAEAF1891809D0051D7AE /* CWPrivacyViewController.m in Sources */,
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,
@@ -1468,7 +1481,6 @@
 				E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */,
 				E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */,
 				E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */,
-				0D200AC91891879F008C2238 /* CWMessageItem.m in Sources */,
 				E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */,
 				E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */,
 				36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */,
@@ -1498,6 +1510,7 @@
 				0D1DAEB11891809D0051D7AE /* CWSettingsViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
 				36AF5836187DF0A200C5C13F /* User.m in Sources */,
+				3629AB1018A2A178007F8D02 /* CWConstants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1509,7 +1522,6 @@
 				E9C1155D1832AFEE00DB67D2 /* CWComposerVCTests.m in Sources */,
 				36F0EB82187DB3B300DDE28B /* CWViewControllerTests.m in Sources */,
 				E965255E18341963008987BD /* CWReviewVCTests.m in Sources */,
-				E95E25DC1831425800E3950B /* CWMessageItemTests.m in Sources */,
 				36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */,
 				E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */,
 				366EB58C18843E4200A7FF75 /* UserTests.m in Sources */,
@@ -1529,6 +1541,7 @@
 				E9C1154B1832803400DB67D2 /* CWVideoRecorderTests.m in Sources */,
 				E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */,
 				36F0EB84187DB96600DDE28B /* CWMenuViewControllerTests.m in Sources */,
+				36F57A68189C518E00263484 /* AFNetworkingImageOrientation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1645,11 +1658,18 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CW_APP_VERSION = 1.3.0;
+				CW_BUILD_VERSION = 2.6.1;
+				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
+				CW_DISPLAY_NAME = chatwala;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				USE_DEV_SERVER = 0;
+				USE_QA_SERVER = 0;
+				USE_SANDBOX_SERVER = 0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1663,11 +1683,18 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CW_APP_VERSION = 1.3.0;
+				CW_BUILD_VERSION = 2.6.1;
+				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
+				CW_DISPLAY_NAME = chatwala;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				USE_DEV_SERVER = 0;
+				USE_QA_SERVER = 0;
+				USE_SANDBOX_SERVER = 0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

@@ -19,6 +19,8 @@
 #import "Message.h"
 #import "Thread.h"
 #import "CWPushNotificationsAPI.h"
+#import "CWDataManager.h"
+#import "CWAnalytics.h"
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
@@ -60,11 +62,31 @@
                                                  name:UIApplicationWillResignActiveNotification object:nil];
     
     [self setNavMode:NavModeClose];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(appHasGoneInBackground:)
+                                                 name:UIApplicationWillResignActiveNotification
+                                               object:nil];
+    
+    self.incomingMessageStillImageView.image = self.incomingMessage.lastFrameImage;
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
+
+    if ([player.delegate isEqual:self])
+    {
+        [player cleanUp];
+        player.delegate = nil;
+        player = nil;
+    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void) appHasGoneInBackground:(NSNotification*)notification
+{
+    [self.messageComposer dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -80,6 +102,11 @@
     [player setVideoURL:recorder.tempFileURL];
 }
 
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+
+}
 
 - (void)goToBackground
 {
@@ -91,65 +118,64 @@
 
 - (void)composeMessageWithMessageKey:(NSString*)messageURL withCompletion:(void (^)(void))completion {
     
-    if([MFMessageComposeViewController canSendText]) {
-        self.messageComposer = [[MFMessageComposeViewController alloc] init];
-        [self.messageComposer  setMessageComposeDelegate:self];
-        [self.messageComposer  setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
-        [self.messageComposer  setBody:[NSString stringWithFormat:@"Hey, I sent you a video message on Chatwala: %@",messageURL]];
-        
-        [self presentViewController:self.messageComposer   animated:YES completion:completion];
+    
+    NSString *messagePrefix = nil;
+#ifdef USE_QA_SERVER
+        messagePrefix = @"This is a QA message";
+#elif USE_DEV_SERVER
+        messagePrefix = @"This is a DEV message";
+#elif USE_SANDBOX_SERVER
+        messagePrefix = @"This is a Sandbox message";
+#else
+        messagePrefix = @"Hey, I sent you a video message on Chatwala";
+#endif
+
+    NSString *messageBody = [NSString stringWithFormat:@"%@: %@", messagePrefix, messageURL];
+    
+    if ([[CWUserManager sharedInstance] newMessageDeliveryMethodIsSMS])
+    {
+        if([MFMessageComposeViewController canSendText] ) {
+            self.messageComposer = [[MFMessageComposeViewController alloc] init];
+            [self.messageComposer  setMessageComposeDelegate:self];
+            [self.messageComposer  setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
+            [self.messageComposer  setBody:messageBody];
+
+            [self presentViewController:self.messageComposer   animated:YES completion:completion];
+        }
+        else {
+            [SVProgressHUD showErrorWithStatus:@"SMS/iMessage currently unavailable"];
+        }
     }
-    else {
-        [SVProgressHUD showErrorWithStatus:@"SMS/iMessage currently unavailable"];
+    else
+    {
+        if ([MFMailComposeViewController canSendMail]) {
+            // MAIL
+            self.mailComposer = [[MFMailComposeViewController alloc] init];
+            [self.mailComposer setMailComposeDelegate:self];
+            [self.mailComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
+
+            [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
+            [[self mailComposer]  setMessageBody:messageBody isHTML:NO];
+
+            //    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
+            [self presentViewController:[self mailComposer]  animated:YES completion:completion];
+        }
+        else
+        {
+            [SVProgressHUD showErrorWithStatus:@"Email currently unavailable"];
+        }
     }
-    
-    /*
-    // MAIL
-    self.mailComposer = [[MFMailComposeViewController alloc] init];
-    [self.mailComposer setMailComposeDelegate:self];
-    [self.mailComposer setSubject:[[CWGroundControlManager sharedInstance] emailSubject]];
-    
-    
-    if (self.incomingMessageItem.metadata.senderId) {
-        [[self mailComposer] setToRecipients:@[self.incomingMessageItem.metadata.senderId]];
-    }
-    
-//    [[self mailComposer]  setMessageBody:[[CWGroundControlManager sharedInstance] emailMessage] isHTML:YES];
-    [[self mailComposer]  setMessageBody:messageURL isHTML:NO];
-    
-//    [[self mailComposer]  addAttachmentData:messageData mimeType:@"application/octet-stream" fileName:@"chat.wala"];
-    [self presentViewController:[self mailComposer]  animated:YES completion:nil];
-    
-    */
 }
 
-
-- (CWMessageItem*)createMessageItemWithSender:(User*) localUser
-{
-    CWMessageItem * message = [[CWMessageItem alloc]initWithSender:localUser];
-    [message setVideoURL:recorder.outputFileURL];
-    message.metadata.startRecording = self.startRecordingTime;
-    
-    
-//    if ([[CWAuthenticationManager sharedInstance]isAuthenticated]) {
-//        [message.metadata setSenderId:[[CWAuthenticationManager sharedInstance] userEmail]];
-//    }
-    
-    if (self.incomingMessage) {
-        
-        [message.metadata setRecipientId:self.incomingMessage.sender.userID];
-        [message.metadata setThreadId:self.incomingMessage.thread.threadID];
-        [message.metadata setThreadIndex:self.incomingMessage.threadIndexValue + 1];
-    }
-    return message;
-}
-
-
+// TODO: Poorly named - this is the 'X' button firing when user is discarding their message.
 - (void)onTap:(id)sender
 {
     [player.playbackView removeFromSuperview];
     [player setDelegate:nil];
     [player stop];
+    
+    // We are throwing away this message - we should clear upload details in the event this was a original message
+    [[CWMessageManager sharedInstance] clearUploadURLForOriginalMessage];
     
     if (self.incomingMessage) {
         // responding
@@ -178,9 +204,6 @@
         [CWAnalytics event:@"REDO_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
         [self.navigationController popToRootViewControllerAnimated:NO];
     }
-    
-    
-    
 }
 
 #pragma mark - Message Sending
@@ -191,95 +214,79 @@
         return;
     }
     
-    
     [player stop];
 
     //    [self composeMessageWithData:[self createMessageData]];
     [self.sendButton setButtonState:eButtonStateBusy];
-    
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [self sendMessageFromUser:localUser];
-    }];
+    [self sendMessageFromUser:[[CWUserManager sharedInstance] localUser]];
 }
 
 - (void)sendMessageFromUser:(User *)localUser {
-    CWMessageItem * message = [self createMessageItemWithSender:localUser];
-    message.metadata.startRecording = self.startRecordingTime;
+    Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.incomingMessage];
+    
+    message.videoURL = recorder.outputFileURL;
+    message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
+    message.startRecording = [NSNumber numberWithDouble:self.startRecordingTime];
+
     
     if (self.incomingMessage) {
         // Responding to an incoming message
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
         
-        [[CWMessageManager sharedInstance] fetchMessageIDForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
-            if (messageID && messageURL) {
-                message.metadata.messageId = messageID;
-                
+        [[CWMessageManager sharedInstance] fetchUploadURLForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString) {
+            if (messageID && uploadURLString ) {
+                message.messageID = messageID;
                 [message exportZip];
-                [[CWMessageManager sharedInstance] uploadMessage:message isReply:YES];
+                
+                [[CWMessageManager sharedInstance] uploadMessage:message toURL:uploadURLString isReply:YES];
                 [self.sendButton setButtonState:eButtonStateShare];
                 [self didSendMessage];
                 [CWAnalytics event:@"SENT_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
             }
             else {
-                if(!messageID)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageID"];
-                }
-                else if(!messageID)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageURL"];
-                }
+                [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
             }
         }];
         
     }else{
-        // Original message send
+        // New conversation starter message
         
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
-        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:^(NSString *messageID, NSString *messageURL) {
-            
-            if (messageID && messageURL) {
-                message.metadata.messageId = messageID;
+
+        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:localUser completionBlockOrNil:^(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString) {
+            if (uploadURLString && messageID && downloadURLString) {
                 
-                [self composeMessageWithMessageKey:messageURL withCompletion:^{
+                message.messageID = messageID;
+                
+                [self composeMessageWithMessageKey:downloadURLString withCompletion:^{
                     [message exportZip];
-                    [[CWMessageManager sharedInstance] uploadMessage:message isReply:NO];
+                    [[CWMessageManager sharedInstance] uploadMessage:message toURL:uploadURLString isReply:NO];
                 }];
             }
             else {
-                if(!messageID)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageID"];
-                }
-                else if(!messageID)
-                {
-                    [SVProgressHUD showErrorWithStatus:@"Failed to get a messageURL"];
-                }
+                [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
             }
         }];
     }
 }
 
-- (void) uploadProfilePictureForUser:(User *) user
-{
+- (void)uploadProfilePictureForUser:(User *) user {
     
-    if([[CWUserManager sharedInstance] hasProfilePicture:user])
-    {
+    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user]) {
         return;//already did this
     }
     
-    [self.player createThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user];
+    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
     }];
     
 }
 
-- (void) didSendMessage
-{
+- (void) didSendMessage {
     
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [self uploadProfilePictureForUser:localUser];
-    }];
+    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
+    
+    self.incomingMessage.eMessageViewedState = eMessageViewedStateReplied;
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];

@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "CWViewController.h"
-@class CWMessageItem;
 @class CWMiddleButton;
 @class User;
 @class Message;
@@ -19,10 +18,10 @@
 @property (weak, nonatomic) IBOutlet CWMiddleButton *sendButton;
 @property (nonatomic,assign) NSTimeInterval startRecordingTime;
 @property (nonatomic) Message * incomingMessage;
+@property (weak, nonatomic) IBOutlet UIImageView *incomingMessageStillImageView;
 - (IBAction)onRecordAgain:(id)sender;
 - (IBAction)onSend:(id)sender;
 - (void)showVideoPreview;
 
-- (CWMessageItem*)createMessageItemWithSender:(User*) localUser;
 
 @end

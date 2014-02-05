@@ -17,9 +17,14 @@
 #import "CWMessageManager.h"
 #import "CWUserManager.h"
 #import "User.h"
+#import <UIViewController+MMDrawerController.h>
+#import "CWAppFeedBackViewController.h"
+#import "CWAnalytics.h"
+#import "CWProfilePictureViewController.h"
 
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
+@property (nonatomic) UIViewController * popupModal;
 @end
 
 @implementation CWStartScreenViewController
@@ -31,6 +36,11 @@
         // Custom initialization
     }
     return self;
+}
+
+- (void) dealloc
+{
+    [self.popupModal dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)viewDidLoad
@@ -113,22 +123,30 @@
         [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
         [[NSUserDefaults standardUserDefaults]synchronize];
         [self.messageSentView setAlpha:1];
+        __weak CWStartScreenViewController* weakSelf    = self;
         [UIView animateKeyframesWithDuration:0.5 delay:2 options:kNilOptions animations:^{
             //
             [self.messageSentView setAlpha:0];
-        } completion:^(BOOL finished) {
-            //
-        }];
+
+        } completion:nil];
+        
+
+        if(![[CWUserManager sharedInstance] hasApprovedProfilePicture:[[CWUserManager sharedInstance] localUser]])
+        {
+            //show the profile picture
+            [self showProfilePictureWasUploaded];
+        }
+        else if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
+        {
+            //ask for app feedback
+            [weakSelf showAppFeedback];
+            [[CWUserManager sharedInstance] didRequestAppFeedback];
+        }
+
     }else{
         [self.messageSentView setAlpha:0];
     }
 }
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-}
-
 
 - (void)onMiddleButtonTap {
     if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
@@ -136,15 +154,41 @@
         return;
     }
     
-
-    [[CWUserManager sharedInstance] localUser:^(User *localUser) {
-        [[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:localUser completionBlockOrNil:nil];
-    }];
+    // Pre-emptively fetch upload URL so we don't have any delay for original message delivery modal
+    [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:[[CWUserManager sharedInstance] localUser] completionBlockOrNil:nil];
     
     [CWAnalytics event:@"START_RECORDING" withCategory:@"CONVERSATION_STARTER" withLabel:@"TAP_BUTTON" withValue:nil];
     CWComposerViewController * composerVC = [[CWFlowManager sharedInstance]composeVC];
     [self.navigationController pushViewController:composerVC animated:NO];
 }
 
+- (void) showProfilePictureWasUploaded
+{
+    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWProfilePictureViewController alloc] init]];
+    
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    [navController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
+    
+    self.popupModal = navController;
+}
 
+-(void)showAppFeedback
+{
+
+    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWAppFeedBackViewController alloc] init]];
+
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    [navController.navigationBar setTintColor:[UIColor whiteColor]];
+
+    [self.mm_drawerController presentViewController:navController animated:YES completion:nil];
+
+    self.popupModal = navController;
+
+}
 @end

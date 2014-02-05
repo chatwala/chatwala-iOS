@@ -30,7 +30,9 @@ typedef enum eMessageViewedState
 @interface Message : _Message <Message> {}
 // Custom logic goes here.
 
-@property (nonatomic, strong)  NSURL * videoURL;//not core data backed.
+@property (nonatomic, strong) NSURL * videoURL;//not core data backed.
+@property (nonatomic, strong) NSURL * zipURL;//not saved in core data
+@property (nonatomic, strong) UIImage * lastFrameImage; //not saved in core data
 
 - (eMessageViewedState) eMessageViewedState;
 - (void) setEMessageViewedState:(eMessageViewedState) eViewedState;
@@ -38,5 +40,6 @@ typedef enum eMessageViewedState
 - (eMessageDownloadState) eDownloadState;
 - (void) setEMessageDownloadState:(eMessageDownloadState ) eState;
 - (void) downloadChatwalaDataWithMessageCell:(CWMessageCell *) messageCell;
+- (void) exportZip;
 
 @end
