@@ -59,7 +59,12 @@
         if([safeValue isEqual:[distantFuture laterDate:safeValue]])
         {
             //assumes that the time came in at milliseconds
-            safeValue = [NSDate dateWithTimeIntervalSince1970:[safeValue timeIntervalSince1970]/1000];
+            NSDate * newValue = [NSDate dateWithTimeIntervalSince1970:[safeValue timeIntervalSince1970]/1000];
+            if([newValue isEqual:[distantFuture earlierDate:newValue]])
+            {
+                safeValue = newValue;
+            }
+            
         }
     }
     
