@@ -117,6 +117,10 @@
 
 - (NSString *) timeStringFromDate:(NSDate *) timeStamp
 {
+    if(nil == timeStamp)
+    {
+        return @"";
+    }
     
     if([timeStamp isEqual:[timeStamp earlierDate:[CWConstants launchDate]]])
     {
