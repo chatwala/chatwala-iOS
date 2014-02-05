@@ -57,9 +57,6 @@
     if (useLocalServer) {
         return @"http://192.168.0.102:1337";
     }
-#if DEBUG
-#define USE_DEV_SERVER (1)
-#endif
     
 #ifdef USE_QA_SERVER
     return @"https://chatwala-qa-13.azurewebsites.net";
