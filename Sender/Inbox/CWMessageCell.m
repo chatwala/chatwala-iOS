@@ -11,7 +11,6 @@
 #import "CWUserManager.h"
 #import "Message.h"
 #import "UIColor+Additions.h"
-#import "CWConstants.h"
 
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIView * cellView;
@@ -122,18 +121,12 @@
         return @"";
     }
     
-    if([timeStamp isEqual:[timeStamp earlierDate:[CWConstants launchDate]]])
-    {
-        return @"";//do not display sent date if its earlier than launch date
-    }
+//    if([timeStamp isEqual:[timeStamp earlierDate:[CWConstants launchDate]]])
+//    {
+//        return @"";//do not display sent date if its earlier than launch date
+//    }
     
     NSTimeInterval timeThatHasPassed = -[timeStamp timeIntervalSinceNow];
-    
-    if(timeThatHasPassed < 0)
-    {
-        return @"";//do not display sent date if it is in the future
-    }
-    
     NSInteger wholeSeconds = timeThatHasPassed;
     
     const NSInteger kSecondsPerMinute = 60;
