@@ -112,7 +112,7 @@
             {
                 NSTimeInterval timeSinceEpoch = [value timeIntervalSince1970];
                 value = [NSString stringWithFormat:@"%lli",(long long)(timeSinceEpoch * 1000)];
-//                value = [NSNumber numberWithLongLong:(timeSinceEpoch * 1000)];
+//                value = [NSNumber numberWithLongLong:(timeSinceEpoch * 1000)];//if the value needs to be a number instead of a string
             }
         }
         
