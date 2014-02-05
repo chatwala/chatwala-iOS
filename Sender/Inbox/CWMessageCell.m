@@ -11,6 +11,7 @@
 #import "CWUserManager.h"
 #import "Message.h"
 #import "UIColor+Additions.h"
+#import "CWConstants.h"
 
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIView * cellView;
@@ -116,10 +117,8 @@
 
 - (NSString *) timeStringFromDate:(NSDate *) timeStamp
 {
-    //january 1 2014
-    NSDate * launchDateOfApp = [NSDate dateWithTimeIntervalSince1970:1388534400];
     
-    if([timeStamp isEqual:[timeStamp earlierDate:launchDateOfApp]])
+    if([timeStamp isEqual:[timeStamp earlierDate:[CWConstants launchDate]]])
     {
         return @"";//do not display sent date if its earlier than launch date
     }
