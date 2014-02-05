@@ -48,6 +48,7 @@
             NSNumber * number = [numberFormatter numberFromString: value];
             if ([number isKindOfClass:[NSNumber class]])
             {
+                //the string value is actually a number so treat it as such
                 safeValue = [NSDate dateWithTimeIntervalSince1970:[number doubleValue] / 1000];
             }
             else
