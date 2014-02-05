@@ -56,14 +56,18 @@
                 safeValue = [dateFormatter dateFromString:value];
             }
         }
-        NSDate * distantFuture = [NSDate distantFuture];
-        if([safeValue isEqual:[distantFuture laterDate:safeValue]])
+        NSDate * now = [NSDate date];
+        if([safeValue isEqual:[now laterDate:safeValue]])
         {
             //assumes that the time came in at milliseconds
-            NSDate * newValue = [NSDate dateWithTimeIntervalSince1970:[safeValue timeIntervalSince1970]/1000];
-            if([newValue isEqual:[distantFuture earlierDate:newValue]])
+            NSDate * dateAfterSecondsConversion = [NSDate dateWithTimeIntervalSince1970:[safeValue timeIntervalSince1970]/1000];
+            if([dateAfterSecondsConversion isEqual:[now earlierDate:dateAfterSecondsConversion]])
             {
-                safeValue = newValue;
+                safeValue = dateAfterSecondsConversion;
+            }
+            else
+            {
+                safeValue = nil;
             }
             
         }
