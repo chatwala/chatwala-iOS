@@ -284,6 +284,11 @@
     return dateFormatter;
 }
 
++ (NSDateFormatter *) outboundDateFormatter
+{
+    return nil;
+}
+
 #pragma mark - Core Data stack
 
 - (void) setupCoreData

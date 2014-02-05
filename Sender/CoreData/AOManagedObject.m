@@ -40,7 +40,7 @@
     {
         if([value isKindOfClass:[NSNumber class]])
         {
-            safeValue = [NSDate dateWithTimeIntervalSince1970:[value doubleValue]];
+            safeValue = [NSDate dateWithTimeIntervalSince1970:[value doubleValue] / 1000];
         }
         else
         {
@@ -48,7 +48,8 @@
             NSNumber * number = [numberFormatter numberFromString: value];
             if ([number isKindOfClass:[NSNumber class]])
             {
-                safeValue = [NSDate dateWithTimeIntervalSince1970:[number doubleValue]];
+                //the string value is actually a number so treat it as such
+                safeValue = [NSDate dateWithTimeIntervalSince1970:[number doubleValue] / 1000];
             }
             else
             {
@@ -101,8 +102,18 @@
         
         NSAttributeType attributeType = [[attributes objectForKey:attribute] attributeType];
         
-        if ((attributeType == NSDateAttributeType) && (dateFormatter != nil)) {
-            value = [dateFormatter stringFromDate:value];
+        if (attributeType == NSDateAttributeType)
+        {
+            if(dateFormatter != nil)
+            {
+                value = [dateFormatter stringFromDate:value];
+            }
+            else
+            {
+                NSTimeInterval timeSinceEpoch = [value timeIntervalSince1970];
+                value = [NSString stringWithFormat:@"%lli",(long long)(timeSinceEpoch * 1000)];
+//                value = [NSNumber numberWithLongLong:(timeSinceEpoch * 1000)];//if the value needs to be a number instead of a string
+            }
         }
         
         [jsonDict setValue:value forKey:attribute];
