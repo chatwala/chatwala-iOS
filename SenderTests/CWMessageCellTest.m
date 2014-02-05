@@ -11,6 +11,7 @@
 #import "CWMessageCell.h"
 #import "Message.h"
 #import "MocForTests.h"
+#import "CWConstants.h"
 
 const NSInteger kSecondsPerMinute = 60;
 const NSInteger kSecondsPerHour = 60 * kSecondsPerMinute;
@@ -192,11 +193,17 @@ const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
     NSString * expected = [NSString stringWithFormat:@"%iw", wholeWeeks];
     NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
     
+    id mockConstants = [OCMockObject mockForClass:[CWConstants class]];
+    [[[mockConstants stub] andReturn:[NSDate distantPast]] launchDate];
+    
     //when
     NSString * actual = [self.sut timeStringFromDate:timeStamp];
     
     //should
     XCTAssertEqualObjects(actual, expected, @"should be the same");
+    
+    //cleanup
+    [mockConstants stopMocking];
 }
 
 - (void)testTimeStringFromDateWithYears
@@ -206,12 +213,17 @@ const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
     NSTimeInterval time = wholeYears * kSecondsPerYear;
     NSString * expected = [NSString stringWithFormat:@"%iy", wholeYears];
     NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
+    id mockConstants = [OCMockObject mockForClass:[CWConstants class]];
+    [[[mockConstants stub] andReturn:[NSDate distantPast]] launchDate];
     
     //when
     NSString * actual = [self.sut timeStringFromDate:timeStamp];
     
     //should
     XCTAssertEqualObjects(actual, expected, @"should be the same");
+    
+    //cleanup
+    [mockConstants stopMocking];
 }
 
 @end
