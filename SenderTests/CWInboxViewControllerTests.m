@@ -11,13 +11,13 @@
 #import "CWInboxViewController.h"
 #import "CWMessageManager.h"
 
-@interface CWMenuViewControllerTests : XCTestCase
+@interface CWInboxViewControllerTests : XCTestCase
 
 @property (nonatomic) CWInboxViewController * sut;
 
 @end
 
-@implementation CWMenuViewControllerTests
+@implementation CWInboxViewControllerTests
 
 - (void)setUp
 {
