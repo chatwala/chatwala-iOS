@@ -169,4 +169,32 @@
     //cleanup
     [mockMessage stopMocking];
 }
+
+-(void)testExportZipWritestMetaDataToFile
+{
+    //given
+    id mockJSONData = [OCMockObject mockForClass:[NSData class]];
+    
+    NSError *error = nil;
+    id mockMessage = [OCMockObject partialMockForObject:self.sut];
+    [[[mockMessage stub] andReturn:mockJSONData] toJSONWithDateFormatter:OCMOCK_ANY error:[OCMArg setTo:error]];
+
+    [[mockJSONData expect] writeToFile:OCMOCK_ANY atomically:YES];
+
+    NSURL *videoURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"video" withExtension:@"mp4"];
+    self.sut.videoURL = videoURL;
+    self.sut.zipURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"testZipFile"];
+
+    //when
+    [self.sut exportZip];
+
+    //should
+    [mockJSONData verify];
+
+    //cleanup
+    [mockMessage stopMocking];
+
+}
+
+
 @end
