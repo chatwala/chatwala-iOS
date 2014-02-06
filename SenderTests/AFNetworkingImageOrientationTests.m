@@ -12,14 +12,14 @@
 #import <OCMock.h>
 
 
-@interface AFNetworkingImageOrientation : XCTestCase
+@interface AFNetworkingImageOrientationTests : XCTestCase
 
 @property (nonatomic) AFImageResponseSerializer * sut;
 @property (nonatomic) id mockSUT;
 
 @end
 
-@implementation AFNetworkingImageOrientation
+@implementation AFNetworkingImageOrientationTests
 
 - (void)setUp
 {
