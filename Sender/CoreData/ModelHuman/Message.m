@@ -118,7 +118,7 @@
     NSError * error = nil;
     NSData * jsonData = [self toJSONWithDateFormatter:[CWDataManager dateFormatter] error:&error];
     
-    if (err) {
+    if (error) {
         NSLog(@"faild to create JSON metadata: %@",err.debugDescription);
         return;
     }
