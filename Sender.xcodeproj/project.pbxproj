@@ -70,6 +70,8 @@
 		9AC88A991892E7790006EE61 /* CWAskForImprovementMsgViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A971892E7790006EE61 /* CWAskForImprovementMsgViewController.m */; };
 		9AC88A9A1892E7790006EE61 /* CWAskForImprovementMsgViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AC88A981892E7790006EE61 /* CWAskForImprovementMsgViewController.xib */; };
 		9AC88A9D1892EA250006EE61 /* CWSettingsBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A9C1892EA250006EE61 /* CWSettingsBaseViewController.m */; };
+		9ADE0AA318A3E5BA00E06A4F /* metadata.json in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE0AA118A3E5BA00E06A4F /* metadata.json */; };
+		9ADE0AA418A3E5BA00E06A4F /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 9ADE0AA218A3E5BA00E06A4F /* video.mp4 */; };
 		E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E90B7C80186C958D00B94DCC /* CWLoadingViewController.m */; };
 		E90B7C83186C958D00B94DCC /* CWLoadingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C81186C958D00B94DCC /* CWLoadingViewController.xib */; };
 		E90B7CA4186CBE4A00B94DCC /* waves0000.png in Resources */ = {isa = PBXBuildFile; fileRef = E90B7C86186CBE4A00B94DCC /* waves0000.png */; };
@@ -320,6 +322,8 @@
 		9AC88A981892E7790006EE61 /* CWAskForImprovementMsgViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWAskForImprovementMsgViewController.xib; sourceTree = "<group>"; };
 		9AC88A9B1892EA250006EE61 /* CWSettingsBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSettingsBaseViewController.h; sourceTree = "<group>"; };
 		9AC88A9C1892EA250006EE61 /* CWSettingsBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSettingsBaseViewController.m; sourceTree = "<group>"; };
+		9ADE0AA118A3E5BA00E06A4F /* metadata.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = metadata.json; sourceTree = "<group>"; };
+		9ADE0AA218A3E5BA00E06A4F /* video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = video.mp4; sourceTree = "<group>"; };
 		BC8B4EC8D342465796C4A37E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA5043C247C54257A2FCABFE /* libPods-test.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-test.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E90B7C7F186C958D00B94DCC /* CWLoadingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLoadingViewController.h; sourceTree = "<group>"; };
@@ -724,6 +728,15 @@
 			name = KillScreen;
 			sourceTree = "<group>";
 		};
+		9ADE0AA018A3E5B900E06A4F /* testMessage */ = {
+			isa = PBXGroup;
+			children = (
+				9ADE0AA118A3E5BA00E06A4F /* metadata.json */,
+				9ADE0AA218A3E5BA00E06A4F /* video.mp4 */,
+			);
+			path = testMessage;
+			sourceTree = "<group>";
+		};
 		CC0C4B9D1864D3570096D5B3 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -992,6 +1005,7 @@
 		E94439AB182940AF0088A381 /* SenderTests */ = {
 			isa = PBXGroup;
 			children = (
+				9ADE0AA018A3E5B900E06A4F /* testMessage */,
 				36145396188481FD00400916 /* testMessage.zip */,
 				367439E9187F5C6200613FD6 /* MocForTests.h */,
 				367439EA187F5C6200613FD6 /* MocForTests.m */,
@@ -1330,7 +1344,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E94439B0182940AF0088A381 /* InfoPlist.strings in Resources */,
+				9ADE0AA318A3E5BA00E06A4F /* metadata.json in Resources */,
 				36145397188481FD00400916 /* testMessage.zip in Resources */,
+				9ADE0AA418A3E5BA00E06A4F /* video.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

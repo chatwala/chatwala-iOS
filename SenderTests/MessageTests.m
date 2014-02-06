@@ -16,6 +16,8 @@
 #import "CWDataManager.h"
 #import "User.h"
 #import "Thread.h"
+#import <SSZipArchive.h>
+#import "CWUtility.h"
 
 @interface MessageTests : XCTestCase
 
@@ -125,5 +127,24 @@
     //cleanup
 }
 
+-(void)testExportZip
+{
+    //given
+    id mockSSZipArchive = [OCMockObject mockForClass:[SSZipArchive class]];
+    [[mockSSZipArchive expect] createZipFileAtPath:OCMOCK_ANY withContentsOfDirectory:OCMOCK_ANY];
+    NSURL *videoURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"video" withExtension:@"mp4"];
+    self.sut.videoURL = videoURL;
+    self.sut.zipURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"testZipFile"];
 
+    //when
+    [self.sut exportZip];
+
+    //should
+
+    [mockSSZipArchive verify];
+
+    //cleanup
+    [mockSSZipArchive stopMocking];
+    
+}
 @end
