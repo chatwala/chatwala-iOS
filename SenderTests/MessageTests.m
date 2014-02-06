@@ -267,4 +267,34 @@
     XCTAssertEqualObjects(self.sut.viewedState, @(existing), @"eMessageViewedState did not return expected value.");
 }
 
+-(void)testEMessageDownloadStateReturnsCorrectValue
+{
+    //given
+    eMessageDownloadState expected = arc4random_uniform(eMessageDownloadStateTotal);
+    self.sut.downloadStateValue = expected;
+
+    //when
+    eMessageDownloadState actual = self.sut.eDownloadState;
+
+    //should
+    XCTAssertEqual(actual, expected, @"eMessageDownloadState did not return expected value.");
+}
+
+-(void)testEMessageViewedStateSetsCorrectValue
+{
+    //given
+    eMessageDownloadState existing = arc4random_uniform(eMessageDownloadStateTotal);
+    eMessageDownloadState newValue = arc4random_uniform(eMessageDownloadStateTotal);
+    self.sut.downloadStateValue = existing;
+
+    //when
+    [self.sut setEMessageDownloadState:newValue];
+
+    //should
+    XCTAssertEqual(self.sut.downloadState, @(newValue), @"eMessageDownloadState did not return expected value.");
+
+    //cleanup
+    
+}
+
 @end
