@@ -196,5 +196,30 @@
 
 }
 
+-(void)testExportZipShouldCopyVideoURL
+{
+    //given
+
+    NSURL *videoURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"video" withExtension:@"mp4"];
+    self.sut.videoURL = videoURL;
+
+    NSError* error = nil;
+
+    id mockFileManager = [OCMockObject partialMockForObject:[NSFileManager defaultManager]];
+    [[mockFileManager expect] copyItemAtPath:videoURL.path toPath:OCMOCK_ANY error:[OCMArg setTo:error]];
+
+    self.sut.zipURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"testZipFile"];
+
+    //when
+    [self.sut exportZip];
+
+    //should
+    [mockFileManager verify];
+
+    //cleanup
+    [mockFileManager stopMocking];
+}
+
+
 
 @end
