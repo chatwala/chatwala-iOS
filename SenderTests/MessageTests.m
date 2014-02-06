@@ -220,6 +220,20 @@
     [mockFileManager stopMocking];
 }
 
+-(void)testEMessageViewedStateReturnsCorrectValue
+{
+    //given
+    eMessageViewedState expected = arc4random_uniform(eMessageViewedStateTotal);
+    self.sut.viewedStateValue = expected;
 
+    //when
+    eMessageViewedState actual = self.sut.eMessageViewedState;
+
+    //should
+    XCTAssertEqual(actual, expected, @"eMessageViewedState did not return expected value.");
+
+    //cleanup
+
+}
 
 @end
