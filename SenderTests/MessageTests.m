@@ -145,6 +145,28 @@
 
     //cleanup
     [mockSSZipArchive stopMocking];
-    
+
+}
+
+-(void)testExportZipShouldCallToJSONWIthDateFormatter
+{
+    //given
+    id mockMessage = [OCMockObject partialMockForObject:self.sut];
+    NSError *error = nil;
+    [[mockMessage expect] toJSONWithDateFormatter:OCMOCK_ANY error:[OCMArg setTo:error]];
+
+    NSURL *videoURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"video" withExtension:@"mp4"];
+    self.sut.videoURL = videoURL;
+    self.sut.zipURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"testZipFile"];
+
+    //when
+    [self.sut exportZip];
+
+    //should
+    [mockMessage verify];
+
+
+    //cleanup
+    [mockMessage stopMocking];
 }
 @end
