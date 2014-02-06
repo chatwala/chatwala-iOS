@@ -236,4 +236,35 @@
 
 }
 
+-(void)testEmessageViewStateShouldSetValueWhenLargerThanExisting
+{
+    //given
+    eMessageViewedState expected = arc4random_uniform(eMessageViewedStateTotal);
+    eMessageViewedState existing = arc4random_uniform(expected);
+
+    self.sut.viewedStateValue = existing;
+
+    //when
+    [self.sut setEMessageViewedState:expected];
+
+    //should
+    XCTAssertEqualObjects(self.sut.viewedState, @(expected), @"eMessageViewedState did not return expected value.");
+}
+
+
+-(void)testEmessageViewStateShouldNotSetValueWhenLessThanExisting
+{
+    //given
+    eMessageViewedState existing = arc4random_uniform(eMessageViewedStateTotal - 1) + 1;
+    eMessageViewedState newValue = arc4random_uniform(existing);
+
+    self.sut.viewedStateValue = existing;
+
+    //when
+    [self.sut setEMessageViewedState:newValue];
+
+    //should
+    XCTAssertEqualObjects(self.sut.viewedState, @(existing), @"eMessageViewedState did not return expected value.");
+}
+
 @end
