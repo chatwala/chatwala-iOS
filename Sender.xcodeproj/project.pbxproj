@@ -64,6 +64,7 @@
 		5A22DD32AA184288BEC932AA /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BC8B4EC8D342465796C4A37E /* libPods.a */; };
 		82380876CA9D496387191727 /* libPods-test.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5043C247C54257A2FCABFE /* libPods-test.a */; };
 		9AC32E5218A4241C00BABFBC /* CWInboxDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC32E5118A4241C00BABFBC /* CWInboxDelegateTests.m */; };
+		9AC32E5418A42ADD00BABFBC /* AppDelegateTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC32E5318A42ADD00BABFBC /* AppDelegateTests.m */; };
 		9AC88A8F189297F90006EE61 /* CWAppFeedBackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A8D189297F90006EE61 /* CWAppFeedBackViewController.m */; };
 		9AC88A90189297F90006EE61 /* CWAppFeedBackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9AC88A8E189297F90006EE61 /* CWAppFeedBackViewController.xib */; };
 		9AC88A941892D57B0006EE61 /* CWRatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9AC88A921892D57B0006EE61 /* CWRatingViewController.m */; };
@@ -313,6 +314,7 @@
 		36F57A67189C518E00263484 /* AFNetworkingImageOrientationTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkingImageOrientationTests.m; sourceTree = "<group>"; };
 		810134A78491415EBDC34438 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		9AC32E5118A4241C00BABFBC /* CWInboxDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWInboxDelegateTests.m; sourceTree = "<group>"; };
+		9AC32E5318A42ADD00BABFBC /* AppDelegateTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegateTests.m; sourceTree = "<group>"; };
 		9AC88A8C189297F90006EE61 /* CWAppFeedBackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAppFeedBackViewController.h; sourceTree = "<group>"; };
 		9AC88A8D189297F90006EE61 /* CWAppFeedBackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAppFeedBackViewController.m; sourceTree = "<group>"; };
 		9AC88A8E189297F90006EE61 /* CWAppFeedBackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWAppFeedBackViewController.xib; sourceTree = "<group>"; };
@@ -1012,6 +1014,7 @@
 				367439E9187F5C6200613FD6 /* MocForTests.h */,
 				367439EA187F5C6200613FD6 /* MocForTests.m */,
 				E94439AC182940AF0088A381 /* Supporting Files */,
+				9AC32E5318A42ADD00BABFBC /* AppDelegateTests.m */,
 				36F3F87B187C9C54002CBB63 /* CWGroundControlTests.m */,
 				E95E25DF18314B7300E3950B /* CWVideoManagerTests.m */,
 				E95E25E718314DC500E3950B /* CWVideoPlayerTests.m */,
@@ -1543,6 +1546,7 @@
 				E965255E18341963008987BD /* CWReviewVCTests.m in Sources */,
 				36ACC923187F557B00314C40 /* CWDataManagerTests.m in Sources */,
 				E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */,
+				9AC32E5418A42ADD00BABFBC /* AppDelegateTests.m in Sources */,
 				366EB58C18843E4200A7FF75 /* UserTests.m in Sources */,
 				9AC32E5218A4241C00BABFBC /* CWInboxDelegateTests.m in Sources */,
 				3614539518844EC600400916 /* MessageTests.m in Sources */,
