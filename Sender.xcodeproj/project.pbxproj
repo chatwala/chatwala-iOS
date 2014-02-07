@@ -33,6 +33,8 @@
 		3614539518844EC600400916 /* MessageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3614539418844EC600400916 /* MessageTests.m */; };
 		36145397188481FD00400916 /* testMessage.zip in Resources */ = {isa = PBXBuildFile; fileRef = 36145396188481FD00400916 /* testMessage.zip */; };
 		3629AB1018A2A178007F8D02 /* CWConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 3629AB0F18A2A178007F8D02 /* CWConstants.m */; };
+		3648E33718A57E9000EFC51B /* MyOtherEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3648E33618A57E9000EFC51B /* MyOtherEntity.m */; };
+		3648E33A18A57E9900EFC51B /* _MyOtherEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 3648E33918A57E9900EFC51B /* _MyOtherEntity.m */; };
 		366EB58C18843E4200A7FF75 /* UserTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 366EB58B18843E4200A7FF75 /* UserTests.m */; };
 		367439EB187F5C6200613FD6 /* MocForTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 367439EA187F5C6200613FD6 /* MocForTests.m */; };
 		36781C9218760591005AE1C6 /* CWMessageCellTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 36781C9118760591005AE1C6 /* CWMessageCellTest.m */; };
@@ -267,6 +269,11 @@
 		36145396188481FD00400916 /* testMessage.zip */ = {isa = PBXFileReference; lastKnownFileType = archive.zip; path = testMessage.zip; sourceTree = "<group>"; };
 		3629AB0E18A2A178007F8D02 /* CWConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWConstants.h; sourceTree = "<group>"; };
 		3629AB0F18A2A178007F8D02 /* CWConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWConstants.m; sourceTree = "<group>"; };
+		3648E33418A57A6900EFC51B /* ChatwalaModel 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ChatwalaModel 2.xcdatamodel"; sourceTree = "<group>"; };
+		3648E33518A57E9000EFC51B /* MyOtherEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOtherEntity.h; sourceTree = "<group>"; };
+		3648E33618A57E9000EFC51B /* MyOtherEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOtherEntity.m; sourceTree = "<group>"; };
+		3648E33818A57E9900EFC51B /* _MyOtherEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MyOtherEntity.h; sourceTree = "<group>"; };
+		3648E33918A57E9900EFC51B /* _MyOtherEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MyOtherEntity.m; sourceTree = "<group>"; };
 		366EB58B18843E4200A7FF75 /* UserTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserTests.m; sourceTree = "<group>"; };
 		367439E9187F5C6200613FD6 /* MocForTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MocForTests.h; sourceTree = "<group>"; };
 		367439EA187F5C6200613FD6 /* MocForTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MocForTests.m; sourceTree = "<group>"; };
@@ -652,6 +659,8 @@
 		36AF5819187DD91300C5C13F /* ModelHuman */ = {
 			isa = PBXGroup;
 			children = (
+				3648E33518A57E9000EFC51B /* MyOtherEntity.h */,
+				3648E33618A57E9000EFC51B /* MyOtherEntity.m */,
 				36AF582E187DF0A200C5C13F /* Message.h */,
 				36AF582F187DF0A200C5C13F /* Message.m */,
 				36AF5830187DF0A200C5C13F /* Thread.h */,
@@ -665,6 +674,8 @@
 		36AF581A187DD91300C5C13F /* ModelMachine */ = {
 			isa = PBXGroup;
 			children = (
+				3648E33818A57E9900EFC51B /* _MyOtherEntity.h */,
+				3648E33918A57E9900EFC51B /* _MyOtherEntity.m */,
 				36AF5837187DF0AB00C5C13F /* _Thread.h */,
 				36AF5838187DF0AB00C5C13F /* _Thread.m */,
 				36AF5839187DF0AB00C5C13F /* _User.h */,
@@ -1146,7 +1157,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E94439B5182940AF0088A381 /* Build configuration list for PBXNativeTarget "Sender" */;
 			buildPhases = (
-				36AF5824187DDA1F00C5C13F /* ShellScript */,
+				36AF5824187DDA1F00C5C13F /* Run Script */,
 				274586BD323E48CFADE59026 /* Check Pods Manifest.lock */,
 				E944397F182940AF0088A381 /* Sources */,
 				E9443980182940AF0088A381 /* Frameworks */,
@@ -1367,18 +1378,19 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		36AF5824187DDA1F00C5C13F /* ShellScript */ = {
+		36AF5824187DDA1F00C5C13F /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
+			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel 2.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
 		};
 		4B3DBD8706754EA0AB54D68F /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1454,6 +1466,7 @@
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
+				3648E33718A57E9000EFC51B /* MyOtherEntity.m in Sources */,
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
 				36AF583F187DF0AB00C5C13F /* _Message.m in Sources */,
 				206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */,
@@ -1463,6 +1476,7 @@
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,
 				E9909464186231BF0050695F /* CWMessageManager.m in Sources */,
 				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
+				3648E33A18A57E9900EFC51B /* _MyOtherEntity.m in Sources */,
 				9AC88A991892E7790006EE61 /* CWAskForImprovementMsgViewController.m in Sources */,
 				206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
@@ -1779,9 +1793,10 @@
 		36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				3648E33418A57A6900EFC51B /* ChatwalaModel 2.xcdatamodel */,
 				36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */,
 			);
-			currentVersion = 36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */;
+			currentVersion = 3648E33418A57A6900EFC51B /* ChatwalaModel 2.xcdatamodel */;
 			path = ChatwalaModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
