@@ -48,4 +48,28 @@
 
 }
 
+-(void)testNavControllerPushesOpenerVCWhenOpenURLCalled
+{
+    //given
+     NSURL * url = [[NSBundle bundleForClass:[self class]] URLForResource:@"testMessage" withExtension:@"zip"];
+    id mockOpener = [OCMockObject mockForClass:[CWOpenerViewController class]];
+    [[mockOpener stub] setZipURL:url];
+    self.sut.openerVC = mockOpener;
+
+
+    id mockNavController = [OCMockObject niceMockForClass:[UINavigationController class]];
+    self.sut.navController = mockNavController;
+
+    [[mockNavController expect] pushViewController:mockOpener animated:NO];
+
+    //when
+    [self.sut application:OCMOCK_ANY openURL:url sourceApplication:OCMOCK_ANY annotation:OCMOCK_ANY];
+
+    //should
+    [mockNavController verify];
+
+    //cleanup
+    [mockNavController stopMocking];
+
+}
 @end
