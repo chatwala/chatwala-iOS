@@ -216,6 +216,28 @@
     [mockDataManager stopMocking];
 }
 
+-(void)testSetZipURLSetsVideoURL
+{
+    //given
+
+    [[self.mockPlayer expect] setVideoURL:OCMOCK_ANY];
+    self.sut.player = self.mockPlayer;
+    id mockUrl = [OCMockObject niceMockForClass:[NSURL class]];
+
+    id mockDataManager = [OCMockObject partialMockForObject:[CWDataManager sharedInstance]];
+    NSError * error = nil;
+    [[mockDataManager stub] importMessageAtFilePath:mockUrl withError:((NSError __autoreleasing **)[OCMArg setTo:error])];
+
+    //when
+    [self.sut setZipURL:mockUrl];
+
+    //should
+    [self.mockPlayer verify];
+
+    //cleanup
+    [mockUrl stopMocking];
+    [mockDataManager stopMocking];
+}
 
 - (void) testShouldPushToReviewVCWhenRecordingFinishes {
     
