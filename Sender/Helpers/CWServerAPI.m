@@ -14,7 +14,7 @@
 
 typedef void (^CWPictureUploadEndpointRequestCompletionBlock)(NSError *error, NSString *tempUploadUrl);
 
-NSString *const pushRegisterEndpoint = @"/registerPushToken";
+NSString *const PushRegisterEndpoint = @"/registerPushToken";
 
 @implementation CWServerAPI
 
@@ -175,8 +175,9 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
     
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
     
-    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:pushRegisterEndpoint];
+    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:PushRegisterEndpoint];
     [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSLog(@"Successfully registered local user with chatwala server");
@@ -203,6 +204,7 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
 
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
     
     NSString *endPoint = [NSString stringWithFormat:@"%@/messages/%@/finalize", [[CWMessageManager sharedInstance] baseEndPoint], uploadedMessage.messageID];
     
@@ -214,4 +216,10 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
         NSLog(@"Failed to finalize message upload. Error:  %@",error.localizedDescription);
     }];
 }
+
+# pragma mark - Convenience methods
++ (NSString *)versionHeaderFieldString {
+    return @"x-chatwala-appversion";
+}
+
 @end
