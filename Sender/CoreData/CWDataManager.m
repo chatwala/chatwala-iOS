@@ -11,15 +11,7 @@
 #import "Message.h"
 #import "NSDictionary+LookUpTable.h"
 #import "CWUserManager.h"
-
-@interface CWDataManager ()
-{
-    
-}
-
-
-@end
-
+#import "CWMessagesDownloader.h"
 
 @implementation CWDataManager
 + (id)sharedInstance
@@ -138,7 +130,8 @@
     return message;
 }
 
-- (Message *) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error
+
+- (Message *)createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error
 {
     if(![sourceDictionary isKindOfClass:[NSDictionary class]])
     {
@@ -181,32 +174,8 @@
     return item;
 }
 
-- (NSError *) importMessages:(NSArray *)messages
-{
-    if(![messages isKindOfClass:[NSArray class]])
-    {
-        return [NSError errorWithDomain:@"com.chatwala" code:6002 userInfo:@{@"Failed import":@"import messages expects an array", @"found":messages}];//failed to import
-    }
-    
-    NSError * error = nil;
-    for (NSDictionary * messageDictionary in messages) {
-        [self createMessageWithDictionary:messageDictionary error:&error];
-        if(error)
-        {
-            return error;
-        }
-    }
-    
-    [self.moc save:&error];
-    
-    if(!error)
-    {
-        [self downloadAllMessageChatwalaData];
-    }
-//    NSAssert(!error, @"not expecting errors. found:%@",error);
-    
-    return error;
-}
+// importMessageAtFilePath used in two places:  opener view (sms links & now notifications) and when walas are downloaded from the inbox.
+// Ideally we want SMS links to be added to the inbox & let the same flow handle the unpackaging of the data. [RK - 02112014]
 
 - (Message *) importMessageAtFilePath:(NSURL *) filePath withError:(NSError **)error
 {
@@ -271,19 +240,9 @@
     }
     return item;
 }
-+ (NSString*)cacheDirectoryPath
-{
+
++ (NSString*)cacheDirectoryPath {
     return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-}
-
-
-- (void) downloadAllMessageChatwalaData {
-
-    NSOrderedSet * items = [[CWUserManager sharedInstance] localUser].messagesReceived;
-        
-    for (Message * item in items) {
-        [item downloadChatwalaDataWithMessageCell:nil];
-    }
 }
 
 #pragma mark - dateformater

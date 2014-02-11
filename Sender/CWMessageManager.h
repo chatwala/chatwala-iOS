@@ -47,6 +47,6 @@ typedef void (^CWDownloadTaskCompletionBlock) (NSURLResponse *response, NSURL *f
 @property (strong, readonly) AFRequestOperationManagerSuccessBlock getMessagesSuccessBlock;
 @property (strong, readonly) AFRequestOperationManagerFailureBlock getMessagesFailureBlock;
 @property (strong, readonly) AFDownloadTaskDestinationBlock downloadURLDestinationBlock;
-@property (strong, readonly) CWDownloadTaskCompletionBlock downloadTaskCompletionBlock;
+@property (strong, readonly) CWDownloadTaskCompletionBlock messageFileDownloadCompletionBlock;
 
 @end

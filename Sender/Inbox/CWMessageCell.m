@@ -11,6 +11,7 @@
 #import "CWUserManager.h"
 #import "Message.h"
 #import "UIColor+Additions.h"
+#import "CWMessageManager.h"
 
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIView * cellView;
@@ -84,8 +85,8 @@
 }
 
 - (void) setMessage:(Message *) message {
-
-    NSURL * imageURL = [NSURL URLWithString:message.thumbnailPictureURL];
+    
+    NSURL * imageURL = [NSURL URLWithString:[NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint],message.sender.userID]];
     [self.spinner startAnimating];
     
     UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];

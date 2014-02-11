@@ -13,6 +13,8 @@
 #import "CWUtility.h"
 #import "CWDataManager.h"
 #import "CWServerAPI.h"
+#import "CWPushNotificationsAPI.h"
+#import "CWMessagesDownloader.h"
 
 @interface CWMessageManager ()
 
@@ -102,7 +104,7 @@
     });
 }
 
-- (CWDownloadTaskCompletionBlock) downloadTaskCompletionBlock {
+- (CWDownloadTaskCompletionBlock) messageFileDownloadCompletionBlock {
     
     return (^ void(NSURLResponse *response, NSURL *filePath, NSError *error, CWMessageDownloadCompletionBlock  messageDownloadCompletionBlock){
         
@@ -163,8 +165,9 @@
         
         [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
         
+        
         NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:self.downloadURLDestinationBlock completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            self.downloadTaskCompletionBlock(response,filePath,error,completionBlock);
+            self.messageFileDownloadCompletionBlock(response,filePath,error,completionBlock);
         }];
         
 
@@ -177,7 +180,7 @@
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
 }
 
-- (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
+- (void)getMessagesForUser:(User *)user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
     NSString *user_id = user.userID;
     
     if (![user_id length]) {
@@ -189,15 +192,43 @@
         manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
 
         NSString * url = [NSString stringWithFormat:[self getUserMessagesEndPoint],user_id] ;
-        NSLog(@"fetching messages: %@",url);
+        NSLog(@"fetching messages: %@", url);
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            //
-            self.getMessagesSuccessBlock(operation, responseObject);
             
-            if (completionBlock) {
-                completionBlock(UIBackgroundFetchResultNewData);
+            
+            NSArray *messages = [responseObject objectForKey:@"messages"];
+            if([messages isKindOfClass:[NSArray class]]){
+
+                // EMPTYPUSH:  The message isn't downloaded yet, we don't need it do we?  Should be able to pass
+                // message ids to the downloader.
+                // However, we maybe using the metadata from the server here (timestamp specifically...)
+                CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
+                downloader.messageIdsForDownload = [self messageIDsFromResponse:messages];
+                [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
+                    
+                    // Finished download, now update badge & send local push notification if necessary
+                    if (completionBlock) {
+                        
+                        if ([messagesDownloaded count]) {
+                            [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
+                            completionBlock(UIBackgroundFetchResultNewData);
+                        }
+                        else {
+                            completionBlock(UIBackgroundFetchResultNoData);
+                        }
+                    }
+                    
+                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+                }];
             }
-            
+            else {
+                NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
+                self.getMessagesFailureBlock(operation, error);
+                
+                if (completionBlock) {
+                    completionBlock(UIBackgroundFetchResultNoData);
+                }
+            }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
             self.getMessagesFailureBlock(operation, error);
@@ -209,22 +240,15 @@
     }
 }
 
-- (AFRequestOperationManagerSuccessBlock) getMessagesSuccessBlock {
+- (NSArray *)messageIDsFromResponse:(NSArray *)messages {
     
-    return (^ void(AFHTTPRequestOperation *operation, id responseObject){
-        NSLog(@"fetched user messages: %@",responseObject);
-        
-        NSArray *messages = [responseObject objectForKey:@"messages"];
-        if([messages isKindOfClass:[NSArray class]]){
-            [[CWDataManager sharedInstance] importMessages:messages];
-            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
-            [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
-        }
-        else{
-            NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
-            self.getMessagesFailureBlock(operation, error);
-        }
-    });
+    NSMutableArray *messageIDs = [NSMutableArray array];
+    for (NSDictionary * messageDictionary in messages) {
+        NSString *currentMessageID = [messageDictionary objectForKey:@"message_id"];
+        [messageIDs addObject:currentMessageID];
+    }
+    
+    return messageIDs;
 }
 
 - (AFRequestOperationManagerFailureBlock) getMessagesFailureBlock {
