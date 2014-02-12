@@ -116,7 +116,7 @@
 }
 
 
-- (void)composeMessageWithMessageKey:(NSString*)messageURL withCompletion:(void (^)(void))completion {
+- (void)composeMessageWithMessageKey:(NSString *)messageURL withCompletion:(void (^)(void))completion {
     
     
     NSString *messagePrefix = nil;
@@ -258,6 +258,13 @@
             if (uploadURLString && messageID && downloadURLString) {
                 
                 message.messageID = messageID;
+                
+#ifdef USE_QA_SERVER
+                downloadURLString = [NSString stringWithFormat:@"http://chatwala.com/qa/?%@",messageID];
+#elif USE_DEV_SERVER
+                downloadURLString = [NSString stringWithFormat:@"http://chatwala.com/dev/?%@",messageID];
+#endif
+                
                 
                 [self composeMessageWithMessageKey:downloadURLString withCompletion:^{
                     [message exportZip];
