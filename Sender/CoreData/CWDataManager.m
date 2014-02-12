@@ -11,7 +11,6 @@
 #import "Message.h"
 #import "NSDictionary+LookUpTable.h"
 #import "CWUserManager.h"
-#import "CWMessagesDownloader.h"
 
 @implementation CWDataManager
 + (id)sharedInstance

@@ -13,5 +13,6 @@ typedef void (^CWMessageDownloaderCompletionBlock)(NSArray *messagesDownloaded);
 @property (nonatomic, strong) NSArray *messageIdsForDownload;
 
 - (void)startWithCompletionBlock:(CWMessageDownloaderCompletionBlock)completionBlock;
++ (NSString *)filePathForMessageID:(NSString *)messageID;
 
 @end

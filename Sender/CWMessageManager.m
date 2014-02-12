@@ -95,84 +95,12 @@
 }
 
 
-
 - (AFDownloadTaskDestinationBlock) downloadURLDestinationBlock {
     
     return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
         NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
         return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     });
-}
-
-- (CWDownloadTaskCompletionBlock) messageFileDownloadCompletionBlock {
-    
-    return (^ void(NSURLResponse *response, NSURL *filePath, NSError *error, CWMessageDownloadCompletionBlock  messageDownloadCompletionBlock){
-        
-        if(error) {
-            NSLog(@"error %@", error);
-            if (messageDownloadCompletionBlock) {
-                messageDownloadCompletionBlock(NO,filePath);//if we need to pass error/response adjust function callback
-            }
-        }
-        else {
-            NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
-            switch (httpResponse.statusCode) {
-                case 200: {
-                    // success
-                    NSLog(@"File downloaded to: %@", filePath);
-                    NSError * error = nil;
-                    [[CWDataManager sharedInstance] importMessageAtFilePath:filePath withError:&error];
-                    NSAssert(!error, @"not expecting an error, found:%@",error);
-                    if (messageDownloadCompletionBlock) {
-                        messageDownloadCompletionBlock(YES,filePath);
-                    }
-                    
-                    break;
-                }
-                default:
-                    // fail
-                    NSLog(@"failed to load message file. with code:%i",httpResponse.statusCode);
-                    if (messageDownloadCompletionBlock) {
-                        messageDownloadCompletionBlock(NO,nil);
-                    }
-                    break;
-            }
-        }
-    });
-}
-
-- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(CWMessageDownloadCompletionBlock )completionBlock
-{
-    // check if file exists locally
-    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
-    if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
-        // don't download
-        NSURL * localURL =[NSURL fileURLWithPath:localPath];
-        if (completionBlock) {
-            completionBlock(YES,localURL);
-        }
-    }
-    else {
-        
-        // do download
-        NSString * messagePath =[NSString stringWithFormat:[self getMessageEndPoint],messageID];
-        NSLog(@"downloading file at: %@",messagePath);
-        
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-        NSURL *URL = [NSURL URLWithString:messagePath];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-        
-        [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
-        
-        
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:self.downloadURLDestinationBlock completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            self.messageFileDownloadCompletionBlock(response,filePath,error,completionBlock);
-        }];
-        
-
-        [downloadTask resume];
-    }
 }
 
 - (NSURL *)messageCacheURL {
@@ -195,13 +123,9 @@
         NSLog(@"fetching messages: %@", url);
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             
-            
             NSArray *messages = [responseObject objectForKey:@"messages"];
             if([messages isKindOfClass:[NSArray class]]){
 
-                // EMPTYPUSH:  The message isn't downloaded yet, we don't need it do we?  Should be able to pass
-                // message ids to the downloader.
-                // However, we maybe using the metadata from the server here (timestamp specifically...)
                 CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
                 downloader.messageIdsForDownload = [self messageIDsFromResponse:messages];
                 [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {

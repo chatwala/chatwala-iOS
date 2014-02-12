@@ -21,7 +21,7 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
     
     for (NSString *messageID in self.messageIdsForDownload) {
         
-        if (![self isMessageDownloadedForMessageID:messageID]) {
+        if (![[CWMessagesDownloader filePathForMessageID:messageID] length]) {
             [messageIDsNeedingDownload addObject:messageID];
         }
     }
@@ -29,10 +29,16 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
     NSInteger totalMessagesToDownload = 0;
     totalMessagesToDownload = [messageIDsNeedingDownload count];
     
+    if (!totalMessagesToDownload) {
+        if (completionBlock) {
+            completionBlock(nil);
+        }
+    }
+    
     NSMutableArray *downloadedMessages = [NSMutableArray array];
     
     for (NSString *messageIdToDownload in messageIDsNeedingDownload) {
-        [self downloadMessageWithID:messageIdToDownload progress:nil completion:^(BOOL success, NSURL *url) {
+        [self downloadMessageWithID:messageIdToDownload completion:^(BOOL success, NSURL *url) {
 
             NSInteger completedRequests = 0;
             completedRequests++;
@@ -61,21 +67,22 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
     }
 }
 
-#pragma mark - Download methods
 
-- (BOOL)isMessageDownloadedForMessageID:(NSString *)messageID {
++ (NSString *)filePathForMessageID:(NSString *)messageID {
     // check if file exists locally
     NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
     if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
         // don't download
-        return YES;
+        return localPath;
     }
     else {
-        return NO;
+        return nil;
     }
 }
 
-- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(CWMessageDownloaderMessageDownloadCompletionBlock)completionBlock
+#pragma mark - Download methods
+
+- (void)downloadMessageWithID:(NSString *)messageID completion:(CWMessageDownloaderMessageDownloadCompletionBlock)completionBlock
 {
     // do download
     NSString * messagePath =[NSString stringWithFormat:[[CWMessageManager alloc] getMessageEndPoint], messageID];
