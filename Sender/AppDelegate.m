@@ -237,10 +237,17 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         [self.loadingVC.view setAlpha:1];
     }
 
+
+#ifdef USE_DEV_SERVER
+    NSString *appURLScheme = @"chatwala-dev";
+#elif USE_QA_SERVER
+    NSString *appURLScheme = @"chatwala-qa";
+#else
+    NSString *appURLScheme = @"chatwala";
+#endif
     
-    if ([scheme isEqualToString:@"chatwala"]) {
+    if ([scheme isEqualToString:appURLScheme]) {
         [[CWMessageManager sharedInstance]downloadMessageWithID:messageId progress:nil completion:^(BOOL success, NSURL *url) {
-            // fin
             
             if (success) {
                 
