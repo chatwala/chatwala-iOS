@@ -35,11 +35,10 @@ typedef enum eMessageViewedState
 @property (nonatomic, strong) UIImage * lastFrameImage; //not saved in core data
 
 - (eMessageViewedState) eMessageViewedState;
-- (void) setEMessageViewedState:(eMessageViewedState) eViewedState;
+- (void)setEMessageViewedState:(eMessageViewedState) eViewedState;
 
 - (eMessageDownloadState) eDownloadState;
-- (void) setEMessageDownloadState:(eMessageDownloadState ) eState;
-- (void) downloadChatwalaDataWithMessageCell:(CWMessageCell *) messageCell;
-- (void) exportZip;
+- (void)setEMessageDownloadState:(eMessageDownloadState ) eState;
+- (void)exportZip;
 
 @end

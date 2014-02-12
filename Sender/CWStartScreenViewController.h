@@ -6,10 +6,10 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 @class CWMiddleButton;
 
 @interface CWStartScreenViewController : UIViewController
+
 @property (weak, nonatomic) IBOutlet UIButton *startButton;
 @property (weak, nonatomic) IBOutlet CWMiddleButton *middleButton;
 @property (weak, nonatomic) IBOutlet UILabel *startScreenMessageLabel;
@@ -18,5 +18,6 @@
 - (IBAction)onStart:(id)sender;
 
 - (void)onMiddleButtonTap;
+
 @end
 
