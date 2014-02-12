@@ -1676,6 +1676,7 @@
 				CW_BUILD_VERSION = 2.6.6;
 				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
 				CW_DISPLAY_NAME = chatwala;
+				CW_URL_SCHEME = chatwala;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
@@ -1701,6 +1702,7 @@
 				CW_BUILD_VERSION = 2.6.6;
 				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
 				CW_DISPLAY_NAME = chatwala;
+				CW_URL_SCHEME = chatwala;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
