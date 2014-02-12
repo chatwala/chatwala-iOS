@@ -17,6 +17,7 @@
 #import "CWSettingsViewController.h"
 #import "CWDataManager.h"
 #import "CWPushNotificationsAPI.h"
+#import "CWMessagesDownloader.h"
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -247,49 +248,67 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 #endif
     
     if ([scheme isEqualToString:appURLScheme]) {
-        [[CWMessageManager sharedInstance]downloadMessageWithID:messageId progress:nil completion:^(BOOL success, NSURL *url) {
+        
+        NSURL *urlToOpen = [NSURL URLWithString:[CWMessagesDownloader filePathForMessageID:messageId]];
+        
+        if (!urlToOpen) {
+            CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
+            downloader.messageIdsForDownload = @[messageId];
             
-            if (success) {
-                
-                // loaded message
-                [self.openerVC setZipURL:url];
-                if ([self.navController.topViewController isEqual:self.openerVC]) {
-                    // already showing opener
+            [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
+                if ([messagesDownloaded count]) {
+                    // loaded message
+                    Message *message = [messagesDownloaded objectAtIndex:0];
+                    
+                    // TODO:  This code is duplicated further down this snippet
+                    [self.openerVC setZipURL:message.videoURL];
+                    if ([self.navController.topViewController isEqual:self.openerVC]) {
+                        // already showing opener
+                    }
+                    else {
+                        [self.navController pushViewController:self.openerVC animated:NO];
+                    }
+                    
+                    [UIView animateWithDuration:0.5 animations:^{
+                        [self.loadingVC.view setAlpha:0];
+                    }];
                 }
                 else {
-                    [self.navController pushViewController:self.openerVC animated:NO];
+                    // fail
+                    // failed to load message
+                    [self.navController popToRootViewControllerAnimated:NO];
+                    [UIView animateWithDuration:0.5 animations:^{
+                        [self.loadingVC.view setAlpha:0];
+                    }];
+                    NSLog(@"failed to download message");
+                    [SVProgressHUD showErrorWithStatus:@"Message Unavailable"];
                 }
-                
-                [UIView animateWithDuration:0.5 animations:^{
-                    [self.loadingVC.view setAlpha:0];
-                }];
-            }
-            else {
-                // failed to load message
-                [self.navController popToRootViewControllerAnimated:NO];
-                [UIView animateWithDuration:0.5 animations:^{
-                    [self.loadingVC.view setAlpha:0];
-                }];
-                NSLog(@"failed to download message");
-                [SVProgressHUD showErrorWithStatus:@"Message Unavailable"];
-            }
-        }];
-    }
-    else {
-        [self.openerVC setZipURL:url];
-        
-        if ([self.navController.topViewController isEqual:self.openerVC]) {
-            // already showing opener
+            }];
         }
         else {
-            [self.navController pushViewController:self.openerVC animated:NO];
+            [self loadOpenerWithURL:urlToOpen];
         }
-        
-        [self.loadingVC.view setAlpha:0];
+    }
+    else {
+        [self loadOpenerWithURL:url];
     }
 
     [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
     return YES;
+}
+
+#pragma mark - Local message opening
+
+- (void)loadOpenerWithURL:(NSURL *)messageLocalURL {
+    [self.openerVC setZipURL:messageLocalURL];
+    if ([self.navController.topViewController isEqual:self.openerVC]) {
+        // already showing opener
+    }
+    else {
+        [self.navController pushViewController:self.openerVC animated:NO];
+    }
+    
+    [self.loadingVC.view setAlpha:0];
 }
 
 #pragma mark - Video recorder session management
@@ -362,20 +381,37 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.loadingVC.view setAlpha:1];
     
     
-    [[CWMessageManager sharedInstance]downloadMessageWithID:messageId  progress:nil completion:^(BOOL success, NSURL *url) {
-        //
-        if (success) {
-            [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
-        }else{
-            // fail
-            [self.navController popToRootViewControllerAnimated:NO];
-            [UIView animateWithDuration:0.5 animations:^{
-                [self.loadingVC.view setAlpha:0];
-            }];
-            [SVProgressHUD showErrorWithStatus:@"Message Unavailable"];
-            NSLog(@"failed to download message");
-        }
-    }];
+    NSURL *urlToOpen = [NSURL URLWithString:[CWMessagesDownloader filePathForMessageID:messageId]];
+    
+    if (!urlToOpen) {
+    
+        CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
+        downloader.messageIdsForDownload = @[messageId];
+        
+        [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
+            if ([messagesDownloaded count]) {
+                // loaded message
+                Message *message = [messagesDownloaded objectAtIndex:0];
+                [appdel application:[UIApplication sharedApplication] openURL:message.videoURL sourceApplication:nil annotation:nil];
+            }
+            else {
+                // fail
+                [self.navController popToRootViewControllerAnimated:NO];
+                [UIView animateWithDuration:0.5 animations:^{
+                    [self.loadingVC.view setAlpha:0];
+                }];
+                [SVProgressHUD showErrorWithStatus:@"Message Unavailable"];
+                NSLog(@"failed to download message");
+            }
+        }];
+    }
+    else {
+        [appdel application:[UIApplication sharedApplication] openURL:urlToOpen sourceApplication:nil annotation:nil];
+    }
+    
+    
+    
+    
 }
 
 #pragma mark - Push Notification Registration delegate methods

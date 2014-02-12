@@ -68,11 +68,9 @@
     [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
 }
 
-- (void)onMessagLoadedFailed:(NSNotification*)note
-{
+- (void)onMessagLoadedFailed:(NSNotification*)note {
+
     [self.messagesLabel setText:@"failed to load messages."];
-//    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWMessageManager sharedInstance]messages] count]];
-    
     [self.refreshControl endRefreshing];
 }
 
