@@ -13,7 +13,6 @@ echo $buildNotes
 
 buildsFolder="../Builds"
 
-
 appVersion="1.3.1"
 internalVersion="2.6.6"
 displayName="chatwala"
@@ -122,6 +121,7 @@ build() {
 #build 'Sender' 'AppStore' 'Release' "$cwAppStoreIdentity" 'B7AD3FC8-E51A-4236-9465-BFA74A6E6C7F.mobileprovision' ''
 
 #development signed builds
+
 #build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '3602CF16-C1C5-4A38-ADA0-1D23786253BD.mobileprovision' ''
 build 'Sender' 'dev' 'Release' "$cwDebugIdentity" '2516BD10-731C-4AE3-B9D5-651227406C4E.mobileprovision' 'USE_DEV_SERVER=1  CW_URL_SCHEME=chatwala-dev'
 #build 'Sender' 'qa' 'Release' "$cwDebugIdentity" '4C1B17DF-6CFA-4C05-A1FE-B7590EB1524B.mobileprovision' 'USE_QA_SERVER=1 CW_URL_SCHEME=chatwala-qa'
