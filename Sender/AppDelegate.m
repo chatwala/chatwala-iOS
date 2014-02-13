@@ -185,6 +185,11 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
 //    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
+    
+    //  Update badge so the user sees valid information
+    if( [[CWUserManager sharedInstance] localUser]) {
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -348,7 +353,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [NC postNotificationName:(NSString*)CWMMDrawerCloseNotification object:nil];
 }
 
-#pragma mark CWInboxDelegate
+#pragma mark - CWInboxDelegate
 
 - (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectButton:(UIButton *)button {
     [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
@@ -408,10 +413,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     else {
         [appdel application:[UIApplication sharedApplication] openURL:urlToOpen sourceApplication:nil annotation:nil];
     }
-    
-    
-    
-    
 }
 
 #pragma mark - Push Notification Registration delegate methods
