@@ -222,6 +222,8 @@
     
     NSDictionary *params = @{@"sender_id" : message.sender.userID,
                              @"recipient_id" : message.recipient.userID};
+     
+    NSLog(@"Requesting reply message upload URL with params: %@", params);
     
     NSString *newMessageID = [self generateMessageID];
     NSString *endPoint = [NSString stringWithFormat:@"%@/%@", self.messagesEndPoint, newMessageID];
@@ -272,6 +274,8 @@
     NSDictionary *params = @{@"sender_id" : localUser.userID,
                              @"recipient_id" : @"unknown_recipient"};
     
+    NSLog(@"Requesting original message upload URL with params: %@", params);
+    
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
@@ -286,7 +290,7 @@
         self.tempDownloadURLString = [responseObject valueForKey:@"url"];
         self.tempMessageID = newMessageID;
         
-        NSLog(@"Fetched new message upload URL: %@: for new original message ID: %@",self.tempUploadURLString, self.tempMessageID);
+        NSLog(@"Fetched original message upload URL: %@: for new original message ID: %@",self.tempUploadURLString, self.tempMessageID);
         
         if (completionBlock) {
             completionBlock(self.tempMessageID, self.tempUploadURLString, self.tempDownloadURLString);
@@ -296,11 +300,11 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.needsOriginalMessageUploadURL = YES;
-        NSLog(@"Error retrieving message ID or URL from the server");
+
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
-        NSLog(@"Failed to fetched new message upload ID from the server for a reply with error:%@",error);
-        NSLog(@"operation:%@",operation);
+        NSLog(@"Failed to fetch original message upload ID from the server for a reply with error: %@",error);
+        NSLog(@"operation: %@",operation);
         
         if (completionBlock) {
             completionBlock(nil,nil,nil);
