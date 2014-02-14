@@ -234,7 +234,7 @@
 		// after the recorded file has been saved.
         [self setBackgroundRecordingID:[[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
             if (self.backgroundRecordingID != 0) {
-                [[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
+                //[[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
                 self.backgroundRecordingID = 0;
             }
         }]];
@@ -343,7 +343,7 @@
     [self converVideoWithURL:outputFileURL];
     
     if (self.backgroundRecordingID != 0) {
-        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
+        //[[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
         self.backgroundRecordingID = 0;
     }
     
