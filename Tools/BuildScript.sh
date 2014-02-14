@@ -92,8 +92,8 @@ build() {
   elif [ "$buildType" == "dev" ] ; then
     devInternalVersion="$buildType-$internalVersion"
 
-    xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration GCC_PREPROCESSOR_DEFINITIONS=$otherOptions CODE_SIGN_IDENTITY="iPhone Developer: Chatwala Master (4NGCTASJ2H)" CW_BUNDLE_IDENTIFIER="com.chatwala."$buildType CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$devInternalVersion CW_DISPLAY_NAME=$displayName$buildType CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion $otherOptions || exit 1
-	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Chatwala Master (4NGCTASJ2H)" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
+    xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration GCC_PREPROCESSOR_DEFINITIONS=$otherOptions CODE_SIGN_IDENTITY="iPhone Developer: Dev Chatwala (F8PX93F678)" CW_BUNDLE_IDENTIFIER="com.chatwala."$buildType CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$devInternalVersion CW_DISPLAY_NAME=$displayName$buildType CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion $otherOptions || exit 1
+	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Dev Chatwala (F8PX93F678)" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
   
   elif [ "$buildType" == "qa" ] ; then
   	qaInternalVersion="$buildType-$internalVersion"
