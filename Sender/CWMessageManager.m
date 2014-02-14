@@ -133,11 +133,17 @@
                     // Finished download, now update badge & send local push notification if necessary
                     if (completionBlock) {
                         
+                        NSLog(@"Messags downloader completed fetches.");
+                        
                         if ([messagesDownloaded count]) {
+                            
+                            NSLog(@"New messages downloaded - calling background completion block.");
+                            
                             [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
                             completionBlock(UIBackgroundFetchResultNewData);
                         }
                         else {
+                            NSLog(@"NO New messages downloaded - calling background completion block.");
                             completionBlock(UIBackgroundFetchResultNoData);
                         }
                     }
