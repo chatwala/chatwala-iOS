@@ -7,11 +7,11 @@
 //
 
 #import "CWMessageCell.h"
-#import <AFNetworking/UIImageView+AFNetworking.h>
 #import "CWUserManager.h"
 #import "Message.h"
 #import "UIColor+Additions.h"
 #import "CWMessageManager.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIView * cellView;
@@ -94,7 +94,30 @@
     
     [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
     
-    [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
+//    [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
+    
+    NSString *kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
+    NSString *kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
+    NSString *kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
+    
+    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
+    [manager setValue:[NSString stringWithFormat:@"%@:%@", kChatwalaAPIKey, kChatwalaAPISecret] forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
+
+    //SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
+    
+    [self.thumbView setImageWithURL:imageURL placeholderImage:placeholder options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+        //
+        [self.spinner stopAnimating];
+        
+        if (error) {
+            NSLog(@"Error fetching image: %@", error.localizedDescription);
+        }
+        else {
+            NSLog(@"Successfully fetched image!");
+        }
+    }];
+    
+    //[self.thumbView setImageWithURL:imageURL placeholderImage:placeholder];
     
     switch ([message eMessageViewedState]) {
         default:
