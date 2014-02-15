@@ -51,6 +51,7 @@ static BOOL didRegisterForPushNotifications = NO;
 
 + (void)handleRemotePushNotification:(NSDictionary *)userInfo completionBlock:(void (^)(UIBackgroundFetchResult))completionHandler {
     if ([userInfo count]) {
+        NSLog(@"Received valid remote PUSH notification: %@", userInfo);
         [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:completionHandler];
     }
     else {
