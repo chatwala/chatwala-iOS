@@ -59,7 +59,7 @@
     if (useLocalServer) {
         return @"http://192.168.0.102:1337";
     }
-    
+
 #ifdef USE_QA_SERVER
     return @"https://chatwala-qa-13.azurewebsites.net";
 #elif USE_DEV_SERVER
@@ -71,6 +71,7 @@
 #else
     return @"https://chatwala-prodeast-13.azurewebsites.net";
 #endif
+    
 }
 
 - (NSString *)registerEndPoint {

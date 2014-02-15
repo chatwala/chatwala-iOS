@@ -35,7 +35,6 @@ typedef enum {
 @property (nonatomic,strong) CWVideoRecorder * recorder;
 @property (nonatomic, strong) Message * activeMessage;
 
-
 - (void)setZipURL:(NSURL *) zipURL;
 - (void)onMiddleButtonTap;
 @end
