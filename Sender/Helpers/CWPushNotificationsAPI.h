@@ -11,9 +11,13 @@
 @interface CWPushNotificationsAPI : NSObject
 
 
+
 // Set up used by App Delegate
 + (void)registerForPushNotifications;
 + (void)sendProviderDeviceToken:(NSData *)tokenData;
+
+// Outbound notifications
++ (void)postCompletedMessageFetchLocalNotification;
 
 // Inbound notifications
 + (void)handleLocalPushNotification:(UILocalNotification *)notification;

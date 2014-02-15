@@ -13,6 +13,8 @@
 #import "CWUtility.h"
 #import "CWDataManager.h"
 #import "CWServerAPI.h"
+#import "CWPushNotificationsAPI.h"
+#import "CWMessagesDownloader.h"
 
 @interface CWMessageManager ()
 
@@ -94,7 +96,6 @@
 }
 
 
-
 - (AFDownloadTaskDestinationBlock) downloadURLDestinationBlock {
     
     return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
@@ -103,82 +104,12 @@
     });
 }
 
-- (CWDownloadTaskCompletionBlock) downloadTaskCompletionBlock {
-    
-    return (^ void(NSURLResponse *response, NSURL *filePath, NSError *error, CWMessageDownloadCompletionBlock  messageDownloadCompletionBlock){
-        
-        if(error) {
-            NSLog(@"error %@", error);
-            if (messageDownloadCompletionBlock) {
-                messageDownloadCompletionBlock(NO,filePath);//if we need to pass error/response adjust function callback
-            }
-        }
-        else {
-            NSHTTPURLResponse * httpResponse = (NSHTTPURLResponse*)response;
-            switch (httpResponse.statusCode) {
-                case 200: {
-                    // success
-                    NSLog(@"File downloaded to: %@", filePath);
-                    NSError * error = nil;
-                    [[CWDataManager sharedInstance] importMessageAtFilePath:filePath withError:&error];
-                    NSAssert(!error, @"not expecting an error, found:%@",error);
-                    if (messageDownloadCompletionBlock) {
-                        messageDownloadCompletionBlock(YES,filePath);
-                    }
-                    
-                    break;
-                }
-                default:
-                    // fail
-                    NSLog(@"failed to load message file. with code:%i",httpResponse.statusCode);
-                    if (messageDownloadCompletionBlock) {
-                        messageDownloadCompletionBlock(NO,nil);
-                    }
-                    break;
-            }
-        }
-    });
-}
-
-- (void)downloadMessageWithID:(NSString *)messageID progress:(void (^)(CGFloat progress))progressBlock completion:(CWMessageDownloadCompletionBlock )completionBlock
-{
-    // check if file exists locally
-    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
-    if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
-        // don't download
-        NSURL * localURL =[NSURL fileURLWithPath:localPath];
-        if (completionBlock) {
-            completionBlock(YES,localURL);
-        }
-    }
-    else {
-        
-        // do download
-        NSString * messagePath =[NSString stringWithFormat:[self getMessageEndPoint],messageID];
-        NSLog(@"downloading file at: %@",messagePath);
-        
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-        NSURL *URL = [NSURL URLWithString:messagePath];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-        
-        [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
-        
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:self.downloadURLDestinationBlock completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            self.downloadTaskCompletionBlock(response,filePath,error,completionBlock);
-        }];
-        
-
-        [downloadTask resume];
-    }
-}
-
 - (NSURL *)messageCacheURL {
     NSString * const messagesCacheFile = @"messages";
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
 }
 
-- (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
+- (void)getMessagesForUser:(User *)user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
     NSString *user_id = user.userID;
     
     if (![user_id length]) {
@@ -190,15 +121,45 @@
         manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
 
         NSString * url = [NSString stringWithFormat:[self getUserMessagesEndPoint],user_id] ;
-        NSLog(@"fetching messages: %@",url);
+        NSLog(@"fetching messages: %@", url);
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            //
-            self.getMessagesSuccessBlock(operation, responseObject);
             
-            if (completionBlock) {
-                completionBlock(UIBackgroundFetchResultNewData);
+            NSArray *messages = [responseObject objectForKey:@"messages"];
+            if([messages isKindOfClass:[NSArray class]]){
+
+                CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
+                downloader.messageIdsForDownload = [self messageIDsFromResponse:messages];
+                [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
+                    
+                    // Finished download, now update badge & send local push notification if necessary
+                    if (completionBlock) {
+                        
+                        NSLog(@"Messags downloader completed fetches.");
+                        
+                        if ([messagesDownloaded count]) {
+                            
+                            NSLog(@"New messages downloaded - calling background completion block.");
+                            
+                            [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
+                            completionBlock(UIBackgroundFetchResultNewData);
+                        }
+                        else {
+                            NSLog(@"NO New messages downloaded - calling background completion block.");
+                            completionBlock(UIBackgroundFetchResultNoData);
+                        }
+                    }
+                    
+                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+                }];
             }
-            
+            else {
+                NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
+                self.getMessagesFailureBlock(operation, error);
+                
+                if (completionBlock) {
+                    completionBlock(UIBackgroundFetchResultNoData);
+                }
+            }
         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
             //
             self.getMessagesFailureBlock(operation, error);
@@ -210,22 +171,15 @@
     }
 }
 
-- (AFRequestOperationManagerSuccessBlock) getMessagesSuccessBlock {
+- (NSArray *)messageIDsFromResponse:(NSArray *)messages {
     
-    return (^ void(AFHTTPRequestOperation *operation, id responseObject){
-        NSLog(@"fetched user messages: %@",responseObject);
-        
-        NSArray *messages = [responseObject objectForKey:@"messages"];
-        if([messages isKindOfClass:[NSArray class]]){
-            [[CWDataManager sharedInstance] importMessages:messages];
-            [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
-            [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
-        }
-        else{
-            NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
-            self.getMessagesFailureBlock(operation, error);
-        }
-    });
+    NSMutableArray *messageIDs = [NSMutableArray array];
+    for (NSDictionary * messageDictionary in messages) {
+        NSString *currentMessageID = [messageDictionary objectForKey:@"message_id"];
+        [messageIDs addObject:currentMessageID];
+    }
+    
+    return messageIDs;
 }
 
 - (AFRequestOperationManagerFailureBlock) getMessagesFailureBlock {
@@ -275,6 +229,8 @@
     
     NSDictionary *params = @{@"sender_id" : message.sender.userID,
                              @"recipient_id" : message.recipient.userID};
+     
+    NSLog(@"Requesting reply message upload URL with params: %@", params);
     
     NSString *newMessageID = [self generateMessageID];
     NSString *endPoint = [NSString stringWithFormat:@"%@/%@", self.messagesEndPoint, newMessageID];
@@ -325,6 +281,8 @@
     NSDictionary *params = @{@"sender_id" : localUser.userID,
                              @"recipient_id" : @"unknown_recipient"};
     
+    NSLog(@"Requesting original message upload URL with params: %@", params);
+    
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
@@ -339,7 +297,7 @@
         self.tempDownloadURLString = [responseObject valueForKey:@"url"];
         self.tempMessageID = newMessageID;
         
-        NSLog(@"Fetched new message upload URL: %@: for new original message ID: %@",self.tempUploadURLString, self.tempMessageID);
+        NSLog(@"Fetched original message upload URL: %@: for new original message ID: %@",self.tempUploadURLString, self.tempMessageID);
         
         if (completionBlock) {
             completionBlock(self.tempMessageID, self.tempUploadURLString, self.tempDownloadURLString);
@@ -349,11 +307,11 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.needsOriginalMessageUploadURL = YES;
-        NSLog(@"Error retrieving message ID or URL from the server");
+
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
-        NSLog(@"Failed to fetched new message upload ID from the server for a reply with error:%@",error);
-        NSLog(@"operation:%@",operation);
+        NSLog(@"Failed to fetch original message upload ID from the server for a reply with error: %@",error);
+        NSLog(@"operation: %@",operation);
         
         if (completionBlock) {
             completionBlock(nil,nil,nil);

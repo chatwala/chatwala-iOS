@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 @interface CWUtility : NSObject
-+ (NSURL*)cacheDirectoryURL;
++ (NSURL *)cacheDirectoryURL;
 @end

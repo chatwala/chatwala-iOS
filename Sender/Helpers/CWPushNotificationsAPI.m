@@ -46,11 +46,12 @@ static BOOL didRegisterForPushNotifications = NO;
 }
 
 + (void)handleLocalPushNotification:(UILocalNotification *)notification {
-    
+    NSLog(@"Received local notification...not taking any action yet.");
 }
 
 + (void)handleRemotePushNotification:(NSDictionary *)userInfo completionBlock:(void (^)(UIBackgroundFetchResult))completionHandler {
     if ([userInfo count]) {
+        NSLog(@"Received valid remote PUSH notification: %@", userInfo);
         [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:completionHandler];
     }
     else {
@@ -58,6 +59,16 @@ static BOOL didRegisterForPushNotifications = NO;
     }
 }
 
++ (void)postCompletedMessageFetchLocalNotification {
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    
+    NSString *alertString = @"You have received a Chatwala reply.";
+    localNotification.alertBody = [NSString stringWithFormat:@"%@", alertString];
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    
+    [[UIApplication sharedApplication] presentLocalNotificationNow:localNotification];
+}
 
 #pragma mark - Convenience methods
 

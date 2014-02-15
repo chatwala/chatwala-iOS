@@ -16,7 +16,6 @@
 @property (nonatomic, strong) NSManagedObjectContext * moc;
 
 - (void) setupCoreData;
-- (NSError *) importMessages:(NSArray *) messages;
 - (Message *) importMessageAtFilePath:(NSURL *) filePath withError:(NSError **)error;
 
 - (Message *) findMessageByMessageID:(NSString*) messageID;
@@ -24,9 +23,6 @@
 - (User *) createUserWithID:(NSString *) userID;
 - (Thread *) findThreadByThreadID:(NSString*) threadID;
 - (Thread *) createThreadWithID:(NSString *) threadID;
-
-- (void) downloadAllMessageChatwalaData;
-
 
 - (Message *) createMessageWithSender:(User *) sender inResponseToIncomingMessage:(Message *) incomingMessage;
 - (Message *) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error;

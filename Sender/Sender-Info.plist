@@ -47,10 +47,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>None</string>
 			<key>CFBundleURLName</key>
-			<string>com.chatwala.chatwala</string>
+			<string>${CW_BUNDLE_IDENTIFIER}</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>chatwala</string>
+				<string>${CW_URL_SCHEME}</string>
 			</array>
 		</dict>
 	</array>

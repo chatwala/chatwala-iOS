@@ -60,27 +60,6 @@
     self.downloadStateValue = eState;
 }
 
-- (void) downloadChatwalaDataWithMessageCell:(CWMessageCell *) messageCell
-{
-    if(messageCell.thumbView)
-    {
-        NSURL * imageURL = [NSURL URLWithString:self.thumbnailPictureURL];
-        
-        UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];
-        NSMutableURLRequest * imageURLRequest = [NSMutableURLRequest requestWithURL:imageURL];
-        
-        [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
-        
-        [messageCell.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:messageCell.successImageDownloadBlock failure:messageCell.failureImageDownloadBlock];
-    }
-    
-    [[CWMessageManager sharedInstance] downloadMessageWithID:self.messageID progress:nil completion:^(BOOL success, NSURL *url) {
-        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
-        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
-    }];
-    
-}
-
 - (void) exportZip
 {
     NSString * newDirectoryPath = [[CWDataManager cacheDirectoryPath] stringByAppendingPathComponent:OUTGOING_DIRECTORY_NAME];

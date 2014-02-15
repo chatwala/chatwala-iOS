@@ -14,7 +14,7 @@
 
 typedef void (^CWPictureUploadEndpointRequestCompletionBlock)(NSError *error, NSString *tempUploadUrl);
 
-NSString *const pushRegisterEndpoint = @"/registerPushToken";
+NSString *const PushRegisterEndpoint = @"/registerPushToken";
 
 @implementation CWServerAPI
 
@@ -30,6 +30,8 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
 
     unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:messageToUpload.zipURL.path error:nil] fileSize];
 
+    NSLog(@"Starting message upload to sasURL: %@", endPoint);
+
     [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
     [request addValue:@"BlockBlob" forHTTPHeaderField:@"x-ms-blob-type"];
     [request addValue:[NSString stringWithFormat:@"%llu",fileSize] forHTTPHeaderField:@"content-length"];
@@ -40,6 +42,7 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if ([httpResponse statusCode] != 201) {
             
+            NSLog(@"Failed message upload: %@", error.localizedDescription);
             [SVProgressHUD showErrorWithStatus:error.localizedDescription];
             
             if (completionBlock) {
@@ -72,7 +75,7 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
             [UIImageJPEGRepresentation(thumbnail, 1.0) writeToURL:thumbnailURL atomically:YES];
             
             NSString *endPoint = tempUploadUrl;
-            NSLog(@"uploading profile image: %@",endPoint);
+            NSLog(@"Starting profile picture upload to sasURL: %@", endPoint);
             
             NSURL *URL = [NSURL URLWithString:endPoint];
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
@@ -87,7 +90,7 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
                 
                 NSHTTPURLResponse *pictureUploadResponse = (NSHTTPURLResponse *)response;
                 if (pictureUploadResponse.statusCode != 201) {
-                    NSLog(@"Error: %@", error);
+                    NSLog(@"Error uploading profile picture: %@", error);
                     [SVProgressHUD showErrorWithStatus:error.localizedDescription];
                     
                     if (completionBlock) {
@@ -116,6 +119,8 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
     
     NSString *endPoint = [NSString stringWithFormat:@"%@/users/%@/pictureUploadURL", [[CWMessageManager sharedInstance] baseEndPoint], userID];
     
+    NSLog(@"Requesting new profile picture upload url from:  %@", endPoint);
+    
     [manager GET:endPoint parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
         NSString *pictureSasUrl = [responseObject objectForKey:@"sasUrl"];
@@ -136,7 +141,6 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
                 NSError *error = [NSError errorWithDomain:@"" code:0 userInfo:nil];
                 completionBlock(error, nil);
             }
-
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -155,7 +159,7 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
 #pragma mark - Push Notification & finalization calls 
 
 + (void)registerPushForUserID:(NSString *)userID withPushToken:(NSString *)pushToken withCompletionBlock:(CWServerPushRegisterCompletionBlock)completionBlock {
-    
+
 
     NSDictionary *params = nil;
     
@@ -172,11 +176,14 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
                      @"push_token" : pushToken,
                      @"platform_type" : @"ios"};
     }
+
+    NSLog(@"Requesting push notification registration with params: %@", params);
     
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
     
-    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:pushRegisterEndpoint];
+    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:PushRegisterEndpoint];
     [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSLog(@"Successfully registered local user with chatwala server");
@@ -200,9 +207,11 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
     NSDictionary *params = @{@"sender_id" : uploadedMessage.sender.userID,
                  @"recipient_id" : recipientID};
 
+    NSLog(@"Requesting message Finalize with params: %@", params);
 
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
     
     NSString *endPoint = [NSString stringWithFormat:@"%@/messages/%@/finalize", [[CWMessageManager sharedInstance] baseEndPoint], uploadedMessage.messageID];
     
@@ -214,4 +223,10 @@ NSString *const pushRegisterEndpoint = @"/registerPushToken";
         NSLog(@"Failed to finalize message upload. Error:  %@",error.localizedDescription);
     }];
 }
+
+# pragma mark - Convenience methods
++ (NSString *)versionHeaderFieldString {
+    return @"x-chatwala-appversion";
+}
+
 @end
