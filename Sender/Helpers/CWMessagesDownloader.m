@@ -131,9 +131,7 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
                 case 200: {
                     // success
                     NSLog(@"File downloaded to: %@", filePath);
-                    NSError * error = nil;
                     
-                    NSAssert(!error, @"not expecting an error, found:%@",error);
                     if (messageDownloadCompletionBlock) {
                         messageDownloadCompletionBlock(YES,filePath);
                     }
