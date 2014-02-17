@@ -105,15 +105,28 @@
 
     //SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
     
+    __block CWMessageCell *blockSelf = self;
+    
     [self.thumbView setImageWithURL:imageURL placeholderImage:placeholder options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
         //
-        [self.spinner stopAnimating];
+        [blockSelf.spinner stopAnimating];
         
         if (error) {
             NSLog(@"Error fetching image: %@", error.localizedDescription);
         }
         else {
-            NSLog(@"Successfully fetched image!");
+            
+            // Default to a fresh web image
+            NSString *cacheTypeString = @"blob storage.";
+            
+            if (cacheType == SDImageCacheTypeDisk) {
+                cacheTypeString = @"disk cache.";
+            }
+            else {
+                cacheTypeString = @"memory cache.";
+            }
+            
+            NSLog(@"Successfully fetched image from %@", cacheTypeString);
         }
     }];
     
