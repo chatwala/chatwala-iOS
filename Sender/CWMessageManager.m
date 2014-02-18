@@ -95,15 +95,6 @@
     return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
 }
 
-
-- (AFDownloadTaskDestinationBlock) downloadURLDestinationBlock {
-    
-    return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
-        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
-        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
-    });
-}
-
 - (NSURL *)messageCacheURL {
     NSString * const messagesCacheFile = @"messages";
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
