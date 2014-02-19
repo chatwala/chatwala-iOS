@@ -16,7 +16,7 @@ typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURL
 
 @interface CWServerAPI : NSObject
 
-+ (NSURLSessionConfiguration *)backgroundSessionConfiguration;
++ (AFURLSessionManager *)sessionManager;
 
 + (void)uploadProfilePicture:(UIImage *)thumbnail forUserID:(NSString *)userID withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock;
 + (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock;

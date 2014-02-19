@@ -49,8 +49,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 #pragma mark - Application lifecycle methods
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     // Override point for customization after application launch.
     [application setStatusBarHidden:YES];
 
@@ -127,6 +127,13 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.window makeKeyAndVisible];
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
+
+    
+    NSDictionary *remoteNotificationDictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotificationDictionary) {
+        NSLog(@"Received remote notifcation callback in didFinishLaunchingWithOptions %@", remoteNotificationDictionary);
+        [CWPushNotificationsAPI handleRemotePushNotification:remoteNotificationDictionary completionBlock:nil];
+    }
 
     /*
     self.landingVC = [[CWLandingViewController alloc]init];

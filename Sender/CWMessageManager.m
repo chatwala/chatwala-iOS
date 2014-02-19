@@ -118,30 +118,11 @@
             NSArray *messages = [responseObject objectForKey:@"messages"];
             if([messages isKindOfClass:[NSArray class]]){
 
-                CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-                downloader.messageIdsForDownload = [self messageIDsFromResponse:messages];
-                [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
-                    
-                    // Finished download, now update badge & send local push notification if necessary
-                    if (completionBlock) {
-                        
-                        NSLog(@"Messags downloader completed fetches.");
-                        
-                        if ([messagesDownloaded count]) {
-                            
-                            NSLog(@"New messages downloaded - calling background completion block.");
-                            
-                            [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
-                            completionBlock(UIBackgroundFetchResultNewData);
-                        }
-                        else {
-                            NSLog(@"NO New messages downloaded - calling background completion block.");
-                            completionBlock(UIBackgroundFetchResultNoData);
-                        }
-                    }
-                    
-                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
-                }];
+                [self downloadMessages:[self messageIDsFromResponse:[responseObject objectForKey:@"messages"]]];
+                
+                if (completionBlock) {
+                    completionBlock(UIBackgroundFetchResultNewData);
+                }
             }
             else {
                 NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
@@ -160,6 +141,30 @@
             }
         }];
     }
+}
+
+#pragma mark - Download logic
+
+- (void)downloadMessages:(NSArray *)messageIDs {
+    CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
+    downloader.messageIdsForDownload = messageIDs;
+    [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
+        
+        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+        
+        if (state == UIApplicationStateBackground || state == UIApplicationStateInactive) {
+            if ([messagesDownloaded count]) {
+                
+                NSLog(@"New messages downloaded - calling background completion block.");
+                [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
+            }
+            else {
+                NSLog(@"NO New messages downloaded - calling background completion block.");
+            }
+        }
+        
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+    }];
 }
 
 - (NSArray *)messageIDsFromResponse:(NSArray *)messages {
