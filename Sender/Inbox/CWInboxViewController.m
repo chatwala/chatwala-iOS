@@ -29,8 +29,8 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.messagesTable registerClass:[CWMessageCell class] forCellReuseIdentifier:@"messageCell"];
@@ -57,7 +57,7 @@
     [self.messagesTable reloadData];
 }
 
-- (void)onMessagesLoaded:(NSNotification*)note {
+- (void)onMessagesLoaded:(NSNotification *)note {
     
     [self.messagesTable reloadData];
     if (self.refreshControl.isRefreshing) {

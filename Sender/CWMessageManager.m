@@ -126,6 +126,8 @@
             
             NSArray *messages = [responseObject objectForKey:@"messages"];
             if([messages isKindOfClass:[NSArray class]]){
+                
+                [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
 
                 CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
                 downloader.messageIdsForDownload = [self messageIDsFromResponse:messages];
