@@ -108,7 +108,8 @@
         [blockSelf.spinner stopAnimating];
         
         if (error) {
-            NSLog(@"Error fetching image: %@.  Using cache type: %d", error.localizedDescription, cacheType);
+            NSLog(@"Error fetching image from URL:  %@", imageURL);
+            NSLog(@"Image cache type was: %d and error was: %@", cacheType, error.localizedDescription);
         }
         else {
             
