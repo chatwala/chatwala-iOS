@@ -146,21 +146,23 @@
 #pragma mark - Download logic
 
 - (void)downloadMessages:(NSArray *)messageIDs {
+    
     CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
     downloader.messageIdsForDownload = messageIDs;
     [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
         
         UIApplicationState state = [[UIApplication sharedApplication] applicationState];
         
-        if (state == UIApplicationStateBackground || state == UIApplicationStateInactive) {
-            if ([messagesDownloaded count]) {
-                
-                NSLog(@"New messages downloaded - calling background completion block.");
+        if ([messagesDownloaded count]) {
+            NSLog(@"New messages downloaded successfully.");
+            
+            if (state == UIApplicationStateBackground || state == UIApplicationStateInactive) {
+            
                 [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
             }
-            else {
-                NSLog(@"NO New messages downloaded - calling background completion block.");
-            }
+        }
+        else {
+            NSLog(@"No new messages downloaded after updating user's messages");
         }
         
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
