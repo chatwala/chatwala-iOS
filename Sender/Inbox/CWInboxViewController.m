@@ -93,6 +93,7 @@
     Message *message = [inboxMessages objectAtIndex:indexPath.row];
   
     if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessageWithID:)]) {
+        message.eMessageViewedState = eMessageViewedStateOpened;
         [self.delegate inboxViewController:self didSelectMessageWithID:message.messageID];
     }
     
