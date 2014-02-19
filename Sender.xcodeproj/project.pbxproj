@@ -1683,7 +1683,7 @@
 				CW_URL_SCHEME = chatwala;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/rahulksharma/Development/iOS/Chatwala-iOS/Sender/Framework",
+					"$(SRCROOT)/Sender/Framework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
@@ -1713,7 +1713,7 @@
 				CW_URL_SCHEME = chatwala;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/rahulksharma/Development/iOS/Chatwala-iOS/Sender/Framework",
+					"$(SRCROOT)/Sender/Framework",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
