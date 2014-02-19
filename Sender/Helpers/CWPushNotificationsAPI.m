@@ -63,7 +63,7 @@ static BOOL didRegisterForPushNotifications = NO;
     UILocalNotification *localNotification = [[UILocalNotification alloc] init];
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     
-    NSString *alertString = @"You have a message waiting for you.";
+    NSString *alertString = @"A message is waiting for you.";
     localNotification.alertBody = [NSString stringWithFormat:@"%@", alertString];
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     
