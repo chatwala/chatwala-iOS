@@ -94,6 +94,7 @@
   
     if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessageWithID:)]) {
         [self.delegate inboxViewController:self didSelectMessageWithID:message.messageID];
+        message.eMessageViewedState = eMessageViewedStateOpened;
     }
     
 }

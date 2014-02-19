@@ -93,8 +93,8 @@
 //       
 //}
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
+    
     [super viewWillAppear:animated];
     
     [self.playbackView setAlpha:0];
@@ -121,9 +121,7 @@
     NSAssert(self.activeMessage.videoURL, @"expecting video URL to be set");
     
     [self.player setVideoURL:self.activeMessage.videoURL];
-    
     [self setupCameraView];
-    
     
 }
 
@@ -131,6 +129,8 @@
 {
     switch (self.openerState) {
         case CWOpenerPreview:
+            self.activeMessage.eMessageViewedState = eMessageViewedStateRead;
+            [self.activeMessage.managedObjectContext save:nil];
             [self setOpenerState:CWOpenerReview];
             break;
         case CWOpenerReview:
