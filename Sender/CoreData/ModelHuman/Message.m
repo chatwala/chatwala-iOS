@@ -38,11 +38,12 @@
     return value;
     
 }
-- (void) setEMessageViewedState:(eMessageViewedState) eViewedState
-{
-    if(self.eMessageViewedState <= eViewedState)
-    {
+- (void) setEMessageViewedState:(eMessageViewedState) eViewedState {
+    
+    // Only allow viewed state to progress in a single direction (a read message cannot become unread for example) [RK 021914]
+    if(self.eMessageViewedState < eViewedState) {
         self.viewedStateValue = eViewedState;
+        [self.managedObjectContext save:nil];
     }
 }
 
