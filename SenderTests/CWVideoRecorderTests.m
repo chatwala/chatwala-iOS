@@ -18,7 +18,7 @@
 @property (nonatomic,strong) AVCaptureDeviceInput *audioInput;
 @property (nonatomic,strong) AVCamRecorder *recorder;
 @property (nonatomic,strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;
-- (void)converVideoWithURL:(NSURL*)videoURL;
+- (void)convertVideoWithURL:(NSURL*)videoURL;
 @end
 
 @interface CWVideoRecorderTests : XCTestCase
@@ -92,7 +92,7 @@
 {
 #if (!TARGET_IPHONE_SIMULATOR)
     id mockSUT = [OCMockObject partialMockForObject:self.sut];
-    [[mockSUT expect]converVideoWithURL:OCMOCK_ANY];
+    [[mockSUT expect]convertVideoWithURL:OCMOCK_ANY];
     [self.sut recorder:self.sut.recorder recordingDidFinishToOutputFileURL:OCMOCK_ANY error:nil];
     [mockSUT verify];
 #endif

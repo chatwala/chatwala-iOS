@@ -16,13 +16,14 @@
 @property (nonatomic,strong) NSURL * outputFileURL;
 
 - (NSURL *) tempFileURL;
-- (NSError*) setupSession;
+- (NSError*) setupSessionWithBackCamera:(BOOL)shouldUseBackCamera;
 - (void) stopSession;
 - (void) resumeSession;
 - (void) startVideoRecording;
 - (void) stopVideoRecording;
 - (NSTimeInterval) videoLength;
 - (void)checkForMicAccess;
+- (void)cleanUp;
 
 - (void) captureStillImageWithCallback:(void (^)(UIImage * image, NSError * error))completionBlock;
 @end

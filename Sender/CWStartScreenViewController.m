@@ -22,9 +22,16 @@
 #import "CWAnalytics.h"
 #import "CWProfilePictureViewController.h"
 
+
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
 @property (nonatomic) UIViewController * popupModal;
+@property (nonatomic) BOOL shouldUseBackCamera;
+
+@property (nonatomic) BOOL isSwitchingCameras;
+
+@property (nonatomic) UITapGestureRecognizer *tapRecognizer;
+
 @end
 
 @implementation CWStartScreenViewController
@@ -38,54 +45,40 @@
     return self;
 }
 
-- (void) dealloc
-{
+- (void)dealloc {
     [self.popupModal dismissViewControllerAnimated:NO completion:nil];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.navigationController setNavigationBarHidden:YES];
     
     self.messageSentView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Sent-Notification"]];
-
     [self.messageSentView setFrame:CGRectMake(0, 8, self.messageSentView.frame.size.width, self.messageSentView.frame.size.height)];
-    
     [self.messageSentView setCenter:CGPointMake(160, self.messageSentView.center.y)];
     
     [self.view addSubview:self.messageSentView];
     [self.messageSentView setAlpha:0];
     
     [self.middleButton.button addTarget:self action:@selector(onMiddleButtonTap) forControlEvents:UIControlEventTouchUpInside];
-
-//    NSError * error = [[[CWVideoManager sharedManager]recorder]setupSession];
-//    if (error) {
-//        // handle session error
-//        CWErrorViewController * vc = [[CWErrorViewController alloc]init];
-//        [vc setError:error];
-//        [self.navigationController pushViewController:vc animated:YES];
-//    }
     
+    [[[CWVideoManager sharedManager] recorder] setupSessionWithBackCamera:self.shouldUseBackCamera];
     
-    [[[CWVideoManager sharedManager]recorder]setupSession];
-   
+    // single tap gesture recognizer
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggledCamera:)];
+    [self.view addGestureRecognizer:self.tapRecognizer];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-//    [self.navigationController setNavigationBarHidden:YES];
+    [[[[CWVideoManager sharedManager] recorder] recorderView] setAlpha:1.0];
     [self.startScreenMessageLabel setText:[[CWGroundControlManager sharedInstance] startScreenMessage]];
-    
-    
-    
 }
-- (void)viewDidAppear:(BOOL)animated
-{
+
+- (void)viewDidAppear:(BOOL)animated {
+
     [super viewDidAppear:animated];
-    
     [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.startButton];
     
     [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.view.bounds];
@@ -162,8 +155,8 @@
     [self.navigationController pushViewController:composerVC animated:NO];
 }
 
-- (void) showProfilePictureWasUploaded
-{
+- (void) showProfilePictureWasUploaded {
+    
     UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWProfilePictureViewController alloc] init]];
     
     [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -176,9 +169,8 @@
     self.popupModal = navController;
 }
 
--(void)showAppFeedback
-{
-
+-(void)showAppFeedback {
+    
     UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWAppFeedBackViewController alloc] init]];
 
     [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
@@ -191,4 +183,42 @@
     self.popupModal = navController;
 
 }
+
+#pragma mark - Gesture Recognizers
+
+- (void)toggledCamera:(UIGestureRecognizer *)recognizer {
+    
+    if (self.isSwitchingCameras) {
+        return;
+    }
+    else {
+        self.isSwitchingCameras = YES;
+    }
+    
+    NSLog(@"Record screen tapped");
+    self.shouldUseBackCamera = !self.shouldUseBackCamera;
+    
+    CWVideoRecorder *newRecorder = [[CWVideoRecorder alloc] init];
+    [newRecorder setupSessionWithBackCamera:self.shouldUseBackCamera];
+    [newRecorder.recorderView setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5)];
+    [self.view insertSubview:newRecorder.recorderView aboveSubview:[[[CWVideoManager sharedManager] recorder] recorderView]];
+    
+    // Adding a black view to help with the transition between cameras
+    UIView *blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5)];
+    blackView.backgroundColor = [UIColor blackColor];
+    [self.view insertSubview:blackView belowSubview:newRecorder.recorderView];
+    
+    // Saving new camera object into the shared manager
+    [[[CWVideoManager sharedManager] recorder] cleanUp];
+    [[CWVideoManager sharedManager] setRecorder:newRecorder];
+    
+    // A hack to rate-limit how quickly the camera can be changed
+    [self performSelector:@selector(finishedSwitchingCameras) withObject:nil afterDelay:0.3];
+}
+
+
+- (void)finishedSwitchingCameras {
+    self.isSwitchingCameras = NO;
+}
+
 @end

@@ -101,6 +101,25 @@
     [self.session stopRunning];
 }
 
+- (void)cleanUp {
+    
+    if (self.session) {
+        [self.session stopRunning];
+        [self.recorderView removeFromSuperview];
+        self.session = nil;
+        
+        [self.videoPreviewLayer removeFromSuperlayer];
+        self.videoPreviewLayer = nil;
+        
+        [self setStillImageOutput:nil];
+        [self setAudioInput:nil];
+        [self setVideoInput:nil];
+        [self setSession:nil];
+        
+        [self setRecorder:nil];
+    }
+}
+
 - (void) resumeSession
 {
     if (self.session) {
@@ -108,22 +127,23 @@
         [self.session startRunning];
         
     }else{
-        [self setupSession];
+        [self setupSessionWithBackCamera:YES];
     }
 }
 
 
-- (NSError*) setupSession
+- (NSError*) setupSessionWithBackCamera:(BOOL)shouldUseBackCamera
 {
     
     NSError * err = nil;
     
     if (self.session) {
+        [self.session stopRunning];
         return err;
     }
     
     // setup device inputs
-    AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self frontFacingCamera] error:&err];
+    AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(shouldUseBackCamera ? [self backFacingCamera] : [self frontFacingCamera]) error:&err];
     if (err) {
         NSLog(@"failed to setup video input: %@",err.debugDescription);
         [self presentErrorScreen];
@@ -191,16 +211,13 @@
     self.videoPreviewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
     [self.recorderView.layer addSublayer:self.videoPreviewLayer];
     [self.videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
- 
+    [self.recorderView setAlpha:1.0];
+    
+    
     // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self.session startRunning];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:1.0 animations:^{
-                [self.recorderView setAlpha:1.0];
-            }];
-        });
-        
+        [self.recorderView setAlpha:1.0];
     });
     
     return err;
@@ -271,9 +288,12 @@
 }
 
 
-- (AVCaptureDevice *) frontFacingCamera
-{
+- (AVCaptureDevice *) frontFacingCamera {
     return [self cameraWithPosition:AVCaptureDevicePositionFront];
+}
+
+- (AVCaptureDevice *) backFacingCamera {
+    return [self cameraWithPosition:AVCaptureDevicePositionBack];
 }
 
 - (AVCaptureDevice *) audioDevice
@@ -318,7 +338,7 @@
 }
 
 
-- (void)converVideoWithURL:(NSURL*)videoURL
+- (void)convertVideoWithURL:(NSURL*)videoURL
 {
     self.outputFileURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@",[[NSUUID UUID] UUIDString],@".mp4"]];
     
@@ -340,7 +360,7 @@
 
 - (void)recorder:(AVCamRecorder *)recorder recordingDidFinishToOutputFileURL:(NSURL *)outputFileURL error:(NSError *)error
 {
-    [self converVideoWithURL:outputFileURL];
+    [self convertVideoWithURL:outputFileURL];
     
     if (self.backgroundRecordingID != 0) {
         //[[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
