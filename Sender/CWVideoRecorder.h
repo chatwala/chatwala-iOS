@@ -14,6 +14,7 @@
 @property (nonatomic,weak) id<CWVideoRecorderDelegate> delegate;
 @property (nonatomic,strong) UIView * recorderView;
 @property (nonatomic,strong) NSURL * outputFileURL;
+@property (nonatomic,assign) BOOL isUsingBackCamera;
 
 - (NSURL *) tempFileURL;
 - (NSError*) setupSessionWithBackCamera:(BOOL)shouldUseBackCamera;

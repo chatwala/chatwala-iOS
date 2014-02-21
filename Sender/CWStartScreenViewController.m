@@ -26,9 +26,10 @@
 @interface CWStartScreenViewController ()
 @property (nonatomic,strong) UIImageView * messageSentView;
 @property (nonatomic) UIViewController * popupModal;
-@property (nonatomic) BOOL shouldUseBackCamera;
 
-@property (nonatomic) BOOL isSwitchingCameras;
+@property (nonatomic,assign) BOOL shouldUseBackCamera;
+@property (nonatomic,assign) BOOL isSwitchingCameras;
+@property (nonatomic) UIView *cameraSwitchingBackgroundView;
 
 @property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 
@@ -36,8 +37,8 @@
 
 @implementation CWStartScreenViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -155,7 +156,7 @@
     [self.navigationController pushViewController:composerVC animated:NO];
 }
 
-- (void) showProfilePictureWasUploaded {
+- (void)showProfilePictureWasUploaded {
     
     UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWProfilePictureViewController alloc] init]];
     
@@ -203,10 +204,9 @@
     [newRecorder.recorderView setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5)];
     [self.view insertSubview:newRecorder.recorderView aboveSubview:[[[CWVideoManager sharedManager] recorder] recorderView]];
     
-    // Adding a black view to help with the transition between cameras
-    UIView *blackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5)];
-    blackView.backgroundColor = [UIColor blackColor];
-    [self.view insertSubview:blackView belowSubview:newRecorder.recorderView];
+    self.cameraSwitchingBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5)];
+    self.cameraSwitchingBackgroundView.backgroundColor = [UIColor blackColor];
+    [self.view insertSubview:self.cameraSwitchingBackgroundView belowSubview:newRecorder.recorderView];
     
     // Saving new camera object into the shared manager
     [[[CWVideoManager sharedManager] recorder] cleanUp];
@@ -219,6 +219,7 @@
 
 - (void)finishedSwitchingCameras {
     self.isSwitchingCameras = NO;
+    [self.cameraSwitchingBackgroundView removeFromSuperview];
 }
 
 @end

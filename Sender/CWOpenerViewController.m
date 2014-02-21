@@ -16,8 +16,7 @@
 #import "Message.h"
 #import "CWAnalytics.h"
 
-@interface CWOpenerViewController () 
-{
+@interface CWOpenerViewController () {
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
     CGRect smallFrame;
@@ -28,14 +27,15 @@
 @property (nonatomic,strong) NSTimer * reviewCountdownTimer;    // watching thier reaction to what you said
 @property (nonatomic,strong) NSTimer * reactionCountdownTimer;  // reacting to what they said
 @property (nonatomic,strong) NSTimer * responseCountdownTimer;  // your response
-
+@property (nonatomic,assign) BOOL isSwitchingCameras;
+@property (nonatomic,assign) BOOL shouldUseBackCamera;
 
 
 @property (nonatomic,assign) NSInteger reviewCountdownTickCount;
 //@property (nonatomic,assign) NSInteger reactionCountdownTickCount;
 //@property (nonatomic,assign) NSInteger responseCountdownTickCount;
 @property (nonatomic, strong) NSDate * startTime;
-
+@property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 
 - (void)onResponseCountdownTick:(NSTimer*)timer;
 - (void)onReactionCountdownTick:(NSTimer*)timer;
@@ -52,8 +52,7 @@
 @synthesize player;
 @synthesize recorder;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -63,13 +62,7 @@
     return self;
 }
 
-- (void)dealloc
-{
-    
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -79,19 +72,6 @@
     [self.middleButton.button addTarget:self action:@selector(onMiddleButtonTap) forControlEvents:UIControlEventTouchUpInside];
 }
 
-//-(void)viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear:animated];
-//    if(CGRectIsEmpty(smallFrame))
-//    {
-//        smallFrame = self.cameraView.frame;
-//    }
-//    if(CGRectIsEmpty(largeFrame))
-//    {
-//        largeFrame = self.playbackView.frame;
-//    }
-//       
-//}
 
 - (void)viewWillAppear:(BOOL)animated {
     
@@ -102,7 +82,7 @@
     
     self.player = [[CWVideoManager sharedManager]player];
     self.recorder = [[CWVideoManager sharedManager]recorder];
-    
+    self.shouldUseBackCamera = [self.recorder isUsingBackCamera];
     
     [self.player setDelegate:self];
     [self.recorder setDelegate:self];
@@ -122,11 +102,9 @@
     
     [self.player setVideoURL:self.activeMessage.videoURL];
     [self setupCameraView];
-    
 }
 
-- (void)onMiddleButtonTap
-{
+- (void)onMiddleButtonTap {
     switch (self.openerState) {
         case CWOpenerPreview:
             self.activeMessage.eMessageViewedState = eMessageViewedStateRead;
@@ -146,19 +124,11 @@
         default:
             break;
     }
-    
-    
 }
 
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+- (void) grabLastFrameOfVideo {
 
-- (void) grabLastFrameOfVideo
-{
     NSAssert(self.activeMessage, @"expecting active message to be set");
     NSAssert(self.player, @"expecting player to be set");
     if(!self.activeMessage.lastFrameImage)
@@ -169,11 +139,9 @@
     }
 }
 
-- (void)setOpenerState:(CWOpenerState)openerState
-{
+- (void)setOpenerState:(CWOpenerState)openerState {
+
     _openerState = openerState;
-    
-    
     
     switch (self.openerState) {
         case CWOpenerPreview:
@@ -181,6 +149,10 @@
              Preview State: Video Message is ready
              • update view and feedback to reflect Preview state ( in subclass )
              */
+            [self.cameraView removeGestureRecognizer:self.tapRecognizer];
+            self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggledCamera:)];
+            [self.cameraView addGestureRecognizer:self.tapRecognizer];
+            
             self.startTime = nil;
             [self killTimers];
             [self.player stop];
@@ -190,9 +162,6 @@
             [self setNavMode:NavModeBurger];
             [self grabLastFrameOfVideo];
             break;
-            
-            
-            
             
         case CWOpenerReview:
             /*
@@ -204,7 +173,7 @@
              • play Video Message
              • update view and feedback to reflect Review state ( in subclass )
              */
-            
+            [self.cameraView removeGestureRecognizer:self.tapRecognizer];
             [CWAnalytics event:@"START_REVIEW" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             [self.player playVideo];
             
@@ -220,9 +189,6 @@
             [self setNavMode:NavModeNone];
             break;
             
-            
-            
-            
         case CWOpenerReact:
             /*
              
@@ -235,9 +201,6 @@
             [self startReactionCountDown];
             [self setNavMode:NavModeNone];
             break;
-            
-            
-            
             
         case CWOpenerRespond:
             /*
@@ -254,20 +217,18 @@
     }
 }
 
-- (void)setupCameraView
-{
+- (void)setupCameraView {
     
-    self.cameraView.frame = CGRectMake(0, 0, SCREEN_BOUNDS.size.width, SCREEN_BOUNDS.size.height*0.5);
+    self.cameraView.frame = CGRectMake(0.0f, 0.0f, SCREEN_BOUNDS.size.width, SCREEN_BOUNDS.size.height * 0.5f);
     [self.recorder.recorderView setFrame:self.cameraView.bounds];
     [self.cameraView addSubview:self.recorder.recorderView];
-    [UIView animateWithDuration:0.3 animations:^{
-        [self.cameraView setAlpha:1];
+    [UIView animateWithDuration:0.3f animations:^{
+        [self.cameraView setAlpha:1.0f];
     }];
 }
 
+- (void)setZipURL:(NSURL *)zipURL {
 
-- (void)setZipURL:(NSURL *)zipURL
-{
     NSError * error = nil;
     
     self.activeMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:zipURL withError:&error];
@@ -347,7 +308,6 @@
         // start reaction state
         [CWAnalytics event:@"COMPLETE_REVIEW" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(self.activeMessage.startRecordingValue)];
         [self setOpenerState:CWOpenerReact];
-        
     }
 }
 
@@ -388,8 +348,8 @@
     [self.playbackView addSubview:player.playbackView];
 //    self.playbackView.frame = CGRectMake(0, self.view.bounds.size.height*0.5, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
     [player.playbackView setFrame:self.playbackView.bounds];
-    [UIView animateWithDuration:0.3 animations:^{
-        [self.playbackView setAlpha:1];
+    [UIView animateWithDuration:0.3f animations:^{
+        [self.playbackView setAlpha:1.0f];
     }];
     
     [self setOpenerState:CWOpenerPreview];
@@ -419,11 +379,10 @@
 {
 }
 
-- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
-{
+- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder {
+
     [self killTimers];
-    if(self.openerState == CWOpenerRespond)
-    {
+    if(self.openerState == CWOpenerRespond) {
 
         NSTimeInterval reactionTime=self.player.videoLength - self.activeMessage.startRecordingValue;
         [CWAnalytics event:@"COMPLETE_REPLY" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(self.recorder.videoLength - reactionTime)];
@@ -446,8 +405,41 @@
                 break;
         }
     }
-
 }
 
+#pragma mark - Gesture Recognizers
+
+- (void)toggledCamera:(UIGestureRecognizer *)recognizer {
+    
+    if (self.isSwitchingCameras) {
+        return;
+    }
+    else {
+        self.isSwitchingCameras = YES;
+    }
+    
+    NSLog(@"Record screen tapped");
+    self.shouldUseBackCamera = !self.shouldUseBackCamera;
+    
+    CWVideoRecorder *newRecorder = [[CWVideoRecorder alloc] init];
+    [newRecorder setupSessionWithBackCamera:self.shouldUseBackCamera];
+    [newRecorder.recorderView setFrame:self.cameraView.bounds];
+    [self.cameraView addSubview:newRecorder.recorderView];
+    
+    // Saving new camera object into the shared manager
+    [self.recorder cleanUp];
+    self.recorder = newRecorder;
+    self.recorder.delegate = self;
+    [[CWVideoManager sharedManager] setRecorder:self.recorder];
+    
+    
+    // A hack to rate-limit how quickly the camera can be changed
+    [self performSelector:@selector(finishedSwitchingCameras) withObject:nil afterDelay:0.3];
+}
+
+
+- (void)finishedSwitchingCameras {
+    self.isSwitchingCameras = NO;
+}
 
 @end

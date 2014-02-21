@@ -26,7 +26,6 @@
 @property (nonatomic,strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
-@property (nonatomic) BOOL shouldUseBackCamera;
 
 
 - (AVCaptureDevice *) frontFacingCamera;
@@ -132,7 +131,7 @@
         [self.session startRunning];
         
     }else{
-        [self setupSessionWithBackCamera:self.shouldUseBackCamera];
+        [self setupSessionWithBackCamera:self.isUsingBackCamera];
     }
 }
 
@@ -147,7 +146,7 @@
         return err;
     }
     
-    self.shouldUseBackCamera = shouldUseBackCamera;
+    self.isUsingBackCamera = shouldUseBackCamera;
     // setup device inputs
     AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(shouldUseBackCamera ? [self backFacingCamera] : [self frontFacingCamera]) error:&err];
     if (err) {
