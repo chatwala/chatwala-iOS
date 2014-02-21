@@ -10,7 +10,6 @@
 #import "CWGroundControlManager.h"
 #import "CWVideoManager.h"
 #import "AppDelegate.h"
-#import "CWLandingViewController.h"
 
 @interface CWErrorViewController () <UIAlertViewDelegate>
 

@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "CWGroundControlManager.h"
-#import "CWLandingViewController.h"
 #import "CWUserManager.h"
 #import "CWInboxViewController.h"
 #import "CWMainViewController.h"
@@ -18,6 +17,7 @@
 #import "CWDataManager.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
+#import "CWStartScreenViewController.h"
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -96,10 +96,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     self.inboxController = [[CWInboxViewController alloc]init];
     self.mainVC = [[CWMainViewController alloc]init];
     
-//    self.landingVC = [[CWLandingViewController alloc]init];
-//    [self.landingVC setFlowDirection:eFlowToStartScreen];
-//
-    
     [self.inboxController setDelegate:self];
     
     
@@ -127,21 +123,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.window makeKeyAndVisible];
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
-
-    /*
-    self.landingVC = [[CWLandingViewController alloc]init];
-    [self.landingVC setFlowDirection:eFlowToStartScreen];
-    
-    self.navController = [[UINavigationController alloc]initWithRootViewController:self.landingVC];
-
-    self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
-    
-    [self.window addSubview:self.navController.view];
-    [self.window setRootViewController:self.navController];
-    [self.window makeKeyAndVisible];
-    
-    [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
-    */
     
     return YES;
 }

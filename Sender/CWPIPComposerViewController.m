@@ -35,8 +35,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)showReview
-{
+- (void)showReview {
     CWPIPReviewViewController * reviewVC = [[CWPIPReviewViewController alloc]init];
     [reviewVC setStartRecordingTime:0];
     [self.navigationController pushViewController:reviewVC animated:YES];
