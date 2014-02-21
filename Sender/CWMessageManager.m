@@ -117,7 +117,7 @@
             
             NSArray *messages = [responseObject objectForKey:@"messages"];
             if([messages isKindOfClass:[NSArray class]]){
-
+                
                 [self downloadMessages:[self messageIDsFromResponse:[responseObject objectForKey:@"messages"]]];
                 
                 if (completionBlock) {
@@ -166,6 +166,7 @@
         }
         
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
     }];
 }
 
