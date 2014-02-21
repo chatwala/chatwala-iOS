@@ -17,6 +17,7 @@
 {
     NSDate * recordingStartTime;
 }
+
 @property (nonatomic,strong) AVCaptureSession *session;
 @property (nonatomic,strong) AVCaptureDeviceInput *videoInput;
 @property (nonatomic,strong) AVCaptureDeviceInput *audioInput;
@@ -25,10 +26,14 @@
 @property (nonatomic,strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
+@property (nonatomic) BOOL shouldUseBackCamera;
+
+
 - (AVCaptureDevice *) frontFacingCamera;
 - (AVCaptureDevice *) audioDevice;
 - (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position;
 - (void) removeFile:(NSURL *)fileURL;
+
 @end
 
 
@@ -120,14 +125,14 @@
     }
 }
 
-- (void) resumeSession
+- (void)resumeSession
 {
     if (self.session) {
         //
         [self.session startRunning];
         
     }else{
-        [self setupSessionWithBackCamera:YES];
+        [self setupSessionWithBackCamera:self.shouldUseBackCamera];
     }
 }
 
@@ -142,6 +147,7 @@
         return err;
     }
     
+    self.shouldUseBackCamera = shouldUseBackCamera;
     // setup device inputs
     AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(shouldUseBackCamera ? [self backFacingCamera] : [self frontFacingCamera]) error:&err];
     if (err) {
