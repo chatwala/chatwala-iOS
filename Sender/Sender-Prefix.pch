@@ -23,10 +23,7 @@
 
 // 3rd party
     #import <SSZipArchive.h>
-    #import <Mantle/Mantle.h>
     #import "NSUserDefaults+GroundControl.h"
-//    #import <ARAnalytics/ARAnalytics.h>
-//    #import "ARAnalytics+GoogleAnalytics.h"
     #import <AFNetworking/AFNetworking.h>
     #import <SVProgressHUD/SVProgressHUD.h>
     #import "CWAnalytics.h"
@@ -35,8 +32,6 @@
 #import "DCKnob.h"
 #import <MMDrawerController/MMDrawerController.h>
 #endif
-
-
 
 /*****
  

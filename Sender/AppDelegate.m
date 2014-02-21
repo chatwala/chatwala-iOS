@@ -18,6 +18,7 @@
 #import "CWDataManager.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
+#import <Crashlytics/Crashlytics.h>
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -74,7 +75,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [CWGroundControlManager sharedInstance];
     
     [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
-    
+    [Crashlytics startWithAPIKey:@"b0462fa18b0b7748606c6c8cc641889ad1ee6eb1"];
     
 #ifdef USE_QA_SERVER
     NSString *analyticsID = @"UA-46207837-4";
