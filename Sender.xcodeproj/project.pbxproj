@@ -25,7 +25,7 @@
 		0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AD218918C4D008C2238 /* CWMessageCell.m */; };
 		0D29E37318AAB9F500082ECF /* CWMessagesDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */; };
 		0D29E37718AABA8B00082ECF /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37618AABA8B00082ECF /* UIColor+Additions.m */; };
-		0D3D3D4B18B7D6A100859AA7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3D3D4A18B7D6A100859AA7 /* Crashlytics.framework */; };
+		0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */; };
 		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
 		0DD3C92F18AED02500B4034C /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DD3C92E18AED02400B4034C /* SDWebImage.framework */; };
 		206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */; };
@@ -256,7 +256,7 @@
 		0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessagesDownloader.m; sourceTree = "<group>"; };
 		0D29E37518AABA8B00082ECF /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		0D29E37618AABA8B00082ECF /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
-		0D3D3D4A18B7D6A100859AA7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Sender/Framework/Crashlytics.framework; sourceTree = "<group>"; };
 		0D4586E2189AC591006BB737 /* CWServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWServerAPI.h; sourceTree = "<group>"; };
 		0D4586E3189AC591006BB737 /* CWServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWServerAPI.m; sourceTree = "<group>"; };
 		0DD3C92E18AED02400B4034C /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Sender/Framework/SDWebImage.framework; sourceTree = "<group>"; };
@@ -515,7 +515,7 @@
 				E94439CA182944EC0088A381 /* ImageIO.framework in Frameworks */,
 				E94439C6182944E60088A381 /* MediaPlayer.framework in Frameworks */,
 				E94439C4182944D00088A381 /* QuartzCore.framework in Frameworks */,
-				0D3D3D4B18B7D6A100859AA7 /* Crashlytics.framework in Frameworks */,
+				0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */,
 				E94439C0182944C30088A381 /* CoreAudio.framework in Frameworks */,
 				E94439C1182944C30088A381 /* CoreMedia.framework in Frameworks */,
 				E94439C2182944C30088A381 /* CoreVideo.framework in Frameworks */,
@@ -949,7 +949,7 @@
 		E9443985182940AF0088A381 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				0D3D3D4A18B7D6A100859AA7 /* Crashlytics.framework */,
+				0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */,
 				0DD3C92E18AED02400B4034C /* SDWebImage.framework */,
 				206CDF8E18808F59007F3532 /* CoreData.framework */,
 				E9ABCFB2183E609E0098E530 /* Security.framework */,
@@ -1380,7 +1380,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run b0462fa18b0b7748606c6c8cc641889ad1ee6eb1 078ada5e036c218ff9949d0909550011a4cb3bea6bb39363acc3e9fd01963537";
+			shellScript = "./Sender/Framework/Crashlytics.framework/run b0462fa18b0b7748606c6c8cc641889ad1ee6eb1 078ada5e036c218ff9949d0909550011a4cb3bea6bb39363acc3e9fd01963537";
 		};
 		274586BD323E48CFADE59026 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1696,7 +1696,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Sender/Framework",
-					"/Users/rahulksharma/Development/iOS/Chatwala-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
@@ -1727,7 +1726,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Sender/Framework",
-					"/Users/rahulksharma/Development/iOS/Chatwala-iOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
