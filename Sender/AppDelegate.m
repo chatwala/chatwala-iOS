@@ -53,7 +53,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [Crashlytics sharedInstance];
-    [Crashlytics startWithAPIKey:@"b0462fa18b0b7748606c6c8cc641889ad1ee6eb1"];
+    [Crashlytics startWithAPIKey:CRASHLYTICS_API_TOKEN];
     
     // Override point for customization after application launch.
     [application setStatusBarHidden:YES];
@@ -66,7 +66,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [[CWDataManager sharedInstance] setupCoreData];
 
     [CWUserManager sharedInstance];
-    
     if([[CWUserManager sharedInstance] localUser]) {
 
         NSString *user_id = [[CWUserManager sharedInstance] localUser].userID;
@@ -76,8 +75,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }
 
     [CWGroundControlManager sharedInstance];
-    
-    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
     
 #ifdef USE_QA_SERVER
     NSString *analyticsID = @"UA-46207837-4";
@@ -131,21 +128,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
 
-    /*
-    self.landingVC = [[CWLandingViewController alloc]init];
-    [self.landingVC setFlowDirection:eFlowToStartScreen];
-    
-    self.navController = [[UINavigationController alloc]initWithRootViewController:self.landingVC];
-
-    self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
-    
-    [self.window addSubview:self.navController.view];
-    [self.window setRootViewController:self.navController];
-    [self.window makeKeyAndVisible];
-    
-    [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
-    */
-    
     return YES;
 }
 
