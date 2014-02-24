@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D09E5DE18BBA82500061EEA /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D09E5DD18BBA82500061EEA /* FacebookSDK.framework */; };
 		0D1979B018936E9F00379DD5 /* CWPushNotificationsAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */; };
 		0D1DAEA118917F960051D7AE /* CWAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA018917F960051D7AE /* CWAnalytics.m */; };
 		0D1DAEA418917FD30051D7AE /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA318917FD30051D7AE /* CWUtility.m */; };
@@ -20,12 +21,12 @@
 		0D200ABE1891852F008C2238 /* DCKnob.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AB81891852F008C2238 /* DCKnob.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0D200ABF1891852F008C2238 /* DCSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ABA1891852F008C2238 /* DCSlider.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		0D200AC01891852F008C2238 /* NSDictionary+LookUpTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ABC1891852F008C2238 /* NSDictionary+LookUpTable.m */; };
-		0D200ACA1891879F008C2238 /* CWMetadata.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AC81891879F008C2238 /* CWMetadata.m */; };
 		0D200AD318918C4D008C2238 /* CWInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200ACF18918C4D008C2238 /* CWInboxViewController.m */; };
 		0D200AD418918C4D008C2238 /* CWInboxViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D200AD018918C4D008C2238 /* CWInboxViewController.xib */; };
 		0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AD218918C4D008C2238 /* CWMessageCell.m */; };
 		0D29E37318AAB9F500082ECF /* CWMessagesDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */; };
 		0D29E37718AABA8B00082ECF /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37618AABA8B00082ECF /* UIColor+Additions.m */; };
+		0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */; };
 		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
 		0DD3C92F18AED02500B4034C /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DD3C92E18AED02400B4034C /* SDWebImage.framework */; };
 		206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */; };
@@ -223,6 +224,7 @@
 
 /* Begin PBXFileReference section */
 		021C04FCE95441C395C53215 /* Pods-test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.xcconfig"; path = "Pods/Pods-test.xcconfig"; sourceTree = "<group>"; };
+		0D09E5DD18BBA82500061EEA /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = Sender/Framework/FacebookSDK.framework; sourceTree = "<group>"; };
 		0D1979AE18936E9F00379DD5 /* CWPushNotificationsAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWPushNotificationsAPI.h; sourceTree = "<group>"; };
 		0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPushNotificationsAPI.m; sourceTree = "<group>"; };
 		0D1979B218939FB000379DD5 /* CWMacroOverrides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMacroOverrides.h; sourceTree = "<group>"; };
@@ -247,8 +249,6 @@
 		0D200ABA1891852F008C2238 /* DCSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DCSlider.m; sourceTree = "<group>"; };
 		0D200ABB1891852F008C2238 /* NSDictionary+LookUpTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+LookUpTable.h"; sourceTree = "<group>"; };
 		0D200ABC1891852F008C2238 /* NSDictionary+LookUpTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+LookUpTable.m"; sourceTree = "<group>"; };
-		0D200AC71891879F008C2238 /* CWMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMetadata.h; sourceTree = "<group>"; };
-		0D200AC81891879F008C2238 /* CWMetadata.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMetadata.m; sourceTree = "<group>"; };
 		0D200ACE18918C4D008C2238 /* CWInboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWInboxViewController.h; sourceTree = "<group>"; };
 		0D200ACF18918C4D008C2238 /* CWInboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWInboxViewController.m; sourceTree = "<group>"; };
 		0D200AD018918C4D008C2238 /* CWInboxViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWInboxViewController.xib; sourceTree = "<group>"; };
@@ -258,6 +258,7 @@
 		0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessagesDownloader.m; sourceTree = "<group>"; };
 		0D29E37518AABA8B00082ECF /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		0D29E37618AABA8B00082ECF /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
+		0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Sender/Framework/Crashlytics.framework; sourceTree = "<group>"; };
 		0D4586E2189AC591006BB737 /* CWServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWServerAPI.h; sourceTree = "<group>"; };
 		0D4586E3189AC591006BB737 /* CWServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWServerAPI.m; sourceTree = "<group>"; };
 		0DD3C92E18AED02400B4034C /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Sender/Framework/SDWebImage.framework; sourceTree = "<group>"; };
@@ -508,6 +509,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D09E5DE18BBA82500061EEA /* FacebookSDK.framework in Frameworks */,
 				0DD3C92F18AED02500B4034C /* SDWebImage.framework in Frameworks */,
 				206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */,
 				E9ABCFB3183E609E0098E530 /* Security.framework in Frameworks */,
@@ -516,6 +518,7 @@
 				E94439CA182944EC0088A381 /* ImageIO.framework in Frameworks */,
 				E94439C6182944E60088A381 /* MediaPlayer.framework in Frameworks */,
 				E94439C4182944D00088A381 /* QuartzCore.framework in Frameworks */,
+				0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */,
 				E94439C0182944C30088A381 /* CoreAudio.framework in Frameworks */,
 				E94439C1182944C30088A381 /* CoreMedia.framework in Frameworks */,
 				E94439C2182944C30088A381 /* CoreVideo.framework in Frameworks */,
@@ -617,8 +620,6 @@
 		0D200AC41891879F008C2238 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				0D200AC71891879F008C2238 /* CWMetadata.h */,
-				0D200AC81891879F008C2238 /* CWMetadata.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -951,6 +952,8 @@
 		E9443985182940AF0088A381 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D09E5DD18BBA82500061EEA /* FacebookSDK.framework */,
+				0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */,
 				0DD3C92E18AED02400B4034C /* SDWebImage.framework */,
 				206CDF8E18808F59007F3532 /* CoreData.framework */,
 				E9ABCFB2183E609E0098E530 /* Security.framework */,
@@ -1170,6 +1173,7 @@
 				E9443981182940AF0088A381 /* Resources */,
 				EB36AC54C331484C8FEAE387 /* Copy Pods Resources */,
 				05D8EDBC6B77452BB3651A0F /* Upload Bugsnag dSYM */,
+				0D3D3D4918B7D63800859AA7 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1369,6 +1373,19 @@
 			shellScript = "\nif ENV[\"DEBUG_INFORMATION_FORMAT\"] != \"dwarf-with-dsym\" or ENV[\"PLATFORM_NAME\"] == \"iphonesimulator\"\n  exit\nend\n\nfork do\n  Process.setsid\n  STDIN.reopen(\"/dev/null\")\n  STDOUT.reopen(\"/dev/null\", \"a\")\n  STDERR.reopen(\"/dev/null\", \"a\")\n\n  require 'shellwords'\n\n  Dir[\"#{ENV[\"DWARF_DSYM_FOLDER_PATH\"]}/#{ENV[\"DWARF_DSYM_FILE_NAME\"]}/Contents/Resources/DWARF/*\"].each do |dsym|\n    system(\"curl -F dsym=@#{Shellwords.escape(dsym)} -F projectRoot=#{Shellwords.escape(ENV[\"PROJECT_DIR\"])} https://upload.bugsnag.com/\")\n  end\nend\n";
 			showEnvVarsInLog = 0;
 		};
+		0D3D3D4918B7D63800859AA7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Sender/Framework/Crashlytics.framework/run b0462fa18b0b7748606c6c8cc641889ad1ee6eb1 078ada5e036c218ff9949d0909550011a4cb3bea6bb39363acc3e9fd01963537";
+		};
 		274586BD323E48CFADE59026 /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1519,7 +1536,6 @@
 				9AC88A941892D57B0006EE61 /* CWRatingViewController.m in Sources */,
 				36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */,
 				0D1DAEB31891809D0051D7AE /* CWTermsViewController.m in Sources */,
-				0D200ACA1891879F008C2238 /* CWMetadata.m in Sources */,
 				0D200AD318918C4D008C2238 /* CWInboxViewController.m in Sources */,
 				E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */,
 				0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */,

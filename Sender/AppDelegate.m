@@ -18,6 +18,8 @@
 #import "CWDataManager.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
+#import <Crashlytics/Crashlytics.h>
+#import <FacebookSDK/FacebookSDK.h> 
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -51,6 +53,9 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    [Crashlytics sharedInstance];
+    [Crashlytics startWithAPIKey:CRASHLYTICS_API_TOKEN];
+    
     // Override point for customization after application launch.
     [application setStatusBarHidden:YES];
 
@@ -62,7 +67,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [[CWDataManager sharedInstance] setupCoreData];
 
     [CWUserManager sharedInstance];
-    
     if([[CWUserManager sharedInstance] localUser]) {
 
         NSString *user_id = [[CWUserManager sharedInstance] localUser].userID;
@@ -72,9 +76,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }
 
     [CWGroundControlManager sharedInstance];
-    
-    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
-    
     
 #ifdef USE_QA_SERVER
     NSString *analyticsID = @"UA-46207837-4";
@@ -128,21 +129,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
 
-    /*
-    self.landingVC = [[CWLandingViewController alloc]init];
-    [self.landingVC setFlowDirection:eFlowToStartScreen];
-    
-    self.navController = [[UINavigationController alloc]initWithRootViewController:self.landingVC];
-
-    self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
-    
-    [self.window addSubview:self.navController.view];
-    [self.window setRootViewController:self.navController];
-    [self.window makeKeyAndVisible];
-    
-    [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
-    */
-    
     return YES;
 }
 
@@ -193,6 +179,18 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    
+    NSString * fbAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppID"];
+    
+#ifdef USE_QA_SERVER
+    fbAppID = @"1472279299660540";
+#elif USE_DEV_SERVER
+    fbAppID = @"1472279299660540";
+#endif
+    
+    [FBSettings setDefaultAppID:fbAppID];
+    [FBAppEvents activateApp];
+    
     if( [[CWUserManager sharedInstance] localUser]) {
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
     }
