@@ -79,7 +79,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html";
 #else
     NSString *analyticsID = @"UA-46207837-1";
-    NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html"
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html";
 #endif
     
     NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
@@ -185,7 +185,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     NSString * fbAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppID"];
     
 #ifdef USE_QA_SERVER
-    fbAppID = @"1472279299660540";
+    fbAppID = @"639218822814074";
 #elif USE_DEV_SERVER
     fbAppID = @"1472279299660540";
 #endif
