@@ -16,17 +16,22 @@
 @property (nonatomic,strong) NSURL * outputFileURL;
 @property (nonatomic,assign) BOOL isUsingBackCamera;
 
-- (NSURL *) tempFileURL;
-- (NSError*) setupSessionWithBackCamera:(BOOL)shouldUseBackCamera;
-- (void) stopSession;
-- (void) resumeSession;
-- (void) startVideoRecording;
-- (void) stopVideoRecording;
+- (NSURL *)tempFileURL;
+- (NSError *)setupSessionWithBackCamera:(BOOL)shouldUseBackCamera;
+- (void)stopSession;
+- (void)resumeSession;
+- (void)changeVideoInput:(AVCaptureDeviceInput *)videoInput;
+- (void)startVideoRecording;
+- (void)stopVideoRecording;
 - (NSTimeInterval) videoLength;
 - (void)checkForMicAccess;
 - (void)cleanUp;
 
-- (void) captureStillImageWithCallback:(void (^)(UIImage * image, NSError * error))completionBlock;
+- (void)captureStillImageWithCallback:(void (^)(UIImage * image, NSError * error))completionBlock;
+
++ (AVCaptureDevice *)backFacingCamera;
++ (AVCaptureDevice *)frontFacingCamera;
+
 @end
 
 

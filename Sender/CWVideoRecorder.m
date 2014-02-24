@@ -99,33 +99,15 @@
     return [[NSDate date] timeIntervalSinceDate:recordingStartTime];
 }
 
+#pragma mark - Public API
 
-- (void) stopSession
+- (void)stopSession
 {
     [self.session stopRunning];
 }
 
-- (void)cleanUp {
+- (void)resumeSession {
     
-    if (self.session) {
-        [self.session stopRunning];
-        [self.recorderView removeFromSuperview];
-        self.session = nil;
-        
-        [self.videoPreviewLayer removeFromSuperlayer];
-        self.videoPreviewLayer = nil;
-        
-        [self setStillImageOutput:nil];
-        [self setAudioInput:nil];
-        [self setVideoInput:nil];
-        [self setSession:nil];
-        
-        [self setRecorder:nil];
-    }
-}
-
-- (void)resumeSession
-{
     if (self.session) {
         //
         [self.session startRunning];
@@ -135,8 +117,7 @@
     }
 }
 
-
-- (NSError*) setupSessionWithBackCamera:(BOOL)shouldUseBackCamera
+- (NSError *)setupSessionWithBackCamera:(BOOL)shouldUseBackCamera
 {
     
     NSError * err = nil;
@@ -148,7 +129,7 @@
     
     self.isUsingBackCamera = shouldUseBackCamera;
     // setup device inputs
-    AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(shouldUseBackCamera ? [self backFacingCamera] : [self frontFacingCamera]) error:&err];
+    AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(shouldUseBackCamera ? [CWVideoRecorder backFacingCamera] : [CWVideoRecorder frontFacingCamera]) error:&err];
     if (err) {
         NSLog(@"failed to setup video input: %@",err.debugDescription);
         [self presentErrorScreen];
@@ -188,7 +169,7 @@
     
     [self setStillImageOutput:newStillImageOutput];
     [self setAudioInput:audioInput];
-    [self setVideoInput:videoInput];
+    [self changeVideoInput:videoInput];
     [self setSession:session];
     
     NSURL *outputFileURL = [self tempFileURL];
@@ -229,10 +210,20 @@
 
 }
 
-- (NSURL *) tempFileURL
-{
+- (void)changeVideoInput:(AVCaptureDeviceInput *)videoInput {
+    
+    [self.session beginConfiguration];
+    [self.session removeInput:_videoInput];
+
+    [[self session] addInput:videoInput];
+    _videoInput = videoInput;
+    [self.session commitConfiguration];
+}
+
+- (NSURL *)tempFileURL {
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"output.mp4"];
 }
+
 - (void) removeFile:(NSURL *)fileURL
 {
     NSString *filePath = [fileURL path];
@@ -288,13 +279,7 @@
 }
 
 
-- (AVCaptureDevice *) frontFacingCamera {
-    return [self cameraWithPosition:AVCaptureDevicePositionFront];
-}
 
-- (AVCaptureDevice *) backFacingCamera {
-    return [self cameraWithPosition:AVCaptureDevicePositionBack];
-}
 
 - (AVCaptureDevice *) audioDevice
 {
@@ -305,8 +290,17 @@
     return nil;
 }
 
+#pragma mark - Static helpers
 
-- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
++ (AVCaptureDevice *)frontFacingCamera {
+    return [CWVideoRecorder cameraWithPosition:AVCaptureDevicePositionFront];
+}
+
++ (AVCaptureDevice *)backFacingCamera {
+    return [CWVideoRecorder cameraWithPosition:AVCaptureDevicePositionBack];
+}
+
++ (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition) position
 {
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     for (AVCaptureDevice *device in devices) {
@@ -317,6 +311,7 @@
     return nil;
 }
 
+#pragma mark - Key/Value observing
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {

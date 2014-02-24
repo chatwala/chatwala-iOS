@@ -28,9 +28,6 @@
 @property (nonatomic) UIViewController * popupModal;
 
 @property (nonatomic,assign) BOOL shouldUseBackCamera;
-@property (nonatomic,assign) BOOL isSwitchingCameras;
-@property (nonatomic) UIView *cameraSwitchingBackgroundView;
-
 @property (nonatomic) UITapGestureRecognizer *tapRecognizer;
 
 @end
@@ -82,7 +79,7 @@
     [super viewDidAppear:animated];
     [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.startButton];
     
-    [[[[CWVideoManager sharedManager] recorder] recorderView ]setFrame:self.view.bounds];
+    [[[[CWVideoManager sharedManager] recorder] recorderView] setFrame:self.view.bounds];
     
     if (self.showSentMessage) {
         [UIView animateWithDuration:0.3 animations:^{
@@ -189,37 +186,11 @@
 
 - (void)toggledCamera:(UIGestureRecognizer *)recognizer {
     
-    if (self.isSwitchingCameras) {
-        return;
-    }
-    else {
-        self.isSwitchingCameras = YES;
-    }
-    
     NSLog(@"Record screen tapped");
     self.shouldUseBackCamera = !self.shouldUseBackCamera;
     
-    CWVideoRecorder *newRecorder = [[CWVideoRecorder alloc] init];
-    [newRecorder setupSessionWithBackCamera:self.shouldUseBackCamera];
-    [newRecorder.recorderView setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5)];
-    [self.view insertSubview:newRecorder.recorderView aboveSubview:[[[CWVideoManager sharedManager] recorder] recorderView]];
-    
-    self.cameraSwitchingBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5)];
-    self.cameraSwitchingBackgroundView.backgroundColor = [UIColor blackColor];
-    [self.view insertSubview:self.cameraSwitchingBackgroundView belowSubview:newRecorder.recorderView];
-    
-    // Saving new camera object into the shared manager
-    [[[CWVideoManager sharedManager] recorder] cleanUp];
-    [[CWVideoManager sharedManager] setRecorder:newRecorder];
-    
-    // A hack to rate-limit how quickly the camera can be changed
-    [self performSelector:@selector(finishedSwitchingCameras) withObject:nil afterDelay:0.3];
-}
-
-
-- (void)finishedSwitchingCameras {
-    self.isSwitchingCameras = NO;
-    [self.cameraSwitchingBackgroundView removeFromSuperview];
+     AVCaptureDeviceInput *videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(self.shouldUseBackCamera ? [CWVideoRecorder backFacingCamera] : [CWVideoRecorder frontFacingCamera]) error:nil];
+    [[[CWVideoManager sharedManager] recorder] changeVideoInput:videoInput];
 }
 
 @end

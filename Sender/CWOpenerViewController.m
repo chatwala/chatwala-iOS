@@ -27,7 +27,6 @@
 @property (nonatomic,strong) NSTimer * reviewCountdownTimer;    // watching thier reaction to what you said
 @property (nonatomic,strong) NSTimer * reactionCountdownTimer;  // reacting to what they said
 @property (nonatomic,strong) NSTimer * responseCountdownTimer;  // your response
-@property (nonatomic,assign) BOOL isSwitchingCameras;
 @property (nonatomic,assign) BOOL shouldUseBackCamera;
 
 
@@ -80,15 +79,18 @@
     [self.playbackView setAlpha:0];
     [self.cameraView setAlpha:0];
     
-    self.player = [[CWVideoManager sharedManager]player];
-    self.recorder = [[CWVideoManager sharedManager]recorder];
+    self.player = [[CWVideoManager sharedManager] player];
+    self.recorder = [[CWVideoManager sharedManager] recorder];
 
-    self.shouldUseBackCamera = [self.recorder isUsingBackCamera];
+    // Default to front camera
+    self.shouldUseBackCamera = NO;
+    AVCaptureDeviceInput *videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(self.shouldUseBackCamera ? [CWVideoRecorder backFacingCamera] : [CWVideoRecorder frontFacingCamera]) error:nil];
+    [[[CWVideoManager sharedManager] recorder] changeVideoInput:videoInput];
+
     
     [self.player setDelegate:self];
     [self.recorder setDelegate:self];
-    
-    
+
 //    if(!CGRectIsEmpty(smallFrame))
 //    {
 //        self.cameraView.frame = smallFrame;
@@ -98,7 +100,6 @@
 //        self.playbackView.frame = largeFrame;
 //    }
     NSAssert(self.activeMessage, @"expecting activeMessage to be set");
-    
     NSAssert(self.activeMessage.videoURL, @"expecting video URL to be set");
     
     [self.player setVideoURL:self.activeMessage.videoURL];
@@ -128,7 +129,7 @@
 }
 
 
-- (void) grabLastFrameOfVideo {
+- (void)grabLastFrameOfVideo {
 
     NSAssert(self.activeMessage, @"expecting active message to be set");
     NSAssert(self.player, @"expecting player to be set");
@@ -151,9 +152,6 @@
              • update view and feedback to reflect Preview state ( in subclass )
              */
             [self.cameraView removeGestureRecognizer:self.tapRecognizer];
-            self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggledCamera:)];
-            [self.cameraView addGestureRecognizer:self.tapRecognizer];
-            
             self.startTime = nil;
             [self killTimers];
             [self.player stop];
@@ -174,6 +172,7 @@
              • play Video Message
              • update view and feedback to reflect Review state ( in subclass )
              */
+            
             [self.cameraView removeGestureRecognizer:self.tapRecognizer];
             [CWAnalytics event:@"START_REVIEW" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             [self.player playVideo];
@@ -198,6 +197,10 @@
              • update view and feedback to reflect Reaction state ( in subclass )
              
              */
+            [self.cameraView removeGestureRecognizer:self.tapRecognizer];
+            self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggledCamera:)];
+            [self.cameraView addGestureRecognizer:self.tapRecognizer];
+            
             [CWAnalytics event:@"START_REACTION" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             [self startReactionCountDown];
             [self setNavMode:NavModeNone];
@@ -409,34 +412,11 @@
 
 - (void)toggledCamera:(UIGestureRecognizer *)recognizer {
     
-    if (self.isSwitchingCameras) {
-        return;
-    }
-    else {
-        self.isSwitchingCameras = YES;
-    }
-    
     NSLog(@"Record screen tapped");
     self.shouldUseBackCamera = !self.shouldUseBackCamera;
     
-    CWVideoRecorder *newRecorder = [[CWVideoRecorder alloc] init];
-    [newRecorder setupSessionWithBackCamera:self.shouldUseBackCamera];
-    [newRecorder.recorderView setFrame:self.cameraView.bounds];
-    [self.cameraView addSubview:newRecorder.recorderView];
-    
-    // Saving new camera object into the shared manager
-    [self.recorder cleanUp];
-    self.recorder = newRecorder;
-    self.recorder.delegate = self;
-    [[CWVideoManager sharedManager] setRecorder:self.recorder];
-    
-    
-    // A hack to rate-limit how quickly the camera can be changed
-    [self performSelector:@selector(finishedSwitchingCameras) withObject:nil afterDelay:0.3];
-}
-
-- (void)finishedSwitchingCameras {
-    self.isSwitchingCameras = NO;
+    AVCaptureDeviceInput *videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(self.shouldUseBackCamera ? [CWVideoRecorder backFacingCamera] : [CWVideoRecorder frontFacingCamera]) error:nil];
+    [[[CWVideoManager sharedManager] recorder] changeVideoInput:videoInput];
 }
 
 @end
