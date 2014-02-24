@@ -65,15 +65,15 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [NSURLCache setSharedURLCache:URLCache];
     
     [[CWDataManager sharedInstance] setupCoreData];
-
     [CWUserManager sharedInstance];
-    if([[CWUserManager sharedInstance] localUser]) {
 
-        NSString *user_id = [[CWUserManager sharedInstance] localUser].userID;
-        if(![user_id length]) {
-            [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
-        }
+    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    if(![user_id length]) {
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://chatwala.com/dev/fetch_messages.html"]];
+        [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
     }
+
 
     [CWGroundControlManager sharedInstance];
     
