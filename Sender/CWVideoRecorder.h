@@ -25,7 +25,6 @@
 - (void)stopVideoRecording;
 - (NSTimeInterval) videoLength;
 - (void)checkForMicAccess;
-- (void)cleanUp;
 
 - (void)captureStillImageWithCallback:(void (^)(UIImage * image, NSError * error))completionBlock;
 

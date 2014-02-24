@@ -27,17 +27,10 @@
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
 
-
-- (AVCaptureDevice *) frontFacingCamera;
-- (AVCaptureDevice *) audioDevice;
-- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position;
-- (void) removeFile:(NSURL *)fileURL;
-
 @end
 
 
 @implementation CWVideoRecorder
-
 
 - (id)init
 {
@@ -224,7 +217,7 @@
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"output.mp4"];
 }
 
-- (void) removeFile:(NSURL *)fileURL
+- (void)removeFile:(NSURL *)fileURL
 {
     NSString *filePath = [fileURL path];
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -238,7 +231,7 @@
     }
 }
 
-- (void) startVideoRecording
+- (void)startVideoRecording
 {
     if ([[UIDevice currentDevice] isMultitaskingSupported]) {
         // Setup background task. This is needed because the captureOutput:didFinishRecordingToOutputFileAtURL: callback is not received until AVCam returns
@@ -253,7 +246,7 @@
     recordingStartTime = [NSDate date];
 }
 
-- (void) stopVideoRecording
+- (void)stopVideoRecording
 {
     [[self recorder] stopRecording];
 }
@@ -277,8 +270,6 @@
                                                          }];
 
 }
-
-
 
 
 - (AVCaptureDevice *) audioDevice
