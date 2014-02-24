@@ -51,8 +51,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 #pragma mark - Application lifecycle methods
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
     [Crashlytics sharedInstance];
     [Crashlytics startWithAPIKey:CRASHLYTICS_API_TOKEN];
     
@@ -128,6 +128,12 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.window makeKeyAndVisible];
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
+    
+    NSDictionary *remoteNotificationDictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotificationDictionary) {
+        // The app isn't being awakened from terminated state - for now just logging that we received this.
+        NSLog(@"Received remote notifcation callback in didFinishLaunchingWithOptions %@", remoteNotificationDictionary);
+    }
 
     return YES;
 }

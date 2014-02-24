@@ -16,9 +16,46 @@ typedef void (^CWPictureUploadEndpointRequestCompletionBlock)(NSError *error, NS
 
 NSString *const PushRegisterEndpoint = @"/registerPushToken";
 
+#ifdef USE_QA_SERVER
+NSString *const BackgroundSessionIdentifier = @"com.chatwala.qa.backgroundSession";
+#elif USE_DEV_SERVER
+NSString *const BackgroundSessionIdentifier = @"com.chatwala.dev.backgroundSession";
+#else
+NSString *const BackgroundSessionIdentifier = @"com.chatwala.chatwala.backgroundSession";
+#endif
+
+AFURLSessionManager *BackgroundSessionManager;
+
 @implementation CWServerAPI
 
 #pragma mark - Upload API methods
+
++ (AFURLSessionManager *)sessionManager {
+    
+    UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+    
+    if (state == UIApplicationStateBackground || state == UIApplicationStateInactive) {
+        return [self backgroundSessionManager];
+    }
+    else {
+        NSURLSessionConfiguration *foregroundSessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+        foregroundSessionConfiguration.URLCache = nil;
+        return [[AFURLSessionManager alloc] initWithSessionConfiguration:foregroundSessionConfiguration];
+    }
+}
+
++ (AFURLSessionManager *)backgroundSessionManager {
+
+    static AFURLSessionManager *BackgroundSessionManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSURLSessionConfiguration* sessionConfig = [NSURLSessionConfiguration backgroundSessionConfiguration:BackgroundSessionIdentifier];
+        sessionConfig.URLCache = nil;
+        BackgroundSessionManager = [[AFURLSessionManager alloc]initWithSessionConfiguration:sessionConfig];
+    });
+    
+    return BackgroundSessionManager;
+}
 
 + (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock {
 
@@ -36,7 +73,7 @@ NSString *const PushRegisterEndpoint = @"/registerPushToken";
     [request addValue:@"BlockBlob" forHTTPHeaderField:@"x-ms-blob-type"];
     [request addValue:[NSString stringWithFormat:@"%llu",fileSize] forHTTPHeaderField:@"content-length"];
 
-    AFURLSessionManager *mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+    AFURLSessionManager *mgr = [self sessionManager];
     NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -84,7 +121,7 @@ NSString *const PushRegisterEndpoint = @"/registerPushToken";
             [request addValue:@"image/jpeg" forHTTPHeaderField:@"Content-Type"];
             
             [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
-            AFURLSessionManager * mgr = [[AFURLSessionManager alloc]initWithSessionConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration]];
+            AFURLSessionManager * mgr = [self sessionManager];
             
             NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
                 
@@ -223,6 +260,24 @@ NSString *const PushRegisterEndpoint = @"/registerPushToken";
         NSLog(@"Failed to finalize message upload. Error:  %@",error.localizedDescription);
     }];
 }
+
++ (void)downloadMessageForID:(NSString *)messageID destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock {
+
+    // do download
+    NSString * messagePath =[NSString stringWithFormat:[[CWMessageManager alloc] getMessageEndPoint], messageID];
+    NSLog(@"downloading file at: %@",messagePath);
+
+    
+    AFURLSessionManager *manager = [self sessionManager];
+    NSURL *URL = [NSURL URLWithString:messagePath];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+
+    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
+
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:destinationBlock completionHandler:completionBlock];
+    [downloadTask resume];
+}
+
 
 # pragma mark - Convenience methods
 + (NSString *)versionHeaderFieldString {

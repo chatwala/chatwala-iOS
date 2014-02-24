@@ -232,12 +232,7 @@
 		// to the foreground unless you request background execution time. This also ensures that there will be time to write the file to the assets library
 		// when AVCam is backgrounded. To conclude this background execution, -endBackgroundTask is called in -recorder:recordingDidFinishToOutputFileURL:error:
 		// after the recorded file has been saved.
-        [self setBackgroundRecordingID:[[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-            if (self.backgroundRecordingID != 0) {
-                //[[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
-                self.backgroundRecordingID = 0;
-            }
-        }]];
+        [self setBackgroundRecordingID:[[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{}]];
     }
     
     [self removeFile:[[self recorder] outputFileURL]];
@@ -343,11 +338,9 @@
     [self converVideoWithURL:outputFileURL];
     
     if (self.backgroundRecordingID != 0) {
-        //[[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
         self.backgroundRecordingID = 0;
     }
-    
-    
 }
 
 - (void)recorderRecordingDidBegin:(AVCamRecorder *)recorder
