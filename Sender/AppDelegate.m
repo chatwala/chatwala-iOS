@@ -51,8 +51,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 #pragma mark - Application lifecycle methods
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
     [Crashlytics sharedInstance];
     [Crashlytics startWithAPIKey:CRASHLYTICS_API_TOKEN];
     
@@ -63,31 +63,34 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                                                          diskCapacity:20 * 1024 * 1024
                                                              diskPath:nil];
     [NSURLCache setSharedURLCache:URLCache];
-    
     [[CWDataManager sharedInstance] setupCoreData];
-
-    [CWUserManager sharedInstance];
-    if([[CWUserManager sharedInstance] localUser]) {
-
-        NSString *user_id = [[CWUserManager sharedInstance] localUser].userID;
-        if(![user_id length]) {
-            [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
-        }
-    }
-
-    [CWGroundControlManager sharedInstance];
     
 #ifdef USE_QA_SERVER
     NSString *analyticsID = @"UA-46207837-4";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/qa/fetch_messages.html";
 #elif USE_DEV_SERVER
     NSString *analyticsID = @"UA-46207837-3";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/dev/fetch_messages.html";
 #elif USE_SANDBOX_SERVER
     NSString *analyticsID = @"UA-46207837-3";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/dev/fetch_messages.html";
 #elif USE_STAGING_SERVER
     NSString *analyticsID = @"UA-46207837-5";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html";
 #else
     NSString *analyticsID = @"UA-46207837-1";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html";
 #endif
+    
+    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    if(![user_id length]) {
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:messageRetrievalEndpoint]];
+        [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
+    }
+    
+    [CWUserManager sharedInstance];
+    [CWGroundControlManager sharedInstance];
     
     [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
     
@@ -96,11 +99,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     self.inboxController = [[CWInboxViewController alloc]init];
     self.mainVC = [[CWMainViewController alloc]init];
-    
-//    self.landingVC = [[CWLandingViewController alloc]init];
-//    [self.landingVC setFlowDirection:eFlowToStartScreen];
-//
-    
     [self.inboxController setDelegate:self];
     
     
@@ -117,8 +115,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
     self.loadingVC = [[CWLoadingViewController alloc]init];
     [self.loadingVC.view setAlpha:0];
-//    [self.loadingVC restartAnimation];
-
     
     [self.drawController.view addSubview:self.loadingVC.view];
     
@@ -128,6 +124,12 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.window makeKeyAndVisible];
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
+    
+    NSDictionary *remoteNotificationDictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotificationDictionary) {
+        // The app isn't being awakened from terminated state - for now just logging that we received this.
+        NSLog(@"Received remote notifcation callback in didFinishLaunchingWithOptions %@", remoteNotificationDictionary);
+    }
 
     return YES;
 }
@@ -183,7 +185,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     NSString * fbAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppID"];
     
 #ifdef USE_QA_SERVER
-    fbAppID = @"1472279299660540";
+    fbAppID = @"639218822814074";
 #elif USE_DEV_SERVER
     fbAppID = @"1472279299660540";
 #endif

@@ -82,6 +82,7 @@
     
     self.player = [[CWVideoManager sharedManager]player];
     self.recorder = [[CWVideoManager sharedManager]recorder];
+
     self.shouldUseBackCamera = [self.recorder isUsingBackCamera];
     
     [self.player setDelegate:self];
@@ -341,9 +342,7 @@
 
 #pragma mark CWVideoPlayerDelegate
 
-- (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer
-{
-    
+- (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer {
     
     [self.playbackView addSubview:player.playbackView];
 //    self.playbackView.frame = CGRectMake(0, self.view.bounds.size.height*0.5, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
@@ -370,13 +369,12 @@
 
 #pragma mark CWVideoRecorderDelegate
 
-- (void)recorder:(CWVideoRecorder*)recorder didFailWithError:(NSError *)error
-{
+- (void)recorder:(CWVideoRecorder*)recorder didFailWithError:(NSError *)error {
     
 }
 
-- (void)recorderRecordingBegan:(CWVideoRecorder *)recorder
-{
+- (void)recorderRecordingBegan:(CWVideoRecorder *)recorder {
+    
 }
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder {
@@ -436,7 +434,6 @@
     // A hack to rate-limit how quickly the camera can be changed
     [self performSelector:@selector(finishedSwitchingCameras) withObject:nil afterDelay:0.3];
 }
-
 
 - (void)finishedSwitchingCameras {
     self.isSwitchingCameras = NO;
