@@ -84,6 +84,7 @@
 
     // Default to front camera
     self.shouldUseBackCamera = NO;
+    
     AVCaptureDeviceInput *videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(self.shouldUseBackCamera ? [CWVideoRecorder backFacingCamera] : [CWVideoRecorder frontFacingCamera]) error:nil];
     [[[CWVideoManager sharedManager] recorder] changeVideoInput:videoInput];
 
@@ -197,9 +198,9 @@
              • update view and feedback to reflect Reaction state ( in subclass )
              
              */
-            [self.cameraView removeGestureRecognizer:self.tapRecognizer];
-            self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggledCamera:)];
-            [self.cameraView addGestureRecognizer:self.tapRecognizer];
+//            [self.cameraView removeGestureRecognizer:self.tapRecognizer];
+//            self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggledCamera:)];
+//            [self.cameraView addGestureRecognizer:self.tapRecognizer];
             
             [CWAnalytics event:@"START_REACTION" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
             [self startReactionCountDown];
