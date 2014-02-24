@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0D09E5DE18BBA82500061EEA /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D09E5DD18BBA82500061EEA /* FacebookSDK.framework */; };
 		0D1979B018936E9F00379DD5 /* CWPushNotificationsAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */; };
 		0D1DAEA118917F960051D7AE /* CWAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA018917F960051D7AE /* CWAnalytics.m */; };
 		0D1DAEA418917FD30051D7AE /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA318917FD30051D7AE /* CWUtility.m */; };
@@ -223,6 +224,7 @@
 
 /* Begin PBXFileReference section */
 		021C04FCE95441C395C53215 /* Pods-test.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-test.xcconfig"; path = "Pods/Pods-test.xcconfig"; sourceTree = "<group>"; };
+		0D09E5DD18BBA82500061EEA /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = Sender/Framework/FacebookSDK.framework; sourceTree = "<group>"; };
 		0D1979AE18936E9F00379DD5 /* CWPushNotificationsAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWPushNotificationsAPI.h; sourceTree = "<group>"; };
 		0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPushNotificationsAPI.m; sourceTree = "<group>"; };
 		0D1979B218939FB000379DD5 /* CWMacroOverrides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMacroOverrides.h; sourceTree = "<group>"; };
@@ -507,6 +509,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D09E5DE18BBA82500061EEA /* FacebookSDK.framework in Frameworks */,
 				0DD3C92F18AED02500B4034C /* SDWebImage.framework in Frameworks */,
 				206CDF8F18808F59007F3532 /* CoreData.framework in Frameworks */,
 				E9ABCFB3183E609E0098E530 /* Security.framework in Frameworks */,
@@ -949,6 +952,7 @@
 		E9443985182940AF0088A381 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0D09E5DD18BBA82500061EEA /* FacebookSDK.framework */,
 				0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */,
 				0DD3C92E18AED02400B4034C /* SDWebImage.framework */,
 				206CDF8E18808F59007F3532 /* CoreData.framework */,

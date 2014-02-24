@@ -19,6 +19,7 @@
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
 #import <Crashlytics/Crashlytics.h>
+#import <FacebookSDK/FacebookSDK.h> 
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -178,6 +179,18 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    
+    NSString * fbAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppID"];
+    
+#ifdef USE_QA_SERVER
+    fbAppID = @"1472279299660540";
+#elif USE_DEV_SERVER
+    fbAppID = @"1472279299660540";
+#endif
+    
+    [FBSettings setDefaultAppID:fbAppID];
+    [FBAppEvents activateApp];
+    
     if( [[CWUserManager sharedInstance] localUser]) {
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
     }
