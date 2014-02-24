@@ -63,31 +63,34 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                                                          diskCapacity:20 * 1024 * 1024
                                                              diskPath:nil];
     [NSURLCache setSharedURLCache:URLCache];
-    
     [[CWDataManager sharedInstance] setupCoreData];
-    [CWUserManager sharedInstance];
-
-    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
-    if(![user_id length]) {
-        
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://chatwala.com/dev/fetch_messages.html"]];
-        [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
-    }
-
-
-    [CWGroundControlManager sharedInstance];
     
 #ifdef USE_QA_SERVER
     NSString *analyticsID = @"UA-46207837-4";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/qa/fetch_messages.html";
 #elif USE_DEV_SERVER
     NSString *analyticsID = @"UA-46207837-3";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/dev/fetch_messages.html";
 #elif USE_SANDBOX_SERVER
     NSString *analyticsID = @"UA-46207837-3";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/dev/fetch_messages.html";
 #elif USE_STAGING_SERVER
     NSString *analyticsID = @"UA-46207837-5";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html";
 #else
     NSString *analyticsID = @"UA-46207837-1";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html"
 #endif
+    
+    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    if(![user_id length]) {
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:messageRetrievalEndpoint]];
+        [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
+    }
+    
+    [CWUserManager sharedInstance];
+    [CWGroundControlManager sharedInstance];
     
     [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
     
@@ -96,11 +99,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     self.inboxController = [[CWInboxViewController alloc]init];
     self.mainVC = [[CWMainViewController alloc]init];
-    
-//    self.landingVC = [[CWLandingViewController alloc]init];
-//    [self.landingVC setFlowDirection:eFlowToStartScreen];
-//
-    
     [self.inboxController setDelegate:self];
     
     
@@ -117,8 +115,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
     self.loadingVC = [[CWLoadingViewController alloc]init];
     [self.loadingVC.view setAlpha:0];
-//    [self.loadingVC restartAnimation];
-
     
     [self.drawController.view addSubview:self.loadingVC.view];
     

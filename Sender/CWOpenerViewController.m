@@ -63,13 +63,7 @@
     return self;
 }
 
-- (void)dealloc
-{
-    
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -102,7 +96,6 @@
     
     self.player = [[CWVideoManager sharedManager]player];
     self.recorder = [[CWVideoManager sharedManager]recorder];
-    
     
     [self.player setDelegate:self];
     [self.recorder setDelegate:self];
@@ -191,9 +184,6 @@
             [self grabLastFrameOfVideo];
             break;
             
-            
-            
-            
         case CWOpenerReview:
             /*
             
@@ -220,9 +210,6 @@
             [self setNavMode:NavModeNone];
             break;
             
-            
-            
-            
         case CWOpenerReact:
             /*
              
@@ -235,9 +222,6 @@
             [self startReactionCountDown];
             [self setNavMode:NavModeNone];
             break;
-            
-            
-            
             
         case CWOpenerRespond:
             /*
@@ -381,9 +365,7 @@
 
 #pragma mark CWVideoPlayerDelegate
 
-- (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer
-{
-    
+- (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer {
     
     [self.playbackView addSubview:player.playbackView];
 //    self.playbackView.frame = CGRectMake(0, self.view.bounds.size.height*0.5, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
@@ -410,17 +392,16 @@
 
 #pragma mark CWVideoRecorderDelegate
 
-- (void)recorder:(CWVideoRecorder*)recorder didFailWithError:(NSError *)error
-{
+- (void)recorder:(CWVideoRecorder*)recorder didFailWithError:(NSError *)error {
     
 }
 
-- (void)recorderRecordingBegan:(CWVideoRecorder *)recorder
-{
+- (void)recorderRecordingBegan:(CWVideoRecorder *)recorder {
+    
 }
 
-- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
-{
+- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder {
+
     [self killTimers];
     if(self.openerState == CWOpenerRespond)
     {
@@ -448,6 +429,5 @@
     }
 
 }
-
 
 @end
