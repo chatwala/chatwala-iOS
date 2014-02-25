@@ -27,8 +27,8 @@
 
 @implementation CWSettingsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -36,8 +36,8 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.settingsTable registerClass:[CWTableViewCellNewMessageDeliveryMethodCell class] forCellReuseIdentifier:@"deliveryMethod"];
@@ -65,12 +65,6 @@
     [self.settingsTable setBackgroundColor:[UIColor clearColor]];
     [self.settingsTable setSeparatorColor:[UIColor chatwalaBlueLight]];
     [self.settingsTable setScrollEnabled:NO];
-}
-
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
 }
 
 - (void)onSettingsDone
@@ -102,33 +96,28 @@
     return cell;
 }
 
-- (UITableViewCell *) tableViewDeliveryMethod:(UITableView *) tableView
-{
+- (UITableViewCell *) tableViewDeliveryMethod:(UITableView *) tableView {
+    
     NSString * deliveryMethod = [[CWUserManager sharedInstance] newMessageDeliveryMethod];
-    if([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueSMS])
-    {
+
+    if([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueSMS]) {
         self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 0;
     }
-    else if ([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueEmail])
-    {
+    else if ([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueEmail]) {
         self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
     }
     
     [self.deliveryMethodCell setBackgroundColor:[UIColor chatwalaBlueMedium]];
-
-
     return self.deliveryMethodCell;
-    
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
     return [self.sectionHeaders objectAtIndex:section];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
     NSInteger count = 0;
     if (section == 0) {
         count = [self.section1Titles count] + 1;
@@ -154,12 +143,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 50;
+    return 50.0f;
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section) {
         case 0:
@@ -220,13 +209,5 @@
             break;
     }
 }
-
-//#pragma mark MFMailComposeViewControllerDelegate
-//
-//- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-//{
-//    [controller dismissViewControllerAnimated:YES completion:nil];
-//}
-
 
 @end
