@@ -146,7 +146,7 @@ NSInteger const defaultFeedbackTrigger = 5;
 - (NSString *)startScreenMessage {
     
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"START_SCREEN_MESSAGE"];
-    return value ? value:@"Tap to start a conversation.\nYour friends will react here.";
+    return value ? value:@"Tap to start a conversation.  Your friends will react here.";
 }
 
 // OPENER_SCREEN_MESSAGE
