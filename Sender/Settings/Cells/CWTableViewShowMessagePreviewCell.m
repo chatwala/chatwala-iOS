@@ -7,6 +7,7 @@
 //
 
 #import "CWTableViewShowMessagePreviewCell.h"
+#import "CWUserDefaultsController.h"
 
 @implementation CWTableViewShowMessagePreviewCell
 
@@ -30,10 +31,10 @@
     
     switch (self.showMessagePreviewSegmentedControl.selectedSegmentIndex) {
         case 0:
-            //[[CWUserManager sharedInstance] setNewMessageDeliveryMethod:kNewMessageDeliveryMethodValueSMS];
+            [CWUserDefaultsController setShouldShowMessagePreview:NO];
             break;
         case 1:
-            //[[CWUserManager sharedInstance] setNewMessageDeliveryMethod:kNewMessageDeliveryMethodValueEmail];
+            [CWUserDefaultsController setShouldShowMessagePreview:YES];
             break;
         default:
             break;
