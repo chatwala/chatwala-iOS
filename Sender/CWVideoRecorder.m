@@ -44,8 +44,6 @@
         [self.recorderView setAlpha:0.0];
         
         [self checkForMicAccess];
-        
-        
     }
     return self;
 }
