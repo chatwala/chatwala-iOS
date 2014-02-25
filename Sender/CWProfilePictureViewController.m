@@ -38,15 +38,14 @@
     [super viewDidLoad];
     [self setTitle:@"UPDATE PROFILE PIC"];
     
-    [[[CWVideoManager sharedManager]recorder]setupSession];
+    [[[CWVideoManager sharedManager] recorder] setupSessionWithBackCamera:NO];
 
     self.pictureImageView.image = [UIImage imageNamed:@"LaunchImage"];
     [self.pictureImageView setClipsToBounds:YES];
     self.pictureImageView.contentMode = UIViewContentModeScaleAspectFill;
 }
 
-- (void) viewDidAppear:(BOOL)animated
-{
+- (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
     [self.pictureImageView.superview insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.pictureImageView];

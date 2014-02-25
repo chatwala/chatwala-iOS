@@ -17,6 +17,7 @@
 {
     NSDate * recordingStartTime;
 }
+
 @property (nonatomic,strong) AVCaptureSession *session;
 @property (nonatomic,strong) AVCaptureDeviceInput *videoInput;
 @property (nonatomic,strong) AVCaptureDeviceInput *audioInput;
@@ -25,15 +26,11 @@
 @property (nonatomic,strong) AVCaptureVideoPreviewLayer * videoPreviewLayer;
 
 @property (nonatomic) UIBackgroundTaskIdentifier backgroundRecordingID;
-- (AVCaptureDevice *) frontFacingCamera;
-- (AVCaptureDevice *) audioDevice;
-- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position;
-- (void) removeFile:(NSURL *)fileURL;
+
 @end
 
 
 @implementation CWVideoRecorder
-
 
 - (id)init
 {
@@ -95,35 +92,37 @@
     return [[NSDate date] timeIntervalSinceDate:recordingStartTime];
 }
 
+#pragma mark - Public API
 
-- (void) stopSession
+- (void)stopSession
 {
     [self.session stopRunning];
 }
 
-- (void) resumeSession
-{
+- (void)resumeSession {
+    
     if (self.session) {
         //
         [self.session startRunning];
         
     }else{
-        [self setupSession];
+        [self setupSessionWithBackCamera:self.isUsingBackCamera];
     }
 }
 
-
-- (NSError*) setupSession
+- (NSError *)setupSessionWithBackCamera:(BOOL)shouldUseBackCamera
 {
     
     NSError * err = nil;
     
     if (self.session) {
+        [self.session stopRunning];
         return err;
     }
     
+    self.isUsingBackCamera = shouldUseBackCamera;
     // setup device inputs
-    AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self frontFacingCamera] error:&err];
+    AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(shouldUseBackCamera ? [CWVideoRecorder backFacingCamera] : [CWVideoRecorder frontFacingCamera]) error:&err];
     if (err) {
         NSLog(@"failed to setup video input: %@",err.debugDescription);
         [self presentErrorScreen];
@@ -163,7 +162,7 @@
     
     [self setStillImageOutput:newStillImageOutput];
     [self setAudioInput:audioInput];
-    [self setVideoInput:videoInput];
+    [self changeVideoInput:videoInput];
     [self setSession:session];
     
     NSURL *outputFileURL = [self tempFileURL];
@@ -191,27 +190,33 @@
     self.videoPreviewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
     [self.recorderView.layer addSublayer:self.videoPreviewLayer];
     [self.videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
- 
+    
     // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self.session startRunning];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:1.0 animations:^{
-                [self.recorderView setAlpha:1.0];
-            }];
-        });
-        
+        [UIView animateWithDuration:1.0 animations:^{
+            [self.recorderView setAlpha:1.0f];
+        }];
     });
     
     return err;
-
 }
 
-- (NSURL *) tempFileURL
-{
+- (void)changeVideoInput:(AVCaptureDeviceInput *)videoInput {
+    
+    [self.session beginConfiguration];
+    [self.session removeInput:_videoInput];
+
+    [[self session] addInput:videoInput];
+    _videoInput = videoInput;
+    [self.session commitConfiguration];
+}
+
+- (NSURL *)tempFileURL {
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"output.mp4"];
 }
-- (void) removeFile:(NSURL *)fileURL
+
+- (void)removeFile:(NSURL *)fileURL
 {
     NSString *filePath = [fileURL path];
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -225,7 +230,7 @@
     }
 }
 
-- (void) startVideoRecording
+- (void)startVideoRecording
 {
     if ([[UIDevice currentDevice] isMultitaskingSupported]) {
         // Setup background task. This is needed because the captureOutput:didFinishRecordingToOutputFileAtURL: callback is not received until AVCam returns
@@ -240,7 +245,7 @@
     recordingStartTime = [NSDate date];
 }
 
-- (void) stopVideoRecording
+- (void)stopVideoRecording
 {
     [[self recorder] stopRecording];
 }
@@ -266,11 +271,6 @@
 }
 
 
-- (AVCaptureDevice *) frontFacingCamera
-{
-    return [self cameraWithPosition:AVCaptureDevicePositionFront];
-}
-
 - (AVCaptureDevice *) audioDevice
 {
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeAudio];
@@ -280,8 +280,17 @@
     return nil;
 }
 
+#pragma mark - Static helpers
 
-- (AVCaptureDevice *) cameraWithPosition:(AVCaptureDevicePosition) position
++ (AVCaptureDevice *)frontFacingCamera {
+    return [CWVideoRecorder cameraWithPosition:AVCaptureDevicePositionFront];
+}
+
++ (AVCaptureDevice *)backFacingCamera {
+    return [CWVideoRecorder cameraWithPosition:AVCaptureDevicePositionBack];
+}
+
++ (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition) position
 {
     NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo];
     for (AVCaptureDevice *device in devices) {
@@ -292,6 +301,7 @@
     return nil;
 }
 
+#pragma mark - Key/Value observing
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
@@ -313,7 +323,7 @@
 }
 
 
-- (void)converVideoWithURL:(NSURL*)videoURL
+- (void)convertVideoWithURL:(NSURL*)videoURL
 {
     self.outputFileURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@",[[NSUUID UUID] UUIDString],@".mp4"]];
     
@@ -335,7 +345,7 @@
 
 - (void)recorder:(AVCamRecorder *)recorder recordingDidFinishToOutputFileURL:(NSURL *)outputFileURL error:(NSError *)error
 {
-    [self converVideoWithURL:outputFileURL];
+    [self convertVideoWithURL:outputFileURL];
     
     if (self.backgroundRecordingID != 0) {
         [[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
