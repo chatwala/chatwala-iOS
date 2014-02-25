@@ -190,17 +190,16 @@
     self.videoPreviewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
     [self.recorderView.layer addSublayer:self.videoPreviewLayer];
     [self.videoPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    [self.recorderView setAlpha:1.0];
-    
     
     // Start the session. This is done asychronously since -startRunning doesn't return until the session is running.
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self.session startRunning];
-        [self.recorderView setAlpha:1.0];
+        [UIView animateWithDuration:1.0 animations:^{
+            [self.recorderView setAlpha:1.0f];
+        }];
     });
     
     return err;
-
 }
 
 - (void)changeVideoInput:(AVCaptureDeviceInput *)videoInput {
