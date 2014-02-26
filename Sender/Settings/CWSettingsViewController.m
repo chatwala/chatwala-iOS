@@ -10,12 +10,12 @@
 #import "CWTermsViewController.h"
 #import "CWPrivacyViewController.h"
 #import "CWAppFeedBackViewController.h"
-#import "CWGroundControlManager.h"
 #import "CWProfilePictureViewController.h"
 #import "UIColor+Additions.h"
 #import "CWTableViewCellNewMessageDeliveryMethodCell.h"
 #import "CWTableViewShowMessagePreviewCell.h"
 #import "CWUserManager.h"
+#import "CWUserDefaultsController.h"
 
 NSInteger const ToggleMessageDeliveryMethodRow  = 4;
 NSInteger const ToggleShowMessagePreviewRow     = 5;
@@ -62,18 +62,48 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
     [self.settingsTable setScrollEnabled:NO];
 }
 
-- (void)onSettingsDone
-{
+- (void)onSettingsDone {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+#pragma mark - Custom cells
+
+- (UITableViewCell *) tableViewDeliveryMethod:(UITableView *) tableView {
+    
+    NSString * deliveryMethod = [[CWUserManager sharedInstance] newMessageDeliveryMethod];
+
+    if([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueSMS]) {
+        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 0;
+    }
+    else if ([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueEmail]) {
+        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
+    }
+    
+    [self.deliveryMethodCell setBackgroundColor:[UIColor chatwalaBlueMedium]];
+    return self.deliveryMethodCell;
+}
+
+- (UITableViewCell *)showMessagePreviewCell:(UITableView *)tableView {
+
+    if([CWUserDefaultsController shouldShowMessagePreview]) {
+        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
+    }
+    else {
+        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 0;
+    }
+    
+    [self.messagePreviewCell setBackgroundColor:[UIColor chatwalaBlueMedium]];
+    return self.messagePreviewCell;
+}
+
+#pragma mark - Table view delegate methods
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if(indexPath.row == ToggleMessageDeliveryMethodRow)
     {
         return [self tableViewDeliveryMethod:tableView];
@@ -96,37 +126,6 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
     return cell;
 }
 
-- (UITableViewCell *) tableViewDeliveryMethod:(UITableView *) tableView {
-    
-    NSString * deliveryMethod = [[CWUserManager sharedInstance] newMessageDeliveryMethod];
-
-    if([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueSMS]) {
-        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 0;
-    }
-    else if ([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueEmail]) {
-        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
-    }
-    
-    [self.deliveryMethodCell setBackgroundColor:[UIColor chatwalaBlueMedium]];
-    return self.deliveryMethodCell;
-}
-
-- (UITableViewCell *)showMessagePreviewCell:(UITableView *)tableView {
-    
-//    NSString *shouldShowMessagePreview = nil;//[[CWUserManager sharedInstance] newMessageDeliveryMethod];
-  
-    self.messagePreviewCell.showMessagePreviewSegmentedControl.selectedSegmentIndex = 0;
-//    if([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueSMS]) {
-//        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 0;
-//    }
-//    else if ([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueEmail]) {
-//        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
-//    }
-    
-    [self.messagePreviewCell setBackgroundColor:[UIColor chatwalaBlueMedium]];
-    return self.messagePreviewCell;
-}
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
     return [self.sectionHeaders objectAtIndex:section];
@@ -137,10 +136,11 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
     NSInteger count = 0;
     if (section == 0) {
         count = [self.section1Titles count] + 2;
-    }else if (section == 1)
-    {
+    }
+    else if (section == 1) {
         count = 5;
     }
+    
     return count;
 }
 
@@ -157,8 +157,7 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50.0f;
 }
 
