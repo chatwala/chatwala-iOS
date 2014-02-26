@@ -8,7 +8,7 @@
 
 @interface CWUserDefaultsController : NSObject
 
-+ (void)configureDefaultsIfNecessary;
++ (void)configureDefaults;
 
 + (BOOL)shouldShowMessagePreview;
 + (void)setShouldShowMessagePreview:(BOOL)showMessagePreview;

@@ -86,10 +86,10 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
 - (UITableViewCell *)showMessagePreviewCell:(UITableView *)tableView {
 
     if([CWUserDefaultsController shouldShowMessagePreview]) {
-        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
+        self.messagePreviewCell.showMessagePreviewSegmentedControl.selectedSegmentIndex = 1;
     }
     else {
-        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 0;
+        self.messagePreviewCell.showMessagePreviewSegmentedControl.selectedSegmentIndex = 0;
     }
     
     [self.messagePreviewCell setBackgroundColor:[UIColor chatwalaBlueMedium]];

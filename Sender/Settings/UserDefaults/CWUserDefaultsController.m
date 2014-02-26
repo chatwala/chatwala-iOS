@@ -11,13 +11,13 @@
 
 @implementation CWUserDefaultsController
 
-+ (void)configureDefaultsIfNecessary {
++ (void)configureDefaults {
     
     // Set up these defaults only if the defaults don't already exist. This should allow us to add new defaults in the future without overriding previous, user-defined values.
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     if (![defaults valueForKey:CWUserDefaultsShouldShowPreviewKey]) {
-        [CWUserDefaultsController setShouldShowMessagePreview:NO];
+        [CWUserDefaultsController setShouldShowMessagePreview:YES];
     }
 }
 
