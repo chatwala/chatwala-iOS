@@ -29,8 +29,8 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.messagesTable registerClass:[CWMessageCell class] forCellReuseIdentifier:@"messageCell"];
@@ -57,15 +57,15 @@
     [self.messagesTable reloadData];
 }
 
-- (void)onMessagesLoaded:(NSNotification*)note {
+- (void)onMessagesLoaded:(NSNotification *)note {
+
+    NSOrderedSet * inboxMessages = [[[CWUserManager sharedInstance] localUser] inboxMessages];
+    [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
     
     [self.messagesTable reloadData];
     if (self.refreshControl.isRefreshing) {
         [self.refreshControl endRefreshing];
     }
-
-    NSOrderedSet * inboxMessages = [[[CWUserManager sharedInstance] localUser] inboxMessages];
-    [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
 }
 
 - (void)onMessagLoadedFailed:(NSNotification*)note {
@@ -94,6 +94,7 @@
   
     if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessageWithID:)]) {
         [self.delegate inboxViewController:self didSelectMessageWithID:message.messageID];
+        message.eMessageViewedState = eMessageViewedStateOpened;
     }
     
 }

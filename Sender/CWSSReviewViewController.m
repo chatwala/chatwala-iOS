@@ -8,42 +8,19 @@
 
 #import "CWSSReviewViewController.h"
 #import "CWMiddleButton.h"
-#import "CWVideoManager.h"
-
-@interface CWSSReviewViewController ()
-
-@end
 
 @implementation CWSSReviewViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [self.sendButton setButtonState:eButtonStateShare];
     [self.sendButton.button addTarget:self action:@selector(onMiddleButtonTap) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)onMiddleButtonTap
-{
+- (void)onMiddleButtonTap {
+    
     [self onSend:nil];
 }
 

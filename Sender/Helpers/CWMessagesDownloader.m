@@ -10,6 +10,7 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
+#import "CWServerAPI.h"
 
 typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 
@@ -82,47 +83,13 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
 
 #pragma mark - Download methods
 
-- (void)downloadMessageWithID:(NSString *)messageID completion:(CWMessageDownloaderMessageDownloadCompletionBlock)completionBlock
-{
-    // do download
-    NSString * messagePath =[NSString stringWithFormat:[[CWMessageManager alloc] getMessageEndPoint], messageID];
-    NSLog(@"downloading file at: %@",messagePath);
+- (void)downloadMessageWithID:(NSString *)messageID completion:(CWMessageDownloaderMessageDownloadCompletionBlock)completionBlock {
     
-    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-    NSURL *URL = [NSURL URLWithString:messagePath];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    
-    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
-    
-    
-    // EMPTYPUSH:  We need background transfers here right?
-    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:self.downloadURLDestinationBlock completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-        self.messageFileDownloadCompletionBlock(response,filePath,error,completionBlock);
-    }];
-    
-    
-    [downloadTask resume];
-}
-
-#pragma mark - Helper code blocks
-
-- (AFDownloadTaskDestinationBlock)downloadURLDestinationBlock {
-    
-    return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
-        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
-        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
-    });
-}
-
-- (CWDownloadTaskCompletionBlock)messageFileDownloadCompletionBlock {
-    
-    return (^ void(NSURLResponse *response, NSURL *filePath, NSError *error, CWMessageDownloaderMessageDownloadCompletionBlock  messageDownloadCompletionBlock){
-        
+    [CWServerAPI downloadMessageForID:messageID destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if(error) {
-            NSLog(@"error %@", error);
-            if (messageDownloadCompletionBlock) {
-                messageDownloadCompletionBlock(NO,filePath);//if we need to pass error/response adjust function callback
+            NSLog(@"Error while downloading message file: %@", error);
+            if (completionBlock) {
+                completionBlock(NO,filePath);//if we need to pass error/response adjust function callback
             }
         }
         else {
@@ -131,24 +98,32 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
                 case 200: {
                     // success
                     NSLog(@"File downloaded to: %@", filePath);
-                    NSError * error = nil;
                     
-                    NSAssert(!error, @"not expecting an error, found:%@",error);
-                    if (messageDownloadCompletionBlock) {
-                        messageDownloadCompletionBlock(YES,filePath);
+                    if (completionBlock) {
+                        completionBlock(YES,filePath);
                     }
                     
                     break;
                 }
                 default:
                     // fail
-                    NSLog(@"failed to load message file. with code:%i",httpResponse.statusCode);
-                    if (messageDownloadCompletionBlock) {
-                        messageDownloadCompletionBlock(NO,nil);
+                    NSLog(@"Failed to download message file. with code:%i",httpResponse.statusCode);
+                    if (completionBlock) {
+                        completionBlock(NO,nil);
                     }
                     break;
             }
         }
+    }];
+}
+
+#pragma mark - Helper code blocks
+
+- (CWServerAPIDownloadDestinationBlock)downloadURLDestinationBlock {
+    
+    return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
+        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     });
 }
 

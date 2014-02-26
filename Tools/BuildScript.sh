@@ -13,8 +13,8 @@ echo $buildNotes
 
 buildsFolder="../Builds"
 
-appVersion="1.4.0"
-internalVersion="2.7.2"
+appVersion="1.4.1"
+internalVersion="2.7.8"
 displayName="chatwala"
 cwDebugIdentity="\"iPhone Developer: Rahul Kumar (59L7REF9QB)\""
 cwAppStoreIdentity="\"iPhone Distribution: Chatwala Inc\""
@@ -94,7 +94,7 @@ build() {
 
     xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration GCC_PREPROCESSOR_DEFINITIONS=$otherOptions CODE_SIGN_IDENTITY="iPhone Developer: Chatwala Master (4NGCTASJ2H)" CW_BUNDLE_IDENTIFIER="com.chatwala."$buildType CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$devInternalVersion CW_DISPLAY_NAME=$displayName$buildType CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
 	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Chatwala Master (4NGCTASJ2H)" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
-  
+
   elif [ "$buildType" == "qa" ] ; then
   	qaInternalVersion="$buildType-$internalVersion"
 
@@ -118,11 +118,11 @@ build() {
 }
 
 # build (Project-Scheme, BuildType, CodeSigningIdentity, Profile name, other build flags)
-build 'Sender' 'AppStore' 'Release' "$cwAppStoreIdentity" 'B7AD3FC8-E51A-4236-9465-BFA74A6E6C7F.mobileprovision' 'CW_URL_SCHEME=chatwala'
+#build 'Sender' 'AppStore' 'Release' "$cwAppStoreIdentity" 'B7AD3FC8-E51A-4236-9465-BFA74A6E6C7F.mobileprovision' 'CW_URL_SCHEME=chatwala'
 
 #development signed builds
 
 
-build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '68D670EB-0A45-433B-9EF5-CA94D0B7197A.mobileprovision' 'CW_URL_SCHEME=chatwala'
-#build 'Sender' 'dev' 'Release' "$cwDebugIdentity" '2516BD10-731C-4AE3-B9D5-651227406C4E.mobileprovision' 'USE_DEV_SERVER=1  CW_URL_SCHEME=chatwala-dev'
+#build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '68D670EB-0A45-433B-9EF5-CA94D0B7197A.mobileprovision' 'CW_URL_SCHEME=chatwala'
+build 'Sender' 'dev' 'Release' "$cwDebugIdentity" '2516BD10-731C-4AE3-B9D5-651227406C4E.mobileprovision' 'USE_DEV_SERVER=1  CW_URL_SCHEME=chatwala-dev'
 #build 'Sender' 'qa' 'Release' "$cwDebugIdentity" '7A16570A-50AB-4FD7-8BA1-D259DF7654FE.mobileprovision' 'USE_QA_SERVER=1 CW_URL_SCHEME=chatwala-qa'

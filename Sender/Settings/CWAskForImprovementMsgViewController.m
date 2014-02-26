@@ -16,26 +16,11 @@
 
 @implementation CWAskForImprovementMsgViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+- (void)viewDidLoad {
 
-- (void)viewDidLoad
-{
     [super viewDidLoad];
     [self setTitle:@"FEEDBACK"];
     [self.label setTextColor:[UIColor chatwalaFeedbackLabel]];
-
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
 }
 
 - (IBAction)onSureTapped:(id)sender {

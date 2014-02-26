@@ -14,11 +14,8 @@ typedef void (^CWMessageManagerFetchMessageUploadURLCompletionBlock)(NSString *m
 typedef void (^AFRequestOperationManagerSuccessBlock) (AFHTTPRequestOperation *operation, id responseObject);
 typedef void (^AFRequestOperationManagerFailureBlock) (AFHTTPRequestOperation *operation, NSError *error);
 
-typedef NSURL * (^AFDownloadTaskDestinationBlock) (NSURL *targetPath, NSURLResponse *response);
-
 
 typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
-typedef void (^CWDownloadTaskCompletionBlock) (NSURLResponse *response, NSURL *filePath, NSError *error, CWMessageDownloadCompletionBlock messageDownloadCompletionBlock );
 
 
 @interface CWMessageManager : NSObject < UITableViewDataSource>
@@ -44,7 +41,5 @@ typedef void (^CWDownloadTaskCompletionBlock) (NSURLResponse *response, NSURL *f
 
 @property (strong, readonly) AFRequestOperationManagerSuccessBlock getMessagesSuccessBlock;
 @property (strong, readonly) AFRequestOperationManagerFailureBlock getMessagesFailureBlock;
-@property (strong, readonly) AFDownloadTaskDestinationBlock downloadURLDestinationBlock;
-@property (strong, readonly) CWDownloadTaskCompletionBlock messageFileDownloadCompletionBlock;
 
 @end

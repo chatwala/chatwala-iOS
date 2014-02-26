@@ -18,6 +18,9 @@
 #import "CWDataManager.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
+#import <Crashlytics/Crashlytics.h>
+#import <FacebookSDK/FacebookSDK.h> 
+#import "CWUserDefaultsController.h"
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -49,8 +52,12 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 #pragma mark - Application lifecycle methods
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    [CWUserDefaultsController configureDefaults];
+    [Crashlytics sharedInstance];
+    [Crashlytics startWithAPIKey:CRASHLYTICS_API_TOKEN];
+    
     // Override point for customization after application launch.
     [application setStatusBarHidden:YES];
 
@@ -58,35 +65,34 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                                                          diskCapacity:20 * 1024 * 1024
                                                              diskPath:nil];
     [NSURLCache setSharedURLCache:URLCache];
-    
     [[CWDataManager sharedInstance] setupCoreData];
-
-    [CWUserManager sharedInstance];
-    
-    if([[CWUserManager sharedInstance] localUser]) {
-
-        NSString *user_id = [[CWUserManager sharedInstance] localUser].userID;
-        if(![user_id length]) {
-            [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
-        }
-    }
-
-    [CWGroundControlManager sharedInstance];
-    
-    [ARAnalytics setupTestFlightWithAppToken:TESTFLIGHT_APP_TOKEN];
-    
     
 #ifdef USE_QA_SERVER
     NSString *analyticsID = @"UA-46207837-4";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/qa/fetch_messages.html";
 #elif USE_DEV_SERVER
     NSString *analyticsID = @"UA-46207837-3";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/dev/fetch_messages.html";
 #elif USE_SANDBOX_SERVER
     NSString *analyticsID = @"UA-46207837-3";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/dev/fetch_messages.html";
 #elif USE_STAGING_SERVER
     NSString *analyticsID = @"UA-46207837-5";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html";
 #else
     NSString *analyticsID = @"UA-46207837-1";
+    NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html";
 #endif
+    
+    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    
+    if(![user_id length]) {
+        [self fetchMessageFromURLString:messageRetrievalEndpoint];
+        [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
+    }
+    
+    [CWUserManager sharedInstance];
+    [CWGroundControlManager sharedInstance];
     
     [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
     
@@ -95,11 +101,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     self.inboxController = [[CWInboxViewController alloc]init];
     self.mainVC = [[CWMainViewController alloc]init];
-    
-//    self.landingVC = [[CWLandingViewController alloc]init];
-//    [self.landingVC setFlowDirection:eFlowToStartScreen];
-//
-    
     [self.inboxController setDelegate:self];
     
     
@@ -116,8 +117,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
     self.loadingVC = [[CWLoadingViewController alloc]init];
     [self.loadingVC.view setAlpha:0];
-//    [self.loadingVC restartAnimation];
-
     
     [self.drawController.view addSubview:self.loadingVC.view];
     
@@ -127,22 +126,13 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.window makeKeyAndVisible];
     
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
+    
+    NSDictionary *remoteNotificationDictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (remoteNotificationDictionary) {
+        // The app isn't being awakened from terminated state - for now just logging that we received this.
+        NSLog(@"Received remote notifcation callback in didFinishLaunchingWithOptions %@", remoteNotificationDictionary);
+    }
 
-    /*
-    self.landingVC = [[CWLandingViewController alloc]init];
-    [self.landingVC setFlowDirection:eFlowToStartScreen];
-    
-    self.navController = [[UINavigationController alloc]initWithRootViewController:self.landingVC];
-
-    self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
-    
-    [self.window addSubview:self.navController.view];
-    [self.window setRootViewController:self.navController];
-    [self.window makeKeyAndVisible];
-    
-    [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
-    */
-    
     return YES;
 }
 
@@ -193,6 +183,18 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+    
+    NSString * fbAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppID"];
+    
+#ifdef USE_QA_SERVER
+    fbAppID = @"639218822814074";
+#elif USE_DEV_SERVER
+    fbAppID = @"1472279299660540";
+#endif
+    
+    [FBSettings setDefaultAppID:fbAppID];
+    [FBAppEvents activateApp];
+    
     if( [[CWUserManager sharedInstance] localUser]) {
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
     }
@@ -302,7 +304,25 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     return YES;
 }
 
-#pragma mark - Local message opening
+#pragma mark - Message opening
+
+- (void)fetchMessageFromURLString:(NSString *)urlString {
+    
+    // Create new request
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Failed to fetch picture upload ID from the server for a reply with error:%@",error);
+    }];
+    
+}
 
 - (void)loadOpenerWithURL:(NSURL *)messageLocalURL {
     [self.openerVC setZipURL:messageLocalURL];

@@ -95,15 +95,6 @@
     return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
 }
 
-
-- (AFDownloadTaskDestinationBlock) downloadURLDestinationBlock {
-    
-    return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
-        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
-        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
-    });
-}
-
 - (NSURL *)messageCacheURL {
     NSString * const messagesCacheFile = @"messages";
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
@@ -126,31 +117,12 @@
             
             NSArray *messages = [responseObject objectForKey:@"messages"];
             if([messages isKindOfClass:[NSArray class]]){
-
-                CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-                downloader.messageIdsForDownload = [self messageIDsFromResponse:messages];
-                [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
-                    
-                    // Finished download, now update badge & send local push notification if necessary
-                    if (completionBlock) {
-                        
-                        NSLog(@"Messags downloader completed fetches.");
-                        
-                        if ([messagesDownloaded count]) {
-                            
-                            NSLog(@"New messages downloaded - calling background completion block.");
-                            
-                            [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
-                            completionBlock(UIBackgroundFetchResultNewData);
-                        }
-                        else {
-                            NSLog(@"NO New messages downloaded - calling background completion block.");
-                            completionBlock(UIBackgroundFetchResultNoData);
-                        }
-                    }
-                    
-                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
-                }];
+                
+                [self downloadMessages:[self messageIDsFromResponse:[responseObject objectForKey:@"messages"]]];
+                
+                if (completionBlock) {
+                    completionBlock(UIBackgroundFetchResultNewData);
+                }
             }
             else {
                 NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
@@ -169,6 +141,33 @@
             }
         }];
     }
+}
+
+#pragma mark - Download logic
+
+- (void)downloadMessages:(NSArray *)messageIDs {
+    
+    CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
+    downloader.messageIdsForDownload = messageIDs;
+    [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
+        
+        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+        
+        if ([messagesDownloaded count]) {
+            NSLog(@"New messages downloaded successfully.");
+            
+            if (state == UIApplicationStateBackground || state == UIApplicationStateInactive) {
+            
+                [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
+            }
+        }
+        else {
+            NSLog(@"No new messages downloaded after updating user's messages");
+        }
+        
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+    }];
 }
 
 - (NSArray *)messageIDsFromResponse:(NSArray *)messages {
