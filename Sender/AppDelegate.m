@@ -84,9 +84,9 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 #endif
     
     NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    
     if(![user_id length]) {
-        [CWUserDefaultsController configureDefaultsIfNecessary];
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:messageRetrievalEndpoint]];
+        [self fetchMessageFromURLString:messageRetrievalEndpoint];
         [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
     }
     
@@ -303,7 +303,25 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     return YES;
 }
 
-#pragma mark - Local message opening
+#pragma mark - Message opening
+
+- (void)fetchMessageFromURLString:(NSString *)urlString {
+    
+    // Create new request
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    
+    [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Failed to fetch picture upload ID from the server for a reply with error:%@",error);
+    }];
+    
+}
 
 - (void)loadOpenerWithURL:(NSURL *)messageLocalURL {
     [self.openerVC setZipURL:messageLocalURL];
