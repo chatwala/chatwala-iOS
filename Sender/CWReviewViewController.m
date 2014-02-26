@@ -372,7 +372,7 @@
                 [CWAnalytics event:@"MESSAGE_SENT" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:nil];
             }
             
-            [self.navigationController popToRootViewControllerAnimated:YES];
+            [self didSendMessage];
             break;
             
         case MessageComposeResultCancelled:
