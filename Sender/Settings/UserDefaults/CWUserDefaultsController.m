@@ -7,7 +7,7 @@
 //
 
 #import "CWUserDefaultsController.h"
-#import "CWUserDefaultsConstants.h"
+#import "CWConstants.h"
 
 @implementation CWUserDefaultsController
 

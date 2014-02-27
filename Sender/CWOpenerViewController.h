@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "CWVideoManager.h"
 #import "CWMiddleButton.h"
 #import "CWViewController.h"
