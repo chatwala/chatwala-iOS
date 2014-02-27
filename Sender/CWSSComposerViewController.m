@@ -8,8 +8,15 @@
 
 #import "CWSSComposerViewController.h"
 #import "CWSSReviewViewController.h"
+#import "CWUserDefaultsController.h"
+#import "CWMessageSender.h"
+#import "CWDataManager.h"
+#import "CWUserManager.h"
+#import "Message.h"
 
-@interface CWSSComposerViewController ()
+@interface CWSSComposerViewController () <CWMessageSenderDelegate>
+
+@property (nonatomic) CWMessageSender *messageSender;
 
 @end
 
@@ -30,6 +37,7 @@
 	// Do any additional setup after loading the view.
     [[[CWVideoManager sharedManager]recorder]setDelegate:self];
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -38,15 +46,37 @@
 }
 
 
-- (void)showReview
-{
-    CWSSReviewViewController * reviewVC = [[CWSSReviewViewController alloc]init];
-    [reviewVC setStartRecordingTime:0];
-    [self.navigationController pushViewController:reviewVC animated:NO];
+- (void)showPreview {
+
+    if ([CWUserDefaultsController shouldShowMessagePreview]) {
+        CWSSReviewViewController * previewVC = [[CWSSReviewViewController alloc]init];
+        [previewVC setStartRecordingTime:0];
+        [self.navigationController pushViewController:previewVC animated:NO];
+    }
+    else {
+        // Let's send the message
+        self.messageSender = [[CWMessageSender alloc] init];
+        self.messageSender.delegate = self;
+        
+        User *localUser = [[CWUserManager sharedInstance] localUser];
+        
+        Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:nil];
+        
+        message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
+        message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
+        message.startRecording = [NSNumber numberWithDouble:0.0];
+        
+        self.messageSender = [[CWMessageSender alloc] init];
+        self.messageSender.delegate = self;
+        self.messageSender.messageBeingSent = message;
+        self.messageSender.messageBeingRespondedTo = nil;
+        
+        [self.messageSender sendMessageFromUser:localUser];
+    }
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+
     [super touchesEnded:touches withEvent:event];
     
     UITouch * touch = [touches anyObject];
@@ -61,5 +91,27 @@
     }
 }
 
+
+#pragma mark - CWMessageSenderDelegate methods
+
+- (void)messageSender:(CWMessageSender *)messageSender shouldPresentMessageComposerController:(UINavigationController *)composerNavController {
+    [self presentViewController:composerNavController animated:YES completion:nil];
+}
+
+- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
+//    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    self.messageSender = nil;
+}
+
+- (void)messageSenderDidCancelMessageSend:(CWMessageSender *)messageSender {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+    self.messageSender = nil;
+}
+
+- (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
+    // TODO: Show error
+    self.messageSender = nil;
+}
 
 @end

@@ -13,6 +13,6 @@
 @interface CWComposerViewController : CWViewController <CWVideoRecorderDelegate>
 @property (nonatomic, weak) IBOutlet CWMiddleButton * middleButton;
 
-- (void)showReview;
+- (void)showPreview;
 - (void)onMiddleButtonTap;
 @end

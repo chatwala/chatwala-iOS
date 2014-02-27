@@ -7,7 +7,7 @@
 //
 
 #import "CWComposerViewController.h"
-#import "CWReviewViewController.h"
+#import "CWPreviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWGroundControlManager.h"
 
@@ -109,11 +109,11 @@
 {
     if (self.startTime == nil) {
         // push
-        [self showReview];
+        [self showPreview];
     }
 }
 
-- (void)showReview
+- (void)showPreview
 {
     NSAssert(0, @"should be over written in subclass");
 }

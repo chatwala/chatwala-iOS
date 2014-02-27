@@ -14,7 +14,7 @@
 //#import "CWAuthRequestViewController.h"
 #import "CWErrorViewController.h"
 #import "CWSSOpenerViewController.h"
-#import "CWReviewViewController.h"
+#import "CWPreviewViewController.h"
 #import "CWSSComposerViewController.h"
 #import "CWStartScreenViewController.h"
 #import "User.h"
@@ -40,7 +40,7 @@
 @end
 
 
-@interface CWReviewViewController ()<CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
+@interface CWPreviewViewController ()<CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
 - (NSData*)createMessageData;
 @end
 
@@ -160,7 +160,7 @@
 {
     //given
     Message * item = [Message insertInManagedObjectContext:self.moc];
-    CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+    CWPreviewViewController * reviewVC = [[CWPreviewViewController alloc]init];
 
     item.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
     [reviewVC setIncomingMessage:item];
@@ -174,7 +174,7 @@
 
 - (void)testShouldSendEventWhenRecordAgainIsSelectedWithoutIncomingMessage
 {
-    CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+    CWPreviewViewController * reviewVC = [[CWPreviewViewController alloc]init];
     
     [reviewVC onRecordAgain:nil];
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
@@ -183,7 +183,7 @@
 - (void)testShouldSendEventWhenSendIsSelectedWithIncomingMessage
 {
     //given
-    CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+    CWPreviewViewController * reviewVC = [[CWPreviewViewController alloc]init];
     
     //when
     [reviewVC onSend:nil];
@@ -197,7 +197,7 @@
 - (void)testShouldSendEventWhenSendIsSelectedWithoutIncomingMessage
 {
     //given
-    CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+    CWPreviewViewController * reviewVC = [[CWPreviewViewController alloc]init];
 
     //when
     [reviewVC onSend:nil];
@@ -210,7 +210,7 @@
 
 - (void)testShouldSendEventWhenMessageIsSent
 {
-    CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+    CWPreviewViewController * reviewVC = [[CWPreviewViewController alloc]init];
     [reviewVC mailComposeController:[[MFMailComposeViewController alloc] init] didFinishWithResult:MFMailComposeResultSent error:nil];
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
 }
@@ -218,7 +218,7 @@
 
 - (void)testShouldSendEventWhenMessageIsCancelled
 {
-    CWReviewViewController * reviewVC = [[CWReviewViewController alloc]init];
+    CWPreviewViewController * reviewVC = [[CWPreviewViewController alloc]init];
     [reviewVC mailComposeController:[[MFMailComposeViewController alloc] init] didFinishWithResult:MFMailComposeResultCancelled error:nil];
     XCTAssertTrue([CWAnalytics flagValue], @"should be true");
 }
