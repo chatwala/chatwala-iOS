@@ -12,4 +12,5 @@ extern NSString *const CWNotificationInboxViewControllerShouldOpenInbox;
 
 /* User Defaults */
 // This contains NSUserDefault keys used by the defaults controller to persist user settings
+extern NSString *const CWUserDefaultsUserIDKey;
 extern NSString *const CWUserDefaultsShouldShowPreviewKey;

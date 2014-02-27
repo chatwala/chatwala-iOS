@@ -7,7 +7,6 @@
 //
 
 #import "CWUserDefaultsController.h"
-#import "CWConstants.h"
 
 @implementation CWUserDefaultsController
 
@@ -19,6 +18,15 @@
     if (![defaults valueForKey:CWUserDefaultsShouldShowPreviewKey]) {
         [CWUserDefaultsController setShouldShowMessagePreview:YES];
     }
+}
+
++ (NSString *)userID {
+    return [[NSUserDefaults standardUserDefaults] stringForKey:CWUserDefaultsUserIDKey];
+}
+
++ (void)setUserID:(NSString *)userID {
+    [[NSUserDefaults standardUserDefaults] setValue:userID forKey:CWUserDefaultsUserIDKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 + (BOOL)shouldShowMessagePreview {

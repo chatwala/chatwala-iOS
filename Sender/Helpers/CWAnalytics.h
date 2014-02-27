@@ -8,6 +8,29 @@
 
 #import "ARAnalytics.h"
 #import "ARAnalytics+GoogleAnalytics.h"
+
+// Categories
+extern NSString *const CWAnalyticsCategoryFirstOpen;
+extern NSString *const CWAnalyticsCategoryConversationStarter;
+extern NSString *const CWAnalyticsCategoryConversationReplier;
+
+
+// Events
+extern NSString *const CWAnalyticsEventAppOpen;
+
+extern NSString *const CWAnalyticsEventMicrophoneAccept;
+extern NSString *const CWAnalyticsEventMicrophoneDecline;
+
+extern NSString *const CWAnalyticsEventMessageFetchingSafari;
+extern NSString *const CWAnalyticsEventMessageFetchedSafari;
+extern NSString *const CWAnalyticsEventMessageOpenedSafari;
+
 @interface CWAnalytics : ARAnalytics
+
++ (void)appOpened;
+
++ (void)messageOpenSafari:(NSString *)messageID;
++ (void)messageFetchingSafari;
++ (void)messageFetchedSafari:(NSString *)messageID;
 
 @end

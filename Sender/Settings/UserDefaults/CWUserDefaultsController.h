@@ -6,9 +6,14 @@
 //  Copyright (c) 2014 pho. All rights reserved.
 //
 
+#import "CWConstants.h"
+
 @interface CWUserDefaultsController : NSObject
 
 + (void)configureDefaults;
+
++ (NSString *)userID;
++ (void)setUserID:(NSString *)userID;
 
 + (BOOL)shouldShowMessagePreview;
 + (void)setShouldShowMessagePreview:(BOOL)showMessagePreview;

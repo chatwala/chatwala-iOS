@@ -44,6 +44,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 @property (nonatomic,strong) CWMainViewController * mainVC;
 @property (nonatomic,strong) CWLoadingViewController * loadingVC;
 @property (nonatomic,strong) UINavigationController * settingsNavController;
+@property (nonatomic,assign) BOOL fetchingFirstLaunchMessage;
 
 @end
 
@@ -84,17 +85,15 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html";
 #endif
     
-    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
+    [CWAnalytics appOpened];
     
-    if(![user_id length]) {
+    if(![[CWUserDefaultsController userID] length]) {
         [self fetchMessageFromURLString:messageRetrievalEndpoint];
-        [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
     }
     
     [CWUserManager sharedInstance];
     [CWGroundControlManager sharedInstance];
-    
-    [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
     
     [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
@@ -236,9 +235,13 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
    
     NSString * scheme = [url scheme];
-    NSString * messageId = [[url pathComponents]lastObject];
+    NSString * messageId = [[url pathComponents] lastObject];
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
+    
+    if (![messageId length]) {
+        return YES;
+    }
     
     if (self.loadingVC.view.alpha == 0) {
         [self.loadingVC restartAnimation];
@@ -300,11 +303,23 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         [self loadOpenerWithURL:url];
     }
 
-    [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
+    [self sendMessageOpenTrackingWithMessageID:messageId];
     return YES;
 }
 
 #pragma mark - Message opening
+
+- (void)sendMessageOpenTrackingWithMessageID:(NSString *)messageID {
+    
+    if (self.fetchingFirstLaunchMessage) {
+        [CWAnalytics messageFetchedSafari:messageID];
+    }
+    else {
+        [CWAnalytics messageOpenSafari:messageID];
+    }
+    
+    self.fetchingFirstLaunchMessage = NO;
+}
 
 - (void)fetchMessageFromURLString:(NSString *)urlString {
     
@@ -315,8 +330,11 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+        self.fetchingFirstLaunchMessage = YES;
+        [CWAnalytics messageFetchingSafari];
         
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"Failed to fetch picture upload ID from the server for a reply with error:%@",error);
