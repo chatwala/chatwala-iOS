@@ -1734,9 +1734,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CW_APP_VERSION = 1.4.0;
 				CW_BUILD_VERSION = 2.6.7;
-				CW_BUNDLE_IDENTIFIER = com.chatwala.dev;
-				CW_DISPLAY_NAME = chatwaladev;
-				CW_URL_SCHEME = "chatwala-dev";
+				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
+				CW_DISPLAY_NAME = chatwala;
+				CW_URL_SCHEME = chatwala;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Sender/Framework",
@@ -1745,7 +1745,7 @@
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2516BD10-731C-4AE3-B9D5-651227406C4E";
+				PROVISIONING_PROFILE = "";
 				USE_DEV_SERVER = 0;
 				USE_QA_SERVER = 0;
 				USE_SANDBOX_SERVER = 0;
@@ -1764,9 +1764,9 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CW_APP_VERSION = 1.4.0;
 				CW_BUILD_VERSION = 2.6.7;
-				CW_BUNDLE_IDENTIFIER = com.chatwala.dev;
-				CW_DISPLAY_NAME = chatwaladev;
-				CW_URL_SCHEME = "chatwala-dev";
+				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
+				CW_DISPLAY_NAME = chatwala;
+				CW_URL_SCHEME = chatwala;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/Sender/Framework",
@@ -1775,7 +1775,7 @@
 				GCC_PREFIX_HEADER = "Sender/Sender-Prefix.pch";
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2516BD10-731C-4AE3-B9D5-651227406C4E";
+				PROVISIONING_PROFILE = "";
 				USE_DEV_SERVER = 0;
 				USE_QA_SERVER = 0;
 				USE_SANDBOX_SERVER = 0;
