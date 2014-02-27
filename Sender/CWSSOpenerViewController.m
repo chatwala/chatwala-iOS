@@ -41,12 +41,6 @@
     [self.recordMessageLabel setText:[[CWGroundControlManager sharedInstance] replyMessage]];
 }
 
-- (void)onMiddleButtonTap
-{
-    [super onMiddleButtonTap];
-    //[CWAnalytics event:@"Play Message" withCategory:@"Message" withLabel:@"Tap Button" withValue:nil];
-}
-
 - (void)setOpenerState:(CWOpenerState)openerState
 {
     [super setOpenerState:openerState];

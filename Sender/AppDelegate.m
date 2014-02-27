@@ -44,6 +44,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 @property (nonatomic,strong) CWMainViewController * mainVC;
 @property (nonatomic,strong) CWLoadingViewController * loadingVC;
 @property (nonatomic,strong) UINavigationController * settingsNavController;
+@property (nonatomic,assign) BOOL fetchingFirstLaunchMessage;
 
 @end
 
@@ -84,17 +85,16 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     NSString *messageRetrievalEndpoint = @"http://chatwala.com/fetch_messages.html";
 #endif
     
+    [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
     NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
     
     if(![user_id length]) {
+        [CWAnalytics event:CWAnalyticsEventAppOpen withCategory:CWAnalyticsCategoryFirstOpen withLabel:@"" withValue:nil];
         [self fetchMessageFromURLString:messageRetrievalEndpoint];
-        [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
     }
     
     [CWUserManager sharedInstance];
     [CWGroundControlManager sharedInstance];
-    
-    [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
     
     [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
@@ -240,6 +240,10 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
+    if (![messageId length]) {
+        return YES;
+    }
+    
     if (self.loadingVC.view.alpha == 0) {
         [self.loadingVC restartAnimation];
         [self.loadingVC.view setAlpha:1];
@@ -299,8 +303,19 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     else {
         [self loadOpenerWithURL:url];
     }
+    
+    // If regular open - say regular open - category: conversation replier
+    
+    // if opened from
 
-    [CWAnalytics event:@"Open Message" withCategory:@"Message" withLabel:sourceApplication withValue:nil];
+    if (self.fetchingFirstLaunchMessage) {
+        [CWAnalytics event:@"MESSAGE_FETCHED_SAFARI" withCategory:CWAnalyticsCategoryFirstOpen withLabel:messageId withValue:nil];
+    }
+    else {
+        [CWAnalytics event:@"MESSAGE_OPEN_SAFARI" withCategory:CWAnalyticsCategoryConversationReplier withLabel:messageId withValue:nil];
+    }
+    
+    self.fetchingFirstLaunchMessage = NO;
     return YES;
 }
 
@@ -316,6 +331,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+        self.fetchingFirstLaunchMessage = YES;
+        [CWAnalytics event:@"MESSAGE_FETCHING_SAFARI" withCategory:CWAnalyticsCategoryFirstOpen withLabel:nil withValue:nil];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
