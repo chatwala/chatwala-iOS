@@ -6,11 +6,7 @@
 //  Copyright (c) 2014 pho. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
 @interface CWPushNotificationsAPI : NSObject
-
-
 
 // Set up used by App Delegate
 + (void)registerForPushNotifications;

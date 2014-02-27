@@ -10,6 +10,7 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 #import "CWServerAPI.h"
+#import "CWConstants.h"
 
 @implementation CWPushNotificationsAPI
 
@@ -47,6 +48,7 @@ static BOOL didRegisterForPushNotifications = NO;
 
 + (void)handleLocalPushNotification:(UILocalNotification *)notification {
     NSLog(@"Received local notification...not taking any action yet.");
+    [NC postNotificationName:CWNotificationInboxViewControllerShouldOpenInbox object:nil];
 }
 
 + (void)handleRemotePushNotification:(NSDictionary *)userInfo completionBlock:(void (^)(UIBackgroundFetchResult))completionHandler {

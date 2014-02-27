@@ -6,7 +6,12 @@
 //  Copyright (c) 2014 pho. All rights reserved.
 //
 
-#import "CWUserDefaultsConstants.h"
+#import "CWConstants.h"
 
+/* Notification names */
+NSString *const CWNotificationInboxViewControllerShouldOpenInbox = @"CWNotificationInboxViewControllerShouldOpenInbox";
+
+
+/* User Defaults */
 // Note should be careful changing these values b/c updated users will then lose their defaults
 NSString *const CWUserDefaultsShouldShowPreviewKey = @"CWUserDefaultsShouldShowPreviewKey";
