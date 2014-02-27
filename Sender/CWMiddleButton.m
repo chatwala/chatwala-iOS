@@ -33,19 +33,13 @@
         [whiteBG setBackgroundColor:[[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5] CGColor]];
         [self.layer addSublayer:whiteBG];
         
-        
         CGRect innerRect = CGRectInset(self.bounds, 10, 10);
-        
         
         CALayer * redBG = [CALayer layer];
         [redBG setFrame:innerRect];
         [redBG setCornerRadius:innerRect.size.width*0.5];
         [redBG setBackgroundColor:[[UIColor colorFromHexString:@"#db013f"] CGColor]];
         [self.layer addSublayer:redBG];
-        
-        
-        
-        
         
         self.knob= [[DCKnob alloc]initWithDelegate:self];
         [self.knob setUserInteractionEnabled:NO];
@@ -106,6 +100,7 @@
             break;
         case eButtonStateShare:
             [self.iconImage setImage:[UIImage imageNamed:@"Button-Icon-Send"]];
+            [self.spinner stopAnimating];
             break;
         case eButtonStateRecord:
             [self.iconImage setImage:[UIImage imageNamed:@"Button-Icon-Record"]];
@@ -114,8 +109,6 @@
             [self.iconImage setImage:nil];
             [self.spinner startAnimating];
             break;
-            
-            
         default:
             [self setButtonState:eButtonStateDefault];
             break;

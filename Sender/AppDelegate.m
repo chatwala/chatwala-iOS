@@ -20,6 +20,7 @@
 #import "CWMessagesDownloader.h"
 #import <Crashlytics/Crashlytics.h>
 #import <FacebookSDK/FacebookSDK.h> 
+#import "CWUserDefaultsController.h"
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -53,6 +54,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+    [CWUserDefaultsController configureDefaults];
     [Crashlytics sharedInstance];
     [Crashlytics startWithAPIKey:CRASHLYTICS_API_TOKEN];
     
@@ -83,8 +85,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 #endif
     
     NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    
     if(![user_id length]) {
-        
         [self fetchMessageFromURLString:messageRetrievalEndpoint];
         [CWAnalytics event:@"APP_OPEN" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
     }

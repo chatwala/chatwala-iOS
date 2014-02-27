@@ -21,6 +21,7 @@
 #import "CWPushNotificationsAPI.h"
 #import "CWDataManager.h"
 #import "CWAnalytics.h"
+#import "CWUserDefaultsController.h"
 
 @interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
@@ -41,17 +42,8 @@
 @synthesize player;
 @synthesize recorder;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+- (void)viewDidLoad {
 
-- (void)viewDidLoad
-{
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -71,8 +63,8 @@
     self.incomingMessageStillImageView.image = self.incomingMessage.lastFrameImage;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
+    
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
 
     if ([player.delegate isEqual:self])
@@ -84,40 +76,32 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void) appHasGoneInBackground:(NSNotification*)notification
+- (void)appHasGoneInBackground:(NSNotification*)notification
 {
     [self.messageComposer dismissViewControllerAnimated:NO completion:nil];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
+
     [super viewWillAppear:animated];
-    playbackCount = 0;
-    [player setDelegate:self];
+    
+    if (![CWUserDefaultsController shouldShowMessagePreview]) {
+        [self sendMessageFromUser:[[CWUserManager sharedInstance] localUser]];
+        return;
+    }
+    else {
+        [self setupVideoPreview];
+    }
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    [player setVideoURL:recorder.tempFileURL];
-}
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-
-}
-
-- (void)goToBackground
-{
+- (void)goToBackground {
+    
     if (self.mailComposer) {
         [[self mailComposer]dismissViewControllerAnimated:NO completion:nil];
     }
 }
 
-
 - (void)composeMessageWithMessageKey:(NSString *)messageURL withCompletion:(void (^)(void))completion {
-    
     
     NSString *messagePrefix = nil;
 #ifdef USE_QA_SERVER
@@ -170,8 +154,8 @@
 }
 
 // TODO: Poorly named - this is the 'X' button firing when user is discarding their message.
-- (void)onTap:(id)sender
-{
+- (void)onTap:(id)sender {
+    
     [player.playbackView removeFromSuperview];
     [player setDelegate:nil];
     [player stop];
@@ -190,7 +174,6 @@
     }
 //    [super onTap:sender];
 }
-
 
 - (IBAction)onRecordAgain:(id)sender {
     [player.playbackView removeFromSuperview];
@@ -216,14 +199,14 @@
         return;
     }
     
-    [player stop];
-
-    //    [self composeMessageWithData:[self createMessageData]];
-    [self.sendButton setButtonState:eButtonStateBusy];
     [self sendMessageFromUser:[[CWUserManager sharedInstance] localUser]];
 }
 
 - (void)sendMessageFromUser:(User *)localUser {
+    
+    [player stop];
+    [self.sendButton setButtonState:eButtonStateBusy];
+    
     Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.incomingMessage];
     
     message.videoURL = recorder.outputFileURL;
@@ -291,7 +274,7 @@
     
 }
 
-- (void) didSendMessage {
+- (void)didSendMessage {
     
     [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
     
@@ -304,16 +287,21 @@
     [CWPushNotificationsAPI registerForPushNotifications];
 }
 
+- (void)setupVideoPreview {
+    [self.sendButton setButtonState:eButtonStateShare];
+    playbackCount = 0;
+    [player setDelegate:self];
+    [player setVideoURL:recorder.tempFileURL];
+}
+
 #pragma mark CWVideoPlayerDelegate
 
-- (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer
-{
+- (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer {
     [self showVideoPreview];
 }
 
-- (void)showVideoPreview
-{
-//    [self.view insertSubview:self.player.playbackView belowSubview:self.recordAgainButton];
+- (void)showVideoPreview {
+
     [self.previewView addSubview:player.playbackView];
     self.previewView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
     player.playbackView.frame = self.previewView.bounds;
@@ -322,14 +310,13 @@
     [player playVideo];
 }
 
-- (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer
-{
+- (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer {
+
     playbackCount++;
     [player replayVideo];
 }
 
-- (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError *)error
-{
+- (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError *)error {
     
 }
 
@@ -357,10 +344,11 @@
             }else{
                 [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Message" withLabel:@"" withValue:nil];
             }
-            [self.player replayVideo];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
             break;
         default:
-            [self.player replayVideo];
+            [self.navigationController popToRootViewControllerAnimated:YES];
             break;
     }
     
@@ -395,10 +383,11 @@
                 [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:nil];
             }
             
-            [self.player replayVideo];
+            [self.navigationController popToRootViewControllerAnimated:YES];
             break;
         default:
-            [self.player replayVideo];
+            
+            [self.navigationController popToRootViewControllerAnimated:YES];
             break;
     }
     
