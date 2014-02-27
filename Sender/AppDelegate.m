@@ -86,10 +86,9 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 #endif
     
     [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
-    NSString *user_id = [[NSUserDefaults standardUserDefaults] valueForKey:@"CHATWALA_USER_ID"];
+    [CWAnalytics appOpened];
     
-    if(![user_id length]) {
-        [CWAnalytics event:CWAnalyticsEventAppOpen withCategory:CWAnalyticsCategoryFirstOpen withLabel:@"" withValue:nil];
+    if(![[CWUserDefaultsController userID] length]) {
         [self fetchMessageFromURLString:messageRetrievalEndpoint];
     }
     
@@ -236,7 +235,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
    
     NSString * scheme = [url scheme];
-    NSString * messageId = [[url pathComponents]lastObject];
+    NSString * messageId = [[url pathComponents] lastObject];
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
@@ -303,23 +302,24 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     else {
         [self loadOpenerWithURL:url];
     }
-    
-    // If regular open - say regular open - category: conversation replier
-    
-    // if opened from
 
-    if (self.fetchingFirstLaunchMessage) {
-        [CWAnalytics event:@"MESSAGE_FETCHED_SAFARI" withCategory:CWAnalyticsCategoryFirstOpen withLabel:messageId withValue:nil];
-    }
-    else {
-        [CWAnalytics event:@"MESSAGE_OPEN_SAFARI" withCategory:CWAnalyticsCategoryConversationReplier withLabel:messageId withValue:nil];
-    }
-    
-    self.fetchingFirstLaunchMessage = NO;
+    [self sendMessageOpenTrackingWithMessageID:messageId];
     return YES;
 }
 
 #pragma mark - Message opening
+
+- (void)sendMessageOpenTrackingWithMessageID:(NSString *)messageID {
+    
+    if (self.fetchingFirstLaunchMessage) {
+        [CWAnalytics messageFetchedSafari:messageID];
+    }
+    else {
+        [CWAnalytics messageOpenSafari:messageID];
+    }
+    
+    self.fetchingFirstLaunchMessage = NO;
+}
 
 - (void)fetchMessageFromURLString:(NSString *)urlString {
     
@@ -330,10 +330,11 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
         self.fetchingFirstLaunchMessage = YES;
-        [CWAnalytics event:@"MESSAGE_FETCHING_SAFARI" withCategory:CWAnalyticsCategoryFirstOpen withLabel:nil withValue:nil];
+        [CWAnalytics messageFetchingSafari];
         
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
+
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"Failed to fetch picture upload ID from the server for a reply with error:%@",error);

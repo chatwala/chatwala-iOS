@@ -14,4 +14,6 @@ NSString *const CWNotificationInboxViewControllerShouldOpenInbox = @"CWNotificat
 
 /* User Defaults */
 // Note should be careful changing these values b/c updated users will then lose their defaults
+
+NSString *const CWUserDefaultsUserIDKey = @"CHATWALA_USER_ID";
 NSString *const CWUserDefaultsShouldShowPreviewKey = @"CWUserDefaultsShouldShowPreviewKey";
