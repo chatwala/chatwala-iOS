@@ -387,7 +387,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 -(void)sendDrawerCloseNotification {
-    [NC postNotificationName:(NSString*)CWMMDrawerCloseNotification object:nil];
+    [NC postNotificationName:(NSString *)CWMMDrawerCloseNotification object:nil];
 }
 
 #pragma mark - CWInboxDelegate
