@@ -29,7 +29,7 @@
                         <constraint firstAttribute="width" constant="90" id="jGq-r4-dEY"/>
                     </constraints>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Downloading Now..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewZ-EZ-uOS" userLabel="Label - Recording Text">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Downloading Now..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewZ-EZ-uOS" userLabel="Label - Recording Text">
                     <rect key="frame" x="20" y="369" width="280" height="140"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="20"/>
@@ -39,6 +39,8 @@
             </subviews>
             <constraints>
                 <constraint firstAttribute="centerY" secondItem="L18-WU-TKr" secondAttribute="centerY" id="QcB-m9-euk"/>
+                <constraint firstAttribute="bottom" secondItem="ewZ-EZ-uOS" secondAttribute="bottom" constant="124" id="RCl-mh-Gcq"/>
+                <constraint firstAttribute="centerX" secondItem="ewZ-EZ-uOS" secondAttribute="centerX" id="qQH-mz-rP2"/>
                 <constraint firstAttribute="centerX" secondItem="L18-WU-TKr" secondAttribute="centerX" id="qXn-Iz-lxC"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
