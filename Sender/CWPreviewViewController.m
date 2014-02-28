@@ -175,7 +175,6 @@
     [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
         [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
     }];
-    
 }
 
 - (void)setupVideoPreview {
@@ -227,17 +226,15 @@
 - (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
     [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
     [self.navigationController popToRootViewControllerAnimated:YES];
-    self.messageSender = nil;
 }
 
 - (void)messageSenderDidCancelMessageSend:(CWMessageSender *)messageSender {
     [self.navigationController popToRootViewControllerAnimated:YES];
-    self.messageSender = nil;
 }
 
 - (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
     // TODO: Show error
-    self.messageSender = nil;
+
 }
 
 @end

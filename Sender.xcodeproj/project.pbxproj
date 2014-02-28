@@ -28,6 +28,7 @@
 		0D29E37718AABA8B00082ECF /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37618AABA8B00082ECF /* UIColor+Additions.m */; };
 		0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */; };
 		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
+		0D6B51C418BFC0C000C0D119 /* CWMessageSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */; };
 		0D6F838C18BD495500DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838918BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m */; };
 		0D6F838D18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838B18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m */; };
 		0D6F839418BD4A8200DCAC2A /* CWConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F839318BD4A8200DCAC2A /* CWConstants.m */; };
@@ -202,7 +203,7 @@
 		E9C115601832B9AD00DB67D2 /* AVURLAsset+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1155F1832B9AD00DB67D2 /* AVURLAsset+Spec.m */; };
 		E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */; };
 		E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */; };
-		E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115681832D82700DB67D2 /* CWReviewViewController.m */; };
+		E9C1156A1832D82700DB67D2 /* CWPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115681832D82700DB67D2 /* CWPreviewViewController.m */; };
 		E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */; };
 		E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73E518316AEC00056FA9 /* TestUtils.m */; };
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
@@ -263,6 +264,8 @@
 		0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Sender/Framework/Crashlytics.framework; sourceTree = "<group>"; };
 		0D4586E2189AC591006BB737 /* CWServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWServerAPI.h; sourceTree = "<group>"; };
 		0D4586E3189AC591006BB737 /* CWServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWServerAPI.m; sourceTree = "<group>"; };
+		0D6B51C218BFC0C000C0D119 /* CWMessageSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageSender.h; sourceTree = "<group>"; };
+		0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageSender.m; sourceTree = "<group>"; };
 		0D6F838818BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTableViewCellNewMessageDeliveryMethodCell.h; sourceTree = "<group>"; };
 		0D6F838918BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWTableViewCellNewMessageDeliveryMethodCell.m; sourceTree = "<group>"; };
 		0D6F838A18BD495400DCAC2A /* CWTableViewShowMessagePreviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTableViewShowMessagePreviewCell.h; sourceTree = "<group>"; };
@@ -493,8 +496,8 @@
 		E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayer+Spec.m"; sourceTree = "<group>"; };
 		E9C115641832CA1900DB67D2 /* AVPlayerItem+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVPlayerItem+Spec.h"; sourceTree = "<group>"; };
 		E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayerItem+Spec.m"; sourceTree = "<group>"; };
-		E9C115671832D82700DB67D2 /* CWReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWReviewViewController.h; sourceTree = "<group>"; };
-		E9C115681832D82700DB67D2 /* CWReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWReviewViewController.m; sourceTree = "<group>"; };
+		E9C115671832D82700DB67D2 /* CWPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWPreviewViewController.h; sourceTree = "<group>"; };
+		E9C115681832D82700DB67D2 /* CWPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPreviewViewController.m; sourceTree = "<group>"; };
 		E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPIPReviewViewController.xib; sourceTree = "<group>"; };
 		E9CE73E418316AEC00056FA9 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		E9CE73E518316AEC00056FA9 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
@@ -566,6 +569,8 @@
 				0D6F839318BD4A8200DCAC2A /* CWConstants.m */,
 				0D1DAEA218917FD30051D7AE /* CWUtility.h */,
 				0D1DAEA318917FD30051D7AE /* CWUtility.m */,
+				0D6B51C218BFC0C000C0D119 /* CWMessageSender.h */,
+				0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -603,6 +608,7 @@
 		0D200AB31891852F008C2238 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				E90F04D1182A9078004B8CCD /* AVCam */,
 				0D200AB41891852F008C2238 /* DCControl */,
 				0D200ABB1891852F008C2238 /* NSDictionary+LookUpTable.h */,
 				0D200ABC1891852F008C2238 /* NSDictionary+LookUpTable.m */,
@@ -871,17 +877,19 @@
 				E94439D0182946460088A381 /* AVCamRecorder.m */,
 			);
 			name = AVCam;
+			path = ..;
 			sourceTree = "<group>";
 		};
-		E90F04E3182D2A53004B8CCD /* ViewControllers */ = {
+		E90F04E3182D2A53004B8CCD /* Interface */ = {
 			isa = PBXGroup;
 			children = (
+				E99094581861F69E0050695F /* Buttons */,
 				E9E003FF183FEF1A0087E909 /* Landing */,
 				E90B7C84186C959200B94DCC /* Loading */,
 				E924AD26183AAD79009400DD /* Start Screen */,
 				E924AD3B183AC0F3009400DD /* Opener */,
 				E924AD27183AB0A2009400DD /* Composer */,
-				E924AD32183AB718009400DD /* Review */,
+				E924AD32183AB718009400DD /* Preview */,
 				E9ABCF62183D45270098E530 /* Error */,
 				0D200ACD18918C4D008C2238 /* Inbox */,
 				36F3F875187C9530002CBB63 /* KillScreen */,
@@ -890,7 +898,7 @@
 				E990945F18620AD70050695F /* CWViewController.h */,
 				E990946018620AD70050695F /* CWViewController.m */,
 			);
-			name = ViewControllers;
+			name = Interface;
 			sourceTree = "<group>";
 		};
 		E924AD26183AAD79009400DD /* Start Screen */ = {
@@ -923,11 +931,11 @@
 			name = Composer;
 			sourceTree = "<group>";
 		};
-		E924AD32183AB718009400DD /* Review */ = {
+		E924AD32183AB718009400DD /* Preview */ = {
 			isa = PBXGroup;
 			children = (
-				E9C115671832D82700DB67D2 /* CWReviewViewController.h */,
-				E9C115681832D82700DB67D2 /* CWReviewViewController.m */,
+				E9C115671832D82700DB67D2 /* CWPreviewViewController.h */,
+				E9C115681832D82700DB67D2 /* CWPreviewViewController.m */,
 				E924AD35183AB7CA009400DD /* CWPIPReviewViewController.h */,
 				E924AD36183AB7CA009400DD /* CWPIPReviewViewController.m */,
 				E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */,
@@ -935,7 +943,7 @@
 				E924AD39183AB7D8009400DD /* CWSSReviewViewController.m */,
 				E924AD33183AB789009400DD /* CWSSReviewViewController.xib */,
 			);
-			name = Review;
+			name = Preview;
 			sourceTree = "<group>";
 		};
 		E924AD3B183AC0F3009400DD /* Opener */ = {
@@ -1010,14 +1018,12 @@
 				E9443995182940AF0088A381 /* AppDelegate.h */,
 				E9443996182940AF0088A381 /* AppDelegate.m */,
 				0D1979B218939FB000379DD5 /* CWMacroOverrides.h */,
-				E90F04D1182A9078004B8CCD /* AVCam */,
-				E99094581861F69E0050695F /* Buttons */,
 				0D29E37418AABA8B00082ECF /* Categories */,
 				0D200AB31891852F008C2238 /* External */,
 				0D1DAE9E18917F960051D7AE /* Helpers */,
 				E946BD231844FC0E00C6A99D /* Managers */,
 				0D200AC41891879F008C2238 /* Models */,
-				E90F04E3182D2A53004B8CCD /* ViewControllers */,
+				E90F04E3182D2A53004B8CCD /* Interface */,
 				E946BD261844FCA700C6A99D /* Resources */,
 				E944398D182940AF0088A381 /* Supporting Files */,
 			);
@@ -1509,12 +1515,13 @@
 			files = (
 				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
-				E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */,
+				E9C1156A1832D82700DB67D2 /* CWPreviewViewController.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
 				36AF583F187DF0AB00C5C13F /* _Message.m in Sources */,
+				0D6B51C418BFC0C000C0D119 /* CWMessageSender.m in Sources */,
 				206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */,
 				0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */,
 				36AF5834187DF0A200C5C13F /* Message.m in Sources */,

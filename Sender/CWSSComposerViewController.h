@@ -10,4 +10,7 @@
 
 @interface CWSSComposerViewController : CWComposerViewController
 //@property (nonatomic,weak) IBOutlet UIButton * middleButton;
+
+@property (nonatomic,weak) IBOutlet UILabel *recordMessageLabel;
+
 @end

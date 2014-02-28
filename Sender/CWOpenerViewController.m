@@ -120,7 +120,7 @@
             [self setOpenerState:CWOpenerPreview];
             break;
         case CWOpenerRespond:
-            [self.recorder stopVideoRecording];
+            [self setOpenerState:CWOpenerPreview];
             break;
             
         default:

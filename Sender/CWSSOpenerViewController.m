@@ -18,6 +18,8 @@
 @interface CWSSOpenerViewController () <CWMessageSenderDelegate>
 
 @property (nonatomic) CWMessageSender *messageSender;
+@property (nonatomic) NSTimer *countdownTimer;
+@property (nonatomic,assign) NSInteger countdownCount;
 
 @end
 
@@ -56,7 +58,7 @@
     
     switch (self.openerState) {
         case CWOpenerPreview:
-        
+            [self.countdownTimer invalidate];
             [self.middleButton setButtonState:eButtonStatePlay];
             [self.cameraView setAlpha:0.5];
         {
@@ -69,7 +71,8 @@
             
             
         case CWOpenerReview:
-            //
+            
+            [self.countdownTimer invalidate];
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:0.5];
         {
@@ -81,6 +84,7 @@
             break;
         case CWOpenerReact:
             //
+            [self.countdownTimer invalidate];
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:1.0];
         {
@@ -95,22 +99,45 @@
             [self.middleButton setButtonState:eButtonStateStop];
             [self.cameraView setAlpha:1.0];
         {
-            [UIView animateWithDuration:0.3 animations:^{
-                [self.openerMessageLabel setAlpha:0];
-                [self.playbackView setAlpha:0.3];
-                [self.recordMessageLabel setAlpha:1];
+            
+            self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateLabel) userInfo:nil repeats:YES];
+            self.countdownCount = 10;
+            [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording your reply...%d",self.countdownCount]];
+            [self.openerMessageLabel setAlpha:0.0f];
+            [self.recordMessageLabel setAlpha:1.0f];
+            
+            [UIView animateWithDuration:0.3f animations:^{
+                
+                [self.playbackView setAlpha:0.3f];
+//                [self.recordMessageLabel setAlpha:1.0f];
             }];
         }
             break;
     }
 }
 
+- (void)updateLabel {
+
+    self.countdownCount--;
+    
+    if (self.countdownCount == 0) {
+        [self.countdownTimer invalidate];
+    }
+    else if (self.countdownCount < 5 && ![CWUserDefaultsController shouldShowMessagePreview]) {
+        [self.recordMessageLabel setText:[NSString stringWithFormat:@"Sending reply in...%d",self.countdownCount]];
+    }
+    else {
+        [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording your reply...%d",self.countdownCount]];
+    }
+}
+
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
+    [self.countdownTimer invalidate];
     [super recorderRecordingFinished:recorder];
     
-    if(self.openerState == CWOpenerRespond)
-    {
+    if(self.openerState == CWOpenerRespond) {
+        
         if ([CWUserDefaultsController shouldShowMessagePreview]) {
             // push to review
             CWSSReviewViewController * reviewVC = [[CWSSReviewViewController alloc]init];
@@ -120,17 +147,13 @@
             [self.navigationController pushViewController:reviewVC animated:NO];
         }
         else {
-            // Let's send the message
-            self.messageSender = [[CWMessageSender alloc] init];
-            self.messageSender.delegate = self;
             
             User *localUser = [[CWUserManager sharedInstance] localUser];
-            
-            Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:nil];
+            Message *message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.activeMessage];
             
             message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
             message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
-            message.startRecording = [NSNumber numberWithDouble:0.0];
+            message.startRecording = [NSNumber numberWithDouble:[self.player videoLength] - self.activeMessage.startRecordingValue];
             
             self.messageSender = [[CWMessageSender alloc] init];
             self.messageSender.delegate = self;
@@ -139,8 +162,20 @@
             
             [self.messageSender sendMessageFromUser:localUser];
         }
-        
     }
+}
+
+- (void)uploadProfilePictureForUser:(User *)user {
+    
+    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user]) {
+        return;//already did this
+    }
+
+    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+    
+        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
+    }];
+    
 }
 
 #pragma mark - CWMessageSenderDelegate methods
@@ -150,19 +185,16 @@
 }
 
 - (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
-    //    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    self.messageSender = nil;
+    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (void)messageSenderDidCancelMessageSend:(CWMessageSender *)messageSender {
-    [self.navigationController popToRootViewControllerAnimated:YES];
-    self.messageSender = nil;
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
     // TODO: Show error
-    self.messageSender = nil;
 }
 
 @end

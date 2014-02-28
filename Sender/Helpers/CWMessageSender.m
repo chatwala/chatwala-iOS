@@ -38,7 +38,7 @@
     
     if (self.messageBeingRespondedTo) {
 
-        [[CWMessageManager sharedInstance] fetchUploadURLForReplyToMessage:self.messageBeingRespondedTo completionBlockOrNil:^(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString) {
+        [[CWMessageManager sharedInstance] fetchUploadURLForReplyMessage:self.messageBeingSent completionBlockOrNil:^(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString) {
 
             if (messageID && uploadURLString ) {
                 self.messageBeingSent.messageID = messageID;
@@ -48,7 +48,12 @@
                 [self didSendMessage];
             }
             else {
-                [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
+                
+                if (self.delegate) {
+                    
+                    [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
+                    [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
+                }
             }
         }];
     }
@@ -65,6 +70,9 @@
                 downloadURLString = [NSString stringWithFormat:@"http://chatwala.com/dev/?%@",messageID];
 #endif
                 
+                [self.messageBeingSent exportZip];
+                [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:NO];
+                
                 [self composeMessageWithMessageKey:downloadURLString withUploadURLString:uploadURLString withCompletion:nil];
                 
 //                [self composeMessageWithMessageKey:downloadURLString withCompletion:^{
@@ -73,7 +81,11 @@
 //                }];
             }
             else {
-                [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
+                
+                if (self.delegate) {    
+                    [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
+                    [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
+                }
             }
         }];
     }
@@ -128,9 +140,6 @@
         if (self.delegate) {
             [self.delegate messageSender:self shouldPresentMessageComposerController:self.messageComposer];
         }
-        
-        [self.messageBeingSent exportZip];
-        [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:NO];
     }
     else {
     
@@ -145,28 +154,27 @@
         if (self.delegate) {
             [self.delegate messageSender:self shouldPresentMessageComposerController:self.mailComposer];
         }
-        
-        
-        [self.messageBeingSent exportZip];
-        [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:NO];
     }
 }
 
 - (void)didSendMessage {
-
+    
     self.messageBeingRespondedTo.eMessageViewedState = eMessageViewedStateReplied;
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
     
-    //[self.navigationController popToRootViewControllerAnimated:YES];
-    [CWPushNotificationsAPI registerForPushNotifications];
-    
     if (self.delegate) {
         [self.delegate messageSenderDidSucceedMessageSend:self];
         self.delegate = nil;
     }
+    
+    [self.messageComposer dismissViewControllerAnimated:YES completion:nil];
+    [self.mailComposer dismissViewControllerAnimated:YES completion:nil];
+    
+    [CWPushNotificationsAPI registerForPushNotifications];
 }
+
 
 #pragma mark MFMailComposeViewControllerDelegate
 
@@ -180,6 +188,7 @@
             }else{
                 [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Message" withLabel:@"" withValue:nil];
             }
+            
             [self didSendMessage];
         }
             break;
@@ -202,8 +211,7 @@
             break;
     }
     
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    self.mailComposer= nil;
+    [self.mailComposer dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark MFMessageComposeViewControllerDelegate
@@ -242,8 +250,7 @@
             break;
     }
     
-    [controller dismissViewControllerAnimated:YES completion:nil];
-    self.messageComposer = nil;
+    
 }
 
 @end
