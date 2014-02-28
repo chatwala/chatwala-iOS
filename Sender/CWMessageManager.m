@@ -120,9 +120,8 @@
                 
                 [self downloadMessages:[self messageIDsFromResponse:[responseObject objectForKey:@"messages"]]];
                 
-                if (completionBlock) {
-                    completionBlock(UIBackgroundFetchResultNewData);
-                }
+                // Buying us enough time to launch our download tasks
+                [self performSelector:@selector(sendCompletionBlock:) withObject:completionBlock afterDelay:10.0f];
             }
             else {
                 NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
@@ -140,6 +139,14 @@
                 completionBlock(UIBackgroundFetchResultNoData);
             }
         }];
+    }
+}
+
+- (void)sendCompletionBlock:(void (^)(UIBackgroundFetchResult))completionBlock {
+    NSLog(@"Completion block being called");
+    
+    if (completionBlock) {
+        completionBlock(UIBackgroundFetchResultNewData);
     }
 }
 

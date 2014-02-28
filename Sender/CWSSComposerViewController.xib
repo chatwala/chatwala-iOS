@@ -29,8 +29,8 @@
                         <constraint firstAttribute="width" constant="90" id="jGq-r4-dEY"/>
                     </constraints>
                 </view>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Downloading Now..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewZ-EZ-uOS" userLabel="Label - Recording Text">
-                    <rect key="frame" x="20" y="369" width="280" height="140"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Downloading Now..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ewZ-EZ-uOS" userLabel="Label - Recording Text">
+                    <rect key="frame" x="70" y="416" width="181" height="28"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="20"/>
                     <color key="textColor" red="0.086274512112140656" green="0.20392158627510071" blue="0.3490196168422699" alpha="1" colorSpace="deviceRGB"/>
