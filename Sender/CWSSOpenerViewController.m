@@ -171,6 +171,11 @@
         return;//already did this
     }
 
+    
+    // Setting the recorded video to the player, we should improve this so the player or the recorder can
+    // take a screen capture [RK]
+    
+    [self.player setVideoURL:self.recorder.tempFileURL];
     [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
     
         [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
