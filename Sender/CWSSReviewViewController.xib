@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWReviewViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWPreviewViewController">
             <connections>
                 <outlet property="incomingMessageStillImageView" destination="w2D-Tt-tyl" id="1rR-sv-4yc"/>
                 <outlet property="previewView" destination="vmn-e5-TTd" id="kR5-ve-WSW"/>

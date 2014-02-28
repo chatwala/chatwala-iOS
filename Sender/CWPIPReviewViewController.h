@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import "CWReviewViewController.h"
+#import "CWPreviewViewController.h"
 
-@interface CWPIPReviewViewController : CWReviewViewController
+@interface CWPIPReviewViewController : CWPreviewViewController
 
 @end

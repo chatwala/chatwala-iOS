@@ -69,7 +69,7 @@
     }
 }
 
-- (CWReviewViewController*)reviewVC
+- (CWPreviewViewController*)reviewVC
 {
     if (self.isSplitScreen) {
         return [[CWSSReviewViewController alloc]init];

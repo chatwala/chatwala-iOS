@@ -7,7 +7,6 @@
 //
 
 #import "CWOpenerViewController.h"
-#import "CWReviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWFlowManager.h"
 #import "CWGroundControlManager.h"
@@ -121,7 +120,7 @@
             [self setOpenerState:CWOpenerPreview];
             break;
         case CWOpenerRespond:
-            [self.recorder stopVideoRecording];
+            [self setOpenerState:CWOpenerPreview];
             break;
             
         default:

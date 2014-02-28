@@ -220,7 +220,7 @@
 
 #pragma mark - MessageID Server Fetches
 //, [NSString stringWithFormat:@"http://chatwala.com/?%@",message.messageID]
-- (void)fetchUploadURLForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock
+- (void)fetchUploadURLForReplyMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock
  {
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
