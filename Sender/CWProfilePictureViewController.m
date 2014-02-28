@@ -38,7 +38,8 @@
     [super viewDidLoad];
     [self setTitle:@"UPDATE PROFILE PIC"];
     
-    [[[CWVideoManager sharedManager] recorder] setupSessionWithBackCamera:NO];
+    AVCaptureDeviceInput *videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:[CWVideoRecorder frontFacingCamera] error:nil];
+    [[[CWVideoManager sharedManager] recorder] changeVideoInput:videoInput];
 
     self.pictureImageView.image = [UIImage imageNamed:@"LaunchImage"];
     [self.pictureImageView setClipsToBounds:YES];
