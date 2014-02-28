@@ -94,8 +94,6 @@
     
     [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
     
-//    [self.thumbView setImageWithURLRequest:imageURLRequest placeholderImage:placeholder success:self.successImageDownloadBlock failure:self.failureImageDownloadBlock];
-    
     NSString *kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
     NSString *kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
     NSString *kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
@@ -103,16 +101,15 @@
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
     [manager setValue:[NSString stringWithFormat:@"%@:%@", kChatwalaAPIKey, kChatwalaAPISecret] forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
 
-    //SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-    
     __block CWMessageCell *blockSelf = self;
     
-    [self.thumbView setImageWithURL:imageURL placeholderImage:placeholder options:SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+    [self.thumbView setImageWithURL:imageURL placeholderImage:placeholder options:SDWebImageRefreshCached & SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
         //
         [blockSelf.spinner stopAnimating];
         
         if (error) {
-            NSLog(@"Error fetching image: %@", error.localizedDescription);
+            NSLog(@"Error fetching image from URL:  %@", imageURL);
+            NSLog(@"Image cache type was: %d and error was: %@", cacheType, error.localizedDescription);
         }
         else {
             

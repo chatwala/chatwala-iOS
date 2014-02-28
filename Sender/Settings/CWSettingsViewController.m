@@ -10,14 +10,19 @@
 #import "CWTermsViewController.h"
 #import "CWPrivacyViewController.h"
 #import "CWAppFeedBackViewController.h"
-#import "CWGroundControlManager.h"
 #import "CWProfilePictureViewController.h"
 #import "UIColor+Additions.h"
 #import "CWTableViewCellNewMessageDeliveryMethodCell.h"
+#import "CWTableViewShowMessagePreviewCell.h"
 #import "CWUserManager.h"
+#import "CWUserDefaultsController.h"
+
+NSInteger const ToggleMessageDeliveryMethodRow  = 4;
+NSInteger const ToggleShowMessagePreviewRow     = 5;
 
 @interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet CWTableViewCellNewMessageDeliveryMethodCell *deliveryMethodCell;
+@property (strong, nonatomic) IBOutlet CWTableViewShowMessagePreviewCell *messagePreviewCell;
 
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
 @property (nonatomic,strong) NSArray * sectionHeaders;
@@ -27,35 +32,25 @@
 
 @implementation CWSettingsViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.settingsTable registerClass:[CWTableViewCellNewMessageDeliveryMethodCell class] forCellReuseIdentifier:@"deliveryMethod"];
+    
+    [self.settingsTable registerClass:[CWTableViewShowMessagePreviewCell class] forCellReuseIdentifier:@"showMessagePreview"];
 
     UIBarButtonItem * doneBtn = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onSettingsDone)];
     
     [self.navigationItem setRightBarButtonItem:doneBtn];
     [self.navigationItem setTitle:@"SETTINGS"];
     [self.navigationController.navigationBar setTintColor:[UIColor whiteColor]];
-    
-
     [self setSectionHeaders:@[@"",@""]];
-//    [self setSection2Titles:@[@"Push Notification"]];
+
     NSDictionary * att = @{
                            NSForegroundColorAttributeName: [UIColor colorWithRed:1 green:1 blue:1 alpha:0.5]
                            };
     [self.navigationController.navigationBar setTitleTextAttributes:att];
-    
     
     [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback", @"Edit Your Profile Picture"]];
     
@@ -67,28 +62,57 @@
     [self.settingsTable setScrollEnabled:NO];
 }
 
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-}
-
-- (void)onSettingsDone
-{
+- (void)onSettingsDone {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+#pragma mark - Custom cells
+
+- (UITableViewCell *) tableViewDeliveryMethod:(UITableView *) tableView {
+    
+    NSString * deliveryMethod = [[CWUserManager sharedInstance] newMessageDeliveryMethod];
+
+    if([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueSMS]) {
+        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 0;
+    }
+    else if ([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueEmail]) {
+        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
+    }
+    
+    [self.deliveryMethodCell setBackgroundColor:[UIColor chatwalaBlueMedium]];
+    return self.deliveryMethodCell;
+}
+
+- (UITableViewCell *)showMessagePreviewCell:(UITableView *)tableView {
+
+    if([CWUserDefaultsController shouldShowMessagePreview]) {
+        self.messagePreviewCell.showMessagePreviewSegmentedControl.selectedSegmentIndex = 1;
+    }
+    else {
+        self.messagePreviewCell.showMessagePreviewSegmentedControl.selectedSegmentIndex = 0;
+    }
+    
+    [self.messagePreviewCell setBackgroundColor:[UIColor chatwalaBlueMedium]];
+    return self.messagePreviewCell;
+}
+
+#pragma mark - Table view delegate methods
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if(indexPath.row == self.section1Titles.count)
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if(indexPath.row == ToggleMessageDeliveryMethodRow)
     {
         return [self tableViewDeliveryMethod:tableView];
     }
+    else if (indexPath.row == ToggleShowMessagePreviewRow) {
+        return [self showMessagePreviewCell:tableView];
+    }
+    
+    
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell"];
     [cell setBackgroundColor:[UIColor chatwalaBlueMedium]];
     [cell.textLabel setTextColor:[UIColor whiteColor]];
@@ -102,40 +126,21 @@
     return cell;
 }
 
-- (UITableViewCell *) tableViewDeliveryMethod:(UITableView *) tableView
-{
-    NSString * deliveryMethod = [[CWUserManager sharedInstance] newMessageDeliveryMethod];
-    if([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueSMS])
-    {
-        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 0;
-    }
-    else if ([deliveryMethod isEqualToString:kNewMessageDeliveryMethodValueEmail])
-    {
-        self.deliveryMethodCell.deliveryMethodSegmentedControl.selectedSegmentIndex = 1;
-    }
-    
-    [self.deliveryMethodCell setBackgroundColor:[UIColor chatwalaBlueMedium]];
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
 
-
-    return self.deliveryMethodCell;
-    
-}
-
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
     return [self.sectionHeaders objectAtIndex:section];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
     NSInteger count = 0;
     if (section == 0) {
-        count = [self.section1Titles count] + 1;
-    }else if (section == 1)
-    {
-        count = 4;
+        count = [self.section1Titles count] + 2;
     }
+    else if (section == 1) {
+        count = 5;
+    }
+    
     return count;
 }
 
@@ -152,14 +157,13 @@
     
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 50;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    return 50.0f;
 }
 
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section) {
         case 0:
@@ -220,13 +224,5 @@
             break;
     }
 }
-
-//#pragma mark MFMailComposeViewControllerDelegate
-//
-//- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-//{
-//    [controller dismissViewControllerAnimated:YES completion:nil];
-//}
-
 
 @end

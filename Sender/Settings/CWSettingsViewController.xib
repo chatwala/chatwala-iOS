@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
@@ -7,8 +7,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CWSettingsViewController">
             <connections>
                 <outlet property="deliveryMethodCell" destination="gcx-0G-P2R" id="7i0-eN-Zvv"/>
+                <outlet property="messagePreviewCell" destination="ZKK-Co-QY1" id="3wi-Zf-zXy"/>
                 <outlet property="settingsTable" destination="DFy-kC-2ya" id="X6J-pQ-hhB"/>
-                <outlet property="view" destination="1" id="3"/>
+                <outlet property="view" destination="1" id="2wB-fH-e47"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -68,6 +69,46 @@
             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="deliveryMethodSegmentedControl" destination="cO3-Mp-PX9" id="4qB-BV-14i"/>
+            </connections>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="deliveryMethod" rowHeight="97" id="ZKK-Co-QY1" customClass="CWTableViewShowMessagePreviewCell">
+            <rect key="frame" x="0.0" y="0.0" width="279" height="54"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZKK-Co-QY1" id="MHk-xQ-8zt">
+                <rect key="frame" x="0.0" y="0.0" width="279" height="53"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message Preview" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pK8-un-HlC">
+                        <rect key="frame" x="16" y="16" width="135" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="a7T-ue-R5d">
+                        <rect key="frame" x="164" y="13" width="95" height="29"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <segments>
+                            <segment title="Off" width="47"/>
+                            <segment title="On" width="47"/>
+                        </segments>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <action selector="showMessagePreviewChanged:" destination="ZKK-Co-QY1" eventType="valueChanged" id="rUv-66-3qf"/>
+                        </connections>
+                    </segmentedControl>
+                </subviews>
+                <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                <constraints>
+                    <constraint firstItem="a7T-ue-R5d" firstAttribute="top" secondItem="MHk-xQ-8zt" secondAttribute="top" constant="13" id="Boy-h8-28P"/>
+                    <constraint firstAttribute="trailing" secondItem="a7T-ue-R5d" secondAttribute="trailing" constant="20" id="bqf-F4-XQZ"/>
+                    <constraint firstItem="pK8-un-HlC" firstAttribute="leading" secondItem="MHk-xQ-8zt" secondAttribute="leading" constant="16" id="cZv-IC-SS8"/>
+                    <constraint firstAttribute="centerY" secondItem="pK8-un-HlC" secondAttribute="centerY" id="mr8-YE-yFS"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="showMessagePreviewSegmentedControl" destination="a7T-ue-R5d" id="0LG-p2-tnY"/>
             </connections>
         </tableViewCell>
     </objects>

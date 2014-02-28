@@ -10,7 +10,7 @@
 #import "CWStartScreenViewController.h"
 #import "CWOpenerViewController.h"
 #import "CWComposerViewController.h"
-#import "CWReviewViewController.h"
+#import "CWPreviewViewController.h"
 
 typedef enum {
     eFlowToOpener,
@@ -25,5 +25,5 @@ typedef enum {
 - (CWStartScreenViewController*)startScreenVC;
 - (CWOpenerViewController*)openerVC;
 - (CWComposerViewController*)composeVC;
-- (CWReviewViewController*)reviewVC;
+- (CWPreviewViewController*)reviewVC;
 @end

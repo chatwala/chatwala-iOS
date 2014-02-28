@@ -9,7 +9,7 @@
 #import <XCTest/XCTest.h>
 #import <OCMock/OCMock.h>
 #import <MessageUI/MessageUI.h>
-#import "CWReviewViewController.h"
+#import "CWPreviewViewController.h"
 #import "CWVideoManager.h"
 #import "Message.h"
 #import "User.h"
@@ -17,7 +17,7 @@
 #import "MocForTests.h"
 
 
-@interface CWReviewViewController ()<CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
+@interface CWPreviewViewController ()<CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate>
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
 - (void)composeMessageWithData:(NSData*)messageData;
@@ -26,7 +26,7 @@
 @end
 
 @interface CWReviewVCTests : XCTestCase
-@property (nonatomic,strong) CWReviewViewController * sut;
+@property (nonatomic,strong) CWPreviewViewController * sut;
 @property (nonatomic,strong) id mockSUT;
 @property (nonatomic,strong) id mockRecorder;
 @property (nonatomic,strong) id mockPlayer;
@@ -44,7 +44,7 @@
     MocForTests * mocFactory = [[MocForTests alloc] initWithPath:@"ChatwalaModel"];
     self.moc = mocFactory.moc;
 
-    self.sut = [[CWReviewViewController alloc]init];
+    self.sut = [[CWPreviewViewController alloc]init];
     [self.sut view];
     self.mockSUT = [OCMockObject partialMockForObject:self.sut];
     self.mockPlayer = [OCMockObject partialMockForObject:self.sut.player];

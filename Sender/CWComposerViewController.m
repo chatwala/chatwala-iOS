@@ -7,7 +7,7 @@
 //
 
 #import "CWComposerViewController.h"
-#import "CWReviewViewController.h"
+#import "CWPreviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWGroundControlManager.h"
 
@@ -43,22 +43,30 @@
     
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
+
     [super viewWillAppear:animated];
      [[[[CWVideoManager sharedManager]recorder]recorderView]setFrame:self.view.bounds];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self startRecording];
+    
+    if (!self.hasSentMessage) {
+        [self startRecording];
+    }
 }
 
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [self stopRecording];
+    [super viewWillDisappear:animated];
+}
 
 - (void)onMiddleButtonTap
 {
     [self stopRecording];
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (void)onTick:(NSTimer*)timer
@@ -109,11 +117,11 @@
 {
     if (self.startTime == nil) {
         // push
-        [self showReview];
+        [self showPreview];
     }
 }
 
-- (void)showReview
+- (void)showPreview
 {
     NSAssert(0, @"should be over written in subclass");
 }

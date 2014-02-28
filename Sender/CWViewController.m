@@ -8,6 +8,7 @@
 
 #import "CWViewController.h"
 #import "UIViewController+MMDrawerController.h"
+#import "CWConstants.h"
 
 #define degreesToRadians( degrees ) ( ( degrees ) / 180.0 * M_PI )
 
@@ -32,6 +33,7 @@
     UIView * spacer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 50, 50)];
     [self.navigationItem setRightBarButtonItem:[[UIBarButtonItem alloc] initWithCustomView:spacer]];
     [NC addObserver:self selector:@selector(handleCWMMDrawerCloseNotification) name:(NSString*)CWMMDrawerCloseNotification object:nil];
+    [NC addObserver:self selector:@selector(handleCWMMDrawerOpenNotification:) name:(NSString *)CWNotificationInboxViewControllerShouldOpenInbox object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated
@@ -42,6 +44,7 @@
 -(void)dealloc
 {
     [NC removeObserver:self name:(NSString*)CWMMDrawerCloseNotification object:nil];
+    [NC removeObserver:self name:(NSString*)CWNotificationInboxViewControllerShouldOpenInbox object:nil];
 }
 
 - (void)setNavMode:(NavMode)mode
@@ -84,6 +87,11 @@
 -(void)handleCWMMDrawerCloseNotification
 {
     [self rotateBurgerBarAfterDrawAnimation:YES];
+}
+
+-(void)handleCWMMDrawerOpenNotification:(NSNotification *)notification {
+    [self rotateBurgerBarAfterDrawAnimation:NO];
+    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 
 -(void)rotateBurgerBarAfterDrawAnimation:(BOOL) isAfterAnimation
