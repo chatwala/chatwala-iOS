@@ -38,8 +38,6 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -121,6 +119,7 @@
     self.countdownCount--;
     
     if (self.countdownCount == 0) {
+        [self.recordMessageLabel setText:@"Sending..."];
         [self.countdownTimer invalidate];
     }
     else if (self.countdownCount < 5 && ![CWUserDefaultsController shouldShowMessagePreview]) {
@@ -133,7 +132,6 @@
 
 - (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
 {
-    [self.countdownTimer invalidate];
     [super recorderRecordingFinished:recorder];
     
     if(self.openerState == CWOpenerRespond) {
@@ -171,7 +169,6 @@
         return;//already did this
     }
 
-    
     // Setting the recorded video to the player, we should improve this so the player or the recorder can
     // take a screen capture [RK]
     
