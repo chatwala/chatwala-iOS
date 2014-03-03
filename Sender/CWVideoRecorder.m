@@ -346,7 +346,7 @@
     [self convertVideoWithURL:outputFileURL];
     
     if (self.backgroundRecordingID != 0) {
-//        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
+        [[UIApplication sharedApplication] endBackgroundTask:self.backgroundRecordingID];
         self.backgroundRecordingID = 0;
     }
 }
