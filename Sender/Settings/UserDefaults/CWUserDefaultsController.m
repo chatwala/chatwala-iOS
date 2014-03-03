@@ -16,7 +16,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     if (![defaults valueForKey:CWUserDefaultsShouldShowPreviewKey]) {
-        [CWUserDefaultsController setShouldShowMessagePreview:NO];
+        [CWUserDefaultsController setShouldShowMessagePreview:YES];
     }
 }
 
