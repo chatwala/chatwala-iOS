@@ -134,6 +134,7 @@
 {
     [super recorderRecordingFinished:recorder];
     
+    [self.countdownTimer invalidate];
     if(self.openerState == CWOpenerRespond) {
         
         if ([CWUserDefaultsController shouldShowMessagePreview]) {
