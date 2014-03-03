@@ -63,10 +63,8 @@
     [super viewWillDisappear:animated];
 }
 
-- (void)onMiddleButtonTap
-{
+- (void)onMiddleButtonTap {
     [self stopRecording];
-    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (void)onTick:(NSTimer*)timer

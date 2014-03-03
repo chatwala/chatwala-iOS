@@ -26,6 +26,7 @@ typedef enum {
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
 @property (nonatomic, strong) Message * activeMessage;
+@property (nonatomic,assign) BOOL shouldPromptBeforeSending;
 
 - (void)setZipURL:(NSURL *) zipURL;
 - (void)onMiddleButtonTap;
