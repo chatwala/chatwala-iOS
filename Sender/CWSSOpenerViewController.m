@@ -15,7 +15,7 @@
 #import "CWUserManager.h"
 #import "CWDataManager.h"
 
-@interface CWSSOpenerViewController () <CWMessageSenderDelegate>
+@interface CWSSOpenerViewController () <CWMessageSenderDelegate,UIAlertViewDelegate>
 
 @property (nonatomic) CWMessageSender *messageSender;
 @property (nonatomic) NSTimer *countdownTimer;
@@ -146,21 +146,33 @@
         }
         else {
             
-            User *localUser = [[CWUserManager sharedInstance] localUser];
-            Message *message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.activeMessage];
+            if (self.shouldPromptBeforeSending) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirm Reply" message:@"Would you like to send this reply?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send",nil];
+                [alert show];
+            }
+            else {
+                [self sendMessage];
+            }
             
-            message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
-            message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
-            message.startRecording = [NSNumber numberWithDouble:[self.player videoLength] - self.activeMessage.startRecordingValue];
-            
-            self.messageSender = [[CWMessageSender alloc] init];
-            self.messageSender.delegate = self;
-            self.messageSender.messageBeingSent = message;
-            self.messageSender.messageBeingRespondedTo = self.activeMessage;
-            
-            [self.messageSender sendMessageFromUser:localUser];
+            self.shouldPromptBeforeSending = NO;
         }
     }
+}
+
+- (void)sendMessage {
+    User *localUser = [[CWUserManager sharedInstance] localUser];
+    Message *message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.activeMessage];
+    
+    message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
+    message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
+    message.startRecording = [NSNumber numberWithDouble:[self.player videoLength] - self.activeMessage.startRecordingValue];
+    
+    self.messageSender = [[CWMessageSender alloc] init];
+    self.messageSender.delegate = self;
+    self.messageSender.messageBeingSent = message;
+    self.messageSender.messageBeingRespondedTo = self.activeMessage;
+    
+    [self.messageSender sendMessageFromUser:localUser];
 }
 
 - (void)uploadProfilePictureForUser:(User *)user {
@@ -197,6 +209,18 @@
 
 - (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
     // TODO: Show error
+}
+
+#pragma mark - UIAlerViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.cancelButtonIndex == buttonIndex) {
+        [self setOpenerState:CWOpenerPreview];
+    }
+    else {
+        [self sendMessage];
+    }
 }
 
 @end
