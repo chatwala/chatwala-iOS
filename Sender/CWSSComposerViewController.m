@@ -58,8 +58,6 @@
     [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording...%d",self.countdownCount]];
 }
 
-
-
 - (void)viewWillDisappear:(BOOL)animated {
     [self.countdownTimer invalidate];
     self.countdownTimer = nil;

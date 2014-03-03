@@ -120,7 +120,8 @@
             [self setOpenerState:CWOpenerPreview];
             break;
         case CWOpenerRespond:
-            [self setOpenerState:CWOpenerPreview];
+            self.shouldPromptBeforeSending = YES;
+            [self.recorder stopVideoRecording];
             break;
             
         default:
