@@ -10,6 +10,13 @@
 
 /* Notification names */
 NSString *const CWNotificationInboxViewControllerShouldOpenInbox = @"CWNotificationInboxViewControllerShouldOpenInbox";
+NSString *const CWNotificationCopyUpdateFromUrlScheme = @"CWNotificationCopyUpdateFromUrlScheme";
+
+/* Notification user info keys */
+NSString *const CWNotificationCopyUpdateFromUrlSchemeUserInfoStartScreenCopyKey = @"CWNotificationCopyUpdateFromUrlSchemeUserInfoStartScreenCopyKey";
+
+/*General constants */
+NSString *const CWConstantsURLSchemeCopyUpdateKey = @"cwcopy";
 
 
 /* User Defaults */

@@ -21,7 +21,7 @@
 #import "CWAppFeedBackViewController.h"
 #import "CWAnalytics.h"
 #import "CWProfilePictureViewController.h"
-
+#import "CWConstants.h"
 
 @interface CWStartScreenViewController () <UIGestureRecognizerDelegate>
 @property (nonatomic,strong) UIImageView * messageSentView;
@@ -45,6 +45,7 @@
 
 - (void)dealloc {
     [self.popupModal dismissViewControllerAnimated:NO completion:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:CWNotificationCopyUpdateFromUrlScheme object:nil];
 }
 
 - (void)viewDidLoad {
@@ -67,6 +68,9 @@
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggledCamera:)];
     [self.tapRecognizer setDelegate:self];
     [self.view addGestureRecognizer:self.tapRecognizer];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(copyUpdated:) name:CWNotificationCopyUpdateFromUrlScheme object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -182,6 +186,15 @@
 
     self.popupModal = navController;
 
+}
+
+#pragma mark - Notification handlers
+
+- (void)copyUpdated:(NSNotification *) notification {
+    
+    NSDictionary* userInfo = notification.userInfo;
+    self.startScreenMessageLabel.text = [userInfo objectForKey:CWNotificationCopyUpdateFromUrlSchemeUserInfoStartScreenCopyKey];
+    NSLog (@"Updated start screen text from notification");
 }
 
 #pragma mark - Gesture Recognizers

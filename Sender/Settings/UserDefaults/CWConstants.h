@@ -9,6 +9,14 @@
 
 /* Notification names */
 extern NSString *const CWNotificationInboxViewControllerShouldOpenInbox;
+extern NSString *const CWNotificationCopyUpdateFromUrlScheme;
+
+/* Notification user info keys */
+extern NSString *const CWNotificationCopyUpdateFromUrlSchemeUserInfoStartScreenCopyKey;
+
+/*General constants */
+extern NSString *const CWConstantsURLSchemeCopyUpdateKey;
+
 
 /* User Defaults */
 // This contains NSUserDefault keys used by the defaults controller to persist user settings

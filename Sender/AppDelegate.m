@@ -234,6 +234,12 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
    
+    // Check to see if this is just a copy update & get out of here.
+    if ([self isCopyUpdate:url]) {
+        [self updateCopyForStartScreen:url];
+        return YES;
+    }
+   
     NSString * scheme = [url scheme];
     NSString * messageId = [[url pathComponents] lastObject];
     
@@ -305,6 +311,34 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
     [self sendMessageOpenTrackingWithMessageID:messageId];
     return YES;
+}
+
+#pragma mark - URL Scheme based copy updates
+
+- (BOOL)isCopyUpdate:(NSURL *)url {
+    
+    if ([[url absoluteString] rangeOfString:CWConstantsURLSchemeCopyUpdateKey].location == NSNotFound) {
+        return NO;
+    }
+    else{
+        return YES;
+    }
+}
+
+- (void)updateCopyForStartScreen:(NSURL *)url {
+    
+    NSString *copyParameter = [[url pathComponents] lastObject];
+    
+    if ([copyParameter length]) {
+        
+        NSString *newCopy = [copyParameter stringByReplacingOccurrencesOfString:@"_" withString:@" "];
+        newCopy = [NSString stringWithFormat:@"%@.", newCopy];
+        NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+        [userInfo setObject:newCopy forKey:CWNotificationCopyUpdateFromUrlSchemeUserInfoStartScreenCopyKey];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:CWNotificationCopyUpdateFromUrlScheme object:self userInfo:userInfo];
+    }
+    
 }
 
 #pragma mark - Message opening
