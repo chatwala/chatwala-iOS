@@ -14,6 +14,9 @@
 
 typedef void (^CWPictureUploadEndpointRequestCompletionBlock)(NSError *error, NSString *tempUploadUrl);
 
+UIBackgroundTaskIdentifier UploadBackgroundTaskIdentifier;
+UIBackgroundTaskIdentifier FinalizeBackgroundTaskIdentifier;
+
 NSString *const PushRegisterEndpoint = @"/registerPushToken";
 
 #ifdef USE_QA_SERVER
@@ -74,6 +77,17 @@ AFURLSessionManager *BackgroundSessionManager;
     [request addValue:[NSString stringWithFormat:@"%llu",fileSize] forHTTPHeaderField:@"content-length"];
 
     AFURLSessionManager *mgr = [self sessionManager];
+    
+    if (UploadBackgroundTaskIdentifier != 0) {
+        [[UIApplication sharedApplication] endBackgroundTask:UploadBackgroundTaskIdentifier];
+        UploadBackgroundTaskIdentifier = 0;
+    }
+    
+    UploadBackgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        UploadBackgroundTaskIdentifier = 0;
+    }];
+    
+    
     NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -93,6 +107,9 @@ AFURLSessionManager *BackgroundSessionManager;
                 completionBlock(nil);
             }
         }
+        
+        [[UIApplication sharedApplication] endBackgroundTask:UploadBackgroundTaskIdentifier];
+        UploadBackgroundTaskIdentifier = 0;
     }];
     
     [task resume];
@@ -252,12 +269,26 @@ AFURLSessionManager *BackgroundSessionManager;
     
     NSString *endPoint = [NSString stringWithFormat:@"%@/messages/%@/finalize", [[CWMessageManager sharedInstance] baseEndPoint], uploadedMessage.messageID];
     
+    // Terminate existing background tasks if this call was made twice
+    if (FinalizeBackgroundTaskIdentifier != 0) {
+        [[UIApplication sharedApplication] endBackgroundTask:FinalizeBackgroundTaskIdentifier];
+        FinalizeBackgroundTaskIdentifier = 0;
+    }
+    
+    // Ensure this request continues by creating a background task for it
+    FinalizeBackgroundTaskIdentifier = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        FinalizeBackgroundTaskIdentifier = 0;
+    }];
+    
     [requestManager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
         NSLog(@"Successfully finalized message upload");
+        [[UIApplication sharedApplication] endBackgroundTask:FinalizeBackgroundTaskIdentifier];
+        FinalizeBackgroundTaskIdentifier = 0;
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failed to finalize message upload. Error:  %@",error.localizedDescription);
+        [[UIApplication sharedApplication] endBackgroundTask:FinalizeBackgroundTaskIdentifier];
+        FinalizeBackgroundTaskIdentifier = 0;
     }];
 }
 
