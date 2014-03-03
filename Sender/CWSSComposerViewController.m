@@ -73,6 +73,7 @@
     
     if (self.countdownCount == 0) {
         [self.countdownTimer invalidate];
+        [self.recordMessageLabel setText:@"Sending..."];
     }
     else {
         [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording...%d",self.countdownCount]];

@@ -23,7 +23,7 @@
 #import "CWProfilePictureViewController.h"
 
 
-@interface CWStartScreenViewController ()
+@interface CWStartScreenViewController () <UIGestureRecognizerDelegate>
 @property (nonatomic,strong) UIImageView * messageSentView;
 @property (nonatomic) UIViewController * popupModal;
 
@@ -65,12 +65,14 @@
     
     // single tap gesture recognizer
     self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggledCamera:)];
+    [self.tapRecognizer setDelegate:self];
     [self.view addGestureRecognizer:self.tapRecognizer];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [[[[CWVideoManager sharedManager] recorder] recorderView] setAlpha:1.0];
+
+    [[[[CWVideoManager sharedManager] recorder] recorderView] setAlpha:1.0f];
     [self.startScreenMessageLabel setText:[[CWGroundControlManager sharedInstance] startScreenMessage]];
 }
 
@@ -87,7 +89,7 @@
             [self.sentMessageView setAlpha:1];
         } completion:^(BOOL finished) {
             //
-            [UIView animateWithDuration:0.3 delay:2 options:kNilOptions animations:^{
+            [UIView animateWithDuration:0.3f delay:2.0f options:kNilOptions animations:^{
                 //
                 [self.sentMessageView setAlpha:0];
             } completion:^(BOOL finished) {
@@ -184,9 +186,24 @@
 
 #pragma mark - Gesture Recognizers
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    CGPoint pointInView = [touch locationInView:gestureRecognizer.view];
+    
+    if ([gestureRecognizer isMemberOfClass:[UITapGestureRecognizer class]]
+        && CGRectContainsPoint(CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5f), pointInView) ) {
+        
+        if (!CGRectContainsPoint(self.startButton.frame, pointInView)) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
 - (void)toggledCamera:(UIGestureRecognizer *)recognizer {
     
-    NSLog(@"Record screen tapped");
+    NSLog(@"Record screen tapped from start screen");
     self.shouldUseBackCamera = !self.shouldUseBackCamera;
     
      AVCaptureDeviceInput *videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(self.shouldUseBackCamera ? [CWVideoRecorder backFacingCamera] : [CWVideoRecorder frontFacingCamera]) error:nil];

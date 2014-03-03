@@ -153,7 +153,7 @@ NSInteger const defaultFeedbackTrigger = 5;
 - (NSString *)openerScreenMessage {
     
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"OPENER_SCREEN_MESSAGE"];
-    return value ? value:@"Play your friend's message and record your reaction.\nThen reply, preview & send it!";
+    return value ? value:@"Play your friend's message and record your reaction.";
 }
 
 // ERROR_SCREEN_MESSAGE_MIC_COMPOSER
