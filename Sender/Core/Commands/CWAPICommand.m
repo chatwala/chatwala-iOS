@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 pho. All rights reserved.
 //
 
-#import "CWCommand.h"
+#import "CWAPICommand.h"
 
-@implementation CWCommand
+@implementation CWAPICommand
 
 
 - (void)execute {

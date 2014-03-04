@@ -80,7 +80,7 @@
 
 
 - (NSString *)messagesEndPoint {
-    return [[self baseEndPoint]stringByAppendingPathComponent:@"messages"];
+    return [[self baseEndPoint]stringByAppendingPathComponent:@"messages/startUnknownRecipientMessageSend"];
 }
 
 - (NSString *)getUserMessagesEndPoint {
@@ -305,23 +305,23 @@
     self.messageIDOperation = nil;
     
     
-    NSDictionary *params = @{@"sender_id" : localUser.userID,
-                             @"recipient_id" : @"unknown_recipient"};
-    
-    NSLog(@"Requesting original message upload URL with params: %@", params);
-    
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
     NSString *newMessageID = [self generateMessageID];
-    NSString *endPoint = [NSString stringWithFormat:@"%@/%@", self.messagesEndPoint, newMessageID];
+    NSString *endPoint = self.messagesEndPoint;
+    
+    
+    NSDictionary *params = @{@"sender_id" : localUser.userID, @"message_id" : newMessageID};
+    NSLog(@"Starting original message send with params: %@", params);
+    
     
     self.messageIDOperation = [manager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         self.needsOriginalMessageUploadURL = NO;
-        self.tempUploadURLString = [responseObject valueForKey:@"sasUrl"];
-        self.tempDownloadURLString = [responseObject valueForKey:@"url"];
+        self.tempUploadURLString = [responseObject valueForKey:@"write_url"];
+        self.tempDownloadURLString = [responseObject valueForKey:@"share_url"];
         self.tempMessageID = newMessageID;
         
         NSLog(@"Fetched original message upload URL: %@: for new original message ID: %@",self.tempUploadURLString, self.tempMessageID);

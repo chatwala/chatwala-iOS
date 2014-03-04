@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 pho. All rights reserved.
 //
 
-@class CWCommand;
+@class CWAPICommand;
 
 @interface CWAPICommandFactory : NSObject
 
-+ (CWCommand *)commandWithcompletionBlockOrNil:(void (^)())completionBlock;
++ (CWAPICommand *)commandWithcompletionBlockOrNil:(void (^)())completionBlock;
 
 @end

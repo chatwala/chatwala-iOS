@@ -7,11 +7,11 @@
 //
 
 #import "CWAPICommandFactory.h"
-#import "CWCommand.h"
+#import "CWAPICommand.h"
 
 @implementation CWAPICommandFactory
 
-+ (CWCommand *)commandWithcompletionBlockOrNil:(void (^)())completionBlock {
++ (CWAPICommand *)commandWithcompletionBlockOrNil:(void (^)())completionBlock {
 
     return nil;
 }

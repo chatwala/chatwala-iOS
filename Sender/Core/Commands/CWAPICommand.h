@@ -8,6 +8,8 @@
 
 // Base class for all Commands
 
-@interface CWCommand : NSObject
+@interface CWAPICommand : NSObject
+
+@property (nonatomic) NSURL *baseEndpoint;
 
 @end
