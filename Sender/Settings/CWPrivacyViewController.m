@@ -23,8 +23,7 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.navigationItem setTitle:@"PRIVACY POLICY"];
@@ -37,8 +36,8 @@
     [self.navigationItem setLeftBarButtonItem:backBtnItem];
 }
 
-- (void)onBack
-{
+- (void)onBack {
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 

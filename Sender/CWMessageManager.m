@@ -95,15 +95,6 @@
     return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
 }
 
-
-- (AFDownloadTaskDestinationBlock) downloadURLDestinationBlock {
-    
-    return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
-        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
-        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
-    });
-}
-
 - (NSURL *)messageCacheURL {
     NSString * const messagesCacheFile = @"messages";
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
@@ -127,7 +118,6 @@
             NSArray *messages = [responseObject objectForKey:@"messages"];
             if([messages isKindOfClass:[NSArray class]]){
                 
-
                 CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
                 downloader.messageIdsForDownload = [self messageIDsFromResponse:messages];
                 [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
@@ -151,7 +141,6 @@
                     }
                     
                     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
-                    
                     [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
                 }];
             }
@@ -173,6 +162,41 @@
         }];
     }
 }
+
+- (void)sendCompletionBlock:(void (^)(UIBackgroundFetchResult))completionBlock {
+    NSLog(@"Completion block being called");
+    
+    if (completionBlock) {
+        completionBlock(UIBackgroundFetchResultNewData);
+    }
+}
+
+#pragma mark - Download logic
+
+//- (void)downloadMessages:(NSArray *)messageIDs {
+//    
+//    CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
+//    downloader.messageIdsForDownload = messageIDs;
+//    [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
+//        
+//        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
+//        
+//        if ([messagesDownloaded count]) {
+//            NSLog(@"New messages downloaded successfully.");
+//            
+//            if (state == UIApplicationStateBackground || state == UIApplicationStateInactive) {
+//            
+//                [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
+//            }
+//        }
+//        else {
+//            NSLog(@"No new messages downloaded after updating user's messages");
+//        }
+//        
+//        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+//        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+//    }];
+//}
 
 - (NSArray *)messageIDsFromResponse:(NSArray *)messages {
     
@@ -224,7 +248,7 @@
 
 #pragma mark - MessageID Server Fetches
 //, [NSString stringWithFormat:@"http://chatwala.com/?%@",message.messageID]
-- (void)fetchUploadURLForReplyToMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock
+- (void)fetchUploadURLForReplyMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock
  {
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];

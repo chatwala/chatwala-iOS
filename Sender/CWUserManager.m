@@ -12,13 +12,13 @@
 #import "CWUtility.h"
 #import "CWServerAPI.h"
 #import "CWGroundControlManager.h"
+#import "CWUserDefaultsController.h"
 
 
 NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
 NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 
-NSString * const UserIdDefaultsKey = @"CHATWALA_USER_ID";
 NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBACK_REQUESTED";
 NSString * const kNewMessageDeliveryMethodKey = @"kNewMessageDeliveryMethodKey";
 NSString * const kNewMessageDeliveryMethodValueSMS = @"SMS";
@@ -81,7 +81,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 - (User *)localUser {
     
-    NSString *existingUserId = [[NSUserDefaults standardUserDefaults] valueForKey:UserIdDefaultsKey];
+    NSString *existingUserId = [CWUserDefaultsController userID];
     
     if ([existingUserId length]) {
         _localUser = [[CWDataManager sharedInstance] createUserWithID:existingUserId];
@@ -98,9 +98,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     NSLog(@"Generated new user id: %@",newUserID);
     
     self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
-
-    [[NSUserDefaults standardUserDefaults]setValue:newUserID forKey:UserIdDefaultsKey];
-    [[NSUserDefaults standardUserDefaults]synchronize];
+    [CWUserDefaultsController setUserID:newUserID];
 }
 
 - (BOOL) hasApprovedProfilePicture:(User *) user

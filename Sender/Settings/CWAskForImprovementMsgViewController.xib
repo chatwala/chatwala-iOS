@@ -28,7 +28,7 @@
                     <rect key="frame" x="0.0" y="285" width="320" height="283"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </imageView>
-                <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hrk-Si-Ix3">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hrk-Si-Ix3">
                     <rect key="frame" x="120" y="244" width="80" height="80"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
@@ -43,7 +43,7 @@
                         <action selector="onSureTapped:" destination="-1" eventType="touchUpInside" id="RIU-cX-drb"/>
                     </connections>
                 </button>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Sorry about that.       We want to improve.      Send us a message?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="241" translatesAutoresizingMaskIntoConstraints="NO" id="gLe-5z-RUB">
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sorry about that.       We want to improve.      Send us a message?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="241" translatesAutoresizingMaskIntoConstraints="NO" id="gLe-5z-RUB">
                     <rect key="frame" x="40" y="115" width="241" height="99"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="24"/>
@@ -65,6 +65,7 @@
                 <constraint firstAttribute="trailing" secondItem="NhM-uM-E5M" secondAttribute="trailing" id="Qfr-Xo-7U7"/>
                 <constraint firstItem="NhM-uM-E5M" firstAttribute="trailing" secondItem="bw7-bv-3hz" secondAttribute="trailing" id="fi1-dB-P5E"/>
                 <constraint firstItem="Hrk-Si-Ix3" firstAttribute="top" secondItem="gLe-5z-RUB" secondAttribute="bottom" constant="30" id="jdH-ix-YT0"/>
+                <constraint firstItem="gLe-5z-RUB" firstAttribute="centerX" secondItem="PvM-lj-A9F" secondAttribute="centerX" id="kGM-KP-2rS"/>
                 <constraint firstItem="NhM-uM-E5M" firstAttribute="leading" secondItem="1" secondAttribute="leading" id="qAg-DU-ZX0"/>
                 <constraint firstItem="bw7-bv-3hz" firstAttribute="top" secondItem="PvM-lj-A9F" secondAttribute="bottom" constant="-29" id="r8M-Vs-FVl"/>
                 <constraint firstItem="bw7-bv-3hz" firstAttribute="top" secondItem="gLe-5z-RUB" secondAttribute="bottom" constant="71" id="rCp-sQ-uTK"/>

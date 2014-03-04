@@ -8,8 +8,17 @@
 
 #import "CWSSComposerViewController.h"
 #import "CWSSReviewViewController.h"
+#import "CWUserDefaultsController.h"
+#import "CWMessageSender.h"
+#import "CWDataManager.h"
+#import "CWUserManager.h"
+#import "Message.h"
 
-@interface CWSSComposerViewController ()
+@interface CWSSComposerViewController () <CWMessageSenderDelegate>
+
+@property (nonatomic) CWMessageSender *messageSender;
+@property (nonatomic) NSTimer *countdownTimer;
+@property (nonatomic,assign) NSInteger countdownCount;
 
 @end
 
@@ -24,29 +33,79 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+
+- (void)viewDidLoad {
+    
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     [[[CWVideoManager sharedManager]recorder]setDelegate:self];
 }
-- (void)viewWillAppear:(BOOL)animated
-{
+
+- (void)viewWillAppear:(BOOL)animated {
+
     [super viewWillAppear:animated];
+    
     [self.view insertSubview:[[[CWVideoManager sharedManager]recorder]recorderView] belowSubview:self.middleButton];
-    [[[[CWVideoManager sharedManager]recorder]recorderView]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5)];
+    [[[[CWVideoManager sharedManager]recorder]recorderView]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5f)];
 }
 
-
-- (void)showReview
-{
-    CWSSReviewViewController * reviewVC = [[CWSSReviewViewController alloc]init];
-    [reviewVC setStartRecordingTime:0];
-    [self.navigationController pushViewController:reviewVC animated:NO];
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateLabel) userInfo:nil repeats:YES];
+    self.countdownCount = 10;
+    [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording...%d",self.countdownCount]];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void)viewWillDisappear:(BOOL)animated {
+    [self.countdownTimer invalidate];
+    self.countdownTimer = nil;
+
+    [super viewWillDisappear:animated];
+}
+
+- (void)updateLabel {
+    
+    self.countdownCount--;
+    
+    if (self.countdownCount == 0) {
+        [self.countdownTimer invalidate];
+        [self.recordMessageLabel setText:@"Sending..."];
+    }
+    else {
+        [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording...%d",self.countdownCount]];
+    }
+}
+
+- (void)showPreview {
+
+    if ([CWUserDefaultsController shouldShowMessagePreview]) {
+        CWSSReviewViewController * previewVC = [[CWSSReviewViewController alloc]init];
+        [previewVC setStartRecordingTime:0];
+        [self.navigationController pushViewController:previewVC animated:NO];
+    }
+    else {
+
+        User *localUser = [[CWUserManager sharedInstance] localUser];
+        
+        Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:nil];
+        
+        message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
+        message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
+        message.startRecording = [NSNumber numberWithDouble:0.0];
+        
+        self.messageSender = [[CWMessageSender alloc] init];
+        self.messageSender.delegate = self;
+        self.messageSender.messageBeingSent = message;
+        
+        self.hasSentMessage = YES;
+        [self.messageSender sendMessageFromUser:localUser];
+    }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+
     [super touchesEnded:touches withEvent:event];
     
     UITouch * touch = [touches anyObject];
@@ -61,5 +120,37 @@
     }
 }
 
+- (void)uploadProfilePictureForUser:(User *) user {
+    
+    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user]) {
+        return;//already did this
+    }
+    
+    CWVideoPlayer *player = [[CWVideoManager sharedManager] player];
+    [player setVideoURL:[[CWVideoManager sharedManager]recorder].tempFileURL];
+    
+    [player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
+    }];
+}
+
+#pragma mark - CWMessageSenderDelegate methods
+
+- (void)messageSender:(CWMessageSender *)messageSender shouldPresentMessageComposerController:(UINavigationController *)composerNavController {
+    [self presentViewController:composerNavController animated:YES completion:nil];
+}
+
+- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
+    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
+
+- (void)messageSenderDidCancelMessageSend:(CWMessageSender *)messageSender {
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
+
+- (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
+    // TODO: Show error
+}
 
 @end

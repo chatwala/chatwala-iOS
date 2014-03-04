@@ -233,7 +233,7 @@
         // Responding to an incoming message
         [CWAnalytics event:@"SEND_MESSAGE" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:@(playbackCount)];
         
-        [[CWMessageManager sharedInstance] fetchUploadURLForReplyToMessage:message completionBlockOrNil:^(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString) {
+        [[CWMessageManager sharedInstance] fetchUploadURLForReplyMessage:message completionBlockOrNil:^(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString) {
             if (messageID && uploadURLString ) {
                 message.messageID = messageID;
                 [message exportZip];
@@ -247,7 +247,6 @@
                 [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
             }
         }];
-        
     }else{
         // New conversation starter message
         

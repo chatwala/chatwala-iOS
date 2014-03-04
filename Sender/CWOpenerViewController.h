@@ -6,7 +6,6 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "CWVideoManager.h"
 #import "CWMiddleButton.h"
 #import "CWViewController.h"
@@ -19,13 +18,6 @@ typedef enum {
     CWOpenerRespond
 }CWOpenerState;
 
-//static NSString *const FEEDBACK_RESPONSE_STRING = @"Recording Response 0:%02d";
-//static NSString *const FEEDBACK_REACTION_STRING = @"Recording Reaction 0:%02d";
-//static NSString *const FEEDBACK_REVIEW_STRING   = @"Recording Reaction in 0:%02d";
-
-
-
-
 @interface CWOpenerViewController : CWViewController <CWVideoPlayerDelegate,CWVideoRecorderDelegate>
 @property (weak, nonatomic) IBOutlet UIView *playbackView;
 @property (weak, nonatomic) IBOutlet UIView *cameraView;
@@ -34,6 +26,7 @@ typedef enum {
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
 @property (nonatomic, strong) Message * activeMessage;
+@property (nonatomic,assign) BOOL shouldPromptBeforeSending;
 
 - (void)setZipURL:(NSURL *) zipURL;
 - (void)onMiddleButtonTap;

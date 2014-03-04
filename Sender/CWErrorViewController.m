@@ -60,11 +60,6 @@
     
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 - (IBAction)onGrantAccess:(id)sender {
     if([[AVAudioSession sharedInstance] respondsToSelector:@selector(requestRecordPermission:)]) {
@@ -82,19 +77,18 @@
 - (void)onPermissionGranted
 {
     [self.navigationController popToRootViewControllerAnimated:YES];
-    [CWAnalytics event:@"MICROPHONE_ACCEPT" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
+    [CWAnalytics event:CWAnalyticsEventMicrophoneAccept withCategory:CWAnalyticsCategoryFirstOpen withLabel:@"" withValue:nil];
 }
 
-- (void)onPermissionDenied
-{
-    [CWAnalytics event:@"MICROPHONE_DECLINE" withCategory:@"FIRST_OPEN" withLabel:@"" withValue:nil];
+- (void)onPermissionDenied {
+    
+    [CWAnalytics event:CWAnalyticsEventMicrophoneDecline withCategory:CWAnalyticsCategoryFirstOpen withLabel:@"" withValue:nil];
     
     UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"Microphone" message:@"Please grant access to Microphone" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Settings", nil];
     [alert show];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     switch (buttonIndex) {
         case 1:
             //
@@ -110,4 +104,5 @@
 {
     
 }
+
 @end

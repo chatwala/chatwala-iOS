@@ -193,8 +193,8 @@ const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
     NSString * expected = [NSString stringWithFormat:@"%iw", wholeWeeks];
     NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
     
-    id mockConstants = [OCMockObject mockForClass:[CWConstants class]];
-    [[[mockConstants stub] andReturn:[NSDate distantPast]] launchDate];
+//    id mockConstants = [OCMockObject mockForClass:[CWConstants class]];
+//    [[[mockConstants stub] andReturn:[NSDate distantPast]] launchDate];
     
     //when
     NSString * actual = [self.sut timeStringFromDate:timeStamp];
@@ -203,7 +203,7 @@ const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
     XCTAssertEqualObjects(actual, expected, @"should be the same");
     
     //cleanup
-    [mockConstants stopMocking];
+//    [mockConstants stopMocking];
 }
 
 - (void)testTimeStringFromDateWithYears
@@ -213,8 +213,8 @@ const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
     NSTimeInterval time = wholeYears * kSecondsPerYear;
     NSString * expected = [NSString stringWithFormat:@"%iy", wholeYears];
     NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
-    id mockConstants = [OCMockObject mockForClass:[CWConstants class]];
-    [[[mockConstants stub] andReturn:[NSDate distantPast]] launchDate];
+//    id mockConstants = [OCMockObject mockForClass:[CWConstants class]];
+//    [[[mockConstants stub] andReturn:[NSDate distantPast]] launchDate];
     
     //when
     NSString * actual = [self.sut timeStringFromDate:timeStamp];
@@ -223,7 +223,7 @@ const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
     XCTAssertEqualObjects(actual, expected, @"should be the same");
     
     //cleanup
-    [mockConstants stopMocking];
+//    [mockConstants stopMocking];
 }
 
 
@@ -234,8 +234,8 @@ const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
     NSTimeInterval time = wholeYears * kSecondsPerYear;
     NSString * expected = @"";
     NSDate * timeStamp = [NSDate dateWithTimeIntervalSinceNow:-time ];
-    id mockConstants = [OCMockObject mockForClass:[CWConstants class]];
-    [[[mockConstants stub] andReturn:[NSDate date]] launchDate];
+//    id mockConstants = [OCMockObject mockForClass:[CWConstants class]];
+//    [[[mockConstants stub] andReturn:[NSDate date]] launchDate];
     
     //when
     NSString * actual = [self.sut timeStringFromDate:timeStamp];
@@ -244,7 +244,7 @@ const NSInteger kSecondsPerYear = 52 * kSecondsPerWeek;
     XCTAssertEqualObjects(actual, expected, @"should be the same");
     
     //cleanup
-    [mockConstants stopMocking];
+//    [mockConstants stopMocking];
 }
 
 - (void)testTimeStringFromDateWithFutureTime
