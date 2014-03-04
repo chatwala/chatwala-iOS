@@ -23,6 +23,8 @@ NSString *const PushRegisterEndpoint = @"/registerPushToken";
 NSString *const BackgroundSessionIdentifier = @"com.chatwala.qa.backgroundSession";
 #elif USE_DEV_SERVER
 NSString *const BackgroundSessionIdentifier = @"com.chatwala.dev.backgroundSession";
+#elif USE_SANDBOX_SERVER
+NSString *const BackgroundSessionIdentifier = @"com.chatwala.dev.backgroundSession";
 #else
 NSString *const BackgroundSessionIdentifier = @"com.chatwala.chatwala.backgroundSession";
 #endif
