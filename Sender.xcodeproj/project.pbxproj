@@ -28,6 +28,7 @@
 		0D29E37718AABA8B00082ECF /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37618AABA8B00082ECF /* UIColor+Additions.m */; };
 		0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */; };
 		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
+		0D4B4B5918C65BFC0073C505 /* CWMiddleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */; };
 		0D6B51C418BFC0C000C0D119 /* CWMessageSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */; };
 		0D6F838C18BD495500DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838918BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m */; };
 		0D6F838D18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838B18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m */; };
@@ -185,7 +186,6 @@
 		E9652563183535C1008987BD /* CWPIPOpenerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */; };
 		E96525651835367A008987BD /* CWOpenerVCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E96525641835367A008987BD /* CWOpenerVCTests.m */; };
 		E973B1A318453C3E007A8D51 /* CWAnalyticsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E973B1A218453C3E007A8D51 /* CWAnalyticsTests.m */; };
-		E98B1697184F85B80021A611 /* CWMiddleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = E98B1696184F85B80021A611 /* CWMiddleButton.m */; };
 		E990946118620AD70050695F /* CWViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E990946018620AD70050695F /* CWViewController.m */; };
 		E9909464186231BF0050695F /* CWMessageManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9909463186231BF0050695F /* CWMessageManager.m */; };
 		E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9ABCF64183D45470098E530 /* CWErrorViewController.m */; };
@@ -261,6 +261,8 @@
 		0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Sender/Framework/Crashlytics.framework; sourceTree = "<group>"; };
 		0D4586E2189AC591006BB737 /* CWServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWServerAPI.h; sourceTree = "<group>"; };
 		0D4586E3189AC591006BB737 /* CWServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWServerAPI.m; sourceTree = "<group>"; };
+		0D4B4B5718C65BFC0073C505 /* CWMiddleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMiddleButton.h; sourceTree = "<group>"; };
+		0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMiddleButton.m; sourceTree = "<group>"; };
 		0D6B51C218BFC0C000C0D119 /* CWMessageSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageSender.h; sourceTree = "<group>"; };
 		0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageSender.m; sourceTree = "<group>"; };
 		0D6F838818BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTableViewCellNewMessageDeliveryMethodCell.h; sourceTree = "<group>"; };
@@ -463,8 +465,6 @@
 		E9652561183535C1008987BD /* CWPIPOpenerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPIPOpenerViewController.xib; sourceTree = "<group>"; };
 		E96525641835367A008987BD /* CWOpenerVCTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWOpenerVCTests.m; sourceTree = "<group>"; };
 		E973B1A218453C3E007A8D51 /* CWAnalyticsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAnalyticsTests.m; sourceTree = "<group>"; };
-		E98B1695184F85B80021A611 /* CWMiddleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMiddleButton.h; sourceTree = "<group>"; };
-		E98B1696184F85B80021A611 /* CWMiddleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMiddleButton.m; sourceTree = "<group>"; };
 		E990945F18620AD70050695F /* CWViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWViewController.h; sourceTree = "<group>"; };
 		E990946018620AD70050695F /* CWViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewController.m; sourceTree = "<group>"; };
 		E9909462186231BF0050695F /* CWMessageManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageManager.h; sourceTree = "<group>"; };
@@ -894,6 +894,8 @@
 		E924AD26183AAD79009400DD /* Start Screen */ = {
 			isa = PBXGroup;
 			children = (
+				0D4B4B5718C65BFC0073C505 /* CWMiddleButton.h */,
+				0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */,
 				E90F04E6182D7AD4004B8CCD /* CWStartScreenViewController.h */,
 				E90F04E7182D7AD4004B8CCD /* CWStartScreenViewController.m */,
 				E924AD20183AAD47009400DD /* CWPIPStartScreenViewController.h */,
@@ -1111,15 +1113,6 @@
 				E9ABCFB8183E632A0098E530 /* google_oauth2.json */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		E99094581861F69E0050695F /* Buttons */ = {
-			isa = PBXGroup;
-			children = (
-				E98B1695184F85B80021A611 /* CWMiddleButton.h */,
-				E98B1696184F85B80021A611 /* CWMiddleButton.m */,
-			);
-			name = Buttons;
 			sourceTree = "<group>";
 		};
 		E9ABCF62183D45270098E530 /* Error */ = {
@@ -1484,8 +1477,8 @@
 			files = (
 				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
+				0D4B4B5918C65BFC0073C505 /* CWMiddleButton.m in Sources */,
 				E9C1156A1832D82700DB67D2 /* CWPreviewViewController.m in Sources */,
-				368BE278189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
@@ -1506,7 +1499,6 @@
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
 				0D1DAEA418917FD30051D7AE /* CWUtility.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
-				E98B1697184F85B80021A611 /* CWMiddleButton.m in Sources */,
 				0D29E37718AABA8B00082ECF /* UIColor+Additions.m in Sources */,
 				E990946118620AD70050695F /* CWViewController.m in Sources */,
 				E9443997182940AF0088A381 /* AppDelegate.m in Sources */,
