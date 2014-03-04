@@ -130,8 +130,8 @@
     }
 }
 
-- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
-{
+- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder {
+
     [super recorderRecordingFinished:recorder];
     
     [self.countdownTimer invalidate];

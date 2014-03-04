@@ -621,13 +621,6 @@
 			path = DCControl;
 			sourceTree = "<group>";
 		};
-		0D200AC41891879F008C2238 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
 		0D200ACD18918C4D008C2238 /* Inbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -1014,7 +1007,6 @@
 				0D200AB31891852F008C2238 /* External */,
 				0D1DAE9E18917F960051D7AE /* Helpers */,
 				E946BD231844FC0E00C6A99D /* Managers */,
-				0D200AC41891879F008C2238 /* Models */,
 				E90F04E3182D2A53004B8CCD /* Interface */,
 				E946BD261844FCA700C6A99D /* Resources */,
 				E944398D182940AF0088A381 /* Supporting Files */,
