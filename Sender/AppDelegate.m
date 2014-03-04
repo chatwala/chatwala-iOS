@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "CWGroundControlManager.h"
-#import "CWLandingViewController.h"
 #import "CWUserManager.h"
 #import "CWInboxViewController.h"
 #import "CWMainViewController.h"
@@ -21,6 +20,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import <FacebookSDK/FacebookSDK.h> 
 #import "CWUserDefaultsController.h"
+#import "CWStartScreenViewController.h"
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -100,6 +100,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     self.inboxController = [[CWInboxViewController alloc]init];
     self.mainVC = [[CWMainViewController alloc]init];
+
     [self.inboxController setDelegate:self];
     
     

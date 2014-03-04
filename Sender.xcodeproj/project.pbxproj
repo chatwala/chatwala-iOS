@@ -209,9 +209,6 @@
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
 		E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */; };
 		E9CE73EF1831878000056FA9 /* CWVideoPlayerViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */; };
-		E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E003F8183FEB6B0087E909 /* CWLandingViewController.m */; };
-		E9E003FB183FEB6B0087E909 /* CWLandingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9E003F9183FEB6B0087E909 /* CWLandingViewController.xib */; };
-		E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E9E003FD183FEC4E0087E909 /* CWFlowManager.m */; };
 		E9F843ED183EA81C0081D5DD /* AppIcon76x76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */; };
 /* End PBXBuildFile section */
 
@@ -505,11 +502,6 @@
 		E9CE73EB1831873A00056FA9 /* CWVideoPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoPlayerView.h; sourceTree = "<group>"; };
 		E9CE73EC1831873A00056FA9 /* CWVideoPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerView.m; sourceTree = "<group>"; };
 		E9CE73EE1831878000056FA9 /* CWVideoPlayerViewTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoPlayerViewTests.m; sourceTree = "<group>"; };
-		E9E003F7183FEB6B0087E909 /* CWLandingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWLandingViewController.h; sourceTree = "<group>"; };
-		E9E003F8183FEB6B0087E909 /* CWLandingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWLandingViewController.m; sourceTree = "<group>"; };
-		E9E003F9183FEB6B0087E909 /* CWLandingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWLandingViewController.xib; sourceTree = "<group>"; };
-		E9E003FC183FEC4E0087E909 /* CWFlowManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWFlowManager.h; sourceTree = "<group>"; };
-		E9E003FD183FEC4E0087E909 /* CWFlowManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWFlowManager.m; sourceTree = "<group>"; };
 		E9F843EC183EA81C0081D5DD /* AppIcon76x76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AppIcon76x76@2x.png"; path = "../AppIcon76x76@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -883,8 +875,6 @@
 		E90F04E3182D2A53004B8CCD /* Interface */ = {
 			isa = PBXGroup;
 			children = (
-				E99094581861F69E0050695F /* Buttons */,
-				E9E003FF183FEF1A0087E909 /* Landing */,
 				E90B7C84186C959200B94DCC /* Loading */,
 				E924AD26183AAD79009400DD /* Start Screen */,
 				E924AD3B183AC0F3009400DD /* Opener */,
@@ -1093,7 +1083,6 @@
 			isa = PBXGroup;
 			children = (
 				36E814C7185FB779002B1A12 /* User Manager */,
-				E946BD251844FC8D00C6A99D /* Flow Manager */,
 				E9ABCFB1183E5D960098E530 /* GroundControl Manager */,
 				E946BD241844FC2200C6A99D /* Video Manager */,
 				CC0C4BA31864EEFC0096D5B3 /* Message Manager */,
@@ -1110,15 +1099,6 @@
 				E95E25E218314B8300E3950B /* CWVideoManager.m */,
 			);
 			name = "Video Manager";
-			sourceTree = "<group>";
-		};
-		E946BD251844FC8D00C6A99D /* Flow Manager */ = {
-			isa = PBXGroup;
-			children = (
-				E9E003FC183FEC4E0087E909 /* CWFlowManager.h */,
-				E9E003FD183FEC4E0087E909 /* CWFlowManager.m */,
-			);
-			name = "Flow Manager";
 			sourceTree = "<group>";
 		};
 		E946BD261844FCA700C6A99D /* Resources */ = {
@@ -1179,16 +1159,6 @@
 				E9C1154F1832805300DB67D2 /* CWVideoRecorder.m */,
 			);
 			name = Recorder;
-			sourceTree = "<group>";
-		};
-		E9E003FF183FEF1A0087E909 /* Landing */ = {
-			isa = PBXGroup;
-			children = (
-				E9E003F7183FEB6B0087E909 /* CWLandingViewController.h */,
-				E9E003F8183FEB6B0087E909 /* CWLandingViewController.m */,
-				E9E003F9183FEB6B0087E909 /* CWLandingViewController.xib */,
-			);
-			name = Landing;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1284,7 +1254,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9E003FB183FEB6B0087E909 /* CWLandingViewController.xib in Resources */,
 				E90B7CB0186CBE4A00B94DCC /* waves0012.png in Resources */,
 				E90B7CAB186CBE4A00B94DCC /* waves0007.png in Resources */,
 				E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */,
@@ -1516,6 +1485,7 @@
 				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
 				E9C1156A1832D82700DB67D2 /* CWPreviewViewController.m in Sources */,
+				368BE278189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
@@ -1528,7 +1498,6 @@
 				0D1DAEAF1891809D0051D7AE /* CWPrivacyViewController.m in Sources */,
 				E924AD18183AA160009400DD /* CWPIPOpenerViewController.m in Sources */,
 				E9909464186231BF0050695F /* CWMessageManager.m in Sources */,
-				E9E003FE183FEC4E0087E909 /* CWFlowManager.m in Sources */,
 				9AC88A991892E7790006EE61 /* CWAskForImprovementMsgViewController.m in Sources */,
 				206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
@@ -1554,7 +1523,6 @@
 				36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
-				E9E003FA183FEB6B0087E909 /* CWLandingViewController.m in Sources */,
 				36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */,
 				E94439D1182946460088A381 /* AVCamCaptureManager.m in Sources */,
 				206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */,
