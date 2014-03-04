@@ -14,8 +14,9 @@
 
 @implementation CWPIPComposerViewController
 
-- (void)showPreview
-{
+
+- (void)showPreview {
+
     CWPIPReviewViewController * reviewVC = [[CWPIPReviewViewController alloc]init];
     [reviewVC setStartRecordingTime:0];
     [self.navigationController pushViewController:reviewVC animated:YES];

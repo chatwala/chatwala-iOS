@@ -8,7 +8,6 @@
 
 #import "AppDelegate.h"
 #import "CWGroundControlManager.h"
-#import "CWLandingViewController.h"
 #import "CWUserManager.h"
 #import "CWInboxViewController.h"
 #import "CWMainViewController.h"
@@ -18,9 +17,11 @@
 #import "CWDataManager.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
+
 #import <Crashlytics/Crashlytics.h>
 #import <FacebookSDK/FacebookSDK.h> 
 #import "CWUserDefaultsController.h"
+
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
