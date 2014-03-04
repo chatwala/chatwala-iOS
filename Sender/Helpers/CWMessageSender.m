@@ -68,6 +68,8 @@
                 downloadURLString = [NSString stringWithFormat:@"http://chatwala.com/qa/?%@",messageID];
 #elif USE_DEV_SERVER
                 downloadURLString = [NSString stringWithFormat:@"http://chatwala.com/dev/?%@",messageID];
+#elif USE_SANDBOX_SERVER
+                downloadURLString = [NSString stringWithFormat:@"http://chatwala.com/dev/?%@",messageID];
 #endif
                 
                 [self.messageBeingSent exportZip];

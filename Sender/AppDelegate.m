@@ -191,6 +191,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     fbAppID = @"639218822814074";
 #elif USE_DEV_SERVER
     fbAppID = @"1472279299660540";
+#elif USE_DEV_SERVER
+    fbAppID = @"1472279299660540";
 #endif
     
     [FBSettings setDefaultAppID:fbAppID];
@@ -261,6 +263,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     NSString *appURLScheme = @"chatwala-dev";
 #elif USE_QA_SERVER
     NSString *appURLScheme = @"chatwala-qa";
+#elif USE_SANDBOX_SERVER
+    NSString *appURLScheme = @"chatwala-dev";
 #else
     NSString *appURLScheme = @"chatwala";
 #endif
