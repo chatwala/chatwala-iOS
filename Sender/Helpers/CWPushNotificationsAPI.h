@@ -18,4 +18,5 @@
 // Inbound notifications
 + (void)handleLocalPushNotification:(UILocalNotification *)notification;
 + (void)handleRemotePushNotification:(NSDictionary *)userInfo completionBlock:(void (^)(UIBackgroundFetchResult))completionHandler;
+
 @end
