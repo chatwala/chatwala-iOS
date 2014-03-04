@@ -96,5 +96,4 @@ static BOOL didRegisterForPushNotifications = NO;
     return trimmed;
 }
 
-
 @end

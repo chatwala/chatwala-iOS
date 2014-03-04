@@ -11,6 +11,7 @@
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
 #import "CWServerAPI.h"
+#import "CWVideoFileCache.h"
 
 typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 
@@ -22,7 +23,7 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
     
     for (NSString *messageID in self.messageIdsForDownload) {
         
-        if (![[CWMessagesDownloader filePathForMessageID:messageID] length]) {
+        if (![[[CWVideoFileCache sharedCache] filepathForKey:messageID] length]) {
             [messageIDsNeedingDownload addObject:messageID];
         }
     }
@@ -67,19 +68,19 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
         }];
     }
 }
-
-
-+ (NSString *)filePathForMessageID:(NSString *)messageID {
-    // check if file exists locally
-    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
-    if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
-        // don't download
-        return localPath;
-    }
-    else {
-        return nil;
-    }
-}
+//
+//
+//+ (NSString *)filePathForMessageID:(NSString *)messageID {
+//    // check if file exists locally
+//    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
+//    if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
+//        // don't download
+//        return localPath;
+//    }
+//    else {
+//        return nil;
+//    }
+//}
 
 #pragma mark - Download methods
 
@@ -122,7 +123,7 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
 - (CWServerAPIDownloadDestinationBlock)downloadURLDestinationBlock {
     
     return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
-        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[CWVideoFileCache baseCacheDirectoryFilepath]];
         return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     });
 }

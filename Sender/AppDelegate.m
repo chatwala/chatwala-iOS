@@ -21,6 +21,7 @@
 #import <FacebookSDK/FacebookSDK.h> 
 #import "CWUserDefaultsController.h"
 #import "CWStartScreenViewController.h"
+#import "CWVideoFileCache.h"
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -266,7 +267,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     if ([scheme isEqualToString:appURLScheme]) {
         
-        NSURL *urlToOpen = [NSURL URLWithString:[CWMessagesDownloader filePathForMessageID:messageId]];
+        NSURL *urlToOpen = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:messageId]];
         
         if (!urlToOpen) {
             CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
@@ -459,7 +460,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.loadingVC.view setAlpha:1];
     
     
-    NSURL *urlToOpen = [NSURL URLWithString:[CWMessagesDownloader filePathForMessageID:messageId]];
+    NSURL *urlToOpen = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:messageId]];
     
     if (!urlToOpen) {
     

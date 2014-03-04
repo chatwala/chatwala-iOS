@@ -34,6 +34,7 @@
 		0D6F838D18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838B18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m */; };
 		0D6F839418BD4A8200DCAC2A /* CWConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F839318BD4A8200DCAC2A /* CWConstants.m */; };
 		0D6F839718BD4AB200DCAC2A /* CWUserDefaultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F839618BD4AB200DCAC2A /* CWUserDefaultsController.m */; };
+		0D74053C18C63A4C0075166A /* CWVideoFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D74053B18C63A4C0075166A /* CWVideoFileCache.m */; };
 		0DD3C92F18AED02500B4034C /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DD3C92E18AED02400B4034C /* SDWebImage.framework */; };
 		206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */; };
 		206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8718808F27007F3532 /* AOFetchUtilities.m */; };
@@ -273,6 +274,8 @@
 		0D6F839318BD4A8200DCAC2A /* CWConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CWConstants.m; path = ../Settings/UserDefaults/CWConstants.m; sourceTree = "<group>"; };
 		0D6F839518BD4AB200DCAC2A /* CWUserDefaultsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserDefaultsController.h; sourceTree = "<group>"; };
 		0D6F839618BD4AB200DCAC2A /* CWUserDefaultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserDefaultsController.m; sourceTree = "<group>"; };
+		0D74053A18C63A4C0075166A /* CWVideoFileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoFileCache.h; sourceTree = "<group>"; };
+		0D74053B18C63A4C0075166A /* CWVideoFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoFileCache.m; sourceTree = "<group>"; };
 		0DD3C92E18AED02400B4034C /* SDWebImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDWebImage.framework; path = Sender/Framework/SDWebImage.framework; sourceTree = "<group>"; };
 		206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOCoreDataStackUtilities.m; sourceTree = "<group>"; };
 		206CDF8618808F27007F3532 /* AOFetchUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOFetchUtilities.h; sourceTree = "<group>"; };
@@ -553,6 +556,8 @@
 				0D1DAEA018917F960051D7AE /* CWAnalytics.m */,
 				0D29E37118AAB9F500082ECF /* CWMessagesDownloader.h */,
 				0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */,
+				0D6B51C218BFC0C000C0D119 /* CWMessageSender.h */,
+				0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */,
 				0D1979AE18936E9F00379DD5 /* CWPushNotificationsAPI.h */,
 				0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */,
 				0D4586E2189AC591006BB737 /* CWServerAPI.h */,
@@ -561,8 +566,6 @@
 				0D6F839318BD4A8200DCAC2A /* CWConstants.m */,
 				0D1DAEA218917FD30051D7AE /* CWUtility.h */,
 				0D1DAEA318917FD30051D7AE /* CWUtility.m */,
-				0D6B51C218BFC0C000C0D119 /* CWMessageSender.h */,
-				0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -660,6 +663,16 @@
 				0D6F839618BD4AB200DCAC2A /* CWUserDefaultsController.m */,
 			);
 			path = UserDefaults;
+			sourceTree = "<group>";
+		};
+		0D74053918C63A4C0075166A /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				0D74053A18C63A4C0075166A /* CWVideoFileCache.h */,
+				0D74053B18C63A4C0075166A /* CWVideoFileCache.m */,
+			);
+			name = Core;
+			path = Sender/Core;
 			sourceTree = "<group>";
 		};
 		36AF5818187DD91300C5C13F /* CoreData */ = {
@@ -949,6 +962,7 @@
 		E944397A182940AF0088A381 = {
 			isa = PBXGroup;
 			children = (
+				0D74053918C63A4C0075166A /* Core */,
 				E944398C182940AF0088A381 /* Sender */,
 				E94439AB182940AF0088A381 /* SenderTests */,
 				36AF5828187DDBCF00C5C13F /* Tools */,
@@ -1504,6 +1518,7 @@
 				E95E25EB18314DD200E3950B /* CWVideoPlayer.m in Sources */,
 				E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */,
 				E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */,
+				0D74053C18C63A4C0075166A /* CWVideoFileCache.m in Sources */,
 				36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
