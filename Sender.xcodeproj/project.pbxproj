@@ -199,7 +199,7 @@
 		E9C115601832B9AD00DB67D2 /* AVURLAsset+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C1155F1832B9AD00DB67D2 /* AVURLAsset+Spec.m */; };
 		E9C115631832CA0500DB67D2 /* AVPlayer+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */; };
 		E9C115661832CA1900DB67D2 /* AVPlayerItem+Spec.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */; };
-		E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115681832D82700DB67D2 /* CWReviewViewController.m */; };
+		E9C1156A1832D82700DB67D2 /* CWPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = E9C115681832D82700DB67D2 /* CWPreviewViewController.m */; };
 		E9C1156B1832D82700DB67D2 /* CWPIPReviewViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */; };
 		E9CE73E618316AEC00056FA9 /* TestUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = E9CE73E518316AEC00056FA9 /* TestUtils.m */; };
 		E9CE73EA1831810900056FA9 /* video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = E9CE73E91831810900056FA9 /* video.mp4 */; };
@@ -483,8 +483,8 @@
 		E9C115621832CA0500DB67D2 /* AVPlayer+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayer+Spec.m"; sourceTree = "<group>"; };
 		E9C115641832CA1900DB67D2 /* AVPlayerItem+Spec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AVPlayerItem+Spec.h"; sourceTree = "<group>"; };
 		E9C115651832CA1900DB67D2 /* AVPlayerItem+Spec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AVPlayerItem+Spec.m"; sourceTree = "<group>"; };
-		E9C115671832D82700DB67D2 /* CWReviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWReviewViewController.h; sourceTree = "<group>"; };
-		E9C115681832D82700DB67D2 /* CWReviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWReviewViewController.m; sourceTree = "<group>"; };
+		E9C115671832D82700DB67D2 /* CWPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWPreviewViewController.h; sourceTree = "<group>"; };
+		E9C115681832D82700DB67D2 /* CWPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPreviewViewController.m; sourceTree = "<group>"; };
 		E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPIPReviewViewController.xib; sourceTree = "<group>"; };
 		E9CE73E418316AEC00056FA9 /* TestUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestUtils.h; sourceTree = "<group>"; };
 		E9CE73E518316AEC00056FA9 /* TestUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestUtils.m; sourceTree = "<group>"; };
@@ -845,7 +845,7 @@
 				E924AD26183AAD79009400DD /* Start Screen */,
 				E924AD3B183AC0F3009400DD /* Opener */,
 				E924AD27183AB0A2009400DD /* Composer */,
-				E924AD32183AB718009400DD /* Review */,
+				E924AD32183AB718009400DD /* Preview */,
 				E9ABCF62183D45270098E530 /* Error */,
 				0D200ACD18918C4D008C2238 /* Inbox */,
 				36F3F875187C9530002CBB63 /* KillScreen */,
@@ -887,11 +887,11 @@
 			name = Composer;
 			sourceTree = "<group>";
 		};
-		E924AD32183AB718009400DD /* Review */ = {
+		E924AD32183AB718009400DD /* Preview */ = {
 			isa = PBXGroup;
 			children = (
-				E9C115671832D82700DB67D2 /* CWReviewViewController.h */,
-				E9C115681832D82700DB67D2 /* CWReviewViewController.m */,
+				E9C115671832D82700DB67D2 /* CWPreviewViewController.h */,
+				E9C115681832D82700DB67D2 /* CWPreviewViewController.m */,
 				E924AD35183AB7CA009400DD /* CWPIPReviewViewController.h */,
 				E924AD36183AB7CA009400DD /* CWPIPReviewViewController.m */,
 				E9C115691832D82700DB67D2 /* CWPIPReviewViewController.xib */,
@@ -899,7 +899,7 @@
 				E924AD39183AB7D8009400DD /* CWSSReviewViewController.m */,
 				E924AD33183AB789009400DD /* CWSSReviewViewController.xib */,
 			);
-			name = Review;
+			name = Preview;
 			sourceTree = "<group>";
 		};
 		E924AD3B183AC0F3009400DD /* Opener */ = {
@@ -1436,7 +1436,7 @@
 			files = (
 				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
-				E9C1156A1832D82700DB67D2 /* CWReviewViewController.m in Sources */,
+				E9C1156A1832D82700DB67D2 /* CWPreviewViewController.m in Sources */,
 				368BE278189AE9CA00CB1AE8 /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,

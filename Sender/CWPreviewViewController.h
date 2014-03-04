@@ -12,7 +12,7 @@
 @class User;
 @class Message;
 
-@interface CWReviewViewController : CWViewController
+@interface CWPreviewViewController : CWViewController
 @property (weak, nonatomic) IBOutlet UIView *previewView;
 
 @property (weak, nonatomic) IBOutlet CWMiddleButton *sendButton;

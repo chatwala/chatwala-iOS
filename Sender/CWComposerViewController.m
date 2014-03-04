@@ -7,7 +7,7 @@
 //
 
 #import "CWComposerViewController.h"
-#import "CWReviewViewController.h"
+#import "CWPreviewViewController.h"
 #import "CWVideoManager.h"
 #import "CWGroundControlManager.h"
 

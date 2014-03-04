@@ -6,7 +6,7 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import "CWReviewViewController.h"
+#import "CWPreviewViewController.h"
 #import "CWVideoManager.h"
 #import "AppDelegate.h"
 #import "CWGroundControlManager.h"
@@ -20,7 +20,7 @@
 #import "CWDataManager.h"
 #import "CWAnalytics.h"
 
-@interface CWReviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
+@interface CWPreviewViewController () <UINavigationControllerDelegate,CWVideoPlayerDelegate,MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 {
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
@@ -34,7 +34,7 @@
 
 @end
 
-@implementation CWReviewViewController
+@implementation CWPreviewViewController
 
 @synthesize player;
 @synthesize recorder;
