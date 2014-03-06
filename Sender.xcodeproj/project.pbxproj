@@ -268,6 +268,7 @@
 		0D4586E3189AC591006BB737 /* CWServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWServerAPI.m; sourceTree = "<group>"; };
 		0D4B4B5718C65BFC0073C505 /* CWMiddleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMiddleButton.h; sourceTree = "<group>"; };
 		0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMiddleButton.m; sourceTree = "<group>"; };
+		0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 3.xcdatamodel"; sourceTree = "<group>"; };
 		0D6B51C218BFC0C000C0D119 /* CWMessageSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageSender.h; sourceTree = "<group>"; };
 		0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageSender.m; sourceTree = "<group>"; };
 		0D6F838818BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTableViewCellNewMessageDeliveryMethodCell.h; sourceTree = "<group>"; };
@@ -1440,7 +1441,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
+			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel 3.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
 		};
 		4B3DBD8706754EA0AB54D68F /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1726,8 +1727,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CW_APP_VERSION = 1.4.0;
-				CW_BUILD_VERSION = 2.6.7;
+				CW_APP_VERSION = 1.5.0;
+				CW_BUILD_VERSION = 2.7.15;
 				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
 				CW_DISPLAY_NAME = chatwala;
 				CW_URL_SCHEME = chatwala;
@@ -1756,8 +1757,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CW_APP_VERSION = 1.4.0;
-				CW_BUILD_VERSION = 2.6.7;
+				CW_APP_VERSION = 1.5.0;
+				CW_BUILD_VERSION = 2.7.15;
 				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
 				CW_DISPLAY_NAME = chatwala;
 				CW_URL_SCHEME = chatwala;
@@ -1857,9 +1858,10 @@
 		36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */,
 				36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */,
 			);
-			currentVersion = 36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */;
+			currentVersion = 0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */;
 			path = ChatwalaModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

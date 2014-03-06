@@ -104,6 +104,7 @@
     [player setDelegate:nil];
     [player stop];
     [self.messageSender cancel];
+    [[CWMessageManager sharedInstance] clearUploadURLForOriginalMessage];
     
     //TODO: Cancel message send
     if (self.incomingMessage) {

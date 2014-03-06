@@ -91,17 +91,10 @@
     [self.player setDelegate:self];
     [self.recorder setDelegate:self];
 
-//    if(!CGRectIsEmpty(smallFrame))
-//    {
-//        self.cameraView.frame = smallFrame;
-//    }
-//    if(!CGRectIsEmpty(largeFrame))
-//    {
-//        self.playbackView.frame = largeFrame;
-//    }
     NSAssert(self.activeMessage, @"expecting activeMessage to be set");
     NSAssert(self.activeMessage.videoURL, @"expecting video URL to be set");
     
+    [[CWMessageManager sharedInstance] addMessageToInbox:self.activeMessage];
     [self.player setVideoURL:self.activeMessage.videoURL];
     [self setupCameraView];
 }
@@ -339,9 +332,6 @@
         
         
     }
-//    NSLog(@"reponse count:%f", recordTickCount);
-
-
 }
 
 #pragma mark CWVideoPlayerDelegate

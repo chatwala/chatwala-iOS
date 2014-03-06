@@ -9,8 +9,8 @@
 typedef void (^CWServerAPIUploadCompletionBlock)(NSError *error);
 typedef void (^CWServerPushRegisterCompletionBlock)(NSError *error);
 
+typedef void (^CWServerAPIGetInboxCompletionBlock)(NSArray *messages, NSError *error);
 typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURLResponse *response);
-
 
 @class Message;
 
@@ -18,13 +18,21 @@ typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURL
 
 + (AFURLSessionManager *)sessionManager;
 
-+ (void)uploadProfilePicture:(UIImage *)thumbnail forUserID:(NSString *)userID withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock;
+// Inbox API
++ (void)getInboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetInboxCompletionBlock)completionBlock;
++ (void)addMessage:(NSString *)messageID toInboxForUser:(NSString *)userID;
+
+// Message Upload API
 + (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock;
++ (void)completeMessage:(Message *)uploadedMessage isReply:(BOOL)isReply;
 
+// Picture Upload API
++ (void)uploadProfilePicture:(UIImage *)thumbnail forUserID:(NSString *)userID withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock;
+
+// Push notifications API
 + (void)registerPushForUserID:(NSString *)userID withPushToken:(NSString *)pushToken withCompletionBlock:(CWServerPushRegisterCompletionBlock)completionBlock;
-+ (void)finalizeMessage:(Message *)uploadedMessage;
 
-+ (void)downloadMessageForID:(NSString *)messageID destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock;
-
+// Download API
++ (void)downloadMessageForID:(NSString *)downloadID destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock;
 
 @end

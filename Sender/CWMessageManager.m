@@ -19,9 +19,9 @@
 @interface CWMessageManager ()
 
 @property (nonatomic,assign) BOOL needsOriginalMessageUploadURL;
+
+@property (nonatomic,strong) Message *tempOriginalMessage;
 @property (nonatomic,strong) NSString *tempUploadURLString;
-@property (nonatomic,strong) NSString *tempMessageID;
-@property (nonatomic,strong) NSString *tempDownloadURLString;
 @property (nonatomic,strong) AFHTTPRequestOperation *messageIDOperation;
 
 @end
@@ -80,11 +80,11 @@
 
 
 - (NSString *)messagesEndPoint {
-    return [[self baseEndPoint]stringByAppendingPathComponent:@"messages/startUnknownRecipientMessageSend"];
+    return [[self baseEndPoint]stringByAppendingPathComponent:@"messages"];
 }
 
-- (NSString *)getUserMessagesEndPoint {
-    return [[self baseEndPoint]stringByAppendingString:@"/users/%@/messages"];
+- (NSString *)getInboxEndPoint {
+    return [[self baseEndPoint]stringByAppendingString:@"/messages/userInbox"];
 }
 
 - (NSString *)getMessageEndPoint {
@@ -108,24 +108,25 @@
     }
     else {
         
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-
-        NSString * url = [NSString stringWithFormat:[self getUserMessagesEndPoint],user_id] ;
-        NSLog(@"fetching messages: %@", url);
-        [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [CWServerAPI getInboxForUserID:user_id withCompletionBlock:^(NSArray *messages, NSError *error) {
             
-            NSArray *messages = [responseObject objectForKey:@"messages"];
-            if([messages isKindOfClass:[NSArray class]]){
+            if (error) {
+                // TODO;
+                self.getMessagesFailureBlock(nil, error);
+                
+                if (completionBlock) {
+                    completionBlock(UIBackgroundFetchResultNoData);
+                }
+            }
+            else {
                 
                 CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-                downloader.messageIdsForDownload = [self messageIDsFromResponse:messages];
-                [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
+                [downloader downloadMessages:[self messageIDsFromResponse:messages] withCompletionBlock:^(NSArray *messagesDownloaded) {
+                    
+                    NSLog(@"Messages downloader completed fetches.");
                     
                     // Finished download, now update badge & send local push notification if necessary
                     if (completionBlock) {
-                        
-                        NSLog(@"Messags downloader completed fetches.");
                         
                         if ([messagesDownloaded count]) {
                             
@@ -144,22 +145,16 @@
                     [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
                 }];
             }
-            else {
-                NSError * error = [NSError errorWithDomain:@"com.chatwala" code:6000 userInfo:@{@"reason":@"missing messages", @"response":responseObject}];
-                self.getMessagesFailureBlock(operation, error);
-                
-                if (completionBlock) {
-                    completionBlock(UIBackgroundFetchResultNoData);
-                }
-            }
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            //
-            self.getMessagesFailureBlock(operation, error);
             
-            if (completionBlock) {
-                completionBlock(UIBackgroundFetchResultNoData);
-            }
         }];
+    }
+}
+
+- (void)addMessageToInbox:(Message *)message {
+    
+    if ([message.recipient.userID isEqualToString:@"RECIPIENT_UNKNOWN"]) {
+        NSLog(@"Adding message to inbox...");
+        //[CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUser].userID];
     }
 }
 
@@ -212,7 +207,6 @@
 - (AFRequestOperationManagerFailureBlock) getMessagesFailureBlock {
     return (^ void(AFHTTPRequestOperation *operation, NSError * error){
         NSLog(@"failed to fetch messages with error: %@",error);
-        NSLog(@"operation:%@",operation);
         
         //            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
         [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
@@ -248,36 +242,36 @@
 
 #pragma mark - MessageID Server Fetches
 //, [NSString stringWithFormat:@"http://chatwala.com/?%@",message.messageID]
-- (void)fetchUploadURLForReplyMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock
- {
+- (void)fetchUploadURLForReplyMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
+
     // Create new request
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    NSString *endPoint = [self.messagesEndPoint stringByAppendingString:@"/startReplyMessageSend"];
     
-    NSDictionary *params = @{@"sender_id" : message.sender.userID,
-                             @"recipient_id" : message.recipient.userID};
+    NSDictionary *params = @{@"user_id" : message.sender.userID,
+                             @"replying_to_message_id" : message.replyToMessageID,
+                             @"message_id" : message.messageID};
      
     NSLog(@"Requesting reply message upload URL with params: %@", params);
-    
-    NSString *newMessageID = [self generateMessageID];
-    NSString *endPoint = [NSString stringWithFormat:@"%@/%@", self.messagesEndPoint, newMessageID];
      
     [manager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
 
-        NSString *sasUploadUrl = [responseObject valueForKey:@"sasUrl"];
+        NSString *sasUploadUrl = [responseObject valueForKey:@"write_url"];
+        Message *replyMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:[responseObject objectForKey:@"message_meta_data"] error:nil];
         
-        NSLog(@"Fetched new message upload URL: %@ for messageID: %@", sasUploadUrl, newMessageID);
+        NSLog(@"Fetched reply message upload URL: %@ for messageID: %@", sasUploadUrl, message.messageID);
         if (completionBlock) {
-            completionBlock(newMessageID, sasUploadUrl, [responseObject valueForKey:@"url"]);
+            completionBlock(replyMessage, sasUploadUrl);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
-        NSLog(@"Failed to fetch SAS upload URL from server for reply messageID: %@ with error:%@", message.messageID, error);
+        NSLog(@"Failed to fetch metadata for reply messageID: %@ with error:%@", message.messageID, error);
         NSLog(@"operation:%@",operation);
         
         if (completionBlock) {
-            completionBlock(nil, nil, nil);
+            completionBlock(nil, nil);
         }
     }];
 }
@@ -287,9 +281,9 @@
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
 
     // Check if we already have unused messageID we fetched earlier - return that
-    if (!self.needsOriginalMessageUploadURL && [self.tempUploadURLString length] && [self.tempMessageID length] && self.tempDownloadURLString) {
+    if (!self.needsOriginalMessageUploadURL && self.tempOriginalMessage && self.tempUploadURLString) {
         if (completionBlock) {
-            completionBlock(self.tempMessageID, self.tempUploadURLString, self.tempDownloadURLString);
+            completionBlock(self.tempOriginalMessage,self.tempUploadURLString);
         }
         
         return;
@@ -300,9 +294,8 @@
     [self.messageIDOperation cancel];
     
     self.tempUploadURLString = nil;
-    self.tempMessageID = nil;
-    self.tempDownloadURLString = nil;
     self.messageIDOperation = nil;
+    self.tempOriginalMessage = nil;
     
     
     // Create new request
@@ -310,7 +303,7 @@
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
     NSString *newMessageID = [self generateMessageID];
-    NSString *endPoint = self.messagesEndPoint;
+    NSString *endPoint = [self.messagesEndPoint stringByAppendingString:@"/startUnknownRecipientMessageSend"];
     
     
     NSDictionary *params = @{@"sender_id" : localUser.userID, @"message_id" : newMessageID};
@@ -321,13 +314,12 @@
         
         self.needsOriginalMessageUploadURL = NO;
         self.tempUploadURLString = [responseObject valueForKey:@"write_url"];
-        self.tempDownloadURLString = [responseObject valueForKey:@"share_url"];
-        self.tempMessageID = newMessageID;
+        self.tempOriginalMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:[responseObject objectForKey:@"message_meta_data"] error:nil];
         
-        NSLog(@"Fetched original message upload URL: %@: for new original message ID: %@",self.tempUploadURLString, self.tempMessageID);
+        NSLog(@"Fetched original message upload URL: %@: for new original message ID: %@",self.tempUploadURLString, self.tempOriginalMessage.messageID);
         
         if (completionBlock) {
-            completionBlock(self.tempMessageID, self.tempUploadURLString, self.tempDownloadURLString);
+            completionBlock(self.tempOriginalMessage, self.tempUploadURLString);
         }
         
         self.messageIDOperation = nil;
@@ -341,7 +333,7 @@
         NSLog(@"operation: %@",operation);
         
         if (completionBlock) {
-            completionBlock(nil,nil,nil);
+            completionBlock(nil, nil);
         }
         
         self.messageIDOperation = nil;
@@ -355,9 +347,8 @@
     [self.messageIDOperation cancel];
     
     self.tempUploadURLString = nil;
-    self.tempMessageID = nil;
-    self.tempDownloadURLString = nil;
     self.messageIDOperation = nil;
+    self.tempOriginalMessage = nil;
     
     self.needsOriginalMessageUploadURL = YES;
 }
@@ -377,7 +368,7 @@
             NSLog(@"Successful message upload - messageID: %@", messageToUpload.messageID);
             
             // Call finalize
-            [CWServerAPI finalizeMessage:messageToUpload];
+            [CWServerAPI completeMessage:messageToUpload isReply:isReplyMessage];
         }
     }];
     

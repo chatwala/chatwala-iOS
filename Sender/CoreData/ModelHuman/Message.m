@@ -19,14 +19,18 @@
 + (NSDictionary *) keyLookupTable
 {
     return @{
+             @"group_id" : MessageAttributes.groupID,
+             @"replying_to_message_id" : MessageAttributes.replyToMessageID,
              @"thread_id" : MessageRelationships.thread,
              @"thread_index" : MessageAttributes.threadIndex,
              @"message_id" : MessageAttributes.messageID,
              @"recipient_id" : MessageRelationships.recipient,
              @"sender_id" : MessageRelationships.sender,
-             @"thumbnail" : MessageAttributes.thumbnailPictureURL,
+             @"thumbnail_url" : MessageAttributes.thumbnailPictureURL,
              @"timestamp" : MessageAttributes.timeStamp,
              @"start_recording" : MessageAttributes.startRecording,
+             @"share_url" :  MessageAttributes.messageURL,
+
              };
 }
 
@@ -105,8 +109,6 @@
     
     [jsonData writeToFile:[newDirectoryPath stringByAppendingPathComponent:METADATA_FILE_NAME] atomically:YES];
     
-    NSLog(@"ready!");
-    // zip it up
     NSAssert(self.zipURL, @"expecting zip URL to be set");
     [SSZipArchive createZipFileAtPath:self.zipURL.path withContentsOfDirectory:newDirectoryPath];
 }
@@ -160,6 +162,8 @@
 + (NSArray *) attributesAndRelationshipsToArchive
 {
     return @[
+             MessageAttributes.groupID,
+             MessageAttributes.replyToMessageID,
              MessageAttributes.messageID,
              MessageAttributes.threadIndex,
              MessageAttributes.startRecording,
@@ -174,6 +178,8 @@
 + (NSDictionary *) reverseKeyLookupTable
 {
     return @{
+             MessageAttributes.groupID : @"group_id",
+             MessageAttributes.replyToMessageID : @"replying_to_message_id",
              MessageAttributes.messageID : @"message_id",
              MessageAttributes.timeStamp : @"timestamp",
              MessageAttributes.startRecording : @"start_recording",

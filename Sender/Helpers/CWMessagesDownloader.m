@@ -13,15 +13,13 @@
 #import "CWServerAPI.h"
 #import "CWVideoFileCache.h"
 
-typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
-
 @implementation CWMessagesDownloader
 
-- (void)startWithCompletionBlock:(CWMessageDownloaderCompletionBlock)completionBlock {
+- (void)downloadMessages:(NSArray *)messageIDsForDownload withCompletionBlock:(CWMessagesDownloaderCompletionBlock)completionBlock {
 
     NSMutableArray *messageIDsNeedingDownload = [NSMutableArray array];
     
-    for (NSString *messageID in self.messageIdsForDownload) {
+    for (NSString *messageID in messageIDsForDownload) {
         
         if (![[[CWVideoFileCache sharedCache] filepathForKey:messageID] length]) {
             [messageIDsNeedingDownload addObject:messageID];
@@ -68,25 +66,12 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
         }];
     }
 }
-//
-//
-//+ (NSString *)filePathForMessageID:(NSString *)messageID {
-//    // check if file exists locally
-//    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
-//    if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
-//        // don't download
-//        return localPath;
-//    }
-//    else {
-//        return nil;
-//    }
-//}
 
 #pragma mark - Download methods
 
-- (void)downloadMessageWithID:(NSString *)messageID completion:(CWMessageDownloaderMessageDownloadCompletionBlock)completionBlock {
+- (void)downloadMessageWithID:(NSString *)downloadIdentifier completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
     
-    [CWServerAPI downloadMessageForID:messageID destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+    [CWServerAPI downloadMessageForID:downloadIdentifier destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if(error) {
             NSLog(@"Error while downloading message file: %@", error);
             if (completionBlock) {

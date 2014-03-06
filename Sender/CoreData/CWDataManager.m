@@ -109,17 +109,19 @@
     return user;
 }
 
-- (Message *) createMessageWithSender:(User *) sender inResponseToIncomingMessage:(Message *) incomingMessage
+- (Message *) createMessageWithSender:(User *)sender inResponseToIncomingMessage:(Message *) incomingMessage
 {
     Message * message = [Message insertInManagedObjectContext:self.moc];
     message.sender = sender;
-    message.timeStamp = [NSDate date];
+//    message.timeStamp = [NSDate date];
     message.messageID = [[NSUUID UUID] UUIDString];;
     
     if(incomingMessage)
     {
         message.recipient = incomingMessage.sender;
         message.thread = incomingMessage.thread;
+        message.replyToMessageID = incomingMessage.messageID;
+        message.groupID = incomingMessage.groupID;
         message.threadIndexValue = incomingMessage.threadIndexValue + 1;
     }
     else
@@ -161,8 +163,12 @@
     User * sender = [self createUserWithID:senderID];
     [item setSender:sender];
     
-    NSString * receiverID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
-    item.recipient = [self createUserWithID:receiverID];
+    NSString * receipientID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
+    item.recipient = [self createUserWithID:receipientID];
+
+    //add thread
+//    NSString *groupID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
+//    item.groupID = groupID;
     
     //add thread
     NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
@@ -198,7 +204,7 @@
             // This is a check for "<null>" threadID value because of a 1.0.5 iOS bug
             NSString *threadIDValue = [jsonDict objectForKey:@"thread_id"];
             
-            if ([threadIDValue isEqual:[NSNull null]] && [threadIDValue isEqual:[NSNull null]]) {
+            if ([threadIDValue isEqual:[NSNull null]] || !threadIDValue) {
                 NSLog(@"Thread ID null works");
                 [jsonDict setValue:[[NSUUID UUID] UUIDString] forKey:@"thread_id"];
             }

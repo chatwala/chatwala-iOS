@@ -6,8 +6,10 @@
 
 const struct MessageAttributes MessageAttributes = {
 	.downloadState = @"downloadState",
+	.groupID = @"groupID",
 	.messageID = @"messageID",
 	.messageURL = @"messageURL",
+	.replyToMessageID = @"replyToMessageID",
 	.startRecording = @"startRecording",
 	.threadIndex = @"threadIndex",
 	.thumbnailPictureURL = @"thumbnailPictureURL",
@@ -127,6 +129,13 @@ const struct MessageUserInfo MessageUserInfo = {
 
 
 
+@dynamic groupID;
+
+
+
+
+
+
 @dynamic messageID;
 
 
@@ -135,6 +144,13 @@ const struct MessageUserInfo MessageUserInfo = {
 
 
 @dynamic messageURL;
+
+
+
+
+
+
+@dynamic replyToMessageID;
 
 
 
