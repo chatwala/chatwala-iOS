@@ -121,7 +121,7 @@
             else {
                 
                 CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-                [downloader downloadMessages:[self messageIDsFromResponse:messages] withCompletionBlock:^(NSArray *messagesDownloaded) {
+                [downloader downloadMessages:messages withCompletionBlock:^(NSArray *messagesDownloaded) {
                     
                     NSLog(@"Messages downloader completed fetches.");
                     
@@ -154,7 +154,7 @@
     
     if ([message.recipient.userID isEqualToString:@"RECIPIENT_UNKNOWN"]) {
         NSLog(@"Adding message to inbox...");
-        //[CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUser].userID];
+        [CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUser].userID];
     }
 }
 
@@ -251,7 +251,8 @@
     
     NSDictionary *params = @{@"user_id" : message.sender.userID,
                              @"replying_to_message_id" : message.replyToMessageID,
-                             @"message_id" : message.messageID};
+                             @"message_id" : message.messageID,
+                             @"start_recording":  message.startRecording};
      
     NSLog(@"Requesting reply message upload URL with params: %@", params);
      

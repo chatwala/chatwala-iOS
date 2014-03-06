@@ -98,7 +98,7 @@ AFURLSessionManager *BackgroundSessionManager;
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
-    NSString *endpoint = [[CWMessageManager sharedInstance] getInboxEndPoint];
+    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:@"/messages/addUnknownRecipientMessageToInbox"];
     NSDictionary *params = @{@"message_id" : messageID,
                              @"recipient_id" : userID};
     
@@ -346,6 +346,25 @@ AFURLSessionManager *BackgroundSessionManager;
 }
 
 #pragma mark - Download API
+
++ (void)downloadMessageFromReadURL:(NSString *)endPoint destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock {
+
+    NSLog(@"Successfully fetched message read url.");
+    
+    // do download
+    NSString * messagePath = endPoint;
+    NSLog(@"downloading file from: %@", messagePath);
+    
+    
+    AFURLSessionManager *manager = [self sessionManager];
+    NSURL *URL = [NSURL URLWithString:messagePath];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    
+    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
+    
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:destinationBlock completionHandler:completionBlock];
+    [downloadTask resume];
+}
 
 + (void)downloadMessageForID:(NSString *)downloadID destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock {
 

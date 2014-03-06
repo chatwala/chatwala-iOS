@@ -15,19 +15,24 @@
 
 @implementation CWMessagesDownloader
 
-- (void)downloadMessages:(NSArray *)messageIDsForDownload withCompletionBlock:(CWMessagesDownloaderCompletionBlock)completionBlock {
+- (void)downloadMessages:(NSArray *)messagesToDownload withCompletionBlock:(CWMessagesDownloaderCompletionBlock)completionBlock {
 
-    NSMutableArray *messageIDsNeedingDownload = [NSMutableArray array];
+    NSMutableArray *messagesNeedingDownload = [NSMutableArray array];
     
-    for (NSString *messageID in messageIDsForDownload) {
+    for (NSDictionary *messageMetadata in messagesToDownload) {
         
-        if (![[[CWVideoFileCache sharedCache] filepathForKey:messageID] length]) {
-            [messageIDsNeedingDownload addObject:messageID];
+        NSURL *localURL = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:[messageMetadata objectForKey:@"messageID"]]];
+        if (!localURL) {
+            [messagesNeedingDownload addObject:messageMetadata];
+        }
+        else {
+            NSError *error = nil;
+            [[CWDataManager sharedInstance] importMessageAtFilePath:localURL withError:&error];
         }
     }
     
     NSInteger totalMessagesToDownload = 0;
-    totalMessagesToDownload = [messageIDsNeedingDownload count];
+    totalMessagesToDownload = [messagesNeedingDownload count];
     
     if (!totalMessagesToDownload) {
         if (completionBlock) {
@@ -37,23 +42,25 @@
     
     NSMutableArray *downloadedMessages = [NSMutableArray array];
     
-    for (NSString *messageIdToDownload in messageIDsNeedingDownload) {
-        [self downloadMessageWithID:messageIdToDownload completion:^(BOOL success, NSURL *url) {
-
-            NSInteger completedRequests = 0;
+    for (NSDictionary *messageToDownload in messagesNeedingDownload) {
+        
+        __block NSInteger completedRequests = 0;
+        
+        [CWServerAPI downloadMessageFromReadURL:[messageToDownload objectForKey:@"read_url"] destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            
             completedRequests++;
             
-            if (success) {
+            if (!error) {
                 [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
                 
                 // TODO: This should happen elsewhere [RK]
                 NSError *error = nil;
-                Message *newMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:url withError:&error];
+                Message *newMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:filePath withError:&error];
                 [downloadedMessages addObject:newMessage];
                 
             }
             else {
-                NSLog(@"Error: failed download for message ID:  %@", messageIdToDownload);
+                NSLog(@"Error: failed download for message from URL:  %@", [messageToDownload objectForKey:@"read_url"]);
             }
             
             
@@ -63,7 +70,35 @@
                     completionBlock(downloadedMessages);
                 }
             }
+
         }];
+        
+//        [self downloadMessageWithID:messageIdToDownload completion:^(BOOL success, NSURL *url) {
+//
+//            NSInteger completedRequests = 0;
+//            completedRequests++;
+//            
+//            if (success) {
+//                [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
+//                
+//                // TODO: This should happen elsewhere [RK]
+//                NSError *error = nil;
+//                Message *newMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:url withError:&error];
+//                [downloadedMessages addObject:newMessage];
+//                
+//            }
+//            else {
+//                NSLog(@"Error: failed download for message ID:  %@", messageIdToDownload);
+//            }
+//            
+//            
+//            if (totalMessagesToDownload == completedRequests) {
+//                // All requests completed (failed/succeeded) - let's finish up.
+//                if (completionBlock) {
+//                    completionBlock(downloadedMessages);
+//                }
+//            }
+//        }];
     }
 }
 

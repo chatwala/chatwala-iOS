@@ -9,6 +9,7 @@ const struct MessageAttributes MessageAttributes = {
 	.groupID = @"groupID",
 	.messageID = @"messageID",
 	.messageURL = @"messageURL",
+	.readURL = @"readURL",
 	.replyToMessageID = @"replyToMessageID",
 	.startRecording = @"startRecording",
 	.threadIndex = @"threadIndex",
@@ -144,6 +145,13 @@ const struct MessageUserInfo MessageUserInfo = {
 
 
 @dynamic messageURL;
+
+
+
+
+
+
+@dynamic readURL;
 
 
 

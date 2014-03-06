@@ -30,7 +30,7 @@
              @"timestamp" : MessageAttributes.timeStamp,
              @"start_recording" : MessageAttributes.startRecording,
              @"share_url" :  MessageAttributes.messageURL,
-
+             @"read_url"  : MessageAttributes.readURL
              };
 }
 
@@ -163,6 +163,7 @@
 {
     return @[
              MessageAttributes.groupID,
+             MessageAttributes.readURL,
              MessageAttributes.replyToMessageID,
              MessageAttributes.messageID,
              MessageAttributes.threadIndex,
@@ -179,6 +180,7 @@
 {
     return @{
              MessageAttributes.groupID : @"group_id",
+             MessageAttributes.readURL : @"read_url",
              MessageAttributes.replyToMessageID : @"replying_to_message_id",
              MessageAttributes.messageID : @"message_id",
              MessageAttributes.timeStamp : @"timestamp",
