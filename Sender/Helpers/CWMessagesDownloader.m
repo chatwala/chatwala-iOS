@@ -19,15 +19,14 @@
 
     NSMutableArray *messagesNeedingDownload = [NSMutableArray array];
     
-    for (NSDictionary *messageMetadata in messagesToDownload) {
+    for (Message *message in messagesToDownload) {
         
-        NSURL *localURL = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:[messageMetadata objectForKey:@"messageID"]]];
+        NSURL *localURL = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:message.messageID]];
         if (!localURL) {
-            [messagesNeedingDownload addObject:messageMetadata];
+            [messagesNeedingDownload addObject:message];
         }
         else {
-            NSError *error = nil;
-            [[CWDataManager sharedInstance] importMessageAtFilePath:localURL withError:&error];
+            [message setEMessageDownloadState:eMessageDownloadStateDownloaded];
         }
     }
     
@@ -42,27 +41,21 @@
     
     NSMutableArray *downloadedMessages = [NSMutableArray array];
     
-    for (NSDictionary *messageToDownload in messagesNeedingDownload) {
+    for (Message *message in messagesNeedingDownload) {
         
         __block NSInteger completedRequests = 0;
         
-        [CWServerAPI downloadMessageFromReadURL:[messageToDownload objectForKey:@"read_url"] destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        [CWServerAPI downloadMessageFromReadURL:message.readURL destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
             
             completedRequests++;
             
             if (!error) {
-                [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
-                
-                // TODO: This should happen elsewhere [RK]
-                NSError *error = nil;
-                Message *newMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:filePath withError:&error];
-                [downloadedMessages addObject:newMessage];
-                
+                [message setEMessageDownloadState:eMessageDownloadStateDownloaded];
+                [downloadedMessages addObject:message];
             }
             else {
-                NSLog(@"Error: failed download for message from URL:  %@", [messageToDownload objectForKey:@"read_url"]);
+                NSLog(@"Error: failed download for message from URL:  %@", message.readURL);
             }
-            
             
             if (totalMessagesToDownload == completedRequests) {
                 // All requests completed (failed/succeeded) - let's finish up.
@@ -72,33 +65,6 @@
             }
 
         }];
-        
-//        [self downloadMessageWithID:messageIdToDownload completion:^(BOOL success, NSURL *url) {
-//
-//            NSInteger completedRequests = 0;
-//            completedRequests++;
-//            
-//            if (success) {
-//                [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
-//                
-//                // TODO: This should happen elsewhere [RK]
-//                NSError *error = nil;
-//                Message *newMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:url withError:&error];
-//                [downloadedMessages addObject:newMessage];
-//                
-//            }
-//            else {
-//                NSLog(@"Error: failed download for message ID:  %@", messageIdToDownload);
-//            }
-//            
-//            
-//            if (totalMessagesToDownload == completedRequests) {
-//                // All requests completed (failed/succeeded) - let's finish up.
-//                if (completionBlock) {
-//                    completionBlock(downloadedMessages);
-//                }
-//            }
-//        }];
     }
 }
 

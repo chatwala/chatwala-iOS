@@ -120,8 +120,15 @@
             }
             else {
                 
+                NSMutableArray *arrayOfMessages = [NSMutableArray arrayWithCapacity:messages.count];
+                
+                for (NSDictionary *messageMetadata in messages) {
+                    NSError *error = nil;
+                    [arrayOfMessages addObject:[[CWDataManager sharedInstance] createMessageWithDictionary:messageMetadata error:&error]];
+                }
+                
                 CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-                [downloader downloadMessages:messages withCompletionBlock:^(NSArray *messagesDownloaded) {
+                [downloader downloadMessages:arrayOfMessages withCompletionBlock:^(NSArray *messagesDownloaded) {
                     
                     NSLog(@"Messages downloader completed fetches.");
                     
@@ -383,7 +390,7 @@
 #pragma mark - Helpers
 
 - (NSString *)generateMessageID {
-    return [[NSUUID UUID] UUIDString];
+    return [[[NSUUID UUID] UUIDString] lowercaseString];
 }
 
 @end

@@ -21,6 +21,8 @@ NSString *const PushRegisterEndpoint = @"/user/registerPushToken";
 NSString *const GetMessageReadURLEndpoint = @"/messages/postGetReadURLForMessage";
 NSString *const GetProfilePictureSASEndpoint = @"/user/postUserProfilePicture";
 NSString *const AddMessageToInboxEndpoint = @"/messages/addUnknownRecipientMessageToInbox";
+NSString *const CompleteOriginalMessageEndpoint = @"/messages/completeUnknownRecipientMessageSend";
+NSString *const CompleteReplyMessageEndpoint = @"/messages/completeReplyMessageSend";
 
 #ifdef USE_QA_SERVER
 NSString *const BackgroundSessionIdentifier = @"com.chatwala.qa.backgroundSession";
@@ -180,8 +182,8 @@ AFURLSessionManager *BackgroundSessionManager;
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
     
-    NSString *serverAction = (isReply ? @"completeUnknownRecipientMessageSend" : @"completeReplyMessageSend");
-    NSString *endPoint = [NSString stringWithFormat:@"%@/messages/%@", [[CWMessageManager sharedInstance] baseEndPoint], serverAction];
+    NSString *serverAction = (isReply ? CompleteReplyMessageEndpoint : CompleteOriginalMessageEndpoint);
+    NSString *endPoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:serverAction];
     
     // Terminate existing background tasks if this call was made twice
     if (CompleteSendBackgroundTaskIdentifier != 0) {
@@ -195,12 +197,12 @@ AFURLSessionManager *BackgroundSessionManager;
     }];
     
     [requestManager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Successfully finalized message upload");
+        NSLog(@"Successfully completed message upload");
         [[UIApplication sharedApplication] endBackgroundTask:CompleteSendBackgroundTaskIdentifier];
         CompleteSendBackgroundTaskIdentifier = 0;
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failed to finalize message upload. Error:  %@",error.localizedDescription);
+        NSLog(@"Failed to complete message upload. Error:  %@",error.localizedDescription);
         [[UIApplication sharedApplication] endBackgroundTask:CompleteSendBackgroundTaskIdentifier];
         CompleteSendBackgroundTaskIdentifier = 0;
     }];

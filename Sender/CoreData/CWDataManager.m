@@ -114,7 +114,7 @@
     Message * message = [Message insertInManagedObjectContext:self.moc];
     message.sender = sender;
 //    message.timeStamp = [NSDate date];
-    message.messageID = [[NSUUID UUID] UUIDString];;
+    message.messageID = [[[NSUUID UUID] UUIDString] lowercaseString];
     
     if(incomingMessage)
     {
@@ -126,7 +126,7 @@
     }
     else
     {
-        message.thread = [self createThreadWithID:[[NSUUID UUID] UUIDString]];
+        message.thread = [self createThreadWithID:[[[NSUUID UUID] UUIDString] lowercaseString]];
     }
     return message;
 }
@@ -165,15 +165,12 @@
     
     NSString * receipientID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
     item.recipient = [self createUserWithID:receipientID];
-
-    //add thread
-//    NSString *groupID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
-//    item.groupID = groupID;
     
     //add thread
     NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
     item.thread = [self createThreadWithID:threadID];
-    
+    error = nil;
+    [item.managedObjectContext save:error];
 
     
     return item;
@@ -206,7 +203,7 @@
             
             if ([threadIDValue isEqual:[NSNull null]] || !threadIDValue) {
                 NSLog(@"Thread ID null works");
-                [jsonDict setValue:[[NSUUID UUID] UUIDString] forKey:@"thread_id"];
+                [jsonDict setValue:[[[NSUUID UUID] UUIDString] lowercaseString] forKey:@"thread_id"];
             }
             
             
@@ -222,8 +219,9 @@
             }
             
             [item setEMessageDownloadState:eMessageDownloadStateDownloaded];
-            [item.managedObjectContext save:error];
-            if(*error)
+            NSError *newError = nil;
+            [item.managedObjectContext save:&newError];
+            if(newError)
             {
                 return nil;
             }

@@ -30,7 +30,7 @@
              @"timestamp" : MessageAttributes.timeStamp,
              @"start_recording" : MessageAttributes.startRecording,
              @"share_url" :  MessageAttributes.messageURL,
-             @"read_url"  : MessageAttributes.readURL
+             @"read_url"  : MessageAttributes.readURL,
              };
 }
 
@@ -52,17 +52,16 @@
 }
 
 
-- (eMessageDownloadState) eDownloadState
-{
+- (eMessageDownloadState) eDownloadState {
     NSInteger value = self.downloadStateValue;
     NSAssert(value < eMessageDownloadStateTotal, @"expecting download state to be less than max enum value");
     NSAssert(value >= eMessageDownloadStateInvalid, @"expecting download state to be less than max enum value");
     return value;
 }
 
-- (void) setEMessageDownloadState:(eMessageDownloadState ) eState
-{
+- (void)setEMessageDownloadState:(eMessageDownloadState)eState {
     self.downloadStateValue = eState;
+    [self.managedObjectContext save:nil];
 }
 
 - (void) exportZip
@@ -169,6 +168,7 @@
              MessageAttributes.threadIndex,
              MessageAttributes.startRecording,
              MessageAttributes.timeStamp,
+             MessageAttributes.thumbnailPictureURL,
              MessageRelationships.thread,
              MessageRelationships.recipient,
              MessageRelationships.sender,
@@ -183,6 +183,7 @@
              MessageAttributes.readURL : @"read_url",
              MessageAttributes.replyToMessageID : @"replying_to_message_id",
              MessageAttributes.messageID : @"message_id",
+             MessageAttributes.thumbnailPictureURL : @"thumbnail_url",
              MessageAttributes.timeStamp : @"timestamp",
              MessageAttributes.startRecording : @"start_recording",
              MessageAttributes.threadIndex : @"thread_index",
@@ -191,6 +192,7 @@
              MessageRelationships.recipient : @"recipient_id",
              MessageRelationships.sender : @"sender_id",
              MessageRelationships.thread : @"thread_id",
+             
              };
 }
 

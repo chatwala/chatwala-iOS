@@ -94,7 +94,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 - (void)createNewLocalUser {
     
-    NSString *newUserID = [[NSUUID UUID] UUIDString];
+    NSString *newUserID = [[[NSUUID UUID] UUIDString] lowercaseString];
     NSLog(@"Generated new user id: %@",newUserID);
     
     self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];

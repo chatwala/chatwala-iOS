@@ -84,9 +84,9 @@
     [self.spinner stopAnimating];
 }
 
-- (void) setMessage:(Message *) message {
+- (void)setMessage:(Message *) message {
     
-    NSURL * imageURL = [NSURL URLWithString:[NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint],message.sender.userID]];
+    NSURL * imageURL = [NSURL URLWithString:message.thumbnailPictureURL];
     [self.spinner startAnimating];
     
     UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];
