@@ -116,6 +116,12 @@
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionaryWithDictionary:[super toDictionaryWithDataFormatter:dateFormatter error:error]];
     
     
+    long long timeInterval = [@(floor([self.timeStamp timeIntervalSince1970] * 1000)) longLongValue];
+    NSString *intervalString = [NSString stringWithFormat:@"%lli", timeInterval];
+    
+    [jsonDict setObject:intervalString forKey:MessageAttributes.timeStamp];
+
+    
     NSDictionary *relationships = [[self entity] relationshipsByName];
     
     for (NSString *relation in relationships) {

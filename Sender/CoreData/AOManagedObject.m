@@ -117,11 +117,7 @@
         NSAttributeType attributeType = [[attributes objectForKey:attribute] attributeType];
         
         if (attributeType == NSDateAttributeType) {
-            NSDate *date = (NSDate *)[attributes objectForKey:attribute];
-            
-            NSTimeInterval timeInterval = [date timeIntervalSince1970] * 1000;
-            NSString *intervalString = [NSString stringWithFormat:@"%f", timeInterval];
-            value = intervalString;
+            continue;
         }
 //        if (attributeType == NSDateAttributeType)
 //        {
