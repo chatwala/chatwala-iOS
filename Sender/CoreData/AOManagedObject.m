@@ -67,7 +67,7 @@
             }
             else
             {
-                safeValue = nil;
+                safeValue = now;
             }
             
         }
