@@ -50,8 +50,8 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
                 // TODO: This should happen elsewhere [RK]
                 NSError *error = nil;
                 Message *newMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:url withError:&error];
-                [downloadedMessages addObject:newMessage];
                 
+                [downloadedMessages addObject:newMessage];
             }
             else {
                 NSLog(@"Error: failed download for message ID:  %@", messageIdToDownload);

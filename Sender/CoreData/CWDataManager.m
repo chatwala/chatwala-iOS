@@ -192,7 +192,7 @@
     Message * item = nil;
     if ([fm fileExistsAtPath:destPath]) {
         if ([fm fileExistsAtPath:metadataFileName isDirectory:NO]) {
-            NSDictionary * baseDictionary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:metadataFileName] options:0 error:error];
+            NSDictionary * baseDictionary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:metadataFileName] options:0 error:nil];
             NSMutableDictionary *jsonDict = [baseDictionary mutableCopy];
             
             // This is a check for "<null>" threadID value because of a 1.0.5 iOS bug
@@ -204,7 +204,7 @@
             }
             
             
-            if (*error) {
+            if (![jsonDict count]) {
                 NSLog(@"failed to parse json metdata: %@",(*error).debugDescription);
                 return nil;
             }
