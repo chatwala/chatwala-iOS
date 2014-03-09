@@ -215,7 +215,6 @@
     return (^ void(AFHTTPRequestOperation *operation, NSError * error){
         NSLog(@"failed to fetch messages with error: %@",error);
         
-        //            [SVProgressHUD showErrorWithStatus:@"failed to fecth messages"];
         [NC postNotificationName:@"MessagesLoadFailed" object:nil userInfo:nil];
         
     });
@@ -273,7 +272,6 @@
             completionBlock(replyMessage, sasUploadUrl);
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
         NSLog(@"Failed to fetch metadata for reply messageID: %@ with error:%@", message.messageID, error);
         NSLog(@"operation:%@",operation);
@@ -334,8 +332,6 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         self.needsOriginalMessageUploadURL = YES;
-
-        [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
         NSLog(@"Failed to fetch original message upload ID from the server for a reply with error: %@",error);
         NSLog(@"operation: %@",operation);

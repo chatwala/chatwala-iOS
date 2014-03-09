@@ -155,12 +155,18 @@
         return @"";
     }
     
-//    if([timeStamp isEqual:[timeStamp earlierDate:[CWConstants launchDate]]])
-//    {
-//        return @"";//do not display sent date if its earlier than launch date
-//    }
+    NSDate *launchDate = [NSDate dateWithTimeIntervalSince1970:1388534400];//january 1 2014
     
+    if([timeStamp isEqual:[timeStamp earlierDate:launchDate]]) {
+        return @"";//do not display sent date if its earlier than launch date
+    }
+   
     NSTimeInterval timeThatHasPassed = -[timeStamp timeIntervalSinceNow];
+    
+    if(timeThatHasPassed < 0) {
+        return @"";//do not display sent date if it is in the future
+    }
+    
     NSInteger wholeSeconds = timeThatHasPassed;
     
     const NSInteger kSecondsPerMinute = 60;

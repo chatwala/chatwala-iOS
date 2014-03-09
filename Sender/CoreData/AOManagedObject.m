@@ -67,7 +67,7 @@
             }
             else
             {
-                safeValue = nil;
+                safeValue = now;
             }
             
         }
@@ -121,8 +121,8 @@
         
         NSAttributeType attributeType = [[attributes objectForKey:attribute] attributeType];
         
-        if ((attributeType == NSDateAttributeType) && (dateFormatter != nil)) {
-            value = [dateFormatter stringFromDate:value];
+        if (attributeType == NSDateAttributeType) {
+            continue;
         }
 //        if (attributeType == NSDateAttributeType)
 //        {

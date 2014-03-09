@@ -219,11 +219,9 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         // Check the reachability status and show an alert if the internet connection is not available
         switch (status) {
             case AFNetworkReachabilityStatusNotReachable:
-//                [SVProgressHUD showWithStatus:@"Network not reachable.\nConnection Required."];
                 break;
             case AFNetworkReachabilityStatusReachableViaWWAN:
             case AFNetworkReachabilityStatusReachableViaWiFi:
-//                [SVProgressHUD dismiss];
                 break;
                 
             default:
@@ -298,7 +296,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                         [self.loadingVC.view setAlpha:0];
                     }];
                     NSLog(@"failed to download message");
-                    [SVProgressHUD showErrorWithStatus:@"Message Unavailable"];
+                    [SVProgressHUD showErrorWithStatus:@"Message not available yet."];
                 }
             }];
         }
@@ -476,7 +474,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                 [UIView animateWithDuration:0.5 animations:^{
                     [self.loadingVC.view setAlpha:0];
                 }];
-                [SVProgressHUD showErrorWithStatus:@"Message Unavailable"];
+                [SVProgressHUD showErrorWithStatus:@"Message unavailable."];
                 NSLog(@"failed to download message");
             }
             

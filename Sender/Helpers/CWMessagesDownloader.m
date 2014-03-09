@@ -41,20 +41,20 @@
     
     NSMutableArray *downloadedMessages = [NSMutableArray array];
     
-    for (Message *message in messagesNeedingDownload) {
+    for (Message *currentMessage in messagesNeedingDownload) {
         
         __block NSInteger completedRequests = 0;
         
-        [CWServerAPI downloadMessageFromReadURL:message.readURL destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        [CWServerAPI downloadMessageFromReadURL:currentMessage.readURL destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
             
             completedRequests++;
             
             if (!error) {
-                [message setEMessageDownloadState:eMessageDownloadStateDownloaded];
-                [downloadedMessages addObject:message];
+                [currentMessage setEMessageDownloadState:eMessageDownloadStateDownloaded];
+                [downloadedMessages addObject:currentMessage];
             }
             else {
-                NSLog(@"Error: failed download for message from URL:  %@", message.readURL);
+                NSLog(@"Error: failed download for message from URL:  %@", currentMessage.readURL);
             }
             
             if (totalMessagesToDownload == completedRequests) {
