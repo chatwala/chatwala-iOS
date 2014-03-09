@@ -98,7 +98,6 @@
         if(error)
         {
             NSLog(@"failed to capture image %@", error);
-            [SVProgressHUD showErrorWithStatus:@"failed to capture image"];
         }
         else
         {

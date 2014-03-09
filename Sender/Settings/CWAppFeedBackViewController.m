@@ -31,12 +31,6 @@
     [self.label setTextColor:[UIColor chatwalaFeedbackLabel]];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)onYesTapped:(id)sender {
 
     CWRatingViewController* tocVC = [[CWRatingViewController alloc] init];

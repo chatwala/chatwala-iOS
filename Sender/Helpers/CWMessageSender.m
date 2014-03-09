@@ -52,7 +52,7 @@
                 if (self.delegate) {
                     
                     [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
-                    [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
+                    [SVProgressHUD showErrorWithStatus:@"Message reply upload details not received."];
                 }
             }
         }];
@@ -84,7 +84,7 @@
                 
                 if (self.delegate) {    
                     [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
-                    [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
+                    [SVProgressHUD showErrorWithStatus:@"Message upload details not received."];
                 }
             }
         }];

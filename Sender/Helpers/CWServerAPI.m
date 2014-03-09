@@ -93,8 +93,8 @@ AFURLSessionManager *BackgroundSessionManager;
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if ([httpResponse statusCode] != 201) {
             
-            NSLog(@"Failed message upload: %@", error.localizedDescription);
-            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
+            NSLog(@"Failed to upload message.");
+            [SVProgressHUD showErrorWithStatus:@"Failed to upload message."];
             
             if (completionBlock) {
                 NSError *error = [NSError errorWithDomain:@"" code:0 userInfo:nil];
@@ -145,7 +145,6 @@ AFURLSessionManager *BackgroundSessionManager;
                 NSHTTPURLResponse *pictureUploadResponse = (NSHTTPURLResponse *)response;
                 if (pictureUploadResponse.statusCode != 201) {
                     NSLog(@"Error uploading profile picture: %@", error);
-                    [SVProgressHUD showErrorWithStatus:error.localizedDescription];
                     
                     if (completionBlock) {
                         completionBlock(error);
@@ -198,7 +197,6 @@ AFURLSessionManager *BackgroundSessionManager;
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [SVProgressHUD showErrorWithStatus:@"Cannot deliver message."];
         
         NSLog(@"Failed to fetch picture upload ID from the server for a reply with error:%@",error);
         

@@ -138,7 +138,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 
 
-- (void) uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user completion:(void (^)(NSError * error))completionBlock {
+- (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user completion:(void (^)(NSError * error))completionBlock {
     
     if (![user.userID length]) {
         return;
@@ -149,7 +149,6 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
         if (error) {
             NSLog(@"Error: %@", error);
             
-            [SVProgressHUD showErrorWithStatus:error.localizedDescription];
             if (completionBlock) {
                 completionBlock(error);
             }
