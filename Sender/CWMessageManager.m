@@ -17,6 +17,7 @@
 #import "CWMessagesDownloader.h"
 #import "CWConstants.h"
 
+
 @interface CWMessageManager ()
 
 @property (nonatomic,assign) BOOL needsOriginalMessageUploadURL;
@@ -157,7 +158,7 @@
 
 - (void)addMessageToInbox:(Message *)message {
     
-    if ([message.recipient.userID isEqualToString:CWConstantsUnknownRecipientIDString]) {
+    if (message && [message.recipient.userID isEqualToString:CWConstantsUnknownRecipientIDString]) {
         NSLog(@"Adding message to inbox...");
         [CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUser].userID];
     }
