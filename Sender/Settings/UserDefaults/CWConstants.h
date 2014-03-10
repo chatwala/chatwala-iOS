@@ -30,5 +30,8 @@ extern NSString *const CWConstantsChatwalaAPISecret;
 extern NSString *const CWUserDefaultsUserIDKey;
 extern NSString *const CWUserDefaultsShouldShowPreviewKey;
 
+// Profile picture
+extern NSString *const CWUserDefaultsProfilePictureURLKey;
+
 // User Defaults - Ground Control
 extern NSString *const CWConstantsGControlMessagesEndpointKey;

@@ -23,7 +23,7 @@ NSString *const GetProfilePictureSASEndpoint = @"/user/postUserProfilePicture";
 NSString *const AddMessageToInboxEndpoint = @"/messages/addUnknownRecipientMessageToInbox";
 NSString *const CompleteOriginalMessageEndpoint = @"/messages/completeUnknownRecipientMessageSend";
 NSString *const CompleteReplyMessageEndpoint = @"/messages/completeReplyMessageSend";
-NSString *const GetProfilePictureReadURLEndpoint = @"/user/GetURLForUserProfilePicture";
+NSString *const GetProfilePictureReadURLEndpoint = @"/user/postGetReadURLForUserProfilePicture";
 
 #ifdef USE_QA_SERVER
 NSString *const BackgroundSessionIdentifier = @"com.chatwala.qa.backgroundSession";

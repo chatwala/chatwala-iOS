@@ -29,6 +29,16 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++ (NSURL *)profilePictureReadURL {
+    return [[NSUserDefaults standardUserDefaults] URLForKey:CWUserDefaultsProfilePictureURLKey];
+}
+
++ (void)setProfilePictureReadURL:(NSURL *)readURL {
+    [[NSUserDefaults standardUserDefaults] setURL:readURL forKey:CWUserDefaultsProfilePictureURLKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
 + (BOOL)shouldShowMessagePreview {
     
     return [[NSUserDefaults standardUserDefaults] boolForKey:CWUserDefaultsShouldShowPreviewKey];
@@ -39,5 +49,7 @@
     [[NSUserDefaults standardUserDefaults] setBool:showMessagePreview forKey:CWUserDefaultsShouldShowPreviewKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
+
 
 @end

@@ -30,5 +30,8 @@ NSString *const CWConstantsChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8
 NSString *const CWUserDefaultsUserIDKey = @"CHATWALA_USER_ID";
 NSString *const CWUserDefaultsShouldShowPreviewKey = @"CWUserDefaultsShouldShowPreviewKey";
 
+// Profile picture
+NSString *const CWUserDefaultsProfilePictureURLKey = @"CWUserDefaultsProfilePictureURLKey";
+
 // User Defaults - Ground Control
 NSString *const CWConstantsGControlMessagesEndpointKey = @"GC_MESSAGES_ENDPOINT";
