@@ -63,9 +63,6 @@
     
     
     if([[CWUserManager sharedInstance] localUser]) {
-        
-        SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-        [manager setValue:[NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret] forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
 
         NSURL *profilePictureURL = [CWUserDefaultsController profilePictureReadURL];
         if (profilePictureURL) {
@@ -93,6 +90,9 @@
 }
 
 - (void)fetchProfilePictureFromReadURL:(NSURL *)pictureURL {
+    
+    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
+    [manager setValue:[NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret] forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
     
     [self.pictureImageView setImageWithURL:pictureURL
                           placeholderImage:[UIImage imageNamed:@"LaunchImage"]

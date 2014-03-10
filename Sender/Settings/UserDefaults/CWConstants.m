@@ -23,6 +23,7 @@ NSString *const CWConstantsURLSchemeCopyUpdateKey = @"cwcopy";
 NSString *const CWConstantsChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 NSString *const CWConstantsChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString *const CWConstantsChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
+NSString *const CWConstantsUnknownRecipientIDString = @"RECIPIENT_UNKNOWN";
 
 /* User Defaults */
 // Note should be careful changing these values b/c updated users will then lose their defaults

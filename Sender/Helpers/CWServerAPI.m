@@ -101,7 +101,7 @@ AFURLSessionManager *BackgroundSessionManager;
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
-    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:@"/messages/addUnknownRecipientMessageToInbox"];
+    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:AddMessageToInboxEndpoint];
     NSDictionary *params = @{@"message_id" : messageID,
                              @"recipient_id" : userID};
     

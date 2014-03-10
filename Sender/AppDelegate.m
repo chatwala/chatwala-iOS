@@ -191,7 +191,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     fbAppID = @"639218822814074";
 #elif USE_DEV_SERVER
     fbAppID = @"1472279299660540";
-#elif USE_DEV_SERVER
+#elif USE_SANDBOX_SERVER
     fbAppID = @"1472279299660540";
 #endif
     
@@ -244,6 +244,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
    
     NSString * scheme = [url scheme];
     NSString * downloadID = [[url pathComponents] lastObject];
+    NSString *messageID = [[downloadID componentsSeparatedByString:@"."] lastObject];
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
@@ -268,7 +269,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 #endif
     
     if ([scheme isEqualToString:appURLScheme]) {
-        NSString *messageID = [[downloadID componentsSeparatedByString:@"."] lastObject];
+        
         NSURL *urlToOpen = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:messageID]];
         
         if (!urlToOpen) {
@@ -310,7 +311,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         [self loadOpenerWithURL:url];
     }
 
-    [self sendMessageOpenTrackingWithMessageID:downloadID];
+    [self sendMessageOpenTrackingWithMessageID:messageID];
     return YES;
 }
 
