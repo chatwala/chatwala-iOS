@@ -171,7 +171,6 @@
     item.thread = [self createThreadWithID:threadID];
     error = nil;
     [item.managedObjectContext save:error];
-
     
     return item;
 }
@@ -179,8 +178,8 @@
 // importMessageAtFilePath used in two places:  opener view (sms links & now notifications) and when walas are downloaded from the inbox.
 // Ideally we want SMS links to be added to the inbox & let the same flow handle the unpackaging of the data. [RK - 02112014]
 
-- (Message *) importMessageAtFilePath:(NSURL *) filePath withError:(NSError **)error
-{
+- (Message *)importMessageAtFilePath:(NSURL *)filePath withError:(NSError **)error {
+
     NSFileManager* fm = [NSFileManager defaultManager];
     
     if (![fm fileExistsAtPath:filePath.path]) {
@@ -220,7 +219,6 @@
             
             [item setEMessageDownloadState:eMessageDownloadStateDownloaded];
             NSError *newError = nil;
-            [item.managedObjectContext save:&newError];
             if(newError)
             {
                 return nil;

@@ -12,6 +12,9 @@
 #import "CWVideoManager.h"
 #import "UIImageView+AFNetworking.h"
 #import <AFNetworking/AFNetworking.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "CWConstants.h"
+#import "CWServerAPI.h"
 
 @interface CWProfilePictureViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;
@@ -57,32 +60,27 @@
     [CATransaction commit];
 
     
+    
     if([[CWUserManager sharedInstance] localUser]) {
-
-        NSURL * url = [NSURL URLWithString:[[CWUserManager sharedInstance] getProfilePictureEndPointForUser:[[CWUserManager sharedInstance] localUser]]];
-        NSMutableURLRequest * imageURLRequest = [NSMutableURLRequest requestWithURL:url];
         
-        [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
+        SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
+        [manager setValue:[NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret] forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
         
-        if([[AFNetworkReachabilityManager sharedManager] isReachable])
-        {
-            [imageURLRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
-        }
-
-        [self.pictureImageView setImageWithURLRequest:imageURLRequest placeholderImage:[UIImage imageNamed:@"LaunchImage"] success:nil failure:nil];
+        [CWServerAPI getProfilePictureReadURLForUser:[[CWUserManager sharedInstance] localUser].userID withCompletionBlock:^(NSURL *profilePictureReadURL) {
+            
+            if (profilePictureReadURL) {
+                [self.pictureImageView setImageWithURL:profilePictureReadURL
+                                      placeholderImage:[UIImage imageNamed:@"LaunchImage"] 
+                                               options:SDWebImageRefreshCached & SDWebImageRetryFailed
+                                             completed:nil];
+                }
+        }];
     }
-
 }
 
 - (void)onBack
 {
     [self.navigationController popViewControllerAnimated:YES];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (BOOL) isTakingNewPicture

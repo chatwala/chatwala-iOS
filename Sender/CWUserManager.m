@@ -15,10 +15,6 @@
 #import "CWUserDefaultsController.h"
 
 
-NSString * const kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
-NSString * const kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
-NSString * const kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
-
 NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBACK_REQUESTED";
 NSString * const kNewMessageDeliveryMethodKey = @"kNewMessageDeliveryMethodKey";
 NSString * const kNewMessageDeliveryMethodValueSMS = @"SMS";
@@ -60,10 +56,10 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 - (void)setupHttpAuthHeaders {
     
-    NSString * keyAndSecret = [NSString stringWithFormat:@"%@:%@", kChatwalaAPIKey, kChatwalaAPISecret];
+    NSString * keyAndSecret = [NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret];
 
     self.requestHeaderSerializer = [AFHTTPRequestSerializer serializer];
-    [self.requestHeaderSerializer setValue:keyAndSecret forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
+    [self.requestHeaderSerializer setValue:keyAndSecret forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
 }
 
 - (void)addRequestHeadersToURLRequest:(NSMutableURLRequest *) request {
@@ -127,15 +123,12 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return NO;
 }
 
-- (NSString *) getProfilePictureEndPointForUser:(User *) user
-{
-    NSString * user_id = user.userID;
+- (NSString *) getProfilePictureEndPointForUser:(User *) user {
+    //NSString * user_id = user.userID;
     
-    NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
-    return endPoint;
+    //NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
+    return nil;
 }
-
-
 
 
 - (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user completion:(void (^)(NSError * error))completionBlock {

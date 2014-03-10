@@ -12,6 +12,7 @@
 #import "CWDataManager.h"
 #import "CWServerAPI.h"
 #import "CWVideoFileCache.h"
+#import "CWGroundControlManager.h"
 
 @implementation CWMessagesDownloader
 
@@ -68,11 +69,27 @@
     }
 }
 
++ (NSString *)messageEndpointFromSMSDownloadID:(NSString *)downloadID {
+    
+    NSArray *downloadIDComponents = [downloadID componentsSeparatedByString:@"."];
+
+    if (2 == [downloadIDComponents count]) {
+        NSString *endpoint = [[CWGroundControlManager sharedInstance] messageEndpointWithShardID:[downloadIDComponents objectAtIndex:0]];
+        
+        // Append the message ID to the URL
+        return [endpoint stringByAppendingString:[downloadIDComponents objectAtIndex:1]];
+    }
+    else {
+        return nil;
+    }
+    
+}
+
 #pragma mark - Download methods
 
-- (void)downloadMessageWithID:(NSString *)downloadIdentifier completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
-    
-    [CWServerAPI downloadMessageForID:downloadIdentifier destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+- (void)downloadMessageFromEndpoint:(NSString *)endpoint completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
+
+    [CWServerAPI downloadMessageFromReadURL:endpoint destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if(error) {
             NSLog(@"Error while downloading message file: %@", error);
             if (completionBlock) {

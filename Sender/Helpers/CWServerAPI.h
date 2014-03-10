@@ -9,6 +9,8 @@
 typedef void (^CWServerAPIUploadCompletionBlock)(NSError *error);
 typedef void (^CWServerPushRegisterCompletionBlock)(NSError *error);
 
+typedef void (^CWServerGetProfilePictureURLCompletionBlock)(NSURL *profilePictureReadURL);
+
 typedef void (^CWServerAPIGetInboxCompletionBlock)(NSArray *messages, NSError *error);
 typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURLResponse *response);
 
@@ -27,6 +29,7 @@ typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURL
 + (void)completeMessage:(Message *)uploadedMessage isReply:(BOOL)isReply;
 
 // Picture Upload API
++ (void)getProfilePictureReadURLForUser:(NSString *)userID withCompletionBlock:(CWServerGetProfilePictureURLCompletionBlock)completionBlock;
 + (void)uploadProfilePicture:(UIImage *)thumbnail forUserID:(NSString *)userID withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock;
 
 // Push notifications API
@@ -34,6 +37,5 @@ typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURL
 
 // Download API
 + (void)downloadMessageFromReadURL:(NSString *)endPoint destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock;
-+ (void)downloadMessageForID:(NSString *)downloadID destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock;
 
 @end

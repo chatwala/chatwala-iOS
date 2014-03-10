@@ -91,9 +91,6 @@
     return [[self baseEndPoint]stringByAppendingString:@"/messages/%@"];
 }
 
-- (NSString *)putUserProfileEndPoint {
-    return [[self baseEndPoint]stringByAppendingString:@"/users/%@/picture"];
-}
 
 - (NSURL *)messageCacheURL {
     NSString * const messagesCacheFile = @"messages";

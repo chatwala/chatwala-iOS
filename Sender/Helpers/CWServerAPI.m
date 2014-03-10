@@ -23,6 +23,7 @@ NSString *const GetProfilePictureSASEndpoint = @"/user/postUserProfilePicture";
 NSString *const AddMessageToInboxEndpoint = @"/messages/addUnknownRecipientMessageToInbox";
 NSString *const CompleteOriginalMessageEndpoint = @"/messages/completeUnknownRecipientMessageSend";
 NSString *const CompleteReplyMessageEndpoint = @"/messages/completeReplyMessageSend";
+NSString *const GetProfilePictureReadURLEndpoint = @"/user/GetURLForUserProfilePicture";
 
 #ifdef USE_QA_SERVER
 NSString *const BackgroundSessionIdentifier = @"com.chatwala.qa.backgroundSession";
@@ -208,7 +209,49 @@ AFURLSessionManager *BackgroundSessionManager;
     }];
 }
 
-#pragma mark - Picture API
+#pragma mark - Profile Picture API
+
++ (void)getProfilePictureReadURLForUser:(NSString *)userID withCompletionBlock:(CWServerGetProfilePictureURLCompletionBlock)completionBlock {
+    
+    NSDictionary *params = @{@"user_id" : userID};
+    NSLog(@"Requesting profile picture read URL with params: %@", params);
+    
+    AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
+    requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
+    
+    
+    NSString *endPoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:GetProfilePictureReadURLEndpoint];
+    
+    // Let's request the read URL from which we can download our message file
+    [requestManager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+
+        NSString *urlString = [responseObject objectForKey:@"profile_url"];
+        
+        if (![urlString length]) {
+            if (completionBlock) {
+                completionBlock(nil);
+            }
+        }
+        else {
+            NSLog(@"Successfully retrieved profile picture read url");
+            
+            if (completionBlock) {
+                completionBlock([NSURL URLWithString:urlString]);
+            }
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Failed to retrieve profile picture read URL");
+        
+        if (completionBlock) {
+            completionBlock(nil);
+        }
+    }];
+
+    
+}
 
 + (void)uploadProfilePicture:(UIImage *)thumbnail forUserID:(NSString *)userID withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock {
     
@@ -366,46 +409,6 @@ AFURLSessionManager *BackgroundSessionManager;
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:destinationBlock completionHandler:completionBlock];
     [downloadTask resume];
 }
-
-+ (void)downloadMessageForID:(NSString *)downloadID destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock {
-
-    NSDictionary *params = @{@"share_url_id" : downloadID};
-    NSLog(@"Requesting message read URL with params: %@", params);
-    
-    AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
-    requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
-    
-    
-    NSString *endPoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:GetMessageReadURLEndpoint];
-    
-    // Let's request the read URL from which we can download our message file
-    [requestManager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"Successfully fetched message read url.");
-        
-        // do download
-        NSString * messagePath = [responseObject objectForKey:@"read_url"];
-        NSLog(@"downloading file from: %@", messagePath);
-        
-        
-        AFURLSessionManager *manager = [self sessionManager];
-        NSURL *URL = [NSURL URLWithString:messagePath];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-    
-        [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
-        
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:destinationBlock completionHandler:completionBlock];
-        [downloadTask resume];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failed to get message file read url. Error:  %@",error.localizedDescription);
-        
-        if (completionBlock) {
-            completionBlock(operation.response,nil,error);
-        }
-    }];
-}
-
 
 # pragma mark - Convenience methods
 + (NSString *)versionHeaderFieldString {

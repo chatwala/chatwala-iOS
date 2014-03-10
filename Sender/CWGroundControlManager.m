@@ -9,6 +9,7 @@
 #import "CWGroundControlManager.h"
 #import "AppDelegate.h"
 #import "CWKillScreenViewController.h"
+#import "CWConstants.h"
 
 #define DEBUG_BYPASS_KILLSWITCH 0
 NSString* const kAppFeedbackSentMessageThresholdKey  = @"APP_FEEDBACK_SENT_MESSAGE_THRESHOLD";
@@ -80,6 +81,24 @@ NSInteger const defaultFeedbackTrigger = 5;
                     [self showKillScreen];
                 }
             });
+}
+
+
+
+- (NSString *)messageEndpointWithShardID:(NSString *)shardID {
+
+    NSString *messageEndpoint = [[NSUserDefaults standardUserDefaults] objectForKey:CWConstantsGControlMessagesEndpointKey];
+    
+    if (![messageEndpoint length]) {
+        messageEndpoint = [CWGroundControlManager defaultMessageEndpointString];
+    }
+    
+    if ([shardID length]) {
+        return [messageEndpoint stringByReplacingOccurrencesOfString:@"${shard}" withString:shardID];
+    }
+    else {
+        return nil;
+    }
 }
 
 - (BOOL) shouldShowKillScreen {
@@ -219,6 +238,25 @@ NSInteger const defaultFeedbackTrigger = 5;
     
     NSString * value = [[NSUserDefaults standardUserDefaults] valueForKey:@"REPLY_MESSAGE"];
     return value ? value:@"Now Reply!";
+}
+
+
+#pragma mark - Convenience method
+
++ (NSString *)defaultMessageEndpointString {
+    NSString *baseEndpoint = nil;
+    
+#ifdef USE_DEV_SERVER
+    baseEndpoint = @"http://chatwalanonprod.blob.core.windows.net/dev-messages/";
+#elif USE_QA_SERVER
+    baseEndpoint = @"http://chatwalanonprod.blob.core.windows.net/qa-messages/";
+#elif USE_SANDBOX_SERVER
+    baseEndpoint = @"http://chatwalanonprod.blob.core.windows.net/sandbox-messages/";
+#else
+    baseEndpoint = @"http://chatwalaprod{shard}.blob.core.windows.net/messages/";
+#endif
+    
+    return baseEndpoint;
 }
 
 @end

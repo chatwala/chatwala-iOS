@@ -24,7 +24,7 @@ typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 @property (nonatomic,readonly) NSString * registerEndPoint;
 @property (nonatomic,readonly) NSString * getInboxEndPoint;
 @property (nonatomic,readonly) NSString * getMessageEndPoint;
-@property (nonatomic,readonly) NSString * putUserProfileEndPoint;
+
 
 //@property (nonatomic,strong) NSArray * messages;
 

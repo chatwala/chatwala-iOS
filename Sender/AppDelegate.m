@@ -274,7 +274,9 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         if (!urlToOpen) {
             CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
             
-            [downloader downloadMessageWithID:downloadID completion:^(BOOL success, NSURL *url) {
+            NSString *messageDownloadEndpoint = [CWMessagesDownloader messageEndpointFromSMSDownloadID:downloadID];
+            
+            [downloader downloadMessageFromEndpoint:messageDownloadEndpoint completion:^(BOOL success, NSURL *url) {
                 if (success && url) {
                     
                     // TODO:  This code is duplicated further down this snippet
@@ -446,7 +448,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }];
 }
 
-- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectMessageWithID:(NSString *)messageId {
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectMessage:(Message *)message {
     
     AppDelegate * appdel = self;
     __weak AppDelegate* weakSelf = self;
@@ -457,12 +459,12 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.loadingVC.view setAlpha:1];
     
     
-    NSURL *urlToOpen = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:messageId]];
+    NSURL *urlToOpen = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:message.messageID]];
     
     if (!urlToOpen) {
     
         CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-        [downloader downloadMessageWithID:messageId completion:^(BOOL success, NSURL *url) {
+        [downloader downloadMessageFromEndpoint:message.readURL completion:^(BOOL success, NSURL *url) {
            
             if (success && url) {
                 // loaded message
