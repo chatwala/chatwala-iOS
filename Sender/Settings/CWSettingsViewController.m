@@ -24,6 +24,8 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
 @property (strong, nonatomic) IBOutlet CWTableViewCellNewMessageDeliveryMethodCell *deliveryMethodCell;
 @property (strong, nonatomic) IBOutlet CWTableViewShowMessagePreviewCell *messagePreviewCell;
 
+@property (strong, nonatomic) IBOutlet UILabel *versionLabel;
+
 @property (weak, nonatomic) IBOutlet UITableView *settingsTable;
 @property (nonatomic,strong) NSArray * sectionHeaders;
 @property (nonatomic,strong) NSArray * section1Titles;
@@ -60,6 +62,8 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
     [self.settingsTable setBackgroundColor:[UIColor clearColor]];
     [self.settingsTable setSeparatorColor:[UIColor chatwalaBlueLight]];
     [self.settingsTable setScrollEnabled:NO];
+    
+    [self.versionLabel setText:[NSString stringWithFormat:@"v %@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]]];
 }
 
 - (void)onSettingsDone {
