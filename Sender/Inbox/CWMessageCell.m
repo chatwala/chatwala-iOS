@@ -31,6 +31,7 @@
         self.thumbView  = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 131, 80)];
         [self.thumbView setContentMode:UIViewContentModeCenter];
         self.thumbView.contentMode = UIViewContentModeScaleAspectFill;
+        self.thumbView.clipsToBounds = YES;
         [self addSubview:self.thumbView];
         
         self.spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];;
@@ -110,7 +111,7 @@
         
         if (error) {
             NSLog(@"Error fetching image from URL:  %@", imageURL);
-            NSLog(@"Image cache type was: %d and error was: %@", cacheType, error.localizedDescription);
+            NSLog(@"Image cache type was: %ld and error was: %@", cacheType, error.localizedDescription);
         }
         else {
             
@@ -178,25 +179,25 @@
     
     if(wholeSeconds < kSecondsPerMinute)
     {
-        return [NSString stringWithFormat:@"%is", wholeSeconds];
+        return [NSString stringWithFormat:@"%lis", (long)wholeSeconds];
     }
     if(wholeSeconds < kSecondsPerHour)
     {
-        return [NSString stringWithFormat:@"%im", wholeSeconds/kSecondsPerMinute];
+        return [NSString stringWithFormat:@"%lim", wholeSeconds/kSecondsPerMinute];
     }
     if(wholeSeconds < kSecondsPerDay)
     {
-        return [NSString stringWithFormat:@"%ih", wholeSeconds/kSecondsPerHour];
+        return [NSString stringWithFormat:@"%lih", wholeSeconds/kSecondsPerHour];
     }
     if(wholeSeconds < kSecondsPerWeek)
     {
-        return [NSString stringWithFormat:@"%id", wholeSeconds/kSecondsPerDay];
+        return [NSString stringWithFormat:@"%lid", wholeSeconds/kSecondsPerDay];
     }
     if(wholeSeconds < kSecondsPerYear)
     {
-        return [NSString stringWithFormat:@"%iw", wholeSeconds/kSecondsPerWeek];
+        return [NSString stringWithFormat:@"%liw", wholeSeconds/kSecondsPerWeek];
     }
-    return [NSString stringWithFormat:@"%iy", wholeSeconds/kSecondsPerYear];
+    return [NSString stringWithFormat:@"%liy", wholeSeconds/kSecondsPerYear];
 }
 
 - (AFNetworkingSuccessBlock) successImageDownloadBlock

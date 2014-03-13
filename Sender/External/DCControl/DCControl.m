@@ -48,8 +48,8 @@
 	return self;
 }
 
-- (void)setValue:(float)newValue
-{
+- (void)setValue:(CGFloat)newValue {
+    
 	if (newValue > self.max)
 		value = self.max;
 	else if (newValue < self.min)

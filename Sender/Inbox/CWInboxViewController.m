@@ -60,7 +60,7 @@
 - (void)onMessagesLoaded:(NSNotification *)note {
 
     NSOrderedSet * inboxMessages = [[[CWUserManager sharedInstance] localUser] inboxMessages];
-    [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
+    [self.messagesLabel setText:[NSString stringWithFormat:@"%lu Messages", (unsigned long)inboxMessages.count]];
     
     [self.messagesTable reloadData];
     if (self.refreshControl.isRefreshing) {

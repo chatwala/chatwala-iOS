@@ -111,7 +111,7 @@
                 }
                 default:
                     // fail
-                    NSLog(@"Failed to download message file. with code:%i",httpResponse.statusCode);
+                    NSLog(@"Failed to download message file. with code:%li",(long)httpResponse.statusCode);
                     if (completionBlock) {
                         completionBlock(NO,nil);
                     }

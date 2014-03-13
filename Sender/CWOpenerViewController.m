@@ -269,7 +269,7 @@
     [self killTimers];
     self.reviewCountdownTickCount = self.activeMessage.startRecordingValue;
     self.reviewCountdownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(onReviewCountdownTick:) userInfo:nil repeats:YES];
-    NSLog(@"started review countdown from %d",self.reviewCountdownTickCount);
+    NSLog(@"started review countdown from %ld",(long)self.reviewCountdownTickCount);
     
 }
 

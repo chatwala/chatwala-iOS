@@ -34,7 +34,7 @@
     
     NSMutableArray * frames = [NSMutableArray array];
     for (NSInteger i =0; i<30; i++) {
-        [frames addObject:[UIImage imageNamed:[NSString stringWithFormat:@"waves%04d",i]]];
+        [frames addObject:[UIImage imageNamed:[NSString stringWithFormat:@"waves%04ld",(long)i]]];
     }
     
     self.wavesView = [[UIImageView alloc]initWithImage:wavesImage];
