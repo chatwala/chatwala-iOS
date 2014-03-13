@@ -12,10 +12,11 @@
 #import "CWVideoManager.h"
 #import "UIImageView+AFNetworking.h"
 #import <AFNetworking/AFNetworking.h>
-#import <SDWebImage/UIImageView+WebCache.h>
 #import "CWConstants.h"
 #import "CWServerAPI.h"
 #import "CWUserDefaultsController.h"
+#import "SDWebImageManager.h"
+#import "UIImageView+WebCache.h"
 
 @interface CWProfilePictureViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;

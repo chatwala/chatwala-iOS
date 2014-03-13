@@ -11,7 +11,8 @@
 #import "Message.h"
 #import "UIColor+Additions.h"
 #import "CWMessageManager.h"
-#import <SDWebImage/UIImageView+WebCache.h>
+#import "SDWebImageManager.h"
+#import "UIImageView+WebCache.h"
 
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIView * cellView;
