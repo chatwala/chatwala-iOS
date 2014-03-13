@@ -90,8 +90,14 @@
 }
 
 -(void)handleCWMMDrawerOpenNotification:(NSNotification *)notification {
-    [self rotateBurgerBarAfterDrawAnimation:NO];
-    [self.mm_drawerController toggleDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
+    
+    // Logic is a little bit confusing here - this condition seems to be satisfied (magically?)
+    // only when the drawer is closed [RK 031014]
+    if (self.mm_drawerController && self.mm_drawerController.visibleLeftDrawerWidth == 0.0f) {
+        [self rotateBurgerBarAfterDrawAnimation:NO];
+    }
+
+    [self.mm_drawerController openDrawerSide:MMDrawerSideLeft animated:YES completion:nil];
 }
 
 -(void)rotateBurgerBarAfterDrawAnimation:(BOOL) isAfterAnimation
@@ -104,7 +110,7 @@
         UIView* burgerView = [self.burgerButton valueForKey:@"view"];
         //Bar Button Items have padding on the right and left sides. this will make it square
         burgerView.bounds = CGRectMake(0, 0, burgerView.bounds.size.width, burgerView.bounds.size.width);
-        burgerView.layer.anchorPoint = CGPointMake(0.5, 0.5);
+        burgerView.layer.anchorPoint = CGPointMake(0.5f, 0.5f);
         if(isAfterAnimation ^ (drawer.openSide == MMDrawerSideNone))
         {
             burgerView.transform = CGAffineTransformMakeRotation(degreesToRadians(90));

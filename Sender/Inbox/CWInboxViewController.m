@@ -92,8 +92,8 @@
     NSOrderedSet *inboxMessages = [localUser inboxMessages];
     Message *message = [inboxMessages objectAtIndex:indexPath.row];
   
-    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessageWithID:)]) {
-        [self.delegate inboxViewController:self didSelectMessageWithID:message.messageID];
+    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessage:)]) {
+        [self.delegate inboxViewController:self didSelectMessage:message];
         message.eMessageViewedState = eMessageViewedStateOpened;
     }
     

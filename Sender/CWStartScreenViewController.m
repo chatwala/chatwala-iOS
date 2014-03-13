@@ -8,12 +8,10 @@
 
 #import "CWStartScreenViewController.h"
 #import "CWVideoManager.h"
-#import "CWFlowManager.h"
-#import "CWComposerViewController.h"
+#import "CWSSComposerViewController.h"
 #import "CWErrorViewController.h"
 #import "CWGroundControlManager.h"
 #import "AppDelegate.h"
-#import "CWLandingViewController.h"
 #import "CWMessageManager.h"
 #import "CWUserManager.h"
 #import "User.h"
@@ -155,7 +153,7 @@
     [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:[[CWUserManager sharedInstance] localUser] completionBlockOrNil:nil];
     
     [CWAnalytics event:@"START_RECORDING" withCategory:@"CONVERSATION_STARTER" withLabel:@"TAP_BUTTON" withValue:nil];
-    CWComposerViewController * composerVC = [[CWFlowManager sharedInstance]composeVC];
+    CWComposerViewController * composerVC = [[CWSSComposerViewController alloc] init];
     [self.navigationController pushViewController:composerVC animated:NO];
 }
 

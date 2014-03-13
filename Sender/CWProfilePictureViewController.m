@@ -12,6 +12,10 @@
 #import "CWVideoManager.h"
 #import "UIImageView+AFNetworking.h"
 #import <AFNetworking/AFNetworking.h>
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "CWConstants.h"
+#import "CWServerAPI.h"
+#import "CWUserDefaultsController.h"
 
 @interface CWProfilePictureViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;
@@ -57,36 +61,50 @@
     [CATransaction commit];
 
     
+    
     if([[CWUserManager sharedInstance] localUser]) {
 
-        NSURL * url = [NSURL URLWithString:[[CWUserManager sharedInstance] getProfilePictureEndPointForUser:[[CWUserManager sharedInstance] localUser]]];
-        NSMutableURLRequest * imageURLRequest = [NSMutableURLRequest requestWithURL:url];
-        
-        [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
-        
-        if([[AFNetworkReachabilityManager sharedManager] isReachable])
-        {
-            [imageURLRequest setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+        NSURL *profilePictureURL = [CWUserDefaultsController profilePictureReadURL];
+        if (profilePictureURL) {
+            
+            [self fetchProfilePictureFromReadURL:profilePictureURL];
         }
-
-        [self.pictureImageView setImageWithURLRequest:imageURLRequest placeholderImage:[UIImage imageNamed:@"LaunchImage"] success:nil failure:nil];
+        else {
+            
+            [self fetchReadURLAndLoadProfilePicture];
+        }
     }
-
 }
 
-- (void)onBack
-{
+#pragma mark - Profile Picture 
+
+- (void)fetchReadURLAndLoadProfilePicture {
+
+    [CWServerAPI getProfilePictureReadURLForUser:[[CWUserManager sharedInstance] localUser].userID withCompletionBlock:^(NSURL *profilePictureReadURL) {
+        
+        if (profilePictureReadURL) {
+            [CWUserDefaultsController setProfilePictureReadURL:profilePictureReadURL];
+            [self fetchProfilePictureFromReadURL:profilePictureReadURL];
+        }
+    }];
+}
+
+- (void)fetchProfilePictureFromReadURL:(NSURL *)pictureURL {
+    
+    SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
+    [manager setValue:[NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret] forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
+    
+    [self.pictureImageView setImageWithURL:pictureURL
+                          placeholderImage:[UIImage imageNamed:@"LaunchImage"]
+                                   options:SDWebImageRefreshCached & SDWebImageRetryFailed
+                                 completed:nil];
+}
+
+- (void)onBack {
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (BOOL) isTakingNewPicture
-{
+- (BOOL) isTakingNewPicture {
     return self.pictureImageView.isHidden;
 }
 

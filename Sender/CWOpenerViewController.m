@@ -7,8 +7,8 @@
 //
 
 #import "CWOpenerViewController.h"
+#import "CWPreviewViewController.h"
 #import "CWVideoManager.h"
-#import "CWFlowManager.h"
 #import "CWGroundControlManager.h"
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
@@ -74,9 +74,12 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
+
+    [[CWMessageManager sharedInstance] addMessageToInbox:self.activeMessage];
     
     [self.playbackView setAlpha:0];
     [self.cameraView setAlpha:0];
+
     
     self.player = [[CWVideoManager sharedManager] player];
     self.recorder = [[CWVideoManager sharedManager] recorder];
@@ -91,14 +94,6 @@
     [self.player setDelegate:self];
     [self.recorder setDelegate:self];
 
-//    if(!CGRectIsEmpty(smallFrame))
-//    {
-//        self.cameraView.frame = smallFrame;
-//    }
-//    if(!CGRectIsEmpty(largeFrame))
-//    {
-//        self.playbackView.frame = largeFrame;
-//    }
     NSAssert(self.activeMessage, @"expecting activeMessage to be set");
     NSAssert(self.activeMessage.videoURL, @"expecting video URL to be set");
     
@@ -339,9 +334,6 @@
         
         
     }
-//    NSLog(@"reponse count:%f", recordTickCount);
-
-
 }
 
 #pragma mark CWVideoPlayerDelegate

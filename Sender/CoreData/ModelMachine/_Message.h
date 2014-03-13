@@ -29,6 +29,15 @@
 
 
 
+@property (nonatomic, strong) NSString* groupID;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSString* messageID;
 
 
@@ -39,6 +48,24 @@
 
 
 @property (nonatomic, strong) NSString* messageURL;
+
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* readURL;
+
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* replyToMessageID;
 
 
 
@@ -127,8 +154,11 @@
 
 extern const struct MessageAttributes {
 	__unsafe_unretained NSString *downloadState;
+	__unsafe_unretained NSString *groupID;
 	__unsafe_unretained NSString *messageID;
 	__unsafe_unretained NSString *messageURL;
+	__unsafe_unretained NSString *readURL;
+	__unsafe_unretained NSString *replyToMessageID;
 	__unsafe_unretained NSString *startRecording;
 	__unsafe_unretained NSString *threadIndex;
 	__unsafe_unretained NSString *thumbnailPictureURL;
@@ -150,6 +180,12 @@ extern const struct MessageRelationships {
 
 extern const struct MessageUserInfo {
 } MessageUserInfo;
+
+
+
+
+
+
 
 
 
@@ -201,6 +237,15 @@ extern const struct MessageUserInfo {
 
 
 
+@property (nonatomic, strong) NSString* groupID;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSString* messageID;
 
 
@@ -211,6 +256,24 @@ extern const struct MessageUserInfo {
 
 
 @property (nonatomic, strong) NSString* messageURL;
+
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* readURL;
+
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* replyToMessageID;
 
 
 
@@ -317,6 +380,12 @@ extern const struct MessageUserInfo {
 
 
 
+- (NSString*)primitiveGroupID;
+- (void)setPrimitiveGroupID:(NSString*)value;
+
+
+
+
 - (NSString*)primitiveMessageID;
 - (void)setPrimitiveMessageID:(NSString*)value;
 
@@ -325,6 +394,18 @@ extern const struct MessageUserInfo {
 
 - (NSString*)primitiveMessageURL;
 - (void)setPrimitiveMessageURL:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveReadURL;
+- (void)setPrimitiveReadURL:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveReplyToMessageID;
+- (void)setPrimitiveReplyToMessageID:(NSString*)value;
 
 
 

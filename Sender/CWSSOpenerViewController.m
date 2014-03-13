@@ -130,8 +130,8 @@
     }
 }
 
-- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
-{
+- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder {
+
     [super recorderRecordingFinished:recorder];
     
     [self.countdownTimer invalidate];
@@ -209,7 +209,7 @@
 }
 
 - (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
-    // TODO: Show error
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 #pragma mark - UIAlerViewDelegate

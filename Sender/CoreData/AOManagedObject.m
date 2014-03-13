@@ -95,6 +95,11 @@
         
         NSAttributeType attributeType = [[attributes objectForKey:attribute] attributeType];
         value = [self _safeObjectFromJsonValue:value forAttributeType:attributeType andDateFormatter:dateFormatter];
+        
+        if ([value isEqual:[NSNull null]]) {
+            value = nil;
+        }
+        
         [self setValue:value forKey:attribute];
     }
     
