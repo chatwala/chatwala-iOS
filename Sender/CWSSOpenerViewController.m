@@ -100,7 +100,7 @@
             
             self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateLabel) userInfo:nil repeats:YES];
             self.countdownCount = 10;
-            [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording your reply...%d",self.countdownCount]];
+            [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording your reply...%ld",(long)self.countdownCount]];
             [self.openerMessageLabel setAlpha:0.0f];
             [self.recordMessageLabel setAlpha:1.0f];
             
@@ -123,15 +123,15 @@
         [self.countdownTimer invalidate];
     }
     else if (self.countdownCount < 5 && ![CWUserDefaultsController shouldShowMessagePreview]) {
-        [self.recordMessageLabel setText:[NSString stringWithFormat:@"Sending reply in...%d",self.countdownCount]];
+        [self.recordMessageLabel setText:[NSString stringWithFormat:@"Sending reply in...%ld",(long)self.countdownCount]];
     }
     else {
-        [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording your reply...%d",self.countdownCount]];
+        [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording your reply...%ld",(long)self.countdownCount]];
     }
 }
 
-- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder
-{
+- (void)recorderRecordingFinished:(CWVideoRecorder *)recorder {
+
     [super recorderRecordingFinished:recorder];
     
     [self.countdownTimer invalidate];
@@ -209,7 +209,7 @@
 }
 
 - (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
-    // TODO: Show error
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 #pragma mark - UIAlerViewDelegate

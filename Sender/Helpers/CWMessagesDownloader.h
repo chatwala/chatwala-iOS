@@ -6,13 +6,16 @@
 //  Copyright (c) 2014 pho. All rights reserved.
 //
 
-typedef void (^CWMessageDownloaderCompletionBlock)(NSArray *messagesDownloaded);
+typedef void (^CWMessagesDownloaderCompletionBlock)(NSArray *messagesDownloaded);
+typedef void (^CWMessagesDownloaderSingleMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 
 @interface CWMessagesDownloader : NSObject
 
-@property (nonatomic, strong) NSArray *messageIdsForDownload;
++ (NSString *)messageEndpointFromSMSDownloadID:(NSString *)downloadID;
 
-- (void)startWithCompletionBlock:(CWMessageDownloaderCompletionBlock)completionBlock;
-+ (NSString *)filePathForMessageID:(NSString *)messageID;
+- (void)downloadMessages:(NSArray *)messageIDsForDownload withCompletionBlock:(CWMessagesDownloaderCompletionBlock)completionBlock;
+
+// Single message download
+- (void)downloadMessageFromEndpoint:(NSString *)endpoint completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
 
 @end

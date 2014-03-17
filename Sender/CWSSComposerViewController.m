@@ -55,7 +55,7 @@
     
     self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateLabel) userInfo:nil repeats:YES];
     self.countdownCount = 10;
-    [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording...%d",self.countdownCount]];
+    [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording...%ld",(long)self.countdownCount]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -74,7 +74,7 @@
         [self.recordMessageLabel setText:@"Sending..."];
     }
     else {
-        [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording...%d",self.countdownCount]];
+        [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording...%ld",(long)self.countdownCount]];
     }
 }
 

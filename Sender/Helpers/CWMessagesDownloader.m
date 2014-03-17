@@ -11,24 +11,28 @@
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
 #import "CWServerAPI.h"
-
-typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
+#import "CWVideoFileCache.h"
+#import "CWGroundControlManager.h"
 
 @implementation CWMessagesDownloader
 
-- (void)startWithCompletionBlock:(CWMessageDownloaderCompletionBlock)completionBlock {
+- (void)downloadMessages:(NSArray *)messagesToDownload withCompletionBlock:(CWMessagesDownloaderCompletionBlock)completionBlock {
 
-    NSMutableArray *messageIDsNeedingDownload = [NSMutableArray array];
+    NSMutableArray *messagesNeedingDownload = [NSMutableArray array];
     
-    for (NSString *messageID in self.messageIdsForDownload) {
+    for (Message *message in messagesToDownload) {
         
-        if (![[CWMessagesDownloader filePathForMessageID:messageID] length]) {
-            [messageIDsNeedingDownload addObject:messageID];
+        NSURL *localURL = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:message.messageID]];
+        if (!localURL) {
+            [messagesNeedingDownload addObject:message];
+        }
+        else {
+            [message setEMessageDownloadState:eMessageDownloadStateDownloaded];
         }
     }
     
     NSInteger totalMessagesToDownload = 0;
-    totalMessagesToDownload = [messageIDsNeedingDownload count];
+    totalMessagesToDownload = [messagesNeedingDownload count];
     
     if (!totalMessagesToDownload) {
         if (completionBlock) {
@@ -38,25 +42,21 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
     
     NSMutableArray *downloadedMessages = [NSMutableArray array];
     
-    for (NSString *messageIdToDownload in messageIDsNeedingDownload) {
-        [self downloadMessageWithID:messageIdToDownload completion:^(BOOL success, NSURL *url) {
-
-            NSInteger completedRequests = 0;
+    for (Message *currentMessage in messagesNeedingDownload) {
+        
+        __block NSInteger completedRequests = 0;
+        
+        [CWServerAPI downloadMessageFromReadURL:currentMessage.readURL destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+            
             completedRequests++;
             
-            if (success) {
-                [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
-                
-                // TODO: This should happen elsewhere [RK]
-                NSError *error = nil;
-                Message *newMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:url withError:&error];
-                
-                [downloadedMessages addObject:newMessage];
+            if (!error) {
+                [currentMessage setEMessageDownloadState:eMessageDownloadStateDownloaded];
+                [downloadedMessages addObject:currentMessage];
             }
             else {
-                NSLog(@"Error: failed download for message ID:  %@", messageIdToDownload);
+                NSLog(@"Error: failed download for message from URL:  %@", currentMessage.readURL);
             }
-            
             
             if (totalMessagesToDownload == completedRequests) {
                 // All requests completed (failed/succeeded) - let's finish up.
@@ -64,28 +64,32 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
                     completionBlock(downloadedMessages);
                 }
             }
+
         }];
     }
 }
 
++ (NSString *)messageEndpointFromSMSDownloadID:(NSString *)downloadID {
+    
+    NSArray *downloadIDComponents = [downloadID componentsSeparatedByString:@"."];
 
-+ (NSString *)filePathForMessageID:(NSString *)messageID {
-    // check if file exists locally
-    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
-    if ([[NSFileManager defaultManager]fileExistsAtPath:localPath]) {
-        // don't download
-        return localPath;
+    if ([downloadIDComponents count] > 1) {
+        NSString *endpoint = [[CWGroundControlManager sharedInstance] messageEndpointWithShardID:[downloadIDComponents firstObject]];
+        
+        // Append the message ID to the URL
+        return [endpoint stringByAppendingString:[downloadIDComponents lastObject]];
     }
     else {
         return nil;
     }
+    
 }
 
 #pragma mark - Download methods
 
-- (void)downloadMessageWithID:(NSString *)messageID completion:(CWMessageDownloaderMessageDownloadCompletionBlock)completionBlock {
-    
-    [CWServerAPI downloadMessageForID:messageID destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+- (void)downloadMessageFromEndpoint:(NSString *)endpoint completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
+
+    [CWServerAPI downloadMessageFromReadURL:endpoint destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if(error) {
             NSLog(@"Error while downloading message file: %@", error);
             if (completionBlock) {
@@ -107,7 +111,7 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
                 }
                 default:
                     // fail
-                    NSLog(@"Failed to download message file. with code:%i",httpResponse.statusCode);
+                    NSLog(@"Failed to download message file. with code:%li",(long)httpResponse.statusCode);
                     if (completionBlock) {
                         completionBlock(NO,nil);
                     }
@@ -122,7 +126,7 @@ typedef void (^CWMessageDownloaderMessageDownloadCompletionBlock)(BOOL success, 
 - (CWServerAPIDownloadDestinationBlock)downloadURLDestinationBlock {
     
     return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
-        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]];
+        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[CWVideoFileCache baseCacheDirectoryFilepath]];
         return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     });
 }

@@ -20,5 +20,5 @@
 
 @protocol CWInboxDelegate <NSObject>
 - (void)inboxViewController:(CWInboxViewController*)inboxVC didSelectButton:(UIButton*)button;
-- (void)inboxViewController:(CWInboxViewController*)inboxVC didSelectMessageWithID:(NSString*)messageId;
+- (void)inboxViewController:(CWInboxViewController*)inboxVC didSelectMessage:(Message *)message;
 @end

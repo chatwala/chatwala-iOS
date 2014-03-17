@@ -15,6 +15,9 @@
 + (NSString *)userID;
 + (void)setUserID:(NSString *)userID;
 
++ (NSURL *)profilePictureReadURL;
++ (void)setProfilePictureReadURL:(NSURL *)readURL;
+
 + (BOOL)shouldShowMessagePreview;
 + (void)setShouldShowMessagePreview:(BOOL)showMessagePreview;
 

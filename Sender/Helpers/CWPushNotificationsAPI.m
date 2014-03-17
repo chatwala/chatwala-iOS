@@ -47,7 +47,7 @@ static BOOL didRegisterForPushNotifications = NO;
 }
 
 + (void)handleLocalPushNotification:(UILocalNotification *)notification {
-    NSLog(@"Received local notification...not taking any action yet.");
+    NSLog(@"Received local notification....");
     [NC postNotificationName:CWNotificationInboxViewControllerShouldOpenInbox object:nil];
 }
 
@@ -95,6 +95,5 @@ static BOOL didRegisterForPushNotifications = NO;
     NSString *trimmed = [deviceTokenAsString stringByReplacingOccurrencesOfString:@" " withString:@""];
     return trimmed;
 }
-
 
 @end

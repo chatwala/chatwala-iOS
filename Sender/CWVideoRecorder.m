@@ -323,7 +323,7 @@
 
 - (void)convertVideoWithURL:(NSURL*)videoURL
 {
-    self.outputFileURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@",[[NSUUID UUID] UUIDString],@".mp4"]];
+    self.outputFileURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@",[[[NSUUID UUID] UUIDString] lowercaseString],@".mp4"]];
     
     // setup exporter
     AVAssetExportSession *exporter = [self createVideExporterWithSourceVideoURL:videoURL andOutPutURL:self.outputFileURL];

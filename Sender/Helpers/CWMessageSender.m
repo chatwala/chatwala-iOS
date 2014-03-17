@@ -38,10 +38,13 @@
     
     if (self.messageBeingRespondedTo) {
 
-        [[CWMessageManager sharedInstance] fetchUploadURLForReplyMessage:self.messageBeingSent completionBlockOrNil:^(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString) {
-
-            if (messageID && uploadURLString ) {
-                self.messageBeingSent.messageID = messageID;
+        [[CWMessageManager sharedInstance] fetchUploadURLForReplyMessage:self.messageBeingSent completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
+            
+            if (message && uploadURLString) {
+                message.videoURL = self.messageBeingSent.videoURL;
+                message.zipURL = self.messageBeingSent.zipURL;
+                self.messageBeingSent = message;
+                
                 [self.messageBeingSent exportZip];
                 
                 [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:YES];
@@ -52,39 +55,32 @@
                 if (self.delegate) {
                     
                     [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
-                    [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
+                    [SVProgressHUD showErrorWithStatus:@"Message reply upload details not received."];
                 }
             }
         }];
     }
     else {
         
-        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:localUser completionBlockOrNil:^(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString) {
-            if (uploadURLString && messageID && downloadURLString) {
-                
-                self.messageBeingSent.messageID = messageID;
-                
-#ifdef USE_QA_SERVER
-                downloadURLString = [NSString stringWithFormat:@"http://chatwala.com/qa/?%@",messageID];
-#elif USE_DEV_SERVER
-                downloadURLString = [NSString stringWithFormat:@"http://chatwala.com/dev/?%@",messageID];
-#endif
+        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:localUser completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
+            if (message) {
+
+                message.videoURL = self.messageBeingSent.videoURL;
+                message.zipURL = self.messageBeingSent.zipURL;
+                self.messageBeingSent = message;
                 
                 [self.messageBeingSent exportZip];
                 [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:NO];
                 
-                [self composeMessageWithMessageKey:downloadURLString withUploadURLString:uploadURLString withCompletion:nil];
-                
-//                [self composeMessageWithMessageKey:downloadURLString withCompletion:^{
-//                    [message exportZip];
-//                    [[CWMessageManager sharedInstance] uploadMessage:message toURL:uploadURLString isReply:NO];
-//                }];
+                // TODO: pass correct thang here...!
+                [self composeMessageWithMessageKey:self.messageBeingSent.messageURL];
+    
             }
             else {
                 
                 if (self.delegate) {    
                     [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
-                    [SVProgressHUD showErrorWithStatus:@"Message upload details not recieved."];
+                    [SVProgressHUD showErrorWithStatus:@"Message upload details not received."];
                 }
             }
         }];
@@ -113,7 +109,7 @@
     return validated;
 }
 
-- (void)composeMessageWithMessageKey:(NSString *)key withUploadURLString:(NSString *)uploadURLString withCompletion:(void (^)(void))completion {
+- (void)composeMessageWithMessageKey:(NSString *)key {
     
     NSString *messagePrefix = nil;
 #ifdef USE_QA_SERVER

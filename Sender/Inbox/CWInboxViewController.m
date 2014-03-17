@@ -60,7 +60,7 @@
 - (void)onMessagesLoaded:(NSNotification *)note {
 
     NSOrderedSet * inboxMessages = [[[CWUserManager sharedInstance] localUser] inboxMessages];
-    [self.messagesLabel setText:[NSString stringWithFormat:@"%d Messages", inboxMessages.count]];
+    [self.messagesLabel setText:[NSString stringWithFormat:@"%lu Messages", (unsigned long)inboxMessages.count]];
     
     [self.messagesTable reloadData];
     if (self.refreshControl.isRefreshing) {
@@ -92,8 +92,8 @@
     NSOrderedSet *inboxMessages = [localUser inboxMessages];
     Message *message = [inboxMessages objectAtIndex:indexPath.row];
   
-    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessageWithID:)]) {
-        [self.delegate inboxViewController:self didSelectMessageWithID:message.messageID];
+    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessage:)]) {
+        [self.delegate inboxViewController:self didSelectMessage:message];
         message.eMessageViewedState = eMessageViewedStateOpened;
     }
     

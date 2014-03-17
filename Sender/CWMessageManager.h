@@ -9,7 +9,7 @@
 #import "Message.h"
 
 
-typedef void (^CWMessageManagerFetchMessageUploadURLCompletionBlock)(NSString *messageID, NSString *uploadURLString, NSString *downloadURLString);
+typedef void (^CWMessageManagerFetchMessageUploadURLCompletionBlock)(Message *message, NSString *uploadURLString);
 
 typedef void (^AFRequestOperationManagerSuccessBlock) (AFHTTPRequestOperation *operation, id responseObject);
 typedef void (^AFRequestOperationManagerFailureBlock) (AFHTTPRequestOperation *operation, NSError *error);
@@ -22,14 +22,15 @@ typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 @property (nonatomic,readonly) NSString * baseEndPoint;
 @property (nonatomic,readonly) NSString * messagesEndPoint;
 @property (nonatomic,readonly) NSString * registerEndPoint;
-@property (nonatomic,readonly) NSString * getUserMessagesEndPoint;
+@property (nonatomic,readonly) NSString * getInboxEndPoint;
 @property (nonatomic,readonly) NSString * getMessageEndPoint;
-@property (nonatomic,readonly) NSString * putUserProfileEndPoint;
+
 
 //@property (nonatomic,strong) NSArray * messages;
 
 +(instancetype) sharedInstance;
 - (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
+- (void)addMessageToInbox:(Message *)message;
 
 - (void)fetchUploadURLForOriginalMessage:(User *)localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
 - (void)clearUploadURLForOriginalMessage;
