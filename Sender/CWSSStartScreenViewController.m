@@ -9,7 +9,6 @@
 #import "CWSSStartScreenViewController.h"
 #import "CWSSComposerViewController.h"
 #import "CWVideoManager.h"
-#import "CWFlowManager.h"
 #import "CWMiddleButton.h"
 
 @interface CWSSStartScreenViewController ()

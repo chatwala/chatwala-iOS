@@ -109,22 +109,24 @@
     return user;
 }
 
-- (Message *) createMessageWithSender:(User *) sender inResponseToIncomingMessage:(Message *) incomingMessage
+- (Message *) createMessageWithSender:(User *)sender inResponseToIncomingMessage:(Message *) incomingMessage
 {
     Message * message = [Message insertInManagedObjectContext:self.moc];
     message.sender = sender;
-    message.timeStamp = [NSDate date];
-    message.messageID = [[NSUUID UUID] UUIDString];;
+//    message.timeStamp = [NSDate date];
+    message.messageID = [[[NSUUID UUID] UUIDString] lowercaseString];
     
     if(incomingMessage)
     {
         message.recipient = incomingMessage.sender;
         message.thread = incomingMessage.thread;
+        message.replyToMessageID = incomingMessage.messageID;
+        message.groupID = incomingMessage.groupID;
         message.threadIndexValue = incomingMessage.threadIndexValue + 1;
     }
     else
     {
-        message.thread = [self createThreadWithID:[[NSUUID UUID] UUIDString]];
+        message.thread = [self createThreadWithID:[[[NSUUID UUID] UUIDString] lowercaseString]];
     }
     return message;
 }
@@ -161,14 +163,14 @@
     User * sender = [self createUserWithID:senderID];
     [item setSender:sender];
     
-    NSString * receiverID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
-    item.recipient = [self createUserWithID:receiverID];
+    NSString * receipientID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
+    item.recipient = [self createUserWithID:receipientID];
     
     //add thread
     NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
     item.thread = [self createThreadWithID:threadID];
-    
-
+    error = nil;
+    [item.managedObjectContext save:error];
     
     return item;
 }
@@ -176,8 +178,8 @@
 // importMessageAtFilePath used in two places:  opener view (sms links & now notifications) and when walas are downloaded from the inbox.
 // Ideally we want SMS links to be added to the inbox & let the same flow handle the unpackaging of the data. [RK - 02112014]
 
-- (Message *) importMessageAtFilePath:(NSURL *) filePath withError:(NSError **)error
-{
+- (Message *)importMessageAtFilePath:(NSURL *)filePath withError:(NSError **)error {
+
     NSFileManager* fm = [NSFileManager defaultManager];
     
     if (![fm fileExistsAtPath:filePath.path]) {
@@ -198,9 +200,9 @@
             // This is a check for "<null>" threadID value because of a 1.0.5 iOS bug
             NSString *threadIDValue = [jsonDict objectForKey:@"thread_id"];
             
-            if ([threadIDValue isEqual:[NSNull null]] && [threadIDValue isEqual:[NSNull null]]) {
+            if ([threadIDValue isEqual:[NSNull null]] || !threadIDValue) {
                 NSLog(@"Thread ID null works");
-                [jsonDict setValue:[[NSUUID UUID] UUIDString] forKey:@"thread_id"];
+                [jsonDict setValue:[[[NSUUID UUID] UUIDString] lowercaseString] forKey:@"thread_id"];
             }
             
             
@@ -216,8 +218,8 @@
             }
             
             [item setEMessageDownloadState:eMessageDownloadStateDownloaded];
-            [item.managedObjectContext save:error];
-            if(*error)
+            NSError *newError = nil;
+            if(newError)
             {
                 return nil;
             }

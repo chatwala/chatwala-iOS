@@ -6,8 +6,7 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
+@class Message;
 @protocol CWInboxDelegate;
 
 @interface CWInboxViewController : UIViewController
@@ -23,5 +22,5 @@
 
 @protocol CWInboxDelegate <NSObject>
 - (void)inboxViewController:(CWInboxViewController*)inboxVC didSelectButton:(UIButton*)button;
-- (void)inboxViewController:(CWInboxViewController*)inboxVC didSelectMessageWithID:(NSString*)messageId;
+- (void)inboxViewController:(CWInboxViewController*)inboxVC didSelectMessage:(Message *)message;
 @end

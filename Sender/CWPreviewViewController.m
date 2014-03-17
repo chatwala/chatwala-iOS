@@ -8,9 +8,7 @@
 
 #import "CWPreviewViewController.h"
 #import "CWVideoManager.h"
-#import "CWFlowManager.h"
 #import "AppDelegate.h"
-#import "CWLandingViewController.h"
 #import "CWGroundControlManager.h"
 #import "CWMessageManager.h"
 #import "CWUserManager.h"
@@ -28,7 +26,7 @@
     CWVideoPlayer * player;
     CWVideoRecorder * recorder;
     NSInteger playbackCount;
- 
+    
 }
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
@@ -45,7 +43,7 @@
 @synthesize recorder;
 
 - (void)viewDidLoad {
-
+    
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
@@ -68,7 +66,7 @@
 - (void)dealloc {
     
     [[NSNotificationCenter defaultCenter]removeObserver:self name:UIApplicationWillResignActiveNotification object:nil];
-
+    
     if ([player.delegate isEqual:self])
     {
         [player cleanUp];
@@ -79,7 +77,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-
+    
     [super viewWillAppear:animated];
     
     if (![CWUserDefaultsController shouldShowMessagePreview]) {
@@ -92,11 +90,8 @@
 }
 
 - (void)goToBackground {
-
+    
     [self.messageSender cancel];
-//    if (self.mailComposer) {
-//        [[self mailComposer]dismissViewControllerAnimated:NO completion:nil];
-//    }
 }
 
 // TODO: Poorly named - this is the 'X' button firing when user is discarding their message.
@@ -106,6 +101,7 @@
     [player setDelegate:nil];
     [player stop];
     [self.messageSender cancel];
+    [[CWMessageManager sharedInstance] clearUploadURLForOriginalMessage];
     
     //TODO: Cancel message send
     if (self.incomingMessage) {
@@ -117,7 +113,7 @@
         [CWAnalytics event:@"REDO_MESSAGE" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:@(playbackCount)];
         [self.navigationController popToRootViewControllerAnimated:NO];
     }
-//    [super onTap:sender];
+    //    [super onTap:sender];
 }
 
 - (IBAction)onRecordAgain:(id)sender {
@@ -157,7 +153,7 @@
     message.videoURL = recorder.outputFileURL;
     message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
     message.startRecording = [NSNumber numberWithDouble:self.startRecordingTime];
-
+    
     self.messageSender = [[CWMessageSender alloc] init];
     self.messageSender.delegate = self;
     self.messageSender.messageBeingSent = message;
@@ -198,7 +194,7 @@
 }
 
 - (void)showVideoPreview {
-
+    
     [self.previewView addSubview:player.playbackView];
     self.previewView.frame = CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height*0.5);
     player.playbackView.frame = self.previewView.bounds;
@@ -208,7 +204,7 @@
 }
 
 - (void)videoPlayerPlayToEnd:(CWVideoPlayer *)videoPlayer {
-
+    
     playbackCount++;
     [player replayVideo];
 }
@@ -234,7 +230,7 @@
 
 - (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
     // TODO: Show error
-
+    
 }
 
 @end
