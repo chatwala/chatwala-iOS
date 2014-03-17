@@ -67,11 +67,11 @@
 #elif USE_DEV_SERVER
     return @"https://chatwala-deveast-20.azurewebsites.net";
 #elif USE_SANDBOX_SERVER
-    return @"https://chatwala-sandbox-13.azurewebsites.net";
+    return @"https://chatwala-sandbox-20.azurewebsites.net";
 #elif USE_STAGING_SERVER
-    return @"https://chatwala-prodeast-13.azurewebsites.net";
+    return @"https://chatwala-prodeast-20.azurewebsites.net";
 #else
-    return @"https://chatwala-prodeast-13.azurewebsites.net";
+    return @"https://chatwala-prodeast-20.azurewebsites.net";
 #endif
     
 }
