@@ -9,8 +9,12 @@
 #import "CWLoadingViewController.h"
 
 @interface CWLoadingViewController ()
+
+@property (nonatomic,strong) IBOutlet UILabel *loadingLabel;
+
 @property (nonatomic,strong) UIImageView * stencilView;
 @property (nonatomic,strong) UIImageView * wavesView;
+
 @end
 
 @implementation CWLoadingViewController
@@ -47,6 +51,7 @@
     [self.stencilView setFrame:self.view.bounds];
     [self.view addSubview:self.wavesView];
     [self.view addSubview:self.stencilView];
+    [self.view bringSubviewToFront:self.loadingLabel];
     
     [self restartAnimation];
 }
