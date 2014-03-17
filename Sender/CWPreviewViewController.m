@@ -92,9 +92,6 @@
 - (void)goToBackground {
     
     [self.messageSender cancel];
-    //    if (self.mailComposer) {
-    //        [[self mailComposer]dismissViewControllerAnimated:NO completion:nil];
-    //    }
 }
 
 // TODO: Poorly named - this is the 'X' button firing when user is discarding their message.
