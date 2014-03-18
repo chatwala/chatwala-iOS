@@ -248,7 +248,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
-    if (![downloadID length]) {
+    if (![downloadID length] || ![messageID length]) {
         return YES;
     }
     
