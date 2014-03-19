@@ -31,6 +31,7 @@
              @"start_recording" : MessageAttributes.startRecording,
              @"share_url" :  MessageAttributes.messageURL,
              @"read_url"  : MessageAttributes.readURL,
+             @"blob_storage_shard_key" : MessageAttributes.storageShardKey
              };
 }
 
@@ -175,6 +176,7 @@
              MessageAttributes.startRecording,
              MessageAttributes.timeStamp,
              MessageAttributes.thumbnailPictureURL,
+             MessageAttributes.storageShardKey,
              MessageRelationships.thread,
              MessageRelationships.recipient,
              MessageRelationships.sender,
@@ -195,6 +197,7 @@
              MessageAttributes.threadIndex : @"thread_index",
              MessageAttributes.viewedState : @"viewed_state",
              MessageAttributes.downloadState : @"download_state",
+             MessageAttributes.storageShardKey : @"blob_storage_shard_key",
              MessageRelationships.recipient : @"recipient_id",
              MessageRelationships.sender : @"sender_id",
              MessageRelationships.thread : @"thread_id",

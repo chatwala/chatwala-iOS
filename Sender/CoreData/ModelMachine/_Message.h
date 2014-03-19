@@ -87,6 +87,15 @@
 
 
 
+@property (nonatomic, strong) NSString* storageShardKey;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* threadIndex;
 
 
@@ -160,6 +169,7 @@ extern const struct MessageAttributes {
 	__unsafe_unretained NSString *readURL;
 	__unsafe_unretained NSString *replyToMessageID;
 	__unsafe_unretained NSString *startRecording;
+	__unsafe_unretained NSString *storageShardKey;
 	__unsafe_unretained NSString *threadIndex;
 	__unsafe_unretained NSString *thumbnailPictureURL;
 	__unsafe_unretained NSString *timeStamp;
@@ -180,6 +190,8 @@ extern const struct MessageRelationships {
 
 extern const struct MessageUserInfo {
 } MessageUserInfo;
+
+
 
 
 
@@ -290,6 +302,15 @@ extern const struct MessageUserInfo {
 @property (atomic) double startRecordingValue;
 - (double)startRecordingValue;
 - (void)setStartRecordingValue:(double)value_;
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* storageShardKey;
+
 
 
 
@@ -415,6 +436,12 @@ extern const struct MessageUserInfo {
 
 - (double)primitiveStartRecordingValue;
 - (void)setPrimitiveStartRecordingValue:(double)value_;
+
+
+
+
+- (NSString*)primitiveStorageShardKey;
+- (void)setPrimitiveStorageShardKey:(NSString*)value;
 
 
 

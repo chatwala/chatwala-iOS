@@ -12,6 +12,7 @@ const struct MessageAttributes MessageAttributes = {
 	.readURL = @"readURL",
 	.replyToMessageID = @"replyToMessageID",
 	.startRecording = @"startRecording",
+	.storageShardKey = @"storageShardKey",
 	.threadIndex = @"threadIndex",
 	.thumbnailPictureURL = @"thumbnailPictureURL",
 	.timeStamp = @"timeStamp",
@@ -188,6 +189,13 @@ const struct MessageUserInfo MessageUserInfo = {
 - (void)setPrimitiveStartRecordingValue:(double)value_ {
 	[self setPrimitiveStartRecording:[NSNumber numberWithDouble:value_]];
 }
+
+
+
+
+
+@dynamic storageShardKey;
+
 
 
 
