@@ -247,13 +247,13 @@ NSInteger const defaultFeedbackTrigger = 5;
     NSString *baseEndpoint = nil;
     
 #ifdef USE_DEV_SERVER
-    baseEndpoint = @"http://chatwalanonprod.blob.core.windows.net/dev-messages/";
+    baseEndpoint = @"https://chatwalanonprod.blob.core.windows.net/dev-messages/";
 #elif USE_QA_SERVER
-    baseEndpoint = @"http://chatwalanonprod.blob.core.windows.net/qa-messages/";
+    baseEndpoint = @"https://chatwalanonprod.blob.core.windows.net/qa-messages/";
 #elif USE_SANDBOX_SERVER
-    baseEndpoint = @"http://chatwalanonprod.blob.core.windows.net/sandbox-messages/";
+    baseEndpoint = @"https://chatwalanonprod.blob.core.windows.net/sandbox-messages/";
 #else
-    baseEndpoint = @"http://chatwalaprod{shard}.blob.core.windows.net/messages/";
+    baseEndpoint = @"https://chatwalaprod${shard}.blob.core.windows.net/messages/";
 #endif
     
     return baseEndpoint;
