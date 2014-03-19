@@ -13,6 +13,7 @@
 #import "CWMessageManager.h"
 #import "SDWebImageManager.h"
 #import "UIImageView+WebCache.h"
+#import "CWConstants.h"
 
 @interface CWMessageCell ()
 @property (nonatomic,strong) UIView * cellView;
@@ -28,7 +29,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-        self.thumbView  = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 131, 80)];
+        self.thumbView  = [[UIImageView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, 131.0f, 72.0f)];
         [self.thumbView setContentMode:UIViewContentModeCenter];
         self.thumbView.contentMode = UIViewContentModeScaleAspectFill;
         self.thumbView.clipsToBounds = YES;
@@ -41,9 +42,9 @@
         
         self.accessoryView = self.spinner;
         
-        UIView * boarder = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 131, 2)];
-        boarder.backgroundColor = [UIColor chatwalaBlueDark];
-        [self addSubview:boarder];
+        UIView * border = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 131.0f, 2.0f)];
+        border.backgroundColor = [UIColor chatwalaBlueDark];
+        [self addSubview:border];
         
         UIImageView * gradient = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"gradient"]];
         gradient.frame = CGRectMake(CGRectGetMaxX(self.thumbView.bounds) - gradient.bounds.size.width, 0, gradient.bounds.size.width, CGRectGetHeight(self.thumbView.bounds));
@@ -56,10 +57,9 @@
         [self addSubview:self.statusImage];
 
         const CGFloat fontSize = 14;
-        CGRect labelFrame =CGRectMake(0, CGRectGetMaxY(self.statusImage.frame) - fontSize + 2, CGRectGetMinX(self.statusImage.frame) - 6, fontSize);
+        CGRect labelFrame =CGRectMake(0.0f, CGRectGetMaxY(self.statusImage.frame) - fontSize + 2, CGRectGetMinX(self.statusImage.frame) - 6, fontSize);
+        
         self.sentTimeLabel = [[UILabel alloc] initWithFrame:labelFrame];
-
-//        self.sentTimeLabel.backgroundColor = [UIColor redColor];
         self.sentTimeLabel.font = [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
         self.sentTimeLabel.textAlignment = NSTextAlignmentRight;
         self.sentTimeLabel.text = @"3w";
@@ -76,8 +76,6 @@
     [super setSelected:selected animated:animated];
     if (selected) {
         [self.spinner startAnimating];
-    }else{
-//        [self.spinner stopAnimating];
     }
 }
 
@@ -96,17 +94,13 @@
     
     [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:imageURLRequest];
     
-    NSString *kChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
-    NSString *kChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
-    NSString *kChatwalaAPIKeySecretHeaderField = @"x-chatwala";
-    
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
-    [manager setValue:[NSString stringWithFormat:@"%@:%@", kChatwalaAPIKey, kChatwalaAPISecret] forHTTPHeaderField:kChatwalaAPIKeySecretHeaderField];
+    [manager setValue:[NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret] forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
 
     __block CWMessageCell *blockSelf = self;
     
     [self.thumbView setImageWithURL:imageURL placeholderImage:placeholder options:SDWebImageRefreshCached & SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-        //
+
         [blockSelf.spinner stopAnimating];
         
         if (error) {
@@ -129,8 +123,6 @@
         }
     }];
     
-    //[self.thumbView setImageWithURL:imageURL placeholderImage:placeholder];
-    
     switch ([message eMessageViewedState]) {
         default:
         case eMessageViewedStateRead:
@@ -150,10 +142,9 @@
     self.sentTimeLabel.text = timeValue;
 }
 
-- (NSString *) timeStringFromDate:(NSDate *) timeStamp
-{
-    if(nil == timeStamp)
-    {
+- (NSString *) timeStringFromDate:(NSDate *) timeStamp {
+
+    if(nil == timeStamp) {
         return @"";
     }
     

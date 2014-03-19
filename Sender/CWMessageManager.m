@@ -219,16 +219,14 @@
     });
 }
 
-#pragma mark - table view datasource delegate functions
+#pragma mark - UITableViewDataSource delegate methods
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     messageTable = tableView;
     return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CWMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
     User * localUser = [[CWUserManager sharedInstance] localUser];
     NSOrderedSet * inboxMessages = [localUser inboxMessages];
@@ -238,15 +236,15 @@
 }
 
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
     User * localUser = [[CWUserManager sharedInstance] localUser];
     NSOrderedSet * inboxMessages = [localUser inboxMessages];
     return inboxMessages.count;
 }
 
 #pragma mark - MessageID Server Fetches
-//, [NSString stringWithFormat:@"http://chatwala.com/?%@",message.messageID]
+
 - (void)fetchUploadURLForReplyMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
 
     // Create new request
