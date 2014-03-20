@@ -99,7 +99,7 @@
 
     __block CWMessageCell *blockSelf = self;
     
-    [self.thumbView setImageWithURL:imageURL placeholderImage:placeholder options:SDWebImageRefreshCached & SDWebImageRetryFailed completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+    [self.thumbView setImageWithURL:imageURL placeholderImage:placeholder options:SDWebImageRetryFailed | SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
 
         [blockSelf.spinner stopAnimating];
         

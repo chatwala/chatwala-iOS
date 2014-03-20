@@ -97,7 +97,7 @@
     
     [self.pictureImageView setImageWithURL:pictureURL
                           placeholderImage:[UIImage imageNamed:@"LaunchImage"]
-                                   options:SDWebImageRefreshCached & SDWebImageRetryFailed
+                                   options:SDWebImageRetryFailed | SDWebImageRefreshCached
                                  completed:nil];
 }
 
