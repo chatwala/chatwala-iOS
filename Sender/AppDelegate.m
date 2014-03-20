@@ -277,7 +277,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
             
             NSString *messageDownloadEndpoint = [CWMessagesDownloader messageEndpointFromSMSDownloadID:downloadID];
             
-            [downloader downloadMessageFromEndpoint:messageDownloadEndpoint completion:^(BOOL success, NSURL *url) {
+            [downloader downloadMessageFromEndpoint:messageDownloadEndpoint progressOrNil:[self.loadingVC progressBlock] completion:^(BOOL success, NSURL *url) {
                 if (success && url) {
                     
                     // TODO:  This code is duplicated further down this snippet
@@ -465,7 +465,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     if (!urlToOpen) {
     
         CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-        [downloader downloadMessageFromEndpoint:message.readURL completion:^(BOOL success, NSURL *url) {
+        [downloader downloadMessageFromEndpoint:message.readURL progressOrNil:[self.loadingVC progressBlock] completion:^(BOOL success, NSURL *url) {
            
             if (success && url) {
                 // loaded message

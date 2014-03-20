@@ -12,6 +12,7 @@ typedef void (^CWServerPushRegisterCompletionBlock)(NSError *error);
 typedef void (^CWServerGetProfilePictureURLCompletionBlock)(NSURL *profilePictureReadURL);
 
 typedef void (^CWServerAPIGetInboxCompletionBlock)(NSArray *messages, NSError *error);
+typedef void (^CWServerAPIDownloadProgressBlock) (float fractionCompleted);
 typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURLResponse *response);
 
 @class Message;
@@ -36,6 +37,6 @@ typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURL
 + (void)registerPushForUserID:(NSString *)userID withPushToken:(NSString *)pushToken withCompletionBlock:(CWServerPushRegisterCompletionBlock)completionBlock;
 
 // Download API
-+ (void)downloadMessageFromReadURL:(NSString *)endPoint destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock;
++ (void)downloadMessageFromReadURL:(NSString *)endPoint destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock progressOrNil:(CWServerAPIDownloadProgressBlock)progressBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock;
 
 @end

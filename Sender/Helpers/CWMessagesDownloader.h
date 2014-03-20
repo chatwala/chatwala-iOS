@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 pho. All rights reserved.
 //
 
+#import "CWServerAPI.h"
+
 typedef void (^CWMessagesDownloaderCompletionBlock)(NSArray *messagesDownloaded);
 typedef void (^CWMessagesDownloaderSingleMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 
@@ -16,6 +18,6 @@ typedef void (^CWMessagesDownloaderSingleMessageDownloadCompletionBlock)(BOOL su
 - (void)downloadMessages:(NSArray *)messageIDsForDownload withCompletionBlock:(CWMessagesDownloaderCompletionBlock)completionBlock;
 
 // Single message download
-- (void)downloadMessageFromEndpoint:(NSString *)endpoint completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
+- (void)downloadMessageFromEndpoint:(NSString *)endpoint progressOrNil:(CWServerAPIDownloadProgressBlock)progressBlock completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
 
 @end

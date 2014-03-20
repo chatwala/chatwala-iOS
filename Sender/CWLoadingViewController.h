@@ -6,8 +6,11 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "CWServerAPI.h"
 
 @interface CWLoadingViewController : UIViewController
+
 - (void)restartAnimation;
+- (CWServerAPIDownloadProgressBlock)progressBlock;
+
 @end

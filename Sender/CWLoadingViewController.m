@@ -11,7 +11,6 @@
 @interface CWLoadingViewController ()
 
 @property (nonatomic,strong) IBOutlet UILabel *loadingLabel;
-
 @property (nonatomic,strong) UIImageView * stencilView;
 @property (nonatomic,strong) UIImageView * wavesView;
 
@@ -19,17 +18,8 @@
 
 @implementation CWLoadingViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+- (void)viewDidLoad {
 
-- (void)viewDidLoad
-{
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     [self.view setBackgroundColor:[UIColor colorFromHexString:@"#e7e0d7"]];
@@ -56,18 +46,28 @@
     [self restartAnimation];
 }
 
-- (void)restartAnimation
-{
+- (void)restartAnimation {
+    
     [self.wavesView.layer removeAllAnimations];
-    [self.wavesView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds),  CGRectGetMidY(self.view.bounds)+150)];
+    [self.wavesView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds),  CGRectGetMidY(self.view.bounds) + 150.0f)];
     [self.wavesView startAnimating];
-    [UIView animateWithDuration:12 animations:^{
-        //
-        [self.wavesView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds),  CGRectGetMidY(self.view.bounds))];
-    } completion:^(BOOL finished) {
-//        [self.wavesView stopAnimating];
-    }];
-    
-    
 }
+
+#pragma mark -
+
+- (CWServerAPIDownloadProgressBlock)progressBlock {
+
+    return (^ (float fractionCompleted){
+        
+        // Using the fraction completed to move the wave UI upwards (towards completion)
+        float currentCompleted = 150.0f - (fractionCompleted * 150.0f);
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            
+            [UIView animateWithDuration:0.5f animations:^{
+                [self.wavesView setCenter:CGPointMake(CGRectGetMidX(self.view.bounds),  CGRectGetMidY(self.view.bounds) + currentCompleted)];
+            }];
+        });
+    });
+}
+
 @end

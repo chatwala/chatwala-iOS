@@ -391,7 +391,7 @@ AFURLSessionManager *BackgroundSessionManager;
 
 #pragma mark - Download API
 
-+ (void)downloadMessageFromReadURL:(NSString *)endPoint destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock {
++ (void)downloadMessageFromReadURL:(NSString *)endPoint destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock progressOrNil:(CWServerAPIDownloadProgressBlock)progressBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock {
 
     NSLog(@"Successfully fetched message read url.");
     
@@ -408,6 +408,13 @@ AFURLSessionManager *BackgroundSessionManager;
     
     NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:nil destination:destinationBlock completionHandler:completionBlock];
     [downloadTask resume];
+    [manager setDownloadTaskDidWriteDataBlock:^(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite) {
+        
+        if (progressBlock) {
+            float completed = (float)totalBytesWritten / (float)totalBytesExpectedToWrite;
+            progressBlock(completed);
+        }
+    }];
 }
 
 # pragma mark - Convenience methods

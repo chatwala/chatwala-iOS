@@ -46,7 +46,7 @@
         
         __block NSInteger completedRequests = 0;
         
-        [CWServerAPI downloadMessageFromReadURL:currentMessage.readURL destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        [CWServerAPI downloadMessageFromReadURL:currentMessage.readURL destinationURLBlock:[self downloadURLDestinationBlock] progressOrNil:nil completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
             
             completedRequests++;
             
@@ -87,9 +87,9 @@
 
 #pragma mark - Download methods
 
-- (void)downloadMessageFromEndpoint:(NSString *)endpoint completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
+- (void)downloadMessageFromEndpoint:(NSString *)endpoint progressOrNil:(CWServerAPIDownloadProgressBlock)progressBlock completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
 
-    [CWServerAPI downloadMessageFromReadURL:endpoint destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+    [CWServerAPI downloadMessageFromReadURL:endpoint destinationURLBlock:[self downloadURLDestinationBlock] progressOrNil:progressBlock completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if(error) {
             NSLog(@"Error while downloading message file: %@", error);
             if (completionBlock) {
