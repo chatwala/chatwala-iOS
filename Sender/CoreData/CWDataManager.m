@@ -170,7 +170,6 @@
     NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
     item.thread = [self createThreadWithID:threadID];
     error = nil;
-    [item.managedObjectContext save:error];
     
     return item;
 }

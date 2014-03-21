@@ -123,7 +123,9 @@
                 
                 for (NSDictionary *messageMetadata in messages) {
                     NSError *error = nil;
-                    [arrayOfMessages addObject:[[CWDataManager sharedInstance] createMessageWithDictionary:messageMetadata error:&error]];
+                    Message *newMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:messageMetadata error:&error];
+                    [newMessage.managedObjectContext save:&error];
+                    [arrayOfMessages addObject:newMessage];
                 }
                 
                 CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
