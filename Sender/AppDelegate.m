@@ -55,7 +55,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 #pragma mark - Application lifecycle methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
+    [[CWDataManager sharedInstance] setupCoreData];
+    
     [CWUserDefaultsController configureDefaults];
     [Crashlytics sharedInstance];
     [Crashlytics startWithAPIKey:CRASHLYTICS_API_TOKEN];
@@ -133,7 +134,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         NSLog(@"Received remote notifcation callback in didFinishLaunchingWithOptions %@", remoteNotificationDictionary);
     }
 
-    [[CWDataManager sharedInstance] setupCoreData];
     return YES;
 }
 
