@@ -105,7 +105,7 @@
     switch (self.openerState) {
         case CWOpenerPreview:
             self.activeMessage.eMessageViewedState = eMessageViewedStateRead;
-            [self.activeMessage.managedObjectContext save:nil];
+            [self.activeMessage saveContext];
             [self setOpenerState:CWOpenerReview];
             break;
         case CWOpenerReview:

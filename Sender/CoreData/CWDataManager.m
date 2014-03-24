@@ -109,23 +109,21 @@
     return user;
 }
 
-- (Message *) createMessageWithSender:(User *)sender inResponseToIncomingMessage:(Message *) incomingMessage
-{
-    Message * message = [Message insertInManagedObjectContext:self.moc];
+- (Message *) createMessageWithSender:(User *)sender inResponseToIncomingMessage:(Message *) incomingMessage {
+    
+    Message *message = [Message insertInManagedObjectContext:self.moc];
     message.sender = sender;
-//    message.timeStamp = [NSDate date];
+    message.timeStamp = [NSDate date];
     message.messageID = [[[NSUUID UUID] UUIDString] lowercaseString];
     
-    if(incomingMessage)
-    {
+    if(incomingMessage) {
         message.recipient = incomingMessage.sender;
         message.thread = incomingMessage.thread;
         message.replyToMessageID = incomingMessage.messageID;
         message.groupID = incomingMessage.groupID;
         message.threadIndexValue = incomingMessage.threadIndexValue + 1;
     }
-    else
-    {
+    else {
         message.thread = [self createThreadWithID:[[[NSUUID UUID] UUIDString] lowercaseString]];
     }
     return message;

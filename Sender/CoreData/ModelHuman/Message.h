@@ -40,5 +40,6 @@ typedef enum eMessageViewedState
 - (eMessageDownloadState) eDownloadState;
 - (void)setEMessageDownloadState:(eMessageDownloadState ) eState;
 - (void)exportZip;
+- (void)saveContext;
 
 @end

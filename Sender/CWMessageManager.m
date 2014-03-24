@@ -124,7 +124,7 @@
                 for (NSDictionary *messageMetadata in messages) {
                     NSError *error = nil;
                     Message *newMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:messageMetadata error:&error];
-                    [newMessage.managedObjectContext save:&error];
+                    [newMessage saveContext];
                     [arrayOfMessages addObject:newMessage];
                 }
                 
