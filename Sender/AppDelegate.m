@@ -90,7 +90,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [CWAnalytics appOpened];
     
     if(![[CWUserDefaultsController userID] length]) {
-        [self fetchMessageFromURLString:messageRetrievalEndpoint];
+        //[self fetchMessageFromURLString:messageRetrievalEndpoint];
     }
     
     [CWUserManager sharedInstance];
