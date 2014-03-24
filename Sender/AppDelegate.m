@@ -55,8 +55,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 #pragma mark - Application lifecycle methods
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [[CWDataManager sharedInstance] setupCoreData];
-    
+   
     [CWUserDefaultsController configureDefaults];
     [Crashlytics sharedInstance];
     [Crashlytics startWithAPIKey:CRASHLYTICS_API_TOKEN];
@@ -68,6 +67,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                                                          diskCapacity:20 * 1024 * 1024
                                                              diskPath:nil];
     [NSURLCache setSharedURLCache:URLCache];
+    [[CWDataManager sharedInstance] setupCoreData];
     
 #ifdef USE_QA_SERVER
     NSString *analyticsID = @"UA-46207837-4";
@@ -90,7 +90,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [CWAnalytics appOpened];
     
     if(![[CWUserDefaultsController userID] length]) {
-        //[self fetchMessageFromURLString:messageRetrievalEndpoint];
+        [self fetchMessageFromURLString:messageRetrievalEndpoint];
     }
     
     [CWUserManager sharedInstance];
@@ -181,6 +181,10 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     if( [[CWUserManager sharedInstance] localUser]) {
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
     }
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [[[CWDataManager sharedInstance] moc] processPendingChanges];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

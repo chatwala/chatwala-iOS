@@ -162,7 +162,7 @@
     
     if (message && [message.recipient.userID isEqualToString:CWConstantsUnknownRecipientIDString]) {
         NSLog(@"Adding message to inbox...");
-        //[CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUser].userID];
+        [CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUser].userID];
     }
 }
 
