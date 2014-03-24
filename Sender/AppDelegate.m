@@ -67,7 +67,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                                                          diskCapacity:20 * 1024 * 1024
                                                              diskPath:nil];
     [NSURLCache setSharedURLCache:URLCache];
-    [[CWDataManager sharedInstance] setupCoreData];
     
 #ifdef USE_QA_SERVER
     NSString *analyticsID = @"UA-46207837-4";
@@ -134,6 +133,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         NSLog(@"Received remote notifcation callback in didFinishLaunchingWithOptions %@", remoteNotificationDictionary);
     }
 
+    [[CWDataManager sharedInstance] setupCoreData];
     return YES;
 }
 
