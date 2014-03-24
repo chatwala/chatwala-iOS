@@ -183,10 +183,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application {
-    [[[CWDataManager sharedInstance] moc] processPendingChanges];
-}
-
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     
     NSString * fbAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppID"];
