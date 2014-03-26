@@ -323,6 +323,7 @@
 		0DAD469518D2351D008C546A /* UIImage+WebP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+WebP.m"; sourceTree = "<group>"; };
 		0DAD469618D2351D008C546A /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		0DAD469718D2351D008C546A /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
+		0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 4.xcdatamodel"; sourceTree = "<group>"; };
 		0DDD6F4018C66F1200580DA4 /* CWAPICommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPICommand.h; sourceTree = "<group>"; };
 		0DDD6F4118C66F1200580DA4 /* CWAPICommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAPICommand.m; sourceTree = "<group>"; };
 		0DDD6F4318C66F4D00580DA4 /* CWAPICommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPICommandFactory.h; sourceTree = "<group>"; };
@@ -1517,7 +1518,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel 3.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
+			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel 4.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
 		};
 		4B3DBD8706754EA0AB54D68F /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1979,10 +1980,11 @@
 		36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */,
 				0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */,
 				36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */,
 			);
-			currentVersion = 0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */;
+			currentVersion = 0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */;
 			path = ChatwalaModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

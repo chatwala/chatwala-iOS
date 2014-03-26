@@ -7,7 +7,7 @@
 //
 
 #import "Message.h"
-
+#import "User.h"
 
 typedef void (^CWMessageManagerFetchMessageUploadURLCompletionBlock)(Message *message, NSString *uploadURLString);
 

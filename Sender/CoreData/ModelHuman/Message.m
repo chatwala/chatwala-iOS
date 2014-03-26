@@ -16,16 +16,16 @@
 
 // Custom logic goes here.
 
-+ (NSDictionary *) keyLookupTable
-{
++ (NSDictionary *) keyLookupTable {
+
     return @{
+             @"recipient_id" : MessageAttributes.recipientID,
+             @"sender_id"   : MessageAttributes.senderID,
+             @"thread_id"   : MessageAttributes.threadID,
              @"group_id" : MessageAttributes.groupID,
              @"replying_to_message_id" : MessageAttributes.replyToMessageID,
-             @"thread_id" : MessageRelationships.thread,
              @"thread_index" : MessageAttributes.threadIndex,
              @"message_id" : MessageAttributes.messageID,
-             @"recipient_id" : MessageRelationships.recipient,
-             @"sender_id" : MessageRelationships.sender,
              @"thumbnail_url" : MessageAttributes.thumbnailPictureURL,
              @"timestamp" : MessageAttributes.timeStamp,
              @"start_recording" : MessageAttributes.startRecording,
@@ -187,6 +187,9 @@
 + (NSArray *) attributesAndRelationshipsToArchive
 {
     return @[
+             MessageAttributes.senderID,
+             MessageAttributes.recipientID,
+             MessageAttributes.threadID,
              MessageAttributes.groupID,
              MessageAttributes.readURL,
              MessageAttributes.replyToMessageID,
@@ -195,10 +198,7 @@
              MessageAttributes.startRecording,
              MessageAttributes.timeStamp,
              MessageAttributes.thumbnailPictureURL,
-             MessageAttributes.storageShardKey,
-             MessageRelationships.thread,
-             MessageRelationships.recipient,
-             MessageRelationships.sender,
+             MessageAttributes.storageShardKey
              ];
 }
 
@@ -206,6 +206,9 @@
 + (NSDictionary *) reverseKeyLookupTable
 {
     return @{
+             MessageAttributes.threadID : @"thread_id",
+             MessageAttributes.recipientID : @"recipient_id",
+             MessageAttributes.senderID : @"sender_id",
              MessageAttributes.groupID : @"group_id",
              MessageAttributes.readURL : @"read_url",
              MessageAttributes.replyToMessageID : @"replying_to_message_id",
@@ -216,11 +219,7 @@
              MessageAttributes.threadIndex : @"thread_index",
              MessageAttributes.viewedState : @"viewed_state",
              MessageAttributes.downloadState : @"download_state",
-             MessageAttributes.storageShardKey : @"blob_storage_shard_key",
-             MessageRelationships.recipient : @"recipient_id",
-             MessageRelationships.sender : @"sender_id",
-             MessageRelationships.thread : @"thread_id",
-             
+             MessageAttributes.storageShardKey : @"blob_storage_shard_key"
              };
 }
 

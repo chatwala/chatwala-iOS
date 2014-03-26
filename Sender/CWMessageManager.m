@@ -160,7 +160,7 @@
 
 - (void)addMessageToInbox:(Message *)message {
     
-    if (message && [message.recipient.userID isEqualToString:CWConstantsUnknownRecipientIDString]) {
+    if (message && [message.recipientID isEqualToString:CWConstantsUnknownRecipientIDString]) {
         NSLog(@"Adding message to inbox...");
         [CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUser].userID];
     }
@@ -254,7 +254,7 @@
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     NSString *endPoint = [self.messagesEndPoint stringByAppendingString:@"/startReplyMessageSend"];
     
-    NSDictionary *params = @{@"user_id" : message.sender.userID,
+    NSDictionary *params = @{@"user_id" : message.senderID,
                              @"replying_to_message_id" : message.replyToMessageID,
                              @"message_id" : message.messageID,
                              @"start_recording":  message.startRecording};

@@ -10,9 +10,12 @@ const struct MessageAttributes MessageAttributes = {
 	.messageID = @"messageID",
 	.messageURL = @"messageURL",
 	.readURL = @"readURL",
+	.recipientID = @"recipientID",
 	.replyToMessageID = @"replyToMessageID",
+	.senderID = @"senderID",
 	.startRecording = @"startRecording",
 	.storageShardKey = @"storageShardKey",
+	.threadID = @"threadID",
 	.threadIndex = @"threadIndex",
 	.thumbnailPictureURL = @"thumbnailPictureURL",
 	.timeStamp = @"timeStamp",
@@ -20,12 +23,6 @@ const struct MessageAttributes MessageAttributes = {
 };
 
 
-
-const struct MessageRelationships MessageRelationships = {
-	.recipient = @"recipient",
-	.sender = @"sender",
-	.thread = @"thread",
-};
 
 
 
@@ -159,7 +156,21 @@ const struct MessageUserInfo MessageUserInfo = {
 
 
 
+@dynamic recipientID;
+
+
+
+
+
+
 @dynamic replyToMessageID;
+
+
+
+
+
+
+@dynamic senderID;
 
 
 
@@ -195,6 +206,13 @@ const struct MessageUserInfo MessageUserInfo = {
 
 
 @dynamic storageShardKey;
+
+
+
+
+
+
+@dynamic threadID;
 
 
 
@@ -270,18 +288,6 @@ const struct MessageUserInfo MessageUserInfo = {
 
 
 
-
-@dynamic recipient;
-
-	
-
-@dynamic sender;
-
-	
-
-@dynamic thread;
-
-	
 
 
 

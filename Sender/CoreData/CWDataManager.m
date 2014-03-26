@@ -112,19 +112,19 @@
 - (Message *) createMessageWithSender:(User *)sender inResponseToIncomingMessage:(Message *) incomingMessage {
     
     Message *message = [Message insertInManagedObjectContext:self.moc];
-    message.sender = sender;
+    message.senderID = sender.userID;
     message.timeStamp = [NSDate date];
     message.messageID = [[[NSUUID UUID] UUIDString] lowercaseString];
     
     if(incomingMessage) {
-        message.recipient = incomingMessage.sender;
-        message.thread = incomingMessage.thread;
+        message.recipientID = incomingMessage.senderID;
+//        message.thread = incomingMessage.thread;
         message.replyToMessageID = incomingMessage.messageID;
         message.groupID = incomingMessage.groupID;
         message.threadIndexValue = incomingMessage.threadIndexValue + 1;
     }
     else {
-        message.thread = [self createThreadWithID:[[[NSUUID UUID] UUIDString] lowercaseString]];
+        message.threadID = [[[NSUUID UUID] UUIDString] lowercaseString];
     }
     return message;
 }
@@ -157,16 +157,16 @@
     [item fromDictionary:sourceDictionary withDateFormatter:[CWDataManager dateFormatter] error:error] ;
     
     //add users
-    NSString * senderID = [sourceDictionary objectForKey:MessageRelationships.sender withLUT:[Message keyLookupTable]];
-    User * sender = [self createUserWithID:senderID];
-    [item setSender:sender];
-    
-    NSString * receipientID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
-    item.recipient = [self createUserWithID:receipientID];
-    
-    //add thread
-    NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
-    item.thread = [self createThreadWithID:threadID];
+//    NSString * senderID = [sourceDictionary objectForKey:MessageRelationships.sender withLUT:[Message keyLookupTable]];
+//    User * sender = [self createUserWithID:senderID];
+//    [item setSender:sender];
+//    
+//    NSString * receipientID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
+//    item.recipient = [self createUserWithID:receipientID];
+//    
+//    //add thread
+//    NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
+//    item.thread = [self createThreadWithID:threadID];
     error = nil;
     
     return item;
