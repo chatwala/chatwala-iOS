@@ -53,14 +53,16 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:nil];
+    [AOFetchUtilities fetchExample];
+    
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
     [self.messagesTable reloadData];
 }
 
 - (void)onMessagesLoaded:(NSNotification *)note {
 
-    NSOrderedSet * inboxMessages = [[[CWUserManager sharedInstance] localUser] inboxMessages];
-    [self.messagesLabel setText:[NSString stringWithFormat:@"%lu Messages", (unsigned long)inboxMessages.count]];
+//    NSOrderedSet * inboxMessages = [[CWUserManager sharedInstance]] inboxMessages];
+//    [self.messagesLabel setText:[NSString stringWithFormat:@"%lu Messages", (unsigned long)inboxMessages.count]];
     
     [self.messagesTable reloadData];
     if (self.refreshControl.isRefreshing) {
@@ -76,7 +78,7 @@
 
 - (void)handleRefresh:(UIRefreshControl*)r {
 
-    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:nil];
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
 }
 
 - (IBAction)onButtonSelect:(id)sender {
@@ -88,14 +90,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    User *localUser = [[CWUserManager sharedInstance] localUser];
-    NSOrderedSet *inboxMessages = [localUser inboxMessages];
-    Message *message = [inboxMessages objectAtIndex:indexPath.row];
-  
-    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessage:)]) {
-        [self.delegate inboxViewController:self didSelectMessage:message];
-        message.eMessageViewedState = eMessageViewedStateOpened;
-    }
+//    NSString *localUser = [[CWUserManager sharedInstance] localUserID];
+//    NSOrderedSet *inboxMessages = [localUser inboxMessages];
+//    Message *message = [inboxMessages objectAtIndex:indexPath.row];
+//  
+//    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessage:)]) {
+//        [self.delegate inboxViewController:self didSelectMessage:message];
+//        message.eMessageViewedState = eMessageViewedStateOpened;
+//    }
     
 }
 

@@ -69,10 +69,6 @@
 		36AF5823187DD97000C5C13F /* machine.m.motemplate in Resources */ = {isa = PBXBuildFile; fileRef = 36AF581F187DD97000C5C13F /* machine.m.motemplate */; };
 		36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */; };
 		36AF5834187DF0A200C5C13F /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF582F187DF0A200C5C13F /* Message.m */; };
-		36AF5835187DF0A200C5C13F /* Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5831187DF0A200C5C13F /* Thread.m */; };
-		36AF5836187DF0A200C5C13F /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5833187DF0A200C5C13F /* User.m */; };
-		36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5838187DF0AB00C5C13F /* _Thread.m */; };
-		36AF583E187DF0AB00C5C13F /* _User.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF583A187DF0AB00C5C13F /* _User.m */; };
 		36AF583F187DF0AB00C5C13F /* _Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF583C187DF0AB00C5C13F /* _Message.m */; };
 		36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5841187DF45F00C5C13F /* CWDataManager.m */; };
 		36AF5844187E034700C5C13F /* CWMessageManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 36AF5843187E034700C5C13F /* CWMessageManagerTests.m */; };
@@ -354,14 +350,6 @@
 		36AF5829187DDBCF00C5C13F /* mogenerator */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = mogenerator; sourceTree = "<group>"; };
 		36AF582E187DF0A200C5C13F /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
 		36AF582F187DF0A200C5C13F /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
-		36AF5830187DF0A200C5C13F /* Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
-		36AF5831187DF0A200C5C13F /* Thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Thread.m; sourceTree = "<group>"; };
-		36AF5832187DF0A200C5C13F /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		36AF5833187DF0A200C5C13F /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		36AF5837187DF0AB00C5C13F /* _Thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Thread.h; sourceTree = "<group>"; };
-		36AF5838187DF0AB00C5C13F /* _Thread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Thread.m; sourceTree = "<group>"; };
-		36AF5839187DF0AB00C5C13F /* _User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _User.h; sourceTree = "<group>"; };
-		36AF583A187DF0AB00C5C13F /* _User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _User.m; sourceTree = "<group>"; };
 		36AF583B187DF0AB00C5C13F /* _Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Message.h; sourceTree = "<group>"; };
 		36AF583C187DF0AB00C5C13F /* _Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Message.m; sourceTree = "<group>"; };
 		36AF5840187DF45F00C5C13F /* CWDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWDataManager.h; sourceTree = "<group>"; };
@@ -807,10 +795,6 @@
 			children = (
 				36AF582E187DF0A200C5C13F /* Message.h */,
 				36AF582F187DF0A200C5C13F /* Message.m */,
-				36AF5830187DF0A200C5C13F /* Thread.h */,
-				36AF5831187DF0A200C5C13F /* Thread.m */,
-				36AF5832187DF0A200C5C13F /* User.h */,
-				36AF5833187DF0A200C5C13F /* User.m */,
 			);
 			path = ModelHuman;
 			sourceTree = "<group>";
@@ -818,10 +802,6 @@
 		36AF581A187DD91300C5C13F /* ModelMachine */ = {
 			isa = PBXGroup;
 			children = (
-				36AF5837187DF0AB00C5C13F /* _Thread.h */,
-				36AF5838187DF0AB00C5C13F /* _Thread.m */,
-				36AF5839187DF0AB00C5C13F /* _User.h */,
-				36AF583A187DF0AB00C5C13F /* _User.m */,
 				36AF583B187DF0AB00C5C13F /* _Message.h */,
 				36AF583C187DF0AB00C5C13F /* _Message.m */,
 			);
@@ -1610,7 +1590,6 @@
 				9AC88A991892E7790006EE61 /* CWAskForImprovementMsgViewController.m in Sources */,
 				206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */,
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
-				36AF583E187DF0AB00C5C13F /* _User.m in Sources */,
 				0D200ABE1891852F008C2238 /* DCKnob.m in Sources */,
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
 				0D1DAEA418917FD30051D7AE /* CWUtility.m in Sources */,
@@ -1635,7 +1614,6 @@
 				E924AD2E183AB481009400DD /* CWPIPComposerViewController.m in Sources */,
 				E90B7C82186C958D00B94DCC /* CWLoadingViewController.m in Sources */,
 				0D74053C18C63A4C0075166A /* CWVideoFileCache.m in Sources */,
-				36AF583D187DF0AB00C5C13F /* _Thread.m in Sources */,
 				E9443993182940AF0088A381 /* main.m in Sources */,
 				E9ABCFAE183D5BA40098E530 /* CWGroundControlManager.m in Sources */,
 				36F3F879187C9573002CBB63 /* CWKillScreenViewController.m in Sources */,
@@ -1646,7 +1624,6 @@
 				0DAD469D18D2351D008C546A /* SDWebImageDownloader.m in Sources */,
 				0D200ABF1891852F008C2238 /* DCSlider.m in Sources */,
 				0DAD46A418D2351D008C546A /* UIImage+WebP.m in Sources */,
-				36AF5835187DF0A200C5C13F /* Thread.m in Sources */,
 				E94439D2182946460088A381 /* AVCamRecorder.m in Sources */,
 				0DAD469F18D2351D008C546A /* SDWebImageManager.m in Sources */,
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
@@ -1670,7 +1647,6 @@
 				0D1DAEB11891809D0051D7AE /* CWSettingsViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
 				0D29E37318AAB9F500082ECF /* CWMessagesDownloader.m in Sources */,
-				36AF5836187DF0A200C5C13F /* User.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

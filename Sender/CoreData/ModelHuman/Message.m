@@ -143,36 +143,36 @@
     [jsonDict setObject:intervalString forKey:MessageAttributes.timeStamp];
 
     
-    NSDictionary *relationships = [[self entity] relationshipsByName];
+    //NSDictionary *relationships = [[self entity] relationshipsByName];
     
-    for (NSString *relation in relationships) {
-        id value = [self valueForKey:relation];
-        
-        if (value == nil) {
-            value = [NSNull null];
-            continue;
-        }
-        NSRelationshipDescription * relationDescription = [relationships objectForKey:relation];
-        
-        NSEntityDescription * entityDescription = [relationDescription destinationEntity];
-        
-        if([entityDescription.name isEqualToString:[User entityName]])
-        {
-            User * user = value;
-            value = user.userID;
-        }
-        else if([entityDescription.name isEqualToString:[Thread entityName]])
-        {
-            Thread * thread = value;
-            value = thread.threadID;
-        }
-        else
-        {
-            NSAssert(0==1, @"unexpected relation: %@ with value: %@", relation, value);
-        }
-        
-        [jsonDict setValue:value forKey:relation];
-    }
+//    for (NSString *relation in relationships) {
+//        id value = [self valueForKey:relation];
+//        
+//        if (value == nil) {
+//            value = [NSNull null];
+//            continue;
+//        }
+//        NSRelationshipDescription * relationDescription = [relationships objectForKey:relation];
+//        
+//        NSEntityDescription * entityDescription = [relationDescription destinationEntity];
+//        
+//        if([entityDescription.name isEqualToString:[User entityName]])
+//        {
+//            User * user = value;
+//            value = user.userID;
+//        }
+//        else if([entityDescription.name isEqualToString:[Thread entityName]])
+//        {
+//            Thread * thread = value;
+//            value = thread.threadID;
+//        }
+//        else
+//        {
+//            NSAssert(0==1, @"unexpected relation: %@ with value: %@", relation, value);
+//        }
+//        
+//        [jsonDict setValue:value forKey:relation];
+//    }
     NSArray * whiteList = [self.class attributesAndRelationshipsToArchive];
     NSMutableArray * objectKeysToRemove = [jsonDict.allKeys mutableCopy];
     [objectKeysToRemove removeObjectsInArray:whiteList];

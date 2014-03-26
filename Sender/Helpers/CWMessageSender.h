@@ -18,7 +18,7 @@
 @property (nonatomic) Message *messageBeingSent;
 @property (nonatomic) Message *messageBeingRespondedTo;
 
-- (void)sendMessageFromUser:(User *)localUser;
+- (void)sendMessageFromUser:(NSString *)userID;
 - (void)cancel;
 
 @end
@@ -26,8 +26,7 @@
 @protocol CWMessageSenderDelegate <NSObject>
 
 @required
-//- (void)messageSender:(CWMessageSender *)messageSender shouldPresentMailComposer:(MFMailComposeViewController *)mailComposer;
-//- (void)messageSender:(CWMessageSender *)messageSender shouldPresentMessageComposer:(MFMessageComposeViewController *)messageComposer;
+
 - (void)messageSender:(CWMessageSender *)messageSender shouldPresentMessageComposerController:(UINavigationController *)composerNavController;
 - (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender;
 - (void)messageSenderDidCancelMessageSend:(CWMessageSender *)messageSender;

@@ -7,7 +7,6 @@
 //
 
 #import "CWMessageSender.h"
-#import "User.h"
 #import "Message.h"
 #import "CWDataManager.h"
 #import "CWMessageManager.h"
@@ -27,7 +26,7 @@
 
 #pragma mark - Public API
 
-- (void)sendMessageFromUser:(User *)localUser {
+- (void)sendMessageFromUser:(NSString *)userID {
     
     if (!self.delegate) {
         return;
@@ -62,7 +61,7 @@
     }
     else {
         
-        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:localUser completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
+        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:userID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
             if (message) {
 
                 message.videoURL = self.messageBeingSent.videoURL;

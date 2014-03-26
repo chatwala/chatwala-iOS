@@ -87,9 +87,9 @@
     }
     else {
 
-        User *localUser = [[CWUserManager sharedInstance] localUser];
+        NSString *localUserID = [[CWUserManager sharedInstance] localUserID];
         
-        Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:nil];
+        Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:nil];
         
         message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
         message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
@@ -100,7 +100,7 @@
         self.messageSender.messageBeingSent = message;
         
         self.hasSentMessage = YES;
-        [self.messageSender sendMessageFromUser:localUser];
+        [self.messageSender sendMessageFromUser:localUserID];
     }
 }
 
@@ -141,7 +141,7 @@
 }
 
 - (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
-    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
+    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUserID]];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 

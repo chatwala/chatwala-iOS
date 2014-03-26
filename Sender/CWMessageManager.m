@@ -99,8 +99,8 @@
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
 }
 
-- (void)getMessagesForUser:(User *)user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
-    NSString *user_id = user.userID;
+- (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
+    NSString *user_id = userID;
     
     if (![user_id length]) {
         return;
@@ -149,7 +149,7 @@
                         }
                     }
                     
-                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance] numberOfUnreadMessages]];
                     [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
                 }];
             }
@@ -162,7 +162,7 @@
     
     if (message && [message.recipientID isEqualToString:CWConstantsUnknownRecipientIDString]) {
         NSLog(@"Adding message to inbox...");
-        [CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUser].userID];
+        [CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUserID]];
     }
 }
 
@@ -230,19 +230,20 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     CWMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
-    User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSOrderedSet * inboxMessages = [localUser inboxMessages];
-    Message * message = [inboxMessages objectAtIndex:indexPath.row];
-    [cell setMessage:message];
+//    User * localUser = [[CWUserManager sharedInstance] localUser];
+//    NSOrderedSet * inboxMessages = [localUser inboxMessages];
+//    Message * message = [inboxMessages objectAtIndex:indexPath.row];
+//    [cell setMessage:message];
     return cell;
 }
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSOrderedSet * inboxMessages = [localUser inboxMessages];
-    return inboxMessages.count;
+    return 0;
+//    User * localUser = [[CWUserManager sharedInstance] localUser];
+//    NSOrderedSet * inboxMessages = [localUser inboxMessages];
+//    return inboxMessages.count;
 }
 
 #pragma mark - MessageID Server Fetches
@@ -281,7 +282,7 @@
     }];
 }
 
-- (void)fetchUploadURLForOriginalMessage:(User *)localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
+- (void)fetchUploadURLForOriginalMessage:(NSString *)userID completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
     
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
 
@@ -311,7 +312,7 @@
     NSString *endPoint = [self.messagesEndPoint stringByAppendingString:@"/startUnknownRecipientMessageSend"];
     
     
-    NSDictionary *params = @{@"sender_id" : localUser.userID, @"message_id" : newMessageID};
+    NSDictionary *params = @{@"sender_id" : userID, @"message_id" : newMessageID};
     NSLog(@"Starting original message send with params: %@", params);
     
     

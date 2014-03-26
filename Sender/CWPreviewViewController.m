@@ -14,7 +14,6 @@
 #import "CWUserManager.h"
 #import "CWUtility.h"
 #import "Message.h"
-#import "Thread.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWDataManager.h"
 #import "CWAnalytics.h"
@@ -81,7 +80,7 @@
     [super viewWillAppear:animated];
     
     if (![CWUserDefaultsController shouldShowMessagePreview]) {
-        [self sendMessageFromUser:[[CWUserManager sharedInstance] localUser]];
+        [self sendMessageFromUser:[[CWUserManager sharedInstance] localUserID]];
         return;
     }
     else {
@@ -140,15 +139,15 @@
         return;
     }
     
-    [self sendMessageFromUser:[[CWUserManager sharedInstance] localUser]];
+    [self sendMessageFromUser:[[CWUserManager sharedInstance] localUserID]];
 }
 
-- (void)sendMessageFromUser:(User *)localUser {
+- (void)sendMessageFromUser:(NSString *)userID {
     
     [player stop];
     [self.sendButton setButtonState:eButtonStateBusy];
     
-    Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.incomingMessage];
+    Message * message = [[CWDataManager sharedInstance] createMessageWithSender:userID inResponseToIncomingMessage:self.incomingMessage];
     
     message.videoURL = recorder.outputFileURL;
     message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
@@ -159,17 +158,17 @@
     self.messageSender.messageBeingSent = message;
     self.messageSender.messageBeingRespondedTo = self.incomingMessage;
     
-    [self.messageSender sendMessageFromUser:localUser];
+    [self.messageSender sendMessageFromUser:userID];
 }
 
-- (void)uploadProfilePictureForUser:(User *) user {
+- (void)uploadProfilePictureForUser:(NSString *)userID {
     
-    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user]) {
+    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
         return;//already did this
     }
     
     [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
+        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:userID completion:nil];
     }];
 }
 
@@ -220,7 +219,7 @@
 }
 
 - (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
-    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
+    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUserID]];
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

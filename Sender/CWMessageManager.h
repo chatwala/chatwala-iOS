@@ -7,7 +7,6 @@
 //
 
 #import "Message.h"
-#import "User.h"
 
 typedef void (^CWMessageManagerFetchMessageUploadURLCompletionBlock)(Message *message, NSString *uploadURLString);
 
@@ -29,10 +28,10 @@ typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 //@property (nonatomic,strong) NSArray * messages;
 
 +(instancetype) sharedInstance;
-- (void)getMessagesForUser:(User *) user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
+- (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
 - (void)addMessageToInbox:(Message *)message;
 
-- (void)fetchUploadURLForOriginalMessage:(User *)localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
+- (void)fetchUploadURLForOriginalMessage:(NSString *)userID completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
 - (void)clearUploadURLForOriginalMessage;
 
 - (void)fetchUploadURLForReplyMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;

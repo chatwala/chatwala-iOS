@@ -26,15 +26,15 @@
 #pragma mark - find functions
 
 
-- (Thread *) findThreadByThreadID:(NSString*) threadID
-{
-    Thread * item = (Thread *)[self findObject:[Thread class] byAttribute:ThreadAttributes.threadID withValue:threadID];
-    if(item)
-    {
-        NSAssert([item isKindOfClass:[Thread class]], @"expecting to get a Thread object. found :%@", item);
-    }
-    return item;
-}
+//- (Thread *) findThreadByThreadID:(NSString*) threadID
+//{
+//    Thread * item = (Thread *)[self findObject:[Thread class] byAttribute:ThreadAttributes.threadID withValue:threadID];
+//    if(item)
+//    {
+//        NSAssert([item isKindOfClass:[Thread class]], @"expecting to get a Thread object. found :%@", item);
+//    }
+//    return item;
+//}
 
 - (Message *) findMessageByMessageID:(NSString*) messageID
 {
@@ -46,15 +46,15 @@
     return item;
 }
 
-- (User *) findUserByUserID:(NSString *) userID
-{
-    User * item = (User *)[self findObject:[User class] byAttribute:UserAttributes.userID withValue:userID];
-    if(item)
-    {
-        NSAssert([item isKindOfClass:[User class]], @"expecting to get a User object. found :%@", item);
-    }
-    return item;
-}
+//- (User *) findUserByUserID:(NSString *) userID
+//{
+//    User * item = (User *)[self findObject:[User class] byAttribute:UserAttributes.userID withValue:userID];
+//    if(item)
+//    {
+//        NSAssert([item isKindOfClass:[User class]], @"expecting to get a User object. found :%@", item);
+//    }
+//    return item;
+//}
 
 - (AOManagedObject *) findObject:(Class) aClass byAttribute:(NSString *) attribute withValue:(NSString*) value
 {
@@ -79,40 +79,40 @@
 
 #pragma mark - import data
 
-- (Thread *) createThreadWithID:(NSString *) threadID
-{
-    if(nil == threadID)
-    {
-        return nil;
-    }
-    Thread * thread = [self findThreadByThreadID:threadID];
-    if(!thread)
-    {
-        thread = [Thread insertInManagedObjectContext:self.moc];
-        thread.threadID = threadID;
-    }
-    return thread;
-}
+//- (Thread *) createThreadWithID:(NSString *) threadID
+//{
+//    if(nil == threadID)
+//    {
+//        return nil;
+//    }
+//    Thread * thread = [self findThreadByThreadID:threadID];
+//    if(!thread)
+//    {
+//        thread = [Thread insertInManagedObjectContext:self.moc];
+//        thread.threadID = threadID;
+//    }
+//    return thread;
+//}
+//
+//- (User *) createUserWithID:(NSString *) userID
+//{
+//    if(nil == userID)
+//    {
+//        return nil;
+//    }
+//    User * user = [self findUserByUserID:userID];
+//    if(!user)
+//    {
+//        user = [User insertInManagedObjectContext:self.moc];
+//        user.userID = userID;
+//    }
+//    return user;
+//}
 
-- (User *) createUserWithID:(NSString *) userID
-{
-    if(nil == userID)
-    {
-        return nil;
-    }
-    User * user = [self findUserByUserID:userID];
-    if(!user)
-    {
-        user = [User insertInManagedObjectContext:self.moc];
-        user.userID = userID;
-    }
-    return user;
-}
-
-- (Message *) createMessageWithSender:(User *)sender inResponseToIncomingMessage:(Message *) incomingMessage {
+- (Message *)createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage {
     
     Message *message = [Message insertInManagedObjectContext:self.moc];
-    message.senderID = sender.userID;
+    message.senderID = senderID;
     message.timeStamp = [NSDate date];
     message.messageID = [[[NSUUID UUID] UUIDString] lowercaseString];
     

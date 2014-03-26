@@ -26,7 +26,6 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 @interface CWUserManager()
 
-@property (nonatomic) User *localUser;
 
 @end
 
@@ -47,7 +46,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     if (self) {
         [self setupHttpAuthHeaders];
 
-        if (!self.localUser) {
+        if (!self.localUserID) {
             [self createNewLocalUser];
         }
     }
@@ -75,35 +74,26 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 }
 
 
-- (User *)localUser {
-    
-    NSString *existingUserId = [CWUserDefaultsController userID];
-    
-    if ([existingUserId length]) {
-        _localUser = [[CWDataManager sharedInstance] createUserWithID:existingUserId];
-        return _localUser;
-    }
-    else {
-        return nil;
-    }
+- (NSString *)localUserID {
+    return [CWUserDefaultsController userID];
 }
 
 - (void)createNewLocalUser {
     
-    NSString *newUserID = [[[NSUUID UUID] UUIDString] lowercaseString];
+    NSString *newUserID = @"d80ba84b-7785-c219-5ee5-74130eff8e2a"; [[[NSUUID UUID] UUIDString] lowercaseString];
     NSLog(@"Generated new user id: %@",newUserID);
     
-    self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
+    //self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
     [CWUserDefaultsController setUserID:newUserID];
 }
 
-- (BOOL) hasApprovedProfilePicture:(User *) user
+- (BOOL) hasApprovedProfilePicture:(NSString *) user
 {
     BOOL approved = [[NSUserDefaults standardUserDefaults] boolForKey:kApprovedProfilePictureKey];
     return approved;
 }
 
-- (void) approveProfilePicture:(User *) user {
+- (void) approveProfilePicture:(NSString *) user {
     
     if (!user) {
         return;
@@ -113,7 +103,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (BOOL) hasUploadedProfilePicture:(User *) user
+- (BOOL) hasUploadedProfilePicture:(NSString *)userID
 {
     if([[[NSUserDefaults standardUserDefaults] objectForKey:kUploadedProfilePictureKey] boolValue])
 
@@ -123,7 +113,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return NO;
 }
 
-- (NSString *) getProfilePictureEndPointForUser:(User *) user {
+- (NSString *) getProfilePictureEndPointForUser:(NSString *)userID {
     //NSString * user_id = user.userID;
     
     //NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
@@ -131,13 +121,13 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 }
 
 
-- (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user completion:(void (^)(NSError * error))completionBlock {
+- (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(NSString *)userID completion:(void (^)(NSError * error))completionBlock {
     
-    if (![user.userID length]) {
+    if (![userID length]) {
         return;
     }
     
-    [CWServerAPI uploadProfilePicture:thumbnail forUserID:user.userID withCompletionBlock:^(NSError *error) {
+    [CWServerAPI uploadProfilePicture:thumbnail forUserID:userID withCompletionBlock:^(NSError *error) {
 
         if (error) {
             NSLog(@"Error: %@", error);
@@ -147,7 +137,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
             }
         } else {
 
-            NSLog(@"Successfully upload profile picture for user: %@", user.userID);
+            NSLog(@"Successfully upload profile picture for user: %@", userID);
             [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:kUploadedProfilePictureKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
@@ -166,10 +156,10 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
         return NO;
     }
     NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold] integerValue];
-    if(self.localUser.messagesSent.count < requestAppFeedbackThreshold)
-    {
-        return NO;
-    }
+//    if(self.localUserID.messagesSent.count < requestAppFeedbackThreshold)
+//    {
+//        return NO;
+//    }
     
     return YES;
 }
@@ -202,6 +192,10 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 - (BOOL) newMessageDeliveryMethodIsSMS
 {
     return [[self newMessageDeliveryMethod] isEqualToString:kNewMessageDeliveryMethodValueSMS];
+}
+
+- (NSInteger) numberOfUnreadMessages {
+    return 0;
 }
 
 @end

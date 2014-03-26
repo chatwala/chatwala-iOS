@@ -8,7 +8,6 @@
 
 #import "CWProfilePictureViewController.h"
 #import "CWUserManager.h"
-#import "User.h"
 #import "CWVideoManager.h"
 #import "UIImageView+AFNetworking.h"
 #import <AFNetworking/AFNetworking.h>
@@ -63,7 +62,7 @@
 
     
     
-    if([[CWUserManager sharedInstance] localUser]) {
+    if([[CWUserManager sharedInstance] localUserID]) {
 
         NSURL *profilePictureURL = [CWUserDefaultsController profilePictureReadURL];
         if (profilePictureURL) {
@@ -81,7 +80,7 @@
 
 - (void)fetchReadURLAndLoadProfilePicture {
 
-    [CWServerAPI getProfilePictureReadURLForUser:[[CWUserManager sharedInstance] localUser].userID withCompletionBlock:^(NSURL *profilePictureReadURL) {
+    [CWServerAPI getProfilePictureReadURLForUser:[[CWUserManager sharedInstance] localUserID] withCompletionBlock:^(NSURL *profilePictureReadURL) {
         
         if (profilePictureReadURL) {
             [CWUserDefaultsController setProfilePictureReadURL:profilePictureReadURL];
@@ -137,12 +136,12 @@
     [self.pictureImageView cancelImageRequestOperation];
     self.pictureImageView.image = image;
 
-    User *localUser = [[CWUserManager sharedInstance] localUser];
+    NSString *localUserID = [[CWUserManager sharedInstance] localUserID];
 
-    [[CWUserManager sharedInstance] uploadProfilePicture:image forUser:[[CWUserManager sharedInstance] localUser] completion:^(NSError *error) {
+    [[CWUserManager sharedInstance] uploadProfilePicture:image forUser:localUserID completion:^(NSError *error) {
 
         if(!error) {
-            [[CWUserManager sharedInstance] approveProfilePicture:localUser];
+            [[CWUserManager sharedInstance] approveProfilePicture:localUserID];
         }
     }];
 }
@@ -164,7 +163,7 @@
 
 - (void) onSettingsDone:(id)sender {
     [super onSettingsDone:sender];
-    [[CWUserManager sharedInstance] approveProfilePicture:[[CWUserManager sharedInstance] localUser]];
+    [[CWUserManager sharedInstance] approveProfilePicture:[[CWUserManager sharedInstance] localUserID]];
 }
 
 @end

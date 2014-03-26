@@ -139,7 +139,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
-    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:completionHandler];
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:completionHandler];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -178,8 +178,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 //    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
     
     //  Update badge so the user sees valid information
-    if( [[CWUserManager sharedInstance] localUser]) {
-        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+    if( [[CWUserManager sharedInstance] localUserID]) {
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance] numberOfUnreadMessages]];
     }
 }
 
@@ -198,8 +198,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [FBSettings setDefaultAppID:fbAppID];
     [FBAppEvents activateApp];
     
-    if( [[CWUserManager sharedInstance] localUser]) {
-        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+    if( [[CWUserManager sharedInstance] localUserID]) {
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance]numberOfUnreadMessages]];
     }
     else {
         [application setApplicationIconBadgeNumber:0];
@@ -230,7 +230,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }];
     
     // Fetch a new message upload ID from server
-    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:nil];
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
     //[[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:[[CWUserManager sharedInstance] localUser] completionBlockOrNil:nil];
 }
 

@@ -161,8 +161,8 @@
 }
 
 - (void)sendMessage {
-    User *localUser = [[CWUserManager sharedInstance] localUser];
-    Message *message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.activeMessage];
+    NSString *localUserID = [[CWUserManager sharedInstance] localUserID];
+    Message *message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:self.activeMessage];
     
     message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
     message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
@@ -173,12 +173,12 @@
     self.messageSender.messageBeingSent = message;
     self.messageSender.messageBeingRespondedTo = self.activeMessage;
     
-    [self.messageSender sendMessageFromUser:localUser];
+    [self.messageSender sendMessageFromUser:localUserID];
 }
 
-- (void)uploadProfilePictureForUser:(User *)user {
+- (void)uploadProfilePictureForUser:(NSString *)userID {
     
-    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user]) {
+    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
         return;//already did this
     }
 
@@ -188,7 +188,7 @@
     [self.player setVideoURL:self.recorder.tempFileURL];
     [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
     
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
+        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:userID completion:nil];
     }];
     
 }
@@ -200,7 +200,7 @@
 }
 
 - (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
-    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
+    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUserID]];
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 

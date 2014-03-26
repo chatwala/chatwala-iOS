@@ -14,7 +14,6 @@
 #import "AppDelegate.h"
 #import "CWMessageManager.h"
 #import "CWUserManager.h"
-#import "User.h"
 #import <UIViewController+MMDrawerController.h>
 #import "CWAppFeedBackViewController.h"
 #import "CWAnalytics.h"
@@ -126,7 +125,7 @@
         } completion:nil];
         
 
-        if(![[CWUserManager sharedInstance] hasApprovedProfilePicture:[[CWUserManager sharedInstance] localUser]])
+        if(![[CWUserManager sharedInstance] hasApprovedProfilePicture:[[CWUserManager sharedInstance] localUserID]])
         {
             //show the profile picture
             [self showProfilePictureWasUploaded];
@@ -150,7 +149,7 @@
     }
     
     // Pre-emptively fetch upload URL so we don't have any delay for original message delivery modal
-    [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:[[CWUserManager sharedInstance] localUser] completionBlockOrNil:nil];
+    [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:[[CWUserManager sharedInstance] localUserID] completionBlockOrNil:nil];
     
     [CWAnalytics event:@"START_RECORDING" withCategory:@"CONVERSATION_STARTER" withLabel:@"TAP_BUTTON" withValue:nil];
     CWComposerViewController * composerVC = [[CWSSComposerViewController alloc] init];

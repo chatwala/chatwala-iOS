@@ -7,6 +7,8 @@
 //
 
 #import "AOFetchUtilities.h"
+#import "CWDataManager.h"
+#import "CWUserManager.h"
 
 @implementation AOFetchUtilities
 
@@ -31,5 +33,57 @@
     return fetchedObjects;
 }
 
+
++ (NSArray *)fetchExample {
+    
+    NSManagedObjectContext *managedObjectContext = [[CWDataManager sharedInstance] moc];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"Message" inManagedObjectContext:managedObjectContext];
+    
+    
+    //NSAttributeDescription *senderDescription = [entity.attributesByName objectForKey:@"senderID"];
+    NSExpression *keyPathExpression = [NSExpression expressionForKeyPath: @"timeStamp"]; // Does not really matter
+    NSExpression *maxExpression = [NSExpression expressionForFunction: @"max:"
+                                                            arguments: [NSArray arrayWithObject:keyPathExpression]];
+    
+    NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
+    
+    [expressionDescription setName: @"maxTimestamp"];
+    [expressionDescription setExpression:maxExpression];
+    [expressionDescription setExpressionResultType:NSDateAttributeType];
+    
+    
+    NSExpression *messageKeyPathExpression = [NSExpression expressionForKeyPath: @"messageID"];
+    NSExpression *countExpression = [NSExpression expressionForFunction: @"count:"
+                                                            arguments: [NSArray arrayWithObject:messageKeyPathExpression]];
+    
+    NSExpressionDescription *countDescription = [[NSExpressionDescription alloc] init];
+    
+    [countDescription setName: @"countMessages"];
+    [countDescription setExpression:countExpression];
+    [countDescription setExpressionResultType:NSInteger32AttributeType];
+    
+    [fetchRequest setEntity:entity];
+    //[fetchRequest setReturnsDistinctResults:YES];
+    //[fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:senderDescription, expressionDescription, nil]];
+    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"senderID", expressionDescription, countDescription, nil]];
+    //[fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObject:senderDescription]];
+    
+    [fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObjects:@"senderID",nil]];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"senderID!=%@", [[CWUserManager sharedInstance] localUserID] ];
+    
+    [fetchRequest setPredicate:predicate];
+    //[fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObject:@"messageID"]];
+    [fetchRequest setResultType:NSDictionaryResultType];
+    NSError* error = nil;
+    NSArray *results = [managedObjectContext executeFetchRequest:fetchRequest
+                                                           error:&error];
+        
+    return nil;
+}
 
 @end
