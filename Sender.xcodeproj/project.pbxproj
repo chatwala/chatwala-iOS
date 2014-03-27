@@ -1804,7 +1804,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CW_APP_VERSION = 1.5.0;
+				CW_APP_VERSION = 1.5.1;
 				CW_BUILD_VERSION = 2.7.15;
 				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
 				CW_DISPLAY_NAME = chatwala;
@@ -1851,7 +1851,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CW_APP_VERSION = 1.5.0;
+				CW_APP_VERSION = 1.5.1;
 				CW_BUILD_VERSION = 2.7.15;
 				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
 				CW_DISPLAY_NAME = chatwala;

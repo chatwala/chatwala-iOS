@@ -243,7 +243,6 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    // TODO: Make this a constant
     NSString *CellIdentifier = [CWUserCell cellIdentifier];
     CWUserCell *cell = (CWUserCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -254,70 +253,7 @@ static const float InboxTableTransitionDuration = 0.3f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//
-//    id sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
-//    NSInteger numberOfObjects = [sectionInfo numberOfObjects];
-//    
-    return [self.distinctUserMessages count];
+   return [self.distinctUserMessages count];
 }
-
-#pragma mark - UIFetchResults controller methods
-
-//- (NSFetchedResultsController *)fetchedResultsController {
-//    
-//    if (_fetchedResultsController != nil) {
-//        return _fetchedResultsController;
-//    }
-//    
-//    NSManagedObjectContext *managedObjectContext = [[CWDataManager sharedInstance] moc];
-//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-//    
-//    
-//    NSEntityDescription *entity = [NSEntityDescription
-//                                   entityForName:@"Message" inManagedObjectContext:managedObjectContext];
-//    
-//    
-//    NSExpression *keyPathExpression = [NSExpression expressionForKeyPath: @"timeStamp"]; // Does not really matter
-//    NSExpression *maxExpression = [NSExpression expressionForFunction: @"max:"
-//                                                            arguments: [NSArray arrayWithObject:keyPathExpression]];
-//    
-//    NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
-//    
-//    [expressionDescription setName: @"maxTimestamp"];
-//    [expressionDescription setExpression:maxExpression];
-//    [expressionDescription setExpressionResultType:NSDateAttributeType];
-//    
-//    
-//    //    NSExpression *messageKeyPathExpression = [NSExpression expressionForKeyPath: @"messageID"];
-//    //    NSExpression *countExpression = [NSExpression expressionForFunction: @"count:"
-//    //                                                              arguments: [NSArray arrayWithObject:messageKeyPathExpression]];
-//    
-//    
-//    //    NSExpressionDescription *countDescription = [[NSExpressionDescription alloc] init];
-//    //
-//    //    [countDescription setName: @"countMessages"];
-//    //    [countDescription setExpression:countExpression];
-//    //    [countDescription setExpressionResultType:NSInteger32AttributeType];
-//    //
-//    [fetchRequest setEntity:entity];
-//    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"senderID", expressionDescription, nil]];
-//    [fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObjects:@"senderID",nil]];
-//    
-//    // Remove our own user from the sender list...
-//    //    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"senderID!=%@", [[CWUserManager sharedInstance] localUserID]];
-//    //    [fetchRequest setPredicate:predicate];
-//    [fetchRequest setResultType:NSDictionaryResultType];
-//    
-//    // Sort the results by the most recent message
-//    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"timeStamp" ascending:NO]]];
-//    
-//    // TODO: Add cache?
-//    NSFetchedResultsController *theFetchedResultsController =
-//    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-//                                        managedObjectContext:managedObjectContext sectionNameKeyPath:nil
-//                                                   cacheName:nil];
-//    self.fetchedResultsController = theFetchedResultsController;
-//    return _fetchedResultsController;
-//}
 
 @end
