@@ -269,9 +269,9 @@
             NSLog(@"copy core data store to %@", newURL);
             NSError * error = nil;
             [[NSFileManager defaultManager] moveItemAtURL:storeURL toURL:newURL error:&error];
-            NSAssert(!error, @"error: %@ backing up save file: %@", error, storeURL);
-            
-            abort();
+//            NSAssert(!error, @"error: %@ backing up save file: %@", error, storeURL);
+//            
+//            abort();
 
         }
     }];
