@@ -187,7 +187,7 @@ static const float InboxTableTransitionDuration = 0.3f;
     [cell setMessage:message];
     
     // Let's see if we need to show a red dot for this user
-    NSInteger numberOfUnread = [CWUserManager numberOfUnreadMessagesForUser:senderID];
+    NSInteger numberOfUnread = [CWUserManager numberOfUnreadMessagesFromUser:senderID];
     if (numberOfUnread > 0) {
         
         // Hacking unopened b/c that results in a red dot appearing

@@ -194,19 +194,16 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return [[self newMessageDeliveryMethod] isEqualToString:kNewMessageDeliveryMethodValueSMS];
 }
 
-- (NSInteger) numberOfUnreadMessages {
-    
-    // TODO:
-    return 0;
+- (NSInteger) numberOfTotalUnreadMessages {
+
+    return [AOFetchUtilities totalUnreadMessagesForRecipient:self.localUserID];
 }
 
 - (NSInteger)numberOfSentMessages {
-
-    // TODO:
     return 0;
 }
 
-+ (NSInteger)numberOfUnreadMessagesForUser:(NSString *)userID {
++ (NSInteger)numberOfUnreadMessagesFromUser:(NSString *)userID {
     NSArray *messagesForUser = [AOFetchUtilities fetchMessagesForUser:userID];
     NSInteger unreadCount = 0;
     

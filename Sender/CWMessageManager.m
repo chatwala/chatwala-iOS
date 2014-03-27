@@ -149,7 +149,7 @@
                         }
                     }
                     
-                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance] numberOfUnreadMessages]];
+                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance] numberOfTotalUnreadMessages]];
                     [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
                 }];
             }

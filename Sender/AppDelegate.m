@@ -180,7 +180,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     //  Update badge so the user sees valid information
     if( [[CWUserManager sharedInstance] localUserID]) {
-        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance] numberOfUnreadMessages]];
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance] numberOfTotalUnreadMessages]];
     }
 }
 
@@ -200,7 +200,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [FBAppEvents activateApp];
     
     if( [[CWUserManager sharedInstance] localUserID]) {
-        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance]numberOfUnreadMessages]];
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance]numberOfTotalUnreadMessages]];
     }
     else {
         [application setApplicationIconBadgeNumber:0];

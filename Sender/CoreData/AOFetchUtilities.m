@@ -116,4 +116,20 @@
     }
 }
 
++ (NSInteger)totalUnreadMessagesForRecipient:(NSString *)userID {
+    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Message" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(recipientID == %@ && viewedState == 0)", userID];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *messagesArray = [moc executeFetchRequest:request error:&error];
+    
+    return [messagesArray count];
+}
+
 @end
