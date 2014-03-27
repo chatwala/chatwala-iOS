@@ -256,7 +256,11 @@
 
 - (void)setupCoreData {
 
-    [AOCoreDataStackUtilities createCoreDataStackWithModelName:@"ChatwalaModel" andConcurrencyType:NSMainQueueConcurrencyType options:@{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES} andCompletionHandler:^(NSManagedObjectContext *moc, NSError *error, NSURL *storeURL) {
+    [AOCoreDataStackUtilities createCoreDataStackWithModelName:@"ChatwalaModel"
+                                            andConcurrencyType:NSMainQueueConcurrencyType
+                                                       options:@{NSMigratePersistentStoresAutomaticallyOption:@YES,
+                                                                 NSInferMappingModelAutomaticallyOption:@YES}
+                                          andCompletionHandler:^(NSManagedObjectContext *moc, NSError *error, NSURL *storeURL) {
      
         self.moc = moc;
         
