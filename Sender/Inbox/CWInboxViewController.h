@@ -10,7 +10,6 @@
 @protocol CWInboxDelegate;
 
 @interface CWInboxViewController : UIViewController
-@property (nonatomic,weak) IBOutlet UITableView * messagesTable;
 @property (nonatomic,weak) IBOutlet UILabel * messagesLabel;
 @property (nonatomic,weak) IBOutlet UIButton * plusButton;
 @property (nonatomic,weak) IBOutlet UIButton * settingsButton;

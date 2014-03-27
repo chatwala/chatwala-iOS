@@ -49,6 +49,8 @@
 		0DAD46A318D2351D008C546A /* UIImage+MultiFormat.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD469318D2351D008C546A /* UIImage+MultiFormat.m */; };
 		0DAD46A418D2351D008C546A /* UIImage+WebP.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD469518D2351D008C546A /* UIImage+WebP.m */; };
 		0DAD46A518D2351D008C546A /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD469718D2351D008C546A /* UIImageView+WebCache.m */; };
+		0DB9DE8E18E391B50011AD25 /* CWUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DB9DE8D18E391B50011AD25 /* CWUserCell.m */; };
+		0DB9DE9118E398B30011AD25 /* CWInboxMessagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DB9DE9018E398B30011AD25 /* CWInboxMessagesController.m */; };
 		0DDD6F4218C66F1200580DA4 /* CWAPICommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDD6F4118C66F1200580DA4 /* CWAPICommand.m */; };
 		0DDD6F4518C66F4D00580DA4 /* CWAPICommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDD6F4418C66F4D00580DA4 /* CWAPICommandFactory.m */; };
 		0DDD6F4818C67D0300580DA4 /* CWStartOriginalMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDD6F4718C67D0300580DA4 /* CWStartOriginalMessageCommand.m */; };
@@ -320,6 +322,10 @@
 		0DAD469618D2351D008C546A /* UIImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+WebCache.h"; sourceTree = "<group>"; };
 		0DAD469718D2351D008C546A /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 4.xcdatamodel"; sourceTree = "<group>"; };
+		0DB9DE8C18E391B50011AD25 /* CWUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserCell.h; sourceTree = "<group>"; };
+		0DB9DE8D18E391B50011AD25 /* CWUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserCell.m; sourceTree = "<group>"; };
+		0DB9DE8F18E398B30011AD25 /* CWInboxMessagesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWInboxMessagesController.h; sourceTree = "<group>"; };
+		0DB9DE9018E398B30011AD25 /* CWInboxMessagesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWInboxMessagesController.m; sourceTree = "<group>"; };
 		0DDD6F4018C66F1200580DA4 /* CWAPICommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPICommand.h; sourceTree = "<group>"; };
 		0DDD6F4118C66F1200580DA4 /* CWAPICommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAPICommand.m; sourceTree = "<group>"; };
 		0DDD6F4318C66F4D00580DA4 /* CWAPICommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPICommandFactory.h; sourceTree = "<group>"; };
@@ -675,6 +681,10 @@
 				0D200AD018918C4D008C2238 /* CWInboxViewController.xib */,
 				0D200AD118918C4D008C2238 /* CWMessageCell.h */,
 				0D200AD218918C4D008C2238 /* CWMessageCell.m */,
+				0DB9DE8C18E391B50011AD25 /* CWUserCell.h */,
+				0DB9DE8D18E391B50011AD25 /* CWUserCell.m */,
+				0DB9DE8F18E398B30011AD25 /* CWInboxMessagesController.h */,
+				0DB9DE9018E398B30011AD25 /* CWInboxMessagesController.m */,
 			);
 			path = Inbox;
 			sourceTree = "<group>";
@@ -1630,6 +1640,7 @@
 				0D6F839418BD4A8200DCAC2A /* CWConstants.m in Sources */,
 				36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */,
 				0D6F838D18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m in Sources */,
+				0DB9DE8E18E391B50011AD25 /* CWUserCell.m in Sources */,
 				0D1DAEA118917F960051D7AE /* CWAnalytics.m in Sources */,
 				0DAD46A318D2351D008C546A /* UIImage+MultiFormat.m in Sources */,
 				0DAD469918D2351D008C546A /* NSData+ImageContentType.m in Sources */,
@@ -1637,6 +1648,7 @@
 				9AC88A941892D57B0006EE61 /* CWRatingViewController.m in Sources */,
 				36AF5827187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld in Sources */,
 				0DAD469B18D2351D008C546A /* SDWebImageCompat.m in Sources */,
+				0DB9DE9118E398B30011AD25 /* CWInboxMessagesController.m in Sources */,
 				0D1DAEB31891809D0051D7AE /* CWTermsViewController.m in Sources */,
 				0DAD46A518D2351D008C546A /* UIImageView+WebCache.m in Sources */,
 				0D200AD318918C4D008C2238 /* CWInboxViewController.m in Sources */,

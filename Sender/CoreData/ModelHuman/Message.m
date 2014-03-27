@@ -35,6 +35,32 @@
              };
 }
 
++ (Message *)messageFromSenderID:(NSString *)senderID andTimestamp:(NSDate *)timeStamp {
+    
+    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Message" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity:entityDescription];
+    
+    
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:
+                              @"(senderID == %@) AND (timeStamp == %@)", senderID, timeStamp];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *array = [moc executeFetchRequest:request error:&error];
+    
+    if ([array count]) {
+        return [array objectAtIndex:0];
+    }
+    else {
+        return nil;
+    }
+}
+
+
 - (void)saveContext {
 
     NSError *error = nil;

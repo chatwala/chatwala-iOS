@@ -156,10 +156,10 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
         return NO;
     }
     NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold] integerValue];
-//    if(self.localUserID.messagesSent.count < requestAppFeedbackThreshold)
-//    {
-//        return NO;
-//    }
+    if([self numberOfSentMessages] < requestAppFeedbackThreshold)
+    {
+        return NO;
+    }
     
     return YES;
 }
@@ -195,7 +195,41 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 }
 
 - (NSInteger) numberOfUnreadMessages {
+    
+    // TODO:
     return 0;
+}
+
+- (NSInteger)numberOfSentMessages {
+
+    // TODO:
+    return 0;
+}
+
++ (NSArray *)messagesForUser:(NSString *)userID {
+
+    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Message" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity:entityDescription];
+    
+    
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(senderID == %@)", userID];
+    [request setPredicate:predicate];
+    
+    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"timeStamp" ascending:NO]]];
+    
+    NSError *error = nil;
+    NSArray *array = [moc executeFetchRequest:request error:&error];
+    
+    if (array) {
+        return array;
+    }
+    else {
+        return nil;
+    }
 }
 
 @end

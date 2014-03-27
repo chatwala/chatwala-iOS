@@ -17,7 +17,7 @@ typedef void (^AFRequestOperationManagerFailureBlock) (AFHTTPRequestOperation *o
 typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 
 
-@interface CWMessageManager : NSObject < UITableViewDataSource>
+@interface CWMessageManager : NSObject
 @property (nonatomic,readonly) NSString * baseEndPoint;
 @property (nonatomic,readonly) NSString * messagesEndPoint;
 @property (nonatomic,readonly) NSString * registerEndPoint;

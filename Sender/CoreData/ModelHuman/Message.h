@@ -1,6 +1,5 @@
 #import "_Message.h"
 #import "UIImageView+AFNetworking.h"
-#import "CWMessageCell.h"
 
 typedef enum eMessageDownloadState
 {
@@ -33,6 +32,8 @@ typedef enum eMessageViewedState
 @property (nonatomic, strong) NSURL * videoURL;//not core data backed.
 @property (nonatomic, strong) NSURL * zipURL;//not saved in core data
 @property (nonatomic, strong) UIImage * lastFrameImage; //not saved in core data
+
++ (Message *)messageFromSenderID:(NSString *)senderID andTimestamp:(NSDate *)timeStamp;
 
 - (eMessageViewedState) eMessageViewedState;
 - (void)setEMessageViewedState:(eMessageViewedState) eViewedState;

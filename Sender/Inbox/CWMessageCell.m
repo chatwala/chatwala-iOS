@@ -8,7 +8,6 @@
 
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
-#import "Message.h"
 #import "UIColor+Additions.h"
 #import "CWMessageManager.h"
 #import "SDWebImageManager.h"
@@ -24,8 +23,8 @@
 
 @implementation CWMessageCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
@@ -56,7 +55,7 @@
         self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 9 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds) - 1);
         [self addSubview:self.statusImage];
 
-        const CGFloat fontSize = 14;
+        const CGFloat fontSize = 14.0f;
         CGRect labelFrame =CGRectMake(0.0f, CGRectGetMaxY(self.statusImage.frame) - fontSize + 2, CGRectGetMinX(self.statusImage.frame) - 6, fontSize);
         
         self.sentTimeLabel = [[UILabel alloc] initWithFrame:labelFrame];
@@ -82,6 +81,10 @@
 - (void)prepareForReuse {
     [super prepareForReuse];
     [self.spinner stopAnimating];
+}
+
++ (NSString *)cellIdentifier {
+    return @"messageCell";
 }
 
 - (void)setMessage:(Message *) message {
@@ -123,7 +126,14 @@
         }
     }];
     
-    switch ([message eMessageViewedState]) {
+    
+    NSString * timeValue = [self timeStringFromDate:message.timeStamp];
+    self.sentTimeLabel.text = timeValue;
+}
+
+- (void)configureStatusFromMessageViewedState:(eMessageViewedState)viewedState {
+    
+    switch (viewedState) {
         default:
         case eMessageViewedStateRead:
         case eMessageViewedStateOpened:
@@ -138,8 +148,6 @@
             self.statusImage.hidden = NO;
             break;
     }
-    NSString * timeValue = [self timeStringFromDate:message.timeStamp];
-    self.sentTimeLabel.text = timeValue;
 }
 
 - (NSString *) timeStringFromDate:(NSDate *) timeStamp {

@@ -221,31 +221,6 @@
     });
 }
 
-#pragma mark - UITableViewDataSource delegate methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    messageTable = tableView;
-    return 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CWMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
-//    User * localUser = [[CWUserManager sharedInstance] localUser];
-//    NSOrderedSet * inboxMessages = [localUser inboxMessages];
-//    Message * message = [inboxMessages objectAtIndex:indexPath.row];
-//    [cell setMessage:message];
-    return cell;
-}
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    return 0;
-//    User * localUser = [[CWUserManager sharedInstance] localUser];
-//    NSOrderedSet * inboxMessages = [localUser inboxMessages];
-//    return inboxMessages.count;
-}
-
 #pragma mark - MessageID Server Fetches
 
 - (void)fetchUploadURLForReplyMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {

@@ -120,9 +120,9 @@
     }
 }
 
-- (void)uploadProfilePictureForUser:(User *) user {
+- (void)uploadProfilePictureForUser:(NSString *)userID {
     
-    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user]) {
+    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
         return;//already did this
     }
     
@@ -130,7 +130,7 @@
     [player setVideoURL:[[CWVideoManager sharedManager]recorder].tempFileURL];
     
     [player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
+        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:userID completion:nil];
     }];
 }
 

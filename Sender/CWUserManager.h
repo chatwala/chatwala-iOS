@@ -19,6 +19,7 @@ extern NSString * const kNewMessageDeliveryMethodValueEmail;
 
 @interface CWUserManager : NSObject
 + (id)sharedInstance;
++ (NSArray *)messagesForUser:(NSString *)userID;
 
 @property (nonatomic) AFHTTPRequestSerializer * requestHeaderSerializer;
 @property (nonatomic,readonly) NSString *localUserID;
@@ -38,5 +39,7 @@ extern NSString * const kNewMessageDeliveryMethodValueEmail;
 - (BOOL) shouldRequestAppFeedback;
 - (BOOL) newMessageDeliveryMethodIsSMS;
 
-- (NSInteger) numberOfUnreadMessages;
+- (NSInteger)numberOfUnreadMessages;
+- (NSInteger)numberOfSentMessages;
+
 @end

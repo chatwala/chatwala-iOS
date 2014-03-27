@@ -44,7 +44,6 @@
                                    entityForName:@"Message" inManagedObjectContext:managedObjectContext];
     
     
-    //NSAttributeDescription *senderDescription = [entity.attributesByName objectForKey:@"senderID"];
     NSExpression *keyPathExpression = [NSExpression expressionForKeyPath: @"timeStamp"]; // Does not really matter
     NSExpression *maxExpression = [NSExpression expressionForFunction: @"max:"
                                                             arguments: [NSArray arrayWithObject:keyPathExpression]];
@@ -67,21 +66,21 @@
     [countDescription setExpressionResultType:NSInteger32AttributeType];
     
     [fetchRequest setEntity:entity];
-    //[fetchRequest setReturnsDistinctResults:YES];
-    //[fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:senderDescription, expressionDescription, nil]];
     [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"senderID", expressionDescription, countDescription, nil]];
-    //[fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObject:senderDescription]];
-    
     [fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObjects:@"senderID",nil]];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"senderID!=%@", [[CWUserManager sharedInstance] localUserID] ];
-    
     [fetchRequest setPredicate:predicate];
-    //[fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObject:@"messageID"]];
+    
     [fetchRequest setResultType:NSDictionaryResultType];
     NSError* error = nil;
+    
     NSArray *results = [managedObjectContext executeFetchRequest:fetchRequest
                                                            error:&error];
+    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"maxTimestamp"
+                                                                 ascending:NO];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
+    NSArray *sortedArray = [results sortedArrayUsingDescriptors:sortDescriptors];
         
     return nil;
 }
