@@ -23,85 +23,18 @@ static const float InboxTableTransitionDuration = 0.3f;
 @property (nonatomic) CWInboxMessagesController *messagesController;
 
 @property (nonatomic,strong) UIRefreshControl * refreshControl;
-@property (nonatomic,strong) NSFetchedResultsController *fetchedResultsController;
 
+@property (nonatomic) NSArray *distinctUserMessages;
 @property (nonatomic) BOOL shouldTreatAsBackButton;
 
 @end
 
 @implementation CWInboxViewController
 
-- (NSFetchedResultsController *)fetchedResultsController {
-    
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
-    
-    NSManagedObjectContext *managedObjectContext = [[CWDataManager sharedInstance] moc];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    
-    
-    NSEntityDescription *entity = [NSEntityDescription
-                                   entityForName:@"Message" inManagedObjectContext:managedObjectContext];
-    
-    
-    NSExpression *keyPathExpression = [NSExpression expressionForKeyPath: @"timeStamp"]; // Does not really matter
-    NSExpression *maxExpression = [NSExpression expressionForFunction: @"max:"
-                                                            arguments: [NSArray arrayWithObject:keyPathExpression]];
-    
-    NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
-    
-    [expressionDescription setName: @"maxTimestamp"];
-    [expressionDescription setExpression:maxExpression];
-    [expressionDescription setExpressionResultType:NSDateAttributeType];
-    
-    
-//    NSExpression *messageKeyPathExpression = [NSExpression expressionForKeyPath: @"messageID"];
-//    NSExpression *countExpression = [NSExpression expressionForFunction: @"count:"
-//                                                              arguments: [NSArray arrayWithObject:messageKeyPathExpression]];
-    
-    
-//    NSExpressionDescription *countDescription = [[NSExpressionDescription alloc] init];
-//    
-//    [countDescription setName: @"countMessages"];
-//    [countDescription setExpression:countExpression];
-//    [countDescription setExpressionResultType:NSInteger32AttributeType];
-//    
-    [fetchRequest setEntity:entity];
-    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"senderID", expressionDescription, nil]];
-    [fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObjects:@"senderID",nil]];
-    
-    // Remove our own user from the sender list...
-//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"senderID!=%@", [[CWUserManager sharedInstance] localUserID]];
-//    [fetchRequest setPredicate:predicate];
-    [fetchRequest setResultType:NSDictionaryResultType];
-    
-    // Sort the results by the most recent message
-    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"timeStamp" ascending:NO]]];
-
-    // TODO: Add cache?
-    NSFetchedResultsController *theFetchedResultsController =
-    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                        managedObjectContext:managedObjectContext sectionNameKeyPath:nil
-                                                   cacheName:nil];
-    self.fetchedResultsController = theFetchedResultsController;
-    //_fetchedResultsController.delegate = self;
-    
-    return _fetchedResultsController;
-    
-}
-
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
     
-    NSError *error;
-	if (![[self fetchedResultsController] performFetch:&error]) {
-		// Update to handle the error appropriately.
-		NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-		exit(-1);  // Fail
-	}
-    
+    self.distinctUserMessages = [AOFetchUtilities fetchGroupBySenderID];
     self.view.clipsToBounds = YES;
     
     // Do any additional setup after loading the view from its nib.
@@ -129,19 +62,26 @@ static const float InboxTableTransitionDuration = 0.3f;
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.distinctUserMessages = [AOFetchUtilities fetchGroupBySenderID];
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
-    //[self.usersTableView reloadData];
 }
+
+#pragma mark - Notification handlers
 
 - (void)onMessagesLoaded:(NSNotification *)note {
 
 //    NSOrderedSet * inboxMessages = [[CWUserManager sharedInstance]] inboxMessages];
 //    [self.messagesLabel setText:[NSString stringWithFormat:@"%lu Messages", (unsigned long)inboxMessages.count]];
     
-//    [self.usersTableView reloadData];
+    [self.usersTableView reloadData];
     if (self.refreshControl.isRefreshing) {
         [self.refreshControl endRefreshing];
     }
@@ -157,46 +97,6 @@ static const float InboxTableTransitionDuration = 0.3f;
 
     [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
 }
-
-
-- (IBAction)onButtonSelect:(id)sender {
-    if (!self.shouldTreatAsBackButton && [self.delegate respondsToSelector:@selector(inboxViewController:didSelectTopButton:)]) {
-        [self.delegate inboxViewController:self didSelectTopButton:sender];
-    }
-    else if (self.shouldTreatAsBackButton) {
-        [self hideMessagesTableAnimated:YES];
-    }
-}
-
-- (IBAction)onSettingsButtonTapped:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectSettingsButton:)]) {
-        [self.delegate inboxViewController:self didSelectSettingsButton:sender];
-    }
-}
-
-- (void)configureCell:(CWMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *resultsForSender = [_fetchedResultsController objectAtIndexPath:indexPath];
-    NSString *senderID = [resultsForSender objectForKey:@"senderID"];
-    
-    Message *message = [Message messageFromSenderID:senderID andTimestamp:[resultsForSender objectForKey:@"maxTimestamp"]];
-    [cell setMessage:message];
-    
-    
-    // Let's see if we need to show a red dot for this user
-    NSInteger numberOfUnread = [CWUserManager numberOfUnreadMessagesForUser:senderID];
-    if (numberOfUnread > 0) {
-        
-        // Hacking unopened b/c that results in a red dot appearing
-        [cell configureStatusFromMessageViewedState:eMessageViewedStateUnOpened];
-    }
-    else {
-        [cell configureStatusFromMessageViewedState:eMessageViewedStateRead];
-    }
-    
-    
-}
-
-
 
 #pragma mark - Convenience methods to support group by user
 
@@ -249,11 +149,60 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 - (void)showBackButton {
     self.shouldTreatAsBackButton = YES;
+    self.plusButton.titleLabel.text = @"<";
 }
 
 - (void)hideBackButton {
     self.shouldTreatAsBackButton = NO;
+    self.plusButton.titleLabel.text = @"+";
 }
+
+#pragma mark - User Interactions
+
+- (IBAction)onButtonSelect:(id)sender {
+    if (!self.shouldTreatAsBackButton && [self.delegate respondsToSelector:@selector(inboxViewController:didSelectTopButton:)]) {
+        [self.delegate inboxViewController:self didSelectTopButton:sender];
+    }
+    else if (self.shouldTreatAsBackButton) {
+        [self hideMessagesTableAnimated:YES];
+    }
+}
+
+- (IBAction)onSettingsButtonTapped:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectSettingsButton:)]) {
+        [self.delegate inboxViewController:self didSelectSettingsButton:sender];
+    }
+}
+
+
+#pragma mark - CWUserCell UI convenience methods
+
+
+- (void)configureCell:(CWMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+ 
+    NSDictionary *resultsForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
+    NSString *senderID = [resultsForSender objectForKey:@"senderID"];
+    
+    Message *message = [Message messageFromSenderID:senderID andTimestamp:[resultsForSender objectForKey:@"maxTimestamp"]];
+    [cell setMessage:message];
+    
+    // Let's see if we need to show a red dot for this user
+    NSInteger numberOfUnread = [CWUserManager numberOfUnreadMessagesForUser:senderID];
+    if (numberOfUnread > 0) {
+        
+        // Hacking unopened b/c that results in a red dot appearing
+        [cell configureStatusFromMessageViewedState:eMessageViewedStateUnOpened];
+    }
+    else {
+        [cell configureStatusFromMessageViewedState:eMessageViewedStateRead];
+    }
+}
+
+- (void)updateCellState:(CWUserCell *)cell withMessage:(Message *)message {
+    
+    [cell configureStatusFromMessageViewedState:message.eMessageViewedState];
+}
+
 
 #pragma mark - UITableViewDelegate delegate methods
 
@@ -261,8 +210,8 @@ static const float InboxTableTransitionDuration = 0.3f;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSDictionary *resultsForSender = [_fetchedResultsController objectAtIndexPath:indexPath];
-    NSArray *arrayOfMessagesForSender = [CWUserManager messagesForUser:[resultsForSender objectForKey:@"senderID"]];
+    NSDictionary *resultsForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
+    NSArray *arrayOfMessagesForSender = [AOFetchUtilities fetchMessagesForUser:[resultsForSender objectForKey:@"senderID"]];
     
     if ([arrayOfMessagesForSender count] == 1) {
         Message *message = [arrayOfMessagesForSender objectAtIndex:0];
@@ -305,16 +254,70 @@ static const float InboxTableTransitionDuration = 0.3f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    id sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
-    NSInteger numberOfObjects = [sectionInfo numberOfObjects];
-    
-    return numberOfObjects;
+//
+//    id sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
+//    NSInteger numberOfObjects = [sectionInfo numberOfObjects];
+//    
+    return [self.distinctUserMessages count];
 }
 
-- (void)updateCellState:(CWUserCell *)cell withMessage:(Message *)message {
-    
-    [cell configureStatusFromMessageViewedState:message.eMessageViewedState];
-}
+#pragma mark - UIFetchResults controller methods
+
+//- (NSFetchedResultsController *)fetchedResultsController {
+//    
+//    if (_fetchedResultsController != nil) {
+//        return _fetchedResultsController;
+//    }
+//    
+//    NSManagedObjectContext *managedObjectContext = [[CWDataManager sharedInstance] moc];
+//    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+//    
+//    
+//    NSEntityDescription *entity = [NSEntityDescription
+//                                   entityForName:@"Message" inManagedObjectContext:managedObjectContext];
+//    
+//    
+//    NSExpression *keyPathExpression = [NSExpression expressionForKeyPath: @"timeStamp"]; // Does not really matter
+//    NSExpression *maxExpression = [NSExpression expressionForFunction: @"max:"
+//                                                            arguments: [NSArray arrayWithObject:keyPathExpression]];
+//    
+//    NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
+//    
+//    [expressionDescription setName: @"maxTimestamp"];
+//    [expressionDescription setExpression:maxExpression];
+//    [expressionDescription setExpressionResultType:NSDateAttributeType];
+//    
+//    
+//    //    NSExpression *messageKeyPathExpression = [NSExpression expressionForKeyPath: @"messageID"];
+//    //    NSExpression *countExpression = [NSExpression expressionForFunction: @"count:"
+//    //                                                              arguments: [NSArray arrayWithObject:messageKeyPathExpression]];
+//    
+//    
+//    //    NSExpressionDescription *countDescription = [[NSExpressionDescription alloc] init];
+//    //
+//    //    [countDescription setName: @"countMessages"];
+//    //    [countDescription setExpression:countExpression];
+//    //    [countDescription setExpressionResultType:NSInteger32AttributeType];
+//    //
+//    [fetchRequest setEntity:entity];
+//    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"senderID", expressionDescription, nil]];
+//    [fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObjects:@"senderID",nil]];
+//    
+//    // Remove our own user from the sender list...
+//    //    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"senderID!=%@", [[CWUserManager sharedInstance] localUserID]];
+//    //    [fetchRequest setPredicate:predicate];
+//    [fetchRequest setResultType:NSDictionaryResultType];
+//    
+//    // Sort the results by the most recent message
+//    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"timeStamp" ascending:NO]]];
+//    
+//    // TODO: Add cache?
+//    NSFetchedResultsController *theFetchedResultsController =
+//    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
+//                                        managedObjectContext:managedObjectContext sectionNameKeyPath:nil
+//                                                   cacheName:nil];
+//    self.fetchedResultsController = theFetchedResultsController;
+//    return _fetchedResultsController;
+//}
 
 @end

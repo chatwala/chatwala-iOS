@@ -46,6 +46,7 @@
  */
 +(NSArray *)fetchAllObjectsWithContext:(NSManagedObjectContext *)context andEntityName:(NSString *)entityName andSortDescriptors:(NSArray *)sortDescriptors andFetchLimit:(NSUInteger)fetchLimit error:(NSError **)error;
 
-+ (NSArray *)fetchExample;
++ (NSArray *)fetchGroupBySenderID;
++ (NSArray *)fetchMessagesForUser:(NSString *)userID;
 
 @end

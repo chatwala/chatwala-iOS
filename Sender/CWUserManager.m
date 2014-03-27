@@ -80,7 +80,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 - (void)createNewLocalUser {
     
-    NSString *newUserID = @"d80ba84b-7785-c219-5ee5-74130eff8e2a"; [[[NSUUID UUID] UUIDString] lowercaseString];
+    NSString *newUserID = [[[NSUUID UUID] UUIDString] lowercaseString];
     NSLog(@"Generated new user id: %@",newUserID);
     
     //self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
@@ -149,8 +149,8 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 }
 
 
-- (BOOL) shouldRequestAppFeedback
-{
+- (BOOL) shouldRequestAppFeedback {
+
     if([self appVersionOfAppFeedbackRequest])
     {
         return NO;
@@ -206,34 +206,8 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return 0;
 }
 
-+ (NSArray *)messagesForUser:(NSString *)userID {
-
-    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
-    NSEntityDescription *entityDescription = [NSEntityDescription
-                                              entityForName:@"Message" inManagedObjectContext:moc];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
-    [request setEntity:entityDescription];
-    
-    
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(senderID == %@)", userID];
-    [request setPredicate:predicate];
-    
-    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"timeStamp" ascending:NO]]];
-    
-    NSError *error = nil;
-    NSArray *array = [moc executeFetchRequest:request error:&error];
-    
-    if (array) {
-        return array;
-    }
-    else {
-        return nil;
-    }
-}
-
 + (NSInteger)numberOfUnreadMessagesForUser:(NSString *)userID {
-    NSArray *messagesForUser = [CWUserManager messagesForUser:userID];
+    NSArray *messagesForUser = [AOFetchUtilities fetchMessagesForUser:userID];
     NSInteger unreadCount = 0;
     
     for (Message *currentMessage in messagesForUser) {

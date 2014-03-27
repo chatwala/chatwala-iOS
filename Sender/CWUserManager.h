@@ -19,7 +19,6 @@ extern NSString * const kNewMessageDeliveryMethodValueEmail;
 
 @interface CWUserManager : NSObject
 + (id)sharedInstance;
-+ (NSArray *)messagesForUser:(NSString *)userID;
 
 @property (nonatomic) AFHTTPRequestSerializer * requestHeaderSerializer;
 @property (nonatomic,readonly) NSString *localUserID;

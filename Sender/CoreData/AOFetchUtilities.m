@@ -34,8 +34,8 @@
 }
 
 
-+ (NSArray *)fetchExample {
-    
++ (NSArray *)fetchGroupBySenderID {
+
     NSManagedObjectContext *managedObjectContext = [[CWDataManager sharedInstance] moc];
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
@@ -54,35 +54,66 @@
     [expressionDescription setExpression:maxExpression];
     [expressionDescription setExpressionResultType:NSDateAttributeType];
     
-    
-    NSExpression *messageKeyPathExpression = [NSExpression expressionForKeyPath: @"messageID"];
-    NSExpression *countExpression = [NSExpression expressionForFunction: @"count:"
-                                                            arguments: [NSArray arrayWithObject:messageKeyPathExpression]];
-    
-    NSExpressionDescription *countDescription = [[NSExpressionDescription alloc] init];
-    
-    [countDescription setName: @"countMessages"];
-    [countDescription setExpression:countExpression];
-    [countDescription setExpressionResultType:NSInteger32AttributeType];
-    
     [fetchRequest setEntity:entity];
-    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"senderID", expressionDescription, countDescription, nil]];
+    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"senderID", expressionDescription, nil]];
     [fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObjects:@"senderID",nil]];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"senderID!=%@", [[CWUserManager sharedInstance] localUserID] ];
-    [fetchRequest setPredicate:predicate];
-    
+    // Remove our own user from the sender list...
     [fetchRequest setResultType:NSDictionaryResultType];
-    NSError* error = nil;
     
+    // Sort the results by the most recent message
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"timeStamp" ascending:NO]]];
+    
+    NSError *error = nil;
     NSArray *results = [managedObjectContext executeFetchRequest:fetchRequest
                                                            error:&error];
-    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"maxTimestamp"
-                                                                 ascending:NO];
-    NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
-    NSArray *sortedArray = [results sortedArrayUsingDescriptors:sortDescriptors];
+    
+    NSMutableArray *filteredArray = [NSMutableArray arrayWithCapacity:[results count]];
+    
+    for (NSDictionary *currentSenderDictionary in results) {
         
-    return sortedArray;
+        NSArray *userMessages = [AOFetchUtilities fetchMessagesForUser:[currentSenderDictionary objectForKey:@"senderID"]];
+        
+        if ([userMessages count]) {
+            [filteredArray addObject:currentSenderDictionary];
+        }
+    }
+    
+    return filteredArray;
+}
+
++ (NSArray *)fetchMessagesForUser:(NSString *)userID {
+    
+    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Message" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity:entityDescription];
+    
+    
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(senderID == %@)", userID];
+    [request setPredicate:predicate];
+    
+    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"timeStamp" ascending:NO]]];
+    
+    NSError *error = nil;
+    NSArray *messagesArray = [moc executeFetchRequest:request error:&error];
+    NSMutableArray *filteredArray = [NSMutableArray arrayWithCapacity:[messagesArray count]];
+    
+    // Only show downloaded messages
+    for (Message *message in messagesArray) {
+        if ([message.downloadState integerValue] == eMessageDownloadStateDownloaded && [message.recipientID isEqualToString:[[CWUserManager sharedInstance] localUserID]]) {
+            [filteredArray addObject:message];
+        }
+    }
+    
+    if (filteredArray) {
+        return filteredArray;
+    }
+    else {
+        return nil;
+    }
 }
 
 @end
