@@ -14,6 +14,8 @@
 #import "CWDataManager.h"
 #import "CWInboxMessagesController.h"
 
+static const float InboxTableTransitionDuration = 0.3f;
+
 @interface CWInboxViewController () <UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,weak) IBOutlet UITableView * usersTableView;
@@ -22,6 +24,8 @@
 
 @property (nonatomic,strong) UIRefreshControl * refreshControl;
 @property (nonatomic,strong) NSFetchedResultsController *fetchedResultsController;
+
+@property (nonatomic) BOOL shouldTreatAsBackButton;
 
 @end
 
@@ -116,6 +120,7 @@
     self.messagesController = [[CWInboxMessagesController alloc] init];
     self.messagesController.delegate = self.delegate;
     
+    self.messagesController.tableView.frame = CGRectMake(CGRectGetMaxX(self.view.frame), self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
     [self.view addSubview:self.messagesController.tableView];
     
     
@@ -126,13 +131,9 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-
-    //[AOFetchUtilities fetchExample];
-    self.messagesController.tableView.frame = CGRectMake(CGRectGetMaxX(self.view.frame), self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
-    
     
     [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
-    [self.usersTableView reloadData];
+    //[self.usersTableView reloadData];
 }
 
 - (void)onMessagesLoaded:(NSNotification *)note {
@@ -140,7 +141,7 @@
 //    NSOrderedSet * inboxMessages = [[CWUserManager sharedInstance]] inboxMessages];
 //    [self.messagesLabel setText:[NSString stringWithFormat:@"%lu Messages", (unsigned long)inboxMessages.count]];
     
-    [self.usersTableView reloadData];
+//    [self.usersTableView reloadData];
     if (self.refreshControl.isRefreshing) {
         [self.refreshControl endRefreshing];
     }
@@ -148,7 +149,7 @@
 
 - (void)onMessagLoadedFailed:(NSNotification*)note {
 
-    [self.messagesLabel setText:@"failed to load messages."];
+//    [self.messagesLabel setText:@"failed to load messages."];
     [self.refreshControl endRefreshing];
 }
 
@@ -158,56 +159,131 @@
 }
 
 
-
 - (IBAction)onButtonSelect:(id)sender {
-    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectButton:)]) {
-        [self.delegate inboxViewController:self didSelectButton:sender];
+    if (!self.shouldTreatAsBackButton && [self.delegate respondsToSelector:@selector(inboxViewController:didSelectTopButton:)]) {
+        [self.delegate inboxViewController:self didSelectTopButton:sender];
+    }
+    else if (self.shouldTreatAsBackButton) {
+        [self hideMessagesTableAnimated:YES];
+    }
+}
+
+- (IBAction)onSettingsButtonTapped:(id)sender {
+    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectSettingsButton:)]) {
+        [self.delegate inboxViewController:self didSelectSettingsButton:sender];
     }
 }
 
 - (void)configureCell:(CWMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *resultsForSender = [_fetchedResultsController objectAtIndexPath:indexPath];
+    NSString *senderID = [resultsForSender objectForKey:@"senderID"];
     
-    Message *message = [Message messageFromSenderID:[resultsForSender objectForKey:@"senderID"] andTimestamp:[resultsForSender objectForKey:@"maxTimestamp"]];
-    
+    Message *message = [Message messageFromSenderID:senderID andTimestamp:[resultsForSender objectForKey:@"maxTimestamp"]];
     [cell setMessage:message];
-    [cell configureStatusFromMessageViewedState:message.eMessageViewedState];
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    NSDictionary *resultsForSender = [_fetchedResultsController objectAtIndexPath:indexPath];
     
-    [self animateMessagesTableForSenderID:[resultsForSender objectForKey:@"senderID"]];
-    //Message *message = [Message messageFromSenderID:[resultsForSender objectForKey:@"senderID"] andTimestamp:[resultsForSender objectForKey:@"maxTimestamp"]];
-
-//    if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessage:)]) {
-//        [self.delegate inboxViewController:self didSelectMessage:message];
-//        message.eMessageViewedState = eMessageViewedStateOpened;
-//    }    
+    
+    // Let's see if we need to show a red dot for this user
+    NSInteger numberOfUnread = [CWUserManager numberOfUnreadMessagesForUser:senderID];
+    if (numberOfUnread > 0) {
+        
+        // Hacking unopened b/c that results in a red dot appearing
+        [cell configureStatusFromMessageViewedState:eMessageViewedStateUnOpened];
+    }
+    else {
+        [cell configureStatusFromMessageViewedState:eMessageViewedStateRead];
+    }
+    
+    
 }
 
-- (void)animateMessagesTableForSenderID:(NSString *)userID {
-    self.messagesController.messages = [CWUserManager messagesForUser:userID];
+
+
+#pragma mark - Convenience methods to support group by user
+
+- (void)showMessagesTableWithMessages:(NSArray *)messages animated:(BOOL)shouldAnimate {
+    
+    self.messagesController.messages = messages;
     [self.messagesController.tableView reloadData];
     
-    [UIView animateWithDuration:0.5f animations:^{
-
+    if (shouldAnimate) {
+        [UIView animateWithDuration:InboxTableTransitionDuration animations:^{
+            
+            self.usersTableView.frame = CGRectMake(- self.usersTableView.frame.size.width, self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
+            
+            self.messagesController.tableView.frame = CGRectMake(0.0f, self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
+            
+        } completion:^(BOOL finished) {
+            [self showBackButton];
+        }];
+    }
+    else {
         self.usersTableView.frame = CGRectMake(- self.usersTableView.frame.size.width, self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
         
         self.messagesController.tableView.frame = CGRectMake(0.0f, self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
-        
-    } completion:^(BOOL finished) {
-        
-    }];
+        [self showBackButton];
+    }
+}
+
+- (void)hideMessagesTableAnimated:(BOOL)shouldAnimate {
     
+    if (shouldAnimate) {
+        [UIView animateWithDuration:InboxTableTransitionDuration animations:^{
+            
+            self.usersTableView.frame = CGRectMake(0.0f, self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
+            
+            self.messagesController.tableView.frame = CGRectMake(CGRectGetMaxX(self.view.frame), self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
+            
+        } completion:^(BOOL finished) {
+            // Disable button?
+            [self hideBackButton];
+        }];
+    }
+    else {
+        self.usersTableView.frame = CGRectMake(0.0f, self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
+        
+        self.messagesController.tableView.frame = CGRectMake(CGRectGetMaxX(self.view.frame), self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
+
+        [self hideBackButton];
+    }
+}
+
+- (void)showBackButton {
+    self.shouldTreatAsBackButton = YES;
+}
+
+- (void)hideBackButton {
+    self.shouldTreatAsBackButton = NO;
+}
+
+#pragma mark - UITableViewDelegate delegate methods
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    NSDictionary *resultsForSender = [_fetchedResultsController objectAtIndexPath:indexPath];
+    NSArray *arrayOfMessagesForSender = [CWUserManager messagesForUser:[resultsForSender objectForKey:@"senderID"]];
+    
+    if ([arrayOfMessagesForSender count] == 1) {
+        Message *message = [arrayOfMessagesForSender objectAtIndex:0];
+        
+        if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessage:)]) {
+            [self.delegate inboxViewController:nil didSelectMessage:message];
+            message.eMessageViewedState = eMessageViewedStateOpened;
+            
+            CWUserCell *userCell = (CWUserCell *)[tableView cellForRowAtIndexPath:indexPath];
+            [self updateCellState:userCell withMessage:message];
+        }
+    }
+    else if ([arrayOfMessagesForSender count] > 1) {
+
+        [self showMessagesTableWithMessages:arrayOfMessagesForSender animated:YES];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 72.0f;
 }
-
-
 
 #pragma mark - UITableViewDataSource delegate methods
 
@@ -234,10 +310,11 @@
     NSInteger numberOfObjects = [sectionInfo numberOfObjects];
     
     return numberOfObjects;
-    //    User * localUser = [[CWUserManager sharedInstance] localUser];
-    //    NSOrderedSet * inboxMessages = [localUser inboxMessages];
-    //    return inboxMessages.count;
 }
 
+- (void)updateCellState:(CWUserCell *)cell withMessage:(Message *)message {
+    
+    [cell configureStatusFromMessageViewedState:message.eMessageViewedState];
+}
 
 @end

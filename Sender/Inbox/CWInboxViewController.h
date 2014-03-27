@@ -20,6 +20,9 @@
 
 
 @protocol CWInboxDelegate <NSObject>
-- (void)inboxViewController:(CWInboxViewController*)inboxVC didSelectButton:(UIButton*)button;
-- (void)inboxViewController:(CWInboxViewController*)inboxVC didSelectMessage:(Message *)message;
+
+@required
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectTopButton:(UIButton *)button;
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectSettingsButton:(UIButton *)button;
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectMessage:(Message *)message;
 @end

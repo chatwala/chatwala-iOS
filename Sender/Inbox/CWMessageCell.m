@@ -61,21 +61,12 @@
         self.sentTimeLabel = [[UILabel alloc] initWithFrame:labelFrame];
         self.sentTimeLabel.font = [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
         self.sentTimeLabel.textAlignment = NSTextAlignmentRight;
-        self.sentTimeLabel.text = @"3w";
         self.sentTimeLabel.textColor = [UIColor chatwalaSentTimeText];
         
         [self addSubview:self.sentTimeLabel];
         
     }
     return self;
-}
-
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    if (selected) {
-        [self.spinner startAnimating];
-    }
 }
 
 - (void)prepareForReuse {

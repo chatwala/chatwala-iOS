@@ -45,20 +45,22 @@
 */
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     Message *message = [self.messages objectAtIndex:indexPath.row];
     
     if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessage:)]) {
         [self.delegate inboxViewController:nil didSelectMessage:message];
         message.eMessageViewedState = eMessageViewedStateOpened;
+        
+        CWMessageCell *messageCell = (CWMessageCell *)[tableView cellForRowAtIndexPath:indexPath];
+        [self updateCellState:messageCell withMessage:message];
     }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 72.0f;
 }
-
-
 
 #pragma mark - UITableViewDataSource delegate methods
 
@@ -95,6 +97,11 @@
     Message *message = [self.messages objectAtIndex:indexPath.row];
     
     [cell setMessage:message];
+    [cell configureStatusFromMessageViewedState:message.eMessageViewedState];
+}
+
+- (void)updateCellState:(CWMessageCell *)cell withMessage:(Message *)message {
+    
     [cell configureStatusFromMessageViewedState:message.eMessageViewedState];
 }
 

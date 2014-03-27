@@ -41,5 +41,6 @@ extern NSString * const kNewMessageDeliveryMethodValueEmail;
 
 - (NSInteger)numberOfUnreadMessages;
 - (NSInteger)numberOfSentMessages;
++ (NSInteger)numberOfUnreadMessagesForUser:(NSString *)userID;
 
 @end

@@ -82,7 +82,7 @@
     NSArray *sortDescriptors = [NSArray arrayWithObject:sortByName];
     NSArray *sortedArray = [results sortedArrayUsingDescriptors:sortDescriptors];
         
-    return nil;
+    return sortedArray;
 }
 
 @end

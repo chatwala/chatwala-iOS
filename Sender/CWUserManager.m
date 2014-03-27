@@ -232,5 +232,18 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     }
 }
 
++ (NSInteger)numberOfUnreadMessagesForUser:(NSString *)userID {
+    NSArray *messagesForUser = [CWUserManager messagesForUser:userID];
+    NSInteger unreadCount = 0;
+    
+    for (Message *currentMessage in messagesForUser) {
+        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened) {
+            unreadCount++;
+        }
+    }
+    
+    return unreadCount;
+}
+
 @end
 
