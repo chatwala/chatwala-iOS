@@ -258,8 +258,7 @@
 
     [AOCoreDataStackUtilities createCoreDataStackWithModelName:@"ChatwalaModel"
                                             andConcurrencyType:NSMainQueueConcurrencyType
-                                                       options:@{NSMigratePersistentStoresAutomaticallyOption:@YES,
-                                                                 NSInferMappingModelAutomaticallyOption:@YES}
+                                                       options:@{NSMigratePersistentStoresAutomaticallyOption:@YES}
                                           andCompletionHandler:^(NSManagedObjectContext *moc, NSError *error, NSURL *storeURL) {
      
         self.moc = moc;
@@ -273,9 +272,8 @@
             NSLog(@"copy core data store to %@", newURL);
             NSError * error = nil;
             [[NSFileManager defaultManager] moveItemAtURL:storeURL toURL:newURL error:&error];
-//            NSAssert(!error, @"error: %@ backing up save file: %@", error, storeURL);
-//            
-//            abort();
+
+            
 
         }
     }];

@@ -29,6 +29,7 @@
 		0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */; };
 		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
 		0D4B4B5918C65BFC0073C505 /* CWMiddleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */; };
+		0D68E74018E4C38B003CA161 /* 151MappingModel.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0D68E73F18E4C38B003CA161 /* 151MappingModel.xcmappingmodel */; };
 		0D6B51C418BFC0C000C0D119 /* CWMessageSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */; };
 		0D6F838C18BD495500DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838918BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m */; };
 		0D6F838D18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838B18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m */; };
@@ -280,6 +281,7 @@
 		0D4B4B5718C65BFC0073C505 /* CWMiddleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMiddleButton.h; sourceTree = "<group>"; };
 		0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMiddleButton.m; sourceTree = "<group>"; };
 		0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 3.xcdatamodel"; sourceTree = "<group>"; };
+		0D68E73F18E4C38B003CA161 /* 151MappingModel.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 151MappingModel.xcmappingmodel; sourceTree = "<group>"; };
 		0D6B51C218BFC0C000C0D119 /* CWMessageSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageSender.h; sourceTree = "<group>"; };
 		0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageSender.m; sourceTree = "<group>"; };
 		0D6F838818BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTableViewCellNewMessageDeliveryMethodCell.h; sourceTree = "<group>"; };
@@ -795,6 +797,7 @@
 				36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */,
 				36AF5840187DF45F00C5C13F /* CWDataManager.h */,
 				36AF5841187DF45F00C5C13F /* CWDataManager.m */,
+				0D68E73F18E4C38B003CA161 /* 151MappingModel.xcmappingmodel */,
 			);
 			name = CoreData;
 			path = ../CoreData;
@@ -1639,6 +1642,7 @@
 				E924AD22183AAD47009400DD /* CWPIPStartScreenViewController.m in Sources */,
 				0D6F839418BD4A8200DCAC2A /* CWConstants.m in Sources */,
 				36AF5842187DF45F00C5C13F /* CWDataManager.m in Sources */,
+				0D68E74018E4C38B003CA161 /* 151MappingModel.xcmappingmodel in Sources */,
 				0D6F838D18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m in Sources */,
 				0DB9DE8E18E391B50011AD25 /* CWUserCell.m in Sources */,
 				0D1DAEA118917F960051D7AE /* CWAnalytics.m in Sources */,
