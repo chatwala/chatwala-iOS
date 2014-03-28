@@ -21,4 +21,7 @@
 + (BOOL)shouldShowMessagePreview;
 + (void)setShouldShowMessagePreview:(BOOL)showMessagePreview;
 
++ (NSInteger)numberOfSentMessages;
++ (void)setNumberOfSentMessages:(NSInteger)messageSentCount;
+
 @end

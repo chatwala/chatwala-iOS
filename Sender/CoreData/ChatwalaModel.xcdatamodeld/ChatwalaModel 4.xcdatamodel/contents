@@ -15,9 +15,10 @@
         <attribute name="threadIndex" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="thumbnailPictureURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timeStamp" attributeType="Date" syncable="YES"/>
+        <attribute name="userThumbnailURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="viewedState" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Message" positionX="-225" positionY="18" width="128" height="270"/>
+        <element name="Message" positionX="-225" positionY="18" width="128" height="285"/>
     </elements>
 </model>

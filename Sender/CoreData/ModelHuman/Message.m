@@ -19,6 +19,7 @@
 + (NSDictionary *) keyLookupTable {
 
     return @{
+             @"user_thumbnail_url" : MessageAttributes.userThumbnailURL,
              @"recipient_id" : MessageAttributes.recipientID,
              @"sender_id"   : MessageAttributes.senderID,
              @"thread_id"   : MessageAttributes.threadID,
@@ -232,6 +233,7 @@
 + (NSDictionary *) reverseKeyLookupTable
 {
     return @{
+             MessageAttributes.userThumbnailURL : @"user_thumbnail_url",
              MessageAttributes.threadID : @"thread_id",
              MessageAttributes.recipientID : @"recipient_id",
              MessageAttributes.senderID : @"sender_id",

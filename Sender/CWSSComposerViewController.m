@@ -122,15 +122,19 @@
 
 - (void)uploadProfilePictureForUser:(NSString *)userID {
     
-    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
-        return;//already did this
-    }
+
     
     CWVideoPlayer *player = [[CWVideoManager sharedManager] player];
     [player setVideoURL:[[CWVideoManager sharedManager]recorder].tempFileURL];
     
     [player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:userID completion:nil];
+        
+        if(![[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
+            [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:userID completion:nil];
+        }
+        
+        
+        
     }];
 }
 

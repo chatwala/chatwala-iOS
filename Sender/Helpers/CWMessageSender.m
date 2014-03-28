@@ -13,6 +13,7 @@
 #import "CWPushNotificationsAPI.h"
 #import "CWUserManager.h"
 #import "CWGroundControlManager.h"
+#import "CWUserDefaultsController.h"
 
 
 @interface CWMessageSender () <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
@@ -158,6 +159,9 @@
     
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
+    
+    NSInteger currentSentCount = [CWUserDefaultsController numberOfSentMessages];
+    [CWUserDefaultsController setNumberOfSentMessages:++currentSentCount];
     
     if (self.delegate) {
         [self.delegate messageSenderDidSucceedMessageSend:self];

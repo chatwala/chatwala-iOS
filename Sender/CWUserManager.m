@@ -87,8 +87,8 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     [CWUserDefaultsController setUserID:newUserID];
 }
 
-- (BOOL) hasApprovedProfilePicture:(NSString *) user
-{
+- (BOOL) hasApprovedProfilePicture:(NSString *) user {
+    
     BOOL approved = [[NSUserDefaults standardUserDefaults] boolForKey:kApprovedProfilePictureKey];
     return approved;
 }
@@ -156,7 +156,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
         return NO;
     }
     NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold] integerValue];
-    if([self numberOfSentMessages] < requestAppFeedbackThreshold)
+    if([CWUserDefaultsController numberOfSentMessages] < requestAppFeedbackThreshold)
     {
         return NO;
     }
@@ -164,8 +164,8 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return YES;
 }
 
-- (void) didRequestAppFeedback
-{
+- (void) didRequestAppFeedback {
+    
     NSString * buildVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     [[NSUserDefaults standardUserDefaults] setObject:buildVersion forKey:kAppVersionOfFeedbackRequestedKey];
 }
@@ -199,11 +199,8 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return [AOFetchUtilities totalUnreadMessagesForRecipient:self.localUserID];
 }
 
-- (NSInteger)numberOfSentMessages {
-    return 0;
-}
 
-+ (NSInteger)numberOfUnreadMessagesFromUser:(NSString *)userID {
++ (NSInteger)numberOfUnreadMessagesForRecipient:(NSString *)userID {
     NSArray *messagesForUser = [AOFetchUtilities fetchMessagesForUser:userID];
     NSInteger unreadCount = 0;
     

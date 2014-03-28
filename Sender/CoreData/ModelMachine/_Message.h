@@ -151,6 +151,15 @@
 
 
 
+@property (nonatomic, strong) NSString* userThumbnailURL;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* viewedState;
 
 
@@ -182,6 +191,7 @@ extern const struct MessageAttributes {
 	__unsafe_unretained NSString *threadIndex;
 	__unsafe_unretained NSString *thumbnailPictureURL;
 	__unsafe_unretained NSString *timeStamp;
+	__unsafe_unretained NSString *userThumbnailURL;
 	__unsafe_unretained NSString *viewedState;
 } MessageAttributes;
 
@@ -193,6 +203,8 @@ extern const struct MessageAttributes {
 
 extern const struct MessageUserInfo {
 } MessageUserInfo;
+
+
 
 
 
@@ -387,6 +399,15 @@ extern const struct MessageUserInfo {
 
 
 
+@property (nonatomic, strong) NSString* userThumbnailURL;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* viewedState;
 
 
@@ -499,6 +520,12 @@ extern const struct MessageUserInfo {
 
 - (NSDate*)primitiveTimeStamp;
 - (void)setPrimitiveTimeStamp:(NSDate*)value;
+
+
+
+
+- (NSString*)primitiveUserThumbnailURL;
+- (void)setPrimitiveUserThumbnailURL:(NSString*)value;
 
 
 

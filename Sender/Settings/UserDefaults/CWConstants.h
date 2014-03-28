@@ -29,6 +29,7 @@ extern NSString *const CWConstantsUnknownRecipientIDString;
 // This contains NSUserDefault keys used by the defaults controller to persist user settings
 extern NSString *const CWUserDefaultsUserIDKey;
 extern NSString *const CWUserDefaultsShouldShowPreviewKey;
+extern NSString *const CWUserDefaultsNumberOfSentMessagesKey;
 
 // Profile picture
 extern NSString *const CWUserDefaultsProfilePictureURLKey;

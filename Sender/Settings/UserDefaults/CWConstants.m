@@ -30,7 +30,7 @@ NSString *const CWConstantsUnknownRecipientIDString = @"RECIPIENT_UNKNOWN";
 /* =========================================================================================*/
 NSString *const CWUserDefaultsUserIDKey = @"CHATWALA_USER_ID";
 NSString *const CWUserDefaultsShouldShowPreviewKey = @"CWUserDefaultsShouldShowPreviewKey";
-
+NSString *const CWUserDefaultsNumberOfSentMessagesKey = @"CWUserDefaultsNumberOfSentMessagesKey";
 // Profile picture
 NSString *const CWUserDefaultsProfilePictureURLKey = @"CWUserDefaultsProfilePictureURLKey";
 
