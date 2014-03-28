@@ -1313,7 +1313,7 @@
 			attributes = {
 				CLASSPREFIX = CW;
 				LastUpgradeCheck = 0510;
-				ORGANIZATIONNAME = pho;
+				ORGANIZATIONNAME = Chatwala;
 				TargetAttributes = {
 					E9443982182940AF0088A381 = {
 						DevelopmentTeam = HTV788WGFM;
