@@ -32,6 +32,7 @@ typedef enum eMessageViewedState
 @property (nonatomic, strong) NSURL * videoURL;//not core data backed.
 @property (nonatomic, strong) NSURL * zipURL;//not saved in core data
 @property (nonatomic, strong) UIImage * lastFrameImage; //not saved in core data
+@property (nonatomic, strong) NSString *thumbnailUploadURLString;
 
 + (Message *)messageFromSenderID:(NSString *)senderID andTimestamp:(NSDate *)timeStamp;
 
@@ -42,5 +43,7 @@ typedef enum eMessageViewedState
 - (void)setEMessageDownloadState:(eMessageDownloadState ) eState;
 - (void)exportZip;
 - (void)saveContext;
+
+- (void)uploadThumbnailImage:(UIImage *)image;
 
 @end

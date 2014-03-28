@@ -13,6 +13,7 @@
 @synthesize videoURL;
 @synthesize zipURL;
 @synthesize lastFrameImage;
+@synthesize thumbnailUploadURLString;
 
 // Custom logic goes here.
 
@@ -109,6 +110,11 @@
 - (void)setEMessageDownloadState:(eMessageDownloadState)eState {
     self.downloadStateValue = eState;
     [self saveContext];
+}
+
+- (void)uploadThumbnailImage:(UIImage *)image {
+    
+    // Kick off a CWServerAPI thumbnail request
 }
 
 - (void) exportZip

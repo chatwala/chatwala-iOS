@@ -3,7 +3,7 @@
 //  Sender
 //
 //  Created by randall chatwala on 1/8/14.
-//  Copyright (c) 2014 pho. All rights reserved.
+//  Copyright (c) 2014 Chatwala. All rights reserved.
 //
 
 #import "CWDataManager.h"
@@ -25,19 +25,8 @@
 
 #pragma mark - find functions
 
-
-//- (Thread *) findThreadByThreadID:(NSString*) threadID
-//{
-//    Thread * item = (Thread *)[self findObject:[Thread class] byAttribute:ThreadAttributes.threadID withValue:threadID];
-//    if(item)
-//    {
-//        NSAssert([item isKindOfClass:[Thread class]], @"expecting to get a Thread object. found :%@", item);
-//    }
-//    return item;
-//}
-
-- (Message *) findMessageByMessageID:(NSString*) messageID
-{
+- (Message *) findMessageByMessageID:(NSString*) messageID {
+    
     Message * item = (Message *)[self findObject:[Message class] byAttribute:MessageAttributes.messageID withValue:messageID];
     if(item)
     {
@@ -45,16 +34,6 @@
     }
     return item;
 }
-
-//- (User *) findUserByUserID:(NSString *) userID
-//{
-//    User * item = (User *)[self findObject:[User class] byAttribute:UserAttributes.userID withValue:userID];
-//    if(item)
-//    {
-//        NSAssert([item isKindOfClass:[User class]], @"expecting to get a User object. found :%@", item);
-//    }
-//    return item;
-//}
 
 - (AOManagedObject *) findObject:(Class) aClass byAttribute:(NSString *) attribute withValue:(NSString*) value
 {
@@ -78,36 +57,6 @@
 }
 
 #pragma mark - import data
-
-//- (Thread *) createThreadWithID:(NSString *) threadID
-//{
-//    if(nil == threadID)
-//    {
-//        return nil;
-//    }
-//    Thread * thread = [self findThreadByThreadID:threadID];
-//    if(!thread)
-//    {
-//        thread = [Thread insertInManagedObjectContext:self.moc];
-//        thread.threadID = threadID;
-//    }
-//    return thread;
-//}
-//
-//- (User *) createUserWithID:(NSString *) userID
-//{
-//    if(nil == userID)
-//    {
-//        return nil;
-//    }
-//    User * user = [self findUserByUserID:userID];
-//    if(!user)
-//    {
-//        user = [User insertInManagedObjectContext:self.moc];
-//        user.userID = userID;
-//    }
-//    return user;
-//}
 
 - (Message *)createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage {
     
@@ -156,17 +105,7 @@
     
     [item fromDictionary:sourceDictionary withDateFormatter:[CWDataManager dateFormatter] error:error] ;
     
-    //add users
-//    NSString * senderID = [sourceDictionary objectForKey:MessageRelationships.sender withLUT:[Message keyLookupTable]];
-//    User * sender = [self createUserWithID:senderID];
-//    [item setSender:sender];
-//    
-//    NSString * receipientID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
-//    item.recipient = [self createUserWithID:receipientID];
-//    
-//    //add thread
-//    NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
-//    item.thread = [self createThreadWithID:threadID];
+ 
     error = nil;
     
     return item;

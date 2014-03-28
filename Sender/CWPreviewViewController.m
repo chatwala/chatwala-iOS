@@ -3,7 +3,7 @@
 //  Sender
 //
 //  Created by Khalid on 11/12/13.
-//  Copyright (c) 2013 pho. All rights reserved.
+//  Copyright (c) 2013 Chatwala. All rights reserved.
 //
 
 #import "CWPreviewViewController.h"
@@ -161,17 +161,6 @@
     [self.messageSender sendMessageFromUser:userID];
 }
 
-- (void)uploadProfilePictureForUser:(NSString *)userID {
-    
-    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
-        return;//already did this
-    }
-    
-    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:userID completion:nil];
-    }];
-}
-
 - (void)setupVideoPreview {
     [self.sendButton setButtonState:eButtonStateShare];
     playbackCount = 0;
@@ -218,8 +207,19 @@
     [self presentViewController:composerNavController animated:YES completion:nil];
 }
 
-- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
-    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUserID]];
+- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender forMessage:(Message *)sentMessage {
+
+    [self.player setVideoURL:self.recorder.tempFileURL];
+    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        
+        if (thumbnail) {
+            
+            // Uploading as a profile picture & thumbnail image
+            [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:[[CWUserManager sharedInstance] localUserID] completion:nil];
+            [sentMessage uploadThumbnailImage:thumbnail];
+        }
+    }];
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

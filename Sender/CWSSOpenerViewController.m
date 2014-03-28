@@ -3,7 +3,7 @@
 //  Sender
 //
 //  Created by Khalid on 11/18/13.
-//  Copyright (c) 2013 pho. All rights reserved.
+//  Copyright (c) 2013 Chatwala. All rights reserved.
 //
 
 #import "CWSSOpenerViewController.h"
@@ -176,31 +176,27 @@
     [self.messageSender sendMessageFromUser:localUserID];
 }
 
-- (void)uploadProfilePictureForUser:(NSString *)userID {
-    
-    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
-        return;//already did this
-    }
-
-    // Setting the recorded video to the player, we should improve this so the player or the recorder can
-    // take a screen capture [RK]
-    
-    [self.player setVideoURL:self.recorder.tempFileURL];
-    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-    
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:userID completion:nil];
-    }];
-    
-}
-
 #pragma mark - CWMessageSenderDelegate methods
 
 - (void)messageSender:(CWMessageSender *)messageSender shouldPresentMessageComposerController:(UINavigationController *)composerNavController {
     [self presentViewController:composerNavController animated:YES completion:nil];
 }
 
-- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
-    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUserID]];
+- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender forMessage:(Message *)sentMessage {
+
+    // Setting the recorded video to the player, we should improve this so the player or the recorder can also
+    // take a screen capture [RK]
+    [self.player setVideoURL:self.recorder.tempFileURL];
+    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        
+        if (thumbnail) {
+            
+            // Uploading as a profile picture & thumbnail image
+            [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:[[CWUserManager sharedInstance] localUserID] completion:nil];
+            [sentMessage uploadThumbnailImage:thumbnail];
+        }
+    }];
+
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 

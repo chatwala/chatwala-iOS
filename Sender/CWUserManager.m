@@ -123,7 +123,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 - (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(NSString *)userID completion:(void (^)(NSError * error))completionBlock {
     
-    if (![userID length]) {
+    if (![userID length] || [[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
         return;
     }
     

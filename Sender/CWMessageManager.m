@@ -3,7 +3,7 @@
 //  Sender
 //
 //  Created by Khalid on 12/18/13.
-//  Copyright (c) 2013 pho. All rights reserved.
+//  Copyright (c) 2013 Chatwala. All rights reserved.
 //
 
 #import "CWMessageManager.h"
@@ -100,14 +100,13 @@
 }
 
 - (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
-    NSString *user_id = userID;
     
-    if (![user_id length]) {
+    if (![userID length]) {
         return;
     }
     else {
         
-        [CWServerAPI getInboxForUserID:user_id withCompletionBlock:^(NSArray *messages, NSError *error) {
+        [CWServerAPI getInboxForUserID:userID withCompletionBlock:^(NSArray *messages, NSError *error) {
             
             if (error) {
                 // TODO;

@@ -164,7 +164,7 @@
     [CWUserDefaultsController setNumberOfSentMessages:++currentSentCount];
     
     if (self.delegate) {
-        [self.delegate messageSenderDidSucceedMessageSend:self];
+        [self.delegate messageSenderDidSucceedMessageSend:self forMessage:self.messageBeingSent];
         self.delegate = nil;
     }
     

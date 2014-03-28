@@ -3,7 +3,7 @@
 //  Sender
 //
 //  Created by Khalid on 11/18/13.
-//  Copyright (c) 2013 pho. All rights reserved.
+//  Copyright (c) 2013 Chatwala. All rights reserved.
 //
 
 #import "CWSSComposerViewController.h"
@@ -120,32 +120,27 @@
     }
 }
 
-- (void)uploadProfilePictureForUser:(NSString *)userID {
-    
-
-    
-    CWVideoPlayer *player = [[CWVideoManager sharedManager] player];
-    [player setVideoURL:[[CWVideoManager sharedManager]recorder].tempFileURL];
-    
-    [player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        
-        if(![[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
-            [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:userID completion:nil];
-        }
-        
-        
-        
-    }];
-}
-
 #pragma mark - CWMessageSenderDelegate methods
 
 - (void)messageSender:(CWMessageSender *)messageSender shouldPresentMessageComposerController:(UINavigationController *)composerNavController {
     [self presentViewController:composerNavController animated:YES completion:nil];
 }
 
-- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
-    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUserID]];
+- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender forMessage:(Message *)sentMessage {
+    
+    CWVideoPlayer *player = [[CWVideoManager sharedManager] player];
+    
+    [player setVideoURL:[[CWVideoManager sharedManager]recorder].tempFileURL];
+    [player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        
+        if (thumbnail) {
+            
+            // Uploading as a profile picture & thumbnail image
+            [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:[[CWUserManager sharedInstance] localUserID] completion:nil];
+            [sentMessage uploadThumbnailImage:thumbnail];
+        }
+    }];
+
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
