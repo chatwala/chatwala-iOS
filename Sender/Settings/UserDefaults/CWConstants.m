@@ -24,6 +24,7 @@ NSString *const CWConstantsURLSchemeCopyUpdateKey = @"cwcopy";
 NSString *const CWConstantsChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 NSString *const CWConstantsChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString *const CWConstantsChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
+NSString *const CWConstantsChatwalaVersionHeaderField = @"x-chatwala-appversion";
 NSString *const CWConstantsUnknownRecipientIDString = @"RECIPIENT_UNKNOWN";
 
 /* User Defaults */

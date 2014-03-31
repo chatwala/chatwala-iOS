@@ -23,6 +23,7 @@ extern NSString *const CWConstantsURLSchemeCopyUpdateKey;
 extern NSString *const CWConstantsChatwalaAPIKeySecretHeaderField;
 extern NSString *const CWConstantsChatwalaAPIKey;
 extern NSString *const CWConstantsChatwalaAPISecret;
+extern NSString *const CWConstantsChatwalaVersionHeaderField;
 extern NSString *const CWConstantsUnknownRecipientIDString;
 
 /* User Defaults */

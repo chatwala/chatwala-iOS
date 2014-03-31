@@ -181,7 +181,6 @@ AFURLSessionManager *BackgroundSessionManager;
     
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
     
     NSString *serverAction = (isReply ? CompleteReplyMessageEndpoint : CompleteOriginalMessageEndpoint);
     NSString *endPoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:serverAction];
@@ -218,8 +217,6 @@ AFURLSessionManager *BackgroundSessionManager;
     
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
-    
     
     NSString *endPoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:GetProfilePictureReadURLEndpoint];
     
@@ -409,7 +406,6 @@ AFURLSessionManager *BackgroundSessionManager;
     
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
     
     NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:PushRegisterEndpoint];
     [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {

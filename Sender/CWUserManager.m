@@ -44,7 +44,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
     self = [super init];
     if (self) {
-        [self setupHttpAuthHeaders];
+        [self setupHttpHeaders];
 
         if (!self.localUserID) {
             [self createNewLocalUser];
@@ -53,12 +53,13 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return self;
 }
 
-- (void)setupHttpAuthHeaders {
+- (void)setupHttpHeaders {
     
     NSString * keyAndSecret = [NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret];
 
     self.requestHeaderSerializer = [AFHTTPRequestSerializer serializer];
     [self.requestHeaderSerializer setValue:keyAndSecret forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
+    [self.requestHeaderSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:CWConstantsChatwalaVersionHeaderField];
 }
 
 - (void)addRequestHeadersToURLRequest:(NSMutableURLRequest *) request {

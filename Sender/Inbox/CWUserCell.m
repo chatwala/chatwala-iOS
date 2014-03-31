@@ -7,6 +7,11 @@
 //
 
 #import "CWUserCell.h"
+#import "CWUserManager.h"
+#import "SDWebImageManager.h"
+#import "UIImageView+WebCache.h"
+#import "CWConstants.h"
+#import "Message.h"
 
 @interface CWUserCell ()
 
@@ -35,6 +40,10 @@
             self.statusImage.hidden = YES;
             break;
     }
+}
+
+- (NSURL *)thumbnailURLFromMessage:(Message *)message {
+    return [NSURL URLWithString:message.userThumbnailURL];
 }
 
 @end

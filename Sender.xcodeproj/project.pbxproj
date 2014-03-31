@@ -26,7 +26,6 @@
 		0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AD218918C4D008C2238 /* CWMessageCell.m */; };
 		0D29E37318AAB9F500082ECF /* CWMessagesDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */; };
 		0D29E37718AABA8B00082ECF /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37618AABA8B00082ECF /* UIColor+Additions.m */; };
-		0D37EA7418E5CEE800971FD5 /* 160MigrationModel.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0D37EA7318E5CEE800971FD5 /* 160MigrationModel.xcmappingmodel */; };
 		0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */; };
 		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
 		0D4B4B5918C65BFC0073C505 /* CWMiddleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */; };
@@ -56,6 +55,7 @@
 		0DDD6F4518C66F4D00580DA4 /* CWAPICommandFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDD6F4418C66F4D00580DA4 /* CWAPICommandFactory.m */; };
 		0DDD6F4818C67D0300580DA4 /* CWStartOriginalMessageCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDD6F4718C67D0300580DA4 /* CWStartOriginalMessageCommand.m */; };
 		0DDD6F4B18C67D2300580DA4 /* CWCompleteOriginalMessageSend.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DDD6F4A18C67D2300580DA4 /* CWCompleteOriginalMessageSend.m */; };
+		0DF5EAC818EA152200007411 /* 160MappingModel.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 0DF5EAC718EA152200007411 /* 160MappingModel.xcmappingmodel */; };
 		206CDF8B18808F27007F3532 /* AOCoreDataStackUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */; };
 		206CDF8C18808F27007F3532 /* AOFetchUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8718808F27007F3532 /* AOFetchUtilities.m */; };
 		206CDF8D18808F27007F3532 /* AOManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 206CDF8918808F27007F3532 /* AOManagedObject.m */; };
@@ -275,7 +275,6 @@
 		0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessagesDownloader.m; sourceTree = "<group>"; };
 		0D29E37518AABA8B00082ECF /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		0D29E37618AABA8B00082ECF /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
-		0D37EA7318E5CEE800971FD5 /* 160MigrationModel.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 160MigrationModel.xcmappingmodel; sourceTree = "<group>"; };
 		0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Sender/Framework/Crashlytics.framework; sourceTree = "<group>"; };
 		0D4586E2189AC591006BB737 /* CWServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWServerAPI.h; sourceTree = "<group>"; };
 		0D4586E3189AC591006BB737 /* CWServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWServerAPI.m; sourceTree = "<group>"; };
@@ -336,6 +335,7 @@
 		0DDD6F4718C67D0300580DA4 /* CWStartOriginalMessageCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWStartOriginalMessageCommand.m; sourceTree = "<group>"; };
 		0DDD6F4918C67D2300580DA4 /* CWCompleteOriginalMessageSend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWCompleteOriginalMessageSend.h; sourceTree = "<group>"; };
 		0DDD6F4A18C67D2300580DA4 /* CWCompleteOriginalMessageSend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWCompleteOriginalMessageSend.m; sourceTree = "<group>"; };
+		0DF5EAC718EA152200007411 /* 160MappingModel.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = 160MappingModel.xcmappingmodel; sourceTree = "<group>"; };
 		206CDF8518808F27007F3532 /* AOCoreDataStackUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOCoreDataStackUtilities.m; sourceTree = "<group>"; };
 		206CDF8618808F27007F3532 /* AOFetchUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AOFetchUtilities.h; sourceTree = "<group>"; };
 		206CDF8718808F27007F3532 /* AOFetchUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AOFetchUtilities.m; sourceTree = "<group>"; };
@@ -797,7 +797,7 @@
 				36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */,
 				36AF5840187DF45F00C5C13F /* CWDataManager.h */,
 				36AF5841187DF45F00C5C13F /* CWDataManager.m */,
-				0D37EA7318E5CEE800971FD5 /* 160MigrationModel.xcmappingmodel */,
+				0DF5EAC718EA152200007411 /* 160MappingModel.xcmappingmodel */,
 			);
 			name = CoreData;
 			path = ../CoreData;
@@ -1590,7 +1590,6 @@
 				0DDD6F4818C67D0300580DA4 /* CWStartOriginalMessageCommand.m in Sources */,
 				E9AF03301868B40A006CB546 /* CWMainViewController.m in Sources */,
 				36E814CA185FB78A002B1A12 /* CWUserManager.m in Sources */,
-				0D37EA7418E5CEE800971FD5 /* 160MigrationModel.xcmappingmodel in Sources */,
 				E9C115501832805300DB67D2 /* CWVideoRecorder.m in Sources */,
 				0DAD469E18D2351D008C546A /* SDWebImageDownloaderOperation.m in Sources */,
 				36AF583F187DF0AB00C5C13F /* _Message.m in Sources */,
@@ -1620,6 +1619,7 @@
 				0DAD46A118D2351D008C546A /* UIButton+WebCache.m in Sources */,
 				0DAD46A018D2351D008C546A /* SDWebImagePrefetcher.m in Sources */,
 				0D200ABD1891852F008C2238 /* DCControl.m in Sources */,
+				0DF5EAC818EA152200007411 /* 160MappingModel.xcmappingmodel in Sources */,
 				0DAD469C18D2351D008C546A /* SDWebImageDecoder.m in Sources */,
 				E9CE73ED1831873A00056FA9 /* CWVideoPlayerView.m in Sources */,
 				E9652562183535C1008987BD /* CWOpenerViewController.m in Sources */,
@@ -1839,7 +1839,7 @@
 				);
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "A3DE3935-5E4D-4785-A34D-E44C361E28E1";
 				USE_DEV_SERVER = 0;
 				USE_QA_SERVER = 0;
 				USE_SANDBOX_SERVER = 0;
@@ -1886,7 +1886,7 @@
 				);
 				INFOPLIST_FILE = "Sender/Sender-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "A3DE3935-5E4D-4785-A34D-E44C361E28E1";
 				USE_DEV_SERVER = 0;
 				USE_QA_SERVER = 0;
 				USE_SANDBOX_SERVER = 0;
