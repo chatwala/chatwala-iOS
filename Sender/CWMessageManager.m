@@ -175,31 +175,6 @@
 
 #pragma mark - Download logic
 
-//- (void)downloadMessages:(NSArray *)messageIDs {
-//    
-//    CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-//    downloader.messageIdsForDownload = messageIDs;
-//    [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
-//        
-//        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-//        
-//        if ([messagesDownloaded count]) {
-//            NSLog(@"New messages downloaded successfully.");
-//            
-//            if (state == UIApplicationStateBackground || state == UIApplicationStateInactive) {
-//            
-//                [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
-//            }
-//        }
-//        else {
-//            NSLog(@"No new messages downloaded after updating user's messages");
-//        }
-//        
-//        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
-//        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
-//    }];
-//}
-
 - (NSArray *)messageIDsFromResponse:(NSArray *)messages {
     
     NSMutableArray *messageIDs = [NSMutableArray array];
@@ -240,6 +215,7 @@
 
         NSString *sasUploadUrl = [responseObject valueForKey:@"write_url"];
         Message *replyMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:[responseObject objectForKey:@"message_meta_data"] error:nil];
+        replyMessage.thumbnailUploadURLString = [responseObject objectForKey:@"message_thumbnail_write_url"];
         
         NSLog(@"Fetched reply message upload URL: %@ for messageID: %@", sasUploadUrl, message.messageID);
         if (completionBlock) {
@@ -295,6 +271,7 @@
         self.needsOriginalMessageUploadURL = NO;
         self.tempUploadURLString = [responseObject valueForKey:@"write_url"];
         self.tempOriginalMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:[responseObject objectForKey:@"message_meta_data"] error:nil];
+        self.tempOriginalMessage.thumbnailUploadURLString = [responseObject objectForKey:@"message_thumbnail_write_url"];
         
         NSLog(@"Fetched original message upload URL: %@: for new original message ID: %@",self.tempUploadURLString, self.tempOriginalMessage.messageID);
         

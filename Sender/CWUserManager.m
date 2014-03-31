@@ -121,7 +121,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 }
 
 
-- (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(NSString *)userID completion:(void (^)(NSError * error))completionBlock {
+- (void)uploadProfilePicture:(UIImage *)thumbnail forUser:(NSString *)userID completion:(void (^)(NSError * error))completionBlock {
     
     if (![userID length] || [[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
         return;
@@ -137,7 +137,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
             }
         } else {
 
-            NSLog(@"Successfully upload profile picture for user: %@", userID);
+            NSLog(@"Successfully uploaded profile picture for user: %@", userID);
             [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:kUploadedProfilePictureKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
             

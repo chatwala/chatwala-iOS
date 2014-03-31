@@ -3,6 +3,7 @@
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
 #import "NSDictionary+LookUpTable.h"
+#import "CWServerAPI.h"
 
 @interface Message ()
 
@@ -115,6 +116,7 @@
 - (void)uploadThumbnailImage:(UIImage *)image {
     
     // Kick off a CWServerAPI thumbnail request
+    [CWServerAPI uploadMessageThumbnail:image toURL:self.thumbnailUploadURLString withCompletionBlock:nil];
 }
 
 - (void) exportZip
