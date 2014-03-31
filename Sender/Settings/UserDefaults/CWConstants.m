@@ -12,6 +12,7 @@
 /* =========================================================================================*/
 NSString *const CWNotificationInboxViewControllerShouldOpenInbox = @"CWNotificationInboxViewControllerShouldOpenInbox";
 NSString *const CWNotificationCopyUpdateFromUrlScheme = @"CWNotificationCopyUpdateFromUrlScheme";
+NSString *const CWNotificationMessageSent = @"CWNotificationMessageSent";
 
 /* Notification user info keys */
 /* =========================================================================================*/
@@ -23,6 +24,7 @@ NSString *const CWConstantsURLSchemeCopyUpdateKey = @"cwcopy";
 NSString *const CWConstantsChatwalaAPIKeySecretHeaderField = @"x-chatwala";
 NSString *const CWConstantsChatwalaAPIKey = @"58041de0bc854d9eb514d2f22d50ad4c";
 NSString *const CWConstantsChatwalaAPISecret = @"ac168ea53c514cbab949a80bebe09a8a";
+NSString *const CWConstantsChatwalaVersionHeaderField = @"x-chatwala-appversion";
 NSString *const CWConstantsUnknownRecipientIDString = @"RECIPIENT_UNKNOWN";
 
 /* User Defaults */
@@ -30,7 +32,7 @@ NSString *const CWConstantsUnknownRecipientIDString = @"RECIPIENT_UNKNOWN";
 /* =========================================================================================*/
 NSString *const CWUserDefaultsUserIDKey = @"CHATWALA_USER_ID";
 NSString *const CWUserDefaultsShouldShowPreviewKey = @"CWUserDefaultsShouldShowPreviewKey";
-
+NSString *const CWUserDefaultsNumberOfSentMessagesKey = @"CWUserDefaultsNumberOfSentMessagesKey";
 // Profile picture
 NSString *const CWUserDefaultsProfilePictureURLKey = @"CWUserDefaultsProfilePictureURLKey";
 

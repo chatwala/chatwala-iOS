@@ -50,6 +50,13 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++ (NSInteger)numberOfSentMessages {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:CWUserDefaultsNumberOfSentMessagesKey];
+}
 
++ (void)setNumberOfSentMessages:(NSInteger)messageSentCount {
+    [[NSUserDefaults standardUserDefaults] setInteger:messageSentCount forKey:CWUserDefaultsNumberOfSentMessagesKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 @end

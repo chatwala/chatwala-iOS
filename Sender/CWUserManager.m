@@ -44,7 +44,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
     self = [super init];
     if (self) {
-        [self setupHttpAuthHeaders];
+        [self setupHttpHeaders];
 
         if (!self.localUserID) {
             [self createNewLocalUser];
@@ -53,12 +53,13 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return self;
 }
 
-- (void)setupHttpAuthHeaders {
+- (void)setupHttpHeaders {
     
     NSString * keyAndSecret = [NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret];
 
     self.requestHeaderSerializer = [AFHTTPRequestSerializer serializer];
     [self.requestHeaderSerializer setValue:keyAndSecret forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
+    [self.requestHeaderSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:CWConstantsChatwalaVersionHeaderField];
 }
 
 - (void)addRequestHeadersToURLRequest:(NSMutableURLRequest *) request {
@@ -87,8 +88,8 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     [CWUserDefaultsController setUserID:newUserID];
 }
 
-- (BOOL) hasApprovedProfilePicture:(NSString *) user
-{
+- (BOOL) hasApprovedProfilePicture:(NSString *) user {
+    
     BOOL approved = [[NSUserDefaults standardUserDefaults] boolForKey:kApprovedProfilePictureKey];
     return approved;
 }
@@ -121,7 +122,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 }
 
 
-- (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(NSString *)userID completion:(void (^)(NSError * error))completionBlock {
+- (void)uploadProfilePicture:(UIImage *)thumbnail forUser:(NSString *)userID completion:(void (^)(NSError * error))completionBlock {
     
     if (![userID length]) {
         return;
@@ -137,7 +138,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
             }
         } else {
 
-            NSLog(@"Successfully upload profile picture for user: %@", userID);
+            NSLog(@"Successfully uploaded profile picture for user: %@", userID);
             [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:kUploadedProfilePictureKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
@@ -156,7 +157,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
         return NO;
     }
     NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold] integerValue];
-    if([self numberOfSentMessages] < requestAppFeedbackThreshold)
+    if([CWUserDefaultsController numberOfSentMessages] < requestAppFeedbackThreshold)
     {
         return NO;
     }
@@ -164,8 +165,8 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return YES;
 }
 
-- (void) didRequestAppFeedback
-{
+- (void) didRequestAppFeedback {
+    
     NSString * buildVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     [[NSUserDefaults standardUserDefaults] setObject:buildVersion forKey:kAppVersionOfFeedbackRequestedKey];
 }
@@ -199,16 +200,13 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return [AOFetchUtilities totalUnreadMessagesForRecipient:self.localUserID];
 }
 
-- (NSInteger)numberOfSentMessages {
-    return 0;
-}
 
-+ (NSInteger)numberOfUnreadMessagesFromUser:(NSString *)userID {
-    NSArray *messagesForUser = [AOFetchUtilities fetchMessagesForUser:userID];
++ (NSInteger)numberOfUnreadMessagesForRecipient:(NSString *)userID {
+    NSArray *messagesForUser = [AOFetchUtilities fetchMessagesForSender:userID];
     NSInteger unreadCount = 0;
     
     for (Message *currentMessage in messagesForUser) {
-        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened) {
+        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened && currentMessage.eDownloadState == eMessageDownloadStateDownloaded) {
             unreadCount++;
         }
     }

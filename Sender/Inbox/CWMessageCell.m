@@ -72,6 +72,7 @@
 - (void)prepareForReuse {
     [super prepareForReuse];
     [self.spinner stopAnimating];
+    [self.sentTimeLabel setText:@""];
 }
 
 + (NSString *)cellIdentifier {
@@ -80,7 +81,15 @@
 
 - (void)setMessage:(Message *) message {
     
-    NSURL * imageURL = [NSURL URLWithString:message.thumbnailPictureURL];
+    [self fetchThumbnailForMessage:message];
+    
+    NSString * timeValue = [self timeStringFromDate:message.timeStamp];
+    self.sentTimeLabel.text = timeValue;
+}
+
+- (void)fetchThumbnailForMessage:(Message *)message {
+    
+    NSURL * imageURL = [self thumbnailURLFromMessage:message];
     [self.spinner startAnimating];
     
     UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];
@@ -90,16 +99,15 @@
     
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
     [manager setValue:[NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret] forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
-
+    
     __block CWMessageCell *blockSelf = self;
     
     [self.thumbView setImageWithURL:imageURL placeholderImage:placeholder options:SDWebImageRetryFailed | SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-
+        
         [blockSelf.spinner stopAnimating];
         
         if (error) {
             NSLog(@"Error fetching image from URL:  %@", imageURL);
-            NSLog(@"Image cache type was: %ld and error was: %@", cacheType, error.localizedDescription);
         }
         else {
             
@@ -116,10 +124,11 @@
             NSLog(@"Successfully fetched image from %@", cacheTypeString);
         }
     }];
-    
-    
-    NSString * timeValue = [self timeStringFromDate:message.timeStamp];
-    self.sentTimeLabel.text = timeValue;
+
+}
+
+- (NSURL *)thumbnailURLFromMessage:(Message *)message {
+    return [NSURL URLWithString:message.thumbnailPictureURL];
 }
 
 - (void)configureStatusFromMessageViewedState:(eMessageViewedState)viewedState {

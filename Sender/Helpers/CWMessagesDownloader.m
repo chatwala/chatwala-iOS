@@ -51,6 +51,7 @@
             completedRequests++;
             
             if (!error) {
+                NSLog(@"Downloaded file for messageID: %@", currentMessage.messageID);
                 [currentMessage setEMessageDownloadState:eMessageDownloadStateDownloaded];
                 [downloadedMessages addObject:currentMessage];
             }

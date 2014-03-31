@@ -3,7 +3,7 @@
 //  Sender
 //
 //  Created by Rahul Kumar Sharma on 3/26/14.
-//  Copyright (c) 2014 pho. All rights reserved.
+//  Copyright (c) 2014 Chatwala. All rights reserved.
 //
 
 #import "CWInboxMessagesController.h"
@@ -16,8 +16,8 @@
 @implementation CWInboxMessagesController
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+    
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -31,7 +31,6 @@
     }
     return self;
 }
-
 
 /*
 #pragma mark - Navigation
@@ -71,7 +70,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    // TODO: Make this a constant
     NSString *CellIdentifier = [CWMessageCell cellIdentifier];
     CWMessageCell *cell = (CWMessageCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -84,13 +82,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     return [[self messages] count];
-//    id sectionInfo = [[_fetchedResultsController sections] objectAtIndex:section];
-//    NSInteger numberOfObjects = [sectionInfo numberOfObjects];
-//    
-//    return numberOfObjects;
-    //    User * localUser = [[CWUserManager sharedInstance] localUser];
-    //    NSOrderedSet * inboxMessages = [localUser inboxMessages];
-    //    return inboxMessages.count;
 }
 
 - (void)configureCell:(CWMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath {

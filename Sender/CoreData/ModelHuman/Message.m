@@ -3,6 +3,7 @@
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
 #import "NSDictionary+LookUpTable.h"
+#import "CWServerAPI.h"
 
 @interface Message ()
 
@@ -13,12 +14,14 @@
 @synthesize videoURL;
 @synthesize zipURL;
 @synthesize lastFrameImage;
+@synthesize thumbnailUploadURLString;
 
 // Custom logic goes here.
 
 + (NSDictionary *) keyLookupTable {
 
     return @{
+             @"user_thumbnail_url" : MessageAttributes.userThumbnailURL,
              @"recipient_id" : MessageAttributes.recipientID,
              @"sender_id"   : MessageAttributes.senderID,
              @"thread_id"   : MessageAttributes.threadID,
@@ -35,32 +38,6 @@
              };
 }
 
-+ (Message *)messageFromSenderID:(NSString *)senderID andTimestamp:(NSDate *)timeStamp {
-    
-    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
-    NSEntityDescription *entityDescription = [NSEntityDescription
-                                              entityForName:@"Message" inManagedObjectContext:moc];
-    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
-    [request setEntity:entityDescription];
-    
-    
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:
-                              @"(senderID == %@) AND (timeStamp == %@)", senderID, timeStamp];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSArray *array = [moc executeFetchRequest:request error:&error];
-    
-    if ([array count]) {
-        return [array objectAtIndex:0];
-    }
-    else {
-        return nil;
-    }
-}
-
-
 - (void)saveContext {
 
     NSError *error = nil;
@@ -74,7 +51,10 @@
              abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
              */
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            //abort();
+            
+#if defined USE_DEV_SERVER  || defined USE_QA_SERVER
+            abort();
+#endif
         } 
     }
 }
@@ -108,6 +88,12 @@
 - (void)setEMessageDownloadState:(eMessageDownloadState)eState {
     self.downloadStateValue = eState;
     [self saveContext];
+}
+
+- (void)uploadThumbnailImage:(UIImage *)image {
+    
+    // Kick off a CWServerAPI thumbnail request
+    [CWServerAPI uploadMessageThumbnail:image toURL:self.thumbnailUploadURLString withCompletionBlock:nil];
 }
 
 - (void) exportZip
@@ -232,6 +218,7 @@
 + (NSDictionary *) reverseKeyLookupTable
 {
     return @{
+             MessageAttributes.userThumbnailURL : @"user_thumbnail_url",
              MessageAttributes.threadID : @"thread_id",
              MessageAttributes.recipientID : @"recipient_id",
              MessageAttributes.senderID : @"sender_id",

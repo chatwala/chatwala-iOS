@@ -18,6 +18,7 @@ typedef void (^AFNetworkingFailureBlock)(NSURLRequest *request, NSHTTPURLRespons
 + (NSString *)cellIdentifier;
 - (void)setMessage:(Message *) message;
 - (void)configureStatusFromMessageViewedState:(eMessageViewedState)viewedState;
+- (NSURL *)thumbnailURLFromMessage:(Message *)message;
 
 @property (nonatomic,strong) UIImageView * thumbView;
 @property (nonatomic,assign) CGFloat progress;

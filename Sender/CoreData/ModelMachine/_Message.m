@@ -19,6 +19,7 @@ const struct MessageAttributes MessageAttributes = {
 	.threadIndex = @"threadIndex",
 	.thumbnailPictureURL = @"thumbnailPictureURL",
 	.timeStamp = @"timeStamp",
+	.userThumbnailURL = @"userThumbnailURL",
 	.viewedState = @"viewedState",
 };
 
@@ -255,6 +256,13 @@ const struct MessageUserInfo MessageUserInfo = {
 
 
 @dynamic timeStamp;
+
+
+
+
+
+
+@dynamic userThumbnailURL;
 
 
 
