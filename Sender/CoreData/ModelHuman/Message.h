@@ -34,8 +34,6 @@ typedef enum eMessageViewedState
 @property (nonatomic, strong) UIImage * lastFrameImage; //not saved in core data
 @property (nonatomic, strong) NSString *thumbnailUploadURLString;
 
-+ (Message *)messageFromSenderID:(NSString *)senderID andTimestamp:(NSDate *)timeStamp;
-
 - (eMessageViewedState) eMessageViewedState;
 - (void)setEMessageViewedState:(eMessageViewedState) eViewedState;
 
