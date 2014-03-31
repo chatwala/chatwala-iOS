@@ -12,6 +12,7 @@
 /* =========================================================================================*/
 NSString *const CWNotificationInboxViewControllerShouldOpenInbox = @"CWNotificationInboxViewControllerShouldOpenInbox";
 NSString *const CWNotificationCopyUpdateFromUrlScheme = @"CWNotificationCopyUpdateFromUrlScheme";
+NSString *const CWNotificationMessageSent = @"CWNotificationMessageSent";
 
 /* Notification user info keys */
 /* =========================================================================================*/

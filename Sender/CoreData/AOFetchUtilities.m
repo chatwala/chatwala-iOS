@@ -55,10 +55,8 @@
     [expressionDescription setExpressionResultType:NSDateAttributeType];
     
     [fetchRequest setEntity:entity];
-    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"senderID", expressionDescription, nil]];
-    [fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObjects:@"senderID",nil]];
-    
-    // Remove our own user from the sender list...
+    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"senderID", @"recipientID", expressionDescription, nil]];
+    [fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObjects:@"senderID", @"recipientID", nil]];
     [fetchRequest setResultType:NSDictionaryResultType];
     
     // Sort the results by the most recent message
@@ -69,20 +67,25 @@
                                                            error:&error];
     
     NSMutableArray *filteredArray = [NSMutableArray arrayWithCapacity:[results count]];
-    
+
+    // Return an array of array of Message objects for the UI to show
     for (NSDictionary *currentSenderDictionary in results) {
         
-        NSArray *userMessages = [AOFetchUtilities fetchMessagesForUser:[currentSenderDictionary objectForKey:@"senderID"]];
+        NSString *recipientID = [currentSenderDictionary objectForKey:@"recipientID"];
         
-        if ([userMessages count]) {
-            [filteredArray addObject:currentSenderDictionary];
+        if ([recipientID isEqualToString:[[CWUserManager sharedInstance] localUserID]]) {
+            NSArray *userMessages = [AOFetchUtilities fetchMessagesForSender:[currentSenderDictionary objectForKey:@"senderID"]];
+            
+            if ([userMessages count]) {
+                [filteredArray addObject:userMessages];
+            }
         }
     }
     
     return filteredArray;
 }
 
-+ (NSArray *)fetchMessagesForUser:(NSString *)userID {
++ (NSArray *)fetchMessagesForSender:(NSString *)senderID {
     
     NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
     NSEntityDescription *entityDescription = [NSEntityDescription
@@ -91,8 +94,7 @@
     [request setEntity:entityDescription];
     
     
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(senderID == %@)", userID];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(senderID == %@)", senderID];
     [request setPredicate:predicate];
     
     [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"timeStamp" ascending:NO]]];
@@ -103,7 +105,7 @@
     
     // Only show downloaded messages
     for (Message *message in messagesArray) {
-        if ([message.downloadState integerValue] == eMessageDownloadStateDownloaded && [message.recipientID isEqualToString:[[CWUserManager sharedInstance] localUserID]]) {
+        if ([message.downloadState integerValue] == eMessageDownloadStateDownloaded) {
             [filteredArray addObject:message];
         }
     }
@@ -123,7 +125,7 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
     [request setEntity:entityDescription];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(recipientID == %@ && viewedState == 0)", userID];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(recipientID == %@ && viewedState == 0 && downloadState == 2)", userID];
     [request setPredicate:predicate];
     
     NSError *error = nil;

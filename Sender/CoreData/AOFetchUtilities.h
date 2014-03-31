@@ -50,6 +50,6 @@
 // Chatwala required queries
 + (NSInteger)totalUnreadMessagesForRecipient:(NSString *)userID;
 + (NSArray *)fetchGroupBySenderID;
-+ (NSArray *)fetchMessagesForUser:(NSString *)userID;
++ (NSArray *)fetchMessagesForSender:(NSString *)senderID;
 
 @end

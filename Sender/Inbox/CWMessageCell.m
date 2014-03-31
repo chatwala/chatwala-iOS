@@ -72,6 +72,7 @@
 - (void)prepareForReuse {
     [super prepareForReuse];
     [self.spinner stopAnimating];
+    [self.sentTimeLabel setText:@""];
 }
 
 + (NSString *)cellIdentifier {

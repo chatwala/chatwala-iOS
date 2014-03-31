@@ -13,6 +13,7 @@
 #import "Message.h"
 #import "CWDataManager.h"
 #import "CWInboxMessagesController.h"
+#import "CWConstants.h"
 
 static const float InboxTableTransitionDuration = 0.3f;
 
@@ -59,6 +60,7 @@ static const float InboxTableTransitionDuration = 0.3f;
     
     [NC addObserver:self selector:@selector(onMessagesLoaded:) name:@"MessagesLoaded" object:nil];
     [NC addObserver:self selector:@selector(onMessagLoadedFailed:) name:@"MessagesLoadFailed" object:nil];
+    [NC addObserver:self selector:@selector(messageSent:) name:CWNotificationMessageSent object:nil];
     
 }
 
@@ -80,8 +82,10 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 //    NSOrderedSet * inboxMessages = [[CWUserManager sharedInstance]] inboxMessages];
 //    [self.messagesLabel setText:[NSString stringWithFormat:@"%lu Messages", (unsigned long)inboxMessages.count]];
+    self.distinctUserMessages = [AOFetchUtilities fetchGroupBySenderID];
     
     [self.usersTableView reloadData];
+    [self.messagesController.tableView reloadData];
     if (self.refreshControl.isRefreshing) {
         [self.refreshControl endRefreshing];
     }
@@ -96,6 +100,10 @@ static const float InboxTableTransitionDuration = 0.3f;
 - (void)handleRefresh:(UIRefreshControl*)r {
 
     [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
+}
+
+- (void)messageSent:(NSNotification *)notification {
+    [self hideMessagesTableAnimated:NO];
 }
 
 #pragma mark - Convenience methods to support group by user
@@ -174,28 +182,32 @@ static const float InboxTableTransitionDuration = 0.3f;
     }
 }
 
-
 #pragma mark - CWUserCell UI convenience methods
 
 
 - (void)configureCell:(CWMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath {
  
-    NSDictionary *resultsForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
-    NSString *senderID = [resultsForSender objectForKey:@"senderID"];
+    NSArray *messagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
+    //NSString *senderID = [resultsForSender objectForKey:@"senderID"];
     
-    Message *message = [Message messageFromSenderID:senderID andTimestamp:[resultsForSender objectForKey:@"maxTimestamp"]];
-    [cell setMessage:message];
-    
-    // Let's see if we need to show a red dot for this user
-    NSInteger numberOfUnread = [CWUserManager numberOfUnreadMessagesForRecipient:senderID];
-    if (numberOfUnread > 0) {
+    if ([messagesForSender count]) {
+        //Message *message = [Message messageFromSenderID:senderID andTimestamp:[resultsForSender objectForKey:@"maxTimestamp"]];
+        Message *message = [messagesForSender objectAtIndex:0];
+        [cell setMessage:message];
         
-        // Hacking unopened b/c that results in a red dot appearing
-        [cell configureStatusFromMessageViewedState:eMessageViewedStateUnOpened];
+        // Let's see if we need to show a red dot for this user
+        NSInteger numberOfUnread = [CWUserManager numberOfUnreadMessagesForRecipient:message.senderID];
+        if (numberOfUnread > 0) {
+            
+            // Hacking unopened b/c that results in a red dot appearing
+            [cell configureStatusFromMessageViewedState:eMessageViewedStateUnOpened];
+        }
+        else {
+            [cell configureStatusFromMessageViewedState:eMessageViewedStateRead];
+        }
+
     }
-    else {
-        [cell configureStatusFromMessageViewedState:eMessageViewedStateRead];
-    }
+    
 }
 
 - (void)updateCellState:(CWUserCell *)cell withMessage:(Message *)message {
@@ -210,8 +222,8 @@ static const float InboxTableTransitionDuration = 0.3f;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSDictionary *resultsForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
-    NSArray *arrayOfMessagesForSender = [AOFetchUtilities fetchMessagesForUser:[resultsForSender objectForKey:@"senderID"]];
+    //NSDictionary *arrayOfMessagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
+    NSArray *arrayOfMessagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];//[AOFetchUtilities fetchMessagesForSender:[resultsForSender objectForKey:@"senderID"]];
     
     if ([arrayOfMessagesForSender count] == 1) {
         Message *message = [arrayOfMessagesForSender objectAtIndex:0];

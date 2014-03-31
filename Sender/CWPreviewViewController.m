@@ -215,7 +215,11 @@
         if (thumbnail) {
             
             // Uploading as a profile picture & thumbnail image
-            [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:[[CWUserManager sharedInstance] localUserID] completion:nil];
+            if (![[CWUserManager sharedInstance] hasUploadedProfilePicture:sentMessage.senderID]) {
+
+                [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:[[CWUserManager sharedInstance] localUserID] completion:nil];
+            }
+            
             [sentMessage uploadThumbnailImage:thumbnail];
         }
     }];

@@ -14,7 +14,7 @@
 #import "CWUserManager.h"
 #import "CWGroundControlManager.h"
 #import "CWUserDefaultsController.h"
-
+#import "CWConstants.h"
 
 @interface CWMessageSender () <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 
@@ -162,6 +162,7 @@
     
     NSInteger currentSentCount = [CWUserDefaultsController numberOfSentMessages];
     [CWUserDefaultsController setNumberOfSentMessages:++currentSentCount];
+    [NC postNotificationName:CWNotificationMessageSent object:nil];
     
     if (self.delegate) {
         [self.delegate messageSenderDidSucceedMessageSend:self forMessage:self.messageBeingSent];

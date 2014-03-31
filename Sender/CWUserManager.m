@@ -123,7 +123,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 - (void)uploadProfilePicture:(UIImage *)thumbnail forUser:(NSString *)userID completion:(void (^)(NSError * error))completionBlock {
     
-    if (![userID length] || [[CWUserManager sharedInstance] hasUploadedProfilePicture:userID]) {
+    if (![userID length]) {
         return;
     }
     
@@ -201,11 +201,11 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 
 + (NSInteger)numberOfUnreadMessagesForRecipient:(NSString *)userID {
-    NSArray *messagesForUser = [AOFetchUtilities fetchMessagesForUser:userID];
+    NSArray *messagesForUser = [AOFetchUtilities fetchMessagesForSender:userID];
     NSInteger unreadCount = 0;
     
     for (Message *currentMessage in messagesForUser) {
-        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened) {
+        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened && currentMessage.eDownloadState == eMessageDownloadStateDownloaded) {
             unreadCount++;
         }
     }

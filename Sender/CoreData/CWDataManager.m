@@ -62,12 +62,11 @@
     
     Message *message = [Message insertInManagedObjectContext:self.moc];
     message.senderID = senderID;
-    message.timeStamp = [NSDate date];
     message.messageID = [[[NSUUID UUID] UUIDString] lowercaseString];
     
     if(incomingMessage) {
         message.recipientID = incomingMessage.senderID;
-//        message.thread = incomingMessage.thread;
+        message.threadID = incomingMessage.threadID;
         message.replyToMessageID = incomingMessage.messageID;
         message.groupID = incomingMessage.groupID;
         message.threadIndexValue = incomingMessage.threadIndexValue + 1;
