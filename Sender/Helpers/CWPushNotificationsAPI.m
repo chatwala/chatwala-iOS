@@ -36,7 +36,7 @@ static BOOL didRegisterForPushNotifications = NO;
         didRegisterForPushNotifications = YES;
     }
     
-    [CWServerAPI registerPushForUserID:[[CWUserManager sharedInstance] localUser].userID withPushToken:deviceToken withCompletionBlock:^(NSError *error) {
+    [CWServerAPI registerPushForUserID:[[CWUserManager sharedInstance] localUserID] withPushToken:deviceToken withCompletionBlock:^(NSError *error) {
         if (error) {
             NSLog(@"Failed to register push notification, error:  %@",error.localizedDescription);
         }
@@ -54,7 +54,7 @@ static BOOL didRegisterForPushNotifications = NO;
 + (void)handleRemotePushNotification:(NSDictionary *)userInfo completionBlock:(void (^)(UIBackgroundFetchResult))completionHandler {
     if ([userInfo count]) {
         NSLog(@"Received valid remote PUSH notification: %@", userInfo);
-        [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:completionHandler];
+        [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:completionHandler];
     }
     else {
         NSLog(@"Remote notification does not contain user info.");

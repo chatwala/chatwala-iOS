@@ -3,7 +3,7 @@
 //  Sender
 //
 //  Created by Khalid on 11/18/13.
-//  Copyright (c) 2013 pho. All rights reserved.
+//  Copyright (c) 2013 Chatwala. All rights reserved.
 //
 
 #import "CWSSOpenerViewController.h"
@@ -161,8 +161,8 @@
 }
 
 - (void)sendMessage {
-    User *localUser = [[CWUserManager sharedInstance] localUser];
-    Message *message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.activeMessage];
+    NSString *localUserID = [[CWUserManager sharedInstance] localUserID];
+    Message *message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:self.activeMessage];
     
     message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
     message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
@@ -173,24 +173,7 @@
     self.messageSender.messageBeingSent = message;
     self.messageSender.messageBeingRespondedTo = self.activeMessage;
     
-    [self.messageSender sendMessageFromUser:localUser];
-}
-
-- (void)uploadProfilePictureForUser:(User *)user {
-    
-    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user]) {
-        return;//already did this
-    }
-
-    // Setting the recorded video to the player, we should improve this so the player or the recorder can
-    // take a screen capture [RK]
-    
-    [self.player setVideoURL:self.recorder.tempFileURL];
-    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-    
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
-    }];
-    
+    [self.messageSender sendMessageFromUser:localUserID];
 }
 
 #pragma mark - CWMessageSenderDelegate methods
@@ -199,8 +182,25 @@
     [self presentViewController:composerNavController animated:YES completion:nil];
 }
 
-- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
-    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
+- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender forMessage:(Message *)sentMessage {
+
+    // Setting the recorded video to the player, we should improve this so the player or the recorder can also
+    // take a screen capture [RK]
+    [self.player setVideoURL:self.recorder.tempFileURL];
+    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        
+        if (thumbnail) {
+            
+            // Uploading as a profile picture & thumbnail image
+            if (![[CWUserManager sharedInstance] hasUploadedProfilePicture:sentMessage.senderID]) {
+
+                [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:[[CWUserManager sharedInstance] localUserID] completion:nil];
+            }
+            
+            [sentMessage uploadThumbnailImage:thumbnail];
+        }
+    }];
+
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
 

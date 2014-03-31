@@ -10,7 +10,6 @@
 @protocol CWInboxDelegate;
 
 @interface CWInboxViewController : UIViewController
-@property (nonatomic,weak) IBOutlet UITableView * messagesTable;
 @property (nonatomic,weak) IBOutlet UILabel * messagesLabel;
 @property (nonatomic,weak) IBOutlet UIButton * plusButton;
 @property (nonatomic,weak) IBOutlet UIButton * settingsButton;
@@ -21,6 +20,9 @@
 
 
 @protocol CWInboxDelegate <NSObject>
-- (void)inboxViewController:(CWInboxViewController*)inboxVC didSelectButton:(UIButton*)button;
-- (void)inboxViewController:(CWInboxViewController*)inboxVC didSelectMessage:(Message *)message;
+
+@required
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectTopButton:(UIButton *)button;
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectSettingsButton:(UIButton *)button;
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectMessage:(Message *)message;
 @end

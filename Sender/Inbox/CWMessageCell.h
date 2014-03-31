@@ -7,13 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Message.h"
 @class Message;
 
 typedef void (^AFNetworkingSuccessBlock)(NSURLRequest *request, NSHTTPURLResponse *response, UIImage *image);
 typedef void (^AFNetworkingFailureBlock)(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error);
 
 @interface CWMessageCell : UITableViewCell
-- (void) setMessage:(Message *) message;
+
++ (NSString *)cellIdentifier;
+- (void)setMessage:(Message *) message;
+- (void)configureStatusFromMessageViewedState:(eMessageViewedState)viewedState;
+- (NSURL *)thumbnailURLFromMessage:(Message *)message;
 
 @property (nonatomic,strong) UIImageView * thumbView;
 @property (nonatomic,assign) CGFloat progress;

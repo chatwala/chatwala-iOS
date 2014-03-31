@@ -3,6 +3,7 @@
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
 #import "NSDictionary+LookUpTable.h"
+#import "CWServerAPI.h"
 
 @interface Message ()
 
@@ -13,19 +14,21 @@
 @synthesize videoURL;
 @synthesize zipURL;
 @synthesize lastFrameImage;
+@synthesize thumbnailUploadURLString;
 
 // Custom logic goes here.
 
-+ (NSDictionary *) keyLookupTable
-{
++ (NSDictionary *) keyLookupTable {
+
     return @{
+             @"user_thumbnail_url" : MessageAttributes.userThumbnailURL,
+             @"recipient_id" : MessageAttributes.recipientID,
+             @"sender_id"   : MessageAttributes.senderID,
+             @"thread_id"   : MessageAttributes.threadID,
              @"group_id" : MessageAttributes.groupID,
              @"replying_to_message_id" : MessageAttributes.replyToMessageID,
-             @"thread_id" : MessageRelationships.thread,
              @"thread_index" : MessageAttributes.threadIndex,
              @"message_id" : MessageAttributes.messageID,
-             @"recipient_id" : MessageRelationships.recipient,
-             @"sender_id" : MessageRelationships.sender,
              @"thumbnail_url" : MessageAttributes.thumbnailPictureURL,
              @"timestamp" : MessageAttributes.timeStamp,
              @"start_recording" : MessageAttributes.startRecording,
@@ -48,7 +51,10 @@
              abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
              */
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            //abort();
+            
+#if defined USE_DEV_SERVER  || defined USE_QA_SERVER
+            abort();
+#endif
         } 
     }
 }
@@ -82,6 +88,12 @@
 - (void)setEMessageDownloadState:(eMessageDownloadState)eState {
     self.downloadStateValue = eState;
     [self saveContext];
+}
+
+- (void)uploadThumbnailImage:(UIImage *)image {
+    
+    // Kick off a CWServerAPI thumbnail request
+    [CWServerAPI uploadMessageThumbnail:image toURL:self.thumbnailUploadURLString withCompletionBlock:nil];
 }
 
 - (void) exportZip
@@ -143,36 +155,36 @@
     [jsonDict setObject:intervalString forKey:MessageAttributes.timeStamp];
 
     
-    NSDictionary *relationships = [[self entity] relationshipsByName];
+    //NSDictionary *relationships = [[self entity] relationshipsByName];
     
-    for (NSString *relation in relationships) {
-        id value = [self valueForKey:relation];
-        
-        if (value == nil) {
-            value = [NSNull null];
-            continue;
-        }
-        NSRelationshipDescription * relationDescription = [relationships objectForKey:relation];
-        
-        NSEntityDescription * entityDescription = [relationDescription destinationEntity];
-        
-        if([entityDescription.name isEqualToString:[User entityName]])
-        {
-            User * user = value;
-            value = user.userID;
-        }
-        else if([entityDescription.name isEqualToString:[Thread entityName]])
-        {
-            Thread * thread = value;
-            value = thread.threadID;
-        }
-        else
-        {
-            NSAssert(0==1, @"unexpected relation: %@ with value: %@", relation, value);
-        }
-        
-        [jsonDict setValue:value forKey:relation];
-    }
+//    for (NSString *relation in relationships) {
+//        id value = [self valueForKey:relation];
+//        
+//        if (value == nil) {
+//            value = [NSNull null];
+//            continue;
+//        }
+//        NSRelationshipDescription * relationDescription = [relationships objectForKey:relation];
+//        
+//        NSEntityDescription * entityDescription = [relationDescription destinationEntity];
+//        
+//        if([entityDescription.name isEqualToString:[User entityName]])
+//        {
+//            User * user = value;
+//            value = user.userID;
+//        }
+//        else if([entityDescription.name isEqualToString:[Thread entityName]])
+//        {
+//            Thread * thread = value;
+//            value = thread.threadID;
+//        }
+//        else
+//        {
+//            NSAssert(0==1, @"unexpected relation: %@ with value: %@", relation, value);
+//        }
+//        
+//        [jsonDict setValue:value forKey:relation];
+//    }
     NSArray * whiteList = [self.class attributesAndRelationshipsToArchive];
     NSMutableArray * objectKeysToRemove = [jsonDict.allKeys mutableCopy];
     [objectKeysToRemove removeObjectsInArray:whiteList];
@@ -187,6 +199,9 @@
 + (NSArray *) attributesAndRelationshipsToArchive
 {
     return @[
+             MessageAttributes.senderID,
+             MessageAttributes.recipientID,
+             MessageAttributes.threadID,
              MessageAttributes.groupID,
              MessageAttributes.readURL,
              MessageAttributes.replyToMessageID,
@@ -195,10 +210,7 @@
              MessageAttributes.startRecording,
              MessageAttributes.timeStamp,
              MessageAttributes.thumbnailPictureURL,
-             MessageAttributes.storageShardKey,
-             MessageRelationships.thread,
-             MessageRelationships.recipient,
-             MessageRelationships.sender,
+             MessageAttributes.storageShardKey
              ];
 }
 
@@ -206,6 +218,10 @@
 + (NSDictionary *) reverseKeyLookupTable
 {
     return @{
+             MessageAttributes.userThumbnailURL : @"user_thumbnail_url",
+             MessageAttributes.threadID : @"thread_id",
+             MessageAttributes.recipientID : @"recipient_id",
+             MessageAttributes.senderID : @"sender_id",
              MessageAttributes.groupID : @"group_id",
              MessageAttributes.readURL : @"read_url",
              MessageAttributes.replyToMessageID : @"replying_to_message_id",
@@ -216,11 +232,7 @@
              MessageAttributes.threadIndex : @"thread_index",
              MessageAttributes.viewedState : @"viewed_state",
              MessageAttributes.downloadState : @"download_state",
-             MessageAttributes.storageShardKey : @"blob_storage_shard_key",
-             MessageRelationships.recipient : @"recipient_id",
-             MessageRelationships.sender : @"sender_id",
-             MessageRelationships.thread : @"thread_id",
-             
+             MessageAttributes.storageShardKey : @"blob_storage_shard_key"
              };
 }
 

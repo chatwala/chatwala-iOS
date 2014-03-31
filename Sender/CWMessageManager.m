@@ -3,7 +3,7 @@
 //  Sender
 //
 //  Created by Khalid on 12/18/13.
-//  Copyright (c) 2013 pho. All rights reserved.
+//  Copyright (c) 2013 Chatwala. All rights reserved.
 //
 
 #import "CWMessageManager.h"
@@ -99,15 +99,14 @@
     return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
 }
 
-- (void)getMessagesForUser:(User *)user withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
-    NSString *user_id = user.userID;
+- (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
     
-    if (![user_id length]) {
+    if (![userID length]) {
         return;
     }
     else {
         
-        [CWServerAPI getInboxForUserID:user_id withCompletionBlock:^(NSArray *messages, NSError *error) {
+        [CWServerAPI getInboxForUserID:userID withCompletionBlock:^(NSArray *messages, NSError *error) {
             
             if (error) {
                 // TODO;
@@ -149,7 +148,7 @@
                         }
                     }
                     
-                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+                    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance] numberOfTotalUnreadMessages]];
                     [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
                 }];
             }
@@ -160,9 +159,9 @@
 
 - (void)addMessageToInbox:(Message *)message {
     
-    if (message && [message.recipient.userID isEqualToString:CWConstantsUnknownRecipientIDString]) {
+    if (message && [message.recipientID isEqualToString:CWConstantsUnknownRecipientIDString]) {
         NSLog(@"Adding message to inbox...");
-        [CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUser].userID];
+        [CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUserID]];
     }
 }
 
@@ -175,31 +174,6 @@
 }
 
 #pragma mark - Download logic
-
-//- (void)downloadMessages:(NSArray *)messageIDs {
-//    
-//    CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-//    downloader.messageIdsForDownload = messageIDs;
-//    [downloader startWithCompletionBlock:^(NSArray *messagesDownloaded) {
-//        
-//        UIApplicationState state = [[UIApplication sharedApplication] applicationState];
-//        
-//        if ([messagesDownloaded count]) {
-//            NSLog(@"New messages downloaded successfully.");
-//            
-//            if (state == UIApplicationStateBackground || state == UIApplicationStateInactive) {
-//            
-//                [CWPushNotificationsAPI postCompletedMessageFetchLocalNotification];
-//            }
-//        }
-//        else {
-//            NSLog(@"No new messages downloaded after updating user's messages");
-//        }
-//        
-//        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
-//        [NC postNotificationName:@"MessagesLoaded" object:nil userInfo:nil];
-//    }];
-//}
 
 - (NSArray *)messageIDsFromResponse:(NSArray *)messages {
     
@@ -221,30 +195,6 @@
     });
 }
 
-#pragma mark - UITableViewDataSource delegate methods
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    messageTable = tableView;
-    return 1;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    CWMessageCell * cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell"];
-    User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSOrderedSet * inboxMessages = [localUser inboxMessages];
-    Message * message = [inboxMessages objectAtIndex:indexPath.row];
-    [cell setMessage:message];
-    return cell;
-}
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    User * localUser = [[CWUserManager sharedInstance] localUser];
-    NSOrderedSet * inboxMessages = [localUser inboxMessages];
-    return inboxMessages.count;
-}
-
 #pragma mark - MessageID Server Fetches
 
 - (void)fetchUploadURLForReplyMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
@@ -254,7 +204,7 @@
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     NSString *endPoint = [self.messagesEndPoint stringByAppendingString:@"/startReplyMessageSend"];
     
-    NSDictionary *params = @{@"user_id" : message.sender.userID,
+    NSDictionary *params = @{@"user_id" : message.senderID,
                              @"replying_to_message_id" : message.replyToMessageID,
                              @"message_id" : message.messageID,
                              @"start_recording":  message.startRecording};
@@ -265,6 +215,7 @@
 
         NSString *sasUploadUrl = [responseObject valueForKey:@"write_url"];
         Message *replyMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:[responseObject objectForKey:@"message_meta_data"] error:nil];
+        replyMessage.thumbnailUploadURLString = [responseObject objectForKey:@"message_thumbnail_write_url"];
         
         NSLog(@"Fetched reply message upload URL: %@ for messageID: %@", sasUploadUrl, message.messageID);
         if (completionBlock) {
@@ -281,7 +232,7 @@
     }];
 }
 
-- (void)fetchUploadURLForOriginalMessage:(User *)localUser completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
+- (void)fetchUploadURLForOriginalMessage:(NSString *)userID completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
     
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
 
@@ -311,7 +262,7 @@
     NSString *endPoint = [self.messagesEndPoint stringByAppendingString:@"/startUnknownRecipientMessageSend"];
     
     
-    NSDictionary *params = @{@"sender_id" : localUser.userID, @"message_id" : newMessageID};
+    NSDictionary *params = @{@"sender_id" : userID, @"message_id" : newMessageID};
     NSLog(@"Starting original message send with params: %@", params);
     
     
@@ -320,6 +271,7 @@
         self.needsOriginalMessageUploadURL = NO;
         self.tempUploadURLString = [responseObject valueForKey:@"write_url"];
         self.tempOriginalMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:[responseObject objectForKey:@"message_meta_data"] error:nil];
+        self.tempOriginalMessage.thumbnailUploadURLString = [responseObject objectForKey:@"message_thumbnail_write_url"];
         
         NSLog(@"Fetched original message upload URL: %@: for new original message ID: %@",self.tempUploadURLString, self.tempOriginalMessage.messageID);
         

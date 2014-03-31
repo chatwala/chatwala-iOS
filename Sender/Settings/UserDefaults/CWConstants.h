@@ -11,6 +11,7 @@
 /* =========================================================================================*/
 extern NSString *const CWNotificationInboxViewControllerShouldOpenInbox;
 extern NSString *const CWNotificationCopyUpdateFromUrlScheme;
+extern NSString *const CWNotificationMessageSent;
 
 /* Notification user info keys */
 /* =========================================================================================*/
@@ -22,6 +23,7 @@ extern NSString *const CWConstantsURLSchemeCopyUpdateKey;
 extern NSString *const CWConstantsChatwalaAPIKeySecretHeaderField;
 extern NSString *const CWConstantsChatwalaAPIKey;
 extern NSString *const CWConstantsChatwalaAPISecret;
+extern NSString *const CWConstantsChatwalaVersionHeaderField;
 extern NSString *const CWConstantsUnknownRecipientIDString;
 
 /* User Defaults */
@@ -29,6 +31,7 @@ extern NSString *const CWConstantsUnknownRecipientIDString;
 // This contains NSUserDefault keys used by the defaults controller to persist user settings
 extern NSString *const CWUserDefaultsUserIDKey;
 extern NSString *const CWUserDefaultsShouldShowPreviewKey;
+extern NSString *const CWUserDefaultsNumberOfSentMessagesKey;
 
 // Profile picture
 extern NSString *const CWUserDefaultsProfilePictureURLKey;

@@ -3,7 +3,7 @@
 //  Sender
 //
 //  Created by randall chatwala on 1/8/14.
-//  Copyright (c) 2014 pho. All rights reserved.
+//  Copyright (c) 2014 Chatwala. All rights reserved.
 //
 
 #import "CWDataManager.h"
@@ -25,33 +25,12 @@
 
 #pragma mark - find functions
 
-
-- (Thread *) findThreadByThreadID:(NSString*) threadID
-{
-    Thread * item = (Thread *)[self findObject:[Thread class] byAttribute:ThreadAttributes.threadID withValue:threadID];
-    if(item)
-    {
-        NSAssert([item isKindOfClass:[Thread class]], @"expecting to get a Thread object. found :%@", item);
-    }
-    return item;
-}
-
-- (Message *) findMessageByMessageID:(NSString*) messageID
-{
+- (Message *) findMessageByMessageID:(NSString*) messageID {
+    
     Message * item = (Message *)[self findObject:[Message class] byAttribute:MessageAttributes.messageID withValue:messageID];
     if(item)
     {
         NSAssert([item isKindOfClass:[Message class]], @"expecting to get a Message object. found :%@", item);
-    }
-    return item;
-}
-
-- (User *) findUserByUserID:(NSString *) userID
-{
-    User * item = (User *)[self findObject:[User class] byAttribute:UserAttributes.userID withValue:userID];
-    if(item)
-    {
-        NSAssert([item isKindOfClass:[User class]], @"expecting to get a User object. found :%@", item);
     }
     return item;
 }
@@ -79,52 +58,21 @@
 
 #pragma mark - import data
 
-- (Thread *) createThreadWithID:(NSString *) threadID
-{
-    if(nil == threadID)
-    {
-        return nil;
-    }
-    Thread * thread = [self findThreadByThreadID:threadID];
-    if(!thread)
-    {
-        thread = [Thread insertInManagedObjectContext:self.moc];
-        thread.threadID = threadID;
-    }
-    return thread;
-}
-
-- (User *) createUserWithID:(NSString *) userID
-{
-    if(nil == userID)
-    {
-        return nil;
-    }
-    User * user = [self findUserByUserID:userID];
-    if(!user)
-    {
-        user = [User insertInManagedObjectContext:self.moc];
-        user.userID = userID;
-    }
-    return user;
-}
-
-- (Message *) createMessageWithSender:(User *)sender inResponseToIncomingMessage:(Message *) incomingMessage {
+- (Message *)createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage {
     
     Message *message = [Message insertInManagedObjectContext:self.moc];
-    message.sender = sender;
-    message.timeStamp = [NSDate date];
+    message.senderID = senderID;
     message.messageID = [[[NSUUID UUID] UUIDString] lowercaseString];
     
     if(incomingMessage) {
-        message.recipient = incomingMessage.sender;
-        message.thread = incomingMessage.thread;
+        message.recipientID = incomingMessage.senderID;
+        message.threadID = incomingMessage.threadID;
         message.replyToMessageID = incomingMessage.messageID;
         message.groupID = incomingMessage.groupID;
         message.threadIndexValue = incomingMessage.threadIndexValue + 1;
     }
     else {
-        message.thread = [self createThreadWithID:[[[NSUUID UUID] UUIDString] lowercaseString]];
+        message.threadID = [[[NSUUID UUID] UUIDString] lowercaseString];
     }
     return message;
 }
@@ -156,17 +104,7 @@
     
     [item fromDictionary:sourceDictionary withDateFormatter:[CWDataManager dateFormatter] error:error] ;
     
-    //add users
-    NSString * senderID = [sourceDictionary objectForKey:MessageRelationships.sender withLUT:[Message keyLookupTable]];
-    User * sender = [self createUserWithID:senderID];
-    [item setSender:sender];
-    
-    NSString * receipientID = [sourceDictionary objectForKey:MessageRelationships.recipient withLUT:[Message keyLookupTable]];
-    item.recipient = [self createUserWithID:receipientID];
-    
-    //add thread
-    NSString * threadID = [sourceDictionary objectForKey:MessageRelationships.thread withLUT:[Message keyLookupTable]];
-    item.thread = [self createThreadWithID:threadID];
+ 
     error = nil;
     
     return item;
@@ -256,7 +194,10 @@
 
 - (void)setupCoreData {
 
-    [AOCoreDataStackUtilities createCoreDataStackWithModelName:@"ChatwalaModel" andConcurrencyType:NSMainQueueConcurrencyType options:@{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES} andCompletionHandler:^(NSManagedObjectContext *moc, NSError *error, NSURL *storeURL) {
+    [AOCoreDataStackUtilities createCoreDataStackWithModelName:@"ChatwalaModel"
+                                            andConcurrencyType:NSMainQueueConcurrencyType
+                                                       options:@{NSMigratePersistentStoresAutomaticallyOption:@YES}
+                                          andCompletionHandler:^(NSManagedObjectContext *moc, NSError *error, NSURL *storeURL) {
      
         self.moc = moc;
         
@@ -269,9 +210,8 @@
             NSLog(@"copy core data store to %@", newURL);
             NSError * error = nil;
             [[NSFileManager defaultManager] moveItemAtURL:storeURL toURL:newURL error:&error];
-            NSAssert(!error, @"error: %@ backing up save file: %@", error, storeURL);
+
             
-            abort();
 
         }
     }];

@@ -7,14 +7,14 @@
 //
 
 #import "CWMessageSender.h"
-#import "User.h"
 #import "Message.h"
 #import "CWDataManager.h"
 #import "CWMessageManager.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWUserManager.h"
 #import "CWGroundControlManager.h"
-
+#import "CWUserDefaultsController.h"
+#import "CWConstants.h"
 
 @interface CWMessageSender () <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 
@@ -27,7 +27,7 @@
 
 #pragma mark - Public API
 
-- (void)sendMessageFromUser:(User *)localUser {
+- (void)sendMessageFromUser:(NSString *)userID {
     
     if (!self.delegate) {
         return;
@@ -62,7 +62,7 @@
     }
     else {
         
-        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:localUser completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
+        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:userID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
             if (message) {
 
                 message.videoURL = self.messageBeingSent.videoURL;
@@ -160,8 +160,12 @@
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
     
+    NSInteger currentSentCount = [CWUserDefaultsController numberOfSentMessages];
+    [CWUserDefaultsController setNumberOfSentMessages:++currentSentCount];
+    [NC postNotificationName:CWNotificationMessageSent object:nil];
+    
     if (self.delegate) {
-        [self.delegate messageSenderDidSucceedMessageSend:self];
+        [self.delegate messageSenderDidSucceedMessageSend:self forMessage:self.messageBeingSent];
         self.delegate = nil;
     }
     

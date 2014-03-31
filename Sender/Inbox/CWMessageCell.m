@@ -8,7 +8,6 @@
 
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
-#import "Message.h"
 #import "UIColor+Additions.h"
 #import "CWMessageManager.h"
 #import "SDWebImageManager.h"
@@ -24,8 +23,8 @@
 
 @implementation CWMessageCell
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
@@ -56,13 +55,12 @@
         self.statusImage.center = CGPointMake(CGRectGetMaxX(self.thumbView.bounds) - 9 - self.statusImage.bounds.size.width/2, CGRectGetMidY(self.thumbView.bounds) - 1);
         [self addSubview:self.statusImage];
 
-        const CGFloat fontSize = 14;
+        const CGFloat fontSize = 14.0f;
         CGRect labelFrame =CGRectMake(0.0f, CGRectGetMaxY(self.statusImage.frame) - fontSize + 2, CGRectGetMinX(self.statusImage.frame) - 6, fontSize);
         
         self.sentTimeLabel = [[UILabel alloc] initWithFrame:labelFrame];
         self.sentTimeLabel.font = [UIFont fontWithName:@"Avenir-Heavy" size:fontSize];
         self.sentTimeLabel.textAlignment = NSTextAlignmentRight;
-        self.sentTimeLabel.text = @"3w";
         self.sentTimeLabel.textColor = [UIColor chatwalaSentTimeText];
         
         [self addSubview:self.sentTimeLabel];
@@ -71,22 +69,27 @@
     return self;
 }
 
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-    if (selected) {
-        [self.spinner startAnimating];
-    }
-}
-
 - (void)prepareForReuse {
     [super prepareForReuse];
     [self.spinner stopAnimating];
+    [self.sentTimeLabel setText:@""];
+}
+
++ (NSString *)cellIdentifier {
+    return @"messageCell";
 }
 
 - (void)setMessage:(Message *) message {
     
-    NSURL * imageURL = [NSURL URLWithString:message.thumbnailPictureURL];
+    [self fetchThumbnailForMessage:message];
+    
+    NSString * timeValue = [self timeStringFromDate:message.timeStamp];
+    self.sentTimeLabel.text = timeValue;
+}
+
+- (void)fetchThumbnailForMessage:(Message *)message {
+    
+    NSURL * imageURL = [self thumbnailURLFromMessage:message];
     [self.spinner startAnimating];
     
     UIImage *placeholder = [UIImage imageNamed:@"message_thumb"];
@@ -96,16 +99,15 @@
     
     SDWebImageDownloader *manager = [SDWebImageManager sharedManager].imageDownloader;
     [manager setValue:[NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret] forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
-
+    
     __block CWMessageCell *blockSelf = self;
     
     [self.thumbView setImageWithURL:imageURL placeholderImage:placeholder options:SDWebImageRetryFailed | SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
-
+        
         [blockSelf.spinner stopAnimating];
         
         if (error) {
             NSLog(@"Error fetching image from URL:  %@", imageURL);
-            NSLog(@"Image cache type was: %ld and error was: %@", cacheType, error.localizedDescription);
         }
         else {
             
@@ -122,8 +124,16 @@
             NSLog(@"Successfully fetched image from %@", cacheTypeString);
         }
     }];
+
+}
+
+- (NSURL *)thumbnailURLFromMessage:(Message *)message {
+    return [NSURL URLWithString:message.thumbnailPictureURL];
+}
+
+- (void)configureStatusFromMessageViewedState:(eMessageViewedState)viewedState {
     
-    switch ([message eMessageViewedState]) {
+    switch (viewedState) {
         default:
         case eMessageViewedStateRead:
         case eMessageViewedStateOpened:
@@ -138,8 +148,6 @@
             self.statusImage.hidden = NO;
             break;
     }
-    NSString * timeValue = [self timeStringFromDate:message.timeStamp];
-    self.sentTimeLabel.text = timeValue;
 }
 
 - (NSString *) timeStringFromDate:(NSDate *) timeStamp {

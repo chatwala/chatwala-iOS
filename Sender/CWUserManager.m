@@ -26,7 +26,6 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 @interface CWUserManager()
 
-@property (nonatomic) User *localUser;
 
 @end
 
@@ -45,21 +44,22 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
     self = [super init];
     if (self) {
-        [self setupHttpAuthHeaders];
+        [self setupHttpHeaders];
 
-        if (!self.localUser) {
+        if (!self.localUserID) {
             [self createNewLocalUser];
         }
     }
     return self;
 }
 
-- (void)setupHttpAuthHeaders {
+- (void)setupHttpHeaders {
     
     NSString * keyAndSecret = [NSString stringWithFormat:@"%@:%@", CWConstantsChatwalaAPIKey, CWConstantsChatwalaAPISecret];
 
     self.requestHeaderSerializer = [AFHTTPRequestSerializer serializer];
     [self.requestHeaderSerializer setValue:keyAndSecret forHTTPHeaderField:CWConstantsChatwalaAPIKeySecretHeaderField];
+    [self.requestHeaderSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:CWConstantsChatwalaVersionHeaderField];
 }
 
 - (void)addRequestHeadersToURLRequest:(NSMutableURLRequest *) request {
@@ -75,17 +75,8 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 }
 
 
-- (User *)localUser {
-    
-    NSString *existingUserId = [CWUserDefaultsController userID];
-    
-    if ([existingUserId length]) {
-        _localUser = [[CWDataManager sharedInstance] createUserWithID:existingUserId];
-        return _localUser;
-    }
-    else {
-        return nil;
-    }
+- (NSString *)localUserID {
+    return [CWUserDefaultsController userID];
 }
 
 - (void)createNewLocalUser {
@@ -93,17 +84,17 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     NSString *newUserID = [[[NSUUID UUID] UUIDString] lowercaseString];
     NSLog(@"Generated new user id: %@",newUserID);
     
-    self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
+    //self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
     [CWUserDefaultsController setUserID:newUserID];
 }
 
-- (BOOL) hasApprovedProfilePicture:(User *) user
-{
+- (BOOL) hasApprovedProfilePicture:(NSString *) user {
+    
     BOOL approved = [[NSUserDefaults standardUserDefaults] boolForKey:kApprovedProfilePictureKey];
     return approved;
 }
 
-- (void) approveProfilePicture:(User *) user {
+- (void) approveProfilePicture:(NSString *) user {
     
     if (!user) {
         return;
@@ -113,7 +104,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (BOOL) hasUploadedProfilePicture:(User *) user
+- (BOOL) hasUploadedProfilePicture:(NSString *)userID
 {
     if([[[NSUserDefaults standardUserDefaults] objectForKey:kUploadedProfilePictureKey] boolValue])
 
@@ -123,7 +114,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return NO;
 }
 
-- (NSString *) getProfilePictureEndPointForUser:(User *) user {
+- (NSString *) getProfilePictureEndPointForUser:(NSString *)userID {
     //NSString * user_id = user.userID;
     
     //NSString * endPoint = [NSString stringWithFormat:[[CWMessageManager sharedInstance] putUserProfileEndPoint] , user_id];
@@ -131,13 +122,13 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 }
 
 
-- (void)uploadProfilePicture:(UIImage *) thumbnail forUser:(User *) user completion:(void (^)(NSError * error))completionBlock {
+- (void)uploadProfilePicture:(UIImage *)thumbnail forUser:(NSString *)userID completion:(void (^)(NSError * error))completionBlock {
     
-    if (![user.userID length]) {
+    if (![userID length]) {
         return;
     }
     
-    [CWServerAPI uploadProfilePicture:thumbnail forUserID:user.userID withCompletionBlock:^(NSError *error) {
+    [CWServerAPI uploadProfilePicture:thumbnail forUserID:userID withCompletionBlock:^(NSError *error) {
 
         if (error) {
             NSLog(@"Error: %@", error);
@@ -147,7 +138,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
             }
         } else {
 
-            NSLog(@"Successfully upload profile picture for user: %@", user.userID);
+            NSLog(@"Successfully uploaded profile picture for user: %@", userID);
             [[NSUserDefaults standardUserDefaults] setObject:@(YES) forKey:kUploadedProfilePictureKey];
             [[NSUserDefaults standardUserDefaults] synchronize];
             
@@ -159,14 +150,14 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 }
 
 
-- (BOOL) shouldRequestAppFeedback
-{
+- (BOOL) shouldRequestAppFeedback {
+
     if([self appVersionOfAppFeedbackRequest])
     {
         return NO;
     }
     NSInteger requestAppFeedbackThreshold = [[[CWGroundControlManager sharedInstance] appFeedbackSentMessageThreshold] integerValue];
-    if(self.localUser.messagesSent.count < requestAppFeedbackThreshold)
+    if([CWUserDefaultsController numberOfSentMessages] < requestAppFeedbackThreshold)
     {
         return NO;
     }
@@ -174,8 +165,8 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return YES;
 }
 
-- (void) didRequestAppFeedback
-{
+- (void) didRequestAppFeedback {
+    
     NSString * buildVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     [[NSUserDefaults standardUserDefaults] setObject:buildVersion forKey:kAppVersionOfFeedbackRequestedKey];
 }
@@ -202,6 +193,25 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 - (BOOL) newMessageDeliveryMethodIsSMS
 {
     return [[self newMessageDeliveryMethod] isEqualToString:kNewMessageDeliveryMethodValueSMS];
+}
+
+- (NSInteger) numberOfTotalUnreadMessages {
+
+    return [AOFetchUtilities totalUnreadMessagesForRecipient:self.localUserID];
+}
+
+
++ (NSInteger)numberOfUnreadMessagesForRecipient:(NSString *)userID {
+    NSArray *messagesForUser = [AOFetchUtilities fetchMessagesForSender:userID];
+    NSInteger unreadCount = 0;
+    
+    for (Message *currentMessage in messagesForUser) {
+        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened && currentMessage.eDownloadState == eMessageDownloadStateDownloaded) {
+            unreadCount++;
+        }
+    }
+    
+    return unreadCount;
 }
 
 @end

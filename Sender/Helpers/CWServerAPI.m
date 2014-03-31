@@ -181,7 +181,6 @@ AFURLSessionManager *BackgroundSessionManager;
     
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
     
     NSString *serverAction = (isReply ? CompleteReplyMessageEndpoint : CompleteOriginalMessageEndpoint);
     NSString *endPoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:serverAction];
@@ -209,7 +208,7 @@ AFURLSessionManager *BackgroundSessionManager;
     }];
 }
 
-#pragma mark - Profile Picture API
+#pragma mark - Thumbnail API
 
 + (void)getProfilePictureReadURLForUser:(NSString *)userID withCompletionBlock:(CWServerGetProfilePictureURLCompletionBlock)completionBlock {
     
@@ -218,8 +217,6 @@ AFURLSessionManager *BackgroundSessionManager;
     
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
-    
     
     NSString *endPoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:GetProfilePictureReadURLEndpoint];
     
@@ -261,9 +258,9 @@ AFURLSessionManager *BackgroundSessionManager;
         }
         else {
 
-            NSLog(@"thumbnail created:%@", thumbnail);
+            NSLog(@"profile thumbnail created:%@", thumbnail);
             
-            NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"thumbnailImage.png"];
+            NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"user_thumbnailImage.png"];
             [UIImageJPEGRepresentation(thumbnail, 1.0) writeToURL:thumbnailURL atomically:YES];
             
             NSString *endPoint = tempUploadUrl;
@@ -288,7 +285,7 @@ AFURLSessionManager *BackgroundSessionManager;
                         completionBlock(error);
                     }
                 } else {
-                    NSLog(@"Successfully upload profile picture: %@ %@", response, responseObject);
+                    NSLog(@"Successfully uploaded profile picture: %@ %@", response, responseObject);
                     
                     if (completionBlock) {
                         completionBlock(nil);
@@ -345,7 +342,47 @@ AFURLSessionManager *BackgroundSessionManager;
     }];
 }
 
-#pragma mark - Push Notification & finalization calls 
++ (void)uploadMessageThumbnail:(UIImage *)thumbnail toURL:(NSString *)uploadURLString withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock {
+    
+    NSLog(@"Message thumbnail created:%@", thumbnail);
+    
+    NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"message_thumbnailImage.png"];
+    [UIImageJPEGRepresentation(thumbnail, 1.0) writeToURL:thumbnailURL atomically:YES];
+    
+    NSString *endPoint = uploadURLString;
+    NSLog(@"Starting message thumbnail upload to sasURL: %@", endPoint);
+    
+    NSURL *URL = [NSURL URLWithString:endPoint];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
+    [request setHTTPMethod:@"PUT"];
+    [request addValue:@"BlockBlob" forHTTPHeaderField:@"x-ms-blob-type"];
+    [request addValue:@"image/jpeg" forHTTPHeaderField:@"Content-Type"];
+    
+    [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
+    AFURLSessionManager * mgr = [self sessionManager];
+    
+    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+        
+        NSHTTPURLResponse *pictureUploadResponse = (NSHTTPURLResponse *)response;
+        if (pictureUploadResponse.statusCode != 201) {
+            NSLog(@"Error uploading message thumbnial: %@", error);
+            
+            if (completionBlock) {
+                completionBlock(error);
+            }
+        } else {
+            NSLog(@"Successfully uploaded message thumbnail: %@ %@", response, responseObject);
+            
+            if (completionBlock) {
+                completionBlock(nil);
+            }
+        }
+    }];
+    
+    [task resume];
+};
+
+#pragma mark - Push Notification & finalization calls
 
 + (void)registerPushForUserID:(NSString *)userID withPushToken:(NSString *)pushToken withCompletionBlock:(CWServerPushRegisterCompletionBlock)completionBlock {
 
@@ -369,7 +406,6 @@ AFURLSessionManager *BackgroundSessionManager;
     
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
-    [requestManager.requestSerializer setValue:[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"] forHTTPHeaderField:[CWServerAPI versionHeaderFieldString]];
     
     NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:PushRegisterEndpoint];
     [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {

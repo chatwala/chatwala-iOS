@@ -6,9 +6,6 @@
 #import "AOManagedObject.h"
 
 
-@class User;
-@class User;
-@class Thread;
 
 
 @protocol _Message <NSObject>
@@ -65,7 +62,25 @@
 
 
 
+@property (nonatomic, strong) NSString* recipientID;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSString* replyToMessageID;
+
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* senderID;
 
 
 
@@ -88,6 +103,15 @@
 
 
 @property (nonatomic, strong) NSString* storageShardKey;
+
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* threadID;
 
 
 
@@ -127,6 +151,15 @@
 
 
 
+@property (nonatomic, strong) NSString* userThumbnailURL;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* viewedState;
 
 
@@ -140,24 +173,6 @@
 
 
 
-
-@property (nonatomic, strong) User *recipient;
-
-
-
-
-
-@property (nonatomic, strong) User *sender;
-
-
-
-
-
-@property (nonatomic, strong) Thread *thread;
-
-
-
-
 @end
 
 
@@ -167,22 +182,20 @@ extern const struct MessageAttributes {
 	__unsafe_unretained NSString *messageID;
 	__unsafe_unretained NSString *messageURL;
 	__unsafe_unretained NSString *readURL;
+	__unsafe_unretained NSString *recipientID;
 	__unsafe_unretained NSString *replyToMessageID;
+	__unsafe_unretained NSString *senderID;
 	__unsafe_unretained NSString *startRecording;
 	__unsafe_unretained NSString *storageShardKey;
+	__unsafe_unretained NSString *threadID;
 	__unsafe_unretained NSString *threadIndex;
 	__unsafe_unretained NSString *thumbnailPictureURL;
 	__unsafe_unretained NSString *timeStamp;
+	__unsafe_unretained NSString *userThumbnailURL;
 	__unsafe_unretained NSString *viewedState;
 } MessageAttributes;
 
 
-
-extern const struct MessageRelationships {
-	__unsafe_unretained NSString *recipient;
-	__unsafe_unretained NSString *sender;
-	__unsafe_unretained NSString *thread;
-} MessageRelationships;
 
 
 
@@ -190,6 +203,14 @@ extern const struct MessageRelationships {
 
 extern const struct MessageUserInfo {
 } MessageUserInfo;
+
+
+
+
+
+
+
+
 
 
 
@@ -285,7 +306,25 @@ extern const struct MessageUserInfo {
 
 
 
+@property (nonatomic, strong) NSString* recipientID;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSString* replyToMessageID;
+
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* senderID;
 
 
 
@@ -310,6 +349,15 @@ extern const struct MessageUserInfo {
 
 
 @property (nonatomic, strong) NSString* storageShardKey;
+
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* threadID;
 
 
 
@@ -351,6 +399,15 @@ extern const struct MessageUserInfo {
 
 
 
+@property (nonatomic, strong) NSString* userThumbnailURL;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSNumber* viewedState;
 
 
@@ -361,24 +418,6 @@ extern const struct MessageUserInfo {
 - (void)setViewedStateValue:(int16_t)value_;
 
 
-
-
-
-
-
-@property (nonatomic, strong) User *recipient;
-
-
-
-
-
-@property (nonatomic, strong) User *sender;
-
-
-
-
-
-@property (nonatomic, strong) Thread *thread;
 
 
 
@@ -425,8 +464,20 @@ extern const struct MessageUserInfo {
 
 
 
+- (NSString*)primitiveRecipientID;
+- (void)setPrimitiveRecipientID:(NSString*)value;
+
+
+
+
 - (NSString*)primitiveReplyToMessageID;
 - (void)setPrimitiveReplyToMessageID:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveSenderID;
+- (void)setPrimitiveSenderID:(NSString*)value;
 
 
 
@@ -442,6 +493,12 @@ extern const struct MessageUserInfo {
 
 - (NSString*)primitiveStorageShardKey;
 - (void)setPrimitiveStorageShardKey:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveThreadID;
+- (void)setPrimitiveThreadID:(NSString*)value;
 
 
 
@@ -467,6 +524,12 @@ extern const struct MessageUserInfo {
 
 
 
+- (NSString*)primitiveUserThumbnailURL;
+- (void)setPrimitiveUserThumbnailURL:(NSString*)value;
+
+
+
+
 - (NSNumber*)primitiveViewedState;
 - (void)setPrimitiveViewedState:(NSNumber*)value;
 
@@ -474,21 +537,6 @@ extern const struct MessageUserInfo {
 - (void)setPrimitiveViewedStateValue:(int16_t)value_;
 
 
-
-
-
-- (User*)primitiveRecipient;
-- (void)setPrimitiveRecipient:(User*)value;
-
-
-
-- (User*)primitiveSender;
-- (void)setPrimitiveSender:(User*)value;
-
-
-
-- (Thread*)primitiveThread;
-- (void)setPrimitiveThread:(Thread*)value;
 
 
 @end

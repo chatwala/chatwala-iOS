@@ -6,9 +6,7 @@
 //  Copyright (c) 2014 pho. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "User.h"
-#import "Thread.h"
+#import "Message.h"
 
 @interface CWDataManager : NSObject
 + (id)sharedInstance;
@@ -19,12 +17,12 @@
 - (Message *) importMessageAtFilePath:(NSURL *) filePath withError:(NSError **)error;
 
 - (Message *) findMessageByMessageID:(NSString*) messageID;
-- (User *) findUserByUserID:(NSString *) userID;
-- (User *) createUserWithID:(NSString *) userID;
-- (Thread *) findThreadByThreadID:(NSString*) threadID;
-- (Thread *) createThreadWithID:(NSString *) threadID;
+//- (User *) findUserByUserID:(NSString *) userID;
+//- (User *) createUserWithID:(NSString *) userID;
+//- (Thread *) findThreadByThreadID:(NSString*) threadID;
+//- (Thread *) createThreadWithID:(NSString *) threadID;
 
-- (Message *) createMessageWithSender:(User *) sender inResponseToIncomingMessage:(Message *) incomingMessage;
+- (Message *) createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage;
 - (Message *) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error;
 
 

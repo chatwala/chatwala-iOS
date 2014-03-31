@@ -3,7 +3,7 @@
 //  Sender
 //
 //  Created by Khalid on 11/12/13.
-//  Copyright (c) 2013 pho. All rights reserved.
+//  Copyright (c) 2013 Chatwala. All rights reserved.
 //
 
 #import "CWPreviewViewController.h"
@@ -14,7 +14,6 @@
 #import "CWUserManager.h"
 #import "CWUtility.h"
 #import "Message.h"
-#import "Thread.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWDataManager.h"
 #import "CWAnalytics.h"
@@ -81,7 +80,7 @@
     [super viewWillAppear:animated];
     
     if (![CWUserDefaultsController shouldShowMessagePreview]) {
-        [self sendMessageFromUser:[[CWUserManager sharedInstance] localUser]];
+        [self sendMessageFromUser:[[CWUserManager sharedInstance] localUserID]];
         return;
     }
     else {
@@ -140,15 +139,15 @@
         return;
     }
     
-    [self sendMessageFromUser:[[CWUserManager sharedInstance] localUser]];
+    [self sendMessageFromUser:[[CWUserManager sharedInstance] localUserID]];
 }
 
-- (void)sendMessageFromUser:(User *)localUser {
+- (void)sendMessageFromUser:(NSString *)userID {
     
     [player stop];
     [self.sendButton setButtonState:eButtonStateBusy];
     
-    Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUser inResponseToIncomingMessage:self.incomingMessage];
+    Message * message = [[CWDataManager sharedInstance] createMessageWithSender:userID inResponseToIncomingMessage:self.incomingMessage];
     
     message.videoURL = recorder.outputFileURL;
     message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
@@ -159,18 +158,7 @@
     self.messageSender.messageBeingSent = message;
     self.messageSender.messageBeingRespondedTo = self.incomingMessage;
     
-    [self.messageSender sendMessageFromUser:localUser];
-}
-
-- (void)uploadProfilePictureForUser:(User *) user {
-    
-    if([[CWUserManager sharedInstance] hasUploadedProfilePicture:user]) {
-        return;//already did this
-    }
-    
-    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
-        [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:user completion:nil];
-    }];
+    [self.messageSender sendMessageFromUser:userID];
 }
 
 - (void)setupVideoPreview {
@@ -219,8 +207,23 @@
     [self presentViewController:composerNavController animated:YES completion:nil];
 }
 
-- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender {
-    [self uploadProfilePictureForUser:[[CWUserManager sharedInstance] localUser]];
+- (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender forMessage:(Message *)sentMessage {
+
+    [self.player setVideoURL:self.recorder.tempFileURL];
+    [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
+        
+        if (thumbnail) {
+            
+            // Uploading as a profile picture & thumbnail image
+            if (![[CWUserManager sharedInstance] hasUploadedProfilePicture:sentMessage.senderID]) {
+
+                [[CWUserManager sharedInstance] uploadProfilePicture:thumbnail forUser:[[CWUserManager sharedInstance] localUserID] completion:nil];
+            }
+            
+            [sentMessage uploadThumbnailImage:thumbnail];
+        }
+    }];
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 

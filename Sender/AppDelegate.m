@@ -9,7 +9,6 @@
 #import "AppDelegate.h"
 #import "CWGroundControlManager.h"
 #import "CWUserManager.h"
-#import "CWInboxViewController.h"
 #import "CWMainViewController.h"
 #import "CWMessageManager.h"
 #import "CWLoadingViewController.h"
@@ -22,6 +21,8 @@
 #import "CWUserDefaultsController.h"
 #import "CWStartScreenViewController.h"
 #import "CWVideoFileCache.h"
+#import "CWInboxViewController.h"
+
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -139,7 +140,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
 
-    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:completionHandler];
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:completionHandler];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -178,8 +179,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 //    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
     
     //  Update badge so the user sees valid information
-    if( [[CWUserManager sharedInstance] localUser]) {
-        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+    if( [[CWUserManager sharedInstance] localUserID]) {
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance] numberOfTotalUnreadMessages]];
     }
 }
 
@@ -198,8 +199,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [FBSettings setDefaultAppID:fbAppID];
     [FBAppEvents activateApp];
     
-    if( [[CWUserManager sharedInstance] localUser]) {
-        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[[CWUserManager sharedInstance] localUser] numberOfUnreadMessages]];
+    if( [[CWUserManager sharedInstance] localUserID]) {
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance]numberOfTotalUnreadMessages]];
     }
     else {
         [application setApplicationIconBadgeNumber:0];
@@ -230,7 +231,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }];
     
     // Fetch a new message upload ID from server
-    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUser] withCompletionOrNil:nil];
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
     //[[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:[[CWUserManager sharedInstance] localUser] completionBlockOrNil:nil];
 }
 
@@ -429,7 +430,18 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 #pragma mark - CWInboxDelegate
 
-- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectButton:(UIButton *)button {
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectSettingsButton:(UIButton *)button {
+    [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
+        if ([button isEqual:inboxVC.settingsButton]) {
+            [self.drawController presentViewController:self.settingsNavController animated:YES completion:nil];
+        }
+        
+        [self sendDrawerCloseNotification];
+    }];
+
+}
+
+- (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectTopButton:(UIButton *)button {
     [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
         if ([button isEqual:inboxVC.plusButton]) {
             // check if showing start screen
@@ -438,12 +450,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
             }else{
                 [self.mainVC.navigationController popToRootViewControllerAnimated:NO];
             }
-        }
-        else if ([button isEqual:inboxVC.settingsButton])
-        {
-            [self.drawController presentViewController:self.settingsNavController animated:YES completion:^{
-                // Do nothing
-            }];
         }
         [self sendDrawerCloseNotification];
     }];
