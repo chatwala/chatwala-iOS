@@ -188,10 +188,10 @@ static const float InboxTableTransitionDuration = 0.3f;
 - (void)configureCell:(CWMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath {
  
     NSArray *messagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
-    //NSString *senderID = [resultsForSender objectForKey:@"senderID"];
+    
     
     if ([messagesForSender count]) {
-        //Message *message = [Message messageFromSenderID:senderID andTimestamp:[resultsForSender objectForKey:@"maxTimestamp"]];
+    
         Message *message = [messagesForSender objectAtIndex:0];
         [cell setMessage:message];
         
@@ -222,7 +222,6 @@ static const float InboxTableTransitionDuration = 0.3f;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    //NSDictionary *arrayOfMessagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
     NSArray *arrayOfMessagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];//[AOFetchUtilities fetchMessagesForSender:[resultsForSender objectForKey:@"senderID"]];
     
     if ([arrayOfMessagesForSender count] == 1) {
