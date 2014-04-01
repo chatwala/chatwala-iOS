@@ -144,7 +144,8 @@
 
 - (void)sendMessageFromUser:(NSString *)userID {
     
-    [player stop];
+    [self.player setDelegate:nil];
+    [self.player stop];
     [self.sendButton setButtonState:eButtonStateBusy];
     
     Message * message = [[CWDataManager sharedInstance] createMessageWithSender:userID inResponseToIncomingMessage:self.incomingMessage];
@@ -204,6 +205,8 @@
 #pragma mark - CWMessageSenderDelegate methods
 
 - (void)messageSender:(CWMessageSender *)messageSender shouldPresentMessageComposerController:(UINavigationController *)composerNavController {
+    [self.player setDelegate:nil];
+    [self.player stop];
     [self presentViewController:composerNavController animated:YES completion:nil];
 }
 
@@ -224,7 +227,8 @@
         }
     }];
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.player stop];
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (void)messageSenderDidCancelMessageSend:(CWMessageSender *)messageSender {
