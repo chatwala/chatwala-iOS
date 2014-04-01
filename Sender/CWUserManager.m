@@ -104,13 +104,12 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (BOOL) hasUploadedProfilePicture:(NSString *)userID
-{
-    if([[[NSUserDefaults standardUserDefaults] objectForKey:kUploadedProfilePictureKey] boolValue])
+- (BOOL) hasUploadedProfilePicture:(NSString *)userID {
 
-    {
+    if([[[NSUserDefaults standardUserDefaults] objectForKey:kUploadedProfilePictureKey] boolValue]) {
         return YES;
     }
+    
     return NO;
 }
 

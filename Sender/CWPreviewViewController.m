@@ -209,6 +209,7 @@
 
 - (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender forMessage:(Message *)sentMessage {
 
+
     [self.player setVideoURL:self.recorder.tempFileURL];
     [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
         
@@ -224,7 +225,8 @@
         }
     }];
     
-    [self.navigationController popToRootViewControllerAnimated:YES];
+    [self.player stop];
+    [self.navigationController popToRootViewControllerAnimated:NO];
 }
 
 - (void)messageSenderDidCancelMessageSend:(CWMessageSender *)messageSender {
