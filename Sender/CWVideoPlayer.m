@@ -227,33 +227,28 @@ NSString * const kCurrentItemKey	= @"currentItem";
         }
         return;
     }
-    [self createStillsForTime:kCMTimeZero withCompletionHandler:completionHandler];
+    [self createStillForTime:kCMTimeZero withCompletionHandler:completionHandler];
 }
 
-- (void) createStillForLastFrameWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
-{
-    NSAssert(self.asset, @"expecting asset to be set");
-    CMTime lastFrame = self.asset.duration;
-    [self createStillsForTime:lastFrame withCompletionHandler:completionHandler];
-}
 
-- (void) createStillsForTime:(CMTime) time withCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler
-{
+- (void) createStillForTime:(CMTime) time withCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler {
+
+    __block CWVideoPlayer *blockSelf = self;
+    
     AVAssetImageGenerator * imageGenerator = [[AVAssetImageGenerator alloc] initWithAsset:self.asset];
     imageGenerator.appliesPreferredTrackTransform = YES;
     [imageGenerator generateCGImagesAsynchronouslyForTimes:[NSArray arrayWithObject:[NSValue valueWithCMTime:time]]
                                          completionHandler:^(CMTime requestedTime, CGImageRef image, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error) {
-                                                      if(result == AVAssetImageGeneratorSucceeded)
-                                                      {
-                                                          self.profilePicture = [UIImage imageWithCGImage:image scale:1.0 orientation:UIImageOrientationUp];
-                                                          completionHandler(self.profilePicture);
+                                             
+                                                      if(result == AVAssetImageGeneratorSucceeded) {
+                                                          
+                                                          dispatch_sync(dispatch_get_main_queue(), ^{
+                                                              blockSelf.profilePicture = [UIImage imageWithCGImage:image scale:1.0 orientation:UIImageOrientationUp];
+                                                              completionHandler(blockSelf.profilePicture);
+                                                          });
                                                       }
                                                   }];
-    
 }
-
-
-
 
 #pragma mark - Key Valye Observing
 
