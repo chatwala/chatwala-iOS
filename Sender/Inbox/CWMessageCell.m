@@ -107,6 +107,8 @@
         [blockSelf.spinner stopAnimating];
         
         if (error) {
+            
+            [blockSelf.thumbView setImageWithURL:[NSURL URLWithString:message.userThumbnailURL] placeholderImage:placeholder options:SDWebImageRetryFailed | SDWebImageRefreshCached completed:nil];
             NSLog(@"Error fetching image from URL:  %@", imageURL);
         }
         else {

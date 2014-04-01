@@ -185,7 +185,7 @@ static const float InboxTableTransitionDuration = 0.3f;
 #pragma mark - CWUserCell UI convenience methods
 
 
-- (void)configureCell:(CWMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath {
+- (void)configureCell:(CWUserCell *)cell atIndexPath:(NSIndexPath *)indexPath {
  
     NSArray *messagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
     
@@ -194,27 +194,22 @@ static const float InboxTableTransitionDuration = 0.3f;
     
         Message *message = [messagesForSender objectAtIndex:0];
         [cell setMessage:message];
-        
-        // Let's see if we need to show a red dot for this user
-        NSInteger numberOfUnread = [CWUserManager numberOfUnreadMessagesForRecipient:message.senderID];
-        if (numberOfUnread > 0) {
-            
-            // Hacking unopened b/c that results in a red dot appearing
-            [cell configureStatusFromMessageViewedState:eMessageViewedStateUnOpened];
-        }
-        else {
-            [cell configureStatusFromMessageViewedState:eMessageViewedStateRead];
-        }
-
+        [self updateCellState:cell withMessage:message];
     }
-    
 }
 
 - (void)updateCellState:(CWUserCell *)cell withMessage:(Message *)message {
     
-    [cell configureStatusFromMessageViewedState:message.eMessageViewedState];
+    // Let's see if we need to show a red dot for this user
+    NSInteger numberOfUnread = [CWUserManager numberOfUnreadMessagesForRecipient:message.senderID];
+    if (numberOfUnread > 0) {
+        // Hacking unopened b/c that results in a red dot appearing
+        [cell configureStatusFromMessageViewedState:eMessageViewedStateUnOpened];
+    }
+    else {
+        [cell configureStatusFromMessageViewedState:eMessageViewedStateRead];
+    }
 }
-
 
 #pragma mark - UITableViewDelegate delegate methods
 
@@ -222,7 +217,8 @@ static const float InboxTableTransitionDuration = 0.3f;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSArray *arrayOfMessagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];//[AOFetchUtilities fetchMessagesForSender:[resultsForSender objectForKey:@"senderID"]];
+    NSArray *arrayOfMessagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
+    CWUserCell *userCell = (CWUserCell *)[tableView cellForRowAtIndexPath:indexPath];
     
     if ([arrayOfMessagesForSender count] == 1) {
         Message *message = [arrayOfMessagesForSender objectAtIndex:0];
@@ -231,13 +227,13 @@ static const float InboxTableTransitionDuration = 0.3f;
             [self.delegate inboxViewController:nil didSelectMessage:message];
             message.eMessageViewedState = eMessageViewedStateOpened;
             
-            CWUserCell *userCell = (CWUserCell *)[tableView cellForRowAtIndexPath:indexPath];
             [self updateCellState:userCell withMessage:message];
         }
     }
     else if ([arrayOfMessagesForSender count] > 1) {
-
+    
         [self showMessagesTableWithMessages:arrayOfMessagesForSender animated:YES];
+        [self updateCellState:userCell withMessage:[arrayOfMessagesForSender objectAtIndex:0]];
     }
 }
 

@@ -144,7 +144,8 @@
 
 - (void)sendMessageFromUser:(NSString *)userID {
     
-    [player stop];
+    [self.player setDelegate:nil];
+    [self.player stop];
     [self.sendButton setButtonState:eButtonStateBusy];
     
     Message * message = [[CWDataManager sharedInstance] createMessageWithSender:userID inResponseToIncomingMessage:self.incomingMessage];
@@ -204,11 +205,13 @@
 #pragma mark - CWMessageSenderDelegate methods
 
 - (void)messageSender:(CWMessageSender *)messageSender shouldPresentMessageComposerController:(UINavigationController *)composerNavController {
+    [self.player setDelegate:nil];
+    [self.player stop];
     [self presentViewController:composerNavController animated:YES completion:nil];
 }
 
 - (void)messageSenderDidSucceedMessageSend:(CWMessageSender *)messageSender forMessage:(Message *)sentMessage {
-
+    
     [self.player setVideoURL:self.recorder.tempFileURL];
     [self.player createProfilePictureThumbnailWithCompletionHandler:^(UIImage *thumbnail) {
         
