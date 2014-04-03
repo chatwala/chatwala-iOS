@@ -112,6 +112,7 @@ static const float InboxTableTransitionDuration = 0.3f;
     
     self.messagesController.messages = messages;
     [self.messagesController.tableView reloadData];
+    [self.messagesController.tableView scrollRectToVisible:CGRectMake(0.0f, 0.0f, 1.0f, 1.0f) animated:NO];
     
     if (shouldAnimate) {
         [UIView animateWithDuration:InboxTableTransitionDuration animations:^{

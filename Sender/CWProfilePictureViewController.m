@@ -97,7 +97,9 @@
     [self.pictureImageView setImageWithURL:pictureURL
                           placeholderImage:[UIImage imageNamed:@"LaunchImage"]
                                    options:SDWebImageRetryFailed | SDWebImageRefreshCached
-                                 completed:nil];
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
+                                     // Need a completion block
+                                 }];
 }
 
 - (void)onBack {

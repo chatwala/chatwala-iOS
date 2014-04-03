@@ -205,12 +205,14 @@
              MessageAttributes.groupID,
              MessageAttributes.readURL,
              MessageAttributes.replyToMessageID,
+             MessageAttributes.messageURL,
              MessageAttributes.messageID,
              MessageAttributes.threadIndex,
              MessageAttributes.startRecording,
              MessageAttributes.timeStamp,
              MessageAttributes.thumbnailPictureURL,
-             MessageAttributes.storageShardKey
+             MessageAttributes.storageShardKey,
+             MessageAttributes.userThumbnailURL,
              ];
 }
 

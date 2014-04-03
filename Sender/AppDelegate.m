@@ -232,13 +232,15 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     // Fetch a new message upload ID from server
     [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
-    //[[CWMessageManager sharedInstance] fetchOriginalMessageIDWithSender:[[CWUserManager sharedInstance] localUser] completionBlockOrNil:nil];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
    
-    // Check to see if this is just a copy update & get out of here.
-    if ([self isCopyUpdate:url]) {
+    if ([[CWGroundControlManager sharedInstance] shouldShowKillScreen]) {
+        [[CWGroundControlManager sharedInstance] showKillScreen];
+        return YES;
+    }
+    else if ([self isCopyUpdate:url]) {
         [self updateCopyForStartScreen:url];
         return YES;
     }
@@ -341,7 +343,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         
         [[NSNotificationCenter defaultCenter] postNotificationName:CWNotificationCopyUpdateFromUrlScheme object:self userInfo:userInfo];
     }
-    
 }
 
 #pragma mark - Message opening
@@ -486,7 +487,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                 [SVProgressHUD showErrorWithStatus:@"Message unavailable."];
                 NSLog(@"failed to download message");
             }
-            
         }];
     }
     else {
