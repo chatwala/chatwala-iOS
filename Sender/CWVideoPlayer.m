@@ -230,6 +230,12 @@ NSString * const kCurrentItemKey	= @"currentItem";
     [self createStillForTime:kCMTimeZero withCompletionHandler:completionHandler];
 }
 
+- (void) createStillForLastFrameWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler {
+
+    NSAssert(self.asset, @"expecting asset to be set");
+    CMTime lastFrame = self.asset.duration;
+    [self createStillForTime:lastFrame withCompletionHandler:completionHandler];
+}
 
 - (void) createStillForTime:(CMTime) time withCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler {
 
