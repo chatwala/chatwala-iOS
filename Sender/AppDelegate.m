@@ -278,9 +278,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         if (!urlToOpen) {
             CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
             
-            NSString *messageDownloadEndpoint = [CWMessagesDownloader messageEndpointFromSMSDownloadID:downloadID];
-            
-            [downloader downloadMessageFromEndpoint:messageDownloadEndpoint completion:^(BOOL success, NSURL *url) {
+            [downloader downloadMessageWithDownloadID:downloadID completion:^(BOOL success, NSURL *url) {
                 if (success && url) {
                     
                     // TODO:  This code is duplicated further down this snippet
@@ -301,7 +299,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                     [UIView animateWithDuration:0.5 animations:^{
                         [self.loadingVC.view setAlpha:0];
                     }];
-                    NSLog(@"failed to download message");
+                    NSLog(@"Failed to download message");
                     [SVProgressHUD showErrorWithStatus:@"Message not available yet."];
                 }
             }];

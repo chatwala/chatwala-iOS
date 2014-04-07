@@ -18,7 +18,7 @@ UIBackgroundTaskIdentifier UploadBackgroundTaskIdentifier;
 UIBackgroundTaskIdentifier CompleteSendBackgroundTaskIdentifier;
 
 NSString *const PushRegisterEndpoint = @"/user/registerPushToken";
-NSString *const GetMessageReadURLEndpoint = @"/messages/postGetReadURLForMessage";
+NSString *const GetMessageReadURLEndpoint = @"/messages/getReadUrlFromShareId";
 NSString *const GetProfilePictureSASEndpoint = @"/user/postUserProfilePicture";
 NSString *const AddMessageToInboxEndpoint = @"/messages/addUnknownRecipientMessageToInbox";
 NSString *const CompleteOriginalMessageEndpoint = @"/messages/completeUnknownRecipientMessageSend";
@@ -426,6 +426,45 @@ AFURLSessionManager *BackgroundSessionManager;
 }
 
 #pragma mark - Download API
+
++ (void)getReadURLWithDownloadID:(NSString *)downloadID completionBlock:(void (^)(NSString *readURL, NSError *error))completionBlock {
+    
+    NSDictionary *params = nil;
+    
+    if (![downloadID length]) {
+        if (completionBlock) {
+            NSError *error = [NSError errorWithDomain:@"GetReadURL" code:0 userInfo:nil];
+            completionBlock(nil, error);
+        }
+        
+        return;
+    }
+    else {
+        params = @{ @"share_id" : downloadID };
+    }
+    
+    NSLog(@"Requesting message read URL: %@", params);
+    
+    AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
+    requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    
+    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:GetMessageReadURLEndpoint];
+    [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"Successfully registered local user with chatwala server");
+        
+        if (completionBlock) {
+            completionBlock(@"",nil);
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failed to register user. Error:  %@",error.localizedDescription);
+        
+        if (completionBlock) {
+            completionBlock(nil, nil);
+        }
+    }];
+}
 
 + (void)downloadMessageFromReadURL:(NSString *)endPoint destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock {
 
