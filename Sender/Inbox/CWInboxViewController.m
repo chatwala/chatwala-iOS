@@ -35,6 +35,7 @@ static const float InboxTableTransitionDuration = 0.3f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.plusButton.titleLabel.textColor = [UIColor whiteColor];
     self.distinctUserMessages = [AOFetchUtilities fetchGroupBySenderID];
     self.view.clipsToBounds = YES;
     
