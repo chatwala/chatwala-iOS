@@ -452,14 +452,14 @@ AFURLSessionManager *BackgroundSessionManager;
     NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:GetMessageReadURLEndpoint];
     [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSLog(@"Successfully registered local user with chatwala server");
+        NSLog(@"Successfully retrieved message read URL.");
         
         if (completionBlock) {
-            completionBlock(@"",nil);
+            completionBlock([responseObject objectForKey:@"read_url"],nil);
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failed to register user. Error:  %@",error.localizedDescription);
+        NSLog(@"Failed to retrive message read URL. Error:  %@",error.localizedDescription);
         
         if (completionBlock) {
             completionBlock(nil, nil);
