@@ -58,6 +58,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
     [CWUserDefaultsController configureDefaults];
+    [CWAnalytics calculateCurrentCategory];
     [Crashlytics sharedInstance];
     [Crashlytics startWithAPIKey:CRASHLYTICS_API_TOKEN];
     
@@ -176,7 +177,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-//    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
+    
+    [CWUserDefaultsController configureDefaults];
     
     //  Update badge so the user sees valid information
     if( [[CWUserManager sharedInstance] localUserID]) {
@@ -278,9 +280,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         if (!urlToOpen) {
             CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
             
-            NSString *messageDownloadEndpoint = [CWMessagesDownloader messageEndpointFromSMSDownloadID:downloadID];
-            
-            [downloader downloadMessageFromEndpoint:messageDownloadEndpoint completion:^(BOOL success, NSURL *url) {
+            [downloader downloadMessageWithDownloadID:downloadID completion:^(BOOL success, NSURL *url) {
                 if (success && url) {
                     
                     // TODO:  This code is duplicated further down this snippet
@@ -301,7 +301,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                     [UIView animateWithDuration:0.5 animations:^{
                         [self.loadingVC.view setAlpha:0];
                     }];
-                    NSLog(@"failed to download message");
+                    NSLog(@"Failed to download message");
                     [SVProgressHUD showErrorWithStatus:@"Message not available yet."];
                 }
             }];
@@ -350,10 +350,10 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (void)sendMessageOpenTrackingWithMessageID:(NSString *)messageID {
     
     if (self.fetchingFirstLaunchMessage) {
-        [CWAnalytics messageFetchedSafari:messageID];
+        [CWAnalytics messageFetchedFromSafari:messageID];
     }
     else {
-        [CWAnalytics messageOpenSafari:messageID];
+        [CWAnalytics messageOpenedBySafari:messageID];
     }
     
     self.fetchingFirstLaunchMessage = NO;
@@ -369,7 +369,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         self.fetchingFirstLaunchMessage = YES;
-        [CWAnalytics messageFetchingSafari];
+        [CWAnalytics messageFetchingFromSafari];
         
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 

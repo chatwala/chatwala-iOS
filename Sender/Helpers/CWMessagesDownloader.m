@@ -65,28 +65,24 @@
                     completionBlock(downloadedMessages);
                 }
             }
-
         }];
     }
 }
 
-+ (NSString *)messageEndpointFromSMSDownloadID:(NSString *)downloadID {
-    
-    NSArray *downloadIDComponents = [downloadID componentsSeparatedByString:@"."];
-
-    if ([downloadIDComponents count] > 1) {
-        NSString *endpoint = [[CWGroundControlManager sharedInstance] messageEndpointWithShardID:[downloadIDComponents firstObject]];
-        
-        // Append the message ID to the URL
-        return [endpoint stringByAppendingString:[downloadIDComponents lastObject]];
-    }
-    else {
-        return nil;
-    }
-    
-}
-
 #pragma mark - Download methods
+
+- (void)downloadMessageWithDownloadID:(NSString *)downloadID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
+    
+    [CWServerAPI getReadURLWithDownloadID:downloadID completionBlock:^(NSString *readURL, NSError *error) {
+        
+        if (error) {
+            completionBlock(NO,nil);
+        }
+        else {
+            [self downloadMessageFromEndpoint:readURL completion:completionBlock];
+        }
+    }];
+}
 
 - (void)downloadMessageFromEndpoint:(NSString *)endpoint completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
 

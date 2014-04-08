@@ -11,11 +11,12 @@ typedef void (^CWMessagesDownloaderSingleMessageDownloadCompletionBlock)(BOOL su
 
 @interface CWMessagesDownloader : NSObject
 
-+ (NSString *)messageEndpointFromSMSDownloadID:(NSString *)downloadID;
+//+ (NSString *)messageEndpointFromSMSDownloadID:(NSString *)downloadID;
 
 - (void)downloadMessages:(NSArray *)messageIDsForDownload withCompletionBlock:(CWMessagesDownloaderCompletionBlock)completionBlock;
 
 // Single message download
+- (void)downloadMessageWithDownloadID:(NSString *)downloadID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
 - (void)downloadMessageFromEndpoint:(NSString *)endpoint completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
 
 @end
