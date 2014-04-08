@@ -11,8 +11,6 @@ typedef void (^CWMessagesDownloaderSingleMessageDownloadCompletionBlock)(BOOL su
 
 @interface CWMessagesDownloader : NSObject
 
-//+ (NSString *)messageEndpointFromSMSDownloadID:(NSString *)downloadID;
-
 - (void)downloadMessages:(NSArray *)messageIDsForDownload withCompletionBlock:(CWMessagesDownloaderCompletionBlock)completionBlock;
 
 // Single message download
