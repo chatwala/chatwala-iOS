@@ -103,7 +103,8 @@ AFURLSessionManager *BackgroundSessionManager;
     
     NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:AddMessageToInboxEndpoint];
     NSDictionary *params = @{@"message_id" : messageID,
-                             @"recipient_id" : userID};
+                             @"recipient_id" : userID,
+                             @"analytics_sender_category" : [CWAnalytics currentCategory]};
     
     [manager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         

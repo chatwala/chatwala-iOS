@@ -27,10 +27,16 @@ extern NSString *const CWAnalyticsEventMessageOpenedSafari;
 
 @interface CWAnalytics : ARAnalytics
 
+// Call on app open
++ (void)calculateCurrentCategory;
++ (NSString *)currentCategory;
+
 + (void)appOpened;
 
-+ (void)messageOpenSafari:(NSString *)messageID;
-+ (void)messageFetchingSafari;
-+ (void)messageFetchedSafari:(NSString *)messageID;
++ (void)messageOpenedBySafari:(NSString *)messageID;
++ (void)messageFetchingFromSafari;
++ (void)messageFetchedFromSafari:(NSString *)messageID;
+
++ (void)messageSentWithID:(NSString *)messageID isReply:(BOOL)isReply;
 
 @end

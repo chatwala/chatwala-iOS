@@ -58,6 +58,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
     [CWUserDefaultsController configureDefaults];
+    [CWAnalytics calculateCurrentCategory];
     [Crashlytics sharedInstance];
     [Crashlytics startWithAPIKey:CRASHLYTICS_API_TOKEN];
     
@@ -176,7 +177,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-//    [[CWAuthenticationManager sharedInstance]didFinishFirstRun];
+    
+    [CWUserDefaultsController configureDefaults];
     
     //  Update badge so the user sees valid information
     if( [[CWUserManager sharedInstance] localUserID]) {
@@ -348,10 +350,10 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (void)sendMessageOpenTrackingWithMessageID:(NSString *)messageID {
     
     if (self.fetchingFirstLaunchMessage) {
-        [CWAnalytics messageFetchedSafari:messageID];
+        [CWAnalytics messageFetchedFromSafari:messageID];
     }
     else {
-        [CWAnalytics messageOpenSafari:messageID];
+        [CWAnalytics messageOpenedBySafari:messageID];
     }
     
     self.fetchingFirstLaunchMessage = NO;
@@ -367,7 +369,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [manager GET:urlString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         self.fetchingFirstLaunchMessage = YES;
-        [CWAnalytics messageFetchingSafari];
+        [CWAnalytics messageFetchingFromSafari];
         
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 
