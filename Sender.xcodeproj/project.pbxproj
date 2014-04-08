@@ -327,7 +327,6 @@
 		0DB9DE8D18E391B50011AD25 /* CWUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserCell.m; sourceTree = "<group>"; };
 		0DB9DE8F18E398B30011AD25 /* CWInboxMessagesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWInboxMessagesController.h; sourceTree = "<group>"; };
 		0DB9DE9018E398B30011AD25 /* CWInboxMessagesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWInboxMessagesController.m; sourceTree = "<group>"; };
-		0DC595E418EF3D790057024C /* ChatwalaModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 5.xcdatamodel"; sourceTree = "<group>"; };
 		0DDD6F4018C66F1200580DA4 /* CWAPICommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPICommand.h; sourceTree = "<group>"; };
 		0DDD6F4118C66F1200580DA4 /* CWAPICommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAPICommand.m; sourceTree = "<group>"; };
 		0DDD6F4318C66F4D00580DA4 /* CWAPICommandFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAPICommandFactory.h; sourceTree = "<group>"; };
@@ -1973,7 +1972,6 @@
 		36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				0DC595E418EF3D790057024C /* ChatwalaModel 5.xcdatamodel */,
 				0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */,
 				0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */,
 				36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */,
