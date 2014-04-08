@@ -262,7 +262,10 @@
     NSString *endPoint = [self.messagesEndPoint stringByAppendingString:@"/startUnknownRecipientMessageSend"];
     
     
-    NSDictionary *params = @{@"sender_id" : userID, @"message_id" : newMessageID};
+    NSDictionary *params = @{@"sender_id" : userID,
+                             @"message_id" : newMessageID,
+                             @"analytics_sender_category" : [CWAnalytics currentCategory]};
+    
     NSLog(@"Starting original message send with params: %@", params);
     
     

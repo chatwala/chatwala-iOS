@@ -160,6 +160,8 @@
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
     
+    [CWAnalytics messageSentWithID:self.messageBeingSent.messageID isReply:(self.messageBeingRespondedTo != nil)];
+    
     NSInteger currentSentCount = [CWUserDefaultsController numberOfSentMessages];
     [CWUserDefaultsController setNumberOfSentMessages:++currentSentCount];
     [NC postNotificationName:CWNotificationMessageSent object:nil];
@@ -182,15 +184,8 @@
     
     switch (result) {
         case MFMailComposeResultSent:
-        {
-            if (self.messageBeingRespondedTo) {
-                [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Reply Message" withLabel:@"" withValue:nil];
-            }else{
-                [CWAnalytics event:@"MESSAGE_CANCELLED" withCategory:@"Send Message" withLabel:@"" withValue:nil];
-            }
-            
+        
             [self didSendMessage];
-        }
             break;
             
         case MFMailComposeResultCancelled:
@@ -220,13 +215,6 @@
     
     switch (result) {
         case MessageComposeResultSent:
-            
-            if (self.messageBeingRespondedTo) {
-                [CWAnalytics event:@"MESSAGE_SENT" withCategory:@"CONVERSATION_REPLIER" withLabel:@"" withValue:nil];
-            }
-            else {
-                [CWAnalytics event:@"MESSAGE_SENT" withCategory:@"CONVERSATION_STARTER" withLabel:@"" withValue:nil];
-            }
             
             [self didSendMessage];
             break;

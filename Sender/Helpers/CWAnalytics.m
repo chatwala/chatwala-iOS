@@ -25,30 +25,54 @@ NSString *const CWAnalyticsEventMessageFetchedSafari = @"MESSAGE_FETCHED_SAFARI"
 
 NSString *const CWAnalyticsEventMessageOpenedSafari = @"MESSAGE_OPENED_SAFARI";
 
+NSString *const CWAnalyticsEventMessageSentConfirmed = @"MESSAGE_SENT_CONFIRMED";
 
 @implementation CWAnalytics
 
+static NSString *CurrentCategory;
+
++ (void)calculateCurrentCategory {
+
+     CurrentCategory = ([[CWUserDefaultsController userID] length] ? CWAnalyticsCategoryConversationStarter : CWAnalyticsCategoryFirstOpen);
+}
+
++ (NSString *)currentCategory {
+
+    return CurrentCategory;
+}
+
 + (void)appOpened {
     
-    NSString *category = ([[CWUserDefaultsController userID] length] ? nil : CWAnalyticsCategoryFirstOpen);
+    NSString *category = CurrentCategory;
     [CWAnalytics event:CWAnalyticsEventAppOpen withCategory:category withLabel:@"" withValue:nil];
 }
 
-+ (void)messageOpenSafari:(NSString *)messageID {
++ (void)messageOpenedBySafari:(NSString *)messageID {
     
     NSString *category = ([[CWUserDefaultsController userID] length] ? CWAnalyticsCategoryConversationReplier : CWAnalyticsCategoryFirstOpen);
     [CWAnalytics event:CWAnalyticsEventMessageOpenedSafari withCategory:category withLabel:messageID withValue:nil];
 }
 
-+ (void)messageFetchingSafari {
++ (void)messageFetchingFromSafari {
     [CWAnalytics event:CWAnalyticsEventMessageFetchingSafari withCategory:CWAnalyticsCategoryFirstOpen withLabel:nil withValue:nil];
 }
 
-+ (void)messageFetchedSafari:(NSString *)messageID {
++ (void)messageFetchedFromSafari:(NSString *)messageID {
     [CWAnalytics event:CWAnalyticsEventMessageFetchedSafari withCategory:CWAnalyticsCategoryFirstOpen withLabel:messageID withValue:nil];
 }
 
-#pragma mark - Helpers
-
++ (void)messageSentWithID:(NSString *)messageID isReply:(BOOL)isReply {
+    
+    if (![CurrentCategory isEqualToString:CWAnalyticsCategoryFirstOpen]) {
+    
+        NSString *categoryToUse = (isReply ? CWAnalyticsCategoryConversationReplier : CWAnalyticsCategoryConversationStarter);
+        [CWAnalytics event:CWAnalyticsEventMessageSentConfirmed withCategory:categoryToUse withLabel:messageID withValue:nil];
+    }
+    else {
+        
+        [CWAnalytics event:CWAnalyticsEventMessageSentConfirmed withCategory:CurrentCategory withLabel:messageID withValue:nil];
+    }
+    
+}
 
 @end
