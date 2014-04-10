@@ -18,6 +18,7 @@
 - (NSString *)filepathForKey:(NSString *)messageID;
 
 - (uint64_t)freeCacheSpaceInBytes;
+- (BOOL)hasMinimumFreeDiskSpace;
 - (void)purgeCache;  // Clears all data within the base cache folder
 
 @end
