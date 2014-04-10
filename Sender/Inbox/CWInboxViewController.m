@@ -14,6 +14,7 @@
 #import "CWDataManager.h"
 #import "CWInboxMessagesController.h"
 #import "CWConstants.h"
+#import "CWAppFeedBackViewController.h"
 
 static const float InboxTableTransitionDuration = 0.3f;
 
@@ -62,6 +63,8 @@ static const float InboxTableTransitionDuration = 0.3f;
     [NC addObserver:self selector:@selector(onMessagesLoaded:) name:@"MessagesLoaded" object:nil];
     [NC addObserver:self selector:@selector(onMessagLoadedFailed:) name:@"MessagesLoadFailed" object:nil];
     [NC addObserver:self selector:@selector(messageSent:) name:CWNotificationMessageSent object:nil];
+    [NC addObserver:self selector:@selector(shouldMarkAllMessagesAsRead:) name:CWNotificationShouldMarkAllMessagesAsRead object:nil];
+    [NC addObserver:self selector:@selector(handleInboxOpenNotification:) name:(NSString *)CWNotificationInboxViewControllerShouldOpenInbox object:nil];
     
 }
 
@@ -104,6 +107,16 @@ static const float InboxTableTransitionDuration = 0.3f;
 }
 
 - (void)messageSent:(NSNotification *)notification {
+    [self hideMessagesTableAnimated:NO];
+}
+
+- (void)shouldMarkAllMessagesAsRead:(NSNotification *)notification {
+    [AOFetchUtilities markAllMessagesAsReadForUser:[[CWUserManager sharedInstance] localUserID]];
+    [self.usersTableView reloadData];
+    [self.messagesController.tableView reloadData];
+}
+
+- (void)handleInboxOpenNotification:(NSNotification *)notification {
     [self hideMessagesTableAnimated:NO];
 }
 
@@ -263,6 +276,39 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
    return [self.distinctUserMessages count];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    UIButton *feedbackFooterButton = nil;
+    
+    if (section == 0) {
+        feedbackFooterButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 72.0f)];
+
+        [feedbackFooterButton setImage:[UIImage imageNamed:@"FeedbackButton"] forState:UIControlStateNormal];
+        [feedbackFooterButton setImage:[UIImage imageNamed:@"FeedbackButtonTapped"] forState:UIControlStateHighlighted];
+        
+        [feedbackFooterButton addTarget:self action:@selector(didTapFeedbackFooter:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+
+    return feedbackFooterButton;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 72.0f;
+}
+
+- (void)didTapFeedbackFooter:(id)sender {
+    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWAppFeedBackViewController alloc] init]];
+    
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    [navController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    
+    [self presentViewController:navController animated:YES completion:nil];
 }
 
 @end

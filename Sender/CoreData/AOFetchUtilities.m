@@ -33,6 +33,14 @@
     return fetchedObjects;
 }
 
++ (void)markAllMessagesAsReadForUser:(NSString *)userID {
+    
+    NSArray *messagesArray = [AOFetchUtilities unreadMessagesForUser:userID];
+    
+    for (Message *message in messagesArray) {
+        [message setEMessageViewedState:eMessageViewedStateRead];
+    }
+}
 
 + (NSArray *)fetchGroupBySenderID {
 
@@ -118,7 +126,7 @@
     }
 }
 
-+ (NSInteger)totalUnreadMessagesForRecipient:(NSString *)userID {
++ (NSArray *)unreadMessagesForUser:(NSString *)userID {
     NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
     NSEntityDescription *entityDescription = [NSEntityDescription
                                               entityForName:@"Message" inManagedObjectContext:moc];
@@ -131,7 +139,11 @@
     NSError *error = nil;
     NSArray *messagesArray = [moc executeFetchRequest:request error:&error];
     
-    return [messagesArray count];
+    return messagesArray;
+}
+
++ (NSInteger)totalUnreadMessagesForRecipient:(NSString *)userID {
+    return [[AOFetchUtilities unreadMessagesForUser:userID] count];
 }
 
 @end

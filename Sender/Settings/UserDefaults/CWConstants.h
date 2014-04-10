@@ -12,6 +12,7 @@
 extern NSString *const CWNotificationInboxViewControllerShouldOpenInbox;
 extern NSString *const CWNotificationCopyUpdateFromUrlScheme;
 extern NSString *const CWNotificationMessageSent;
+extern NSString *const CWNotificationShouldMarkAllMessagesAsRead;
 
 /* Notification user info keys */
 /* =========================================================================================*/

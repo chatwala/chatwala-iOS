@@ -17,8 +17,9 @@
 #import "CWUserManager.h"
 #import "CWUserDefaultsController.h"
 
-NSInteger const ToggleMessageDeliveryMethodRow  = 4;
-NSInteger const ToggleShowMessagePreviewRow     = 5;
+NSInteger const MarkAllMessagesAsReadRow  = 4;
+NSInteger const ToggleMessageDeliveryMethodRow  = 5;
+NSInteger const ToggleShowMessagePreviewRow     = 6;
 
 @interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet CWTableViewCellNewMessageDeliveryMethodCell *deliveryMethodCell;
@@ -54,7 +55,7 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
                            };
     [self.navigationController.navigationBar setTitleTextAttributes:att];
     
-    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback", @"Edit Your Profile Picture"]];
+    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback", @"Edit Your Profile Picture", @"Mark All Messages As Read"]];
     
     [self.settingsTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"settingsCell"];
     [self.settingsTable setDelegate:self];
@@ -117,14 +118,15 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
     }
     
     
-    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingsCell"];
     [cell setBackgroundColor:[UIColor chatwalaBlueMedium]];
     [cell.textLabel setTextColor:[UIColor whiteColor]];
-    UIView* bgview = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 80)];
+    
+    UIView *bgview = [[UIView alloc]initWithFrame:CGRectMake(0.0f, 0.0f, 200.0f, 80.0f)];
     [bgview setBackgroundColor:[UIColor chatwalaRed]];
     [cell setSelectedBackgroundView:bgview];
     [cell.textLabel setText:[[@[self.section1Titles]objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]];
-    if (indexPath.section == 0) {
+    if (indexPath.section == 0 && indexPath.row != MarkAllMessagesAsReadRow) {
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     }
     return cell;
@@ -142,7 +144,7 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
         count = [self.section1Titles count] + 2;
     }
     else if (section == 1) {
-        count = 5;
+        count = 6;
     }
     
     return count;
@@ -206,7 +208,8 @@ NSInteger const ToggleShowMessagePreviewRow     = 5;
                     [self.navigationController pushViewController:viewController animated:YES];
                 }
                 case 4:
-                    //do nothing
+                    // Mark all messages as read
+                    [NC postNotificationName:CWNotificationShouldMarkAllMessagesAsRead object:nil];
                     break;
                 default:
                 {
