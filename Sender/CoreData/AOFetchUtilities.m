@@ -114,7 +114,15 @@
     // Only show downloaded messages
     for (Message *message in messagesArray) {
         if ([message.downloadState integerValue] == eMessageDownloadStateDownloaded) {
-            [filteredArray addObject:message];
+            
+            // Don't show messages previously deleted but not successfully deleted on server yet
+            if ([message isMarkedAsDeleted]) {
+                [message deleteMessageFromInbox];
+            }
+            else {
+                [filteredArray addObject:message];
+            }
+            
         }
     }
     

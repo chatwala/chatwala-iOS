@@ -43,7 +43,8 @@ typedef enum eMessageViewedState
 - (void)saveContext;
 
 - (void)addMessageToUserInbox:(NSString *)userID;
-- (void)deleteMessageFromUserInbox:(NSString *)userID;
+- (void)deleteMessageFromInbox;
+- (BOOL)isMarkedAsDeleted;
 
 - (void)uploadThumbnailImage:(UIImage *)image;
 

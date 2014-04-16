@@ -40,3 +40,6 @@ extern NSString *const CWUserDefaultsProfilePictureURLKey;
 
 // User Defaults - Ground Control
 extern NSString *const CWConstantsGControlMessagesEndpointKey;
+
+// Message specfici defaults
+extern NSString *const CWConstantsMessageMarkedDeletedKey;;

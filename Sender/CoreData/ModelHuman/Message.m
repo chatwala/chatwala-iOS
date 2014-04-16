@@ -5,11 +5,11 @@
 #import "NSDictionary+LookUpTable.h"
 #import "CWServerAPI.h"
 #import "CWConstants.h"
+#import "CWUserManager.h"
 
 @interface Message ()
 
 @end
-
 
 @implementation Message
 @synthesize videoURL;
@@ -60,6 +60,8 @@
     }
 }
 
+#pragma mark - Adding/removing message from inbox
+
 - (void)addMessageToUserInbox:(NSString *)userID {
     
     if ([userID length] && [self.recipientID isEqualToString:CWConstantsUnknownRecipientIDString]) {
@@ -68,14 +70,29 @@
     }
 }
 
-- (void)deleteMessageFromUserInbox:(NSString *)userID {
+- (void)deleteMessageFromInbox {
     
-    if ([userID length]) {
-        NSLog(@"Deleting message from inbox...");
-        [self.managedObjectContext deleteObject:self];
-        [CWServerAPI deleteMessage:self.messageID fromInboxForUser:userID];
-    }
+    NSLog(@"Deleting message from inbox...");
+    [self.managedObjectContext deleteObject:self];
+    [CWServerAPI deleteMessage:self.messageID fromInboxForUser:[[CWUserManager sharedInstance] localUserID]];
+    [self setIsMarkedAsDeleted:YES];
 }
+
+- (BOOL)isMarkedAsDeleted {
+    
+    // Using the message
+    NSString *defaultsKey = [NSString stringWithFormat:@"%@-%@", CWConstantsMessageMarkedDeletedKey, self.messageID];
+    return [[NSUserDefaults standardUserDefaults] boolForKey:defaultsKey];
+}
+
+- (void)setIsMarkedAsDeleted:(BOOL)deleted {
+    NSString *defaultsKey = [NSString stringWithFormat:@"%@-%@", CWConstantsMessageMarkedDeletedKey, self.messageID];
+    
+    [[NSUserDefaults standardUserDefaults] setBool:deleted forKey:defaultsKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+#pragma mark - Message State
 
 - (eMessageViewedState) eMessageViewedState
 {
@@ -172,37 +189,6 @@
     
     [jsonDict setObject:intervalString forKey:MessageAttributes.timeStamp];
 
-    
-    //NSDictionary *relationships = [[self entity] relationshipsByName];
-    
-//    for (NSString *relation in relationships) {
-//        id value = [self valueForKey:relation];
-//        
-//        if (value == nil) {
-//            value = [NSNull null];
-//            continue;
-//        }
-//        NSRelationshipDescription * relationDescription = [relationships objectForKey:relation];
-//        
-//        NSEntityDescription * entityDescription = [relationDescription destinationEntity];
-//        
-//        if([entityDescription.name isEqualToString:[User entityName]])
-//        {
-//            User * user = value;
-//            value = user.userID;
-//        }
-//        else if([entityDescription.name isEqualToString:[Thread entityName]])
-//        {
-//            Thread * thread = value;
-//            value = thread.threadID;
-//        }
-//        else
-//        {
-//            NSAssert(0==1, @"unexpected relation: %@ with value: %@", relation, value);
-//        }
-//        
-//        [jsonDict setValue:value forKey:relation];
-//    }
     NSArray * whiteList = [self.class attributesAndRelationshipsToArchive];
     NSMutableArray * objectKeysToRemove = [jsonDict.allKeys mutableCopy];
     [objectKeysToRemove removeObjectsInArray:whiteList];
@@ -234,7 +220,6 @@
              ];
 }
 
-
 + (NSDictionary *) reverseKeyLookupTable
 {
     return @{
@@ -255,6 +240,5 @@
              MessageAttributes.storageShardKey : @"blob_storage_shard_key"
              };
 }
-
 
 @end

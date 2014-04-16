@@ -160,7 +160,7 @@ static const float DeleteMessageLongPressDuration = 1.0f;
 - (void)deleteMessageAtIndexPath:(NSIndexPath *)indexPathToDelete {
     Message *message = [self.messages objectAtIndex:indexPathToDelete.row];
     
-    [message deleteMessageFromUserInbox:[[CWUserManager sharedInstance] localUserID]];
+    [message deleteMessageFromInbox];
     
     [self.messages removeObjectAtIndex:indexPathToDelete.row];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathToDelete] withRowAnimation:UITableViewRowAnimationFade];
