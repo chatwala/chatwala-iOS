@@ -36,7 +36,13 @@ static const float InboxTableTransitionDuration = 0.3f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.plusButton.titleLabel.textColor = [UIColor whiteColor];
+    self.plusButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 71.0f)];
+    self.plusButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Light" size:42.0f];
+    [self.plusButton setTitle:@"+" forState:UIControlStateNormal];
+    [self.plusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.plusButton addTarget:self action:@selector(onButtonSelect:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.plusButton];
+    
     self.distinctUsersMessages = [AOFetchUtilities fetchGroupBySenderID];
     self.view.clipsToBounds = YES;
     
@@ -65,6 +71,8 @@ static const float InboxTableTransitionDuration = 0.3f;
     [NC addObserver:self selector:@selector(messageSent:) name:CWNotificationMessageSent object:nil];
     [NC addObserver:self selector:@selector(shouldMarkAllMessagesAsRead:) name:CWNotificationShouldMarkAllMessagesAsRead object:nil];
     [NC addObserver:self selector:@selector(handleInboxOpenNotification:) name:(NSString *)CWNotificationInboxViewControllerShouldOpenInbox object:nil];
+    
+    [NC addObserver:self selector:@selector(showUsersTable:) name:CWNotificationInboxShouldShowUsersTable object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -109,6 +117,10 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 - (void)handleInboxOpenNotification:(NSNotification *)notification {
     [self hideMessagesTableAnimated:NO];
+}
+
+- (void)showUsersTable:(NSNotification *)notification {
+    [self hideMessagesTableAnimated:YES];
 }
 
 #pragma mark - Convenience methods to support group by user
@@ -177,7 +189,7 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 #pragma mark - User Interactions
 
-- (IBAction)onButtonSelect:(id)sender {
+- (void)onButtonSelect:(id)sender {
     if (!self.shouldTreatAsBackButton && [self.delegate respondsToSelector:@selector(inboxViewController:didSelectTopButton:)]) {
         [self.delegate inboxViewController:self didSelectTopButton:sender];
     }

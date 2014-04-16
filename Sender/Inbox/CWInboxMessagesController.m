@@ -9,6 +9,9 @@
 #import "CWInboxMessagesController.h"
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
+#import "CWConstants.h"
+
+static const float DeleteMessageLongPressDuration = 1.0f;
 
 @interface CWInboxMessagesController () <UITableViewDelegate,UITableViewDataSource, UIActionSheetDelegate>
 
@@ -34,7 +37,7 @@
         
         UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc]
                                               initWithTarget:self action:@selector(handleLongPress:)];
-        longPressRecognizer.minimumPressDuration = 1.0f;
+        longPressRecognizer.minimumPressDuration = DeleteMessageLongPressDuration;
         [self.tableView addGestureRecognizer:longPressRecognizer];
         
         [NC addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
@@ -161,6 +164,12 @@
     
     [self.messages removeObjectAtIndex:indexPathToDelete.row];
     [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathToDelete] withRowAnimation:UITableViewRowAnimationFade];
+    
+
+    if (![self.messages count]) {
+        // No more messages showing at this level, let's kick back to the users table
+        [NC postNotificationName:CWNotificationInboxShouldShowUsersTable object:nil userInfo:nil];
+    }
 }
 
 #pragma mark - UIApplication handling
