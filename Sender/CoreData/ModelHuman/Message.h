@@ -42,6 +42,9 @@ typedef enum eMessageViewedState
 - (void)exportZip;
 - (void)saveContext;
 
+- (void)addMessageToUserInbox:(NSString *)userID;
+- (void)deleteMessageFromUserInbox:(NSString *)userID;
+
 - (void)uploadThumbnailImage:(UIImage *)image;
 
 @end

@@ -15,6 +15,7 @@
 #import "Message.h"
 #import "CWAnalytics.h"
 #import "CWVideoFileCache.h"
+#import "CWUserManager.h"
 
 @interface CWOpenerViewController () {
     CWVideoPlayer * player;
@@ -76,7 +77,7 @@
     
     [super viewWillAppear:animated];
 
-    [[CWMessageManager sharedInstance] addMessageToInbox:self.activeMessage];
+    [self.activeMessage addMessageToUserInbox:[[CWUserManager sharedInstance] localUserID]];
     
     [self.playbackView setAlpha:0];
     [self.cameraView setAlpha:0];

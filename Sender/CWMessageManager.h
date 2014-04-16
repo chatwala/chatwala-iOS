@@ -29,7 +29,6 @@ typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 
 +(instancetype) sharedInstance;
 - (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
-- (void)addMessageToInbox:(Message *)message;
 
 - (void)fetchUploadURLForOriginalMessage:(NSString *)userID completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
 - (void)clearUploadURLForOriginalMessage;

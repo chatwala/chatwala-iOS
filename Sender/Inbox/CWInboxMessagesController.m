@@ -8,17 +8,21 @@
 
 #import "CWInboxMessagesController.h"
 #import "CWMessageCell.h"
+#import "CWUserManager.h"
 
-@interface CWInboxMessagesController () <UITableViewDelegate,UITableViewDataSource>
+@interface CWInboxMessagesController () <UITableViewDelegate,UITableViewDataSource, UIActionSheetDelegate>
+
+@property (nonatomic) NSIndexPath *deletionIndexPath;
+@property (nonatomic) UIActionSheet *deleteActionSheet;
 
 @end
 
 @implementation CWInboxMessagesController
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id)init {
     
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
         // Custom initialization
         self.tableView = [[UITableView alloc] initWithFrame:CGRectZero];
@@ -28,32 +32,63 @@
         self.tableView.backgroundColor = [UIColor clearColor];
         self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         
+        UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc]
+                                              initWithTarget:self action:@selector(handleLongPress:)];
+        longPressRecognizer.minimumPressDuration = 1.0f;
+        [self.tableView addGestureRecognizer:longPressRecognizer];
+        
+        [NC addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     }
+    
     return self;
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)dealloc {
+    [NC removeObserver:self name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
-*/
+
+#pragma mark - UIGestureRecognizer 
+
+- (void)handleLongPress:(UILongPressGestureRecognizer *)gestureRecognizer {
+    
+    if (gestureRecognizer.state != UIGestureRecognizerStateBegan) {
+        return;
+    }
+    
+    CGPoint p = [gestureRecognizer locationInView:self.tableView];
+    
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:p];
+    if (indexPath == nil) {
+    
+    }
+    else {
+        CWMessageCell *cell = (CWMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        cell.isDeleteModeEnabled = YES;
+
+        self.deletionIndexPath = indexPath;
+        self.deleteActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure?  This will permanently delete this video message." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil, nil];
+        
+        UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
+        if (window) {
+            [self.deleteActionSheet showInView:window];
+        }
+    }
+}
+
+#pragma mark - UITableView delegate methods
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     Message *message = [self.messages objectAtIndex:indexPath.row];
-    
+    CWMessageCell *cell = (CWMessageCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+
     if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessage:)]) {
         [self.delegate inboxViewController:nil didSelectMessage:message];
         message.eMessageViewedState = eMessageViewedStateOpened;
         
-        CWMessageCell *messageCell = (CWMessageCell *)[tableView cellForRowAtIndexPath:indexPath];
-        [self updateCellState:messageCell withMessage:message];
+
+        [self updateCellState:cell withMessage:message];
     }
 }
 
@@ -84,6 +119,8 @@
     return [[self messages] count];
 }
 
+#pragma mark - Table convenicence methods
+
 - (void)configureCell:(CWMessageCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     Message *message = [self.messages objectAtIndex:indexPath.row];
     
@@ -94,6 +131,45 @@
 - (void)updateCellState:(CWMessageCell *)cell withMessage:(Message *)message {
     
     [cell configureStatusFromMessageViewedState:message.eMessageViewedState];
+}
+
+#pragma mark - UIActionSheet callback
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+
+    NSLog(@"You have pressed the %@ button", [actionSheet buttonTitleAtIndex:buttonIndex]);
+    
+    if (!self.deletionIndexPath) {
+        return;
+    }
+    
+    if (buttonIndex == actionSheet.cancelButtonIndex) {
+        CWMessageCell *cell = (CWMessageCell *)[self.tableView cellForRowAtIndexPath:self.deletionIndexPath];
+        cell.isDeleteModeEnabled = NO;
+    }
+    else {
+        [self deleteMessageAtIndexPath:self.deletionIndexPath];
+    }
+    
+    self.deletionIndexPath = nil;
+}
+
+- (void)deleteMessageAtIndexPath:(NSIndexPath *)indexPathToDelete {
+    Message *message = [self.messages objectAtIndex:indexPathToDelete.row];
+    
+    [message deleteMessageFromUserInbox:[[CWUserManager sharedInstance] localUserID]];
+    
+    [self.messages removeObjectAtIndex:indexPathToDelete.row];
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPathToDelete] withRowAnimation:UITableViewRowAnimationFade];
+}
+
+#pragma mark - UIApplication handling
+
+- (void)applicationDidEnterBackground:(NSNotification *)notification {
+    [self.deleteActionSheet dismissWithClickedButtonIndex:self.deleteActionSheet.cancelButtonIndex animated:NO];
+    
+    CWMessageCell *cell = (CWMessageCell *)[self.tableView cellForRowAtIndexPath:self.deletionIndexPath];
+    cell.isDeleteModeEnabled = NO;
 }
 
 @end
