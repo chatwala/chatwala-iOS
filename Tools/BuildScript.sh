@@ -13,8 +13,8 @@ echo $buildNotes
 
 buildsFolder="../Builds"
 
-appVersion="1.6.2"
-internalVersion="2.7.33"
+appVersion="1.6.3"
+internalVersion="2.7.34"
 displayName="chatwala"
 cwDebugIdentity="\"iPhone Developer: Rahul Kumar (59L7REF9QB)\""
 cwAppStoreIdentity="\"iPhone Distribution: Chatwala Inc\""
