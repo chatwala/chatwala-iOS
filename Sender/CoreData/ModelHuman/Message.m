@@ -73,7 +73,7 @@
     if ([userID length]) {
         NSLog(@"Deleting message from inbox...");
         [self.managedObjectContext deleteObject:self];
-        //[CWServerAPI deleteMessage:self.messageID fromInboxForUser:userID];
+        [CWServerAPI deleteMessage:self.messageID fromInboxForUser:userID];
     }
 }
 
