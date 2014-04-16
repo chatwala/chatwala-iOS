@@ -9,6 +9,8 @@
 #import "CWVideoFileCache.h"
 
 
+long const MinimumFreeDiskSpace = 10485760;
+
 @interface CWVideoFileCache ()
 
 
@@ -70,6 +72,10 @@
     }
 
     return totalFreeSpace;
+}
+
+- (BOOL)hasMinimumFreeDiskSpace {
+    return [self freeCacheSpaceInBytes] > MinimumFreeDiskSpace;
 }
 
 - (void)purgeCache {

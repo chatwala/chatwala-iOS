@@ -19,6 +19,7 @@
 #import "CWAnalytics.h"
 #import "CWProfilePictureViewController.h"
 #import "CWConstants.h"
+#import "CWVideoFileCache.h"
 
 @interface CWStartScreenViewController () <UIGestureRecognizerDelegate>
 @property (nonatomic,strong) UIImageView * messageSentView;
@@ -145,6 +146,10 @@
 - (void)onMiddleButtonTap {
     if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
         [SVProgressHUD showErrorWithStatus:@"Internet connection required\n to send message."];
+        return;
+    }
+    else if (![[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace])  {
+        [SVProgressHUD showErrorWithStatus:@"Please free up disk space! Unable to record new message."];
         return;
     }
     

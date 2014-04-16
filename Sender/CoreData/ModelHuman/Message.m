@@ -4,6 +4,7 @@
 #import "CWDataManager.h"
 #import "NSDictionary+LookUpTable.h"
 #import "CWServerAPI.h"
+#import "CWConstants.h"
 
 @interface Message ()
 
@@ -56,6 +57,23 @@
             abort();
 #endif
         } 
+    }
+}
+
+- (void)addMessageToUserInbox:(NSString *)userID {
+    
+    if ([userID length] && [self.recipientID isEqualToString:CWConstantsUnknownRecipientIDString]) {
+        NSLog(@"Adding message to inbox...");
+        [CWServerAPI addMessage:self.messageID toInboxForUser:userID];
+    }
+}
+
+- (void)deleteMessageFromUserInbox:(NSString *)userID {
+    
+    if ([userID length]) {
+        NSLog(@"Deleting message from inbox...");
+        [self.managedObjectContext deleteObject:self];
+        [CWServerAPI deleteMessage:self.messageID fromInboxForUser:userID];
     }
 }
 

@@ -20,12 +20,15 @@ typedef void (^AFNetworkingFailureBlock)(NSURLRequest *request, NSHTTPURLRespons
 - (void)configureStatusFromMessageViewedState:(eMessageViewedState)viewedState;
 - (NSURL *)thumbnailURLFromMessage:(Message *)message;
 
+
 @property (nonatomic,strong) UIImageView * thumbView;
 @property (nonatomic,assign) CGFloat progress;
 @property (nonatomic,strong) UIActivityIndicatorView * spinner;
+@property (nonatomic, assign) BOOL isDeleteModeEnabled;
 
 @property (strong, readonly) AFNetworkingSuccessBlock successImageDownloadBlock;
 @property (strong, readonly) AFNetworkingFailureBlock failureImageDownloadBlock;
 
 - (NSString *) timeStringFromDate:(NSDate *) timeStamp;
+
 @end

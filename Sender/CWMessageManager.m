@@ -15,7 +15,7 @@
 #import "CWServerAPI.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
-#import "CWConstants.h"
+
 
 
 @interface CWMessageManager ()
@@ -154,14 +154,6 @@
             }
             
         }];
-    }
-}
-
-- (void)addMessageToInbox:(Message *)message {
-    
-    if (message && [message.recipientID isEqualToString:CWConstantsUnknownRecipientIDString]) {
-        NSLog(@"Adding message to inbox...");
-        [CWServerAPI addMessage:message.messageID toInboxForUser:[[CWUserManager sharedInstance] localUserID]];
     }
 }
 

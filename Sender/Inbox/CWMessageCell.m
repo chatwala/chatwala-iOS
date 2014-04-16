@@ -18,8 +18,10 @@
 @property (nonatomic,strong) UIView * cellView;
 @property (nonatomic, strong) UIImageView * statusImage;
 @property (nonatomic, strong) UILabel * sentTimeLabel;
-@end
 
+@property (nonatomic, strong) UIImageView *deleteImageView;
+
+@end
 
 @implementation CWMessageCell
 
@@ -33,6 +35,11 @@
         self.thumbView.contentMode = UIViewContentModeScaleAspectFill;
         self.thumbView.clipsToBounds = YES;
         [self addSubview:self.thumbView];
+        
+        self.deleteImageView = [[UIImageView alloc] initWithFrame:self.thumbView.frame];
+        self.deleteImageView.image = [UIImage imageNamed:@"DeleteImage"];
+        self.deleteImageView.alpha = 0.0f;
+        [self addSubview:self.deleteImageView];
         
         self.spinner = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];;
         [self.spinner setTintColor:[UIColor redColor]];
@@ -73,6 +80,7 @@
     [super prepareForReuse];
     [self.spinner stopAnimating];
     [self.sentTimeLabel setText:@""];
+    [self setIsDeleteModeEnabled:NO];
 }
 
 + (NSString *)cellIdentifier {
@@ -86,6 +94,19 @@
     NSString * timeValue = [self timeStringFromDate:message.timeStamp];
     self.sentTimeLabel.text = timeValue;
 }
+
+- (void)setIsDeleteModeEnabled:(BOOL)isDeleteModeEnabled {
+    _isDeleteModeEnabled = isDeleteModeEnabled;
+    
+    if (isDeleteModeEnabled) {
+        self.deleteImageView.alpha = 1.0f;
+        [self bringSubviewToFront:self.deleteImageView];
+    }
+    else {
+        self.deleteImageView.alpha = 0.0f;
+    }
+}
+
 
 - (void)fetchThumbnailForMessage:(Message *)message {
     
@@ -126,7 +147,6 @@
             NSLog(@"Successfully fetched image from %@", cacheTypeString);
         }
     }];
-
 }
 
 - (NSURL *)thumbnailURLFromMessage:(Message *)message {

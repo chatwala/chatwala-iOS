@@ -8,9 +8,9 @@
 
 #import "CWInboxViewController.h"
 
-@interface CWInboxMessagesController : UIViewController
+@interface CWInboxMessagesController : NSObject
 
-@property (nonatomic) NSArray *messages;
+@property (nonatomic) NSMutableArray *messages;
 
 @property (nonatomic) UITableView *tableView;
 @property (nonatomic,weak) id<CWInboxDelegate> delegate;

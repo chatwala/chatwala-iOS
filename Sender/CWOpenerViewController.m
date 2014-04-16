@@ -14,6 +14,8 @@
 #import "CWDataManager.h"
 #import "Message.h"
 #import "CWAnalytics.h"
+#import "CWVideoFileCache.h"
+#import "CWUserManager.h"
 
 @interface CWOpenerViewController () {
     CWVideoPlayer * player;
@@ -75,7 +77,7 @@
     
     [super viewWillAppear:animated];
 
-    [[CWMessageManager sharedInstance] addMessageToInbox:self.activeMessage];
+    [self.activeMessage addMessageToUserInbox:[[CWUserManager sharedInstance] localUserID]];
     
     [self.playbackView setAlpha:0];
     [self.cameraView setAlpha:0];
@@ -102,8 +104,15 @@
 }
 
 - (void)onMiddleButtonTap {
+    
     switch (self.openerState) {
         case CWOpenerPreview:
+            
+            if (![[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace]) {
+                [SVProgressHUD showErrorWithStatus:@"Please free up disk space! Unable to record your reply."];
+                return;
+            }
+            
             self.activeMessage.eMessageViewedState = eMessageViewedStateRead;
             [self.activeMessage saveContext];
             [self setOpenerState:CWOpenerReview];

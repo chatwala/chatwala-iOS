@@ -11,10 +11,10 @@
 
 @interface CWInboxViewController : UIViewController
 @property (nonatomic,weak) IBOutlet UILabel * messagesLabel;
-@property (nonatomic,weak) IBOutlet UIButton * plusButton;
+@property (nonatomic)  UIButton *plusButton;
 @property (nonatomic,weak) IBOutlet UIButton * settingsButton;
 @property (nonatomic,weak) id<CWInboxDelegate> delegate;
-- (IBAction)onButtonSelect:(id)sender;
+
 @end
 
 

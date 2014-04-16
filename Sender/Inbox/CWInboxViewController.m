@@ -14,6 +14,7 @@
 #import "CWDataManager.h"
 #import "CWInboxMessagesController.h"
 #import "CWConstants.h"
+#import "CWAppFeedBackViewController.h"
 
 static const float InboxTableTransitionDuration = 0.3f;
 
@@ -25,7 +26,7 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 @property (nonatomic,strong) UIRefreshControl * refreshControl;
 
-@property (nonatomic) NSArray *distinctUserMessages;
+@property (nonatomic) NSArray *distinctUsersMessages;
 @property (nonatomic) BOOL shouldTreatAsBackButton;
 
 @end
@@ -35,8 +36,14 @@ static const float InboxTableTransitionDuration = 0.3f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.plusButton.titleLabel.textColor = [UIColor whiteColor];
-    self.distinctUserMessages = [AOFetchUtilities fetchGroupBySenderID];
+    self.plusButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 71.0f)];
+    self.plusButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Light" size:42.0f];
+    [self.plusButton setTitle:@"+" forState:UIControlStateNormal];
+    [self.plusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [self.plusButton addTarget:self action:@selector(onButtonSelect:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.plusButton];
+    
+    self.distinctUsersMessages = [AOFetchUtilities fetchGroupBySenderID];
     self.view.clipsToBounds = YES;
     
     // Do any additional setup after loading the view from its nib.
@@ -62,28 +69,23 @@ static const float InboxTableTransitionDuration = 0.3f;
     [NC addObserver:self selector:@selector(onMessagesLoaded:) name:@"MessagesLoaded" object:nil];
     [NC addObserver:self selector:@selector(onMessagLoadedFailed:) name:@"MessagesLoadFailed" object:nil];
     [NC addObserver:self selector:@selector(messageSent:) name:CWNotificationMessageSent object:nil];
+    [NC addObserver:self selector:@selector(shouldMarkAllMessagesAsRead:) name:CWNotificationShouldMarkAllMessagesAsRead object:nil];
+    [NC addObserver:self selector:@selector(handleInboxOpenNotification:) name:(NSString *)CWNotificationInboxViewControllerShouldOpenInbox object:nil];
     
+    [NC addObserver:self selector:@selector(showUsersTable:) name:CWNotificationInboxShouldShowUsersTable object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    self.distinctUserMessages = [AOFetchUtilities fetchGroupBySenderID];
-    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];    
 }
 
 #pragma mark - Notification handlers
 
 - (void)onMessagesLoaded:(NSNotification *)note {
 
-//    NSOrderedSet * inboxMessages = [[CWUserManager sharedInstance]] inboxMessages];
-//    [self.messagesLabel setText:[NSString stringWithFormat:@"%lu Messages", (unsigned long)inboxMessages.count]];
-    self.distinctUserMessages = [AOFetchUtilities fetchGroupBySenderID];
+    self.distinctUsersMessages = [AOFetchUtilities fetchGroupBySenderID];
     
     [self.usersTableView reloadData];
     [self.messagesController.tableView reloadData];
@@ -107,9 +109,23 @@ static const float InboxTableTransitionDuration = 0.3f;
     [self hideMessagesTableAnimated:NO];
 }
 
+- (void)shouldMarkAllMessagesAsRead:(NSNotification *)notification {
+    [AOFetchUtilities markAllMessagesAsReadForUser:[[CWUserManager sharedInstance] localUserID]];
+    [self.usersTableView reloadData];
+    [self.messagesController.tableView reloadData];
+}
+
+- (void)handleInboxOpenNotification:(NSNotification *)notification {
+    [self hideMessagesTableAnimated:NO];
+}
+
+- (void)showUsersTable:(NSNotification *)notification {
+    [self hideMessagesTableAnimated:YES];
+}
+
 #pragma mark - Convenience methods to support group by user
 
-- (void)showMessagesTableWithMessages:(NSArray *)messages animated:(BOOL)shouldAnimate {
+- (void)showMessagesTableWithMessages:(NSMutableArray *)messages animated:(BOOL)shouldAnimate {
     
     self.messagesController.messages = messages;
     [self.messagesController.tableView reloadData];
@@ -155,6 +171,10 @@ static const float InboxTableTransitionDuration = 0.3f;
 
         [self hideBackButton];
     }
+    
+    // Update because cells might have been deleted from the messages table affecting what user cells to show
+    self.distinctUsersMessages = [AOFetchUtilities fetchGroupBySenderID];
+    [self.usersTableView reloadData];
 }
 
 - (void)showBackButton {
@@ -169,7 +189,7 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 #pragma mark - User Interactions
 
-- (IBAction)onButtonSelect:(id)sender {
+- (void)onButtonSelect:(id)sender {
     if (!self.shouldTreatAsBackButton && [self.delegate respondsToSelector:@selector(inboxViewController:didSelectTopButton:)]) {
         [self.delegate inboxViewController:self didSelectTopButton:sender];
     }
@@ -184,12 +204,24 @@ static const float InboxTableTransitionDuration = 0.3f;
     }
 }
 
+- (void)didTapFeedbackFooter:(id)sender {
+    UINavigationController * navController = [[UINavigationController alloc] initWithRootViewController:[[CWAppFeedBackViewController alloc] init]];
+    
+    [navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    navController.navigationBar.shadowImage = [UIImage new];
+    navController.navigationBar.translucent = YES;
+    [navController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    
+    [self presentViewController:navController animated:YES completion:nil];
+}
+
 #pragma mark - CWUserCell UI convenience methods
 
 
 - (void)configureCell:(CWUserCell *)cell atIndexPath:(NSIndexPath *)indexPath {
  
-    NSArray *messagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
+    NSArray *messagesForSender = [self.distinctUsersMessages objectAtIndex:indexPath.row];
     
     
     if ([messagesForSender count]) {
@@ -219,12 +251,13 @@ static const float InboxTableTransitionDuration = 0.3f;
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    NSArray *arrayOfMessagesForSender = [self.distinctUserMessages objectAtIndex:indexPath.row];
+    NSMutableArray *arrayOfMessagesForSender = [self.distinctUsersMessages objectAtIndex:indexPath.row];
     CWUserCell *userCell = (CWUserCell *)[tableView cellForRowAtIndexPath:indexPath];
+
+    Message *message = [arrayOfMessagesForSender objectAtIndex:0];
     
-    if ([arrayOfMessagesForSender count] == 1) {
-        Message *message = [arrayOfMessagesForSender objectAtIndex:0];
-        
+    if ([arrayOfMessagesForSender count] == 1 && message.eMessageViewedState == eMessageViewedStateUnOpened) {
+
         if ([self.delegate respondsToSelector:@selector(inboxViewController:didSelectMessage:)]) {
             [self.delegate inboxViewController:nil didSelectMessage:message];
             message.eMessageViewedState = eMessageViewedStateOpened;
@@ -232,7 +265,7 @@ static const float InboxTableTransitionDuration = 0.3f;
             [self updateCellState:userCell withMessage:message];
         }
     }
-    else if ([arrayOfMessagesForSender count] > 1) {
+    else {
     
         [self showMessagesTableWithMessages:arrayOfMessagesForSender animated:YES];
         [self updateCellState:userCell withMessage:[arrayOfMessagesForSender objectAtIndex:0]];
@@ -262,7 +295,28 @@ static const float InboxTableTransitionDuration = 0.3f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-   return [self.distinctUserMessages count];
+   return [self.distinctUsersMessages count];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    UIButton *feedbackFooterButton = nil;
+    
+    if (section == 0) {
+        feedbackFooterButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 72.0f)];
+        feedbackFooterButton.backgroundColor = [UIColor blackColor];
+        [feedbackFooterButton setImage:[UIImage imageNamed:@"FeedbackButton"] forState:UIControlStateNormal];
+        [feedbackFooterButton setImage:[UIImage imageNamed:@"FeedbackButtonTapped"] forState:UIControlStateHighlighted];
+        
+        [feedbackFooterButton addTarget:self action:@selector(didTapFeedbackFooter:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+
+    return feedbackFooterButton;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 72.0f;
 }
 
 @end

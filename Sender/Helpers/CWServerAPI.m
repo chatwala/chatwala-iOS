@@ -21,6 +21,7 @@ NSString *const PushRegisterEndpoint = @"/user/registerPushToken";
 NSString *const GetMessageReadURLEndpoint = @"/messages/getReadUrlFromShareId";
 NSString *const GetProfilePictureSASEndpoint = @"/user/postUserProfilePicture";
 NSString *const AddMessageToInboxEndpoint = @"/messages/addUnknownRecipientMessageToInbox";
+NSString *const DeleteMessageFromInboxEndpoint = @"/messages/markMessageAsDeleted";
 NSString *const CompleteOriginalMessageEndpoint = @"/messages/completeUnknownRecipientMessageSend";
 NSString *const CompleteReplyMessageEndpoint = @"/messages/completeReplyMessageSend";
 NSString *const GetProfilePictureReadURLEndpoint = @"/user/postGetReadURLForUserProfilePicture";
@@ -113,6 +114,24 @@ AFURLSessionManager *BackgroundSessionManager;
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
         NSLog(@"Unable to add message: %@ to inbox", messageID);
+    }];
+}
+
++ (void)deleteMessage:(NSString *)messageID fromInboxForUser:(NSString *)userID {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    
+    NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:DeleteMessageFromInboxEndpoint];
+    NSDictionary *params = @{@"message_id" : messageID,
+                             @"user_id" : userID};
+    
+    [manager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"Successfully deleted message: %@ from inbox", messageID);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Unable to delete message: %@ from inbox", messageID);
     }];
 
 }
@@ -468,8 +487,6 @@ AFURLSessionManager *BackgroundSessionManager;
 }
 
 + (void)downloadMessageFromReadURL:(NSString *)endPoint destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock {
-
-    NSLog(@"Successfully fetched message read url.");
     
     // do download
     NSString * messagePath = endPoint;
