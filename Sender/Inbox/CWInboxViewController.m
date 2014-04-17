@@ -20,14 +20,14 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 @interface CWInboxViewController () <UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic,weak) IBOutlet UITableView * usersTableView;
+@property (nonatomic) UITableView *usersTableView;
 
 @property (nonatomic) CWInboxMessagesController *messagesController;
 
 @property (nonatomic,strong) UIRefreshControl * refreshControl;
 
 @property (nonatomic) NSArray *distinctUsersMessages;
-@property (nonatomic) BOOL shouldTreatAsBackButton;
+@property (nonatomic) BOOL isShowingMessagesTable;
 
 @end
 
@@ -36,22 +36,30 @@ static const float InboxTableTransitionDuration = 0.3f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.plusButton = [[UIButton alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 71.0f)];
+    self.view.clipsToBounds = YES;
+    
+    self.distinctUsersMessages = [AOFetchUtilities fetchGroupBySenderID];
+    
+    self.settingsButton = [[UIButton alloc] initWithFrame:CGRectZero];
+    [self.settingsButton setImage:[UIImage imageNamed:@"settings_cog"] forState:UIControlStateNormal];
+    [self.settingsButton addTarget:self action:@selector(onSettingsButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.settingsButton];
+    
+    self.plusButton = [[UIButton alloc] initWithFrame:CGRectZero];
     self.plusButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Light" size:42.0f];
     [self.plusButton setTitle:@"+" forState:UIControlStateNormal];
     [self.plusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.plusButton addTarget:self action:@selector(onButtonSelect:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.plusButton];
     
-    self.distinctUsersMessages = [AOFetchUtilities fetchGroupBySenderID];
-    self.view.clipsToBounds = YES;
-    
-    // Do any additional setup after loading the view from its nib.
+    self.usersTableView = [[UITableView alloc] initWithFrame:CGRectZero];
     [self.usersTableView registerClass:[CWUserCell class] forCellReuseIdentifier:[CWUserCell cellIdentifier]];
-//    [self.messagesTable setDelegate:[CWMessageManager sharedInstance]];
     [self.usersTableView setDelegate:self];
+    [self.usersTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.usersTableView setDataSource:self];
-//    [self.messagesTable setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+    
+    [self.usersTableView setBackgroundColor:[UIColor clearColor]];
+    [self.view addSubview:self.usersTableView];
     
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(handleRefresh:) forControlEvents:UIControlEventValueChanged];
@@ -62,7 +70,6 @@ static const float InboxTableTransitionDuration = 0.3f;
     self.messagesController = [[CWInboxMessagesController alloc] init];
     self.messagesController.delegate = self.delegate;
     
-    self.messagesController.tableView.frame = CGRectMake(CGRectGetMaxX(self.view.frame), self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
     [self.view addSubview:self.messagesController.tableView];
     
     
@@ -78,7 +85,19 @@ static const float InboxTableTransitionDuration = 0.3f;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];    
+    // Have to set frames here because the view isn't correctly configured in viewDidLoad
+    self.settingsButton.frame = CGRectMake(0.0f, self.view.frame.size.height - 50.0f, self.view.bounds.size.width, 50.0f);
+    self.plusButton.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, 69.0f);
+    
+    // Only reset the frame if we're in the user table
+    if (!self.isShowingMessagesTable) {
+
+        self.usersTableView.frame = CGRectMake(0.0f, CGRectGetMaxY(self.plusButton.frame) + 1.0f, self.view.frame.size.width, self.settingsButton.frame.origin.y - CGRectGetMaxY(self.plusButton.frame));
+
+        self.messagesController.tableView.frame = CGRectMake(CGRectGetMaxX(self.view.frame), self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
+    }
+
+    [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
 }
 
 #pragma mark - Notification handlers
@@ -178,22 +197,22 @@ static const float InboxTableTransitionDuration = 0.3f;
 }
 
 - (void)showBackButton {
-    self.shouldTreatAsBackButton = YES;
+    self.isShowingMessagesTable = YES;
     self.plusButton.titleLabel.text = @"<";
 }
 
 - (void)hideBackButton {
-    self.shouldTreatAsBackButton = NO;
+    self.isShowingMessagesTable = NO;
     self.plusButton.titleLabel.text = @"+";
 }
 
 #pragma mark - User Interactions
 
 - (void)onButtonSelect:(id)sender {
-    if (!self.shouldTreatAsBackButton && [self.delegate respondsToSelector:@selector(inboxViewController:didSelectTopButton:)]) {
+    if (!self.isShowingMessagesTable && [self.delegate respondsToSelector:@selector(inboxViewController:didSelectTopButton:)]) {
         [self.delegate inboxViewController:self didSelectTopButton:sender];
     }
-    else if (self.shouldTreatAsBackButton) {
+    else if (self.isShowingMessagesTable) {
         [self hideMessagesTableAnimated:YES];
     }
 }
