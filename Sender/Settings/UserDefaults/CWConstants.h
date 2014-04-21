@@ -42,4 +42,5 @@ extern NSString *const CWUserDefaultsProfilePictureURLKey;
 extern NSString *const CWConstantsGControlMessagesEndpointKey;
 
 // Message specfici defaults
-extern NSString *const CWConstantsMessageMarkedDeletedKey;;
+extern NSString *const CWConstantsMessageMarkedDeletedKey;
+extern NSString *const CWUserDefaultsIsFirstOpenKey;

@@ -24,4 +24,8 @@
 + (NSInteger)numberOfSentMessages;
 + (void)setNumberOfSentMessages:(NSInteger)messageSentCount;
 
++ (BOOL)isFirstOpen;
++ (void)setIsFirstOpen:(BOOL)isFirstOpen;
+
+
 @end

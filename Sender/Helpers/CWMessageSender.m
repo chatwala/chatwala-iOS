@@ -119,9 +119,9 @@
 #elif USE_SANDBOX_SERVER
     messagePrefix = @"This is a Sandbox message";
 #elif USE_STAGING_SERVER
-    messagePrefix = @"Hey, I sent you a video message on Chatwala";
+    messagePrefix = @"I sent you a video message";
 #else
-    messagePrefix = @"Hey, I sent you a video message on Chatwala";
+    messagePrefix = @"I sent you a video message";
 #endif
     
     NSString *messageBody = [NSString stringWithFormat:@"%@: %@", messagePrefix, key];

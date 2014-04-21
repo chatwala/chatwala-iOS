@@ -41,5 +41,6 @@ NSString *const CWUserDefaultsProfilePictureURLKey = @"CWUserDefaultsProfilePict
 // User Defaults - Ground Control
 NSString *const CWConstantsGControlMessagesEndpointKey = @"GC_MESSAGES_ENDPOINT";
 
-// Message specfici defaults
+// Message specific defaults
 NSString *const CWConstantsMessageMarkedDeletedKey = @"CWConstantsMessageMarkedDeletedKey";
+NSString *const CWUserDefaultsIsFirstOpenKey = @"CWUserDefaultsIsFirstOpenKey";

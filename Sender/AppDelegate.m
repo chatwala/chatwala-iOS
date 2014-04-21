@@ -22,6 +22,7 @@
 #import "CWStartScreenViewController.h"
 #import "CWVideoFileCache.h"
 #import "CWInboxViewController.h"
+#import "CWSplashViewController.h"
 
 
 #define MAX_LEFT_DRAWER_WIDTH 131
@@ -45,6 +46,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 @property (nonatomic,strong) CWInboxViewController * inboxController;
 @property (nonatomic,strong) CWMainViewController * mainVC;
 @property (nonatomic,strong) CWLoadingViewController * loadingVC;
+@property (nonatomic,strong) CWSplashViewController *splashVC;
+
 @property (nonatomic,strong) UINavigationController * settingsNavController;
 @property (nonatomic,assign) BOOL fetchingFirstLaunchMessage;
 
@@ -91,8 +94,37 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
     [CWAnalytics appOpened];
     
+    // Set up views first
+    self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
+    self.inboxController = [[CWInboxViewController alloc]init];
+    self.mainVC = [[CWMainViewController alloc]init];
+    
+    [self.inboxController setDelegate:self];
+    
+    self.navController = [[UINavigationController alloc]initWithRootViewController:self.mainVC];
+    [self.navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navController.navigationBar.shadowImage = [UIImage new];
+    self.navController.navigationBar.translucent = YES;
+    [self.navController.navigationBar setTintColor:[UIColor whiteColor]];
+    
+    
+    self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.inboxController];
+    [self.drawController setMaximumLeftDrawerWidth:MAX_LEFT_DRAWER_WIDTH];
+    [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeTapCenterView];
+    
+    self.loadingVC = [[CWLoadingViewController alloc]init];
+    
+    [self.drawController.view addSubview:self.loadingVC.view];
+
+    // Now check if this is first launch
     if(![[CWUserDefaultsController userID] length]) {
+        
+        [self showSplash];
+        [CWUserDefaultsController setIsFirstOpen:YES];
         [self fetchMessageFromURLString:messageRetrievalEndpoint];
+    }
+    else {
+        [self showMainView];
     }
     
     [CWUserManager sharedInstance];
@@ -100,34 +132,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
-    
-    self.inboxController = [[CWInboxViewController alloc]init];
-    self.mainVC = [[CWMainViewController alloc]init];
 
-    [self.inboxController setDelegate:self];
-    
-    
-    self.navController = [[UINavigationController alloc]initWithRootViewController:self.mainVC];
-    [self.navController.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
-    self.navController.navigationBar.shadowImage = [UIImage new];
-    self.navController.navigationBar.translucent = YES;
-    [self.navController.navigationBar setTintColor:[UIColor whiteColor]];
-
-     
-    self.drawController = [[MMDrawerController alloc]initWithCenterViewController:self.navController leftDrawerViewController:self.inboxController];
-    [self.drawController setMaximumLeftDrawerWidth:MAX_LEFT_DRAWER_WIDTH];
-    [self.drawController setCloseDrawerGestureModeMask:MMCloseDrawerGestureModeTapCenterView];
-
-    self.loadingVC = [[CWLoadingViewController alloc]init];
-    [self.loadingVC.view setAlpha:0];
-    
-    [self.drawController.view addSubview:self.loadingVC.view];
-    
-    self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
-    [self.window addSubview:self.drawController.view];
-    [self.window setRootViewController:self.drawController];
-    [self.window makeKeyAndVisible];
-    
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
     
     NSDictionary *remoteNotificationDictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
@@ -157,19 +162,9 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         self.settingsNavController = nil;
     }];
     
-//    [self.landingVC setFlowDirection:eFlowToStartScreen];
     [self.navController popToRootViewControllerAnimated:NO];
-//    [self.navController.topViewController.navigationController popToRootViewControllerAnimated:NO];
-//    id currentVC = rootVC.topViewController;
     
-//    if ([currentVC isKindOfClass:[SenderViewController class]]) {
-//        SenderViewController * vc = (SenderViewController* )currentVC;
-//        [vc interruptRecording];
-//    }
-//
-    
-//    [[CWVideoManager sharedManager]recorder]
-    
+    [CWUserDefaultsController setIsFirstOpen:NO];
     [self deactivateSession];
     [[AFNetworkReachabilityManager sharedManager]stopMonitoring];
 }
@@ -209,7 +204,10 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }
     
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-    [self activateSession];
+    
+    if (![CWUserDefaultsController isFirstOpen]) {
+        [self activateSession];
+    }
     
     NSLog(@"server environment: %@",[[CWMessageManager sharedInstance] baseEndPoint]);
     
@@ -238,6 +236,11 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
    
+    
+    if (self.fetchingFirstLaunchMessage) {
+        [self showMainView];
+    }
+    
     if ([[CWGroundControlManager sharedInstance] shouldShowKillScreen]) {
         [[CWGroundControlManager sharedInstance] showKillScreen];
         return YES;
@@ -316,6 +319,26 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
     [self sendMessageOpenTrackingWithMessageID:messageID];
     return YES;
+}
+
+#pragma mark - UI helpers
+
+- (void)showSplash {
+    
+    self.splashVC = [[CWSplashViewController alloc] init];
+    
+    [self.window addSubview:self.splashVC.view];
+    [self.window setRootViewController:self.splashVC];
+    [self.window makeKeyAndVisible];
+    
+}
+
+- (void)showMainView {
+    
+    [self.loadingVC.view setAlpha:0.0f];
+    [self.window addSubview:self.drawController.view];
+    [self.window setRootViewController:self.drawController];
+    [self.window makeKeyAndVisible];
 }
 
 #pragma mark - URL Scheme based copy updates

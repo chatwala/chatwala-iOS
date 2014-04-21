@@ -81,6 +81,9 @@
 - (void)viewDidAppear:(BOOL)animated {
 
     [super viewDidAppear:animated];
+    
+    [[[CWVideoManager sharedManager] recorder] checkForMicAccess];
+    
     [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.startButton];
     
     [[[[CWVideoManager sharedManager] recorder] recorderView] setFrame:self.view.bounds];
@@ -99,20 +102,7 @@
             }];
         }];
         self.showSentMessage = NO;
-//        AppDelegate * appdel = (AppDelegate *)[[UIApplication sharedApplication]delegate ];
-//
-//        [appdel.landingVC setFlowDirection:eFlowToStartScreen];
-
     }
-    /*
-
-    if ([[CWAuthenticationManager sharedInstance]shouldShowAuth]) {
-        // not-authenticated
-        CWAuthRequestViewController * vc = [[CWAuthRequestViewController alloc]init];
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-     */
-    
     
     if ([[[NSUserDefaults standardUserDefaults]valueForKey:@"MESSAGE_SENT"]boolValue]) {
         [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];

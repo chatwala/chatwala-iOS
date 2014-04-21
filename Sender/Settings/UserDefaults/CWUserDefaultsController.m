@@ -59,4 +59,14 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++ (BOOL)isFirstOpen {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:CWUserDefaultsIsFirstOpenKey];
+}
+
++ (void)setIsFirstOpen:(BOOL)isFirstOpen {
+    [[NSUserDefaults standardUserDefaults] setBool:isFirstOpen forKey:CWUserDefaultsIsFirstOpenKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+
 @end

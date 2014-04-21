@@ -35,6 +35,7 @@
 		0D6F839418BD4A8200DCAC2A /* CWConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F839318BD4A8200DCAC2A /* CWConstants.m */; };
 		0D6F839718BD4AB200DCAC2A /* CWUserDefaultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F839618BD4AB200DCAC2A /* CWUserDefaultsController.m */; };
 		0D74053C18C63A4C0075166A /* CWVideoFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D74053B18C63A4C0075166A /* CWVideoFileCache.m */; };
+		0D9AB1031905B7E100E78C1C /* CWSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9AB1021905B7E100E78C1C /* CWSplashViewController.m */; };
 		0DAD469818D2351D008C546A /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD467C18D2351D008C546A /* MKAnnotationView+WebCache.m */; };
 		0DAD469918D2351D008C546A /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD467E18D2351D008C546A /* NSData+ImageContentType.m */; };
 		0DAD469A18D2351D008C546A /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DAD468018D2351D008C546A /* SDImageCache.m */; };
@@ -293,6 +294,8 @@
 		0D6F839618BD4AB200DCAC2A /* CWUserDefaultsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserDefaultsController.m; sourceTree = "<group>"; };
 		0D74053A18C63A4C0075166A /* CWVideoFileCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWVideoFileCache.h; sourceTree = "<group>"; };
 		0D74053B18C63A4C0075166A /* CWVideoFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoFileCache.m; sourceTree = "<group>"; };
+		0D9AB1011905B7E100E78C1C /* CWSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSplashViewController.h; sourceTree = "<group>"; };
+		0D9AB1021905B7E100E78C1C /* CWSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSplashViewController.m; sourceTree = "<group>"; };
 		0DAD467B18D2351D008C546A /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		0DAD467C18D2351D008C546A /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		0DAD467D18D2351D008C546A /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -993,6 +996,8 @@
 				0D1DAEA51891809D0051D7AE /* Settings */,
 				E990945F18620AD70050695F /* CWViewController.h */,
 				E990946018620AD70050695F /* CWViewController.m */,
+				0D9AB1011905B7E100E78C1C /* CWSplashViewController.h */,
+				0D9AB1021905B7E100E78C1C /* CWSplashViewController.m */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -1663,6 +1668,7 @@
 				0D1DAEB11891809D0051D7AE /* CWSettingsViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
 				0D29E37318AAB9F500082ECF /* CWMessagesDownloader.m in Sources */,
+				0D9AB1031905B7E100E78C1C /* CWSplashViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
