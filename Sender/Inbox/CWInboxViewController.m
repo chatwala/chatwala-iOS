@@ -116,7 +116,6 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 - (void)onMessagLoadedFailed:(NSNotification*)note {
 
-//    [self.messagesLabel setText:@"failed to load messages."];
     [self.refreshControl endRefreshing];
 }
 
