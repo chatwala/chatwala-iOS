@@ -8,8 +8,11 @@
 
 #import "CWVideoFileCache.h"
 
-
-long const MinimumFreeDiskSpace = 10485760;
+#ifdef USE_DEV_SERVER
+long const MinimumFreeDiskSpace = 1073741824;
+#else
+long const MinimumFreeDiskSpace = 104857600;
+#endif
 
 @interface CWVideoFileCache ()
 
