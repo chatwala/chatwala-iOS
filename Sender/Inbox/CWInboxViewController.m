@@ -47,6 +47,7 @@ static const float InboxTableTransitionDuration = 0.3f;
     
     self.plusButton = [[UIButton alloc] initWithFrame:CGRectZero];
     self.plusButton.titleLabel.font = [UIFont fontWithName:@"Avenir-Light" size:42.0f];
+    self.plusButton.backgroundColor = [UIColor colorWithRed:60.0f/255.0f green:70.0f/255.0f blue:96.0f/255.0f alpha:1.0f];
     [self.plusButton setTitle:@"+" forState:UIControlStateNormal];
     [self.plusButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.plusButton addTarget:self action:@selector(onButtonSelect:) forControlEvents:UIControlEventTouchUpInside];
@@ -92,7 +93,7 @@ static const float InboxTableTransitionDuration = 0.3f;
     // Only reset the frame if we're in the user table
     if (!self.isShowingMessagesTable) {
 
-        self.usersTableView.frame = CGRectMake(0.0f, CGRectGetMaxY(self.plusButton.frame) + 1.0f, self.view.frame.size.width, self.settingsButton.frame.origin.y - CGRectGetMaxY(self.plusButton.frame));
+        self.usersTableView.frame = CGRectMake(0.0f, CGRectGetMaxY(self.plusButton.frame), self.view.frame.size.width, self.settingsButton.frame.origin.y - CGRectGetMaxY(self.plusButton.frame));
 
         self.messagesController.tableView.frame = CGRectMake(CGRectGetMaxX(self.view.frame), self.usersTableView.frame.origin.y, self.usersTableView.frame.size.width, self.usersTableView.frame.size.height);
     }
