@@ -116,13 +116,7 @@
         } completion:nil];
         
 
-        if(![[CWUserManager sharedInstance] hasApprovedProfilePicture:[[CWUserManager sharedInstance] localUserID]])
-        {
-            //show the profile picture
-            [self showProfilePictureWasUploaded];
-        }
-        else if([[CWUserManager sharedInstance] shouldRequestAppFeedback])
-        {
+        if([[CWUserManager sharedInstance] shouldRequestAppFeedback]) {
             //ask for app feedback
             [weakSelf showAppFeedback];
             [[CWUserManager sharedInstance] didRequestAppFeedback];
