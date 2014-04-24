@@ -119,13 +119,12 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     // Now check if this is first launch
     if(![[CWUserDefaultsController userID] length]) {
         
-        [self showSplash];
+//        [self showSplash];
         [CWUserDefaultsController setIsFirstOpen:YES];
         [self fetchMessageFromURLString:messageRetrievalEndpoint];
     }
-    else {
-        [self showMainView];
-    }
+    
+     [self showMainView];
     
     [CWUserManager sharedInstance];
     [CWGroundControlManager sharedInstance];
@@ -205,9 +204,11 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    if (![CWUserDefaultsController isFirstOpen]) {
-        [self activateSession];
-    }
+    [self activateSession];
+//    
+//    if (![CWUserDefaultsController isFirstOpen]) {
+//        
+//    }
     
     NSLog(@"server environment: %@",[[CWMessageManager sharedInstance] baseEndPoint]);
     
@@ -237,9 +238,9 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
    
     
-    if (self.fetchingFirstLaunchMessage) {
-        [self showMainView];
-    }
+//    if (self.fetchingFirstLaunchMessage) {
+//        [self showMainView];
+//    }
     
     if ([[CWGroundControlManager sharedInstance] shouldShowKillScreen]) {
         [[CWGroundControlManager sharedInstance] showKillScreen];
