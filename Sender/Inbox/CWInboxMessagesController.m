@@ -69,7 +69,7 @@ static const float DeleteMessageLongPressDuration = 1.0f;
         cell.isDeleteModeEnabled = YES;
 
         self.deletionIndexPath = indexPath;
-        self.deleteActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure?  This will permanently delete this video message." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil, nil];
+        self.deleteActionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure? This will permanently delete this video message." delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Delete" otherButtonTitles:nil, nil];
         
         UIWindow *window = [[[UIApplication sharedApplication] delegate] window];
         if (window) {

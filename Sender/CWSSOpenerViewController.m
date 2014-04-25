@@ -123,7 +123,14 @@
         [self.countdownTimer invalidate];
     }
     else if (self.countdownCount < 5 && ![CWUserDefaultsController shouldShowMessagePreview]) {
-        [self.recordMessageLabel setText:[NSString stringWithFormat:@"Sending reply in...%ld",(long)self.countdownCount]];
+        
+        if (self.countdownCount < 0) {
+            [self.recordMessageLabel setText:[NSString stringWithFormat:@"Sending reply..."]];
+        }
+        else {
+            [self.recordMessageLabel setText:[NSString stringWithFormat:@"Sending reply in...%ld",(long)self.countdownCount]];
+        }
+        
     }
     else {
         [self.recordMessageLabel setText:[NSString stringWithFormat:@"Recording your reply...%ld",(long)self.countdownCount]];
