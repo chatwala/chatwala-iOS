@@ -14,8 +14,8 @@
 #import "CWConstants.h"
 #import "CWServerAPI.h"
 #import "CWUserDefaultsController.h"
-#import "SDWebImageManager.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
 
 @interface CWProfilePictureViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;

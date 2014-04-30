@@ -10,8 +10,7 @@
 #import "CWUserManager.h"
 #import "UIColor+Additions.h"
 #import "CWMessageManager.h"
-#import "SDWebImageManager.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 #import "CWConstants.h"
 
 @interface CWMessageCell ()

@@ -8,8 +8,8 @@
 
 #import "CWUserCell.h"
 #import "CWUserManager.h"
-#import "SDWebImageManager.h"
-#import "UIImageView+WebCache.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+
 #import "CWConstants.h"
 #import "Message.h"
 
