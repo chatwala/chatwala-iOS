@@ -206,7 +206,7 @@
     [[[mockDataManager expect] andReturn:mockMessage] importMessageAtFilePath:mockUrl withError:((NSError __autoreleasing **)[OCMArg setTo:error])];
     
     //when
-    [self.sut setZipURL:mockUrl];
+    [self.sut loadIncomingMessage:mockUrl];
     
     //should
     [self.mockSUT verify];

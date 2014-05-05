@@ -6,6 +6,7 @@
 #import "CWServerAPI.h"
 #import "CWConstants.h"
 #import "CWUserManager.h"
+#import "CWVideoFileCache.h"
 
 @interface Message ()
 
@@ -13,7 +14,7 @@
 
 @implementation Message
 @synthesize videoURL;
-@synthesize zipURL;
+@synthesize chatwalaZipURL;
 @synthesize lastFrameImage;
 @synthesize thumbnailUploadURLString;
 
@@ -92,6 +93,14 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (void)moveMessageToOutboxFromRecorderURL:(NSURL *)recorderURL {
+    NSString *destinationFilepath = [[[CWVideoFileCache sharedCache] outBoxFilepathForKey:self.messageID] stringByAppendingPathComponent:@"/video.mp4"];
+    
+    NSURL *destURL = [NSURL URLWithString:destinationFilepath];
+    [[NSFileManager defaultManager] copyItemAtURL:recorderURL toURL:destURL error:nil];
+    self.videoURL = destURL;
+}
+
 #pragma mark - Message State
 
 - (eMessageViewedState) eMessageViewedState
@@ -131,9 +140,9 @@
     [CWServerAPI uploadMessageThumbnail:image toURL:self.thumbnailUploadURLString withCompletionBlock:nil];
 }
 
-- (void) exportZip
-{
-    NSString * newDirectoryPath = [[CWDataManager cacheDirectoryPath] stringByAppendingPathComponent:OUTGOING_DIRECTORY_NAME];
+- (void)exportZip {
+
+    NSString *newDirectoryPath = [[CWVideoFileCache sharedCache] outBoxFilepathForKey:self.messageID];
     
     NSError * err = nil;
     if([[NSFileManager defaultManager] fileExistsAtPath:newDirectoryPath])
@@ -145,26 +154,9 @@
         return;
     }
     
-    
-    
-    [[NSFileManager defaultManager] createDirectoryAtPath:newDirectoryPath withIntermediateDirectories:YES attributes:nil error:&err];
-    if (err) {
-        NSLog(@"error creating new file directory: %@",err.debugDescription);
-        return;
-    }
-    
-    
     NSAssert(self.videoURL.path, @"video path must not be nil");
-    // copy video to folder
-    [[NSFileManager defaultManager]copyItemAtPath:self.videoURL.path toPath:[newDirectoryPath stringByAppendingPathComponent:VIDEO_FILE_NAME] error:&err];
-    if (err) {
-        NSLog(@"failed to copy video to new directory: %@",err.debugDescription);
-        return;
-    }
     
     // create json file
-    
-//    NSDictionary * jsonDict = [MTLJSONAdapter JSONDictionaryFromModel:self.metadata];
     NSError * error = nil;
     NSData * jsonData = [self toJSONWithDateFormatter:[CWDataManager dateFormatter] error:&error];
     
@@ -175,8 +167,8 @@
     
     [jsonData writeToFile:[newDirectoryPath stringByAppendingPathComponent:METADATA_FILE_NAME] atomically:YES];
     
-    NSAssert(self.zipURL, @"expecting zip URL to be set");
-    [SSZipArchive createZipFileAtPath:self.zipURL.path withContentsOfDirectory:newDirectoryPath];
+    NSAssert(self.chatwalaZipURL, @"expecting zip URL to be set");
+    [SSZipArchive createZipFileAtPath:self.chatwalaZipURL.path withContentsOfDirectory:newDirectoryPath];
 }
 
 - (NSDictionary *) toDictionaryWithDataFormatter:(NSDateFormatter *) dateFormatter error:(NSError **) error

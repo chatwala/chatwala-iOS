@@ -42,17 +42,50 @@ long const MinimumFreeDiskSpace = 104857600;
     return nil;
 }
 
-- (NSString *)filepathForKey:(NSString *)messageID {
+- (NSString *)inboxFilepathForKey:(NSString *)messageID {
     
-    NSString * localPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
+    NSString * localPath = [[CWVideoFileCache baseInboxFilepath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",messageID]];
 
-    if ([[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+    if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:localPath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"error creating inbox file directory: %@", error.debugDescription);
+            return nil;
+        }
+    }
+    
+    
+    return localPath;
+//
+//    if ([[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+//
+//        return localPath;
+//    }
+//    else {
+//        return nil;
+//    }
+}
 
-        return localPath;
+- (NSString *)sentBoxFilepathForKey:(NSString *)messageID {
+    NSString * localPath = [[CWVideoFileCache baseSentBoxFilepath] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
+    return localPath;
+}
+
+- (NSString *)outBoxFilepathForKey:(NSString *)messageID {
+    NSString * localPath = [[CWVideoFileCache baseOutBoxFilepath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",messageID]];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:localPath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"error creating outbox file directory: %@", error.debugDescription);
+            return nil;
+        }
     }
-    else {
-        return nil;
-    }
+
+    
+    return localPath;
 }
 
 - (uint64_t)freeCacheSpaceInBytes {
@@ -102,7 +135,44 @@ long const MinimumFreeDiskSpace = 104857600;
 }
 
 + (NSString *)baseCacheDirectoryFilepath {
-    return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
 }
+
+// Should move these to their own class that manages this video cache object
++  (NSString *)baseInboxFilepath {
+    
+    NSMutableString *cacheFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+    return [cacheFilePath stringByAppendingString:@"/inbox"];
+}
+
++  (NSString *)baseSentBoxFilepath {
+    NSString *cacheFilePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingString:@"/sent"];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:cacheFilePath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:cacheFilePath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"error creating sent file directory: %@", error.debugDescription);
+            return nil;
+        }
+    }
+    
+    return cacheFilePath;
+}
+
++  (NSString *)baseOutBoxFilepath {
+    NSString *cacheFilePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"outbox"];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:cacheFilePath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:cacheFilePath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"error creating outbox file directory: %@", error.debugDescription);
+            return nil;
+        }
+    }
+    return cacheFilePath;
+}
+
 
 @end

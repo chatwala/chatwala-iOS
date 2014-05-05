@@ -11,6 +11,7 @@
 #import "Message.h"
 #import "NSDictionary+LookUpTable.h"
 #import "CWUserManager.h"
+#import "CWVideoFileCache.h"
 
 @implementation CWDataManager
 + (id)sharedInstance
@@ -58,7 +59,7 @@
 
 #pragma mark - import data
 
-- (Message *)createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage {
+- (Message *)createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage videoURL:(NSURL *)videoURL {
     
     Message *message = [Message insertInManagedObjectContext:self.moc];
     message.senderID = senderID;
@@ -74,6 +75,7 @@
     else {
         message.threadID = [[[NSUUID UUID] UUIDString] lowercaseString];
     }
+    
     return message;
 }
 
@@ -110,26 +112,26 @@
     return item;
 }
 
-// importMessageAtFilePath used in two places:  opener view (sms links & now notifications) and when walas are downloaded from the inbox.
-// Ideally we want SMS links to be added to the inbox & let the same flow handle the unpackaging of the data. [RK - 02112014]
-
-- (Message *)importMessageAtFilePath:(NSURL *)filePath withError:(NSError **)error {
+// importMessageAtFilePath used in one places: opener view (sms links & notifications)
+- (Message *) importMessage:(NSString *)messageID chatwalaZipURL:(NSURL *)zipURL isInboxMessage:(BOOL)inboxMessage withError:(NSError **)error {
 
     NSFileManager* fm = [NSFileManager defaultManager];
     
-    if (![fm fileExistsAtPath:filePath.path]) {
-        NSLog(@"zip not found at path: %@",filePath.path);
-        return [NSError errorWithDomain:@"com.chatwala" code:6004 userInfo:@{@"reason":@"zip not found at path", @"path":filePath}];
+    if (![fm fileExistsAtPath:zipURL.path]) {
+        NSLog(@"zip not found at path: %@", zipURL.path);
+        return [NSError errorWithDomain:@"com.chatwala" code:6004 userInfo:@{@"reason":@"zip not found at path", @"path": zipURL}];
     }
-    NSString * destPath = [[CWDataManager cacheDirectoryPath] stringByAppendingPathComponent:INCOMING_DIRECTORY_NAME];
-    [SSZipArchive unzipFileAtPath:filePath.path toDestination:destPath];
     
-    NSString * metadataFileName = [destPath stringByAppendingPathComponent:METADATA_FILE_NAME];
+    NSString *importFilepath = (inboxMessage ? [[CWVideoFileCache sharedCache] inboxFilepathForKey:messageID] : [[CWVideoFileCache sharedCache] sentBoxFilepathForKey:messageID]);
+    [SSZipArchive unzipFileAtPath:zipURL.path toDestination:importFilepath];
+    
+    //NSString *metaDataFilename = [item.messageID stringByAppendingString:@".json"];
+    NSString *metadataFilePath = [importFilepath stringByAppendingPathComponent:METADATA_FILE_NAME];
 
     Message * item = nil;
-    if ([fm fileExistsAtPath:destPath]) {
-        if ([fm fileExistsAtPath:metadataFileName isDirectory:NO]) {
-            NSDictionary * baseDictionary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:metadataFileName] options:0 error:nil];
+    if ([fm fileExistsAtPath:importFilepath]) {
+        if ([fm fileExistsAtPath:metadataFilePath isDirectory:NO]) {
+            NSDictionary * baseDictionary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:metadataFilePath] options:0 error:nil];
             NSMutableDictionary *jsonDict = [baseDictionary mutableCopy];
             
             // This is a check for "<null>" threadID value because of a 1.0.5 iOS bug
@@ -165,21 +167,19 @@
                                          code:6006
                                      userInfo:@{
                                                 @"reason":@"could not find json file",
-                                                @"file":metadataFileName}];
-            NSLog(@"could not find json file at %@",metadataFileName);
+                                                @"file":metadataFilePath}];
+            NSLog(@"could not find json file at %@",metadataFilePath);
             return nil;
         }
         
         
         // set video url
-        [item setVideoURL:[NSURL fileURLWithPath:[destPath stringByAppendingPathComponent:VIDEO_FILE_NAME]]];
+        //NSString *fileName = [item.messageID stringByAppendingString:@".mp4"];
+        [item setVideoURL:[NSURL fileURLWithPath:[importFilepath stringByAppendingPathComponent:@"video.mp4"]]];
     }
     return item;
 }
 
-+ (NSString*)cacheDirectoryPath {
-    return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-}
 
 #pragma mark - dateformater
 

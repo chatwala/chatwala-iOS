@@ -2,10 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>FacebookDisplayName</key>
-	<string>Chatwala Video Messenger</string>
-	<key>FacebookAppID</key>
-	<string>213176338890949</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -58,12 +54,16 @@
 			<string>${CW_BUNDLE_IDENTIFIER}</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>${CW_URL_SCHEME}</string>
+				<string>chatwala-dev</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>${CW_BUILD_VERSION}</string>
+	<key>FacebookAppID</key>
+	<string>213176338890949</string>
+	<key>FacebookDisplayName</key>
+	<string>Chatwala Video Messenger</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIBackgroundModes</key>

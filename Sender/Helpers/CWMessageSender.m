@@ -42,7 +42,7 @@
             
             if (message && uploadURLString) {
                 message.videoURL = self.messageBeingSent.videoURL;
-                message.zipURL = self.messageBeingSent.zipURL;
+                message.chatwalaZipURL = self.messageBeingSent.chatwalaZipURL;
                 self.messageBeingSent = message;
                 
                 [self.messageBeingSent exportZip];
@@ -66,7 +66,9 @@
             if (message) {
 
                 message.videoURL = self.messageBeingSent.videoURL;
-                message.zipURL = self.messageBeingSent.zipURL;
+                message.chatwalaZipURL = self.messageBeingSent.chatwalaZipURL;
+                message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outBoxFilepathForKey:message.messageID] stringByAppendingPathComponent:[message.messageID stringByAppendingString:@".zip"]]];
+                message.startRecording = [NSNumber numberWithDouble:0.0];
                 self.messageBeingSent = message;
                 
                 [self.messageBeingSent exportZip];
@@ -119,9 +121,9 @@
 #elif USE_SANDBOX_SERVER
     messagePrefix = @"This is a Sandbox message";
 #elif USE_STAGING_SERVER
-    messagePrefix = @"I sent you a video";
+    messagePrefix = @"I sent you a Chatwala video";
 #else
-    messagePrefix = @"I sent you a video";
+    messagePrefix = @"I sent you a Chatwala video";
 #endif
     
     NSString *messageBody = [NSString stringWithFormat:@"%@: %@", messagePrefix, key];
@@ -157,6 +159,9 @@
     
     self.messageBeingRespondedTo.eMessageViewedState = eMessageViewedStateReplied;
     
+    // Move message from outbox to sent box
+    [self moveMessageToSentBox];
+    
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
     
@@ -175,6 +180,15 @@
     [self.mailComposer dismissViewControllerAnimated:YES completion:nil];
     
     [CWPushNotificationsAPI registerForPushNotifications];
+}
+
+- (void)moveMessageToSentBox {
+    
+    NSURL *destinationURL = [NSURL URLWithString:[[CWVideoFileCache sharedCache] sentBoxFilepathForKey:self.messageBeingSent.messageID]];
+    
+    NSError *error = nil;
+    [[NSFileManager defaultManager] moveItemAtURL:self.messageBeingSent.chatwalaZipURL toURL:destinationURL error:&error];
+    self.messageBeingSent.chatwalaZipURL = destinationURL;
 }
 
 

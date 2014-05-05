@@ -67,7 +67,6 @@
         }
             break;
             
-            
         case CWOpenerReview:
             
             [self.countdownTimer invalidate];
@@ -169,10 +168,9 @@
 
 - (void)sendMessage {
     NSString *localUserID = [[CWUserManager sharedInstance] localUserID];
-    Message *message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:self.activeMessage];
-    
-    message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
-    message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
+    Message *message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:self.activeMessage videoURL:[[CWVideoManager sharedManager]recorder].outputFileURL];
+
+    message.chatwalaZipURL = [NSURL fileURLWithPath:[[CWVideoFileCache baseOutBoxFilepath] stringByAppendingPathComponent:[message.messageID stringByAppendingString:@".zip"]]];
     message.startRecording = [NSNumber numberWithDouble:[self.player videoLength] - self.activeMessage.startRecordingValue];
     
     self.messageSender = [[CWMessageSender alloc] init];

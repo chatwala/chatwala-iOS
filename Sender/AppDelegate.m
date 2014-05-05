@@ -252,12 +252,11 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }
    
     NSString * scheme = [url scheme];
-    NSString * downloadID = [[url pathComponents] lastObject];
-    NSString *messageID = [[downloadID componentsSeparatedByString:@"."] lastObject];
+    NSString * shareID = [[url pathComponents] lastObject];
     
     [self.drawController closeDrawerAnimated:YES completion:nil];
     
-    if (![downloadID length] || ![messageID length]) {
+    if (![shareID length]) {
         return YES;
     }
     
@@ -279,46 +278,38 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     if ([scheme isEqualToString:appURLScheme]) {
         
-        NSURL *urlToOpen = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:messageID]];
-        
-        if (!urlToOpen) {
-            CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-            
-            [downloader downloadMessageWithDownloadID:downloadID completion:^(BOOL success, NSURL *url) {
-                if (success && url) {
-                    
-                    // TODO:  This code is duplicated further down this snippet
-                    [self.openerVC setZipURL:url];
-                    if ([self.navController.topViewController isEqual:self.openerVC]) {
-                        // already showing opener
-                    }
-                    else {
-                        [self.navController pushViewController:self.openerVC animated:NO];
-                    }
-                    
-                    [UIView animateWithDuration:0.5 animations:^{
-                        [self.loadingVC.view setAlpha:0];
-                    }];
+        CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
+        [downloader downloadMessageWithShareID:shareID completion:^(NSError *error, NSURL *url, NSString *messageID) {
+            if (!error && url) {
+                
+                [self sendMessageOpenTrackingWithMessageID:messageID];
+
+                [self.openerVC loadIncomingMessage:messageID fromChatwalaZip:url];
+                if ([self.navController.topViewController isEqual:self.openerVC]) {
+                    // already showing opener
                 }
                 else {
-                    [self.navController popToRootViewControllerAnimated:NO];
-                    [UIView animateWithDuration:0.5 animations:^{
-                        [self.loadingVC.view setAlpha:0];
-                    }];
-                    NSLog(@"Failed to download message");
-                    [SVProgressHUD showErrorWithStatus:@"Message not available yet."];
+                    [self.navController pushViewController:self.openerVC animated:NO];
                 }
-            }];
-        }
-        else {
-            [self loadOpenerWithURL:urlToOpen];
-        }
-    }
-    else {
-        [self loadOpenerWithURL:url];
+                
+                [UIView animateWithDuration:0.5f animations:^{
+                    [self.loadingVC.view setAlpha:0.0f];
+                }];
+            }
+            else {
+                [self.navController popToRootViewControllerAnimated:NO];
+                [UIView animateWithDuration:0.5f animations:^{
+                    [self.loadingVC.view setAlpha:0.0f];
+                }];
+                NSLog(@"Failed to download message.");
+                
+                if (error) {
+                    [SVProgressHUD showErrorWithStatus:[error localizedDescription]];
+                }
+            }
+        }];
     }
 
-    [self sendMessageOpenTrackingWithMessageID:messageID];
     return YES;
 }
 
@@ -404,8 +395,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
 }
 
-- (void)loadOpenerWithURL:(NSURL *)messageLocalURL {
-    [self.openerVC setZipURL:messageLocalURL];
+- (void)loadOpenerWithMessage:(NSString *)messageID fromURL:(NSURL *)messageLocalURL {
+    [self.openerVC loadIncomingMessage:messageID fromChatwalaZip:messageLocalURL];
     if ([self.navController.topViewController isEqual:self.openerVC]) {
         // already showing opener
     }
@@ -491,14 +482,14 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.loadingVC.view setAlpha:1];
     
     
-    NSURL *urlToOpen = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:message.messageID]];
+    NSURL *urlToOpen = [NSURL URLWithString:[[CWVideoFileCache sharedCache] inboxFilepathForKey:message.messageID]];
     
     if (!urlToOpen) {
     
         CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-        [downloader downloadMessageFromEndpoint:message.readURL completion:^(BOOL success, NSURL *url) {
+        [downloader downloadMessageFromReadURL:message.readURL forMessageID:message.messageID completion:^(NSError *error, NSURL *url, NSString *messageID) {
            
-            if (success && url) {
+            if (!error && url) {
                 // loaded message
                 [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
             }

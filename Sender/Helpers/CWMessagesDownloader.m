@@ -22,7 +22,7 @@
     
     for (Message *message in messagesToDownload) {
         
-        NSURL *localURL = [NSURL URLWithString:[[CWVideoFileCache sharedCache] filepathForKey:message.messageID]];
+        NSURL *localURL = [NSURL URLWithString:[[CWVideoFileCache sharedCache] inboxFilepathForKey:message.messageID]];
         if (!localURL) {
             [messagesNeedingDownload addObject:message];
         }
@@ -46,7 +46,7 @@
         
         __block NSInteger completedRequests = 0;
         
-        [CWServerAPI downloadMessageFromReadURL:currentMessage.readURL destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        [CWServerAPI downloadMessageFromReadURL:currentMessage.readURL destinationURLBlock:[self downloadURLDestinationBlockForMessageID:currentMessage.messageID] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
             
             completedRequests++;
             
@@ -71,26 +71,39 @@
 
 #pragma mark - Download methods
 
-- (void)downloadMessageWithDownloadID:(NSString *)downloadID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
+- (void)downloadMessageWithShareID:(NSString *)downloadID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
     
-    [CWServerAPI getReadURLWithDownloadID:downloadID completionBlock:^(NSString *readURL, NSError *error) {
-        
+    [CWServerAPI getReadURLFromShareID:downloadID completionBlock:^(NSString *readURL, NSString *messageID, NSError *error) {
+    
         if (error) {
-            completionBlock(NO,nil);
+            NSError *error = [NSError errorWithDomain:@"CWMessagesDownloader" code:0 userInfo:[NSDictionary dictionaryWithObject:@"Unable to download message." forKey:NSLocalizedDescriptionKey]];
+            completionBlock(error, nil, nil);
         }
         else {
-            [self downloadMessageFromEndpoint:readURL completion:completionBlock];
+            
+            if (![readURL length]) {
+                if (completionBlock) {
+                    
+                    NSError *error = [NSError errorWithDomain:@"CWMessagesDownloader" code:0 userInfo:[NSDictionary dictionaryWithObject:@"This is not a valid message." forKey:NSLocalizedDescriptionKey]];
+                    completionBlock(error,nil, nil);
+                }
+                
+                return;
+            }
+            else {
+                [self downloadMessageFromReadURL:readURL forMessageID:messageID completion:completionBlock];
+            }
         }
     }];
 }
 
-- (void)downloadMessageFromEndpoint:(NSString *)endpoint completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
+- (void)downloadMessageFromReadURL:(NSString *)endpoint forMessageID:(NSString *)messageID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
 
-    [CWServerAPI downloadMessageFromReadURL:endpoint destinationURLBlock:[self downloadURLDestinationBlock] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+    [CWServerAPI downloadMessageFromReadURL:endpoint destinationURLBlock:[self downloadURLDestinationBlockForMessageID:messageID] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if(error) {
             NSLog(@"Error while downloading message file: %@", error);
             if (completionBlock) {
-                completionBlock(NO,filePath);//if we need to pass error/response adjust function callback
+                completionBlock(error,filePath,nil);//if we need to pass error/response adjust function callback
             }
         }
         else {
@@ -101,7 +114,7 @@
                     NSLog(@"File downloaded to: %@", filePath);
                     
                     if (completionBlock) {
-                        completionBlock(YES,filePath);
+                        completionBlock(nil,filePath, messageID);
                     }
                     
                     break;
@@ -110,7 +123,8 @@
                     // fail
                     NSLog(@"Failed to download message file. with code:%li",(long)httpResponse.statusCode);
                     if (completionBlock) {
-                        completionBlock(NO,nil);
+                        NSError *error = [NSError errorWithDomain:@"CWMessagesDownloader" code:0 userInfo:[NSDictionary dictionaryWithObject:@"Message still downloading." forKey:NSLocalizedDescriptionKey]];
+                        completionBlock(error,nil, nil);
                     }
                     break;
             }
@@ -120,11 +134,11 @@
 
 #pragma mark - Helper code blocks
 
-- (CWServerAPIDownloadDestinationBlock)downloadURLDestinationBlock {
+- (CWServerAPIDownloadDestinationBlock)downloadURLDestinationBlockForMessageID:(NSString *)messageID {
     
     return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
-        NSURL *documentsDirectoryPath = [NSURL fileURLWithPath:[CWVideoFileCache baseCacheDirectoryFilepath]];
-        return [documentsDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+        NSURL *inboxDirectoryPath = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] inboxFilepathForKey:messageID]];
+        return [inboxDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     });
 }
 

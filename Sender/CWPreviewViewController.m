@@ -148,10 +148,9 @@
     [self.player stop];
     [self.sendButton setButtonState:eButtonStateBusy];
     
-    Message * message = [[CWDataManager sharedInstance] createMessageWithSender:userID inResponseToIncomingMessage:self.incomingMessage];
+    Message * message = [[CWDataManager sharedInstance] createMessageWithSender:userID inResponseToIncomingMessage:self.incomingMessage videoURL:recorder.outputFileURL];
     
-    message.videoURL = recorder.outputFileURL;
-    message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
+    message.chatwalaZipURL = [NSURL fileURLWithPath:[[CWVideoFileCache baseOutBoxFilepath] stringByAppendingPathComponent:[message.messageID stringByAppendingString:@".zip"]]];
     message.startRecording = [NSNumber numberWithDouble:self.startRecordingTime];
     
     self.messageSender = [[CWMessageSender alloc] init];

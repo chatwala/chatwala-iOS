@@ -27,6 +27,7 @@
     #import <AFNetworking/AFNetworking.h>
     #import <SVProgressHUD/SVProgressHUD.h>
     #import "CWAnalytics.h"
+    #import "CWVideoFileCache.h"
     #import "UIColor+Additions.h"
 #import "DCControl.h"
 #import "DCKnob.h"
@@ -46,24 +47,14 @@
 
 // max record time in seconds
 #define MAX_RECORD_TIME             10
-// version of the chatwala file
-#define FILE_VERSION                @"1.0"
 // screen bounds
 #define SCREEN_BOUNDS               [[UIScreen mainScreen] bounds]
-// outgoing message directory name
-#define OUTGOING_DIRECTORY_NAME     @"outgoing_message"
-// incoming message directory name
-#define INCOMING_DIRECTORY_NAME     @"incoming_message"
 // metadata file name
 #define METADATA_FILE_NAME          @"metadata.json"
-// video file name
-#define VIDEO_FILE_NAME             @"video.mp4"
 // file name for outgoing message
-#define MESSAGE_FILENAME            @"message.chatwala"
-// key for lookinh up local user
+
 #define CHATWALA_USER               @"chatwala_local_user"
 
-#define OUTPUT_VIDEO_FILE_NAME      @"output.mp4"
 
 #define NC [NSNotificationCenter defaultCenter]
 #define APPDEL [[UIApplication sharedApplication]delegate]

@@ -1726,8 +1726,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CW_APP_VERSION = 1.6.4;
 				CW_BUILD_VERSION = 2.7.15;
-				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
-				CW_DISPLAY_NAME = chatwala;
+				CW_BUNDLE_IDENTIFIER = com.chatwala.dev;
+				CW_DISPLAY_NAME = chatwaladev;
 				CW_URL_SCHEME = chatwala;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1773,8 +1773,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CW_APP_VERSION = 1.6.4;
 				CW_BUILD_VERSION = 2.7.15;
-				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
-				CW_DISPLAY_NAME = chatwala;
+				CW_BUNDLE_IDENTIFIER = com.chatwala.dev;
+				CW_DISPLAY_NAME = chatwaladev;
 				CW_URL_SCHEME = chatwala;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

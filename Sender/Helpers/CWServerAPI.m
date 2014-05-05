@@ -146,7 +146,7 @@ AFURLSessionManager *BackgroundSessionManager;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
     [request setHTTPMethod:@"PUT"];
 
-    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:messageToUpload.zipURL.path error:nil] fileSize];
+    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:messageToUpload.chatwalaZipURL.path error:nil] fileSize];
 
     NSLog(@"Starting message upload to sasURL: %@", endPoint);
 
@@ -166,7 +166,7 @@ AFURLSessionManager *BackgroundSessionManager;
     }];
     
     
-    NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.chatwalaZipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if ([httpResponse statusCode] != 201) {
@@ -447,14 +447,14 @@ AFURLSessionManager *BackgroundSessionManager;
 
 #pragma mark - Download API
 
-+ (void)getReadURLWithDownloadID:(NSString *)downloadID completionBlock:(void (^)(NSString *readURL, NSError *error))completionBlock {
++ (void)getReadURLFromShareID:(NSString *)downloadID completionBlock:(void (^)(NSString *readURL, NSString *messageID, NSError *error))completionBlock {
     
     NSDictionary *params = nil;
     
     if (![downloadID length]) {
         if (completionBlock) {
             NSError *error = [NSError errorWithDomain:@"GetReadURL" code:0 userInfo:nil];
-            completionBlock(nil, error);
+            completionBlock(nil, nil, error);
         }
         
         return;
@@ -474,14 +474,14 @@ AFURLSessionManager *BackgroundSessionManager;
         NSLog(@"Successfully retrieved message read URL.");
         
         if (completionBlock) {
-            completionBlock([responseObject objectForKey:@"read_url"],nil);
+            completionBlock([responseObject objectForKey:@"read_url"], [responseObject objectForKey:@"message_id"], nil);
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failed to retrive message read URL. Error:  %@",error.localizedDescription);
         
         if (completionBlock) {
-            completionBlock(nil, nil);
+            completionBlock(nil, nil, nil);
         }
     }];
 }

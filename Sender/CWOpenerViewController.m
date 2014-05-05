@@ -22,14 +22,13 @@
     CWVideoRecorder * recorder;
     CGRect smallFrame;
     CGRect largeFrame;
-    
 }
 
 @property (nonatomic,strong) NSTimer * reviewCountdownTimer;    // watching thier reaction to what you said
 @property (nonatomic,strong) NSTimer * reactionCountdownTimer;  // reacting to what they said
 @property (nonatomic,strong) NSTimer * responseCountdownTimer;  // your response
 @property (nonatomic,assign) BOOL shouldUseBackCamera;
-
+@property (nonatomic, strong) Message * activeMessage;
 
 @property (nonatomic,assign) NSInteger reviewCountdownTickCount;
 //@property (nonatomic,assign) NSInteger reactionCountdownTickCount;
@@ -223,11 +222,11 @@
     }];
 }
 
-- (void)setZipURL:(NSURL *)zipURL {
+- (void)loadIncomingMessage:(NSString *)messageID fromChatwalaZip:(NSURL *)zipURL {
 
     NSError * error = nil;
     
-    self.activeMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:zipURL withError:&error];
+    self.activeMessage = [[CWDataManager sharedInstance] importMessage:messageID chatwalaZipURL:zipURL isInboxMessage:YES withError:&error];
     [self.activeMessage setEMessageViewedState:eMessageViewedStateOpened];
     
     @try {

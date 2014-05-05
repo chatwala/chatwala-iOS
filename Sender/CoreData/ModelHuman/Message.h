@@ -30,7 +30,7 @@ typedef enum eMessageViewedState
 // Custom logic goes here.
 
 @property (nonatomic, strong) NSURL * videoURL;//not core data backed.
-@property (nonatomic, strong) NSURL * zipURL;//not saved in core data
+@property (nonatomic, strong) NSURL * chatwalaZipURL;//not saved in core data
 @property (nonatomic, strong) UIImage * lastFrameImage; //not saved in core data
 @property (nonatomic, strong) NSString *thumbnailUploadURLString;
 
@@ -45,6 +45,7 @@ typedef enum eMessageViewedState
 - (void)addMessageToUserInbox:(NSString *)userID;
 - (void)deleteMessageFromInbox;
 - (BOOL)isMarkedAsDeleted;
+- (void)moveMessageToOutboxFromRecorderURL:(NSURL *)recorderURL;
 
 - (void)uploadThumbnailImage:(UIImage *)image;
 
