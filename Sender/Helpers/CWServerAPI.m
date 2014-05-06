@@ -279,9 +279,7 @@ AFURLSessionManager *BackgroundSessionManager;
         else {
 
             NSLog(@"profile thumbnail created:%@", thumbnail);
-            
-            NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"user_thumbnailImage.png"];
-            [UIImageJPEGRepresentation(thumbnail, 1.0) writeToURL:thumbnailURL atomically:YES];
+            NSData *userThumbnail = UIImageJPEGRepresentation(thumbnail, 1.0);
             
             NSString *endPoint = tempUploadUrl;
             NSLog(@"Starting profile picture upload to sasURL: %@", endPoint);
@@ -295,7 +293,7 @@ AFURLSessionManager *BackgroundSessionManager;
             [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
             AFURLSessionManager * mgr = [self sessionManager];
             
-            NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromData:userThumbnail progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
                 
                 NSHTTPURLResponse *pictureUploadResponse = (NSHTTPURLResponse *)response;
                 if (pictureUploadResponse.statusCode != 201) {
@@ -365,9 +363,9 @@ AFURLSessionManager *BackgroundSessionManager;
 + (void)uploadMessageThumbnail:(UIImage *)thumbnail toURL:(NSString *)uploadURLString withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock {
     
     NSLog(@"Message thumbnail created:%@", thumbnail);
+
+    NSData *thumbnailData = UIImageJPEGRepresentation(thumbnail, 1.0);
     
-    NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"message_thumbnailImage.png"];
-    [UIImageJPEGRepresentation(thumbnail, 1.0) writeToURL:thumbnailURL atomically:YES];
     
     NSString *endPoint = uploadURLString;
     NSLog(@"Starting message thumbnail upload to sasURL: %@", endPoint);
@@ -381,7 +379,7 @@ AFURLSessionManager *BackgroundSessionManager;
     [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
     AFURLSessionManager * mgr = [self sessionManager];
     
-    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromData:thumbnailData progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         
         NSHTTPURLResponse *pictureUploadResponse = (NSHTTPURLResponse *)response;
         if (pictureUploadResponse.statusCode != 201) {

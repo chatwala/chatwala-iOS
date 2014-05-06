@@ -15,6 +15,7 @@
 #import "CWGroundControlManager.h"
 #import "CWUserDefaultsController.h"
 #import "CWConstants.h"
+#import "CWVideoManager.h"
 
 @interface CWMessageSender () <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 
@@ -41,8 +42,8 @@
         [[CWMessageManager sharedInstance] fetchUploadURLForReplyMessage:self.messageBeingSent completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
             
             if (message && uploadURLString) {
-                message.videoURL = self.messageBeingSent.videoURL;
-                message.chatwalaZipURL = self.messageBeingSent.chatwalaZipURL;
+                message.videoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
+                message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outBoxFilepathForKey:message.messageID] stringByAppendingPathComponent:message.messageID]];
                 self.messageBeingSent = message;
                 
                 [self.messageBeingSent exportZip];
@@ -65,9 +66,8 @@
         [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:userID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
             if (message) {
 
-                message.videoURL = self.messageBeingSent.videoURL;
-                message.chatwalaZipURL = self.messageBeingSent.chatwalaZipURL;
-                message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outBoxFilepathForKey:message.messageID] stringByAppendingPathComponent:[message.messageID stringByAppendingString:@".zip"]]];
+                message.videoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
+                message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outBoxFilepathForKey:message.messageID] stringByAppendingPathComponent:message.messageID]];
                 message.startRecording = [NSNumber numberWithDouble:0.0];
                 self.messageBeingSent = message;
                 
@@ -184,13 +184,12 @@
 
 - (void)moveMessageToSentBox {
     
-    NSURL *destinationURL = [NSURL URLWithString:[[CWVideoFileCache sharedCache] sentBoxFilepathForKey:self.messageBeingSent.messageID]];
-    
     NSError *error = nil;
-    [[NSFileManager defaultManager] moveItemAtURL:self.messageBeingSent.chatwalaZipURL toURL:destinationURL error:&error];
+    [[NSFileManager defaultManager] moveItemAtPath:[[CWVideoFileCache sharedCache] outBoxFilepathForKey:self.messageBeingSent.messageID] toPath:[[CWVideoFileCache sharedCache] sentBoxFilepathForKey:self.messageBeingSent.messageID] error:&error];
+    
+    NSURL *destinationURL = [NSURL URLWithString:[[[CWVideoFileCache sharedCache] sentBoxFilepathForKey:self.messageBeingSent.messageID] stringByAppendingPathComponent:self.messageBeingSent.messageID]];
     self.messageBeingSent.chatwalaZipURL = destinationURL;
 }
-
 
 #pragma mark MFMailComposeViewControllerDelegate
 

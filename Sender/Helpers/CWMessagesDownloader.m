@@ -22,7 +22,7 @@
     
     for (Message *message in messagesToDownload) {
         
-        NSURL *localURL = [NSURL URLWithString:[[CWVideoFileCache sharedCache] inboxFilepathForKey:message.messageID]];
+        NSURL *localURL = [Message chatwalaZipURL:message.messageID];
         if (!localURL) {
             [messagesNeedingDownload addObject:message];
         }
@@ -91,6 +91,8 @@
                 return;
             }
             else {
+                
+                // If this video already is downloaded don't re-download!
                 [self downloadMessageFromReadURL:readURL forMessageID:messageID completion:completionBlock];
             }
         }

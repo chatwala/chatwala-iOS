@@ -9,7 +9,7 @@
 #import "CWVideoFileCache.h"
 
 #ifdef USE_DEV_SERVER
-long const MinimumFreeDiskSpace = 1073741824;
+long const MinimumFreeDiskSpace = 73741824;
 #else
 long const MinimumFreeDiskSpace = 104857600;
 #endif
@@ -68,7 +68,18 @@ long const MinimumFreeDiskSpace = 104857600;
 }
 
 - (NSString *)sentBoxFilepathForKey:(NSString *)messageID {
-    NSString * localPath = [[CWVideoFileCache baseSentBoxFilepath] stringByAppendingPathComponent:[messageID stringByAppendingString:@".zip"]];
+    
+    NSString * localPath = [[CWVideoFileCache baseSentBoxFilepath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",messageID]];
+    
+//    if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+//        NSError *error = nil;
+//        [[NSFileManager defaultManager] createDirectoryAtPath:localPath withIntermediateDirectories:YES attributes:nil error:&error];
+//        if (error) {
+//            NSLog(@"error creating sent file directory: %@", error.debugDescription);
+//            return nil;
+//        }
+//    }
+    
     return localPath;
 }
 
@@ -174,5 +185,18 @@ long const MinimumFreeDiskSpace = 104857600;
     return cacheFilePath;
 }
 
++  (NSString *)baseTempFilepath {
+    NSString *cacheFilePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"temp"];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:cacheFilePath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:cacheFilePath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"error creating temp file directory: %@", error.debugDescription);
+            return nil;
+        }
+    }
+    return cacheFilePath;
+}
 
 @end

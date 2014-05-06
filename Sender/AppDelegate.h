@@ -22,5 +22,5 @@
 @property (nonatomic,strong) UINavigationController * navController;
 @property (nonatomic,strong) MMDrawerController * drawController;
 @property (nonatomic,assign) BOOL isDrawOpen;
-@property (nonatomic,strong) CWSSOpenerViewController * openerVC;
+@property (nonatomic,strong) CWSSOpenerViewController *replierVC;
 @end

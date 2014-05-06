@@ -17,7 +17,6 @@
 #import "CWMessagesDownloader.h"
 
 
-
 @interface CWMessageManager ()
 
 @property (nonatomic,assign) BOOL needsOriginalMessageUploadURL;
@@ -319,6 +318,7 @@
             
             // Call finalize
             [CWServerAPI completeMessage:messageToUpload isReply:isReplyMessage];
+            messageToUpload.eMessageViewedState = eMessageViewedStateReplied;
         }
     }];
     

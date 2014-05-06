@@ -25,7 +25,7 @@ typedef enum {
 @property (nonatomic,assign) CWOpenerState openerState;
 @property (nonatomic,strong) CWVideoPlayer * player;
 @property (nonatomic,strong) CWVideoRecorder * recorder;
-@property (nonatomic, strong, readonly) Message * activeMessage;
+@property (nonatomic, strong) Message * activeMessage;
 @property (nonatomic,assign) BOOL shouldPromptBeforeSending;
 
 - (void)loadIncomingMessage:(NSString *)messageID fromChatwalaZip:(NSURL *)zipURL;

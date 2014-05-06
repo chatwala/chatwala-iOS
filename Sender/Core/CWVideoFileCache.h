@@ -28,5 +28,6 @@
 +  (NSString *)baseInboxFilepath;
 +  (NSString *)baseSentBoxFilepath;
 +  (NSString *)baseOutBoxFilepath;
++  (NSString *)baseTempFilepath;
 
 @end

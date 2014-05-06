@@ -14,8 +14,8 @@
 #import "CWVideoFileCache.h"
 
 @implementation CWDataManager
-+ (id)sharedInstance
-{
++ (id)sharedInstance {
+
     static dispatch_once_t once;
     static id sharedInstance;
     dispatch_once(&once, ^{
@@ -80,17 +80,16 @@
 }
 
 
-- (Message *)createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error
-{
-    if(![sourceDictionary isKindOfClass:[NSDictionary class]])
-    {
+- (Message *)createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error {
+
+    if(![sourceDictionary isKindOfClass:[NSDictionary class]]) {
         *error = [NSError errorWithDomain:@"com.chatwala" code:6003 userInfo:@{@"Failed import":@"import messages expects an array of dictionaries", @"found":sourceDictionary}];//failed to import
         return nil;
     }
+    
     NSString * messageID = [sourceDictionary objectForKey:MessageAttributes.messageID withLUT:[Message keyLookupTable]];
     Message * item = [self findMessageByMessageID:messageID];
-    if(!item)
-    {
+    if(!item) {
         item = [Message insertInManagedObjectContext:self.moc];
     }
     
@@ -105,8 +104,6 @@
     }
     
     [item fromDictionary:sourceDictionary withDateFormatter:[CWDataManager dateFormatter] error:error] ;
-    
- 
     error = nil;
     
     return item;
@@ -172,14 +169,11 @@
             return nil;
         }
         
-        
         // set video url
-        //NSString *fileName = [item.messageID stringByAppendingString:@".mp4"];
         [item setVideoURL:[NSURL fileURLWithPath:[importFilepath stringByAppendingPathComponent:@"video.mp4"]]];
     }
     return item;
 }
-
 
 #pragma mark - dateformater
 

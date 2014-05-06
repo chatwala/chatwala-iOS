@@ -28,7 +28,7 @@
 @property (nonatomic,strong) NSTimer * reactionCountdownTimer;  // reacting to what they said
 @property (nonatomic,strong) NSTimer * responseCountdownTimer;  // your response
 @property (nonatomic,assign) BOOL shouldUseBackCamera;
-@property (nonatomic, strong) Message * activeMessage;
+//@property (nonatomic, strong) Message * activeMessage;
 
 @property (nonatomic,assign) NSInteger reviewCountdownTickCount;
 //@property (nonatomic,assign) NSInteger reactionCountdownTickCount;
@@ -96,10 +96,21 @@
     [self.recorder setDelegate:self];
 
     NSAssert(self.activeMessage, @"expecting activeMessage to be set");
+    
+    if (!self.activeMessage.videoURL) {
+        [self.activeMessage importZip:self.activeMessage.chatwalaZipURL];
+    }
+    
     NSAssert(self.activeMessage.videoURL, @"expecting video URL to be set");
     
     [self.player setVideoURL:self.activeMessage.videoURL];
     [self setupCameraView];
+}
+
+- (void)setActiveMessage:(Message *)activeMessage {
+
+    _activeMessage = activeMessage;
+
 }
 
 - (void)onMiddleButtonTap {

@@ -93,25 +93,21 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)moveMessageToOutboxFromRecorderURL:(NSURL *)recorderURL {
-    NSString *destinationFilepath = [[[CWVideoFileCache sharedCache] outBoxFilepathForKey:self.messageID] stringByAppendingPathComponent:@"/video.mp4"];
-    
-    NSURL *destURL = [NSURL URLWithString:destinationFilepath];
-    [[NSFileManager defaultManager] copyItemAtURL:recorderURL toURL:destURL error:nil];
-    self.videoURL = destURL;
+- (BOOL)canBeRepliedTo {
+    // Can only reply to messages that haven't been replied to yet
+    return self.eMessageViewedState != eMessageViewedStateReplied;
 }
 
 #pragma mark - Message State
 
-- (eMessageViewedState) eMessageViewedState
-{
+- (eMessageViewedState)eMessageViewedState {
     NSInteger value = self.viewedStateValue;
     NSAssert(value < eMessageViewedStateTotal, @"expecting viewed state to be less than max enum value");
     NSAssert(value >= eMessageViewedStateInvalid, @"expecting viewed state to be less than max enum value");
     return (eMessageViewedState)value;
-    
 }
-- (void) setEMessageViewedState:(eMessageViewedState) eViewedState {
+
+- (void)setEMessageViewedState:(eMessageViewedState) eViewedState {
     
     // Only allow viewed state to progress in a single direction (a read message cannot become unread for example) [RK 021914]
     if(self.eMessageViewedState < eViewedState) {
@@ -142,36 +138,76 @@
 
 - (void)exportZip {
 
-    NSString *newDirectoryPath = [[CWVideoFileCache sharedCache] outBoxFilepathForKey:self.messageID];
+    //NSString *newDirectoryPath = [[CWVideoFileCache sharedCache] outBoxFilepathForKey:self.messageID];
+    NSString *newDirectoryPath = [CWVideoFileCache baseTempFilepath];
     
     NSError * err = nil;
-    if([[NSFileManager defaultManager] fileExistsAtPath:newDirectoryPath])
-    {
-        [[NSFileManager defaultManager]removeItemAtPath:newDirectoryPath error:&err];
-    }
-    if (err) {
-        NSLog(@"error removing new file directory: %@",err.debugDescription);
-        return;
+    NSAssert(self.videoURL.path, @"video path must not be nil");
+
+    // copy video to folder
+    
+    NSString *videoFileDestinationPath = [newDirectoryPath stringByAppendingPathComponent:@"video.mp4"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:videoFileDestinationPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:videoFileDestinationPath error:nil];
     }
     
-    NSAssert(self.videoURL.path, @"video path must not be nil");
+    [[NSFileManager defaultManager] moveItemAtPath:self.videoURL.path toPath:videoFileDestinationPath error:&err];
+    if (err) {
+        NSLog(@"failed to copy video to new directory: %@",err.debugDescription);
+        return;
+    }
     
     // create json file
     NSError * error = nil;
     NSData * jsonData = [self toJSONWithDateFormatter:[CWDataManager dateFormatter] error:&error];
     
     if (err) {
-        NSLog(@"faild to create JSON metadata: %@",err.debugDescription);
+        NSLog(@"failed to create JSON metadata: %@",err.debugDescription);
         return;
     }
     
-    [jsonData writeToFile:[newDirectoryPath stringByAppendingPathComponent:METADATA_FILE_NAME] atomically:YES];
+    NSString *metadataFilePath = [newDirectoryPath stringByAppendingPathComponent:METADATA_FILE_NAME];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:metadataFilePath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:metadataFilePath error:nil];
+    }
+    
+    [jsonData writeToFile:metadataFilePath atomically:YES];
     
     NSAssert(self.chatwalaZipURL, @"expecting zip URL to be set");
     [SSZipArchive createZipFileAtPath:self.chatwalaZipURL.path withContentsOfDirectory:newDirectoryPath];
 }
 
-- (NSDictionary *) toDictionaryWithDataFormatter:(NSDateFormatter *) dateFormatter error:(NSError **) error
+- (void)importZip:(NSURL *)zipURL {
+    
+    NSURL *videoLocation = [NSURL fileURLWithPath:[[zipURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"video.mp4"]];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:videoLocation.path]) {
+        [SSZipArchive unzipFileAtPath:zipURL.path toDestination:[zipURL URLByDeletingLastPathComponent].path];
+    }
+    
+    self.videoURL = videoLocation;
+}
+
+#pragma mark - Static video file accessors
+
++ (NSURL *)chatwalaZipURL:(NSString *)messageID {
+    
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] inboxFilepathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
+        return nil;
+    }
+    else {
+        return zipFileURL;
+    }
+}
+
++ (NSURL *)videoFileURL:(NSString *)messageID {
+    return nil;
+}
+
+- (NSDictionary *)toDictionaryWithDataFormatter:(NSDateFormatter *) dateFormatter error:(NSError **) error
 {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionaryWithDictionary:[super toDictionaryWithDataFormatter:dateFormatter error:error]];
     

@@ -284,12 +284,12 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                 
                 [self sendMessageOpenTrackingWithMessageID:messageID];
 
-                [self.openerVC loadIncomingMessage:messageID fromChatwalaZip:url];
-                if ([self.navController.topViewController isEqual:self.openerVC]) {
+                [self.replierVC loadIncomingMessage:messageID fromChatwalaZip:url];
+                if ([self.navController.topViewController isEqual:self.replierVC]) {
                     // already showing opener
                 }
                 else {
-                    [self.navController pushViewController:self.openerVC animated:NO];
+                    [self.navController pushViewController:self.replierVC animated:NO];
                 }
                 
                 [UIView animateWithDuration:0.5f animations:^{
@@ -395,16 +395,24 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
 }
 
-- (void)loadOpenerWithMessage:(NSString *)messageID fromURL:(NSURL *)messageLocalURL {
-    [self.openerVC loadIncomingMessage:messageID fromChatwalaZip:messageLocalURL];
-    if ([self.navController.topViewController isEqual:self.openerVC]) {
-        // already showing opener
+- (void)loadMessage:(Message *)message fromURL:(NSURL *)messageLocalURL {
+    
+    if ([message canBeRepliedTo]) {
+        message.chatwalaZipURL = messageLocalURL;
+        self.replierVC.activeMessage = message;
+        //[self.openerVC loadIncomingMessage:messageID fromChatwalaZip:messageLocalURL];
+        if ([self.navController.topViewController isEqual:self.replierVC]) {
+            // already showing opener
+        }
+        else {
+            [self.navController pushViewController:self.replierVC animated:NO];
+        }
+        
+        [self.loadingVC.view setAlpha:0];
     }
     else {
-        [self.navController pushViewController:self.openerVC animated:NO];
+        // Launch the viewer here
     }
-    
-    [self.loadingVC.view setAlpha:0];
 }
 
 #pragma mark - Video recorder session management
@@ -418,12 +426,12 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 
-- (CWSSOpenerViewController *)openerVC {
-    if (_openerVC == nil) {
-        _openerVC = [[CWSSOpenerViewController alloc]init];
+- (CWSSOpenerViewController *)replierVC {
+    if (_replierVC == nil) {
+        _replierVC = [[CWSSOpenerViewController alloc]init];
     }
     
-    return _openerVC;
+    return _replierVC;
 }
 
 - (UINavigationController *)settingsNavController {
@@ -454,7 +462,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         
         [self sendDrawerCloseNotification];
     }];
-
 }
 
 - (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectTopButton:(UIButton *)button {
@@ -473,8 +480,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectMessage:(Message *)message {
     
-    AppDelegate * appdel = self;
-    __weak AppDelegate* weakSelf = self;
+    __weak AppDelegate *weakSelf = self;
     [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished){
         [weakSelf sendDrawerCloseNotification];
     }];
@@ -482,16 +488,18 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.loadingVC.view setAlpha:1];
     
     
-    NSURL *urlToOpen = [NSURL URLWithString:[[CWVideoFileCache sharedCache] inboxFilepathForKey:message.messageID]];
+    NSURL *zipURLToOpen = [Message chatwalaZipURL:message.messageID];
     
-    if (!urlToOpen) {
+    if (!zipURLToOpen) {
     
         CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-        [downloader downloadMessageFromReadURL:message.readURL forMessageID:message.messageID completion:^(NSError *error, NSURL *url, NSString *messageID) {
+        [downloader downloadMessageFromReadURL:message.readURL forMessageID:message.messageID completion:^(NSError *error, NSURL *chatwalaZipURL, NSString *messageID) {
            
-            if (!error && url) {
+            if (!error && chatwalaZipURL) {
                 // loaded message
-                [appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
+                
+                [self loadMessage:message fromURL:chatwalaZipURL];
+                //[appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
             }
             else {
                 // fail
@@ -505,7 +513,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         }];
     }
     else {
-        [appdel application:[UIApplication sharedApplication] openURL:urlToOpen sourceApplication:nil annotation:nil];
+        [self loadMessage:message fromURL:zipURLToOpen];
+        //[appdel application:[UIApplication sharedApplication] openURL:urlToOpen sourceApplication:nil annotation:nil];
     }
 }
 

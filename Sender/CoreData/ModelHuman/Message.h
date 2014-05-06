@@ -40,13 +40,18 @@ typedef enum eMessageViewedState
 - (eMessageDownloadState) eDownloadState;
 - (void)setEMessageDownloadState:(eMessageDownloadState ) eState;
 - (void)exportZip;
+- (void)importZip:(NSURL *)zipURL;
 - (void)saveContext;
 
 - (void)addMessageToUserInbox:(NSString *)userID;
 - (void)deleteMessageFromInbox;
 - (BOOL)isMarkedAsDeleted;
-- (void)moveMessageToOutboxFromRecorderURL:(NSURL *)recorderURL;
+- (BOOL)canBeRepliedTo;
 
 - (void)uploadThumbnailImage:(UIImage *)image;
+
+// Video file accessors
++ (NSURL *)chatwalaZipURL:(NSString *)messageID;
++ (NSURL *)videoFileURL:(NSString *)messageID;
 
 @end
