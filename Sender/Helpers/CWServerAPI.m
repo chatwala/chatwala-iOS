@@ -476,7 +476,7 @@ AFURLSessionManager *BackgroundSessionManager;
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failed to retrive message read URL. Error:  %@",error.localizedDescription);
+        NSLog(@"Failed to retrieve message read URL. Error:  %@",error.localizedDescription);
         
         if (completionBlock) {
             completionBlock(nil, nil, nil);

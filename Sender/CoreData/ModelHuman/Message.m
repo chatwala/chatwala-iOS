@@ -98,6 +98,11 @@
     return self.eMessageViewedState != eMessageViewedStateReplied;
 }
 
+- (BOOL)shouldOpenInViewer {
+    // Can only reply to messages that haven't been replied to yet
+    return (self.eMessageViewedState == eMessageViewedStateReplied && [self.replyToMessageID length]);
+}
+
 #pragma mark - Message State
 
 - (eMessageViewedState)eMessageViewedState {
@@ -138,7 +143,7 @@
 
 - (void)exportZip {
 
-    //NSString *newDirectoryPath = [[CWVideoFileCache sharedCache] outBoxFilepathForKey:self.messageID];
+    
     NSString *newDirectoryPath = [CWVideoFileCache baseTempFilepath];
     
     NSError * err = nil;
@@ -206,6 +211,33 @@
 + (NSURL *)videoFileURL:(NSString *)messageID {
     return nil;
 }
+
++ (NSURL *)outboxChatwalaZipURL:(NSString *)messageID {
+
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outBoxFilepathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
+        return nil;
+    }
+    else {
+        return zipFileURL;
+    }
+}
+
++ (NSURL *)sentChatwalaZipURL:(NSString *)messageID {
+
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentBoxFilepathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
+        return nil;
+    }
+    else {
+        return zipFileURL;
+    }
+}
+
+
+#pragma mark - Formatters
 
 - (NSDictionary *)toDictionaryWithDataFormatter:(NSDateFormatter *) dateFormatter error:(NSError **) error
 {

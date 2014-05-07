@@ -36,6 +36,7 @@
 		0D6F839718BD4AB200DCAC2A /* CWUserDefaultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F839618BD4AB200DCAC2A /* CWUserDefaultsController.m */; };
 		0D74053C18C63A4C0075166A /* CWVideoFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D74053B18C63A4C0075166A /* CWVideoFileCache.m */; };
 		0D9AB1031905B7E100E78C1C /* CWSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9AB1021905B7E100E78C1C /* CWSplashViewController.m */; };
+		0D9EF05B19196444004EF522 /* CWViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9EF05A19196444004EF522 /* CWViewerViewController.m */; };
 		0DB9DE8E18E391B50011AD25 /* CWUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DB9DE8D18E391B50011AD25 /* CWUserCell.m */; };
 		0DB9DE9118E398B30011AD25 /* CWInboxMessagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DB9DE9018E398B30011AD25 /* CWInboxMessagesController.m */; };
 		0DC2C75D1911954E006D31F2 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC2C75C1911954E006D31F2 /* SDWebImage.framework */; };
@@ -283,6 +284,8 @@
 		0D74053B18C63A4C0075166A /* CWVideoFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoFileCache.m; sourceTree = "<group>"; };
 		0D9AB1011905B7E100E78C1C /* CWSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSplashViewController.h; sourceTree = "<group>"; };
 		0D9AB1021905B7E100E78C1C /* CWSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSplashViewController.m; sourceTree = "<group>"; };
+		0D9EF05919196444004EF522 /* CWViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWViewerViewController.h; sourceTree = "<group>"; };
+		0D9EF05A19196444004EF522 /* CWViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewerViewController.m; sourceTree = "<group>"; };
 		0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 4.xcdatamodel"; sourceTree = "<group>"; };
 		0DB9DE8C18E391B50011AD25 /* CWUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserCell.h; sourceTree = "<group>"; };
 		0DB9DE8D18E391B50011AD25 /* CWUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserCell.m; sourceTree = "<group>"; };
@@ -695,6 +698,16 @@
 			path = Sender/Core;
 			sourceTree = "<group>";
 		};
+		0D9EF05819196444004EF522 /* Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				0D9EF05919196444004EF522 /* CWViewerViewController.h */,
+				0D9EF05A19196444004EF522 /* CWViewerViewController.m */,
+			);
+			name = Viewer;
+			path = Interface/Viewer;
+			sourceTree = "<group>";
+		};
 		0DDD6F3F18C66F1200580DA4 /* Commands */ = {
 			isa = PBXGroup;
 			children = (
@@ -911,6 +924,7 @@
 				E924AD26183AAD79009400DD /* Start Screen */,
 				E924AD3B183AC0F3009400DD /* Opener */,
 				E924AD27183AB0A2009400DD /* Composer */,
+				0D9EF05819196444004EF522 /* Viewer */,
 				E924AD32183AB718009400DD /* Preview */,
 				E9ABCF62183D45270098E530 /* Error */,
 				0D200ACD18918C4D008C2238 /* Inbox */,
@@ -1512,6 +1526,7 @@
 				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
 				0D4B4B5918C65BFC0073C505 /* CWMiddleButton.m in Sources */,
+				0D9EF05B19196444004EF522 /* CWViewerViewController.m in Sources */,
 				E9C1156A1832D82700DB67D2 /* CWPreviewViewController.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				0DDD6F4818C67D0300580DA4 /* CWStartOriginalMessageCommand.m in Sources */,
@@ -1726,8 +1741,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CW_APP_VERSION = 1.6.4;
 				CW_BUILD_VERSION = 2.7.15;
-				CW_BUNDLE_IDENTIFIER = com.chatwala.dev;
-				CW_DISPLAY_NAME = chatwaladev;
+				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
+				CW_DISPLAY_NAME = chatwala;
 				CW_URL_SCHEME = chatwala;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1773,8 +1788,8 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CW_APP_VERSION = 1.6.4;
 				CW_BUILD_VERSION = 2.7.15;
-				CW_BUNDLE_IDENTIFIER = com.chatwala.dev;
-				CW_DISPLAY_NAME = chatwaladev;
+				CW_BUNDLE_IDENTIFIER = com.chatwala.chatwala;
+				CW_DISPLAY_NAME = chatwala;
 				CW_URL_SCHEME = chatwala;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

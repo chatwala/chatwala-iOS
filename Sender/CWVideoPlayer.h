@@ -18,15 +18,18 @@ static void *CWVideoPlayerPlaybackViewControllerStatusObservationContext = &CWVi
 @interface CWVideoPlayer : NSObject
 @property (nonatomic,weak) id<CWVideoPlayerDelegate> delegate;
 @property (nonatomic,strong) CWVideoPlayerView * playbackView;
+@property (nonatomic) BOOL shouldMuteAudio;
 
 - (void)setVideoURL:(NSURL*)URL;
 - (void)playVideo;
+- (void)seekToTime:(CMTime)time;
 - (void)stop;
 - (void)replayVideo;
 - (NSTimeInterval) videoLength;
 - (void) createStillForLastFrameWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler;
 - (void) createProfilePictureThumbnailWithCompletionHandler:(void (^)(UIImage * thumbnail)) completionHandler;
 -(void)cleanUp;
+;
 @end
 
 

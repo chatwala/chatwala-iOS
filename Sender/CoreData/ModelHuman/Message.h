@@ -46,7 +46,7 @@ typedef enum eMessageViewedState
 - (void)addMessageToUserInbox:(NSString *)userID;
 - (void)deleteMessageFromInbox;
 - (BOOL)isMarkedAsDeleted;
-- (BOOL)canBeRepliedTo;
+- (BOOL)shouldOpenInViewer;
 
 - (void)uploadThumbnailImage:(UIImage *)image;
 
@@ -54,4 +54,6 @@ typedef enum eMessageViewedState
 + (NSURL *)chatwalaZipURL:(NSString *)messageID;
 + (NSURL *)videoFileURL:(NSString *)messageID;
 
++ (NSURL *)sentChatwalaZipURL:(NSString *)messageID;
++ (NSURL *)outboxChatwalaZipURL:(NSString *)messageID;
 @end

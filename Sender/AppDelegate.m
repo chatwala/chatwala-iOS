@@ -20,10 +20,9 @@
 #import <FacebookSDK/FacebookSDK.h> 
 #import "CWUserDefaultsController.h"
 #import "CWStartScreenViewController.h"
-#import "CWVideoFileCache.h"
 #import "CWInboxViewController.h"
 #import "CWSplashViewController.h"
-
+#import "CWViewerViewController.h"
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -47,6 +46,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 @property (nonatomic,strong) CWMainViewController * mainVC;
 @property (nonatomic,strong) CWLoadingViewController * loadingVC;
 @property (nonatomic,strong) CWSplashViewController *splashVC;
+@property (nonatomic,strong) CWSSOpenerViewController *replierVC;
+@property (nonatomic,strong) CWViewerViewController *viewerVC;
 
 @property (nonatomic,strong) UINavigationController * settingsNavController;
 @property (nonatomic,assign) BOOL fetchingFirstLaunchMessage;
@@ -397,7 +398,18 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (void)loadMessage:(Message *)message fromURL:(NSURL *)messageLocalURL {
     
-    if ([message canBeRepliedTo]) {
+    if ([message shouldOpenInViewer]) {
+        self.viewerVC = nil;
+        self.viewerVC.incomingMessage = message;
+        if ([self.navController.topViewController isEqual:self.viewerVC]) {
+            // already showing opener
+        }
+        else {
+            [self.navController pushViewController:self.viewerVC animated:NO];
+        }
+    }
+    else {
+        self.replierVC = nil;
         message.chatwalaZipURL = messageLocalURL;
         self.replierVC.activeMessage = message;
         //[self.openerVC loadIncomingMessage:messageID fromChatwalaZip:messageLocalURL];
@@ -407,12 +419,9 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         else {
             [self.navController pushViewController:self.replierVC animated:NO];
         }
-        
-        [self.loadingVC.view setAlpha:0];
     }
-    else {
-        // Launch the viewer here
-    }
+    
+    [self.loadingVC.view setAlpha:0];
 }
 
 #pragma mark - Video recorder session management
@@ -425,13 +434,20 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [[[CWVideoManager sharedManager]recorder]stopSession];
 }
 
-
 - (CWSSOpenerViewController *)replierVC {
     if (_replierVC == nil) {
         _replierVC = [[CWSSOpenerViewController alloc]init];
     }
     
     return _replierVC;
+}
+
+- (CWViewerViewController *)viewerVC {
+    if (_viewerVC == nil) {
+        _viewerVC = [[CWViewerViewController alloc]init];
+    }
+    
+    return _viewerVC;
 }
 
 - (UINavigationController *)settingsNavController {
@@ -514,7 +530,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     }
     else {
         [self loadMessage:message fromURL:zipURLToOpen];
-        //[appdel application:[UIApplication sharedApplication] openURL:urlToOpen sourceApplication:nil annotation:nil];
     }
 }
 

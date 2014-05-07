@@ -120,7 +120,13 @@
     }
     
     NSString *importFilepath = (inboxMessage ? [[CWVideoFileCache sharedCache] inboxFilepathForKey:messageID] : [[CWVideoFileCache sharedCache] sentBoxFilepathForKey:messageID]);
-    [SSZipArchive unzipFileAtPath:zipURL.path toDestination:importFilepath];
+
+    
+    NSURL *videoLocation = [NSURL fileURLWithPath:[[zipURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"video.mp4"]];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:videoLocation.path]) {
+        [SSZipArchive unzipFileAtPath:zipURL.path toDestination:[zipURL URLByDeletingLastPathComponent].path];
+    }
     
     //NSString *metaDataFilename = [item.messageID stringByAppendingString:@".json"];
     NSString *metadataFilePath = [importFilepath stringByAppendingPathComponent:METADATA_FILE_NAME];
@@ -170,7 +176,7 @@
         }
         
         // set video url
-        [item setVideoURL:[NSURL fileURLWithPath:[importFilepath stringByAppendingPathComponent:@"video.mp4"]]];
+        [item setVideoURL:[NSURL fileURLWithPath:videoLocation.path]];
     }
     return item;
 }

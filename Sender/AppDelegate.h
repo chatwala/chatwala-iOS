@@ -8,19 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "CWSSOpenerViewController.h"
+
 @class CWLandingViewController;
 @class CWNavigationViewController;
-
-
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
-
-//@property (nonatomic,strong) CWLandingViewController * landingVC ;
 @property (nonatomic,strong) UINavigationController * navController;
 @property (nonatomic,strong) MMDrawerController * drawController;
 @property (nonatomic,assign) BOOL isDrawOpen;
-@property (nonatomic,strong) CWSSOpenerViewController *replierVC;
+
 @end
