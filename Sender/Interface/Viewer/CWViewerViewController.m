@@ -110,7 +110,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
 }
 
 - (void)startVideoPlayback {
-    CMTime targetTime = CMTimeMakeWithSeconds([self.incomingMessage.startRecording doubleValue] , NSEC_PER_SEC);
+    CMTime targetTime = CMTimeMakeWithSeconds([self.originalMessage.startRecording doubleValue] , NSEC_PER_SEC);
     [self.originalMessagePlayer seekToTime:targetTime];
     
     self.viewerState = CWViewerStatePlaying;
