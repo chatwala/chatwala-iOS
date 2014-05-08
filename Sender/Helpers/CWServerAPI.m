@@ -85,9 +85,24 @@ AFURLSessionManager *BackgroundSessionManager;
         
         NSArray *messages = [responseObject objectForKey:@"messages"];
         
+#if defined(OVERRIDE_INBOX_MAX_SIZE)
+        NSInteger maxSize = [messages count];
+        
+        if (maxSize > OVERRIDE_INBOX_MAX_SIZE) {
+            maxSize = OVERRIDE_INBOX_MAX_SIZE;
+        }
+        
+        if (completionBlock) {
+            NSRange subArrayRange;
+            subArrayRange.location = 0;
+            subArrayRange.length = maxSize;
+            completionBlock([messages subarrayWithRange:subArrayRange], nil);
+        }
+#else
         if (completionBlock) {
             completionBlock(messages, nil);
         }
+#endif
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         
