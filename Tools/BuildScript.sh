@@ -13,8 +13,8 @@ echo $buildNotes
 
 buildsFolder="../Builds"
 
-appVersion="1.6.3"
-internalVersion="2.7.40"
+appVersion="1.6.4"
+internalVersion="2.7.42"
 displayName="chatwala"
 cwDebugIdentity="\"iPhone Developer: Rahul Kumar (59L7REF9QB)\""
 cwAppStoreIdentity="\"iPhone Distribution: Chatwala Inc\""
@@ -103,7 +103,7 @@ build() {
   elif [ "$buildType" == "prod" ] ; then
 
     xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration GCC_PREPROCESSOR_DEFINITIONS=$otherOptions CODE_SIGN_IDENTITY="iPhone Distribution: Chatwala Inc" CW_BUNDLE_IDENTIFIER="com.chatwala.chatwala" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
-	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Distribution: Chatwala Inc" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
+	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Distribution: Chatwala Inc" -o $ipaLocation --embed "/Users/rahulksharma/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
   
   fi
   
@@ -123,6 +123,6 @@ build() {
 #development signed builds
 
 
-#build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '4F4715EB-1528-467A-8E79-07F9963F4291.mobileprovision' 'CW_URL_SCHEME=chatwala'
+#build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '68D670EB-0A45-433B-9EF5-CA94D0B7197A.mobileprovision' 'CW_URL_SCHEME=chatwala'
 build 'Sender' 'dev' 'Release' "$cwDebugIdentity" '724BCB51-0BCD-4D74-A399-0703BE29F78B.mobileprovision' 'USE_DEV_SERVER=1  CW_URL_SCHEME=chatwala-dev'
 #build 'Sender' 'qa' 'Release' "$cwDebugIdentity" 'BFB1BE3B-2AB5-48F5-A72E-618E39579AA6.mobileprovision' 'USE_QA_SERVER=1 CW_URL_SCHEME=chatwala-qa'
