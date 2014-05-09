@@ -119,8 +119,7 @@
         return [NSError errorWithDomain:@"com.chatwala" code:6004 userInfo:@{@"reason":@"zip not found at path", @"path": zipURL}];
     }
     
-    NSString *importFilepath = (inboxMessage ? [[CWVideoFileCache sharedCache] inboxFilepathForKey:messageID] : [[CWVideoFileCache sharedCache] sentBoxFilepathForKey:messageID]);
-
+    NSString *importFilepath = (inboxMessage ? [[CWVideoFileCache sharedCache] inboxDirectoryPathForKey:messageID] : [[CWVideoFileCache sharedCache] sentBoxDirectoryPathForKey:messageID]);
     
     NSURL *videoLocation = [NSURL fileURLWithPath:[[zipURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"video.mp4"]];
     
@@ -164,8 +163,7 @@
                 return nil;
             }
         }
-        else
-        {
+        else {
             *error = [NSError errorWithDomain:@"chatwala.com"
                                          code:6006
                                      userInfo:@{

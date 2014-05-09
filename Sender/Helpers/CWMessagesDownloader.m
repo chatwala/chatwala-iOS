@@ -46,7 +46,7 @@
         
         __block NSInteger completedRequests = 0;
         
-        [CWServerAPI downloadMessageFromReadURL:currentMessage.readURL destinationURLBlock:[self downloadURLDestinationBlockForMessageID:currentMessage.messageID] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        [CWServerAPI downloadMessageFromReadURL:currentMessage.readURL destinationURLBlock:[self inboxURLDestinationBlockForMessageID:currentMessage.messageID] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
             
             completedRequests++;
             
@@ -101,7 +101,7 @@
 
 - (void)downloadMessageFromReadURL:(NSString *)endpoint forMessageID:(NSString *)messageID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
 
-    [CWServerAPI downloadMessageFromReadURL:endpoint destinationURLBlock:[self downloadURLDestinationBlockForMessageID:messageID] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+    [CWServerAPI downloadMessageFromReadURL:endpoint destinationURLBlock:[self inboxURLDestinationBlockForMessageID:messageID] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if(error) {
             NSLog(@"Error while downloading message file: %@", error);
             if (completionBlock) {
@@ -136,10 +136,10 @@
 
 #pragma mark - Helper code blocks
 
-- (CWServerAPIDownloadDestinationBlock)downloadURLDestinationBlockForMessageID:(NSString *)messageID {
+- (CWServerAPIDownloadDestinationBlock)inboxURLDestinationBlockForMessageID:(NSString *)messageID {
     
     return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
-        NSURL *inboxDirectoryPath = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] inboxFilepathForKey:messageID]];
+        NSURL *inboxDirectoryPath = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] inboxDirectoryPathForKey:messageID]];
         return [inboxDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     });
 }

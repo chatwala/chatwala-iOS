@@ -9,7 +9,7 @@
 #import "CWVideoFileCache.h"
 
 #ifdef USE_DEV_SERVER
-long const MinimumFreeDiskSpace = 73741824;
+long const MinimumFreeDiskSpace = 1073741824;
 #else
 long const MinimumFreeDiskSpace = 104857600;
 #endif
@@ -31,18 +31,15 @@ long const MinimumFreeDiskSpace = 104857600;
     dispatch_once(&pred, ^{
         // Load the base URL using our configuration file - which MUST be loaded first thing when app starts
         shared = [[CWVideoFileCache alloc] init];
-
+        [shared createFileDirectories];
     });
     
     return shared;
 }
 
-- (NSString *)storeVideoDataFromURL:(NSURL *)tempURL forKey:(NSString *)messageID mimeType:(NSString *)type {
+#pragma mark - Public API
 
-    return nil;
-}
-
-- (NSString *)inboxFilepathForKey:(NSString *)messageID {
+- (NSString *)inboxDirectoryPathForKey:(NSString *)messageID {
     
     NSString * localPath = [[CWVideoFileCache baseInboxFilepath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",messageID]];
 
@@ -57,17 +54,9 @@ long const MinimumFreeDiskSpace = 104857600;
     
     
     return localPath;
-//
-//    if ([[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
-//
-//        return localPath;
-//    }
-//    else {
-//        return nil;
-//    }
 }
 
-- (NSString *)sentBoxFilepathForKey:(NSString *)messageID {
+- (NSString *)sentBoxDirectoryPathForKey:(NSString *)messageID {
     
     NSString * localPath = [[CWVideoFileCache baseSentBoxFilepath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",messageID]];
     
@@ -83,7 +72,7 @@ long const MinimumFreeDiskSpace = 104857600;
     return localPath;
 }
 
-- (NSString *)outBoxFilepathForKey:(NSString *)messageID {
+- (NSString *)outBoxDirectoryPathForKey:(NSString *)messageID {
     NSString * localPath = [[CWVideoFileCache baseOutBoxFilepath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",messageID]];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
@@ -145,6 +134,8 @@ long const MinimumFreeDiskSpace = 104857600;
     }
 }
 
+#pragma mark - Static Convenience to return base paths
+
 + (NSString *)baseCacheDirectoryFilepath {
     return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
 }
@@ -152,51 +143,94 @@ long const MinimumFreeDiskSpace = 104857600;
 // Should move these to their own class that manages this video cache object
 +  (NSString *)baseInboxFilepath {
     
-    NSMutableString *cacheFilePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
-    return [cacheFilePath stringByAppendingString:@"/inbox"];
+    NSString *cacheFilePath = [[CWVideoFileCache baseCacheDirectoryFilepath] stringByAppendingPathComponent:@"inbox"];
+    return cacheFilePath;
 }
 
 +  (NSString *)baseSentBoxFilepath {
-    NSString *cacheFilePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingString:@"/sent"];
+    NSString *cacheFilePath = [[CWVideoFileCache baseCacheDirectoryFilepath] stringByAppendingPathComponent:@"sent"];
+    return cacheFilePath;
+}
+
++  (NSString *)baseOutBoxFilepath {
+    NSString *cacheFilePath = [[CWVideoFileCache baseCacheDirectoryFilepath] stringByAppendingPathComponent:@"outbox"];
+    return cacheFilePath;
+}
+
++  (NSString *)baseTempFilepath {
+    NSString *cacheFilePath = [[CWVideoFileCache baseCacheDirectoryFilepath] stringByAppendingPathComponent:@"temp"];
+    return cacheFilePath;
+}
+
+#pragma mark - Create Directory Structure
+
+- (void)createFileDirectories {
+    [self createInboxDirectory];
+    [self createOutboxDirectory];
+    [self createSentboxDirectory];
+    [self createTempDirectory];
+}
+
+
+- (BOOL)createInboxDirectory {
+    NSString *cacheFilePath = [CWVideoFileCache baseInboxFilepath];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:cacheFilePath]) {
         NSError *error = nil;
         [[NSFileManager defaultManager] createDirectoryAtPath:cacheFilePath withIntermediateDirectories:YES attributes:nil error:&error];
         if (error) {
-            NSLog(@"error creating sent file directory: %@", error.debugDescription);
-            return nil;
+            NSLog(@"error creating inbox file directory: %@", error.debugDescription);
+            return NO;
         }
     }
     
-    return cacheFilePath;
+    return YES;
 }
 
-+  (NSString *)baseOutBoxFilepath {
-    NSString *cacheFilePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"outbox"];
+- (BOOL)createOutboxDirectory {
+    NSString *cacheFilePath = [CWVideoFileCache baseOutBoxFilepath];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:cacheFilePath]) {
         NSError *error = nil;
         [[NSFileManager defaultManager] createDirectoryAtPath:cacheFilePath withIntermediateDirectories:YES attributes:nil error:&error];
         if (error) {
             NSLog(@"error creating outbox file directory: %@", error.debugDescription);
-            return nil;
+            return NO;
         }
     }
-    return cacheFilePath;
+    
+    return YES;
 }
 
-+  (NSString *)baseTempFilepath {
-    NSString *cacheFilePath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:@"temp"];
+- (BOOL)createSentboxDirectory {
+    NSString *cacheFilePath = [CWVideoFileCache baseSentBoxFilepath];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:cacheFilePath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:cacheFilePath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"error creating sent file directory: %@", error.debugDescription);
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+
+- (BOOL)createTempDirectory {
+    NSString *cacheFilePath = [CWVideoFileCache baseTempFilepath];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:cacheFilePath]) {
         NSError *error = nil;
         [[NSFileManager defaultManager] createDirectoryAtPath:cacheFilePath withIntermediateDirectories:YES attributes:nil error:&error];
         if (error) {
             NSLog(@"error creating temp file directory: %@", error.debugDescription);
-            return nil;
+            return NO;
         }
     }
-    return cacheFilePath;
+    
+    return YES;
 }
 
 @end

@@ -150,7 +150,7 @@
     
     Message * message = [[CWDataManager sharedInstance] createMessageWithSender:userID inResponseToIncomingMessage:self.incomingMessage videoURL:recorder.outputFileURL];
     
-    message.chatwalaZipURL = [NSURL fileURLWithPath:[[CWVideoFileCache baseOutBoxFilepath] stringByAppendingPathComponent:message.messageID]];
+    message.chatwalaZipURL = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] outBoxDirectoryPathForKey:message.messageID]];
     message.startRecording = [NSNumber numberWithDouble:self.startRecordingTime];
     
     self.messageSender = [[CWMessageSender alloc] init];

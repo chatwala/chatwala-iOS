@@ -198,7 +198,7 @@
 
 + (NSURL *)chatwalaZipURL:(NSString *)messageID {
     
-    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] inboxFilepathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] inboxDirectoryPathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
         return nil;
@@ -214,7 +214,7 @@
 
 + (NSURL *)outboxChatwalaZipURL:(NSString *)messageID {
 
-    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outBoxFilepathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outBoxDirectoryPathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
         return nil;
@@ -226,7 +226,7 @@
 
 + (NSURL *)sentChatwalaZipURL:(NSString *)messageID {
 
-    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentBoxFilepathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentBoxDirectoryPathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
         return nil;
