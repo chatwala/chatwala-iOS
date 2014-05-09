@@ -443,7 +443,7 @@ AFURLSessionManager *BackgroundSessionManager;
     NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:PushRegisterEndpoint];
     [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSLog(@"Successfully registered local user with chatwala server");
+        NSLog(@"Successfully registered push notification token with chatwala server.");
         
         if (completionBlock) {
             completionBlock(nil);
