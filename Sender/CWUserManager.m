@@ -91,8 +91,6 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     }
     
     NSLog(@"Generated new user id: %@", newUserID);
-    
-    //self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
     [CWUserDefaultsController setUserID:newUserID];
 }
 
@@ -202,7 +200,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return [[self newMessageDeliveryMethod] isEqualToString:kNewMessageDeliveryMethodValueSMS];
 }
 
-- (NSInteger) numberOfTotalUnreadMessages {
+- (NSInteger)numberOfTotalUnreadMessages {
 
     return [AOFetchUtilities totalUnreadMessagesForRecipient:self.localUserID];
 }

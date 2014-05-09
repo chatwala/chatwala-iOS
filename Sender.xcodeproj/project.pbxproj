@@ -26,6 +26,7 @@
 		0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AD218918C4D008C2238 /* CWMessageCell.m */; };
 		0D29E37318AAB9F500082ECF /* CWMessagesDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */; };
 		0D29E37718AABA8B00082ECF /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37618AABA8B00082ECF /* UIColor+Additions.m */; };
+		0D2B2639191D6D1D00D6D2C7 /* CWViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D2B2638191D6D1D00D6D2C7 /* CWViewerViewController.m */; };
 		0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */; };
 		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
 		0D4B4B5918C65BFC0073C505 /* CWMiddleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */; };
@@ -36,7 +37,6 @@
 		0D6F839718BD4AB200DCAC2A /* CWUserDefaultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F839618BD4AB200DCAC2A /* CWUserDefaultsController.m */; };
 		0D74053C18C63A4C0075166A /* CWVideoFileCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D74053B18C63A4C0075166A /* CWVideoFileCache.m */; };
 		0D9AB1031905B7E100E78C1C /* CWSplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9AB1021905B7E100E78C1C /* CWSplashViewController.m */; };
-		0D9EF05B19196444004EF522 /* CWViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D9EF05A19196444004EF522 /* CWViewerViewController.m */; };
 		0DB9DE8E18E391B50011AD25 /* CWUserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DB9DE8D18E391B50011AD25 /* CWUserCell.m */; };
 		0DB9DE9118E398B30011AD25 /* CWInboxMessagesController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DB9DE9018E398B30011AD25 /* CWInboxMessagesController.m */; };
 		0DC2C75D1911954E006D31F2 /* SDWebImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DC2C75C1911954E006D31F2 /* SDWebImage.framework */; };
@@ -264,6 +264,8 @@
 		0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessagesDownloader.m; sourceTree = "<group>"; };
 		0D29E37518AABA8B00082ECF /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		0D29E37618AABA8B00082ECF /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
+		0D2B2637191D6D1D00D6D2C7 /* CWViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWViewerViewController.h; sourceTree = "<group>"; };
+		0D2B2638191D6D1D00D6D2C7 /* CWViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewerViewController.m; sourceTree = "<group>"; };
 		0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Sender/Framework/Crashlytics.framework; sourceTree = "<group>"; };
 		0D4586E2189AC591006BB737 /* CWServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWServerAPI.h; sourceTree = "<group>"; };
 		0D4586E3189AC591006BB737 /* CWServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWServerAPI.m; sourceTree = "<group>"; };
@@ -284,8 +286,6 @@
 		0D74053B18C63A4C0075166A /* CWVideoFileCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWVideoFileCache.m; sourceTree = "<group>"; };
 		0D9AB1011905B7E100E78C1C /* CWSplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWSplashViewController.h; sourceTree = "<group>"; };
 		0D9AB1021905B7E100E78C1C /* CWSplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWSplashViewController.m; sourceTree = "<group>"; };
-		0D9EF05919196444004EF522 /* CWViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWViewerViewController.h; sourceTree = "<group>"; };
-		0D9EF05A19196444004EF522 /* CWViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewerViewController.m; sourceTree = "<group>"; };
 		0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 4.xcdatamodel"; sourceTree = "<group>"; };
 		0DB9DE8C18E391B50011AD25 /* CWUserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUserCell.h; sourceTree = "<group>"; };
 		0DB9DE8D18E391B50011AD25 /* CWUserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUserCell.m; sourceTree = "<group>"; };
@@ -701,8 +701,8 @@
 		0D9EF05819196444004EF522 /* Viewer */ = {
 			isa = PBXGroup;
 			children = (
-				0D9EF05919196444004EF522 /* CWViewerViewController.h */,
-				0D9EF05A19196444004EF522 /* CWViewerViewController.m */,
+				0D2B2637191D6D1D00D6D2C7 /* CWViewerViewController.h */,
+				0D2B2638191D6D1D00D6D2C7 /* CWViewerViewController.m */,
 			);
 			name = Viewer;
 			path = Interface/Viewer;
@@ -1526,7 +1526,7 @@
 				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
 				0D4B4B5918C65BFC0073C505 /* CWMiddleButton.m in Sources */,
-				0D9EF05B19196444004EF522 /* CWViewerViewController.m in Sources */,
+				0D2B2639191D6D1D00D6D2C7 /* CWViewerViewController.m in Sources */,
 				E9C1156A1832D82700DB67D2 /* CWPreviewViewController.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				0DDD6F4818C67D0300580DA4 /* CWStartOriginalMessageCommand.m in Sources */,
