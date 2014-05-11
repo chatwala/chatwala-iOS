@@ -7,6 +7,7 @@ typedef enum eMessageDownloadState
     eMessageDownloadStateNotDownloaded,
     eMessageDownloadStateNotDownloadedThumbnail,
     eMessageDownloadStateDownloaded,
+    eMessageDownloadStateDeviceDeleted,
     eMessageDownloadStateTotal
     
 } eMessageDownloadState;

@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSManagedObjectContext * moc;
 
 - (void) setupCoreData;
-- (Message *)importMessage:(NSString *)messageID chatwalaZipURL:(NSURL *)zipURL isInboxMessage:(BOOL)inboxMessage withError:(NSError **)error;
+- (Message *)importMessage:(NSString *)messageID chatwalaZipURL:(NSURL *)zipURL withError:(NSError **)error;
 
 - (Message *) findMessageByMessageID:(NSString*) messageID;
 //- (User *) findUserByUserID:(NSString *) userID;

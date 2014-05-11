@@ -9,7 +9,6 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
-#import "CWUtility.h"
 #import "CWServerAPI.h"
 #import "CWGroundControlManager.h"
 #import "CWUserDefaultsController.h"
@@ -211,7 +210,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     NSInteger unreadCount = 0;
     
     for (Message *currentMessage in messagesForUser) {
-        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened && currentMessage.eDownloadState == eMessageDownloadStateDownloaded) {
+        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened && (currentMessage.eDownloadState == eMessageDownloadStateDownloaded || currentMessage.eDownloadState == eMessageDownloadStateDeviceDeleted)) {
             unreadCount++;
         }
     }

@@ -116,23 +116,67 @@ long const MinimumFreeDiskSpace = 104857600;
 
 - (void)purgeCache {
     NSLog(@"Purging all cached data");
-    
+    [self purgeLegacyFiles];
+    [self purgeInbox];
+    [self purgeSentbox];
+}
+
+#pragma mark - Purge Convenience methods
+
+- (void)purgeLegacyFiles {
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *documentDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     NSError *error = nil;
-    NSArray *directoryContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:[CWVideoFileCache baseCacheDirectoryFilepath] error:&error];
-    if (error == nil) {
-        for (NSString *path in directoryContents) {
-            NSString *fullPath = [[CWVideoFileCache baseCacheDirectoryFilepath] stringByAppendingPathComponent:path];
-            BOOL removeSuccess = [[NSFileManager defaultManager] removeItemAtPath:fullPath error:&error];
-            if (!removeSuccess) {
-                // Error handling
-                NSLog(@"Failed to purge all cached data");
-            }
+    for (NSString *file in [fm contentsOfDirectoryAtPath:documentDirectory error:&error]) {
+        BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@%@", documentDirectory, file] error:&error];
+        if (!success || error) {
+            // it failed.
         }
     }
-    else {
-        NSLog(@"Failed to purge cached data");
+    
+    // Delete all the legacy MP4 files in the base caches directory
+    NSString *cacheDirectory = [CWVideoFileCache baseCacheDirectoryFilepath];
+    NSArray *allFiles = [fm contentsOfDirectoryAtPath:cacheDirectory error:nil];
+    
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"self ENDSWITH '.mp4'"];
+    NSArray *mp4Files = [allFiles filteredArrayUsingPredicate:filter];
+    
+    for (NSString *mp4File in mp4Files) {
+        NSError *error = nil;
+        [fm removeItemAtPath:[cacheDirectory stringByAppendingPathComponent:mp4File] error:&error];
+    }
+    
+    // Remove legacy folder structure
+    [fm removeItemAtPath:[documentDirectory stringByAppendingString:@"/incoming_message"] error:nil];
+    [fm removeItemAtPath:[documentDirectory stringByAppendingString:@"/outgoing_message"] error:nil];
+}
+
+- (void)purgeInbox {
+
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *directory = [CWVideoFileCache baseInboxFilepath];
+    NSError *error = nil;
+    for (NSString *file in [fm contentsOfDirectoryAtPath:directory error:&error]) {
+        BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@%@", directory, file] error:&error];
+        if (!success || error) {
+            // it failed.
+        }
     }
 }
+
+- (void)purgeSentbox {
+    
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *directory = [CWVideoFileCache baseSentBoxFilepath];
+    NSError *error = nil;
+    for (NSString *file in [fm contentsOfDirectoryAtPath:directory error:&error]) {
+        BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@%@", directory, file] error:&error];
+        if (!success || error) {
+            // it failed.
+        }
+    }
+}
+
 
 #pragma mark - Static Convenience to return base paths
 

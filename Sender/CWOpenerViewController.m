@@ -237,7 +237,7 @@
 
     NSError * error = nil;
     
-    self.activeMessage = [[CWDataManager sharedInstance] importMessage:messageID chatwalaZipURL:zipURL isInboxMessage:YES withError:&error];
+    self.activeMessage = [[CWDataManager sharedInstance] importMessage:messageID chatwalaZipURL:zipURL withError:&error];
     [self.activeMessage setEMessageViewedState:eMessageViewedStateOpened];
     
     @try {

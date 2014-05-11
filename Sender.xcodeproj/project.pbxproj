@@ -10,7 +10,6 @@
 		0D09E5DE18BBA82500061EEA /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D09E5DD18BBA82500061EEA /* FacebookSDK.framework */; };
 		0D1979B018936E9F00379DD5 /* CWPushNotificationsAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */; };
 		0D1DAEA118917F960051D7AE /* CWAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA018917F960051D7AE /* CWAnalytics.m */; };
-		0D1DAEA418917FD30051D7AE /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA318917FD30051D7AE /* CWUtility.m */; };
 		0D1DAEAF1891809D0051D7AE /* CWPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA71891809D0051D7AE /* CWPrivacyViewController.m */; };
 		0D1DAEB01891809D0051D7AE /* CWPrivacyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA81891809D0051D7AE /* CWPrivacyViewController.xib */; };
 		0D1DAEB11891809D0051D7AE /* CWSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEAA1891809D0051D7AE /* CWSettingsViewController.m */; };
@@ -236,8 +235,6 @@
 		0D1979B218939FB000379DD5 /* CWMacroOverrides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMacroOverrides.h; sourceTree = "<group>"; };
 		0D1DAE9F18917F960051D7AE /* CWAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAnalytics.h; sourceTree = "<group>"; };
 		0D1DAEA018917F960051D7AE /* CWAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAnalytics.m; sourceTree = "<group>"; };
-		0D1DAEA218917FD30051D7AE /* CWUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUtility.h; sourceTree = "<group>"; };
-		0D1DAEA318917FD30051D7AE /* CWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUtility.m; sourceTree = "<group>"; };
 		0D1DAEA61891809D0051D7AE /* CWPrivacyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWPrivacyViewController.h; sourceTree = "<group>"; };
 		0D1DAEA71891809D0051D7AE /* CWPrivacyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPrivacyViewController.m; sourceTree = "<group>"; };
 		0D1DAEA81891809D0051D7AE /* CWPrivacyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPrivacyViewController.xib; sourceTree = "<group>"; };
@@ -580,8 +577,6 @@
 				0D4586E3189AC591006BB737 /* CWServerAPI.m */,
 				0D6F839218BD4A8200DCAC2A /* CWConstants.h */,
 				0D6F839318BD4A8200DCAC2A /* CWConstants.m */,
-				0D1DAEA218917FD30051D7AE /* CWUtility.h */,
-				0D1DAEA318917FD30051D7AE /* CWUtility.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1546,7 +1541,6 @@
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
 				0D200ABE1891852F008C2238 /* DCKnob.m in Sources */,
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
-				0D1DAEA418917FD30051D7AE /* CWUtility.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
 				0DDD6F4B18C67D2300580DA4 /* CWCompleteOriginalMessageSend.m in Sources */,
 				0D29E37718AABA8B00082ECF /* UIColor+Additions.m in Sources */,

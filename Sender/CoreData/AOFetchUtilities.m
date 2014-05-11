@@ -113,7 +113,7 @@
     
     // Only show downloaded messages
     for (Message *message in messagesArray) {
-        if ([message.downloadState integerValue] == eMessageDownloadStateDownloaded) {
+        if ([message.downloadState integerValue] == eMessageDownloadStateDownloaded || [message.downloadState integerValue] == eMessageDownloadStateDeviceDeleted) {
             
             // Don't show messages previously deleted but not successfully deleted on server yet
             if ([message isMarkedAsDeleted]) {
@@ -122,7 +122,6 @@
             else {
                 [filteredArray addObject:message];
             }
-            
         }
     }
     

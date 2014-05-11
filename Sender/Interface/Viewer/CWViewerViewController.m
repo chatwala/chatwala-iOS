@@ -164,7 +164,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
         
         // TODO:
         NSError *error = nil;
-        self.originalMessage = [[CWDataManager sharedInstance] importMessage:_incomingMessage.replyToMessageID chatwalaZipURL:zipURL isInboxMessage:NO withError:&error];
+        self.originalMessage = [[CWDataManager sharedInstance] importMessage:_incomingMessage.replyToMessageID chatwalaZipURL:zipURL withError:&error];
     }
 }
 

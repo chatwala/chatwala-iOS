@@ -110,7 +110,7 @@
 }
 
 // importMessageAtFilePath used in one places: opener view (sms links & notifications)
-- (Message *) importMessage:(NSString *)messageID chatwalaZipURL:(NSURL *)zipURL isInboxMessage:(BOOL)inboxMessage withError:(NSError **)error {
+- (Message *) importMessage:(NSString *)messageID chatwalaZipURL:(NSURL *)zipURL withError:(NSError **)error {
 
     NSFileManager* fm = [NSFileManager defaultManager];
     
@@ -119,9 +119,9 @@
         return [NSError errorWithDomain:@"com.chatwala" code:6004 userInfo:@{@"reason":@"zip not found at path", @"path": zipURL}];
     }
     
-    NSString *importFilepath = (inboxMessage ? [[CWVideoFileCache sharedCache] inboxDirectoryPathForKey:messageID] : [[CWVideoFileCache sharedCache] sentBoxDirectoryPathForKey:messageID]);
+    NSString *importFilepath = [zipURL.path stringByDeletingLastPathComponent];
     
-    NSURL *videoLocation = [NSURL fileURLWithPath:[[zipURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"video.mp4"]];
+    NSURL *videoLocation = [NSURL fileURLWithPath:[importFilepath stringByAppendingPathComponent:@"video.mp4"]];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:videoLocation.path]) {
         [SSZipArchive unzipFileAtPath:zipURL.path toDestination:[zipURL URLByDeletingLastPathComponent].path];
@@ -208,8 +208,6 @@
             NSLog(@"copy core data store to %@", newURL);
             NSError * error = nil;
             [[NSFileManager defaultManager] moveItemAtURL:storeURL toURL:newURL error:&error];
-
-            
 
         }
     }];

@@ -93,11 +93,6 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (BOOL)canBeRepliedTo {
-    // Can only reply to messages that haven't been replied to yet
-    return self.eMessageViewedState != eMessageViewedStateReplied;
-}
-
 - (BOOL)shouldOpenInViewer {
     // Can only reply to messages that haven't been replied to yet
     return (self.eMessageViewedState == eMessageViewedStateReplied && [self.replyToMessageID length]);

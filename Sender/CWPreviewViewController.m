@@ -12,7 +12,6 @@
 #import "CWGroundControlManager.h"
 #import "CWMessageManager.h"
 #import "CWUserManager.h"
-#import "CWUtility.h"
 #import "Message.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWDataManager.h"

@@ -157,8 +157,6 @@
 
 - (void)didSendMessage {
     
-    self.messageBeingRespondedTo.eMessageViewedState = eMessageViewedStateReplied;
-    
     // Move message from outbox to sent box
     [self moveMessageToSentBox];
     

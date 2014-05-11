@@ -10,7 +10,6 @@
 #import "AppDelegate.h"
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
-#import "CWUtility.h"
 #import "CWDataManager.h"
 #import "CWServerAPI.h"
 #import "CWPushNotificationsAPI.h"
@@ -92,11 +91,6 @@
     return [[self baseEndPoint]stringByAppendingString:@"/messages/%@"];
 }
 
-
-- (NSURL *)messageCacheURL {
-    NSString * const messagesCacheFile = @"messages";
-    return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
-}
 
 - (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
     
@@ -318,7 +312,6 @@
             
             // Call finalize
             [CWServerAPI completeMessage:messageToUpload isReply:isReplyMessage];
-            messageToUpload.eMessageViewedState = eMessageViewedStateReplied;
         }
     }];
     

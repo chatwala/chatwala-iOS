@@ -9,7 +9,6 @@
 #import "CWServerAPI.h"
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
-#import "CWUtility.h"
 #import "CWUserManager.h"
 
 typedef void (^CWPictureUploadEndpointRequestCompletionBlock)(NSError *error, NSString *tempUploadUrl);
@@ -233,6 +232,8 @@ AFURLSessionManager *BackgroundSessionManager;
     
     [requestManager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Successfully completed message upload");
+        
+        uploadedMessage.eMessageViewedState = eMessageViewedStateReplied;
         [[UIApplication sharedApplication] endBackgroundTask:CompleteSendBackgroundTaskIdentifier];
         CompleteSendBackgroundTaskIdentifier = 0;
         
