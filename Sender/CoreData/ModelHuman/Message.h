@@ -56,5 +56,7 @@ typedef enum eMessageViewedState
 + (NSURL *)inboxVideoFileURL:(NSString *)messageID;
 
 + (NSURL *)sentChatwalaZipURL:(NSString *)messageID;
++ (NSURL *)sentboxVideoFileURL:(NSString *)messageID;
+
 + (NSURL *)outboxChatwalaZipURL:(NSString *)messageID;
 @end

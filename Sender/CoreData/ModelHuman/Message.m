@@ -228,6 +228,18 @@
     }
 }
 
++ (NSURL *)sentboxVideoFileURL:(NSString *)messageID {
+    
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:messageID] stringByAppendingPathComponent:@"video.mp4"]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
+        return nil;
+    }
+    else {
+        return zipFileURL;
+    }
+}
+
 + (NSURL *)inboxVideoFileURL:(NSString *)messageID {
     
     NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] inboxDirectoryPathForKey:messageID] stringByAppendingPathComponent:@"video.mp4"]];
