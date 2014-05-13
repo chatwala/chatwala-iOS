@@ -15,6 +15,6 @@ typedef void (^CWMessagesDownloaderSingleMessageDownloadCompletionBlock)(NSError
 
 // Single message download
 - (void)downloadMessageWithShareID:(NSString *)downloadID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
-- (void)downloadMessageFromReadURL:(NSString *)endpoint forMessageID:(NSString *)messageID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
+- (void)downloadMessageFromReadURL:(NSString *)endpoint forMessageID:(NSString *)messageID toSentbox:(BOOL)toSentBox completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
 
 @end

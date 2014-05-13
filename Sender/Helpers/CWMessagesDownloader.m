@@ -97,15 +97,15 @@
             else {
                 
                 // If this video already is downloaded don't re-download!
-                [self downloadMessageFromReadURL:readURL forMessageID:messageID completion:completionBlock];
+                [self downloadMessageFromReadURL:readURL forMessageID:messageID toSentbox:NO completion:completionBlock];
             }
         }
     }];
 }
 
-- (void)downloadMessageFromReadURL:(NSString *)endpoint forMessageID:(NSString *)messageID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
+- (void)downloadMessageFromReadURL:(NSString *)endpoint forMessageID:(NSString *)messageID toSentbox:(BOOL)toSentBox completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock {
 
-    [CWServerAPI downloadMessageFromReadURL:endpoint destinationURLBlock:[self inboxURLDestinationBlockForMessageID:messageID] completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+    [CWServerAPI downloadMessageFromReadURL:endpoint destinationURLBlock:(toSentBox ? [self sentBoxURLDestinationBlockForMessageID:messageID] : [self inboxURLDestinationBlockForMessageID:messageID]) completionBlock:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         if(error) {
             NSLog(@"Error while downloading message file: %@", error);
             if (completionBlock) {

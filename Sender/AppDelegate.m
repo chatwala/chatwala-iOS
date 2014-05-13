@@ -210,10 +210,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
     [self activateSession];
-//    
-//    if (![CWUserDefaultsController isFirstOpen]) {
-//        
-//    }
     
     NSLog(@"server environment: %@",[[CWMessageManager sharedInstance] baseEndPoint]);
     
@@ -400,29 +396,30 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
 }
 
-- (void)loadMessage:(Message *)message fromURL:(NSURL *)messageLocalURL {
+- (void)loadMessageViewerWithMessage:(Message *)message {
+    [self.loadingVC.view setAlpha:0.0f];
     
-    if ([message shouldOpenInViewer]) {
-        self.viewerVC = nil;
-        self.viewerVC.incomingMessage = message;
-        if ([self.navController.topViewController isEqual:self.viewerVC]) {
-            // already showing opener
-        }
-        else {
-            [self.navController pushViewController:self.viewerVC animated:NO];
-        }
+    self.viewerVC = nil;
+    self.viewerVC.incomingMessage = message;
+    if ([self.navController.topViewController isEqual:self.viewerVC]) {
+        // already showing opener
     }
     else {
-        self.replierVC = nil;
-        message.chatwalaZipURL = messageLocalURL;
-        self.replierVC.activeMessage = message;
-        //[self.openerVC loadIncomingMessage:messageID fromChatwalaZip:messageLocalURL];
-        if ([self.navController.topViewController isEqual:self.replierVC]) {
-            // already showing opener
-        }
-        else {
-            [self.navController pushViewController:self.replierVC animated:NO];
-        }
+        [self.navController pushViewController:self.viewerVC animated:NO];
+    }
+}
+
+- (void)loadMessageOpener:(Message *)message fromURL:(NSURL *)messageLocalURL {
+    
+    self.replierVC = nil;
+    message.chatwalaZipURL = messageLocalURL;
+    self.replierVC.activeMessage = message;
+    //[self.openerVC loadIncomingMessage:messageID fromChatwalaZip:messageLocalURL];
+    if ([self.navController.topViewController isEqual:self.replierVC]) {
+        // already showing opener
+    }
+    else {
+        [self.navController pushViewController:self.replierVC animated:NO];
     }
     
     [self.loadingVC.view setAlpha:0];
@@ -508,32 +505,38 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.loadingVC.view setAlpha:1.0f];
     
     
-    NSURL *zipURLToOpen = [Message inboxZipURL:message.messageID];
-    
-    if (!zipURLToOpen) {
-    
-        CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
-        [downloader downloadMessageFromReadURL:message.readURL forMessageID:message.messageID completion:^(NSError *error, NSURL *chatwalaZipURL, NSString *messageID) {
-           
-            if (!error && chatwalaZipURL) {
-                // loaded message
-                
-                [self loadMessage:message fromURL:chatwalaZipURL];
-                //[appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
-            }
-            else {
-                // fail
-                [self.navController popToRootViewControllerAnimated:NO];
-                [UIView animateWithDuration:0.5f animations:^{
-                    [self.loadingVC.view setAlpha:0.0f];
-                }];
-                [SVProgressHUD showErrorWithStatus:@"Message unavailable."];
-                NSLog(@"failed to download message");
-            }
-        }];
+    if ([message shouldOpenInViewer]) {
+        // Let the opener handle downloading files
+        [self loadMessageViewerWithMessage:message];
     }
     else {
-        [self loadMessage:message fromURL:zipURLToOpen];
+        NSURL *zipURLToOpen = [Message inboxZipURL:message.messageID];
+        
+        if (!zipURLToOpen) {
+            
+            CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
+            [downloader downloadMessageFromReadURL:message.readURL forMessageID:message.messageID toSentbox:NO completion:^(NSError *error, NSURL *chatwalaZipURL, NSString *messageID) {
+                
+                if (!error && chatwalaZipURL) {
+                    // loaded message
+                    
+                    [self loadMessageOpener:message fromURL:chatwalaZipURL];
+                    //[appdel application:[UIApplication sharedApplication] openURL:url sourceApplication:nil annotation:nil];
+                }
+                else {
+                    // fail
+                    [self.navController popToRootViewControllerAnimated:NO];
+                    [UIView animateWithDuration:0.5f animations:^{
+                        [self.loadingVC.view setAlpha:0.0f];
+                    }];
+                    [SVProgressHUD showErrorWithStatus:@"Message unavailable."];
+                    NSLog(@"failed to download message");
+                }
+            }];
+        }
+        else {
+            [self loadMessageOpener:message fromURL:zipURLToOpen];
+        }
     }
 }
 
