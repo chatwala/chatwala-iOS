@@ -508,7 +508,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [self.loadingVC.view setAlpha:1.0f];
     
     
-    NSURL *zipURLToOpen = [Message chatwalaZipURL:message.messageID];
+    NSURL *zipURLToOpen = [Message inboxZipURL:message.messageID];
     
     if (!zipURLToOpen) {
     

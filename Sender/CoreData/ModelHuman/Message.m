@@ -13,7 +13,7 @@
 @end
 
 @implementation Message
-@synthesize videoURL;
+@synthesize tempVideoURL;
 @synthesize chatwalaZipURL;
 @synthesize lastFrameImage;
 @synthesize thumbnailUploadURLString;
@@ -143,7 +143,7 @@
     NSString *newDirectoryPath = [CWVideoFileCache baseTempFilepath];
     
     NSError * err = nil;
-    NSAssert(self.videoURL.path, @"video path must not be nil");
+    NSAssert(self.tempVideoURL.path, @"video path must not be nil");
 
     // copy video to folder
     
@@ -153,7 +153,7 @@
         [[NSFileManager defaultManager] removeItemAtPath:videoFileDestinationPath error:nil];
     }
     
-    [[NSFileManager defaultManager] moveItemAtPath:self.videoURL.path toPath:videoFileDestinationPath error:&err];
+    [[NSFileManager defaultManager] moveItemAtPath:self.tempVideoURL.path toPath:videoFileDestinationPath error:&err];
     if (err) {
         NSLog(@"failed to copy video to new directory: %@",err.debugDescription);
         return;
@@ -187,12 +187,12 @@
         [SSZipArchive unzipFileAtPath:zipURL.path toDestination:[zipURL URLByDeletingLastPathComponent].path];
     }
     
-    self.videoURL = videoLocation;
+    self.tempVideoURL = videoLocation;
 }
 
 #pragma mark - Static video file accessors
 
-+ (NSURL *)chatwalaZipURL:(NSString *)messageID {
++ (NSURL *)inboxZipURL:(NSString *)messageID {
     
     NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] inboxDirectoryPathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
     
@@ -202,10 +202,6 @@
     else {
         return zipFileURL;
     }
-}
-
-+ (NSURL *)videoFileURL:(NSString *)messageID {
-    return nil;
 }
 
 + (NSURL *)outboxChatwalaZipURL:(NSString *)messageID {
@@ -232,6 +228,17 @@
     }
 }
 
++ (NSURL *)inboxVideoFileURL:(NSString *)messageID {
+    
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] inboxDirectoryPathForKey:messageID] stringByAppendingPathComponent:@"video.mp4"]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
+        return nil;
+    }
+    else {
+        return zipFileURL;
+    }
+}
 
 #pragma mark - Formatters
 

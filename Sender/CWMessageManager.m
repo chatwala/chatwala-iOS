@@ -301,7 +301,7 @@
     self.needsOriginalMessageUploadURL = YES;
 }
 
-- (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString isReply:(BOOL)isReplyMessage {
+- (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString replyingToMessageOrNil:(Message *)messageBeingRespondedTo {
 
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
     
@@ -315,19 +315,51 @@
         else {
             NSLog(@"Successful message upload - messageID: %@", messageToUpload.messageID);
             
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                
+                if (messageBeingRespondedTo) {
+                    [messageBeingRespondedTo setEMessageViewedState:eMessageViewedStateReplied];
+                }
+                
+                //Background Thread
+                [self moveMessageToSentBox:messageToUpload];
+            });
+            
             // Call finalize
-            [CWServerAPI completeMessage:messageToUpload isReply:isReplyMessage];
+            [CWServerAPI completeMessage:messageToUpload isReply:(messageBeingRespondedTo ? YES : NO)];
         }
     }];
     
     // After this we'll need a different endpoint for upload if we cancel or kill the app
     
-    if (!isReplyMessage) {
+    if (!messageBeingRespondedTo) {
         self.needsOriginalMessageUploadURL = YES;
     }
 }
 
 #pragma mark - Helpers
+
+- (void)moveMessageToSentBox:(Message *)message {
+
+    NSError *error = nil;
+    NSString * localPath = [[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:message.messageID];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:localPath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"error creating sent file directory: %@", error.debugDescription);
+        }
+    }
+    
+    NSURL *destinationURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",message.messageID]]];
+    
+    [[NSFileManager defaultManager] moveItemAtURL:[Message outboxChatwalaZipURL:message.messageID] toURL:destinationURL error:&error];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID]  error:nil];
+    message.chatwalaZipURL = destinationURL;
+}
+
 
 - (NSString *)generateMessageID {
     return [[[NSUUID UUID] UUIDString] lowercaseString];

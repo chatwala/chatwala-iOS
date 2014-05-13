@@ -97,13 +97,15 @@
 
     NSAssert(self.activeMessage, @"expecting activeMessage to be set");
     
-    if (!self.activeMessage.videoURL) {
+    NSURL *videoFileURL = [Message inboxVideoFileURL:self.activeMessage.messageID];
+    if (!videoFileURL) {
         [self.activeMessage importZip:self.activeMessage.chatwalaZipURL];
+        videoFileURL = [Message inboxVideoFileURL:self.activeMessage.messageID];
     }
     
-    NSAssert(self.activeMessage.videoURL, @"expecting video URL to be set");
+    NSAssert(videoFileURL, @"expecting video URL to be set");
     
-    [self.player setVideoURL:self.activeMessage.videoURL];
+    [self.player setVideoURL:videoFileURL];
     [self setupCameraView];
 }
 
@@ -241,7 +243,7 @@
     [self.activeMessage setEMessageViewedState:eMessageViewedStateOpened];
     
     @try {
-        [self.player setVideoURL:self.activeMessage.videoURL];
+        [self.player setVideoURL:[Message inboxVideoFileURL:messageID]];
     }
     @catch (NSException *exception) {
         NSLog(@"%@",exception);

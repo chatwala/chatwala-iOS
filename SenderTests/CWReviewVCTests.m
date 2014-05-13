@@ -52,7 +52,7 @@
     self.item = [Message insertInManagedObjectContext:self.moc];
     self.mockUser = [OCMockObject niceMockForClass:[User class]];
     NSURL * videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
-    [self.item setVideoURL:videoURL];
+    [self.item setTempVideoURL:videoURL];
 }
 
 - (void)tearDown
@@ -110,7 +110,7 @@
 
 - (void)testPlayerVideoUrlIsSetWhenViewAppears
 {
-    [[self.mockPlayer expect]setVideoURL:OCMOCK_ANY];
+    [[self.mockPlayer expect]setTempVideoURL:OCMOCK_ANY];
     [self.sut viewDidAppear:NO];
     [self.mockPlayer verify];
 }

@@ -172,9 +172,6 @@
             NSLog(@"could not find json file at %@",metadataFilePath);
             return nil;
         }
-        
-        // set video url
-        [item setVideoURL:[NSURL fileURLWithPath:videoLocation.path]];
     }
     return item;
 }

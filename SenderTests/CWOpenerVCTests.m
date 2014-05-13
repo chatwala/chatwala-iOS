@@ -107,10 +107,10 @@
 {
     Message * message = [Message insertInManagedObjectContext:self.moc];
     id mockUrl = [OCMockObject mockForClass:[NSURL class]];
-    [[self.mockPlayer stub]setVideoURL:mockUrl];
+    [[self.mockPlayer stub]setTempVideoURL:mockUrl];
     
     [self.sut setActiveMessage:message];
-    message.videoURL = mockUrl;
+    message.tempVideoURL = mockUrl;
 }
 
 

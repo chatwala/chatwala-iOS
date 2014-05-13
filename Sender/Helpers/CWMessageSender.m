@@ -42,13 +42,13 @@
         [[CWMessageManager sharedInstance] fetchUploadURLForReplyMessage:self.messageBeingSent completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
             
             if (message && uploadURLString) {
-                message.videoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
+                message.tempVideoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
                 message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
                 self.messageBeingSent = message;
                 
                 [self.messageBeingSent exportZip];
                 
-                [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:YES];
+                [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString replyingToMessageOrNil:self.messageBeingRespondedTo];
                 [self didSendMessage];
             }
             else {
@@ -66,13 +66,13 @@
         [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:userID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
             if (message) {
 
-                message.videoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
+                message.tempVideoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
                 message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
                 message.startRecording = [NSNumber numberWithDouble:0.0];
                 self.messageBeingSent = message;
                 
                 [self.messageBeingSent exportZip];
-                [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:NO];
+                [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString replyingToMessageOrNil:nil];
                 
                 // TODO: pass correct thang here...!
                 [self composeMessageWithMessageKey:self.messageBeingSent.messageURL];
@@ -157,9 +157,6 @@
 
 - (void)didSendMessage {
     
-    // Move message from outbox to sent box
-    [self moveMessageToSentBox];
-    
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
     
@@ -178,28 +175,6 @@
     [self.mailComposer dismissViewControllerAnimated:YES completion:nil];
     
     [CWPushNotificationsAPI registerForPushNotifications];
-    self.messageBeingRespondedTo.eMessageViewedState = eMessageViewedStateReplied;
-}
-
-- (void)moveMessageToSentBox {
-    
-    NSError *error = nil;
-    NSString * localPath = [[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:self.messageBeingSent.messageID];
-    
-    if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
-        NSError *error = nil;
-        [[NSFileManager defaultManager] createDirectoryAtPath:localPath withIntermediateDirectories:YES attributes:nil error:&error];
-        if (error) {
-            NSLog(@"error creating sent file directory: %@", error.debugDescription);
-        }
-    }
-    
-    NSURL *destinationURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:self.messageBeingSent.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",self.messageBeingSent.messageID]]];
-
-    [[NSFileManager defaultManager] moveItemAtURL:[Message outboxChatwalaZipURL:self.messageBeingSent.messageID] toURL:destinationURL error:&error];
-
-    [[NSFileManager defaultManager] removeItemAtPath:[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:self.messageBeingSent.messageID]  error:nil];
-    self.messageBeingSent.chatwalaZipURL = destinationURL;
 }
 
 #pragma mark MFMailComposeViewControllerDelegate

@@ -162,7 +162,7 @@
     Message * item = [Message insertInManagedObjectContext:self.moc];
     CWPreviewViewController * reviewVC = [[CWPreviewViewController alloc]init];
 
-    item.videoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
+    item.tempVideoURL = [[NSBundle mainBundle]URLForResource:@"video" withExtension:@"mp4"];
     [reviewVC setIncomingMessage:item];
     
     //when

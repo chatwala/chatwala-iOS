@@ -22,7 +22,7 @@
     
     for (Message *message in messagesToDownload) {
         
-        NSURL *localURL = [Message chatwalaZipURL:message.messageID];
+        NSURL *localURL = [Message inboxZipURL:message.messageID];
         if (!localURL) {
             
             // If device deleted the device for space reasons, then do not redownload it here
