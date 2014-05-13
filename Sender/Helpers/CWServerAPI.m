@@ -233,7 +233,6 @@ AFURLSessionManager *BackgroundSessionManager;
     [requestManager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Successfully completed message upload");
         
-        uploadedMessage.eMessageViewedState = eMessageViewedStateReplied;
         [[UIApplication sharedApplication] endBackgroundTask:CompleteSendBackgroundTaskIdentifier];
         CompleteSendBackgroundTaskIdentifier = 0;
         

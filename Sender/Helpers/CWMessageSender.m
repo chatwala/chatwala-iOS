@@ -178,6 +178,7 @@
     [self.mailComposer dismissViewControllerAnimated:YES completion:nil];
     
     [CWPushNotificationsAPI registerForPushNotifications];
+    self.messageBeingRespondedTo.eMessageViewedState = eMessageViewedStateReplied;
 }
 
 - (void)moveMessageToSentBox {
