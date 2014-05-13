@@ -14,7 +14,7 @@
 #import "CWServerAPI.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
-
+#import "AOFetchUtilities.h"
 
 @interface CWMessageManager ()
 
@@ -98,6 +98,11 @@
         return;
     }
     else {
+        
+        if (![self hasNecessaryDiskSpace]) {
+            [SVProgressHUD showErrorWithStatus:@"Please free up disk space. Chatwala needs space to download your messages."];
+            return;
+        }
         
         [CWServerAPI getInboxForUserID:userID withCompletionBlock:^(NSArray *messages, NSError *error) {
             
@@ -326,6 +331,24 @@
 
 - (NSString *)generateMessageID {
     return [[[NSUUID UUID] UUIDString] lowercaseString];
+}
+
+- (void)clearDiskSpace {
+    
+    [[CWVideoFileCache sharedCache] purgeCache];
+    [AOFetchUtilities markAllMessagesAsDeviceDeletedForUser:[[CWUserManager sharedInstance] localUserID]];
+}
+
+- (BOOL)hasNecessaryDiskSpace {
+    
+    if ([[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace]) {
+        return YES;
+    }
+    else {
+        [self clearDiskSpace];
+        
+        return [[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace];
+    }
 }
 
 @end

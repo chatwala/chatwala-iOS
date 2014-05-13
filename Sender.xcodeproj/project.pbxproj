@@ -29,6 +29,7 @@
 		0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */; };
 		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
 		0D4B4B5918C65BFC0073C505 /* CWMiddleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */; };
+		0D5182FD191FEB2000B9498D /* CWUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5182FC191FEB2000B9498D /* CWUpdater.m */; };
 		0D6B51C418BFC0C000C0D119 /* CWMessageSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */; };
 		0D6F838C18BD495500DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838918BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m */; };
 		0D6F838D18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838B18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m */; };
@@ -269,6 +270,9 @@
 		0D4B4B5718C65BFC0073C505 /* CWMiddleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMiddleButton.h; sourceTree = "<group>"; };
 		0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMiddleButton.m; sourceTree = "<group>"; };
 		0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 3.xcdatamodel"; sourceTree = "<group>"; };
+		0D5182FB191FEB2000B9498D /* CWUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUpdater.h; sourceTree = "<group>"; };
+		0D5182FC191FEB2000B9498D /* CWUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUpdater.m; sourceTree = "<group>"; };
+		0D5182FE1921866A00B9498D /* ChatwalaModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 5.xcdatamodel"; sourceTree = "<group>"; };
 		0D6B51C218BFC0C000C0D119 /* CWMessageSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageSender.h; sourceTree = "<group>"; };
 		0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageSender.m; sourceTree = "<group>"; };
 		0D6F838818BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTableViewCellNewMessageDeliveryMethodCell.h; sourceTree = "<group>"; };
@@ -577,6 +581,8 @@
 				0D4586E3189AC591006BB737 /* CWServerAPI.m */,
 				0D6F839218BD4A8200DCAC2A /* CWConstants.h */,
 				0D6F839318BD4A8200DCAC2A /* CWConstants.m */,
+				0D5182FB191FEB2000B9498D /* CWUpdater.h */,
+				0D5182FC191FEB2000B9498D /* CWUpdater.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -1449,7 +1455,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel 4.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
+			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel 5.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
 		};
 		4B3DBD8706754EA0AB54D68F /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1583,6 +1589,7 @@
 				E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */,
 				0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */,
 				0D6F838C18BD495500DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */,
+				0D5182FD191FEB2000B9498D /* CWUpdater.m in Sources */,
 				36EB6DCD1888841B005B81B4 /* CWProfilePictureViewController.m in Sources */,
 				0D1DAEB11891809D0051D7AE /* CWSettingsViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
@@ -1897,11 +1904,12 @@
 		36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0D5182FE1921866A00B9498D /* ChatwalaModel 5.xcdatamodel */,
 				0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */,
 				0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */,
 				36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */,
 			);
-			currentVersion = 0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */;
+			currentVersion = 0D5182FE1921866A00B9498D /* ChatwalaModel 5.xcdatamodel */;
 			path = ChatwalaModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

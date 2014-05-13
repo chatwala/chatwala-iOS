@@ -29,6 +29,7 @@
              @"thread_id"   : MessageAttributes.threadID,
              @"group_id" : MessageAttributes.groupID,
              @"replying_to_message_id" : MessageAttributes.replyToMessageID,
+             @"replying_to_read_url" : MessageAttributes.replyToReadURL,
              @"thread_index" : MessageAttributes.threadIndex,
              @"message_id" : MessageAttributes.messageID,
              @"thumbnail_url" : MessageAttributes.thumbnailPictureURL,
@@ -209,7 +210,7 @@
 
 + (NSURL *)outboxChatwalaZipURL:(NSString *)messageID {
 
-    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outBoxDirectoryPathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
         return nil;
@@ -221,7 +222,7 @@
 
 + (NSURL *)sentChatwalaZipURL:(NSString *)messageID {
 
-    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentBoxDirectoryPathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",messageID]]];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
         return nil;
@@ -264,6 +265,7 @@
              MessageAttributes.groupID,
              MessageAttributes.readURL,
              MessageAttributes.replyToMessageID,
+             MessageAttributes.replyToReadURL,
              MessageAttributes.messageURL,
              MessageAttributes.messageID,
              MessageAttributes.threadIndex,
@@ -285,6 +287,7 @@
              MessageAttributes.groupID : @"group_id",
              MessageAttributes.readURL : @"read_url",
              MessageAttributes.replyToMessageID : @"replying_to_message_id",
+             MessageAttributes.replyToReadURL : @"replying_to_read_url",
              MessageAttributes.messageID : @"message_id",
              MessageAttributes.thumbnailPictureURL : @"thumbnail_url",
              MessageAttributes.timeStamp : @"timestamp",

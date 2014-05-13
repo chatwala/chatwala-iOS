@@ -10,6 +10,8 @@
 
 #ifdef USE_DEV_SERVER
 long const MinimumFreeDiskSpace = 1073741824;
+#elif defined(USE_QA_SERVER)
+long const MinimumFreeDiskSpace = 1073741824;
 #else
 long const MinimumFreeDiskSpace = 104857600;
 #endif
@@ -56,7 +58,7 @@ long const MinimumFreeDiskSpace = 104857600;
     return localPath;
 }
 
-- (NSString *)sentBoxDirectoryPathForKey:(NSString *)messageID {
+- (NSString *)sentboxDirectoryPathForKey:(NSString *)messageID {
     
     NSString * localPath = [[CWVideoFileCache baseSentBoxFilepath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",messageID]];
     
@@ -72,7 +74,7 @@ long const MinimumFreeDiskSpace = 104857600;
     return localPath;
 }
 
-- (NSString *)outBoxDirectoryPathForKey:(NSString *)messageID {
+- (NSString *)outboxDirectoryPathForKey:(NSString *)messageID {
     NSString * localPath = [[CWVideoFileCache baseOutBoxFilepath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",messageID]];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
@@ -111,6 +113,7 @@ long const MinimumFreeDiskSpace = 104857600;
 }
 
 - (BOOL)hasMinimumFreeDiskSpace {
+    NSLog(@"Max Disk Space: %lu.", MinimumFreeDiskSpace);
     return [self freeCacheSpaceInBytes] > MinimumFreeDiskSpace;
 }
 
@@ -124,6 +127,7 @@ long const MinimumFreeDiskSpace = 104857600;
 #pragma mark - Purge Convenience methods
 
 - (void)purgeLegacyFiles {
+    
     NSFileManager *fm = [NSFileManager defaultManager];
     NSString *documentDirectory = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     NSError *error = nil;
@@ -157,9 +161,10 @@ long const MinimumFreeDiskSpace = 104857600;
     NSString *directory = [CWVideoFileCache baseInboxFilepath];
     NSError *error = nil;
     for (NSString *file in [fm contentsOfDirectoryAtPath:directory error:&error]) {
-        BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@%@", directory, file] error:&error];
+        BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", directory, file] error:&error];
         if (!success || error) {
             // it failed.
+            NSLog(@"Error deleting inbox file");
         }
     }
 }
@@ -170,9 +175,9 @@ long const MinimumFreeDiskSpace = 104857600;
     NSString *directory = [CWVideoFileCache baseSentBoxFilepath];
     NSError *error = nil;
     for (NSString *file in [fm contentsOfDirectoryAtPath:directory error:&error]) {
-        BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@%@", directory, file] error:&error];
+        BOOL success = [fm removeItemAtPath:[NSString stringWithFormat:@"%@/%@", directory, file] error:&error];
         if (!success || error) {
-            // it failed.
+            NSLog(@"Error deleting sentbox file");
         }
     }
 }

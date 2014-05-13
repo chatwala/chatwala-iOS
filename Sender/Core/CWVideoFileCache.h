@@ -13,8 +13,8 @@
 + (NSString *)baseTempFilepath;
 
 - (NSString *)inboxDirectoryPathForKey:(NSString *)messageID;
-- (NSString *)sentBoxDirectoryPathForKey:(NSString *)messageID;
-- (NSString *)outBoxDirectoryPathForKey:(NSString *)messageID;
+- (NSString *)sentboxDirectoryPathForKey:(NSString *)messageID;
+- (NSString *)outboxDirectoryPathForKey:(NSString *)messageID;
 
 - (uint64_t)freeCacheSpaceInBytes;
 - (BOOL)hasMinimumFreeDiskSpace;

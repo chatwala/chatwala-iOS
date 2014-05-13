@@ -43,7 +43,7 @@
             
             if (message && uploadURLString) {
                 message.videoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
-                message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outBoxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
+                message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
                 self.messageBeingSent = message;
                 
                 [self.messageBeingSent exportZip];
@@ -67,7 +67,7 @@
             if (message) {
 
                 message.videoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
-                message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outBoxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
+                message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
                 message.startRecording = [NSNumber numberWithDouble:0.0];
                 self.messageBeingSent = message;
                 
@@ -183,7 +183,7 @@
 - (void)moveMessageToSentBox {
     
     NSError *error = nil;
-    NSString * localPath = [[CWVideoFileCache sharedCache] sentBoxDirectoryPathForKey:self.messageBeingSent.messageID];
+    NSString * localPath = [[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:self.messageBeingSent.messageID];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
         NSError *error = nil;
@@ -193,11 +193,11 @@
         }
     }
     
-    NSURL *destinationURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentBoxDirectoryPathForKey:self.messageBeingSent.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",self.messageBeingSent.messageID]]];
+    NSURL *destinationURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:self.messageBeingSent.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",self.messageBeingSent.messageID]]];
 
     [[NSFileManager defaultManager] moveItemAtURL:[Message outboxChatwalaZipURL:self.messageBeingSent.messageID] toURL:destinationURL error:&error];
 
-    [[NSFileManager defaultManager] removeItemAtPath:[[CWVideoFileCache sharedCache] outBoxDirectoryPathForKey:self.messageBeingSent.messageID]  error:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:self.messageBeingSent.messageID]  error:nil];
     self.messageBeingSent.chatwalaZipURL = destinationURL;
 }
 

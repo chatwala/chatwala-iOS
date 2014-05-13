@@ -12,6 +12,7 @@ const struct MessageAttributes MessageAttributes = {
 	.readURL = @"readURL",
 	.recipientID = @"recipientID",
 	.replyToMessageID = @"replyToMessageID",
+	.replyToReadURL = @"replyToReadURL",
 	.senderID = @"senderID",
 	.startRecording = @"startRecording",
 	.storageShardKey = @"storageShardKey",
@@ -165,6 +166,13 @@ const struct MessageUserInfo MessageUserInfo = {
 
 
 @dynamic replyToMessageID;
+
+
+
+
+
+
+@dynamic replyToReadURL;
 
 
 

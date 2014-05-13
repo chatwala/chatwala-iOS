@@ -6,8 +6,12 @@
 //  Copyright (c) 2013 pho. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 
 @interface CWLoadingViewController : UIViewController
+
+@property (nonatomic,strong) IBOutlet UILabel *loadingLabel;
+
 - (void)restartAnimation;
+- (void)stopAnimating;
+
 @end

@@ -23,6 +23,7 @@
 #import "CWInboxViewController.h"
 #import "CWSplashViewController.h"
 #import "CWViewerViewController.h"
+#import "CWUpdater.h"
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -74,6 +75,9 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
                                                              diskPath:nil];
     [NSURLCache setSharedURLCache:URLCache];
     [[CWDataManager sharedInstance] setupCoreData];
+    
+    CWUpdater *updater = [[CWUpdater alloc] init];
+    [updater performNecessaryUpdates];
     
 #ifdef USE_QA_SERVER
     NSString *analyticsID = @"UA-46207837-4";
@@ -501,7 +505,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         [weakSelf sendDrawerCloseNotification];
     }];
     [self.loadingVC restartAnimation];
-    [self.loadingVC.view setAlpha:1];
+    [self.loadingVC.view setAlpha:1.0f];
     
     
     NSURL *zipURLToOpen = [Message chatwalaZipURL:message.messageID];
@@ -520,8 +524,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
             else {
                 // fail
                 [self.navController popToRootViewControllerAnimated:NO];
-                [UIView animateWithDuration:0.5 animations:^{
-                    [self.loadingVC.view setAlpha:0];
+                [UIView animateWithDuration:0.5f animations:^{
+                    [self.loadingVC.view setAlpha:0.0f];
                 }];
                 [SVProgressHUD showErrorWithStatus:@"Message unavailable."];
                 NSLog(@"failed to download message");

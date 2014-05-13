@@ -24,7 +24,11 @@
         
         NSURL *localURL = [Message chatwalaZipURL:message.messageID];
         if (!localURL) {
-            [messagesNeedingDownload addObject:message];
+            
+            // If device deleted the device for space reasons, then do not redownload it here
+            if (message.eDownloadState != eMessageDownloadStateDeviceDeleted) {
+                [messagesNeedingDownload addObject:message];
+            }
         }
         else {
             [message setEMessageDownloadState:eMessageDownloadStateDownloaded];
@@ -140,6 +144,14 @@
     
     return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
         NSURL *inboxDirectoryPath = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] inboxDirectoryPathForKey:messageID]];
+        return [inboxDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+    });
+}
+
+- (CWServerAPIDownloadDestinationBlock)sentBoxURLDestinationBlockForMessageID:(NSString *)messageID {
+    
+    return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
+        NSURL *inboxDirectoryPath = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:messageID]];
         return [inboxDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     });
 }
