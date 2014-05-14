@@ -411,6 +411,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (void)loadMessageOpener:(Message *)message fromURL:(NSURL *)messageLocalURL {
     
+    [self.replierVC dismissViewControllerAnimated:NO completion:nil];
     self.replierVC = nil;
     message.chatwalaZipURL = messageLocalURL;
     self.replierVC.activeMessage = message;

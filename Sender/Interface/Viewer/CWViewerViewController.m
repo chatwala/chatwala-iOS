@@ -16,6 +16,14 @@
 #import "CWMessagesDownloader.h"
 
 
+#if defined(USE_DEV_SERVER)
+NSString *const BaseReadURLString = @"https://chatwalanonprod.blob.core.windows.net/dev-messages/";
+#elif defined(USE_QA_SERVER)
+NSString *const BaseReadURLString = @"https://chatwalanonprod.blob.core.windows.net/qa-messages/";
+#else
+NSString *const BaseReadURLString = @"https://chatwalaprods1.blob.core.windows.net/messages/";
+#endif
+
 typedef void (^CWViewerDownloadMessagesToViewCompletionBlock)(BOOL success);
 
 typedef NS_ENUM(NSUInteger, CWViewerState) {
@@ -50,7 +58,6 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     [self.view setBackgroundColor:[UIColor whiteColor]];
 
     self.loadingVC = [[CWLoadingViewController alloc] init];
-    [self.loadingVC.loadingLabel setText:@"Downloading messages for viewing."];
     [self.view addSubview:self.loadingVC.view];
     [self.loadingVC.view setAlpha:1.0f];
     [self.loadingVC stopAnimating];
@@ -97,9 +104,15 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     [self.view bringSubviewToFront:self.middleButton];
     [self.view bringSubviewToFront:self.loadingVC.view];
     
+    NSAssert(self.incomingMessage, @"CWViewerController:  Incoming message should always be set.");
+    
+    
     [self downloadMessagesAndConfigureVideoPlayers];
-
 }
+
+
+// TODO: this is horrible, need to refactor so messages has a type class to automatically know
+// where to save a message in the directory structure. [RK]
 
 - (void)downloadMessagesAndConfigureVideoPlayers {
     __block NSInteger numberOfMessagesToDownload = 0;
@@ -110,20 +123,36 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     if (![Message inboxZipURL:self.incomingMessage.messageID]) {
         // download from readurl into inbox
         incomingMessageReadURL = self.incomingMessage.readURL;
-        numberOfMessagesToDownload++;
+        
+        if (![incomingMessageReadURL length]) {
+            [self showErrorAndCloseViewer];
+            return;
+        }
+        else {
+            numberOfMessagesToDownload++;
+        }
+    }
+    else {
+        [self.incomingMessage importZip:[Message inboxZipURL:self.incomingMessage.messageID]];
     }
     
     NSURL *originalMessageZipURL = [Message sentChatwalaZipURL:self.incomingMessage.replyToMessageID];
     if (!originalMessageZipURL) {
         // download from replyToReadURL
-        originalMessageReadURL = self.incomingMessage.replyToReadURL;//([self.incomingMessage.replyToReadURL length] ? self.incomingMessage.replyToReadURL : [self manualLink]);
-        numberOfMessagesToDownload++;
+        originalMessageReadURL = [self readURLForOriginalMessage];
+        
+        if (![originalMessageReadURL length]) {
+            [self showErrorAndCloseViewer];
+            return;
+        }
+        else {
+            numberOfMessagesToDownload++;
+        }
     }
     else {
         NSError *error = nil;
         self.originalMessage = [[CWDataManager sharedInstance] importMessage:self.incomingMessage.replyToMessageID chatwalaZipURL:[Message sentChatwalaZipURL:self.incomingMessage.replyToMessageID] withError:&error];
     }
-    
     
     if (!numberOfMessagesToDownload) {
         [self configureVideoPlayers];
@@ -133,8 +162,6 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
         [self showLoadingView];
     }
     
-    // TODO: this is horrible, need to refactor so messages has a type class to automatically know
-    // where to save a message in the directory structure.
     CWMessagesDownloader *downloader = [[CWMessagesDownloader alloc] init];
     
     if (incomingMessageReadURL) {
@@ -145,6 +172,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
             if (url && messageID) {
                 if (numberOfMessagesToDownload == 0) {
                     // do work;
+                    [self.incomingMessage importZip:[Message inboxZipURL:self.incomingMessage.messageID]];
                     [self configureVideoPlayers];
                 }
             }
@@ -163,8 +191,11 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
                 
                 NSError *error = nil;
                 self.originalMessage = [[CWDataManager sharedInstance] importMessage:messageID chatwalaZipURL:url withError:&error];
-
-                if (numberOfMessagesToDownload == 0) {
+                
+                if (error) {
+                    [self showErrorAndCloseViewer];
+                }
+                else if (numberOfMessagesToDownload == 0) {
                     // do work;
                     [self configureVideoPlayers];
                 }
@@ -191,6 +222,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
 #pragma mark - Video Playback
 
 - (void)configureVideoPlayers {
+    
     self.originalMessagePlayer = [[CWVideoPlayer alloc] init];
     [self.originalMessagePlayer setVideoURL:[Message sentboxVideoFileURL:self.originalMessage.messageID]];
     [self.originalMessagePlayer setDelegate:self];
@@ -234,7 +266,9 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
 #pragma mark - Helper methods
 
 - (void)showLoadingView {
-
+    
+    [self.loadingVC.loadingLabel setText:@"Downloading messages for viewing."];
+    
     // Download the message to the sent folder and try zip URL again
     [self.loadingVC.view setAlpha:1.0f];
     [self.loadingVC restartAnimation];
@@ -248,9 +282,18 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
 }
 
 - (void)showErrorAndCloseViewer {
+
+    [self hideLoadingView];
+    [self stopVideoPlayback];
     [self cleanUpPlayers];
     
+    [SVProgressHUD showErrorWithStatus:@"Cannot open message for viewing."];
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
+
+- (NSString *)readURLForOriginalMessage {
     
+    return ([self.incomingMessage.replyToReadURL length] ? self.incomingMessage.replyToReadURL : [BaseReadURLString stringByAppendingString:self.incomingMessage.replyToMessageID]);
 }
 
 #pragma mark - User interaction

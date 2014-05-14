@@ -16,6 +16,7 @@
 #import "CWTableViewShowMessagePreviewCell.h"
 #import "CWUserManager.h"
 #import "CWUserDefaultsController.h"
+#import "CWMessageManager.h"
 
 NSInteger const MarkAllMessagesAsReadIndex  = 3;
 NSInteger const ClearFileSpaceIndex  = 4;
@@ -202,7 +203,7 @@ NSInteger const ToggleShowMessagePreviewIndex     = 6;
                     [NC postNotificationName:CWNotificationShouldMarkAllMessagesAsRead object:nil];
                     break;
                 case 4:
-                    [[CWVideoFileCache sharedCache] purgeCache];
+                    [[CWMessageManager sharedInstance] clearDiskSpace];
                 default:
                 {
                     

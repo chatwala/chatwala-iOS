@@ -62,14 +62,14 @@ long const MinimumFreeDiskSpace = 104857600;
     
     NSString * localPath = [[CWVideoFileCache baseSentBoxFilepath] stringByAppendingPathComponent:[NSString stringWithFormat:@"/%@",messageID]];
     
-//    if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
-//        NSError *error = nil;
-//        [[NSFileManager defaultManager] createDirectoryAtPath:localPath withIntermediateDirectories:YES attributes:nil error:&error];
-//        if (error) {
-//            NSLog(@"error creating sent file directory: %@", error.debugDescription);
-//            return nil;
-//        }
-//    }
+    if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:localPath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"error creating sent file directory: %@", error.debugDescription);
+            return nil;
+        }
+    }
     
     return localPath;
 }

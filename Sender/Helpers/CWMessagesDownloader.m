@@ -120,7 +120,7 @@
                     NSLog(@"File downloaded to: %@", filePath);
                     
                     if (completionBlock) {
-                        completionBlock(nil,filePath, messageID);
+                        completionBlock(nil, filePath, messageID);
                     }
                     
                     break;
@@ -151,8 +151,8 @@
 - (CWServerAPIDownloadDestinationBlock)sentBoxURLDestinationBlockForMessageID:(NSString *)messageID {
     
     return (^NSURL *(NSURL *targetPath, NSURLResponse *response){
-        NSURL *inboxDirectoryPath = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:messageID]];
-        return [inboxDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
+        NSURL *sentboxDirectoryPath = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:messageID]];
+        return [sentboxDirectoryPath URLByAppendingPathComponent:[response suggestedFilename]];
     });
 }
 
