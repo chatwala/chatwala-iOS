@@ -9,7 +9,6 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
-#import "CWUtility.h"
 #import "CWServerAPI.h"
 #import "CWGroundControlManager.h"
 #import "CWUserDefaultsController.h"
@@ -91,8 +90,6 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     }
     
     NSLog(@"Generated new user id: %@", newUserID);
-    
-    //self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
     [CWUserDefaultsController setUserID:newUserID];
 }
 
@@ -202,7 +199,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return [[self newMessageDeliveryMethod] isEqualToString:kNewMessageDeliveryMethodValueSMS];
 }
 
-- (NSInteger) numberOfTotalUnreadMessages {
+- (NSInteger)numberOfTotalUnreadMessages {
 
     return [AOFetchUtilities totalUnreadMessagesForRecipient:self.localUserID];
 }
@@ -213,7 +210,7 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     NSInteger unreadCount = 0;
     
     for (Message *currentMessage in messagesForUser) {
-        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened && currentMessage.eDownloadState == eMessageDownloadStateDownloaded) {
+        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened && (currentMessage.eDownloadState == eMessageDownloadStateDownloaded || currentMessage.eDownloadState == eMessageDownloadStateDeviceDeleted)) {
             unreadCount++;
         }
     }

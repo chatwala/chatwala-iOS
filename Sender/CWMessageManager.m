@@ -10,13 +10,11 @@
 #import "AppDelegate.h"
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
-#import "CWUtility.h"
 #import "CWDataManager.h"
 #import "CWServerAPI.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
-
-
+#import "AOFetchUtilities.h"
 
 @interface CWMessageManager ()
 
@@ -94,17 +92,17 @@
 }
 
 
-- (NSURL *)messageCacheURL {
-    NSString * const messagesCacheFile = @"messages";
-    return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
-}
-
 - (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
     
     if (![userID length]) {
         return;
     }
     else {
+        
+        if (![self hasNecessaryDiskSpace]) {
+            [SVProgressHUD showErrorWithStatus:@"Please free up disk space. Chatwala needs space to download your messages."];
+            return;
+        }
         
         [CWServerAPI getInboxForUserID:userID withCompletionBlock:^(NSArray *messages, NSError *error) {
             
@@ -303,7 +301,7 @@
     self.needsOriginalMessageUploadURL = YES;
 }
 
-- (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString isReply:(BOOL)isReplyMessage {
+- (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString replyingToMessageOrNil:(Message *)messageBeingRespondedTo {
 
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
     
@@ -317,22 +315,72 @@
         else {
             NSLog(@"Successful message upload - messageID: %@", messageToUpload.messageID);
             
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                
+                if (messageBeingRespondedTo) {
+                    [messageBeingRespondedTo setEMessageViewedState:eMessageViewedStateReplied];
+                }
+                
+                //Background Thread
+                [self moveMessageToSentBox:messageToUpload];
+            });
+            
             // Call finalize
-            [CWServerAPI completeMessage:messageToUpload isReply:isReplyMessage];
+            [CWServerAPI completeMessage:messageToUpload isReply:(messageBeingRespondedTo ? YES : NO)];
         }
     }];
     
     // After this we'll need a different endpoint for upload if we cancel or kill the app
     
-    if (!isReplyMessage) {
+    if (!messageBeingRespondedTo) {
         self.needsOriginalMessageUploadURL = YES;
     }
 }
 
 #pragma mark - Helpers
 
+- (void)moveMessageToSentBox:(Message *)message {
+
+    NSError *error = nil;
+    NSString * localPath = [[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:message.messageID];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:localPath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"error creating sent file directory: %@", error.debugDescription);
+        }
+    }
+    
+    NSURL *destinationURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",message.messageID]]];
+    
+    [[NSFileManager defaultManager] moveItemAtURL:[Message outboxChatwalaZipURL:message.messageID] toURL:destinationURL error:&error];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID]  error:nil];
+    message.chatwalaZipURL = destinationURL;
+}
+
+
 - (NSString *)generateMessageID {
     return [[[NSUUID UUID] UUIDString] lowercaseString];
+}
+
+- (void)clearDiskSpace {
+    
+    [[CWVideoFileCache sharedCache] purgeCache];
+    [AOFetchUtilities markAllMessagesAsDeviceDeletedForUser:[[CWUserManager sharedInstance] localUserID]];
+}
+
+- (BOOL)hasNecessaryDiskSpace {
+    
+    if ([[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace]) {
+        return YES;
+    }
+    else {
+        [self clearDiskSpace];
+        
+        return [[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace];
+    }
 }
 
 @end

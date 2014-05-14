@@ -44,3 +44,6 @@ extern NSString *const CWConstantsGControlMessagesEndpointKey;
 // Message specfici defaults
 extern NSString *const CWConstantsMessageMarkedDeletedKey;
 extern NSString *const CWUserDefaultsIsFirstOpenKey;
+
+// CWUpdater User Default Keys
+extern NSString *const CWUpdaterPerformed164UpdateKey;

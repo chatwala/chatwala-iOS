@@ -42,6 +42,14 @@
     }
 }
 
++ (void)markAllMessagesAsDeviceDeletedForUser:(NSString *)userID {
+    NSArray *messagesArray = [AOFetchUtilities messagesForUser:userID];
+    
+    for (Message *message in messagesArray) {
+        [message setEMessageDownloadState:eMessageDownloadStateDeviceDeleted];
+    }
+}
+
 + (NSArray *)fetchGroupBySenderID {
 
     NSManagedObjectContext *managedObjectContext = [[CWDataManager sharedInstance] moc];
@@ -111,9 +119,8 @@
     NSArray *messagesArray = [moc executeFetchRequest:request error:&error];
     NSMutableArray *filteredArray = [NSMutableArray arrayWithCapacity:[messagesArray count]];
     
-    // Only show downloaded messages
     for (Message *message in messagesArray) {
-        if ([message.downloadState integerValue] == eMessageDownloadStateDownloaded) {
+        if ([message.downloadState integerValue] == eMessageDownloadStateDownloaded || [message.downloadState integerValue] == eMessageDownloadStateDeviceDeleted) {
             
             // Don't show messages previously deleted but not successfully deleted on server yet
             if ([message isMarkedAsDeleted]) {
@@ -122,7 +129,6 @@
             else {
                 [filteredArray addObject:message];
             }
-            
         }
     }
     
@@ -141,7 +147,23 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
     [request setEntity:entityDescription];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(recipientID == %@ && viewedState == 0 && downloadState == 2)", userID];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(recipientID == %@ && viewedState == 0 && (downloadState == 2 || downloadState == 3))", userID];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *messagesArray = [moc executeFetchRequest:request error:&error];
+    
+    return messagesArray;
+}
+
++ (NSArray *)messagesForUser:(NSString *)userID {
+    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Message" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(recipientID == %@)", userID];
     [request setPredicate:predicate];
     
     NSError *error = nil;

@@ -49,6 +49,7 @@
 
 // Chatwala required queries
 + (void)markAllMessagesAsReadForUser:(NSString *)userID;
++ (void)markAllMessagesAsDeviceDeletedForUser:(NSString *)userID;
 + (NSInteger)totalUnreadMessagesForRecipient:(NSString *)userID;
 + (NSArray *)fetchGroupBySenderID;
 + (NSArray *)fetchMessagesForSender:(NSString *)senderID;

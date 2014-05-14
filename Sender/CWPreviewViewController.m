@@ -12,7 +12,6 @@
 #import "CWGroundControlManager.h"
 #import "CWMessageManager.h"
 #import "CWUserManager.h"
-#import "CWUtility.h"
 #import "Message.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWDataManager.h"
@@ -150,8 +149,7 @@
     
     Message * message = [[CWDataManager sharedInstance] createMessageWithSender:userID inResponseToIncomingMessage:self.incomingMessage];
     
-    message.videoURL = recorder.outputFileURL;
-    message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
+    message.chatwalaZipURL = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID]];
     message.startRecording = [NSNumber numberWithDouble:self.startRecordingTime];
     
     self.messageSender = [[CWMessageSender alloc] init];

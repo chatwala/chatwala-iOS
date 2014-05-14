@@ -7,6 +7,7 @@ typedef enum eMessageDownloadState
     eMessageDownloadStateNotDownloaded,
     eMessageDownloadStateNotDownloadedThumbnail,
     eMessageDownloadStateDownloaded,
+    eMessageDownloadStateDeviceDeleted,
     eMessageDownloadStateTotal
     
 } eMessageDownloadState;
@@ -29,8 +30,8 @@ typedef enum eMessageViewedState
 @interface Message : _Message <Message> {}
 // Custom logic goes here.
 
-@property (nonatomic, strong) NSURL * videoURL;//not core data backed.
-@property (nonatomic, strong) NSURL * zipURL;//not saved in core data
+@property (nonatomic, strong) NSURL * tempVideoURL;//not core data backed.
+@property (nonatomic, strong) NSURL * chatwalaZipURL;//not saved in core data
 @property (nonatomic, strong) UIImage * lastFrameImage; //not saved in core data
 @property (nonatomic, strong) NSString *thumbnailUploadURLString;
 
@@ -40,12 +41,22 @@ typedef enum eMessageViewedState
 - (eMessageDownloadState) eDownloadState;
 - (void)setEMessageDownloadState:(eMessageDownloadState ) eState;
 - (void)exportZip;
+- (void)importZip:(NSURL *)zipURL;
 - (void)saveContext;
 
 - (void)addMessageToUserInbox:(NSString *)userID;
 - (void)deleteMessageFromInbox;
 - (BOOL)isMarkedAsDeleted;
+- (BOOL)shouldOpenInViewer;
 
 - (void)uploadThumbnailImage:(UIImage *)image;
 
+// Video file accessors
++ (NSURL *)inboxZipURL:(NSString *)messageID;
++ (NSURL *)inboxVideoFileURL:(NSString *)messageID;
+
++ (NSURL *)sentChatwalaZipURL:(NSString *)messageID;
++ (NSURL *)sentboxVideoFileURL:(NSString *)messageID;
+
++ (NSURL *)outboxChatwalaZipURL:(NSString *)messageID;
 @end

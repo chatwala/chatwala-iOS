@@ -8,14 +8,13 @@
 
 @interface CWVideoFileCache : NSObject
 
-// TODO:    1) needs some type of max size here
-//          2) cache deletion when max size is met or file becomes obsolete
-
 + (CWVideoFileCache *)sharedCache;
 + (NSString *)baseCacheDirectoryFilepath;
++ (NSString *)baseTempFilepath;
 
-- (NSError *)storeVideoDataFromURL:(NSURL *)tempURL forKey:(NSString *)messageID mimeType:(NSString *)type;
-- (NSString *)filepathForKey:(NSString *)messageID;
+- (NSString *)inboxDirectoryPathForKey:(NSString *)messageID;
+- (NSString *)sentboxDirectoryPathForKey:(NSString *)messageID;
+- (NSString *)outboxDirectoryPathForKey:(NSString *)messageID;
 
 - (uint64_t)freeCacheSpaceInBytes;
 - (BOOL)hasMinimumFreeDiskSpace;

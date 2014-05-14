@@ -36,14 +36,7 @@ static BOOL didRegisterForPushNotifications = NO;
         didRegisterForPushNotifications = YES;
     }
     
-    [CWServerAPI registerPushForUserID:[[CWUserManager sharedInstance] localUserID] withPushToken:deviceToken withCompletionBlock:^(NSError *error) {
-        if (error) {
-            NSLog(@"Failed to register push notification, error:  %@",error.localizedDescription);
-        }
-        else {
-            NSLog(@"Successfully registered push notification token with chatwala server");
-        }
-    }];
+    [CWServerAPI registerPushForUserID:[[CWUserManager sharedInstance] localUserID] withPushToken:deviceToken withCompletionBlock:nil];
 }
 
 + (void)handleLocalPushNotification:(UILocalNotification *)notification {

@@ -16,10 +16,12 @@
 #import "CWTableViewShowMessagePreviewCell.h"
 #import "CWUserManager.h"
 #import "CWUserDefaultsController.h"
+#import "CWMessageManager.h"
 
-NSInteger const MarkAllMessagesAsReadRow  = 4;
-NSInteger const ToggleMessageDeliveryMethodRow  = 5;
-NSInteger const ToggleShowMessagePreviewRow     = 6;
+NSInteger const MarkAllMessagesAsReadIndex  = 3;
+NSInteger const ClearFileSpaceIndex  = 4;
+NSInteger const ToggleMessageDeliveryMethodIndex  = 5;
+NSInteger const ToggleShowMessagePreviewIndex     = 6;
 
 @interface CWSettingsViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (strong, nonatomic) IBOutlet CWTableViewCellNewMessageDeliveryMethodCell *deliveryMethodCell;
@@ -55,7 +57,7 @@ NSInteger const ToggleShowMessagePreviewRow     = 6;
                            };
     [self.navigationController.navigationBar setTitleTextAttributes:att];
     
-    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy",@"Feedback", @"Edit Your Profile Picture", @"Mark All Messages As Read"]];
+    [self setSection1Titles:@[@"Terms and Conditions",@"Privacy Policy", @"Edit Your Profile Picture", @"Mark All Messages As Read", @"Clear File Space"]];
     
     [self.settingsTable registerClass:[UITableViewCell class] forCellReuseIdentifier:@"settingsCell"];
     [self.settingsTable setDelegate:self];
@@ -109,11 +111,11 @@ NSInteger const ToggleShowMessagePreviewRow     = 6;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if(indexPath.row == ToggleMessageDeliveryMethodRow)
+    if(indexPath.row == ToggleMessageDeliveryMethodIndex)
     {
         return [self tableViewDeliveryMethod:tableView];
     }
-    else if (indexPath.row == ToggleShowMessagePreviewRow) {
+    else if (indexPath.row == ToggleShowMessagePreviewIndex) {
         return [self showMessagePreviewCell:tableView];
     }
     
@@ -126,8 +128,11 @@ NSInteger const ToggleShowMessagePreviewRow     = 6;
     [bgview setBackgroundColor:[UIColor chatwalaRed]];
     [cell setSelectedBackgroundView:bgview];
     [cell.textLabel setText:[[@[self.section1Titles]objectAtIndex:indexPath.section] objectAtIndex:indexPath.row]];
-    if (indexPath.section == 0 && indexPath.row != MarkAllMessagesAsReadRow) {
+    if (indexPath.section == 0 && (indexPath.row != MarkAllMessagesAsReadIndex || indexPath.row != ClearFileSpaceIndex)) {
         [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    }
+    else {
+        [cell setAccessoryType:UITableViewCellAccessoryNone];
     }
     return cell;
 }
@@ -190,27 +195,15 @@ NSInteger const ToggleShowMessagePreviewRow     = 6;
                     break;
                 case 2:
                 {
-                    CWAppFeedBackViewController* tocVC = [[CWAppFeedBackViewController alloc] init];
-                    [self.navigationController pushViewController:tocVC animated:YES];
-//                    if ([MFMailComposeViewController canSendMail]) {
-//                        MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
-//                        [mailComposer setMailComposeDelegate:self];
-//                        [mailComposer setSubject:[[CWGroundControlManager sharedInstance] feedbackEmailSubject]];
-//                        [mailComposer setMessageBody:[[CWGroundControlManager sharedInstance] feedbackEmailBody] isHTML:NO];
-//                        [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
-//                        [self presentViewController:mailComposer animated:YES completion:nil];
-//                    }
-                }
-                    break;
-                case 3:
-                {
                     UIViewController * viewController = [[CWProfilePictureViewController alloc] init];
                     [self.navigationController pushViewController:viewController animated:YES];
                 }
-                case 4:
+                case 3:
                     // Mark all messages as read
                     [NC postNotificationName:CWNotificationShouldMarkAllMessagesAsRead object:nil];
                     break;
+                case 4:
+                    [[CWMessageManager sharedInstance] clearDiskSpace];
                 default:
                 {
                     

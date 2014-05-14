@@ -133,7 +133,7 @@
         return;
     }
     else if (![[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace])  {
-        [SVProgressHUD showErrorWithStatus:@"Please free up disk space! Unable to record new message."];
+        [SVProgressHUD showErrorWithStatus:@"Please free up disk space. Unable to record new message."];
         return;
     }
     

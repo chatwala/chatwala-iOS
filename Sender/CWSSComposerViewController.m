@@ -88,16 +88,9 @@
     else {
 
         NSString *localUserID = [[CWUserManager sharedInstance] localUserID];
-        
-        Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:nil];
-        
-        message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
-        message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
-        message.startRecording = [NSNumber numberWithDouble:0.0];
-        
+                
         self.messageSender = [[CWMessageSender alloc] init];
         self.messageSender.delegate = self;
-        self.messageSender.messageBeingSent = message;
         
         self.hasSentMessage = YES;
         [self.messageSender sendMessageFromUser:localUserID];

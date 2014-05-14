@@ -10,7 +10,7 @@
 
 @interface CWLoadingViewController ()
 
-@property (nonatomic,strong) IBOutlet UILabel *loadingLabel;
+
 
 @property (nonatomic,strong) UIImageView * stencilView;
 @property (nonatomic,strong) UIImageView * wavesView;
@@ -67,7 +67,10 @@
     } completion:^(BOOL finished) {
 //        [self.wavesView stopAnimating];
     }];
-    
-    
 }
+
+- (void)stopAnimating {
+    [self.wavesView stopAnimating];
+}
+
 @end

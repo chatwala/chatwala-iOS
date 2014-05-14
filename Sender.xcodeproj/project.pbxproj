@@ -10,7 +10,6 @@
 		0D09E5DE18BBA82500061EEA /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D09E5DD18BBA82500061EEA /* FacebookSDK.framework */; };
 		0D1979B018936E9F00379DD5 /* CWPushNotificationsAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1979AF18936E9F00379DD5 /* CWPushNotificationsAPI.m */; };
 		0D1DAEA118917F960051D7AE /* CWAnalytics.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA018917F960051D7AE /* CWAnalytics.m */; };
-		0D1DAEA418917FD30051D7AE /* CWUtility.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA318917FD30051D7AE /* CWUtility.m */; };
 		0D1DAEAF1891809D0051D7AE /* CWPrivacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA71891809D0051D7AE /* CWPrivacyViewController.m */; };
 		0D1DAEB01891809D0051D7AE /* CWPrivacyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0D1DAEA81891809D0051D7AE /* CWPrivacyViewController.xib */; };
 		0D1DAEB11891809D0051D7AE /* CWSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D1DAEAA1891809D0051D7AE /* CWSettingsViewController.m */; };
@@ -26,9 +25,11 @@
 		0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D200AD218918C4D008C2238 /* CWMessageCell.m */; };
 		0D29E37318AAB9F500082ECF /* CWMessagesDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */; };
 		0D29E37718AABA8B00082ECF /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D29E37618AABA8B00082ECF /* UIColor+Additions.m */; };
+		0D2B2639191D6D1D00D6D2C7 /* CWViewerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D2B2638191D6D1D00D6D2C7 /* CWViewerViewController.m */; };
 		0D3D3D4D18B7DABB00859AA7 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */; };
 		0D4586E4189AC591006BB737 /* CWServerAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4586E3189AC591006BB737 /* CWServerAPI.m */; };
 		0D4B4B5918C65BFC0073C505 /* CWMiddleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */; };
+		0D5182FD191FEB2000B9498D /* CWUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D5182FC191FEB2000B9498D /* CWUpdater.m */; };
 		0D6B51C418BFC0C000C0D119 /* CWMessageSender.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */; };
 		0D6F838C18BD495500DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838918BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m */; };
 		0D6F838D18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0D6F838B18BD495500DCAC2A /* CWTableViewShowMessagePreviewCell.m */; };
@@ -235,8 +236,6 @@
 		0D1979B218939FB000379DD5 /* CWMacroOverrides.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMacroOverrides.h; sourceTree = "<group>"; };
 		0D1DAE9F18917F960051D7AE /* CWAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWAnalytics.h; sourceTree = "<group>"; };
 		0D1DAEA018917F960051D7AE /* CWAnalytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWAnalytics.m; sourceTree = "<group>"; };
-		0D1DAEA218917FD30051D7AE /* CWUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUtility.h; sourceTree = "<group>"; };
-		0D1DAEA318917FD30051D7AE /* CWUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUtility.m; sourceTree = "<group>"; };
 		0D1DAEA61891809D0051D7AE /* CWPrivacyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWPrivacyViewController.h; sourceTree = "<group>"; };
 		0D1DAEA71891809D0051D7AE /* CWPrivacyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWPrivacyViewController.m; sourceTree = "<group>"; };
 		0D1DAEA81891809D0051D7AE /* CWPrivacyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CWPrivacyViewController.xib; sourceTree = "<group>"; };
@@ -263,12 +262,17 @@
 		0D29E37218AAB9F500082ECF /* CWMessagesDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessagesDownloader.m; sourceTree = "<group>"; };
 		0D29E37518AABA8B00082ECF /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
 		0D29E37618AABA8B00082ECF /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
+		0D2B2637191D6D1D00D6D2C7 /* CWViewerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWViewerViewController.h; sourceTree = "<group>"; };
+		0D2B2638191D6D1D00D6D2C7 /* CWViewerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWViewerViewController.m; sourceTree = "<group>"; };
 		0D3D3D4C18B7DABB00859AA7 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = Sender/Framework/Crashlytics.framework; sourceTree = "<group>"; };
 		0D4586E2189AC591006BB737 /* CWServerAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWServerAPI.h; sourceTree = "<group>"; };
 		0D4586E3189AC591006BB737 /* CWServerAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWServerAPI.m; sourceTree = "<group>"; };
 		0D4B4B5718C65BFC0073C505 /* CWMiddleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMiddleButton.h; sourceTree = "<group>"; };
 		0D4B4B5818C65BFC0073C505 /* CWMiddleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMiddleButton.m; sourceTree = "<group>"; };
 		0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 3.xcdatamodel"; sourceTree = "<group>"; };
+		0D5182FB191FEB2000B9498D /* CWUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWUpdater.h; sourceTree = "<group>"; };
+		0D5182FC191FEB2000B9498D /* CWUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWUpdater.m; sourceTree = "<group>"; };
+		0D5182FE1921866A00B9498D /* ChatwalaModel 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "ChatwalaModel 5.xcdatamodel"; sourceTree = "<group>"; };
 		0D6B51C218BFC0C000C0D119 /* CWMessageSender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWMessageSender.h; sourceTree = "<group>"; };
 		0D6B51C318BFC0C000C0D119 /* CWMessageSender.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CWMessageSender.m; sourceTree = "<group>"; };
 		0D6F838818BD495400DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CWTableViewCellNewMessageDeliveryMethodCell.h; sourceTree = "<group>"; };
@@ -577,8 +581,8 @@
 				0D4586E3189AC591006BB737 /* CWServerAPI.m */,
 				0D6F839218BD4A8200DCAC2A /* CWConstants.h */,
 				0D6F839318BD4A8200DCAC2A /* CWConstants.m */,
-				0D1DAEA218917FD30051D7AE /* CWUtility.h */,
-				0D1DAEA318917FD30051D7AE /* CWUtility.m */,
+				0D5182FB191FEB2000B9498D /* CWUpdater.h */,
+				0D5182FC191FEB2000B9498D /* CWUpdater.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -693,6 +697,16 @@
 			);
 			name = Core;
 			path = Sender/Core;
+			sourceTree = "<group>";
+		};
+		0D9EF05819196444004EF522 /* Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				0D2B2637191D6D1D00D6D2C7 /* CWViewerViewController.h */,
+				0D2B2638191D6D1D00D6D2C7 /* CWViewerViewController.m */,
+			);
+			name = Viewer;
+			path = Interface/Viewer;
 			sourceTree = "<group>";
 		};
 		0DDD6F3F18C66F1200580DA4 /* Commands */ = {
@@ -911,6 +925,7 @@
 				E924AD26183AAD79009400DD /* Start Screen */,
 				E924AD3B183AC0F3009400DD /* Opener */,
 				E924AD27183AB0A2009400DD /* Composer */,
+				0D9EF05819196444004EF522 /* Viewer */,
 				E924AD32183AB718009400DD /* Preview */,
 				E9ABCF62183D45270098E530 /* Error */,
 				0D200ACD18918C4D008C2238 /* Inbox */,
@@ -1440,7 +1455,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel 4.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
+			shellScript = "cd Sender/CoreData && ../../Tools/mogenerator --template-var arc=true --model \"ChatwalaModel.xcdatamodeld/ChatwalaModel 5.xcdatamodel\" --template-path ModelTemplates --base-class AOManagedObject --machine-dir ModelMachine --human-dir ModelHuman";
 		};
 		4B3DBD8706754EA0AB54D68F /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1512,6 +1527,7 @@
 				E9ABCF66183D45470098E530 /* CWErrorViewController.m in Sources */,
 				E924AD31183AB491009400DD /* CWSSComposerViewController.m in Sources */,
 				0D4B4B5918C65BFC0073C505 /* CWMiddleButton.m in Sources */,
+				0D2B2639191D6D1D00D6D2C7 /* CWViewerViewController.m in Sources */,
 				E9C1156A1832D82700DB67D2 /* CWPreviewViewController.m in Sources */,
 				E90F04E8182D7AD4004B8CCD /* CWStartScreenViewController.m in Sources */,
 				0DDD6F4818C67D0300580DA4 /* CWStartOriginalMessageCommand.m in Sources */,
@@ -1531,7 +1547,6 @@
 				E9C115531832970E00DB67D2 /* CWComposerViewController.m in Sources */,
 				0D200ABE1891852F008C2238 /* DCKnob.m in Sources */,
 				E924AD25183AAD69009400DD /* CWSSStartScreenViewController.m in Sources */,
-				0D1DAEA418917FD30051D7AE /* CWUtility.m in Sources */,
 				E95E25E318314B8300E3950B /* CWVideoManager.m in Sources */,
 				0DDD6F4B18C67D2300580DA4 /* CWCompleteOriginalMessageSend.m in Sources */,
 				0D29E37718AABA8B00082ECF /* UIColor+Additions.m in Sources */,
@@ -1574,6 +1589,7 @@
 				E924AD3A183AB7D8009400DD /* CWSSReviewViewController.m in Sources */,
 				0D200AD518918C4D008C2238 /* CWMessageCell.m in Sources */,
 				0D6F838C18BD495500DCAC2A /* CWTableViewCellNewMessageDeliveryMethodCell.m in Sources */,
+				0D5182FD191FEB2000B9498D /* CWUpdater.m in Sources */,
 				36EB6DCD1888841B005B81B4 /* CWProfilePictureViewController.m in Sources */,
 				0D1DAEB11891809D0051D7AE /* CWSettingsViewController.m in Sources */,
 				E924AD1B183AA16D009400DD /* CWSSOpenerViewController.m in Sources */,
@@ -1888,11 +1904,12 @@
 		36AF5825187DDB3400C5C13F /* ChatwalaModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				0D5182FE1921866A00B9498D /* ChatwalaModel 5.xcdatamodel */,
 				0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */,
 				0D4D4C8918C6942F00949646 /* ChatwalaModel 3.xcdatamodel */,
 				36AF5826187DDB3400C5C13F /* ChatwalaModel.xcdatamodel */,
 			);
-			currentVersion = 0DB9DE8B18E357030011AD25 /* ChatwalaModel 4.xcdatamodel */;
+			currentVersion = 0D5182FE1921866A00B9498D /* ChatwalaModel 5.xcdatamodel */;
 			path = ChatwalaModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
