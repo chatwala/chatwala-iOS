@@ -59,7 +59,7 @@
 
 #pragma mark - import data
 
-- (Message *)createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage videoURL:(NSURL *)videoURL {
+- (Message *)createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage {
     
     Message *message = [Message insertInManagedObjectContext:self.moc];
     message.senderID = senderID;

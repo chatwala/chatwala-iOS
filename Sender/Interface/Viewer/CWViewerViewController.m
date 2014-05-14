@@ -314,39 +314,6 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     }
 }
 
-#pragma mark - Property overrides
-
-//- (void)setIncomingMessage:(Message *)incomingMessage {
-//    _incomingMessage = incomingMessage;
-//    
-//    
-//    // Check if incoming message zip is present in inbox
-//    // Check if original message zip is present in sentbox
-//    
-//    // Download those that are not present
-//    
-//    // Import zip (which loads video) & returns object
-//    
-//    [_incomingMessage importZip:[Message inboxZipURL:_incomingMessage.messageID]];
-//    
-//    
-//    if ([_incomingMessage.replyToMessageID length]) {
-//        NSURL *zipURL = [Message sentChatwalaZipURL:_incomingMessage.replyToMessageID];
-//        
-//        if (!zipURL) {
-//            // Download the message to the sent folder and try zip URL again
-//            [self.loadingVC.view setAlpha:1.0f];
-//            [self.loadingVC restartAnimation];
-//            [self.view bringSubviewToFront:self.loadingVC.view];
-//        }
-//        
-//        // TODO:
-//        NSError *error = nil;
-//        self.originalMessage = [[CWDataManager sharedInstance] importMessage:_incomingMessage.replyToMessageID chatwalaZipURL:zipURL withError:&error];
-//    }
-//}
-
-
 #pragma mark CWVideoPlayerDelegate
 
 - (void)videoPlayerDidLoadVideo:(CWVideoPlayer *)videoPlayer {

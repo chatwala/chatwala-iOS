@@ -22,7 +22,7 @@
 //- (Thread *) findThreadByThreadID:(NSString*) threadID;
 //- (Thread *) createThreadWithID:(NSString *) threadID;
 
-- (Message *)createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage videoURL:(NSURL *)videoURL;
+- (Message *)createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage;
 - (Message *) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error;
 
 + (NSDateFormatter *)dateFormatter;
