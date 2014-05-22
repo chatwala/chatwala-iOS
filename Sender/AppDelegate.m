@@ -467,6 +467,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 - (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectTopButton:(UIButton *)button {
+    
     [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished) {
         if ([button isEqual:inboxVC.plusButton]) {
             // check if showing start screen
@@ -516,6 +517,13 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     else {
         [appdel application:[UIApplication sharedApplication] openURL:urlToOpen sourceApplication:nil annotation:nil];
     }
+}
+
+- (void)inboxDidSelectCreateNewMessageToUser:(NSString *)toRecipientID withProfileImage:(UIImage *)profileImage {
+    
+    // User wants to create a new message to a specific recipient
+    
+    
 }
 
 #pragma mark - Push Notification Registration delegate methods
