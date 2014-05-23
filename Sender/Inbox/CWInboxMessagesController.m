@@ -127,20 +127,21 @@ static const float DeleteMessageLongPressDuration = 1.0f;
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
 
     // 1. The view for the header
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 72.0f)];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 72.0f)];
+    footerView.layer.borderColor = [UIColor blackColor].CGColor;
+    footerView.layer.borderWidth = 1.0f;
     
     // 2. Set a custom background color
-    footerView.backgroundColor = [UIColor blackColor];
+    footerView.backgroundColor = [UIColor colorWithRed:122.0f/255.0f green:24.0f/255.0f blue:68.0f/255.0f alpha:1.0f];
     
     // 3. Add a label
     UILabel* footerLabel = [[UILabel alloc] init];
-    footerLabel.frame = CGRectMake(0.0, 0.0, tableView.frame.size.width, 72.0f);
+    footerLabel.frame = CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 72.0f);
     footerLabel.backgroundColor = [UIColor clearColor];
     footerLabel.textColor = [UIColor chatwalaFeedbackLabel];
-    footerLabel.font = [UIFont fontWithName:@"Avenir-Heavy" size:14.0];
+    footerLabel.font = [UIFont fontWithName:@"Avenir-Heavy" size:14.0f];
     footerLabel.text = @"NEW";
     footerLabel.textAlignment = NSTextAlignmentCenter;
-    
 
     [footerView addSubview:footerLabel];
 
@@ -149,7 +150,8 @@ static const float DeleteMessageLongPressDuration = 1.0f;
     UIImageView *newMessageImageView = [[UIImageView alloc] initWithFrame:footerView.frame];
     newMessageImageView.contentMode = UIViewContentModeScaleAspectFill;
     newMessageImageView.clipsToBounds = YES;
-    newMessageImageView.alpha = 0.4f;
+    newMessageImageView.alpha = 0.3f;
+
 
     // 5. Add control to monitor touches
     __block UIControl *feedbackFooterControl = [[UIControl alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 72.0f)];
@@ -161,6 +163,7 @@ static const float DeleteMessageLongPressDuration = 1.0f;
     [newMessageImageView setImageWithURL:[NSURL URLWithString:message.userThumbnailURL] placeholderImage:nil options:SDWebImageRetryFailed | SDWebImageRefreshCached completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType) {
         
         if (!error) {
+
             self.footerImage = image;
             feedbackFooterControl.enabled = YES;
         }

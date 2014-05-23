@@ -8,8 +8,16 @@
 
 #import "CWStartKnownRecipientViewController.h"
 #import "CWMiddleButton.h"
+#import "CWSSComposerViewController.h"
+#import "CWVideoFileCache.h"
+#import "CWGroundControlManager.h"
 
 @interface CWStartKnownRecipientViewController ()
+
+@property (nonatomic) CWMiddleButton *middleButton;
+@property (nonatomic) UIImageView *profilePictureView;
+
+@property (nonatomic) UILabel *messageLabel;
 
 @end
 
@@ -27,7 +35,84 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [self.view setBackgroundColor:[UIColor whiteColor]];
+    
+    self.messageLabel = [[UILabel alloc] init];
+    self.messageLabel.font = [UIFont fontWithName:@"Avenir-Light" size:20.0f];
+    self.messageLabel.backgroundColor = [UIColor clearColor];
+    self.messageLabel.textAlignment = NSTextAlignmentCenter;
+    
+    [self.view addSubview:self.messageLabel];
+    
+    self.middleButton = [[CWMiddleButton alloc] init];
+    [self.middleButton setAutoresizesSubviews:YES];
+    [self.middleButton setClearsContextBeforeDrawing:YES];
+    [self.middleButton setOpaque:YES];
+    [self.middleButton setBackgroundColor:[UIColor clearColor]];
+    [self.middleButton setAlpha:1.0f];
+    [self.view addSubview:self.middleButton];
+
+    [self setNavMode:NavModeBurger];
+    [self.navigationItem setHidesBackButton:YES];
+    [self.middleButton.button addTarget:self action:@selector(onMiddleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    self.middleButton.frame = CGRectMake(0.0f, 0.0f, 90.0f, 90.0f);
+    
+    [self.middleButton setCenter:CGPointMake(self.view.center.x, self.view.center.y)];
+    [self.middleButton setButtonState:eButtonStateStop];
+    [self.middleButton setUserInteractionEnabled:YES];
+    [self.view bringSubviewToFront:self.middleButton];
+    
+    [self.middleButton setButtonState:eButtonStateRecord];
+    [[[[CWVideoManager sharedManager] recorder] recorderView] setAlpha:1.0f];
+    
+    [self configureRecipientPicture];
+}
+
+- (void)configureRecipientPicture {
+    
+    if (self.recipientPicture) {
+        self.profilePictureView = [[UIImageView alloc] initWithImage:self.recipientPicture];
+        self.profilePictureView.contentMode = UIViewContentModeScaleAspectFill;
+        self.profilePictureView.clipsToBounds = YES;
+        self.profilePictureView.frame = CGRectMake(0.0f, self.view.center.y, self.view.bounds.size.width, self.view.bounds.size.height / 2.0f);
+        self.profilePictureView.frame = CGRectIntegral(self.profilePictureView.frame);
+        self.profilePictureView.alpha = 0.5f;
+        [self.view insertSubview:self.profilePictureView belowSubview:self.middleButton];
+    }
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:animated];
+    
+    [[[CWVideoManager sharedManager] recorder] checkForMicAccess];
+    
+    [self.view insertSubview:[[[CWVideoManager sharedManager] recorder] recorderView] belowSubview:self.middleButton];
+    [[[[CWVideoManager sharedManager] recorder] recorderView] setFrame:CGRectMake(0.0f, 0.0f, self.view.bounds.size.width, self.view.bounds.size.height / 2)];
+    
+}
+
+- (void)onMiddleButtonTapped:(id)sender {
+    
+    if (![[AFNetworkReachabilityManager sharedManager] isReachable]) {
+        [SVProgressHUD showErrorWithStatus:@"Internet connection required\n to send message."];
+        return;
+    }
+    else if (![[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace])  {
+        [SVProgressHUD showErrorWithStatus:@"Please free up disk space! Unable to record new message."];
+        return;
+    }
+    
+    [CWAnalytics event:@"START_RECORDING" withCategory:@"CONVERSATION_STARTER" withLabel:@"TAP_BUTTON" withValue:nil];
+    CWSSComposerViewController * composerVC = [[CWSSComposerViewController alloc] init];
+    composerVC.recipientID = self.recipientID;
+    [self.navigationController pushViewController:composerVC animated:NO];
+    
 }
 
 @end

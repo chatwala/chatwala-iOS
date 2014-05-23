@@ -23,7 +23,7 @@
 #import "CWVideoFileCache.h"
 #import "CWInboxViewController.h"
 #import "CWSplashViewController.h"
-
+#import "CWStartKnownRecipientViewController.h"
 
 #define MAX_LEFT_DRAWER_WIDTH 131
 #define DRAWER_OPENING_VELOCITY 250.0
@@ -520,9 +520,20 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 - (void)inboxDidSelectCreateNewMessageToUser:(NSString *)toRecipientID withProfileImage:(UIImage *)profileImage {
-    
+
     // User wants to create a new message to a specific recipient
     
+    __weak AppDelegate* weakSelf = self;
+    [self.drawController closeDrawerAnimated:YES completion:^(BOOL finished){
+        [weakSelf sendDrawerCloseNotification];
+    }];
+
+    
+    CWStartKnownRecipientViewController *startKnownVC = [[CWStartKnownRecipientViewController alloc] init];
+    startKnownVC.recipientID = toRecipientID;
+    startKnownVC.recipientPicture = profileImage;
+    
+    [self.navController pushViewController:startKnownVC animated:NO];
     
 }
 

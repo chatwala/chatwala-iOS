@@ -13,4 +13,6 @@
 
 @property (nonatomic,weak) IBOutlet UILabel *recordMessageLabel;
 
+@property (nonatomic) NSString *recipientID;
+
 @end

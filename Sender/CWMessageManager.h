@@ -36,6 +36,8 @@ typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 - (void)fetchUploadURLForReplyMessage:(Message *)message completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
 - (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString isReply:(BOOL)isReplyMessage;
 
+- (void)fetchUploadURLForOriginalMessage:(Message *)message toRecipient:(NSString *)recipientID completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
+
 #pragma mark - callbacks for test
 
 @property (strong, readonly) AFRequestOperationManagerSuccessBlock getMessagesSuccessBlock;

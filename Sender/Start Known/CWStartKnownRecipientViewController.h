@@ -7,7 +7,11 @@
 //
 
 
+#import "CWViewController.h"
 
-@interface CWStartKnownRecipientViewController : UIViewController
+@interface CWStartKnownRecipientViewController : CWViewController
+
+@property (nonatomic) NSString *recipientID;
+@property (nonatomic) UIImage *recipientPicture;
 
 @end

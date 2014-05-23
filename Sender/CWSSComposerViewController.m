@@ -94,6 +94,7 @@
         message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
         message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
         message.startRecording = [NSNumber numberWithDouble:0.0];
+        message.recipientID = self.recipientID;
         
         self.messageSender = [[CWMessageSender alloc] init];
         self.messageSender.delegate = self;
@@ -154,6 +155,7 @@
 
 - (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
     // TODO: Show error
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

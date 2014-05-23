@@ -62,6 +62,11 @@
     }
     else {
         
+        if ([self.messageBeingSent.recipientID length]) {
+            [self sendAsKnownRecipient];
+            return;
+        }
+        
         [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:userID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
             if (message) {
 
@@ -85,6 +90,30 @@
             }
         }];
     }
+}
+
+- (void)sendAsKnownRecipient {
+    
+    [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:self.messageBeingSent toRecipient:self.messageBeingSent.recipientID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
+        if (message) {
+            
+            message.videoURL = self.messageBeingSent.videoURL;
+            message.zipURL = self.messageBeingSent.zipURL;
+            self.messageBeingSent = message;
+            
+            [self.messageBeingSent exportZip];
+            
+            [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:YES];
+            [self didSendMessage];
+        }
+        else {
+            
+            if (self.delegate) {
+                [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
+                [SVProgressHUD showErrorWithStatus:@"Message upload details not received."];
+            }
+        }
+    }];
 }
 
 - (void)cancel {
@@ -237,8 +266,6 @@
         default:
             break;
     }
-    
-    
 }
 
 @end
