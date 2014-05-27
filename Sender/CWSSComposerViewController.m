@@ -88,7 +88,13 @@
     else {
 
         NSString *localUserID = [[CWUserManager sharedInstance] localUserID];
-                
+        
+        Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:nil];
+        
+    
+        message.startRecording = [NSNumber numberWithDouble:0.0];
+        message.recipientID = self.recipientID;
+        
         self.messageSender = [[CWMessageSender alloc] init];
         self.messageSender.delegate = self;
         
@@ -147,6 +153,7 @@
 
 - (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
     // TODO: Show error
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

@@ -25,4 +25,8 @@
 - (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectTopButton:(UIButton *)button;
 - (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectSettingsButton:(UIButton *)button;
 - (void)inboxViewController:(CWInboxViewController *)inboxVC didSelectMessage:(Message *)message;
+
+@optional
+- (void)inboxDidSelectCreateNewMessageToUser:(NSString *)toRecipientID withProfileImage:(UIImage *)profileImage;
+
 @end

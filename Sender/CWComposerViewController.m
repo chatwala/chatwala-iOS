@@ -104,6 +104,7 @@
         [self.recordTimer invalidate];
         self.recordTimer = nil;
     }
+    
     [self.middleButton setMaxValue:MAX_RECORD_TIME];
 
     self.recordTimer = [NSTimer scheduledTimerWithTimeInterval:1 / 30.0 target:self selector:@selector(onTick:) userInfo:nil repeats:YES];
