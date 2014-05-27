@@ -34,65 +34,86 @@
     }
     else if (![self isValid]) {
         [self.delegate messageSender:self didFailMessageSend:nil];
+        return;
     }
     
-    if (self.messageBeingRespondedTo) {
-
-        [[CWMessageManager sharedInstance] fetchUploadURLForReplyMessage:self.messageBeingSent completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
+    switch (self.messageType) {
+        case CWMessageSenderMessageTypeStarterToUnknownRecipient:
+            [self sendToUnknownRecipient];
+            break;
+        case CWMessageSenderMessageTypeStarterToKnownRecipient:
+            [self sendToKnownRecipient];
+            break;
+        case CWMessageSenderMessageTypeReply:
+            [self sendReply];
+            break;
             
-            if (message && uploadURLString) {
-                message.videoURL = self.messageBeingSent.videoURL;
-                message.zipURL = self.messageBeingSent.zipURL;
-                self.messageBeingSent = message;
-                
-                [self.messageBeingSent exportZip];
-                
-                [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:YES];
-                [self didSendMessage];
-            }
-            else {
-                
-                if (self.delegate) {
-                    
-                    [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
-                    [SVProgressHUD showErrorWithStatus:@"Message reply upload details not received."];
-                }
-            }
-        }];
-    }
-    else {
-        
-        if ([self.messageBeingSent.recipientID length]) {
-            [self sendAsKnownRecipient];
-            return;
-        }
-        
-        [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:userID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
-            if (message) {
-
-                message.videoURL = self.messageBeingSent.videoURL;
-                message.zipURL = self.messageBeingSent.zipURL;
-                self.messageBeingSent = message;
-                
-                [self.messageBeingSent exportZip];
-                [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:NO];
-                
-                // TODO: pass correct thang here...!
-                [self composeMessageWithMessageKey:self.messageBeingSent.messageURL];
-    
-            }
-            else {
-                
-                if (self.delegate) {    
-                    [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
-                    [SVProgressHUD showErrorWithStatus:@"Message upload details not received."];
-                }
-            }
-        }];
+        default:
+            break;
     }
 }
 
-- (void)sendAsKnownRecipient {
+#pragma mark - Core message send flows
+
+- (void)sendReply {
+    
+    if (!self.messageBeingRespondedTo) {
+        [self.delegate messageSender:self didFailMessageSend:nil];
+        return;
+    }
+    
+    [[CWMessageManager sharedInstance] fetchUploadURLForReplyMessage:self.messageBeingSent completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
+        
+        if (message && uploadURLString) {
+            message.videoURL = self.messageBeingSent.videoURL;
+            message.zipURL = self.messageBeingSent.zipURL;
+            self.messageBeingSent = message;
+            
+            [self.messageBeingSent exportZip];
+            
+            [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:YES];
+            [self didSendMessage];
+        }
+        else {
+            
+            if (self.delegate) {
+                
+                [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
+                [SVProgressHUD showErrorWithStatus:@"Message reply upload details not received."];
+            }
+        }
+    }];
+
+}
+
+- (void)sendToUnknownRecipient {
+    
+    [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:self.messageBeingSent.senderID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
+        if (message) {
+            
+            message.videoURL = self.messageBeingSent.videoURL;
+            message.zipURL = self.messageBeingSent.zipURL;
+            self.messageBeingSent = message;
+            
+            [self.messageBeingSent exportZip];
+            [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:NO];
+            
+            // TODO: pass correct thang here...!
+            [self composeMessageWithMessageKey:self.messageBeingSent.messageURL];
+            
+        }
+        else {
+            
+            if (self.delegate) {
+                [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
+                [SVProgressHUD showErrorWithStatus:@"Message upload details not received."];
+            }
+        }
+    }];
+}
+
+
+- (void)sendToKnownRecipient {
     
     [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:self.messageBeingSent toRecipient:self.messageBeingSent.recipientID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
         if (message) {

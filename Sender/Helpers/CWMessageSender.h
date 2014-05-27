@@ -11,12 +11,23 @@
 
 @protocol CWMessageSenderDelegate;
 
+// TODO: Need a better approach here
+typedef enum CWMessageSenderMessageType {
+    CWMessageSenderMessageTypeStarterToUnknownRecipient = 0,
+    CWMessageSenderMessageTypeStarterToKnownRecipient,
+    CWMessageSenderMessageTypeReply,
+} CWMessageSenderMessageType;
+
+
 @interface CWMessageSender : NSObject
 
 @property (nonatomic,weak) id<CWMessageSenderDelegate> delegate;
 
 @property (nonatomic) Message *messageBeingSent;
 @property (nonatomic) Message *messageBeingRespondedTo;
+
+
+@property (nonatomic, assign) CWMessageSenderMessageType messageType;
 
 - (void)sendMessageFromUser:(NSString *)userID;
 - (void)cancel;

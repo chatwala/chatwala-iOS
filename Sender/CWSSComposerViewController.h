@@ -14,5 +14,6 @@
 @property (nonatomic,weak) IBOutlet UILabel *recordMessageLabel;
 
 @property (nonatomic) NSString *recipientID;
+@property (nonatomic) UIImage *recipientPicture;
 
 @end
