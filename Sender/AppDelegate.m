@@ -51,6 +51,8 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 @property (nonatomic,strong) UINavigationController * settingsNavController;
 @property (nonatomic,assign) BOOL fetchingFirstLaunchMessage;
 
+@property (nonatomic) BOOL didShowMainView;
+
 @end
 
 
@@ -119,12 +121,13 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     // Now check if this is first launch
     if(![[CWUserDefaultsController userID] length]) {
         
-//        [self showSplash];
+        [self showSplash];
         [CWUserDefaultsController setIsFirstOpen:YES];
         [self fetchMessageFromURLString:messageRetrievalEndpoint];
     }
-    
-     [self showMainView];
+    else {
+        [self showMainView];
+    }
     
     [CWUserManager sharedInstance];
     [CWGroundControlManager sharedInstance];
@@ -151,20 +154,26 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-    [[[CWVideoManager sharedManager]player] stop];
-    [[[CWVideoManager sharedManager]recorder]stopSession];
-    [[[CWVideoManager sharedManager]recorder]stopVideoRecording];
+    
+    
     
     
     [self.settingsNavController dismissViewControllerAnimated:YES completion:^{
-        //
+        
         self.settingsNavController = nil;
     }];
     
     [self.navController popToRootViewControllerAnimated:NO];
     
+    if (![CWUserDefaultsController isFirstOpen]) {
+        [[[CWVideoManager sharedManager]player] stop];
+        [[[CWVideoManager sharedManager]recorder]stopSession];
+        [[[CWVideoManager sharedManager]recorder]stopVideoRecording];
+        
+        [self deactivateSession];
+    }
+    
     [CWUserDefaultsController setIsFirstOpen:NO];
-    [self deactivateSession];
     [[AFNetworkReachabilityManager sharedManager]stopMonitoring];
 }
 
@@ -182,6 +191,10 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     
+    if (self.fetchingFirstLaunchMessage) {
+        [self showMainView];
+    }
+    
     NSString * fbAppID = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"FacebookAppID"];
     
 #ifdef USE_QA_SERVER
@@ -195,7 +208,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [FBSettings setDefaultAppID:fbAppID];
     [FBAppEvents activateApp];
     
-    if( [[CWUserManager sharedInstance] localUserID]) {
+    if([[CWUserManager sharedInstance] localUserID]) {
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:[[CWUserManager sharedInstance]numberOfTotalUnreadMessages]];
     }
     else {
@@ -204,11 +217,12 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     
-    [self activateSession];
-//    
-//    if (![CWUserDefaultsController isFirstOpen]) {
-//        
-//    }
+    
+
+    if (![CWUserDefaultsController isFirstOpen]) {
+        
+        [self activateSession];
+    }
     
     NSLog(@"server environment: %@",[[CWMessageManager sharedInstance] baseEndPoint]);
     
@@ -236,11 +250,10 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-   
-    
-//    if (self.fetchingFirstLaunchMessage) {
-//        [self showMainView];
-//    }
+
+    if (self.fetchingFirstLaunchMessage) {
+        [self showMainView];
+    }
     
     if ([[CWGroundControlManager sharedInstance] shouldShowKillScreen]) {
         [[CWGroundControlManager sharedInstance] showKillScreen];
@@ -336,10 +349,18 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
 
 - (void)showMainView {
     
-    [self.loadingVC.view setAlpha:0.0f];
-    [self.window addSubview:self.drawController.view];
-    [self.window setRootViewController:self.drawController];
-    [self.window makeKeyAndVisible];
+    if (!self.didShowMainView) {
+        [self.splashVC removeFromParentViewController];
+        self.splashVC = nil;
+        
+        [self.loadingVC.view setAlpha:0.0f];
+        [self.window addSubview:self.drawController.view];
+        [self.window setRootViewController:self.drawController];
+        [self.window makeKeyAndVisible];
+        
+    }
+    
+    self.didShowMainView = YES;
 }
 
 #pragma mark - URL Scheme based copy updates
