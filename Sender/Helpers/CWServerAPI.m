@@ -68,15 +68,56 @@ AFURLSessionManager *BackgroundSessionManager;
     return BackgroundSessionManager;
 }
 
-#pragma mark - Inbox API
+#pragma mark - Inbox/Outbox API
 
-+ (void)getInboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetInboxCompletionBlock)completionBlock {
++ (void)getInboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
-    NSString *endpoint = [[CWMessageManager sharedInstance] getInboxEndPoint];
+    NSString *endpoint = [[CWMessageManager sharedInstance] inboxEndPoint];
     NSLog(@"fetching messages: %@", endpoint);
+    
+    NSDictionary *params = @{@"user_id" : userID};
+    
+    [manager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSArray *messages = [responseObject objectForKey:@"messages"];
+        
+#if defined(OVERRIDE_INBOX_MAX_SIZE)
+        NSInteger maxSize = [messages count];
+        
+        if (maxSize > OVERRIDE_INBOX_MAX_SIZE) {
+            maxSize = OVERRIDE_INBOX_MAX_SIZE;
+        }
+        
+        if (completionBlock) {
+            NSRange subArrayRange;
+            subArrayRange.location = 0;
+            subArrayRange.length = maxSize;
+            completionBlock([messages subarrayWithRange:subArrayRange], nil);
+        }
+#else
+        if (completionBlock) {
+            completionBlock(messages, nil);
+        }
+#endif
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if (completionBlock) {
+            completionBlock(nil, error);
+        }
+    }];
+}
+
++ (void)getOutboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock {
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    
+    NSString *endpoint = [[CWMessageManager sharedInstance] outboxEndPoint];
+    NSLog(@"fetching messages in user's outbox: %@", endpoint);
     
     NSDictionary *params = @{@"user_id" : userID};
     

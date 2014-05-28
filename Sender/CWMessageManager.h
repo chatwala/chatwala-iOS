@@ -21,14 +21,16 @@ typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 @property (nonatomic,readonly) NSString * baseEndPoint;
 @property (nonatomic,readonly) NSString * messagesEndPoint;
 @property (nonatomic,readonly) NSString * registerEndPoint;
-@property (nonatomic,readonly) NSString * getInboxEndPoint;
-@property (nonatomic,readonly) NSString * getMessageEndPoint;
+@property (nonatomic,readonly) NSString * inboxEndPoint;
+@property (nonatomic,readonly) NSString * outboxEndPoint;
+@property (nonatomic,readonly) NSString * messageEndPoint;
 
 
 //@property (nonatomic,strong) NSArray * messages;
 
 +(instancetype) sharedInstance;
 - (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
+- (void)getOutboxMessagesForUser:(NSString *)userID;
 
 - (void)fetchUploadURLForOriginalMessage:(NSString *)userID completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
 - (void)clearUploadURLForOriginalMessage;

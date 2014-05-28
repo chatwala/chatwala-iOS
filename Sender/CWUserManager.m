@@ -81,12 +81,12 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 - (void)createNewLocalUser {
     NSString *newUserID = nil;
 
-#if defined(OVERRIDE_USER_ID) && defined(DEBUG)
+#if defined(OVERRIDE_USER_ID)
     newUserID = OVERRIDE_USER_ID;
 #endif
     
     if (![newUserID length]) {
-        newUserID =[[[NSUUID UUID] UUIDString] lowercaseString];
+        newUserID = [[[NSUUID UUID] UUIDString] lowercaseString];
     }
     
     NSLog(@"Generated new user id: %@", newUserID);

@@ -11,7 +11,7 @@ typedef void (^CWServerPushRegisterCompletionBlock)(NSError *error);
 
 typedef void (^CWServerGetProfilePictureURLCompletionBlock)(NSURL *profilePictureReadURL);
 
-typedef void (^CWServerAPIGetInboxCompletionBlock)(NSArray *messages, NSError *error);
+typedef void (^CWServerAPIGetUserMessagesCompletionBlock)(NSArray *messages, NSError *error);
 typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURLResponse *response);
 
 @class Message;
@@ -21,7 +21,8 @@ typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURL
 + (AFURLSessionManager *)sessionManager;
 
 // Inbox API
-+ (void)getInboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetInboxCompletionBlock)completionBlock;
++ (void)getInboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock;
++ (void)getOutboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock;
 + (void)addMessage:(NSString *)messageID toInboxForUser:(NSString *)userID;
 + (void)deleteMessage:(NSString *)messageID fromInboxForUser:(NSString *)userID;
 

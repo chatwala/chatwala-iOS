@@ -83,14 +83,20 @@
     return [[self baseEndPoint]stringByAppendingPathComponent:@"messages"];
 }
 
-- (NSString *)getInboxEndPoint {
+- (NSString *)inboxEndPoint {
     return [[self baseEndPoint]stringByAppendingString:@"/messages/userInbox"];
 }
 
-- (NSString *)getMessageEndPoint {
+- (NSString *)outboxEndPoint {
+    return [[self baseEndPoint]stringByAppendingString:@"/messages/userOutbox"];
+}
+
+
+- (NSString *)messageEndPoint {
     return [[self baseEndPoint]stringByAppendingString:@"/messages/%@"];
 }
 
+#pragma mark - Inbox/Outbox
 
 - (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
     
@@ -155,26 +161,31 @@
     }
 }
 
-- (void)sendCompletionBlock:(void (^)(UIBackgroundFetchResult))completionBlock {
-    NSLog(@"Completion block being called");
-    
-    if (completionBlock) {
-        completionBlock(UIBackgroundFetchResultNewData);
+- (void)getOutboxMessagesForUser:(NSString *)userID {
+    if (![userID length]) {
+        return;
+    }
+    else {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [CWServerAPI getOutboxForUserID:userID withCompletionBlock:^(NSArray *messages, NSError *error) {
+                
+                if (!error) {
+                    // Let's just save all messages to Core Data
+                    for (NSDictionary *messageMetadata in messages) {
+                        NSError *error = nil;
+                        Message *newMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:messageMetadata error:&error];
+                        [newMessage saveContext];
+                    
+                    }
+                    
+                    messages = nil;
+                }
+            }];
+        });
     }
 }
 
 #pragma mark - Download logic
-
-- (NSArray *)messageIDsFromResponse:(NSArray *)messages {
-    
-    NSMutableArray *messageIDs = [NSMutableArray array];
-    for (NSDictionary * messageDictionary in messages) {
-        NSString *currentMessageID = [messageDictionary objectForKey:@"message_id"];
-        [messageIDs addObject:currentMessageID];
-    }
-    
-    return messageIDs;
-}
 
 - (AFRequestOperationManagerFailureBlock) getMessagesFailureBlock {
     return (^ void(AFHTTPRequestOperation *operation, NSError * error){
