@@ -32,7 +32,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
 };
 
 
-@interface CWViewerViewController () <CWVideoPlayerDelegate,UIAlertViewDelegate>
+@interface CWViewerViewController () <CWVideoPlayerDelegate>
 @property (nonatomic) CWMiddleButton *middleButton;
 
 @property (nonatomic) UIView *originalMessageView;
@@ -352,27 +352,6 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     }
     else {
         [self stopVideoPlayback];
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Reply again?" message:@"Would you like to reply again to this message?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes",nil];
-        [alert show];
-    }
-}
-
-#pragma mark - UIAlerViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if (alertView.cancelButtonIndex != buttonIndex) {
-        // Open reply logic with this message
-        CWSSOpenerViewController *replierVC = [[CWSSOpenerViewController alloc] init];
-
-        replierVC.activeMessage = self.incomingMessage;
-        
-        if ([self.navigationController.topViewController isEqual:replierVC]) {
-            // already showing opener
-        }
-        else {
-            [self.navigationController pushViewController:replierVC animated:NO];
-        }
     }
 }
 

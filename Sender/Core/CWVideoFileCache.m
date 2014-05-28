@@ -142,7 +142,7 @@ long const MinimumFreeDiskSpace = 104857600;
     NSString *cacheDirectory = [CWVideoFileCache baseCacheDirectoryFilepath];
     NSArray *allFiles = [fm contentsOfDirectoryAtPath:cacheDirectory error:nil];
     
-    NSPredicate *filter = [NSPredicate predicateWithFormat:@"self ENDSWITH '.mp4'"];
+    NSPredicate *filter = [NSPredicate predicateWithFormat:@"self ENDSWITH '.mp4' || self ENDSWITH '.zip'"];
     NSArray *mp4Files = [allFiles filteredArrayUsingPredicate:filter];
     
     for (NSString *mp4File in mp4Files) {

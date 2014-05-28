@@ -66,9 +66,6 @@
     [[CWMessageManager sharedInstance] fetchUploadURLForReplyMessage:self.messageBeingSent completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
         
         if (message && uploadURLString) {
-            message.tempVideoURL = self.messageBeingSent.tempVideoURL;
-            message.chatwalaZipURL = self.messageBeingSent.chatwalaZipURL;
-            self.messageBeingSent = message;
             
             if (message && uploadURLString) {
                 message.tempVideoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
@@ -94,11 +91,12 @@
     [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:self.messageBeingSent.senderID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
         if (message) {
             
-            message.tempVideoURL = self.messageBeingSent.tempVideoURL;
-            message.chatwalaZipURL = self.messageBeingSent.chatwalaZipURL;
-            self.messageBeingSent = message;
+            message.tempVideoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
+            message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
             
+            self.messageBeingSent = message;
             [self.messageBeingSent exportZip];
+            
             [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString replyingToMessageOrNil:nil];
             
             // TODO: pass correct thang here...!
@@ -121,10 +119,10 @@
     [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:self.messageBeingSent toRecipient:self.messageBeingSent.recipientID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
         if (message) {
             
-            message.tempVideoURL = self.messageBeingSent.tempVideoURL;
-            message.chatwalaZipURL = self.messageBeingSent.chatwalaZipURL;
-            self.messageBeingSent = message;
+            message.tempVideoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
+            message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
             
+            self.messageBeingSent = message;
             [self.messageBeingSent exportZip];
             
             [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString replyingToMessageOrNil:nil];

@@ -111,12 +111,12 @@
         
         Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:nil];
         
-    
         message.startRecording = [NSNumber numberWithDouble:0.0];
         message.recipientID = self.recipientID;
         
         self.messageSender = [[CWMessageSender alloc] init];
         self.messageSender.delegate = self;
+        self.messageSender.messageBeingSent = message;
         
         if ([self.recipientID length]) {
             self.messageSender.messageType = CWMessageSenderMessageTypeStarterToKnownRecipient;

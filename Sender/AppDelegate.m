@@ -80,9 +80,6 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [NSURLCache setSharedURLCache:URLCache];
     [[CWDataManager sharedInstance] setupCoreData];
     
-    CWUpdater *updater = [[CWUpdater alloc] init];
-    [updater performNecessaryUpdates];
-    
 #ifdef USE_QA_SERVER
     NSString *analyticsID = @"UA-46207837-4";
     NSString *messageRetrievalEndpoint = @"http://chatwala.com/qa/fetch_messages.html";
@@ -102,6 +99,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     [CWAnalytics setupGoogleAnalyticsWithID:analyticsID];
     [CWAnalytics appOpened];
+    
     
     // Set up views first
     self.window = [[UIWindow alloc]initWithFrame:SCREEN_BOUNDS];
@@ -124,7 +122,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     self.loadingVC = [[CWLoadingViewController alloc]init];
     
     [self.drawController.view addSubview:self.loadingVC.view];
-
+    
     // Now check if this is first launch
     if(![[CWUserDefaultsController userID] length]) {
         
@@ -133,8 +131,14 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         [self fetchMessageFromURLString:messageRetrievalEndpoint];
     }
     else {
+        [CWUserDefaultsController setIsFirstOpen:NO];
         [self showMainView];
     }
+    
+    // Run any update specific tasks
+    CWUpdater *updater = [[CWUpdater alloc] init];
+    [updater performNecessaryUpdates];
+    
     
     [CWUserManager sharedInstance];
     [CWGroundControlManager sharedInstance];
@@ -142,6 +146,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     [[NSUserDefaults standardUserDefaults]setValue:@(NO) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
 
+    // Configure background & notification handling
     [application setMinimumBackgroundFetchInterval:UIMinimumKeepAliveTimeout];
     
     NSDictionary *remoteNotificationDictionary = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
