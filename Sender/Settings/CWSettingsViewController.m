@@ -197,6 +197,7 @@ NSInteger const ToggleShowMessagePreviewIndex     = 6;
                 {
                     UIViewController * viewController = [[CWProfilePictureViewController alloc] init];
                     [self.navigationController pushViewController:viewController animated:YES];
+                    break;
                 }
                 case 3:
                     // Mark all messages as read

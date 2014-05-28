@@ -372,7 +372,6 @@
             completionBlock(nil, nil);
         }
     }];
-    
 }
 
 #pragma mark - Helpers

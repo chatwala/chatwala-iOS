@@ -170,6 +170,7 @@
     self.messageSender.delegate = self;
     self.messageSender.messageBeingSent = message;
     self.messageSender.messageBeingRespondedTo = self.activeMessage;
+    self.messageSender.messageType = CWMessageSenderMessageTypeReply;
     
     [self.messageSender sendMessageFromUser:localUserID];
 }

@@ -111,6 +111,7 @@
     [CWAnalytics event:@"START_RECORDING" withCategory:@"CONVERSATION_STARTER" withLabel:@"TAP_BUTTON" withValue:nil];
     CWSSComposerViewController * composerVC = [[CWSSComposerViewController alloc] init];
     composerVC.recipientID = self.recipientID;
+    composerVC.recipientPicture = self.recipientPicture;
     [self.navigationController pushViewController:composerVC animated:NO];
     
 }

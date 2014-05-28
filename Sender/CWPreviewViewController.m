@@ -157,6 +157,13 @@
     self.messageSender.messageBeingSent = message;
     self.messageSender.messageBeingRespondedTo = self.incomingMessage;
     
+    if (self.incomingMessage) {
+        self.messageSender.messageType = CWMessageSenderMessageTypeReply;
+    }
+    else if (message.recipientID) {
+        self.messageSender.messageType = CWMessageSenderMessageTypeStarterToKnownRecipient;
+    }
+    
     [self.messageSender sendMessageFromUser:userID];
 }
 

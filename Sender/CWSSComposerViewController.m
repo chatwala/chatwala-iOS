@@ -20,6 +20,8 @@
 @property (nonatomic) NSTimer *countdownTimer;
 @property (nonatomic,assign) NSInteger countdownCount;
 
+@property (nonatomic) UIImageView *recipientPictureView;
+
 @end
 
 @implementation CWSSComposerViewController
@@ -49,9 +51,27 @@
     [[[[CWVideoManager sharedManager]recorder]recorderView]setFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5f)];
 }
 
+
+- (void)configureRecipientPicture {
+    
+    if (self.recipientPicture) {
+        self.recipientPictureView = [[UIImageView alloc] initWithImage:self.recipientPicture];
+        self.recipientPictureView.contentMode = UIViewContentModeScaleAspectFill;
+        self.recipientPictureView.clipsToBounds = YES;
+        self.recipientPictureView.frame = CGRectMake(0.0f, self.view.center.y, self.view.bounds.size.width, self.view.bounds.size.height / 2.0f);
+        self.recipientPictureView.frame = CGRectIntegral(self.recipientPictureView.frame);
+        self.recipientPictureView.alpha = 0.5f;
+        [self.view insertSubview:self.recipientPictureView belowSubview:self.middleButton];
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
+    
+    if (self.recipientPicture) {
+        [self configureRecipientPicture];
+    }
     
     self.countdownTimer = [NSTimer scheduledTimerWithTimeInterval:1.0f target:self selector:@selector(updateLabel) userInfo:nil repeats:YES];
     self.countdownCount = 10;
@@ -97,6 +117,10 @@
         
         self.messageSender = [[CWMessageSender alloc] init];
         self.messageSender.delegate = self;
+        
+        if ([self.recipientID length]) {
+            self.messageSender.messageType = CWMessageSenderMessageTypeStarterToKnownRecipient;
+        }
         
         self.hasSentMessage = YES;
         [self.messageSender sendMessageFromUser:localUserID];
