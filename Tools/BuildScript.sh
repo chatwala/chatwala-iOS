@@ -86,24 +86,24 @@ build() {
     xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration GCC_PREPROCESSOR_DEFINITIONS=$otherOptions CODE_SIGN_IDENTITY="iPhone Distribution: Chatwala Inc" CW_BUNDLE_IDENTIFIER="com.chatwala.chatwala" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
 	
 	#packaging
-    xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Distribution: Chatwala Inc" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
+    xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Distribution: Chatwala Inc" -o $ipaLocation --embed "/Users/rahulksharma/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
 
   # Make Debug certificate version for testing
   elif [ "$buildType" == "dev" ] ; then
     devInternalVersion="$buildType-$internalVersion"
 
     xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration GCC_PREPROCESSOR_DEFINITIONS=$otherOptions CODE_SIGN_IDENTITY="iPhone Developer: Chatwala Master (4NGCTASJ2H)" CW_BUNDLE_IDENTIFIER="com.chatwala."$buildType CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$devInternalVersion CW_DISPLAY_NAME=$displayName$buildType CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
-	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Chatwala Master (4NGCTASJ2H)" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
+	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Chatwala Master (4NGCTASJ2H)" -o $ipaLocation --embed "/Users/rahulksharma/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
 
   elif [ "$buildType" == "qa" ] ; then
   	qaInternalVersion="$buildType-$internalVersion"
 
     xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration GCC_PREPROCESSOR_DEFINITIONS=$otherOptions CODE_SIGN_IDENTITY="iPhone Developer: Chatwala Master (4NGCTASJ2H)" CW_BUNDLE_IDENTIFIER="com.chatwala."$buildType CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$qaInternalVersion CW_DISPLAY_NAME=$displayName$buildType CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
-	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Chatwala Master (4NGCTASJ2H)" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
+	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Developer: Chatwala Master (4NGCTASJ2H)" -o $ipaLocation --embed "/Users/rahulksharma/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
   elif [ "$buildType" == "prod" ] ; then
 
     xcodebuild -workspace ../Sender.xcworkspace -scheme $scheme -configuration $configuration GCC_PREPROCESSOR_DEFINITIONS=$otherOptions CODE_SIGN_IDENTITY="iPhone Distribution: Chatwala Inc" CW_BUNDLE_IDENTIFIER="com.chatwala.chatwala" CW_APP_VERSION=$appVersion CW_BUILD_VERSION=$internalVersion CW_DISPLAY_NAME=$displayName CONFIGURATION_BUILD_DIR=~/Desktop/Builds/$buildType/$appVersion/$internalVersion || exit 1
-	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Distribution: Chatwala Inc" -o $ipaLocation --embed "/Users/airswoop1/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
+	xcrun -sdk iphoneos PackageApplication -v ~/Desktop/Builds/$buildType/$appVersion/$internalVersion/Sender.app --sign "iPhone Distribution: Chatwala Inc" -o $ipaLocation --embed "/Users/rahulksharma/Library/MobileDevice/Provisioning Profiles/"$provisioningProfileName || exit 1
   
   fi
   
