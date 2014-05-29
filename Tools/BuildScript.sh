@@ -14,7 +14,7 @@ echo $buildNotes
 buildsFolder="../Builds"
 
 appVersion="1.6.4"
-internalVersion="2.7.42"
+internalVersion="2.7.44"
 displayName="chatwala"
 cwDebugIdentity="\"iPhone Developer: Rahul Kumar (59L7REF9QB)\""
 cwAppStoreIdentity="\"iPhone Distribution: Chatwala Inc\""
@@ -123,6 +123,6 @@ build() {
 #development signed builds
 
 
-#build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '4F4715EB-1528-467A-8E79-07F9963F4291.mobileprovision' 'CW_URL_SCHEME=chatwala'
+#build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '0F5E0C5B-8E5A-4597-A542-CC2EF63C2C54.mobileprovision' 'CW_URL_SCHEME=chatwala'
 build 'Sender' 'dev' 'Release' "$cwDebugIdentity" 'DD3C179F-6417-48EB-B731-8BD6589AD8B8.mobileprovision' 'USE_DEV_SERVER=1  CW_URL_SCHEME=chatwala-dev'
 #build 'Sender' 'qa' 'Release' "$cwDebugIdentity" 'C9470ADC-6064-4748-A32C-3CC415A03770.mobileprovision' 'USE_QA_SERVER=1 CW_URL_SCHEME=chatwala-qa'
