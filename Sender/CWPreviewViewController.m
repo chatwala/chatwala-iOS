@@ -151,6 +151,7 @@
     
     message.chatwalaZipURL = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID]];
     message.startRecording = [NSNumber numberWithDouble:self.startRecordingTime];
+    message.recipientID = self.messageRecipientID;
     
     self.messageSender = [[CWMessageSender alloc] init];
     self.messageSender.delegate = self;

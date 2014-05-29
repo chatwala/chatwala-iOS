@@ -28,7 +28,7 @@ typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURL
 
 // Message Upload API
 + (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock;
-+ (void)completeMessage:(Message *)uploadedMessage isReply:(BOOL)isReply;
++ (void)completeMessage:(Message *)uploadedMessage hasRecipient:(BOOL)useReplyEndpoint;
 
 // Picture Upload API
 + (void)getProfilePictureReadURLForUser:(NSString *)userID withCompletionBlock:(CWServerGetProfilePictureURLCompletionBlock)completionBlock;

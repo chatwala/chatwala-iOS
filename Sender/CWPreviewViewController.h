@@ -18,6 +18,7 @@
 
 @property (weak, nonatomic) IBOutlet CWMiddleButton *sendButton;
 @property (nonatomic,assign) NSTimeInterval startRecordingTime;
+@property (nonatomic,assign) NSString *messageRecipientID;
 @property (nonatomic) Message * incomingMessage;
 @property (weak, nonatomic) IBOutlet UIImageView *incomingMessageStillImageView;
 - (IBAction)onRecordAgain:(id)sender;

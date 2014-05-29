@@ -248,7 +248,7 @@ AFURLSessionManager *BackgroundSessionManager;
     [task resume];
 }
 
-+ (void)completeMessage:(Message *)uploadedMessage isReply:(BOOL)isReply {
++ (void)completeMessage:(Message *)uploadedMessage hasRecipient:(BOOL)useReplyEndpoint {
     
     NSDictionary *params = @{@"message_id" : uploadedMessage.messageID};
     
@@ -257,7 +257,7 @@ AFURLSessionManager *BackgroundSessionManager;
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
-    NSString *serverAction = (isReply ? CompleteReplyMessageEndpoint : CompleteOriginalMessageEndpoint);
+    NSString *serverAction = (useReplyEndpoint ? CompleteReplyMessageEndpoint : CompleteOriginalMessageEndpoint);
     NSString *endPoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:serverAction];
     
     // Terminate existing background tasks if this call was made twice

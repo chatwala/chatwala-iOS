@@ -327,6 +327,10 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
 }
 
 - (void)cleanUpPlayers {
+    
+    self.incomingMessageIsConversationStarter = NO;
+    self.completedOriginalSentMessagePlayback = NO;
+    
     [self.sentMessagePlayer cleanUp];
     [self.incomingMessagePlayer cleanUp];
     

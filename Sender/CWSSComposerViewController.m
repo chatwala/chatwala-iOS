@@ -103,6 +103,11 @@
     if ([CWUserDefaultsController shouldShowMessagePreview]) {
         CWSSReviewViewController * previewVC = [[CWSSReviewViewController alloc]init];
         [previewVC setStartRecordingTime:0];
+        
+        if ([self.recipientID length]) {
+            [previewVC setMessageRecipientID:self.recipientID];
+        }
+        
         [self.navigationController pushViewController:previewVC animated:NO];
     }
     else {
