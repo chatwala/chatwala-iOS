@@ -329,6 +329,43 @@
     }
 }
 
+- (void)fetchUploadURLForOriginalMessage:(Message *)message toRecipient:(NSString *)recipientID completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock {
+    
+    NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
+    
+    // Create new request
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    NSString *endPoint = [self.messagesEndPoint stringByAppendingString:@"/startKnownRecipientMessageSend"];
+    
+    NSDictionary *params = @{@"sender_id" : message.senderID,
+                             @"recipient_id" : message.recipientID,
+                             @"message_id" : message.messageID,
+                             @"analytics_sender_category" : [CWAnalytics currentCategory]};
+    
+    NSLog(@"Requesting reply message upload URL with params: %@", params);
+    
+    [manager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSString *sasUploadUrl = [responseObject valueForKey:@"write_url"];
+        Message *replyMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:[responseObject objectForKey:@"message_meta_data"] error:nil];
+        replyMessage.thumbnailUploadURLString = [responseObject objectForKey:@"message_thumbnail_write_url"];
+        
+        NSLog(@"Fetched reply message upload URL: %@ for messageID: %@", sasUploadUrl, message.messageID);
+        if (completionBlock) {
+            completionBlock(replyMessage, sasUploadUrl);
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Failed to fetch metadata for reply messageID: %@ with error:%@", message.messageID, error);
+        NSLog(@"operation:%@",operation);
+        
+        if (completionBlock) {
+            completionBlock(nil, nil);
+        }
+    }];
+}
+
 #pragma mark - Helpers
 
 - (NSString *)generateMessageID {

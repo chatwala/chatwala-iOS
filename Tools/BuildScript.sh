@@ -124,5 +124,5 @@ build() {
 
 
 #build 'Sender' 'prod' 'Release' "$cwDebugIdentity" '4F4715EB-1528-467A-8E79-07F9963F4291.mobileprovision' 'CW_URL_SCHEME=chatwala'
-build 'Sender' 'dev' 'Release' "$cwDebugIdentity" '724BCB51-0BCD-4D74-A399-0703BE29F78B.mobileprovision' 'USE_DEV_SERVER=1  CW_URL_SCHEME=chatwala-dev'
-#build 'Sender' 'qa' 'Release' "$cwDebugIdentity" 'BFB1BE3B-2AB5-48F5-A72E-618E39579AA6.mobileprovision' 'USE_QA_SERVER=1 CW_URL_SCHEME=chatwala-qa'
+build 'Sender' 'dev' 'Release' "$cwDebugIdentity" 'DD3C179F-6417-48EB-B731-8BD6589AD8B8.mobileprovision' 'USE_DEV_SERVER=1  CW_URL_SCHEME=chatwala-dev'
+#build 'Sender' 'qa' 'Release' "$cwDebugIdentity" 'C9470ADC-6064-4748-A32C-3CC415A03770.mobileprovision' 'USE_QA_SERVER=1 CW_URL_SCHEME=chatwala-qa'

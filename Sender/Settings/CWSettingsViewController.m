@@ -192,20 +192,13 @@ NSInteger const ToggleShowMessagePreviewRow     = 6;
                 {
                     CWAppFeedBackViewController* tocVC = [[CWAppFeedBackViewController alloc] init];
                     [self.navigationController pushViewController:tocVC animated:YES];
-//                    if ([MFMailComposeViewController canSendMail]) {
-//                        MFMailComposeViewController * mailComposer = [[MFMailComposeViewController alloc] init];
-//                        [mailComposer setMailComposeDelegate:self];
-//                        [mailComposer setSubject:[[CWGroundControlManager sharedInstance] feedbackEmailSubject]];
-//                        [mailComposer setMessageBody:[[CWGroundControlManager sharedInstance] feedbackEmailBody] isHTML:NO];
-//                        [mailComposer setToRecipients:@[@"hello@chatwala.com"]];
-//                        [self presentViewController:mailComposer animated:YES completion:nil];
-//                    }
                 }
                     break;
                 case 3:
                 {
                     UIViewController * viewController = [[CWProfilePictureViewController alloc] init];
                     [self.navigationController pushViewController:viewController animated:YES];
+                    break;
                 }
                 case 4:
                     // Mark all messages as read
