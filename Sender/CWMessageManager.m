@@ -15,6 +15,7 @@
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
 #import "AOFetchUtilities.h"
+#import "CWDataManager.h"
 
 @interface CWMessageManager ()
 
@@ -175,10 +176,8 @@
                         NSError *error = nil;
                         Message *newMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:messageMetadata error:&error];
                         [newMessage saveContext];
-                    
+                        [[[CWDataManager sharedInstance] moc] refreshObject:newMessage mergeChanges:NO];
                     }
-                    
-                    messages = nil;
                 }
             }];
         });
@@ -337,7 +336,7 @@
             });
             
             // Call finalize
-            [CWServerAPI completeMessage:messageToUpload isReply:(messageBeingRespondedTo ? YES : NO)];
+            [CWServerAPI completeMessage:messageToUpload hasRecipient:(messageBeingRespondedTo || messageToUpload.recipientID ? YES : NO)];
         }
     }];
     
