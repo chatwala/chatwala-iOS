@@ -176,4 +176,21 @@
     return [[AOFetchUtilities unreadMessagesForUser:userID] count];
 }
 
++ (Message *)messageWithThreadID:(NSString *)threadID withThreadIndex:(NSInteger)threadIndex {
+    
+    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Message" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(threadID == %@ && threadIndex == %ld)", threadID, (long)threadIndex];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *messagesArray = [moc executeFetchRequest:request error:&error];
+    
+    return ([messagesArray count] ? [messagesArray objectAtIndex:0] : nil);
+}
+
 @end

@@ -96,7 +96,7 @@
 
 - (BOOL)shouldOpenInViewer {
     // Can only reply to messages that haven't been replied to yet
-    return (self.eMessageViewedState == eMessageViewedStateReplied && [self.replyToMessageID length]);
+    return (self.eMessageViewedState == eMessageViewedStateReplied);
 }
 
 #pragma mark - Message State

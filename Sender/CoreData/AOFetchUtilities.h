@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 AppOrchard, LLC. All rights reserved.
 //
 
+@class Message;
+
 #import <CoreData/CoreData.h>
 
 /*!
@@ -53,5 +55,6 @@
 + (NSInteger)totalUnreadMessagesForRecipient:(NSString *)userID;
 + (NSArray *)fetchGroupBySenderID;
 + (NSArray *)fetchMessagesForSender:(NSString *)senderID;
++ (Message *)messageWithThreadID:(NSString *)threadID withThreadIndex:(NSInteger)threadIndex;
 
 @end

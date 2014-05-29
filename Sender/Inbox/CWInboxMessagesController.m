@@ -126,6 +126,10 @@ static const float DeleteMessageLongPressDuration = 1.0f;
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
 
+    if (![self.messages count]) {
+        return nil;
+    }
+    
     // 1. The view for the header
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, tableView.frame.size.width, 72.0f)];
     footerView.layer.borderColor = [UIColor blackColor].CGColor;
