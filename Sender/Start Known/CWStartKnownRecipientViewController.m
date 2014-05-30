@@ -67,7 +67,6 @@
     [self.bottomHalfLabel setCenter:CGPointMake(self.view.center.x, (self.view.center.y + self.view.frame.size.height) / 2.0f)];
     self.bottomHalfLabel.frame = CGRectIntegral(self.bottomHalfLabel.frame);
     [self.bottomHalfLabel setText:[[CWGroundControlManager sharedInstance] startScreenMessage]];
-    [self.bottomHalfLabel toggleBorder:YES];
     
     self.middleButton.frame = CGRectMake(0.0f, 0.0f, 90.0f, 90.0f);
     

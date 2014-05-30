@@ -75,7 +75,6 @@
 
     [[[[CWVideoManager sharedManager] recorder] recorderView] setAlpha:1.0f];
     [self.startScreenMessageLabel setText:[[CWGroundControlManager sharedInstance] startScreenMessage]];
-    [self.startScreenMessageLabel toggleBorder:YES];
 
 }
 
