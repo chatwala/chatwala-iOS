@@ -116,12 +116,12 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     }
     else {
         NSInteger originalMessageThreadIndex = [self.incomingMessage.threadIndex integerValue] - 1;
-        self.originalSentMessage = [AOFetchUtilities messageWithThreadID:self.incomingMessage.threadID withThreadIndex:originalMessageThreadIndex];
+        self.originalSentMessage = [CWDataManager messageWithThreadID:self.incomingMessage.threadID withThreadIndex:originalMessageThreadIndex];
     }
     
     
     NSInteger lastReplyThreadIndex = [self.incomingMessage.threadIndex integerValue] + 1;
-    self.lastSentMessage = [AOFetchUtilities messageWithThreadID:self.incomingMessage.threadID withThreadIndex:lastReplyThreadIndex];
+    self.lastSentMessage = [CWDataManager messageWithThreadID:self.incomingMessage.threadID withThreadIndex:lastReplyThreadIndex];
     
     [self downloadMessagesAndConfigureVideoPlayers];
 }
@@ -202,9 +202,10 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
             numberOfMessagesToDownload--;
             
             if (url && messageID) {
+                
+                [self.incomingMessage importZip:[self.incomingMessage inboxZipURL]];
+                
                 if (numberOfMessagesToDownload == 0) {
-                    // do work;
-                    [self.incomingMessage importZip:[self.incomingMessage inboxZipURL]];
                     [self configureDefaultVideoPlayers];
                 }
             }
@@ -221,14 +222,11 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
             
             if (url && messageID) {
                 
-                NSError *error = nil;
+
                 [self.originalSentMessage importZip:[self.originalSentMessage sentChatwalaZipURL]];
                 
-                if (error) {
-                    [self showErrorAndCloseViewer];
-                }
-                else if (numberOfMessagesToDownload == 0) {
-                    // do work;
+                if (numberOfMessagesToDownload == 0) {
+
                     [self configureDefaultVideoPlayers];
                 }
             }
@@ -245,14 +243,10 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
             
             if (url && messageID) {
                 
-                NSError *error = nil;
                 [self.lastSentMessage importZip:[self.lastSentMessage sentChatwalaZipURL]];
                 
-                if (error) {
-                    [self showErrorAndCloseViewer];
-                }
-                else if (numberOfMessagesToDownload == 0) {
-                    // do work;
+                if (numberOfMessagesToDownload == 0) {
+
                     [self configureDefaultVideoPlayers];
                 }
             }
@@ -336,6 +330,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     
     self.sentMessagePlayer = nil;
     self.incomingMessagePlayer = nil;
+    self.lastSentMessage = nil;
 }
 
 #pragma mark - Helper methods
@@ -430,10 +425,8 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
         if (self.incomingMessageIsConversationStarter) {
             [self stopVideoPlayback];
             [self configureDefaultVideoPlayers];
-            return;
         }
-        
-        if (!self.completedOriginalSentMessagePlayback) {
+        else if (!self.completedOriginalSentMessagePlayback) {
             // Load lastSentMessage
             self.completedOriginalSentMessagePlayback = YES;
             [self loadLastSentMessage];

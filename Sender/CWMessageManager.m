@@ -415,7 +415,7 @@
 - (void)clearDiskSpace {
     
     [[CWVideoFileCache sharedCache] purgeCache];
-    [AOFetchUtilities markAllMessagesAsDeviceDeletedForUser:[[CWUserManager sharedInstance] localUserID]];
+    [CWDataManager markAllMessagesAsDeviceDeletedForUser:[[CWUserManager sharedInstance] localUserID]];
 }
 
 - (BOOL)hasNecessaryDiskSpace {

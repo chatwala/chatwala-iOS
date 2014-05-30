@@ -19,7 +19,6 @@
 #import "CWAnalytics.h"
 #import "CWProfilePictureViewController.h"
 #import "CWConstants.h"
-#import "CWVideoFileCache.h"
 
 @interface CWStartScreenViewController () <UIGestureRecognizerDelegate>
 @property (nonatomic,strong) UIImageView * messageSentView;
@@ -76,6 +75,8 @@
 
     [[[[CWVideoManager sharedManager] recorder] recorderView] setAlpha:1.0f];
     [self.startScreenMessageLabel setText:[[CWGroundControlManager sharedInstance] startScreenMessage]];
+    [self.startScreenMessageLabel toggleBorder:YES];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {

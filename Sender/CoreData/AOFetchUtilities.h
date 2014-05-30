@@ -49,12 +49,4 @@
 +(NSArray *)fetchAllObjectsWithContext:(NSManagedObjectContext *)context andEntityName:(NSString *)entityName andSortDescriptors:(NSArray *)sortDescriptors andFetchLimit:(NSUInteger)fetchLimit error:(NSError **)error;
 
 
-// Chatwala required queries
-+ (void)markAllMessagesAsReadForUser:(NSString *)userID;
-+ (void)markAllMessagesAsDeviceDeletedForUser:(NSString *)userID;
-+ (NSInteger)totalUnreadMessagesForRecipient:(NSString *)userID;
-+ (NSArray *)fetchGroupBySenderID;
-+ (NSArray *)fetchMessagesForSender:(NSString *)senderID;
-+ (Message *)messageWithThreadID:(NSString *)threadID withThreadIndex:(NSInteger)threadIndex;
-
 @end

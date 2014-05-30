@@ -28,6 +28,7 @@
     #import <SVProgressHUD/SVProgressHUD.h>
     #import "CWAnalytics.h"
     #import "CWVideoFileCache.h"
+    #import "UIView+Debug.h"
     #import "UIColor+Additions.h"
 #import "DCControl.h"
 #import "DCKnob.h"

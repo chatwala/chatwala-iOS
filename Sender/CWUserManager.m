@@ -13,7 +13,6 @@
 #import "CWGroundControlManager.h"
 #import "CWUserDefaultsController.h"
 
-
 NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBACK_REQUESTED";
 NSString * const kNewMessageDeliveryMethodKey = @"kNewMessageDeliveryMethodKey";
 NSString * const kNewMessageDeliveryMethodValueSMS = @"SMS";
@@ -201,12 +200,12 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 
 - (NSInteger)numberOfTotalUnreadMessages {
 
-    return [AOFetchUtilities totalUnreadMessagesForRecipient:self.localUserID];
+    return [CWDataManager totalUnreadMessagesForRecipient:self.localUserID];
 }
 
 
 + (NSInteger)numberOfUnreadMessagesForRecipient:(NSString *)userID {
-    NSArray *messagesForUser = [AOFetchUtilities fetchMessagesForSender:userID];
+    NSArray *messagesForUser = [CWDataManager fetchMessagesForSender:userID];
     NSInteger unreadCount = 0;
     
     for (Message *currentMessage in messagesForUser) {
