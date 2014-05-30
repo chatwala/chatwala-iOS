@@ -14,7 +14,6 @@
 #import "CWServerAPI.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
-#import "AOFetchUtilities.h"
 #import "CWDataManager.h"
 
 @interface CWMessageManager ()
