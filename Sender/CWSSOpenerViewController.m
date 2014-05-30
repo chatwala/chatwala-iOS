@@ -34,12 +34,6 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-	// Do any additional setup after loading the view.
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -66,7 +60,6 @@
             
         }
             break;
-            
             
         case CWOpenerReview:
             
@@ -105,9 +98,8 @@
             [self.recordMessageLabel setAlpha:1.0f];
             
             [UIView animateWithDuration:0.3f animations:^{
-                
+        
                 [self.playbackView setAlpha:0.3f];
-//                [self.recordMessageLabel setAlpha:1.0f];
             }];
         }
             break;
@@ -170,9 +162,8 @@
 - (void)sendMessage {
     NSString *localUserID = [[CWUserManager sharedInstance] localUserID];
     Message *message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:self.activeMessage];
-    
-    message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
-    message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
+
+    message.chatwalaZipURL = [NSURL fileURLWithPath:[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID]];
     message.startRecording = [NSNumber numberWithDouble:[self.player videoLength] - self.activeMessage.startRecordingValue];
     
     self.messageSender = [[CWMessageSender alloc] init];

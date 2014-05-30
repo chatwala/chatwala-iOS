@@ -38,7 +38,7 @@ static const float InboxTableTransitionDuration = 0.3f;
     
     self.view.clipsToBounds = YES;
     
-    self.distinctUsersMessages = [AOFetchUtilities fetchGroupBySenderID];
+    self.distinctUsersMessages = [CWDataManager fetchGroupBySenderID];
     
     self.settingsButton = [[UIButton alloc] initWithFrame:CGRectZero];
     [self.settingsButton setImage:[UIImage imageNamed:@"settings_cog"] forState:UIControlStateNormal];
@@ -105,7 +105,7 @@ static const float InboxTableTransitionDuration = 0.3f;
 
 - (void)onMessagesLoaded:(NSNotification *)note {
 
-    self.distinctUsersMessages = [AOFetchUtilities fetchGroupBySenderID];
+    self.distinctUsersMessages = [CWDataManager fetchGroupBySenderID];
     
     [self.usersTableView reloadData];
     [self.messagesController.tableView reloadData];
@@ -129,7 +129,7 @@ static const float InboxTableTransitionDuration = 0.3f;
 }
 
 - (void)shouldMarkAllMessagesAsRead:(NSNotification *)notification {
-    [AOFetchUtilities markAllMessagesAsReadForUser:[[CWUserManager sharedInstance] localUserID]];
+    [CWDataManager markAllMessagesAsReadForUser:[[CWUserManager sharedInstance] localUserID]];
     [self.usersTableView reloadData];
     [self.messagesController.tableView reloadData];
 }
@@ -192,7 +192,7 @@ static const float InboxTableTransitionDuration = 0.3f;
     }
     
     // Update because cells might have been deleted from the messages table affecting what user cells to show
-    self.distinctUsersMessages = [AOFetchUtilities fetchGroupBySenderID];
+    self.distinctUsersMessages = [CWDataManager fetchGroupBySenderID];
     [self.usersTableView reloadData];
 }
 

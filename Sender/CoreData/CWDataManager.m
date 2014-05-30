@@ -8,13 +8,15 @@
 
 #import "CWDataManager.h"
 #import "AOCoreDataStackUtilities.h"
+#import "AOFetchUtilities.h"
 #import "Message.h"
 #import "NSDictionary+LookUpTable.h"
 #import "CWUserManager.h"
+#import "CWVideoFileCache.h"
 
 @implementation CWDataManager
-+ (id)sharedInstance
-{
++ (id)sharedInstance {
+
     static dispatch_once_t once;
     static id sharedInstance;
     dispatch_once(&once, ^{
@@ -74,21 +76,21 @@
     else {
         message.threadID = [[[NSUUID UUID] UUIDString] lowercaseString];
     }
+    
     return message;
 }
 
 
-- (Message *)createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error
-{
-    if(![sourceDictionary isKindOfClass:[NSDictionary class]])
-    {
+- (Message *)createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error {
+
+    if(![sourceDictionary isKindOfClass:[NSDictionary class]]) {
         *error = [NSError errorWithDomain:@"com.chatwala" code:6003 userInfo:@{@"Failed import":@"import messages expects an array of dictionaries", @"found":sourceDictionary}];//failed to import
         return nil;
     }
+    
     NSString * messageID = [sourceDictionary objectForKey:MessageAttributes.messageID withLUT:[Message keyLookupTable]];
     Message * item = [self findMessageByMessageID:messageID];
-    if(!item)
-    {
+    if(!item) {
         item = [Message insertInManagedObjectContext:self.moc];
     }
     
@@ -103,33 +105,36 @@
     }
     
     [item fromDictionary:sourceDictionary withDateFormatter:[CWDataManager dateFormatter] error:error] ;
-    
- 
     error = nil;
     
     return item;
 }
 
-// importMessageAtFilePath used in two places:  opener view (sms links & now notifications) and when walas are downloaded from the inbox.
-// Ideally we want SMS links to be added to the inbox & let the same flow handle the unpackaging of the data. [RK - 02112014]
-
-- (Message *)importMessageAtFilePath:(NSURL *)filePath withError:(NSError **)error {
+// importMessageAtFilePath used in one places: opener view (sms links & notifications)
+- (Message *) importMessage:(NSString *)messageID chatwalaZipURL:(NSURL *)zipURL withError:(NSError **)error {
 
     NSFileManager* fm = [NSFileManager defaultManager];
     
-    if (![fm fileExistsAtPath:filePath.path]) {
-        NSLog(@"zip not found at path: %@",filePath.path);
-        return [NSError errorWithDomain:@"com.chatwala" code:6004 userInfo:@{@"reason":@"zip not found at path", @"path":filePath}];
+    if (![fm fileExistsAtPath:zipURL.path]) {
+        NSLog(@"zip not found at path: %@", zipURL.path);
+        return [NSError errorWithDomain:@"com.chatwala" code:6004 userInfo:@{@"reason":@"zip not found at path", @"path": zipURL}];
     }
-    NSString * destPath = [[CWDataManager cacheDirectoryPath] stringByAppendingPathComponent:INCOMING_DIRECTORY_NAME];
-    [SSZipArchive unzipFileAtPath:filePath.path toDestination:destPath];
     
-    NSString * metadataFileName = [destPath stringByAppendingPathComponent:METADATA_FILE_NAME];
+    NSString *importFilepath = [zipURL.path stringByDeletingLastPathComponent];
+    
+    NSURL *videoLocation = [NSURL fileURLWithPath:[importFilepath stringByAppendingPathComponent:@"video.mp4"]];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:videoLocation.path]) {
+        [SSZipArchive unzipFileAtPath:zipURL.path toDestination:[zipURL URLByDeletingLastPathComponent].path];
+    }
+    
+    //NSString *metaDataFilename = [item.messageID stringByAppendingString:@".json"];
+    NSString *metadataFilePath = [importFilepath stringByAppendingPathComponent:METADATA_FILE_NAME];
 
     Message * item = nil;
-    if ([fm fileExistsAtPath:destPath]) {
-        if ([fm fileExistsAtPath:metadataFileName isDirectory:NO]) {
-            NSDictionary * baseDictionary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:metadataFileName] options:0 error:nil];
+    if ([fm fileExistsAtPath:importFilepath]) {
+        if ([fm fileExistsAtPath:metadataFilePath isDirectory:NO]) {
+            NSDictionary * baseDictionary = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:metadataFilePath] options:0 error:nil];
             NSMutableDictionary *jsonDict = [baseDictionary mutableCopy];
             
             // This is a check for "<null>" threadID value because of a 1.0.5 iOS bug
@@ -159,26 +164,17 @@
                 return nil;
             }
         }
-        else
-        {
+        else {
             *error = [NSError errorWithDomain:@"chatwala.com"
                                          code:6006
                                      userInfo:@{
                                                 @"reason":@"could not find json file",
-                                                @"file":metadataFileName}];
-            NSLog(@"could not find json file at %@",metadataFileName);
+                                                @"file":metadataFilePath}];
+            NSLog(@"could not find json file at %@",metadataFilePath);
             return nil;
         }
-        
-        
-        // set video url
-        [item setVideoURL:[NSURL fileURLWithPath:[destPath stringByAppendingPathComponent:VIDEO_FILE_NAME]]];
     }
     return item;
-}
-
-+ (NSString*)cacheDirectoryPath {
-    return [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
 }
 
 #pragma mark - dateformater
@@ -211,11 +207,171 @@
             NSError * error = nil;
             [[NSFileManager defaultManager] moveItemAtURL:storeURL toURL:newURL error:&error];
 
-            
-
         }
     }];
+}
+
+#pragma mark - Core Data queries
+
+
++ (void)markAllMessagesAsReadForUser:(NSString *)userID {
     
+    NSArray *messagesArray = [CWDataManager unreadMessagesForUser:userID];
+    
+    for (Message *message in messagesArray) {
+        [message setEMessageViewedState:eMessageViewedStateRead];
+    }
+}
+
++ (void)markAllMessagesAsDeviceDeletedForUser:(NSString *)userID {
+    NSArray *messagesArray = [CWDataManager messagesForUser:userID];
+    
+    for (Message *message in messagesArray) {
+        [message setEMessageDownloadState:eMessageDownloadStateDeviceDeleted];
+    }
+}
+
++ (NSArray *)fetchGroupBySenderID {
+    
+    NSManagedObjectContext *managedObjectContext = [[CWDataManager sharedInstance] moc];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    
+    NSEntityDescription *entity = [NSEntityDescription
+                                   entityForName:@"Message" inManagedObjectContext:managedObjectContext];
+    
+    
+    NSExpression *keyPathExpression = [NSExpression expressionForKeyPath: @"timeStamp"]; // Does not really matter
+    NSExpression *maxExpression = [NSExpression expressionForFunction: @"max:"
+                                                            arguments: [NSArray arrayWithObject:keyPathExpression]];
+    
+    NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
+    
+    [expressionDescription setName: @"maxTimestamp"];
+    [expressionDescription setExpression:maxExpression];
+    [expressionDescription setExpressionResultType:NSDateAttributeType];
+    
+    [fetchRequest setEntity:entity];
+    [fetchRequest setPropertiesToFetch:[NSArray arrayWithObjects:@"senderID", @"recipientID", expressionDescription, nil]];
+    [fetchRequest setPropertiesToGroupBy:[NSArray arrayWithObjects:@"senderID", @"recipientID", nil]];
+    [fetchRequest setResultType:NSDictionaryResultType];
+    
+    // Sort the results by the most recent message
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"timeStamp" ascending:NO]]];
+    
+    NSError *error = nil;
+    NSArray *results = [managedObjectContext executeFetchRequest:fetchRequest
+                                                           error:&error];
+    
+    NSMutableArray *filteredArray = [NSMutableArray arrayWithCapacity:[results count]];
+    
+    // Return an array of array of Message objects for the UI to show
+    for (NSDictionary *currentSenderDictionary in results) {
+        
+        NSString *recipientID = [currentSenderDictionary objectForKey:@"recipientID"];
+        
+        if ([recipientID isEqualToString:[[CWUserManager sharedInstance] localUserID]]) {
+            NSArray *userMessages = [CWDataManager fetchMessagesForSender:[currentSenderDictionary objectForKey:@"senderID"]];
+            
+            if ([userMessages count]) {
+                [filteredArray addObject:userMessages];
+            }
+        }
+    }
+    
+    return filteredArray;
+}
+
++ (NSArray *)fetchMessagesForSender:(NSString *)senderID {
+    
+    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Message" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity:entityDescription];
+    
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(senderID == %@)", senderID];
+    [request setPredicate:predicate];
+    
+    [request setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"timeStamp" ascending:NO]]];
+    
+    NSError *error = nil;
+    NSArray *messagesArray = [moc executeFetchRequest:request error:&error];
+    NSMutableArray *filteredArray = [NSMutableArray arrayWithCapacity:[messagesArray count]];
+    
+    for (Message *message in messagesArray) {
+        if ([message.downloadState integerValue] == eMessageDownloadStateDownloaded || [message.downloadState integerValue] == eMessageDownloadStateDeviceDeleted) {
+            
+            // Don't show messages previously deleted but not successfully deleted on server yet
+            if ([message isMarkedAsDeleted]) {
+                [message deleteMessageFromInbox];
+            }
+            else {
+                [filteredArray addObject:message];
+            }
+        }
+    }
+    
+    if (filteredArray) {
+        return filteredArray;
+    }
+    else {
+        return nil;
+    }
+}
+
++ (NSArray *)unreadMessagesForUser:(NSString *)userID {
+    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Message" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(recipientID == %@ && viewedState == 0 && (downloadState == 2 || downloadState == 3))", userID];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *messagesArray = [moc executeFetchRequest:request error:&error];
+    
+    return messagesArray;
+}
+
++ (NSArray *)messagesForUser:(NSString *)userID {
+    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Message" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(recipientID == %@)", userID];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *messagesArray = [moc executeFetchRequest:request error:&error];
+    
+    return messagesArray;
+}
+
++ (NSInteger)totalUnreadMessagesForRecipient:(NSString *)userID {
+    return [[CWDataManager unreadMessagesForUser:userID] count];
+}
+
++ (Message *)messageWithThreadID:(NSString *)threadID withThreadIndex:(NSInteger)threadIndex {
+    
+    NSManagedObjectContext *moc = [[CWDataManager sharedInstance] moc];
+    NSEntityDescription *entityDescription = [NSEntityDescription
+                                              entityForName:@"Message" inManagedObjectContext:moc];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
+    [request setEntity:entityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(threadID == %@ && threadIndex == %ld)", threadID, (long)threadIndex];
+    [request setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *messagesArray = [moc executeFetchRequest:request error:&error];
+    
+    return ([messagesArray count] ? [messagesArray objectAtIndex:0] : nil);
 }
 
 @end

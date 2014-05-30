@@ -74,7 +74,7 @@
     CGRect innerRect = CGRectInset(self.bounds, 10, 10);
     
     self.redBG = [CALayer layer];
-    
+
     [self.redBG setBackgroundColor:[[UIColor colorFromHexString:@"#db013f"] CGColor]];
     [self.layer addSublayer:self.redBG];
     
@@ -160,14 +160,5 @@
 {
     [self.knob setValue:value];
 }
-
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
 
 @end

@@ -107,10 +107,10 @@
 {
     Message * message = [Message insertInManagedObjectContext:self.moc];
     id mockUrl = [OCMockObject mockForClass:[NSURL class]];
-    [[self.mockPlayer stub]setVideoURL:mockUrl];
+    [[self.mockPlayer stub]setTempVideoURL:mockUrl];
     
     [self.sut setActiveMessage:message];
-    message.videoURL = mockUrl;
+    message.tempVideoURL = mockUrl;
 }
 
 
@@ -206,7 +206,7 @@
     [[[mockDataManager expect] andReturn:mockMessage] importMessageAtFilePath:mockUrl withError:((NSError __autoreleasing **)[OCMArg setTo:error])];
     
     //when
-    [self.sut setZipURL:mockUrl];
+    [self.sut loadIncomingMessage:mockUrl];
     
     //should
     [self.mockSUT verify];

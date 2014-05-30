@@ -17,7 +17,7 @@
 @property (nonatomic) CWMiddleButton *middleButton;
 @property (nonatomic) UIImageView *profilePictureView;
 
-@property (nonatomic) UILabel *messageLabel;
+@property (nonatomic) UILabel *bottomHalfLabel;
 
 @end
 
@@ -37,12 +37,15 @@
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor whiteColor]];
     
-    self.messageLabel = [[UILabel alloc] init];
-    self.messageLabel.font = [UIFont fontWithName:@"Avenir-Light" size:20.0f];
-    self.messageLabel.backgroundColor = [UIColor clearColor];
-    self.messageLabel.textAlignment = NSTextAlignmentCenter;
+    self.bottomHalfLabel = [[UILabel alloc] init];
+    self.bottomHalfLabel.font = [UIFont fontWithName:@"Avenir-Light" size:20.0f];
+    self.bottomHalfLabel.backgroundColor = [UIColor clearColor];
+    self.bottomHalfLabel.textAlignment = NSTextAlignmentCenter;
+    self.bottomHalfLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    self.bottomHalfLabel.clipsToBounds = YES;
+    [self.view addSubview:self.bottomHalfLabel];
     
-    [self.view addSubview:self.messageLabel];
+    [self.view addSubview:self.bottomHalfLabel];
     
     self.middleButton = [[CWMiddleButton alloc] init];
     [self.middleButton setAutoresizesSubviews:YES];
@@ -59,6 +62,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
+    self.bottomHalfLabel.frame = CGRectMake(0.0f, 0.0f, 247.0f, 163.0f);
+    [self.bottomHalfLabel setCenter:CGPointMake(self.view.center.x, (self.view.center.y + self.view.frame.size.height) / 2.0f)];
+    self.bottomHalfLabel.frame = CGRectIntegral(self.bottomHalfLabel.frame);
+    [self.bottomHalfLabel setText:[[CWGroundControlManager sharedInstance] startScreenMessage]];
     
     self.middleButton.frame = CGRectMake(0.0f, 0.0f, 90.0f, 90.0f);
     

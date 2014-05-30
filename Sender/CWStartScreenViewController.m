@@ -19,7 +19,6 @@
 #import "CWAnalytics.h"
 #import "CWProfilePictureViewController.h"
 #import "CWConstants.h"
-#import "CWVideoFileCache.h"
 
 @interface CWStartScreenViewController () <UIGestureRecognizerDelegate>
 @property (nonatomic,strong) UIImageView * messageSentView;
@@ -76,6 +75,7 @@
 
     [[[[CWVideoManager sharedManager] recorder] recorderView] setAlpha:1.0f];
     [self.startScreenMessageLabel setText:[[CWGroundControlManager sharedInstance] startScreenMessage]];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -133,7 +133,7 @@
         return;
     }
     else if (![[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace])  {
-        [SVProgressHUD showErrorWithStatus:@"Please free up disk space! Unable to record new message."];
+        [SVProgressHUD showErrorWithStatus:@"Please free up disk space. Unable to record new message."];
         return;
     }
     

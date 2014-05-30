@@ -80,6 +80,15 @@
 
 
 
+@property (nonatomic, strong) NSString* replyToReadURL;
+
+
+
+
+
+
+
+
 @property (nonatomic, strong) NSString* senderID;
 
 
@@ -184,6 +193,7 @@ extern const struct MessageAttributes {
 	__unsafe_unretained NSString *readURL;
 	__unsafe_unretained NSString *recipientID;
 	__unsafe_unretained NSString *replyToMessageID;
+	__unsafe_unretained NSString *replyToReadURL;
 	__unsafe_unretained NSString *senderID;
 	__unsafe_unretained NSString *startRecording;
 	__unsafe_unretained NSString *storageShardKey;
@@ -203,6 +213,8 @@ extern const struct MessageAttributes {
 
 extern const struct MessageUserInfo {
 } MessageUserInfo;
+
+
 
 
 
@@ -316,6 +328,15 @@ extern const struct MessageUserInfo {
 
 
 @property (nonatomic, strong) NSString* replyToMessageID;
+
+
+
+
+
+
+
+
+@property (nonatomic, strong) NSString* replyToReadURL;
 
 
 
@@ -472,6 +493,12 @@ extern const struct MessageUserInfo {
 
 - (NSString*)primitiveReplyToMessageID;
 - (void)setPrimitiveReplyToMessageID:(NSString*)value;
+
+
+
+
+- (NSString*)primitiveReplyToReadURL;
+- (void)setPrimitiveReplyToReadURL:(NSString*)value;
 
 
 

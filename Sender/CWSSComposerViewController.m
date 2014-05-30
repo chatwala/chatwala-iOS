@@ -103,6 +103,11 @@
     if ([CWUserDefaultsController shouldShowMessagePreview]) {
         CWSSReviewViewController * previewVC = [[CWSSReviewViewController alloc]init];
         [previewVC setStartRecordingTime:0];
+        
+        if ([self.recipientID length]) {
+            [previewVC setMessageRecipientID:self.recipientID];
+        }
+        
         [self.navigationController pushViewController:previewVC animated:NO];
     }
     else {
@@ -111,8 +116,6 @@
         
         Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:nil];
         
-        message.videoURL = [[CWVideoManager sharedManager]recorder].outputFileURL;
-        message.zipURL = [NSURL fileURLWithPath:[[CWDataManager cacheDirectoryPath]stringByAppendingPathComponent:MESSAGE_FILENAME]];
         message.startRecording = [NSNumber numberWithDouble:0.0];
         message.recipientID = self.recipientID;
         

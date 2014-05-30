@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 AppOrchard, LLC. All rights reserved.
 //
 
+@class Message;
+
 #import <CoreData/CoreData.h>
 
 /*!
@@ -46,11 +48,5 @@
  */
 +(NSArray *)fetchAllObjectsWithContext:(NSManagedObjectContext *)context andEntityName:(NSString *)entityName andSortDescriptors:(NSArray *)sortDescriptors andFetchLimit:(NSUInteger)fetchLimit error:(NSError **)error;
 
-
-// Chatwala required queries
-+ (void)markAllMessagesAsReadForUser:(NSString *)userID;
-+ (NSInteger)totalUnreadMessagesForRecipient:(NSString *)userID;
-+ (NSArray *)fetchGroupBySenderID;
-+ (NSArray *)fetchMessagesForSender:(NSString *)senderID;
 
 @end

@@ -9,7 +9,6 @@
 #import "CWServerAPI.h"
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
-#import "CWUtility.h"
 #import "CWUserManager.h"
 
 typedef void (^CWPictureUploadEndpointRequestCompletionBlock)(NSError *error, NSString *tempUploadUrl);
@@ -69,15 +68,56 @@ AFURLSessionManager *BackgroundSessionManager;
     return BackgroundSessionManager;
 }
 
-#pragma mark - Inbox API
+#pragma mark - Inbox/Outbox API
 
-+ (void)getInboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetInboxCompletionBlock)completionBlock {
++ (void)getInboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
-    NSString *endpoint = [[CWMessageManager sharedInstance] getInboxEndPoint];
+    NSString *endpoint = [[CWMessageManager sharedInstance] inboxEndPoint];
     NSLog(@"fetching messages: %@", endpoint);
+    
+    NSDictionary *params = @{@"user_id" : userID};
+    
+    [manager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSArray *messages = [responseObject objectForKey:@"messages"];
+        
+#if defined(OVERRIDE_INBOX_MAX_SIZE)
+        NSInteger maxSize = [messages count];
+        
+        if (maxSize > OVERRIDE_INBOX_MAX_SIZE) {
+            maxSize = OVERRIDE_INBOX_MAX_SIZE;
+        }
+        
+        if (completionBlock) {
+            NSRange subArrayRange;
+            subArrayRange.location = 0;
+            subArrayRange.length = maxSize;
+            completionBlock([messages subarrayWithRange:subArrayRange], nil);
+        }
+#else
+        if (completionBlock) {
+            completionBlock(messages, nil);
+        }
+#endif
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        if (completionBlock) {
+            completionBlock(nil, error);
+        }
+    }];
+}
+
++ (void)getOutboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock {
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
+    
+    NSString *endpoint = [[CWMessageManager sharedInstance] outboxEndPoint];
+    NSLog(@"fetching messages in user's outbox: %@", endpoint);
     
     NSDictionary *params = @{@"user_id" : userID};
     
@@ -161,7 +201,7 @@ AFURLSessionManager *BackgroundSessionManager;
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
     [request setHTTPMethod:@"PUT"];
 
-    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:messageToUpload.zipURL.path error:nil] fileSize];
+    unsigned long long fileSize = [[[NSFileManager defaultManager] attributesOfItemAtPath:messageToUpload.chatwalaZipURL.path error:nil] fileSize];
 
     NSLog(@"Starting message upload to sasURL: %@", endPoint);
 
@@ -181,7 +221,7 @@ AFURLSessionManager *BackgroundSessionManager;
     }];
     
     
-    NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.zipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    NSURLSessionUploadTask *task = [mgr uploadTaskWithRequest:request fromFile:messageToUpload.chatwalaZipURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         if ([httpResponse statusCode] != 201) {
@@ -208,7 +248,7 @@ AFURLSessionManager *BackgroundSessionManager;
     [task resume];
 }
 
-+ (void)completeMessage:(Message *)uploadedMessage isReply:(BOOL)isReply {
++ (void)completeMessage:(Message *)uploadedMessage hasRecipient:(BOOL)useReplyEndpoint {
     
     NSDictionary *params = @{@"message_id" : uploadedMessage.messageID};
     
@@ -217,7 +257,7 @@ AFURLSessionManager *BackgroundSessionManager;
     AFHTTPRequestOperationManager *requestManager = [AFHTTPRequestOperationManager manager];
     requestManager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
-    NSString *serverAction = (isReply ? CompleteReplyMessageEndpoint : CompleteOriginalMessageEndpoint);
+    NSString *serverAction = (useReplyEndpoint ? CompleteReplyMessageEndpoint : CompleteOriginalMessageEndpoint);
     NSString *endPoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:serverAction];
     
     // Terminate existing background tasks if this call was made twice
@@ -233,6 +273,7 @@ AFURLSessionManager *BackgroundSessionManager;
     
     [requestManager POST:endPoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"Successfully completed message upload");
+        
         [[UIApplication sharedApplication] endBackgroundTask:CompleteSendBackgroundTaskIdentifier];
         CompleteSendBackgroundTaskIdentifier = 0;
         
@@ -294,9 +335,7 @@ AFURLSessionManager *BackgroundSessionManager;
         else {
 
             NSLog(@"profile thumbnail created:%@", thumbnail);
-            
-            NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"user_thumbnailImage.png"];
-            [UIImageJPEGRepresentation(thumbnail, 1.0) writeToURL:thumbnailURL atomically:YES];
+            NSData *userThumbnail = UIImageJPEGRepresentation(thumbnail, 1.0);
             
             NSString *endPoint = tempUploadUrl;
             NSLog(@"Starting profile picture upload to sasURL: %@", endPoint);
@@ -310,7 +349,7 @@ AFURLSessionManager *BackgroundSessionManager;
             [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
             AFURLSessionManager * mgr = [self sessionManager];
             
-            NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+            NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromData:userThumbnail progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
                 
                 NSHTTPURLResponse *pictureUploadResponse = (NSHTTPURLResponse *)response;
                 if (pictureUploadResponse.statusCode != 201) {
@@ -380,9 +419,9 @@ AFURLSessionManager *BackgroundSessionManager;
 + (void)uploadMessageThumbnail:(UIImage *)thumbnail toURL:(NSString *)uploadURLString withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock {
     
     NSLog(@"Message thumbnail created:%@", thumbnail);
+
+    NSData *thumbnailData = UIImageJPEGRepresentation(thumbnail, 1.0);
     
-    NSURL * thumbnailURL = [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:@"message_thumbnailImage.png"];
-    [UIImageJPEGRepresentation(thumbnail, 1.0) writeToURL:thumbnailURL atomically:YES];
     
     NSString *endPoint = uploadURLString;
     NSLog(@"Starting message thumbnail upload to sasURL: %@", endPoint);
@@ -396,7 +435,7 @@ AFURLSessionManager *BackgroundSessionManager;
     [[CWUserManager sharedInstance] addRequestHeadersToURLRequest:request];
     AFURLSessionManager * mgr = [self sessionManager];
     
-    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromFile:thumbnailURL progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
+    NSURLSessionUploadTask * task = [mgr uploadTaskWithRequest:request fromData:thumbnailData progress:nil completionHandler:^(NSURLResponse *response, id responseObject, NSError *error) {
         
         NSHTTPURLResponse *pictureUploadResponse = (NSHTTPURLResponse *)response;
         if (pictureUploadResponse.statusCode != 201) {
@@ -445,7 +484,7 @@ AFURLSessionManager *BackgroundSessionManager;
     NSString *endpoint = [[[CWMessageManager sharedInstance] baseEndPoint] stringByAppendingString:PushRegisterEndpoint];
     [requestManager POST:endpoint parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
-        NSLog(@"Successfully registered local user with chatwala server");
+        NSLog(@"Successfully registered push notification token with chatwala server.");
         
         if (completionBlock) {
             completionBlock(nil);
@@ -462,14 +501,14 @@ AFURLSessionManager *BackgroundSessionManager;
 
 #pragma mark - Download API
 
-+ (void)getReadURLWithDownloadID:(NSString *)downloadID completionBlock:(void (^)(NSString *readURL, NSError *error))completionBlock {
++ (void)getReadURLFromShareID:(NSString *)downloadID completionBlock:(void (^)(NSString *readURL, NSString *messageID, NSError *error))completionBlock {
     
     NSDictionary *params = nil;
     
     if (![downloadID length]) {
         if (completionBlock) {
             NSError *error = [NSError errorWithDomain:@"GetReadURL" code:0 userInfo:nil];
-            completionBlock(nil, error);
+            completionBlock(nil, nil, error);
         }
         
         return;
@@ -489,14 +528,14 @@ AFURLSessionManager *BackgroundSessionManager;
         NSLog(@"Successfully retrieved message read URL.");
         
         if (completionBlock) {
-            completionBlock([responseObject objectForKey:@"read_url"],nil);
+            completionBlock([responseObject objectForKey:@"read_url"], [responseObject objectForKey:@"message_id"], nil);
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Failed to retrive message read URL. Error:  %@",error.localizedDescription);
+        NSLog(@"Failed to retrieve message read URL. Error:  %@",error.localizedDescription);
         
         if (completionBlock) {
-            completionBlock(nil, nil);
+            completionBlock(nil, nil, nil);
         }
     }];
 }

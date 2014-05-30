@@ -28,6 +28,7 @@ typedef enum {
 @property (nonatomic, strong) Message * activeMessage;
 @property (nonatomic,assign) BOOL shouldPromptBeforeSending;
 
-- (void)setZipURL:(NSURL *) zipURL;
+- (void)loadIncomingMessage:(NSString *)messageID fromChatwalaZip:(NSURL *)zipURL;
 - (void)onMiddleButtonTap;
+
 @end

@@ -101,6 +101,10 @@ NSString * const kCurrentItemKey	= @"currentItem";
     [self.player play];
 }
 
+- (void)seekToTime:(CMTime)time {
+    [self.player seekToTime:time toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero];
+}
+
 - (void)replayVideo{
     [self.player seekToTime:kCMTimeZero];
     [self.player play];
@@ -256,6 +260,39 @@ NSString * const kCurrentItemKey	= @"currentItem";
                                                   }];
 }
 
+- (void)toggleAudioWithPlaybackMode:(BOOL)isFullScreenPlayback {
+    
+    if ([self.playerItem status] == AVPlayerItemStatusReadyToPlay) {
+        if (self.shouldMuteAudio) {
+            
+            NSArray * myTracks = self.playerItem.tracks;
+            for(int i = 0; i < [myTracks count]; i++)
+            {
+                if([[[myTracks objectAtIndex:i] assetTrack].mediaType
+                    isEqualToString:AVMediaTypeAudio] == YES)
+                {
+                    ((AVPlayerItemTrack *)[myTracks
+                                           objectAtIndex:i]).enabled = NO;
+                }
+            }
+        }
+        else {
+            
+            NSArray * myTracks = self.playerItem.tracks;
+            for(int i = 0; i < [myTracks count]; i++)
+            {
+                if([[[myTracks objectAtIndex:i] assetTrack].mediaType
+                    isEqualToString:AVMediaTypeAudio] == YES)
+                {
+                    ((AVPlayerItemTrack *)[myTracks
+                                           objectAtIndex:i]).enabled = YES;
+                }
+            }
+        }
+    }
+}
+
+
 #pragma mark - Key Valye Observing
 
 - (void)observeValueForKeyPath:(NSString*) path
@@ -266,6 +303,9 @@ NSString * const kCurrentItemKey	= @"currentItem";
         AVPlayerStatus status = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
         if (status == AVPlayerStatusReadyToPlay) {
             // inform the delegate (if registered)
+            
+            [self toggleAudioWithPlaybackMode:self.shouldMuteAudio];
+            
             if ([self.delegate respondsToSelector:@selector(videoPlayerDidLoadVideo:)]) {
                 [self.delegate videoPlayerDidLoadVideo:self];
             }

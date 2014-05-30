@@ -9,11 +9,9 @@
 #import "CWUserManager.h"
 #import "CWMessageManager.h"
 #import "CWDataManager.h"
-#import "CWUtility.h"
 #import "CWServerAPI.h"
 #import "CWGroundControlManager.h"
 #import "CWUserDefaultsController.h"
-
 
 NSString * const kAppVersionOfFeedbackRequestedKey  = @"APP_VERSION_WHEN_FEEDBACK_REQUESTED";
 NSString * const kNewMessageDeliveryMethodKey = @"kNewMessageDeliveryMethodKey";
@@ -80,11 +78,17 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
 }
 
 - (void)createNewLocalUser {
+    NSString *newUserID = nil;
+
+#if defined(OVERRIDE_USER_ID)
+    newUserID = OVERRIDE_USER_ID;
+#endif
     
-    NSString *newUserID = [[[NSUUID UUID] UUIDString] lowercaseString];
-    NSLog(@"Generated new user id: %@",newUserID);
+    if (![newUserID length]) {
+        newUserID = [[[NSUUID UUID] UUIDString] lowercaseString];
+    }
     
-    //self.localUser = [[CWDataManager sharedInstance] createUserWithID:newUserID];
+    NSLog(@"Generated new user id: %@", newUserID);
     [CWUserDefaultsController setUserID:newUserID];
 }
 
@@ -194,18 +198,18 @@ NSString * const kApprovedProfilePictureKey = @"profilePictureApprovedKey";
     return [[self newMessageDeliveryMethod] isEqualToString:kNewMessageDeliveryMethodValueSMS];
 }
 
-- (NSInteger) numberOfTotalUnreadMessages {
+- (NSInteger)numberOfTotalUnreadMessages {
 
-    return [AOFetchUtilities totalUnreadMessagesForRecipient:self.localUserID];
+    return [CWDataManager totalUnreadMessagesForRecipient:self.localUserID];
 }
 
 
 + (NSInteger)numberOfUnreadMessagesForRecipient:(NSString *)userID {
-    NSArray *messagesForUser = [AOFetchUtilities fetchMessagesForSender:userID];
+    NSArray *messagesForUser = [CWDataManager fetchMessagesForSender:userID];
     NSInteger unreadCount = 0;
     
     for (Message *currentMessage in messagesForUser) {
-        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened && currentMessage.eDownloadState == eMessageDownloadStateDownloaded) {
+        if (currentMessage.eMessageViewedState == eMessageViewedStateUnOpened && (currentMessage.eDownloadState == eMessageDownloadStateDownloaded || currentMessage.eDownloadState == eMessageDownloadStateDeviceDeleted)) {
             unreadCount++;
         }
     }

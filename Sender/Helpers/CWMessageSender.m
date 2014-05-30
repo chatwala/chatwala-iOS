@@ -15,6 +15,7 @@
 #import "CWGroundControlManager.h"
 #import "CWUserDefaultsController.h"
 #import "CWConstants.h"
+#import "CWVideoManager.h"
 
 @interface CWMessageSender () <MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate>
 
@@ -65,25 +66,24 @@
     [[CWMessageManager sharedInstance] fetchUploadURLForReplyMessage:self.messageBeingSent completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
         
         if (message && uploadURLString) {
-            message.videoURL = self.messageBeingSent.videoURL;
-            message.zipURL = self.messageBeingSent.zipURL;
-            self.messageBeingSent = message;
             
-            [self.messageBeingSent exportZip];
-            
-            [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:YES];
-            [self didSendMessage];
-        }
-        else {
-            
-            if (self.delegate) {
+            if (message && uploadURLString) {
+                message.tempVideoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
+                message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
+                self.messageBeingSent = message;
+                
+                [self.messageBeingSent exportZip];
+                
+                [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString replyingToMessageOrNil:self.messageBeingRespondedTo];
+                [self didSendMessage];
+            }
+            else {
                 
                 [self.delegate messageSender:self didFailMessageSend:[NSError errorWithDomain:@"MessageSender" code:0 userInfo:nil]];
                 [SVProgressHUD showErrorWithStatus:@"Message reply upload details not received."];
             }
         }
     }];
-
 }
 
 - (void)sendToUnknownRecipient {
@@ -91,12 +91,13 @@
     [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:self.messageBeingSent.senderID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
         if (message) {
             
-            message.videoURL = self.messageBeingSent.videoURL;
-            message.zipURL = self.messageBeingSent.zipURL;
-            self.messageBeingSent = message;
+            message.tempVideoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
+            message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
             
+            self.messageBeingSent = message;
             [self.messageBeingSent exportZip];
-            [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:NO];
+            
+            [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString replyingToMessageOrNil:nil];
             
             // TODO: pass correct thang here...!
             [self composeMessageWithMessageKey:self.messageBeingSent.messageURL];
@@ -118,13 +119,13 @@
     [[CWMessageManager sharedInstance] fetchUploadURLForOriginalMessage:self.messageBeingSent toRecipient:self.messageBeingSent.recipientID completionBlockOrNil:^(Message *message, NSString *uploadURLString) {
         if (message) {
             
-            message.videoURL = self.messageBeingSent.videoURL;
-            message.zipURL = self.messageBeingSent.zipURL;
-            self.messageBeingSent = message;
+            message.tempVideoURL = [[[CWVideoManager sharedManager] recorder] outputFileURL];
+            message.chatwalaZipURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", message.messageID]]];
             
+            self.messageBeingSent = message;
             [self.messageBeingSent exportZip];
             
-            [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString isReply:YES];
+            [[CWMessageManager sharedInstance] uploadMessage:self.messageBeingSent toURL:uploadURLString replyingToMessageOrNil:nil];
             [self didSendMessage];
         }
         else {
@@ -169,9 +170,9 @@
 #elif USE_SANDBOX_SERVER
     messagePrefix = @"This is a Sandbox message";
 #elif USE_STAGING_SERVER
-    messagePrefix = @"I sent you a video";
+    messagePrefix = @"I sent you a Chatwala video";
 #else
-    messagePrefix = @"I sent you a video";
+    messagePrefix = @"I sent you a Chatwala video";
 #endif
     
     NSString *messageBody = [NSString stringWithFormat:@"%@: %@", messagePrefix, key];
@@ -205,8 +206,6 @@
 
 - (void)didSendMessage {
     
-    self.messageBeingRespondedTo.eMessageViewedState = eMessageViewedStateReplied;
-    
     [[NSUserDefaults standardUserDefaults]setValue:@(YES) forKey:@"MESSAGE_SENT"];
     [[NSUserDefaults standardUserDefaults]synchronize];
     
@@ -226,7 +225,6 @@
     
     [CWPushNotificationsAPI registerForPushNotifications];
 }
-
 
 #pragma mark MFMailComposeViewControllerDelegate
 

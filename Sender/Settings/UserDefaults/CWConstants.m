@@ -44,3 +44,6 @@ NSString *const CWConstantsGControlMessagesEndpointKey = @"GC_MESSAGES_ENDPOINT"
 // Message specific defaults
 NSString *const CWConstantsMessageMarkedDeletedKey = @"CWConstantsMessageMarkedDeletedKey";
 NSString *const CWUserDefaultsIsFirstOpenKey = @"CWUserDefaultsIsFirstOpenKey";
+
+// CWUpdater User Default Keys
+NSString *const CWUpdaterPerformed164UpdateKey = @"CWUpdaterPerformed164UpdateKey";

@@ -22,14 +22,13 @@
     CWVideoRecorder * recorder;
     CGRect smallFrame;
     CGRect largeFrame;
-    
 }
 
 @property (nonatomic,strong) NSTimer * reviewCountdownTimer;    // watching thier reaction to what you said
 @property (nonatomic,strong) NSTimer * reactionCountdownTimer;  // reacting to what they said
 @property (nonatomic,strong) NSTimer * responseCountdownTimer;  // your response
 @property (nonatomic,assign) BOOL shouldUseBackCamera;
-
+//@property (nonatomic, strong) Message * activeMessage;
 
 @property (nonatomic,assign) NSInteger reviewCountdownTickCount;
 //@property (nonatomic,assign) NSInteger reactionCountdownTickCount;
@@ -97,10 +96,23 @@
     [self.recorder setDelegate:self];
 
     NSAssert(self.activeMessage, @"expecting activeMessage to be set");
-    NSAssert(self.activeMessage.videoURL, @"expecting video URL to be set");
     
-    [self.player setVideoURL:self.activeMessage.videoURL];
+    NSURL *videoFileURL = [self.activeMessage inboxVideoFileURL];
+    if (!videoFileURL) {
+        [self.activeMessage importZip:self.activeMessage.chatwalaZipURL];
+        videoFileURL = [self.activeMessage inboxVideoFileURL];
+    }
+    
+    NSAssert(videoFileURL, @"expecting video URL to be set");
+    
+    [self.player setVideoURL:videoFileURL];
     [self setupCameraView];
+}
+
+- (void)setActiveMessage:(Message *)activeMessage {
+
+    _activeMessage = activeMessage;
+
 }
 
 - (void)onMiddleButtonTap {
@@ -223,15 +235,15 @@
     }];
 }
 
-- (void)setZipURL:(NSURL *)zipURL {
+- (void)loadIncomingMessage:(NSString *)messageID fromChatwalaZip:(NSURL *)zipURL {
 
     NSError * error = nil;
     
-    self.activeMessage = [[CWDataManager sharedInstance] importMessageAtFilePath:zipURL withError:&error];
+    self.activeMessage = [[CWDataManager sharedInstance] importMessage:messageID chatwalaZipURL:zipURL withError:&error];
     [self.activeMessage setEMessageViewedState:eMessageViewedStateOpened];
     
     @try {
-        [self.player setVideoURL:self.activeMessage.videoURL];
+        [self.player setVideoURL:[self.activeMessage inboxVideoFileURL]];
     }
     @catch (NSException *exception) {
         NSLog(@"%@",exception);

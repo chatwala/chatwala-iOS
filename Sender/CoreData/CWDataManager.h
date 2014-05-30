@@ -14,18 +14,21 @@
 @property (nonatomic, strong) NSManagedObjectContext * moc;
 
 - (void) setupCoreData;
-- (Message *) importMessageAtFilePath:(NSURL *) filePath withError:(NSError **)error;
+- (Message *)importMessage:(NSString *)messageID chatwalaZipURL:(NSURL *)zipURL withError:(NSError **)error;
 
 - (Message *) findMessageByMessageID:(NSString*) messageID;
-//- (User *) findUserByUserID:(NSString *) userID;
-//- (User *) createUserWithID:(NSString *) userID;
-//- (Thread *) findThreadByThreadID:(NSString*) threadID;
-//- (Thread *) createThreadWithID:(NSString *) threadID;
 
-- (Message *) createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage;
+- (Message *)createMessageWithSender:(NSString *)senderID inResponseToIncomingMessage:(Message *) incomingMessage;
 - (Message *) createMessageWithDictionary:(NSDictionary *) sourceDictionary error:(NSError **)error;
 
-
-+ (NSString*)cacheDirectoryPath;
 + (NSDateFormatter *)dateFormatter;
+
+// Data queries
++ (void)markAllMessagesAsReadForUser:(NSString *)userID;
++ (void)markAllMessagesAsDeviceDeletedForUser:(NSString *)userID;
++ (NSInteger)totalUnreadMessagesForRecipient:(NSString *)userID;
++ (NSArray *)fetchGroupBySenderID;
++ (NSArray *)fetchMessagesForSender:(NSString *)senderID;
++ (Message *)messageWithThreadID:(NSString *)threadID withThreadIndex:(NSInteger)threadIndex;
+
 @end

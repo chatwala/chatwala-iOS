@@ -11,7 +11,7 @@ typedef void (^CWServerPushRegisterCompletionBlock)(NSError *error);
 
 typedef void (^CWServerGetProfilePictureURLCompletionBlock)(NSURL *profilePictureReadURL);
 
-typedef void (^CWServerAPIGetInboxCompletionBlock)(NSArray *messages, NSError *error);
+typedef void (^CWServerAPIGetUserMessagesCompletionBlock)(NSArray *messages, NSError *error);
 typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURLResponse *response);
 
 @class Message;
@@ -21,13 +21,14 @@ typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURL
 + (AFURLSessionManager *)sessionManager;
 
 // Inbox API
-+ (void)getInboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetInboxCompletionBlock)completionBlock;
++ (void)getInboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock;
++ (void)getOutboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock;
 + (void)addMessage:(NSString *)messageID toInboxForUser:(NSString *)userID;
 + (void)deleteMessage:(NSString *)messageID fromInboxForUser:(NSString *)userID;
 
 // Message Upload API
 + (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString withCompletionBlock:(CWServerAPIUploadCompletionBlock)completionBlock;
-+ (void)completeMessage:(Message *)uploadedMessage isReply:(BOOL)isReply;
++ (void)completeMessage:(Message *)uploadedMessage hasRecipient:(BOOL)useReplyEndpoint;
 
 // Picture Upload API
 + (void)getProfilePictureReadURLForUser:(NSString *)userID withCompletionBlock:(CWServerGetProfilePictureURLCompletionBlock)completionBlock;
@@ -38,7 +39,7 @@ typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURL
 + (void)registerPushForUserID:(NSString *)userID withPushToken:(NSString *)pushToken withCompletionBlock:(CWServerPushRegisterCompletionBlock)completionBlock;
 
 // Download API
-+ (void)getReadURLWithDownloadID:(NSString *)downloadID completionBlock:(void (^)(NSString *readURL, NSError *error))completionBlock;
++ (void)getReadURLFromShareID:(NSString *)downloadID completionBlock:(void (^)(NSString *readURL, NSString *messageID, NSError *error))completionBlock;
 + (void)downloadMessageFromReadURL:(NSString *)endPoint destinationURLBlock:(CWServerAPIDownloadDestinationBlock)destinationBlock completionBlock:(void (^)(NSURLResponse *response, NSURL *filePath, NSError *error))completionBlock;
 
 @end

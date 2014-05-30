@@ -10,13 +10,11 @@
 #import "AppDelegate.h"
 #import "CWMessageCell.h"
 #import "CWUserManager.h"
-#import "CWUtility.h"
 #import "CWDataManager.h"
 #import "CWServerAPI.h"
 #import "CWPushNotificationsAPI.h"
 #import "CWMessagesDownloader.h"
-
-
+#import "CWDataManager.h"
 
 @interface CWMessageManager ()
 
@@ -85,19 +83,20 @@
     return [[self baseEndPoint]stringByAppendingPathComponent:@"messages"];
 }
 
-- (NSString *)getInboxEndPoint {
+- (NSString *)inboxEndPoint {
     return [[self baseEndPoint]stringByAppendingString:@"/messages/userInbox"];
 }
 
-- (NSString *)getMessageEndPoint {
+- (NSString *)outboxEndPoint {
+    return [[self baseEndPoint]stringByAppendingString:@"/messages/userOutbox"];
+}
+
+
+- (NSString *)messageEndPoint {
     return [[self baseEndPoint]stringByAppendingString:@"/messages/%@"];
 }
 
-
-- (NSURL *)messageCacheURL {
-    NSString * const messagesCacheFile = @"messages";
-    return [[CWUtility cacheDirectoryURL] URLByAppendingPathComponent:messagesCacheFile];
-}
+#pragma mark - Inbox/Outbox
 
 - (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
     
@@ -105,6 +104,11 @@
         return;
     }
     else {
+        
+        if (![self hasNecessaryDiskSpace]) {
+            [SVProgressHUD showErrorWithStatus:@"Please free up disk space. Chatwala needs space to download your messages."];
+            return;
+        }
         
         [CWServerAPI getInboxForUserID:userID withCompletionBlock:^(NSArray *messages, NSError *error) {
             
@@ -157,26 +161,29 @@
     }
 }
 
-- (void)sendCompletionBlock:(void (^)(UIBackgroundFetchResult))completionBlock {
-    NSLog(@"Completion block being called");
-    
-    if (completionBlock) {
-        completionBlock(UIBackgroundFetchResultNewData);
+- (void)getOutboxMessagesForUser:(NSString *)userID {
+    if (![userID length]) {
+        return;
+    }
+    else {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [CWServerAPI getOutboxForUserID:userID withCompletionBlock:^(NSArray *messages, NSError *error) {
+                
+                if (!error) {
+                    // Let's just save all messages to Core Data
+                    for (NSDictionary *messageMetadata in messages) {
+                        NSError *error = nil;
+                        Message *newMessage = [[CWDataManager sharedInstance] createMessageWithDictionary:messageMetadata error:&error];
+                        [newMessage saveContext];
+                        [[[CWDataManager sharedInstance] moc] refreshObject:newMessage mergeChanges:NO];
+                    }
+                }
+            }];
+        });
     }
 }
 
 #pragma mark - Download logic
-
-- (NSArray *)messageIDsFromResponse:(NSArray *)messages {
-    
-    NSMutableArray *messageIDs = [NSMutableArray array];
-    for (NSDictionary * messageDictionary in messages) {
-        NSString *currentMessageID = [messageDictionary objectForKey:@"message_id"];
-        [messageIDs addObject:currentMessageID];
-    }
-    
-    return messageIDs;
-}
 
 - (AFRequestOperationManagerFailureBlock) getMessagesFailureBlock {
     return (^ void(AFHTTPRequestOperation *operation, NSError * error){
@@ -303,7 +310,7 @@
     self.needsOriginalMessageUploadURL = YES;
 }
 
-- (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString isReply:(BOOL)isReplyMessage {
+- (void)uploadMessage:(Message *)messageToUpload toURL:(NSString *)uploadURLString replyingToMessageOrNil:(Message *)messageBeingRespondedTo {
 
     NSAssert([NSThread isMainThread], @"Method called using a thread other than main!");
     
@@ -317,14 +324,24 @@
         else {
             NSLog(@"Successful message upload - messageID: %@", messageToUpload.messageID);
             
+            dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
+                
+                if (messageBeingRespondedTo) {
+                    [messageBeingRespondedTo setEMessageViewedState:eMessageViewedStateReplied];
+                }
+                
+                //Background Thread
+                [self moveMessageToSentBox:messageToUpload];
+            });
+            
             // Call finalize
-            [CWServerAPI completeMessage:messageToUpload isReply:isReplyMessage];
+            [CWServerAPI completeMessage:messageToUpload hasRecipient:(messageBeingRespondedTo || messageToUpload.recipientID ? YES : NO)];
         }
     }];
     
     // After this we'll need a different endpoint for upload if we cancel or kill the app
     
-    if (!isReplyMessage) {
+    if (!messageBeingRespondedTo) {
         self.needsOriginalMessageUploadURL = YES;
     }
 }
@@ -368,8 +385,48 @@
 
 #pragma mark - Helpers
 
+- (void)moveMessageToSentBox:(Message *)message {
+
+    NSError *error = nil;
+    NSString * localPath = [[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:message.messageID];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:localPath]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtPath:localPath withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"error creating sent file directory: %@", error.debugDescription);
+        }
+    }
+    
+    NSURL *destinationURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",message.messageID]]];
+    
+    [[NSFileManager defaultManager] moveItemAtURL:[message outboxChatwalaZipURL] toURL:destinationURL error:&error];
+    
+    [[NSFileManager defaultManager] removeItemAtPath:[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID]  error:nil];
+    message.chatwalaZipURL = destinationURL;
+}
+
+
 - (NSString *)generateMessageID {
     return [[[NSUUID UUID] UUIDString] lowercaseString];
+}
+
+- (void)clearDiskSpace {
+    
+    [[CWVideoFileCache sharedCache] purgeCache];
+    [CWDataManager markAllMessagesAsDeviceDeletedForUser:[[CWUserManager sharedInstance] localUserID]];
+}
+
+- (BOOL)hasNecessaryDiskSpace {
+    
+    if ([[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace]) {
+        return YES;
+    }
+    else {
+        [self clearDiskSpace];
+        
+        return [[CWVideoFileCache sharedCache] hasMinimumFreeDiskSpace];
+    }
 }
 
 @end

@@ -7,14 +7,14 @@
 //
 
 typedef void (^CWMessagesDownloaderCompletionBlock)(NSArray *messagesDownloaded);
-typedef void (^CWMessagesDownloaderSingleMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
+typedef void (^CWMessagesDownloaderSingleMessageDownloadCompletionBlock)(NSError *error, NSURL *url, NSString *messageID);
 
 @interface CWMessagesDownloader : NSObject
 
 - (void)downloadMessages:(NSArray *)messageIDsForDownload withCompletionBlock:(CWMessagesDownloaderCompletionBlock)completionBlock;
 
 // Single message download
-- (void)downloadMessageWithDownloadID:(NSString *)downloadID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
-- (void)downloadMessageFromEndpoint:(NSString *)endpoint completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
+- (void)downloadMessageWithShareID:(NSString *)downloadID completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
+- (void)downloadMessageFromReadURL:(NSString *)endpoint forMessageID:(NSString *)messageID toSentbox:(BOOL)toSentBox completion:(CWMessagesDownloaderSingleMessageDownloadCompletionBlock)completionBlock;
 
 @end

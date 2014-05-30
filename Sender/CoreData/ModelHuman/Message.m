@@ -6,14 +6,15 @@
 #import "CWServerAPI.h"
 #import "CWConstants.h"
 #import "CWUserManager.h"
+#import "CWVideoFileCache.h"
 
 @interface Message ()
 
 @end
 
 @implementation Message
-@synthesize videoURL;
-@synthesize zipURL;
+@synthesize tempVideoURL;
+@synthesize chatwalaZipURL;
 @synthesize lastFrameImage;
 @synthesize thumbnailUploadURLString;
 
@@ -28,6 +29,7 @@
              @"thread_id"   : MessageAttributes.threadID,
              @"group_id" : MessageAttributes.groupID,
              @"replying_to_message_id" : MessageAttributes.replyToMessageID,
+             @"replying_to_read_url" : MessageAttributes.replyToReadURL,
              @"thread_index" : MessageAttributes.threadIndex,
              @"message_id" : MessageAttributes.messageID,
              @"thumbnail_url" : MessageAttributes.thumbnailPictureURL,
@@ -92,17 +94,21 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
+- (BOOL)shouldOpenInViewer {
+    // Can only reply to messages that haven't been replied to yet
+    return (self.eMessageViewedState == eMessageViewedStateReplied);
+}
+
 #pragma mark - Message State
 
-- (eMessageViewedState) eMessageViewedState
-{
+- (eMessageViewedState)eMessageViewedState {
     NSInteger value = self.viewedStateValue;
     NSAssert(value < eMessageViewedStateTotal, @"expecting viewed state to be less than max enum value");
     NSAssert(value >= eMessageViewedStateInvalid, @"expecting viewed state to be less than max enum value");
     return (eMessageViewedState)value;
-    
 }
-- (void) setEMessageViewedState:(eMessageViewedState) eViewedState {
+
+- (void)setEMessageViewedState:(eMessageViewedState) eViewedState {
     
     // Only allow viewed state to progress in a single direction (a read message cannot become unread for example) [RK 021914]
     if(self.eMessageViewedState < eViewedState) {
@@ -131,55 +137,124 @@
     [CWServerAPI uploadMessageThumbnail:image toURL:self.thumbnailUploadURLString withCompletionBlock:nil];
 }
 
-- (void) exportZip
-{
-    NSString * newDirectoryPath = [[CWDataManager cacheDirectoryPath] stringByAppendingPathComponent:OUTGOING_DIRECTORY_NAME];
+- (void)exportZip {
+
+    
+    NSString *newDirectoryPath = [CWVideoFileCache baseTempFilepath];
     
     NSError * err = nil;
-    if([[NSFileManager defaultManager] fileExistsAtPath:newDirectoryPath])
-    {
-        [[NSFileManager defaultManager]removeItemAtPath:newDirectoryPath error:&err];
-    }
-    if (err) {
-        NSLog(@"error removing new file directory: %@",err.debugDescription);
-        return;
-    }
-    
-    
-    
-    [[NSFileManager defaultManager] createDirectoryAtPath:newDirectoryPath withIntermediateDirectories:YES attributes:nil error:&err];
-    if (err) {
-        NSLog(@"error creating new file directory: %@",err.debugDescription);
-        return;
-    }
-    
-    
-    NSAssert(self.videoURL.path, @"video path must not be nil");
+    NSAssert(self.tempVideoURL.path, @"video path must not be nil");
+
     // copy video to folder
-    [[NSFileManager defaultManager]copyItemAtPath:self.videoURL.path toPath:[newDirectoryPath stringByAppendingPathComponent:VIDEO_FILE_NAME] error:&err];
+    
+    NSString *videoFileDestinationPath = [newDirectoryPath stringByAppendingPathComponent:@"video.mp4"];
+    
+    if ([[NSFileManager defaultManager] fileExistsAtPath:videoFileDestinationPath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:videoFileDestinationPath error:nil];
+    }
+    
+    [[NSFileManager defaultManager] moveItemAtPath:self.tempVideoURL.path toPath:videoFileDestinationPath error:&err];
     if (err) {
         NSLog(@"failed to copy video to new directory: %@",err.debugDescription);
         return;
     }
     
     // create json file
-    
-//    NSDictionary * jsonDict = [MTLJSONAdapter JSONDictionaryFromModel:self.metadata];
     NSError * error = nil;
     NSData * jsonData = [self toJSONWithDateFormatter:[CWDataManager dateFormatter] error:&error];
     
     if (err) {
-        NSLog(@"faild to create JSON metadata: %@",err.debugDescription);
+        NSLog(@"failed to create JSON metadata: %@",err.debugDescription);
         return;
     }
     
-    [jsonData writeToFile:[newDirectoryPath stringByAppendingPathComponent:METADATA_FILE_NAME] atomically:YES];
+    NSString *metadataFilePath = [newDirectoryPath stringByAppendingPathComponent:METADATA_FILE_NAME];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:metadataFilePath]) {
+        [[NSFileManager defaultManager] removeItemAtPath:metadataFilePath error:nil];
+    }
     
-    NSAssert(self.zipURL, @"expecting zip URL to be set");
-    [SSZipArchive createZipFileAtPath:self.zipURL.path withContentsOfDirectory:newDirectoryPath];
+    [jsonData writeToFile:metadataFilePath atomically:YES];
+    
+    NSAssert(self.chatwalaZipURL, @"expecting zip URL to be set");
+    [SSZipArchive createZipFileAtPath:self.chatwalaZipURL.path withContentsOfDirectory:newDirectoryPath];
 }
 
-- (NSDictionary *) toDictionaryWithDataFormatter:(NSDateFormatter *) dateFormatter error:(NSError **) error
+- (void)importZip:(NSURL *)zipURL {
+    
+    NSURL *videoLocation = [NSURL fileURLWithPath:[[zipURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"video.mp4"]];
+    
+    if(![[NSFileManager defaultManager] fileExistsAtPath:videoLocation.path]) {
+        [SSZipArchive unzipFileAtPath:zipURL.path toDestination:[zipURL URLByDeletingLastPathComponent].path];
+    }
+    
+    self.tempVideoURL = videoLocation;
+}
+
+#pragma mark - Message file accessors
+
+- (NSURL *)inboxZipURL {
+    
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] inboxDirectoryPathForKey:self.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", self.messageID]]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
+        return nil;
+    }
+    else {
+        return zipFileURL;
+    }
+}
+
+- (NSURL *)outboxChatwalaZipURL {
+
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:self.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", self.messageID]]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
+        return nil;
+    }
+    else {
+        return zipFileURL;
+    }
+}
+
+- (NSURL *)sentChatwalaZipURL {
+
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:self.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip", self.messageID]]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
+        return nil;
+    }
+    else {
+        return zipFileURL;
+    }
+}
+
+- (NSURL *)sentboxVideoFileURL {
+    
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:self.messageID] stringByAppendingPathComponent:@"video.mp4"]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
+        return nil;
+    }
+    else {
+        return zipFileURL;
+    }
+}
+
+- (NSURL *)inboxVideoFileURL {
+    
+    NSURL *zipFileURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] inboxDirectoryPathForKey:self.messageID] stringByAppendingPathComponent:@"video.mp4"]];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:zipFileURL.path isDirectory:NO]) {
+        return nil;
+    }
+    else {
+        return zipFileURL;
+    }
+}
+
+#pragma mark - Formatters
+
+- (NSDictionary *)toDictionaryWithDataFormatter:(NSDateFormatter *) dateFormatter error:(NSError **) error
 {
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionaryWithDictionary:[super toDictionaryWithDataFormatter:dateFormatter error:error]];
     
@@ -209,6 +284,7 @@
              MessageAttributes.groupID,
              MessageAttributes.readURL,
              MessageAttributes.replyToMessageID,
+             MessageAttributes.replyToReadURL,
              MessageAttributes.messageURL,
              MessageAttributes.messageID,
              MessageAttributes.threadIndex,
@@ -230,6 +306,7 @@
              MessageAttributes.groupID : @"group_id",
              MessageAttributes.readURL : @"read_url",
              MessageAttributes.replyToMessageID : @"replying_to_message_id",
+             MessageAttributes.replyToReadURL : @"replying_to_read_url",
              MessageAttributes.messageID : @"message_id",
              MessageAttributes.thumbnailPictureURL : @"thumbnail_url",
              MessageAttributes.timeStamp : @"timestamp",
