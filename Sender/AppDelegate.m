@@ -543,7 +543,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
         [self loadMessageViewerWithMessage:message];
     }
     else {
-        NSURL *zipURLToOpen = [Message inboxZipURL:message.messageID];
+        NSURL *zipURLToOpen = [message inboxZipURL];
         
         if (!zipURLToOpen) {
             

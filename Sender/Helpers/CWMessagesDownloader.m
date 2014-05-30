@@ -22,7 +22,7 @@
     
     for (Message *message in messagesToDownload) {
         
-        NSURL *localURL = [Message inboxZipURL:message.messageID];
+        NSURL *localURL = [message inboxZipURL];
         if (!localURL) {
             
             // If device deleted the device for space reasons, then do not redownload it here

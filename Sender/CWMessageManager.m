@@ -401,7 +401,7 @@
     
     NSURL *destinationURL = [NSURL fileURLWithPath:[[[CWVideoFileCache sharedCache] sentboxDirectoryPathForKey:message.messageID] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.zip",message.messageID]]];
     
-    [[NSFileManager defaultManager] moveItemAtURL:[Message outboxChatwalaZipURL:message.messageID] toURL:destinationURL error:&error];
+    [[NSFileManager defaultManager] moveItemAtURL:[message outboxChatwalaZipURL] toURL:destinationURL error:&error];
     
     [[NSFileManager defaultManager] removeItemAtPath:[[CWVideoFileCache sharedCache] outboxDirectoryPathForKey:message.messageID]  error:nil];
     message.chatwalaZipURL = destinationURL;

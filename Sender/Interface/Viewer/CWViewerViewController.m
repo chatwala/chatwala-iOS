@@ -137,7 +137,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     NSString *originalMessageReadURL = nil;
     NSString *lastReplyReadURL = nil;
     
-    if (![Message inboxZipURL:self.incomingMessage.messageID]) {
+    if (![self.incomingMessage inboxZipURL]) {
         // download from readurl into inbox
         incomingMessageReadURL = self.incomingMessage.readURL;
         
@@ -150,10 +150,10 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
         }
     }
     else {
-        [self.incomingMessage importZip:[Message inboxZipURL:self.incomingMessage.messageID]];
+        [self.incomingMessage importZip:[self.incomingMessage inboxZipURL]];
     }
     
-    NSURL *originalMessageZipURL = [Message sentChatwalaZipURL:self.originalSentMessage.messageID];
+    NSURL *originalMessageZipURL = [self.originalSentMessage sentChatwalaZipURL];
     if (!originalMessageZipURL && !self.incomingMessageIsConversationStarter) {
         // download from replyToReadURL
         originalMessageReadURL = self.originalSentMessage.readURL;
@@ -167,10 +167,10 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
         }
     }
     else if (!self.incomingMessageIsConversationStarter) {
-        [self.originalSentMessage importZip:[Message sentChatwalaZipURL:self.incomingMessage.messageID]];
+        [self.originalSentMessage importZip:[self.originalSentMessage sentChatwalaZipURL]];
     }
     
-    if (![Message sentChatwalaZipURL:self.lastSentMessage.messageID]) {
+    if (![self.lastSentMessage sentChatwalaZipURL]) {
         // download from readurl into inbox
         lastReplyReadURL = self.lastSentMessage.readURL;
         
@@ -183,7 +183,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
         }
     }
     else {
-        [self.lastSentMessage importZip:[Message sentChatwalaZipURL:self.lastSentMessage.messageID]];
+        [self.lastSentMessage importZip:[self.lastSentMessage sentChatwalaZipURL]];
     }
     
     if (!numberOfMessagesToDownload) {
@@ -204,7 +204,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
             if (url && messageID) {
                 if (numberOfMessagesToDownload == 0) {
                     // do work;
-                    [self.incomingMessage importZip:[Message inboxZipURL:self.incomingMessage.messageID]];
+                    [self.incomingMessage importZip:[self.incomingMessage inboxZipURL]];
                     [self configureDefaultVideoPlayers];
                 }
             }
@@ -222,7 +222,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
             if (url && messageID) {
                 
                 NSError *error = nil;
-                self.originalSentMessage = [[CWDataManager sharedInstance] importMessage:messageID chatwalaZipURL:url withError:&error];
+                [self.originalSentMessage importZip:[self.originalSentMessage sentChatwalaZipURL]];
                 
                 if (error) {
                     [self showErrorAndCloseViewer];
@@ -246,7 +246,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
             if (url && messageID) {
                 
                 NSError *error = nil;
-                self.originalSentMessage = [[CWDataManager sharedInstance] importMessage:messageID chatwalaZipURL:url withError:&error];
+                [self.lastSentMessage importZip:[self.lastSentMessage sentChatwalaZipURL]];
                 
                 if (error) {
                     [self showErrorAndCloseViewer];
@@ -282,7 +282,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     
     if (!self.incomingMessageIsConversationStarter) {
         self.sentMessagePlayer = [[CWVideoPlayer alloc] init];
-        [self.sentMessagePlayer setVideoURL:[Message sentboxVideoFileURL:self.originalSentMessage.messageID]];
+        [self.sentMessagePlayer setVideoURL:[self.originalSentMessage sentboxVideoFileURL]];
         [self.sentMessagePlayer setDelegate:self];
         self.sentMessagePlayer.shouldMuteAudio = YES;
     }
@@ -291,7 +291,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     }
     
     self.incomingMessagePlayer = [[CWVideoPlayer alloc] init];
-    [self.incomingMessagePlayer setVideoURL:[Message inboxVideoFileURL:self.incomingMessage.messageID]];
+    [self.incomingMessagePlayer setVideoURL:[self.incomingMessage inboxVideoFileURL]];
     [self.incomingMessagePlayer setDelegate:self];
     
     [self hideLoadingView];
@@ -301,7 +301,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     
     [self.sentMessageView setAlpha:0.5f];
     self.sentMessagePlayer = [[CWVideoPlayer alloc] init];
-    [self.sentMessagePlayer setVideoURL:[Message sentboxVideoFileURL:self.lastSentMessage.messageID]];
+    [self.sentMessagePlayer setVideoURL:[self.lastSentMessage sentboxVideoFileURL]];
     [self.sentMessagePlayer setDelegate:self];
     self.sentMessagePlayer.shouldMuteAudio = NO;
 }

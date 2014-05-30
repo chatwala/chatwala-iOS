@@ -51,12 +51,12 @@ typedef enum eMessageViewedState
 
 - (void)uploadThumbnailImage:(UIImage *)image;
 
-// Video file accessors
-+ (NSURL *)inboxZipURL:(NSString *)messageID;
-+ (NSURL *)inboxVideoFileURL:(NSString *)messageID;
+// Message file accessors
+- (NSURL *)inboxZipURL;
+- (NSURL *)inboxVideoFileURL;
 
-+ (NSURL *)sentChatwalaZipURL:(NSString *)messageID;
-+ (NSURL *)sentboxVideoFileURL:(NSString *)messageID;
+- (NSURL *)sentChatwalaZipURL;
+- (NSURL *)sentboxVideoFileURL;
 
-+ (NSURL *)outboxChatwalaZipURL:(NSString *)messageID;
+- (NSURL *)outboxChatwalaZipURL;
 @end
