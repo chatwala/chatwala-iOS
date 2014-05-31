@@ -12,12 +12,15 @@
 #import "CWVideoFileCache.h"
 #import "CWGroundControlManager.h"
 
-@interface CWStartKnownRecipientViewController ()
+@interface CWStartKnownRecipientViewController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic) CWMiddleButton *middleButton;
 @property (nonatomic) UIImageView *profilePictureView;
 
 @property (nonatomic) UILabel *bottomHalfLabel;
+
+@property (nonatomic) UITapGestureRecognizer *tapRecognizer;
+@property (nonatomic) BOOL shouldUseBackCamera;
 
 @end
 
@@ -58,6 +61,11 @@
     [self setNavMode:NavModeBurger];
     [self.navigationItem setHidesBackButton:YES];
     [self.middleButton.button addTarget:self action:@selector(onMiddleButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+    // single tap gesture recognizer
+    self.tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toggledCamera:)];
+    [self.tapRecognizer setDelegate:self];
+    [self.view addGestureRecognizer:self.tapRecognizer];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -122,6 +130,32 @@
     composerVC.recipientPicture = self.recipientPicture;
     [self.navigationController pushViewController:composerVC animated:NO];
     
+}
+
+#pragma mark - Gesture Recognizers
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    
+    CGPoint pointInView = [touch locationInView:gestureRecognizer.view];
+    
+    if ([gestureRecognizer isMemberOfClass:[UITapGestureRecognizer class]]
+        && CGRectContainsPoint(CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height * 0.5f), pointInView) ) {
+        
+        if (!CGRectContainsPoint(self.middleButton.frame, pointInView)) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (void)toggledCamera:(UIGestureRecognizer *)recognizer {
+    
+    NSLog(@"Record screen tapped from start screen");
+    self.shouldUseBackCamera = !self.shouldUseBackCamera;
+    
+    AVCaptureDeviceInput *videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(self.shouldUseBackCamera ? [CWVideoRecorder backFacingCamera] : [CWVideoRecorder frontFacingCamera]) error:nil];
+    [[[CWVideoManager sharedManager] recorder] changeVideoInput:videoInput];
 }
 
 @end
