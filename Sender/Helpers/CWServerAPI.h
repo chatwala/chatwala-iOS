@@ -22,7 +22,7 @@ typedef NSURL * (^CWServerAPIDownloadDestinationBlock) (NSURL *targetPath, NSURL
 
 // Inbox API
 + (void)getInboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock;
-+ (void)getOutboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock;
++ (void)getSentboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock;
 + (void)addMessage:(NSString *)messageID toInboxForUser:(NSString *)userID;
 + (void)deleteMessage:(NSString *)messageID fromInboxForUser:(NSString *)userID;
 

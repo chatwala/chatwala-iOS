@@ -111,13 +111,13 @@ AFURLSessionManager *BackgroundSessionManager;
     }];
 }
 
-+ (void)getOutboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock {
++ (void)getSentboxForUserID:(NSString *)userID withCompletionBlock:(CWServerAPIGetUserMessagesCompletionBlock)completionBlock {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer = [[CWUserManager sharedInstance] requestHeaderSerializer];
     
-    NSString *endpoint = [[CWMessageManager sharedInstance] outboxEndPoint];
-    NSLog(@"fetching messages in user's outbox: %@", endpoint);
+    NSString *endpoint = [[CWMessageManager sharedInstance] sentboxEndPoint];
+    NSLog(@"fetching messages in user's sentbox: %@", endpoint);
     
     NSDictionary *params = @{@"user_id" : userID};
     
@@ -145,6 +145,8 @@ AFURLSessionManager *BackgroundSessionManager;
 #endif
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Error while fetching user's sentbox.");
         
         if (completionBlock) {
             completionBlock(nil, error);

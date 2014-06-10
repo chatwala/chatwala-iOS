@@ -257,7 +257,7 @@ NSString* const CWMMDrawerCloseNotification = @"CWMMDrawerCloseNotification";
     
     // Fetch a new message upload ID from server
     [[CWMessageManager sharedInstance] getMessagesForUser:[[CWUserManager sharedInstance] localUserID] withCompletionOrNil:nil];
-    [[CWMessageManager sharedInstance] getOutboxMessagesForUser:[[CWUserManager sharedInstance] localUserID]];
+    [[CWMessageManager sharedInstance] getSentboxMessagesForUser:[[CWUserManager sharedInstance] localUserID]];
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {

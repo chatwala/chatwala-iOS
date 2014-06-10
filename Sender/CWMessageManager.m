@@ -87,8 +87,8 @@
     return [[self baseEndPoint]stringByAppendingString:@"/messages/userInbox"];
 }
 
-- (NSString *)outboxEndPoint {
-    return [[self baseEndPoint]stringByAppendingString:@"/messages/userOutbox"];
+- (NSString *)sentboxEndPoint {
+    return [[self baseEndPoint]stringByAppendingString:@"/messages/userSentbox"];
 }
 
 
@@ -96,7 +96,7 @@
     return [[self baseEndPoint]stringByAppendingString:@"/messages/%@"];
 }
 
-#pragma mark - Inbox/Outbox
+#pragma mark - Inbox/Sentbox
 
 - (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock {
     
@@ -161,13 +161,13 @@
     }
 }
 
-- (void)getOutboxMessagesForUser:(NSString *)userID {
+- (void)getSentboxMessagesForUser:(NSString *)userID {
     if (![userID length]) {
         return;
     }
     else {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            [CWServerAPI getOutboxForUserID:userID withCompletionBlock:^(NSArray *messages, NSError *error) {
+            [CWServerAPI getSentboxForUserID:userID withCompletionBlock:^(NSArray *messages, NSError *error) {
                 
                 if (!error) {
                     // Let's just save all messages to Core Data

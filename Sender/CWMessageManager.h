@@ -22,7 +22,7 @@ typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 @property (nonatomic,readonly) NSString * messagesEndPoint;
 @property (nonatomic,readonly) NSString * registerEndPoint;
 @property (nonatomic,readonly) NSString * inboxEndPoint;
-@property (nonatomic,readonly) NSString * outboxEndPoint;
+@property (nonatomic,readonly) NSString * sentboxEndPoint;
 @property (nonatomic,readonly) NSString * messageEndPoint;
 
 
@@ -30,7 +30,7 @@ typedef void (^CWMessageDownloadCompletionBlock)(BOOL success, NSURL *url);
 
 +(instancetype) sharedInstance;
 - (void)getMessagesForUser:(NSString *)userID withCompletionOrNil:(void (^)(UIBackgroundFetchResult))completionBlock;
-- (void)getOutboxMessagesForUser:(NSString *)userID;
+- (void)getSentboxMessagesForUser:(NSString *)userID;
 
 - (void)fetchUploadURLForOriginalMessage:(NSString *)userID completionBlockOrNil:(CWMessageManagerFetchMessageUploadURLCompletionBlock)completionBlock;
 - (void)clearUploadURLForOriginalMessage;
