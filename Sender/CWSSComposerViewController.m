@@ -14,7 +14,7 @@
 #import "CWUserManager.h"
 #import "Message.h"
 
-@interface CWSSComposerViewController () <CWMessageSenderDelegate>
+@interface CWSSComposerViewController () <CWMessageSenderDelegate,UIAlertViewDelegate>
 
 @property (nonatomic) CWMessageSender *messageSender;
 @property (nonatomic) NSTimer *countdownTimer;
@@ -111,25 +111,43 @@
         [self.navigationController pushViewController:previewVC animated:NO];
     }
     else {
-
-        NSString *localUserID = [[CWUserManager sharedInstance] localUserID];
         
-        Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:nil];
-        
-        message.startRecording = [NSNumber numberWithDouble:0.0];
-        message.recipientID = self.recipientID;
-        
-        self.messageSender = [[CWMessageSender alloc] init];
-        self.messageSender.delegate = self;
-        self.messageSender.messageBeingSent = message;
-        
-        if ([self.recipientID length]) {
-            self.messageSender.messageType = CWMessageSenderMessageTypeStarterToKnownRecipient;
+        if ([self shouldPromptBeforeSending]) {
+            // Show alert
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirm Reply" message:@"Would you like to send this reply?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send",nil];
+            [alert show];
         }
-        
-        self.hasSentMessage = YES;
-        [self.messageSender sendMessageFromUser:localUserID];
+        else {
+            [self beginMessageSend];
+        }
+
     }
+}
+
+- (BOOL)shouldPromptBeforeSending {
+
+    return ([self.recipientID length] && self.didStopRecordingManually);
+}
+
+- (void)beginMessageSend {
+    
+    NSString *localUserID = [[CWUserManager sharedInstance] localUserID];
+    
+    Message * message = [[CWDataManager sharedInstance] createMessageWithSender:localUserID inResponseToIncomingMessage:nil];
+    
+    message.startRecording = [NSNumber numberWithDouble:0.0];
+    message.recipientID = self.recipientID;
+    
+    self.messageSender = [[CWMessageSender alloc] init];
+    self.messageSender.delegate = self;
+    self.messageSender.messageBeingSent = message;
+    
+    if ([self.recipientID length]) {
+        self.messageSender.messageType = CWMessageSenderMessageTypeStarterToKnownRecipient;
+    }
+    
+    self.hasSentMessage = YES;
+    [self.messageSender sendMessageFromUser:localUserID];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -183,6 +201,18 @@
 - (void)messageSender:(CWMessageSender *)messageSender didFailMessageSend:(NSError *)error {
     // TODO: Show error
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - UIAlerViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (alertView.cancelButtonIndex == buttonIndex) {
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+    else {
+        [self beginMessageSend];
+    }
 }
 
 @end

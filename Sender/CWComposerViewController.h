@@ -14,6 +14,7 @@
 @interface CWComposerViewController : CWViewController <CWVideoRecorderDelegate>
 @property (nonatomic, weak) IBOutlet CWMiddleButton * middleButton;
 @property (nonatomic,assign) BOOL hasSentMessage;
+@property (nonatomic,assign) BOOL didStopRecordingManually;
 
 - (void)showPreview;
 - (void)onMiddleButtonTap;

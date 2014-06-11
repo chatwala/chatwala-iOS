@@ -147,7 +147,7 @@
         else {
             
             if (self.shouldPromptBeforeSending) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirm Reply" message:@"Would you like to send this reply?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send",nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Confirm Message" message:@"Would you like to send this message?" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Send",nil];
                 [alert show];
             }
             else {

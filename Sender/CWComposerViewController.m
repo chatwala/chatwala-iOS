@@ -65,6 +65,7 @@
 
 - (void)onMiddleButtonTap {
     [self stopRecording];
+    self.didStopRecordingManually = YES;
 }
 
 - (void)onTick:(NSTimer*)timer
@@ -118,6 +119,8 @@
         // push
         [self showPreview];
     }
+    
+    self.didStopRecordingManually = NO;
 }
 
 - (void)showPreview
