@@ -315,6 +315,7 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
     self.viewerState = CWViewerStateStopped;
     [self.middleButton setButtonState:eButtonStatePlay];
     [self.sentMessageView setAlpha:1.0f];
+    [self.incomingMessageView setAlpha:1.0f];
     
     [self.sentMessagePlayer stop];
     [self.incomingMessagePlayer stop];
@@ -408,9 +409,6 @@ typedef NS_ENUM(NSUInteger, CWViewerState) {
         }];
     }
     
-//    if ([self.sentMessagePlayer.playbackView superview] && [self.incomingMessagePlayer.playbackView superview] && !self.completedFirstReply) {
-//        [self startVideoPlayback];
-//    }
 }
 
 - (void)videoPlayerFailedToLoadVideo:(CWVideoPlayer *)videoPlayer withError:(NSError *)error {
