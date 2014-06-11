@@ -365,7 +365,11 @@
     NSFetchRequest *request = [[NSFetchRequest alloc] init] ;
     [request setEntity:entityDescription];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(threadID == %@ && threadIndex == %ld)", threadID, (long)threadIndex];
+    NSArray *components = [threadID componentsSeparatedByString:@"."];
+    
+    NSString *baseThreadID = [components objectAtIndex:0];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(threadID contains %@ && threadIndex == %ld)", baseThreadID, (long)threadIndex];
     [request setPredicate:predicate];
     
     NSError *error = nil;
