@@ -122,14 +122,15 @@
     if (err) {
         NSLog(@"failed to setup video input: %@",err.debugDescription);
         [self presentErrorScreen];
-//        return err;
+        return err;
     }
     
-    AVCaptureDeviceInput * audioInput = [[AVCaptureDeviceInput alloc]initWithDevice:[self audioDevice] error:&err];
+    AVCaptureDeviceInput *audioInput = [[AVCaptureDeviceInput alloc]initWithDevice:[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio] error:&err];
     if (err) {
         NSLog(@"failed to setup audio input: %@",err.debugDescription);
-//        return err;
+
         [self presentErrorScreen];
+        return err;
     }
     
     // Setup the still image file output
@@ -142,6 +143,7 @@
     
     AVCaptureSession * session = [[AVCaptureSession alloc]init];
     [session setSessionPreset:AVCaptureSessionPresetMedium];
+    [session beginConfiguration];
 
     if ([session canAddInput:videoInput]) {
         [session addInput:videoInput];
@@ -160,6 +162,7 @@
     [self setAudioInput:audioInput];
     [self changeVideoInput:videoInput];
     [self setSession:session];
+    [session commitConfiguration];
     
     NSURL *outputFileURL = [self tempFileURL];
     AVCamRecorder * recorder = [[AVCamRecorder alloc]initWithSession:self.session outputFileURL:outputFileURL];

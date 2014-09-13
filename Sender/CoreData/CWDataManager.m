@@ -117,7 +117,8 @@
     
     if (![fm fileExistsAtPath:zipURL.path]) {
         NSLog(@"zip not found at path: %@", zipURL.path);
-        return [NSError errorWithDomain:@"com.chatwala" code:6004 userInfo:@{@"reason":@"zip not found at path", @"path": zipURL}];
+        *error = [NSError errorWithDomain:@"com.chatwala" code:6004 userInfo:@{@"reason":@"zip not found at path", @"path": zipURL}];
+        return nil;
     }
     
     NSString *importFilepath = [zipURL.path stringByDeletingLastPathComponent];

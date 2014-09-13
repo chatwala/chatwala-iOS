@@ -96,7 +96,13 @@
 
 - (BOOL)shouldOpenInViewer {
     // Can only reply to messages that haven't been replied to yet
+
+#if defined(DISABLE_TOPHALF_PLAYBACK)
+    return NO;
+#else
     return (self.eMessageViewedState == eMessageViewedStateReplied);
+#endif
+    
 }
 
 #pragma mark - Message State

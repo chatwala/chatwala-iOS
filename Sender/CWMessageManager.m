@@ -162,6 +162,11 @@
 }
 
 - (void)getSentboxMessagesForUser:(NSString *)userID {
+    
+#if defined (DISABLE_SENTBOX_FETCH)
+    return;
+#endif
+    
     if (![userID length]) {
         return;
     }

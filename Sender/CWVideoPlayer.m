@@ -49,7 +49,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
     
     // remove old listeners
     if (self.playerItem) {
-        [self.playerItem removeObserver:self forKeyPath:kStatusKey];
+        [self.playerItem removeObserver:self forKeyPath:kStatusKey context:CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext];
         [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:self.playerItem];
     }
     if (self.player) {
@@ -64,6 +64,13 @@ NSString * const kCurrentItemKey	= @"currentItem";
 
 - (void)setVideoURL:(NSURL *)URL
 {
+    
+    if (self.playerItem) {
+        
+        [self.playerItem removeObserver:self forKeyPath:kStatusKey context:CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext];
+        self.playerItem = nil;
+    }
+    
     _videoURL = URL;
     self.profilePicture = nil;
     // check if video file exists
@@ -175,8 +182,10 @@ NSString * const kCurrentItemKey	= @"currentItem";
 - (void)setupPlayerItemWithAsset:(AVAsset*)asset
 {
     if (self.playerItem) {
+
+        [self.playerItem removeObserver:self forKeyPath:kStatusKey context:CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext];
         self.playerItem = nil;
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     }
     
     // setup player item
@@ -188,13 +197,13 @@ NSString * const kCurrentItemKey	= @"currentItem";
 }
 
 
-- (void)setupPlayerWithAsset:(AVAsset*)asset
-{
-//    if (self.player) {
-//        self.player = nil;
-//    }
-//    
-    // setup player
+- (void)setupPlayerWithAsset:(AVAsset*)asset {
+    
+    if (self.player) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:AVPlayerItemDidPlayToEndTimeNotification object:[self.player currentItem]];
+        [self.player removeObserver:self forKeyPath:kCurrentItemKey context:CWVideoPlayerPlaybackViewControllerStatusObservationContext];
+        self.player = nil;
+    }
 
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
     [self.player setActionAtItemEnd:AVPlayerActionAtItemEndNone];
@@ -214,7 +223,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
 -(void)cleanUp
 {
     [self.player removeObserver:self forKeyPath:kCurrentItemKey];
-    [self.playerItem removeObserver:self forKeyPath:kStatusKey];
+    [self.playerItem removeObserver:self forKeyPath:kStatusKey context:CWVideoPlayerPlaybackViewControllerCurrentItemObservationContext];
     self.player = nil;
     self.playerItem = nil;
 }
