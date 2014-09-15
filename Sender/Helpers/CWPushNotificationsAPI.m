@@ -24,6 +24,12 @@ static BOOL didRegisterForPushNotifications = NO;
         // TODO: Use notifications mask
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge];
     }
+    
+    if(NSClassFromString(@"UIUserNotificationSettings")) {
+        // Do something
+        UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeAlert | UIUserNotificationTypeBadge | UIUserNotificationTypeSound categories:nil];
+        [[UIApplication sharedApplication] registerUserNotificationSettings:notificationSettings];
+    }
 }
 
 + (void)sendProviderDeviceToken:(NSData *)tokenData {
