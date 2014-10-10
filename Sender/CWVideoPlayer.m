@@ -44,8 +44,7 @@ NSString * const kCurrentItemKey	= @"currentItem";
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     
     // remove old listeners
     if (self.playerItem) {
@@ -103,8 +102,8 @@ NSString * const kCurrentItemKey	= @"currentItem";
      }];
 }
 
-- (void)playVideo
-{
+- (void)playVideo {
+    
     [self.player play];
 }
 
@@ -130,8 +129,6 @@ NSString * const kCurrentItemKey	= @"currentItem";
 
 
 - (void)prepareToPlayAsset:(AVURLAsset *)asset withKeys:(NSArray *)requestedKeys {
-
-    
     
     // process the requested keys
     
@@ -204,6 +201,16 @@ NSString * const kCurrentItemKey	= @"currentItem";
         [self.player removeObserver:self forKeyPath:kCurrentItemKey context:CWVideoPlayerPlaybackViewControllerStatusObservationContext];
         self.player = nil;
     }
+
+    //do this so that we can hear the scream and record the movie too
+    [[AVAudioSession sharedInstance] requestRecordPermission:^(BOOL granted) {
+        
+        if (granted) {
+            [[AVAudioSession sharedInstance] setCategory: AVAudioSessionCategoryPlayAndRecord withOptions:AVAudioSessionCategoryOptionMixWithOthers error:nil];
+            [[AVAudioSession sharedInstance] setMode:AVAudioSessionModeVideoRecording error:nil];
+            [[AVAudioSession sharedInstance] setActive: YES error: nil];
+        }
+    }];
 
     self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
     [self.player setActionAtItemEnd:AVPlayerActionAtItemEndNone];

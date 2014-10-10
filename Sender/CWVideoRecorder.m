@@ -44,16 +44,10 @@
 }
 
 
-- (void)dealloc
-{
-    [self.session stopRunning];
-    
+- (void)dealloc {
+
+    [self cleanupCurrentSession];
     [self.recorderView removeObserver:self forKeyPath:@"frame"];
-    self.recorderView = nil;
-    self.videoPreviewLayer = nil;
-    self.videoInput = nil;
-    self.audioInput = nil;
-    self.session = nil;
 }
 
 
@@ -106,31 +100,65 @@
     }
 }
 
-- (NSError *)setupSessionWithBackCamera:(BOOL)shouldUseBackCamera
-{
+- (void)cleanupCurrentSession {
     
-    NSError * err = nil;
+    [self.session stopRunning];
+    
+    // Remove video
+    [self.videoPreviewLayer removeFromSuperlayer];
+    self.videoPreviewLayer = nil;
+    
+    // More robust clean up here
+    AVCaptureInput* input = [self.session.inputs objectAtIndex:0];
+    [self.session removeInput:input];
+    AVCaptureVideoDataOutput *output = (AVCaptureVideoDataOutput *)[self.session.outputs objectAtIndex:0];
+    [self.session removeOutput:output];
+    
+    self.audioInput = nil;
+    self.stillImageOutput = nil;
+    self.videoInput = nil;
+    self.session = nil;
+}
+
+- (NSError *)setupSessionWithBackCamera:(BOOL)shouldUseBackCamera {
+    
+    NSError *err = nil;
     
     if (self.session) {
-        [self.session stopRunning];
-        return err;
+        [self cleanupCurrentSession];
     }
     
     self.isUsingBackCamera = shouldUseBackCamera;
-    // setup device inputs
+
+    // Create session and start configuration
+    AVCaptureSession *session = [[AVCaptureSession alloc]init];
+    session.automaticallyConfiguresApplicationAudioSession = YES;
+    [session beginConfiguration];
+    [session setSessionPreset:AVCaptureSessionPresetMedium];
+    
+    // Add video
     AVCaptureDeviceInput * videoInput = [[AVCaptureDeviceInput alloc]initWithDevice:(shouldUseBackCamera ? [CWVideoRecorder backFacingCamera] : [CWVideoRecorder frontFacingCamera]) error:&err];
+    
     if (err) {
         NSLog(@"failed to setup video input: %@",err.debugDescription);
         [self presentErrorScreen];
         return err;
     }
+    else if ([session canAddInput:videoInput]) {
+        [session addInput:videoInput];
+    }
     
+    // Add audio
     AVCaptureDeviceInput *audioInput = [[AVCaptureDeviceInput alloc]initWithDevice:[AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeAudio] error:&err];
+    
     if (err) {
         NSLog(@"failed to setup audio input: %@",err.debugDescription);
 
         [self presentErrorScreen];
         return err;
+    }
+    else if ([session canAddInput:audioInput]) {
+        [session addInput:audioInput];
     }
     
     // Setup the still image file output
@@ -141,31 +169,18 @@
     [newStillImageOutput setOutputSettings:outputSettings];
     outputSettings = nil;
     
-    AVCaptureSession * session = [[AVCaptureSession alloc]init];
-    [session setSessionPreset:AVCaptureSessionPresetMedium];
-    [session beginConfiguration];
-
-    if ([session canAddInput:videoInput]) {
-        [session addInput:videoInput];
-    }
-    
-    if ([session canAddInput:audioInput]) {
-        [session addInput:audioInput];
-    }
-    
-    if([session canAddOutput:newStillImageOutput])
-    {
+    if([session canAddOutput:newStillImageOutput]) {
         [session addOutput:newStillImageOutput];
     }
     
-    [self setStillImageOutput:newStillImageOutput];
-    [self setAudioInput:audioInput];
-    [self changeVideoInput:videoInput];
-    [self setSession:session];
     [session commitConfiguration];
+    self.session = session;
+    self.stillImageOutput = newStillImageOutput;
+    self.audioInput = audioInput;
+    self.videoInput = videoInput;
     
     NSURL *outputFileURL = [self tempFileURL];
-    AVCamRecorder * recorder = [[AVCamRecorder alloc]initWithSession:self.session outputFileURL:outputFileURL];
+    AVCamRecorder *recorder = [[AVCamRecorder alloc] initWithSession:self.session outputFileURL:outputFileURL];
     [recorder setDelegate:self];
     
     // check if recorder can record
@@ -181,9 +196,11 @@
 		if ([[self delegate] respondsToSelector:@selector(recorder:didFailWithError:)]) {
 			[[self delegate] recorder:self didFailWithError:noVideoError];
 		}
+    
+        return noVideoError;
     }
     
-    [self setRecorder:recorder];
+    self.recorder = recorder;
     recorder = nil;
     
     self.videoPreviewLayer = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
@@ -268,16 +285,6 @@
                                                              
                                                          }];
 
-}
-
-
-- (AVCaptureDevice *) audioDevice
-{
-    NSArray *devices = [AVCaptureDevice devicesWithMediaType:AVMediaTypeAudio];
-    if ([devices count] > 0) {
-        return [devices objectAtIndex:0];
-    }
-    return nil;
 }
 
 #pragma mark - Static helpers
